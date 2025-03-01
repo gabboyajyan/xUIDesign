@@ -1,0 +1,23 @@
+.xFormItem {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.xInputLabel {
+    font-weight: 500;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.xError {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 4px;
+    position: absolute;
+    bottom: -18px;
+    right: 0;
+}

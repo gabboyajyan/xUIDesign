@@ -1,0 +1,72 @@
+.xInputContainer {
+    display: flex;
+    position: relative;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 4px;
+    transition: border-color 0.3s;
+}
+
+.xInputContainer.middle {
+    padding: 8px;
+}
+
+.xInputContainer.large {
+    padding: 12px;
+    font-size: 16px;
+}
+
+.xInputContainer.small {
+    padding: 4px;
+    font-size: 12px;
+}
+
+.xInputContainer__inputWrapper {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    position: relative;
+}
+
+.xInput {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 4px 8px;
+    font-size: 14px;
+}
+
+.xInputContainer__disabled,
+.xInput:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    box-shadow: none;
+    border-color: #d9d9d9 !important;
+}
+
+.xInputContainer__addon,
+.xInputContainer__prefix,
+.xInputContainer__suffix {
+    padding: 4px 8px;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.xInputContainer__clearBtn {
+    cursor: pointer;
+    color: #999;
+    padding: 2px;
+}
+
+.xInputContainer__clearBtn:hover {
+    color: #333;
+}
+
+.xInputContainer:focus-within {
+    border-color: #1890ff;
+}
+
+.xError__field {
+    border-color: #ff4d4f !important;
+}
