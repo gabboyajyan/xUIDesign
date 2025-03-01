@@ -1,10 +1,10 @@
 "use client"
 
-import { Form } from "./xUi_6/Form";
-import { Input } from "./xUi_6/Input";
-import { FormItem } from "./xUi_6/Form/Item";
-import { useForm } from "./xUi_6/Form/hooks/useForm";
-import { RuleObject, RuleType } from "./xUi_6/Form/types";
+import { Form } from "./components/Form";
+import { Input } from "./components/Input";
+import { useForm } from "./hooks/useForm";
+import { FormItem } from "./components/Form/Item";
+import { RuleObject, RuleType } from "./types";
 
 export default function Home() {
   const form = useForm()

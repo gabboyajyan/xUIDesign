@@ -22,6 +22,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 const Input = forwardRef((
 	{
 		size,
+		error,
 		suffix,
 		prefix,
 		addonAfter,
@@ -57,7 +58,7 @@ const Input = forwardRef((
 		<div className={cc([
 			'xInputContainer',
 			{
-				'xError__field': props.error,
+				'xError__field': error,
 				[size || 'middle']: size || 'middle',
 				'xInputContainer__disabled': disabled
 			}
@@ -68,6 +69,7 @@ const Input = forwardRef((
 				<input
 					ref={ref}
 					{...props}
+					{...(error ? { error } : {})}
 					className={`xInput ${props.className || ''}`}
 					value={isControlled ? props.value : internalValue}
 					disabled={disabled}

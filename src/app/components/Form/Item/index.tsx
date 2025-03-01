@@ -1,6 +1,6 @@
 import { cloneElement, FC, ReactElement, useContext, useEffect } from 'react';
 import { FormContext } from '..';
-import { RuleObject } from '../types';
+import { RuleObject } from '../../../types';
 import './style.css';
 
 type FormItemProps = {
@@ -43,7 +43,7 @@ export const FormItem: FC<FormItemProps> = ({
         // @ts-expect-error
         size: props.size,
         value: getFieldValue(name),
-        error: getFieldError(name).length ? true : false,
+        error: !!getFieldError(name).length,
         onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
           setFieldValue(name, e.target.value)
       })}
