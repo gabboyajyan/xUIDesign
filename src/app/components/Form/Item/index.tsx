@@ -1,6 +1,6 @@
 import { cloneElement, FC, ReactElement, useContext, useEffect } from 'react';
 import { FormContext } from '..';
-import { RuleObject } from '../../../types';
+import { RuleObject } from '@/app/types';
 import './style.css';
 
 type FormItemProps = {
