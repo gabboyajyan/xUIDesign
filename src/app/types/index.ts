@@ -36,6 +36,8 @@ export interface FormInstance {
   getFieldsError: () => Pick<FieldError, 'errors' | 'name'>[];
   isFieldsTouched: (nameList?: string[], allFieldsTouched?: boolean) => boolean;
   getFieldWarning: (name: string) => string[];
+  subscribeToField: (name: string, callback: (value: RuleType) => void) => () => void,
+  subscribeToForm: (callback: (values: Record<string, RuleType>) => void) => () => void,
   isFieldValidating: (name: string) => boolean;
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
   onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;

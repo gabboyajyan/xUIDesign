@@ -14,6 +14,9 @@ const useForm = (
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const formRef = useRef<Record<string, RuleType>>({ ...initialValues });
 
+  const fieldSubscribers = useRef<Record<string, ((value: RuleType) => void)[]>>({});
+  const formSubscribers = useRef<((values: Record<string, RuleType>) => void)[]>([]);
+
   const getFieldValue = (name: string) => formRef.current[name];
 
   const getFieldsValue = (nameList?: string[]) => {
@@ -38,6 +41,9 @@ const useForm = (
     touchedFieldsRef.current.add(name);
     validateField(name);
 
+    fieldSubscribers.current[name]?.forEach(callback => callback(value));
+    formSubscribers.current.forEach(callback => callback(getFieldsValue()));
+
     if (onFieldsChange) {
       onFieldsChange([{ name, value }], Object.entries(formRef.current).map(([name, value]) => ({ name, value })));
     }
@@ -51,25 +57,10 @@ const useForm = (
 
   const setFieldsValue = (values: Partial<Record<string, RuleType>>) => {
     Object.entries(values).forEach(([name, value]) => setFieldValue(name, value));
-
-    if (onValuesChange) {
-      const changedValues = values;
-      const allValues = getFieldsValue();
-      onValuesChange(changedValues, allValues);
-    }
   };
 
   const setFields = (fields: FieldData[]) => {
     fields.forEach(({ name, value }) => setFieldValue(name, value));
-
-    if (onValuesChange) {
-      const changedValues = fields.reduce((acc, { name, value }) => {
-        acc[name] = value;
-        return acc;
-      }, {} as Record<string, RuleType>);
-      const allValues = getFieldsValue();
-      onValuesChange(changedValues, allValues);
-    }
   };
 
   const isFieldTouched = (name: string): boolean => touchedFieldsRef.current.has(name);
@@ -154,12 +145,33 @@ const useForm = (
     touchedFieldsRef.current.clear();
     warningsRef.current = {};
     setErrors({});
+    formSubscribers.current.forEach(callback => callback(getFieldsValue()));
   };
 
   const submit = async () => {
     if (await validateFields()) {
       return formRef.current;
     }
+  };
+
+  const subscribeToField = (name: string, callback: (value: RuleType) => void) => {
+    if (!fieldSubscribers.current[name]) {
+      fieldSubscribers.current[name] = [];
+    }
+
+    fieldSubscribers.current[name].push(callback);
+
+    return () => {
+      fieldSubscribers.current[name] = fieldSubscribers.current[name].filter(cb => cb !== callback);
+    };
+  };
+
+  const subscribeToForm = (callback: (values: Record<string, RuleType>) => void) => {
+    formSubscribers.current.push(callback);
+
+    return () => {
+      formSubscribers.current = formSubscribers.current.filter(cb => cb !== callback);
+    };
   };
 
   return {
@@ -178,6 +190,8 @@ const useForm = (
     isFieldsTouched,
     getFieldWarning,
     isFieldValidating,
+    subscribeToField,
+    subscribeToForm,
     onFieldsChange,
     onValuesChange,
   };
