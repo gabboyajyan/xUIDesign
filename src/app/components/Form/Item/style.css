@@ -21,3 +21,12 @@
     bottom: -18px;
     right: 0;
 }
+
+.xRequired {
+    color: #ff4d4f;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    margin-left: 4px;
+    margin-right: 4px;
+}

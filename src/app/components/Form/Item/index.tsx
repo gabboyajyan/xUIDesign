@@ -1,4 +1,4 @@
-import { cloneElement, FC, ReactElement, useContext, useEffect } from 'react';
+import { cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
 import { RuleObject } from '@/app/types';
 import './style.css';
@@ -32,10 +32,12 @@ export const FormItem: FC<FormItemProps> = ({
     registerField(name, rules);
   }, [name, registerField, rules]);
 
+  const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
+
   return (
     <div className={`xFormItem ${className}`}>
       <label className="xInputLabel" htmlFor={name}>
-        {label}
+        {label} {isRequired && <span className="xRequired">*</span>}
       </label>
 
       {cloneElement(children, {
