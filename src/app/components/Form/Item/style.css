@@ -1,11 +1,11 @@
-.xFormItem {
+.xUi__formItem {
     display: flex;
     flex-direction: column;
     margin-bottom: 16px;
     position: relative;
 }
 
-.xInputLabel {
+.xUi__inputLabel {
     font-weight: 500;
     margin-bottom: 4px;
     display: flex;
@@ -13,7 +13,7 @@
     font-size: 14px;
 }
 
-.xError {
+.xUi__error {
     color: #ff4d4f;
     font-size: 12px;
     margin-top: 4px;
@@ -22,7 +22,7 @@
     right: 0;
 }
 
-.xRequired {
+.xUi__required {
     color: #ff4d4f;
     display: inline-block;
     font-size: 14px;

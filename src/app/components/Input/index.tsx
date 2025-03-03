@@ -56,21 +56,21 @@ const Input = forwardRef((
 
 	return (
 		<div className={cc([
-			'xInputContainer',
+			'xUi__inputContainer',
 			{
-				'xError__field': error,
+				'xUi__error__field': error,
 				[size || 'middle']: size || 'middle',
-				'xInputContainer__disabled': disabled
+				'xUi__inputContainer__disabled': disabled
 			}
 		])}>
-			{addonBefore && <span className="xInputContainer__addon xInputContainer__before">{addonBefore}</span>}
-			<div className="xInputContainer__inputWrapper">
-				{prefix && <span className="xInputContainer__prefix">{prefix}</span>}
+			{addonBefore && <span className="xUi__inputContainer__addon xUi__inputContainer__before">{addonBefore}</span>}
+			<div className="xUi__inputContainer__inputWrapper">
+				{prefix && <span className="xUi__inputContainer__prefix">{prefix}</span>}
 				<input
 					ref={ref}
 					{...props}
 					{...(error ? { error } : {})}
-					className={`xInput ${props.className || ''}`}
+					className={`xUi__input ${props.className || ''}`}
 					value={isControlled ? props.value : internalValue}
 					disabled={disabled}
 					onChange={handleChange}
@@ -81,13 +81,13 @@ const Input = forwardRef((
 					}}
 				/>
 				{allowClear && props.value && (
-					<span className="xInputContainer__clearBtn" onClick={handleClear}>
+					<span className="xUi__inputContainer__clearBtn" onClick={handleClear}>
 						&#x2715;
 					</span>
 				)}
-				{suffix && <span className="xInputContainer__suffix">{suffix}</span>}
+				{suffix && <span className="xUi__inputContainer__suffix">{suffix}</span>}
 			</div>
-			{addonAfter && <span className="xInputContainer__addon xInputContainer__after">{addonAfter}</span>}
+			{addonAfter && <span className="xUi__inputContainer__addon xUi__inputContainer__after">{addonAfter}</span>}
 		</div>
 	);
 });

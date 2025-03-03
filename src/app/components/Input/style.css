@@ -1,4 +1,4 @@
-.xInputContainer {
+.xUi__inputContainer {
     display: flex;
     position: relative;
     align-items: center;
@@ -8,28 +8,28 @@
     transition: border-color 0.3s;
 }
 
-.xInputContainer.middle {
+.xUi__inputContainer.middle {
     padding: 8px;
 }
 
-.xInputContainer.large {
+.xUi__inputContainer.large {
     padding: 12px;
     font-size: 16px;
 }
 
-.xInputContainer.small {
+.xUi__inputContainer.small {
     padding: 4px;
     font-size: 12px;
 }
 
-.xInputContainer__inputWrapper {
+.xUi__inputContainer__inputWrapper {
     display: flex;
     align-items: center;
     flex-grow: 1;
     position: relative;
 }
 
-.xInput {
+.xUi__input {
     border: none;
     outline: none;
     width: 100%;
@@ -37,36 +37,36 @@
     font-size: 14px;
 }
 
-.xInputContainer__disabled,
-.xInput:disabled {
+.xUi__inputContainer__disabled,
+.xUi__input:disabled {
     background-color: #f5f5f5;
     cursor: not-allowed;
     box-shadow: none;
     border-color: #d9d9d9 !important;
 }
 
-.xInputContainer__addon,
-.xInputContainer__prefix,
-.xInputContainer__suffix {
+.xUi__inputContainer__addon,
+.xUi__inputContainer__prefix,
+.xUi__inputContainer__suffix {
     padding: 4px 8px;
     background: #f5f5f5;
     border-radius: 4px;
 }
 
-.xInputContainer__clearBtn {
+.xUi__inputContainer__clearBtn {
     cursor: pointer;
     color: #999;
     padding: 2px;
 }
 
-.xInputContainer__clearBtn:hover {
+.xUi__inputContainer__clearBtn:hover {
     color: #333;
 }
 
-.xInputContainer:focus-within {
+.xUi__inputContainer:focus-within {
     border-color: #1890ff;
 }
 
-.xError__field {
+.xUi__error__field {
     border-color: #ff4d4f !important;
 }
