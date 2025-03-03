@@ -1,72 +1,49 @@
-.xUi__inputContainer {
+.xUi-input-container {
     display: flex;
-    position: relative;
     align-items: center;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #ccc;
+    padding: 4px;
     border-radius: 4px;
-    padding: 4px;
-    transition: border-color 0.3s;
+    transition: border 0.3s;
 }
 
-.xUi__inputContainer.middle {
-    padding: 8px;
+.xUi-input-container.xUi-input-error {
+    border-color: red;
 }
 
-.xUi__inputContainer.large {
-    padding: 12px;
-    font-size: 16px;
-}
-
-.xUi__inputContainer.small {
-    padding: 4px;
-    font-size: 12px;
-}
-
-.xUi__inputContainer__inputWrapper {
+.xUi-input-wrapper {
     display: flex;
     align-items: center;
     flex-grow: 1;
-    position: relative;
 }
 
-.xUi__input {
+.xUi-input {
+    flex: 1;
     border: none;
     outline: none;
-    width: 100%;
-    padding: 4px 8px;
-    font-size: 14px;
+    padding: 6px;
 }
 
-.xUi__inputContainer__disabled,
-.xUi__input:disabled {
+.xUi-input-prefix,
+.xUi-input-suffix {
+    margin: 0 6px;
+}
+
+.xUi-input-clear {
+    cursor: pointer;
+    margin: 0 2px;
+    color: #ccc;
+}
+
+.xUi-input-disabled {
     background-color: #f5f5f5;
     cursor: not-allowed;
-    box-shadow: none;
-    border-color: #d9d9d9 !important;
 }
 
-.xUi__inputContainer__addon,
-.xUi__inputContainer__prefix,
-.xUi__inputContainer__suffix {
-    padding: 4px 8px;
-    background: #f5f5f5;
-    border-radius: 4px;
+.xUi-input-container.large {
+    padding: 8px;
 }
 
-.xUi__inputContainer__clearBtn {
-    cursor: pointer;
-    color: #999;
+.xUi-input-container.small {
     padding: 2px;
-}
-
-.xUi__inputContainer__clearBtn:hover {
-    color: #333;
-}
-
-.xUi__inputContainer:focus-within {
-    border-color: #1890ff;
-}
-
-.xUi__error__field {
-    border-color: #ff4d4f !important;
 }

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
 import React, { ForwardedRef, forwardRef, useState } from "react";
-import cc from 'classcat';
-import './style.css'
+import cc from "classcat";
+import "./style.css";
 
 export type InputSize = "small" | "middle" | "large";
 
@@ -14,24 +14,26 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
 	suffix?: React.ReactNode;
 	disabled?: boolean;
 	allowClear?: boolean;
-	onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 	classNames?: string;
 	error?: boolean;
+	prefixCls?: string;
+	onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 };
 
-const Input = forwardRef((
-	{
-		size,
-		error,
-		suffix,
-		prefix,
-		addonAfter,
-		addonBefore,
-		onPressEnter,
-		disabled = false,
-		allowClear = false,
-		...props
-	}: InputProps,
+const Input = forwardRef(({
+	size = "middle",
+	error,
+	suffix,
+	prefix,
+	addonAfter,
+	addonBefore,
+	onPressEnter,
+	disabled = false,
+	allowClear = false,
+	prefixCls = "xUi",
+	className,
+	...props
+}: InputProps,
 	ref: ForwardedRef<HTMLInputElement>
 ) => {
 	const [internalValue, setInternalValue] = useState(props.value ?? "");
@@ -54,23 +56,29 @@ const Input = forwardRef((
 		props.onChange?.({ target: { value: "" } } as React.ChangeEvent<HTMLInputElement>);
 	};
 
+	const baseCls = `${prefixCls}-input`;
+
 	return (
-		<div className={cc([
-			'xUi__inputContainer',
-			{
-				'xUi__error__field': error,
-				[size || 'middle']: size || 'middle',
-				'xUi__inputContainer__disabled': disabled
-			}
-		])}>
-			{addonBefore && <span className="xUi__inputContainer__addon xUi__inputContainer__before">{addonBefore}</span>}
-			<div className="xUi__inputContainer__inputWrapper">
-				{prefix && <span className="xUi__inputContainer__prefix">{prefix}</span>}
+		<div
+			className={cc([
+				`${baseCls}-container`,
+				{
+					[`${baseCls}-error`]: error,
+					[`${baseCls}-disabled`]: disabled,
+					[`${baseCls}-${size}`]: size,
+				},
+				className,
+			])}
+		>
+			{addonBefore && <span className={`${baseCls}-addon ${baseCls}-before`}>{addonBefore}</span>}
+
+			<div className={`${baseCls}-wrapper`}>
+				{prefix && <span className={`${baseCls}-prefix`}>{prefix}</span>}
+
 				<input
 					ref={ref}
 					{...props}
-					{...(error ? { error } : {})}
-					className={`xUi__input ${props.className || ''}`}
+					className={cc([baseCls, className])}
 					value={isControlled ? props.value : internalValue}
 					disabled={disabled}
 					onChange={handleChange}
@@ -80,18 +88,22 @@ const Input = forwardRef((
 						}
 					}}
 				/>
-				{allowClear && props.value && (
-					<span className="xUi__inputContainer__clearBtn" onClick={handleClear}>
+
+				{allowClear && (isControlled ? props.value : internalValue) && (
+					<span className={`${baseCls}-clear`} onClick={handleClear}>
 						&#x2715;
 					</span>
 				)}
-				{suffix && <span className="xUi__inputContainer__suffix">{suffix}</span>}
+
+				{suffix && <span className={`${baseCls}-suffix`}>{suffix}</span>}
 			</div>
-			{addonAfter && <span className="xUi__inputContainer__addon xUi__inputContainer__after">{addonAfter}</span>}
+
+			{addonAfter && <span className={`${baseCls}-addon ${baseCls}-after`}>{addonAfter}</span>}
 		</div>
 	);
-});
+}
+);
 
 Input.displayName = "Input";
 
-export { Input }
+export { Input };

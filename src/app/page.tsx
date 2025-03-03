@@ -39,7 +39,7 @@ export default function Home() {
       </Form>
 
       <br />
-      <Input suffix={<> rokoko </>} />
+      <Input size="middle" suffix={<> rokoko </>} />
     </div>
   );
 }

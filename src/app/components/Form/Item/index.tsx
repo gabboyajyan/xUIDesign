@@ -35,9 +35,9 @@ export const FormItem: FC<FormItemProps> = ({
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 
   return (
-    <div className={`xUi__formItem ${className}`}>
-      <label className="xUi__inputLabel" htmlFor={name}>
-        {label} {isRequired && <span className="xUi__required">*</span>}
+    <div className={`xUi-formItem ${className}`}>
+      <label className="xUi-inputLabel" htmlFor={name}>
+        {label} {isRequired && <span className="xUi-required">*</span>}
       </label>
 
       {cloneElement(children, {
@@ -51,7 +51,7 @@ export const FormItem: FC<FormItemProps> = ({
       })}
 
       {getFieldError(name).length ? (
-        <span className="xUi__error">{getFieldError(name)[0]}</span>
+        <span className="xUi-error">{getFieldError(name)[0]}</span>
       ) : null}
     </div>
   );
