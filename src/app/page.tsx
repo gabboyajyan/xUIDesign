@@ -15,7 +15,7 @@ export default function Home() {
 
   return (
     <div style={{ maxWidth: 700, margin: '0 auto' }}>
-      <Form size="small" form={form} onFinish={handleSubmit}>
+      <Form size="middle" form={form} onFinish={handleSubmit}>
         <FormItem name="username" label="Username" rules={[{ required: true, message: "Username is required" }]}>
           <Input />
         </FormItem>
@@ -24,8 +24,8 @@ export default function Home() {
           {
             required: true,
             validator: (_: RuleObject, value: RuleType) => {
-              if (`${value}`.length > 2) {
-                return Promise.reject('Validator runing....')
+              if (value && parseInt(`${value}`) < 18 || parseInt(`${value}`) > 50) {
+                return Promise.reject('Age is not a valid!')
               }
 
               return Promise.resolve()
@@ -39,7 +39,21 @@ export default function Home() {
       </Form>
 
       <br />
-      <Input size="middle" suffix={<> rokoko </>} />
+
+      <label htmlFor="Small">
+        Small:
+        <Input size={'small'} />
+      </label>
+      <br />
+      <label htmlFor="Middle">
+        Middle:
+        <Input size={'middle'} />
+      </label>
+      <br />
+      <label htmlFor="Large">
+        Large:
+        <Input size={'large'} />
+      </label>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import "./style.css";
 
 export type InputSize = "small" | "middle" | "large";
 
-type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 	addonBefore?: React.ReactNode;
 	addonAfter?: React.ReactNode;
 	size?: InputSize;
@@ -67,8 +67,9 @@ const Input = forwardRef(({
 					[`${baseCls}-disabled`]: disabled,
 					[`${baseCls}-${size}`]: size,
 				},
-				className,
+				className
 			])}
+			style={props.style}
 		>
 			{addonBefore && <span className={`${baseCls}-addon ${baseCls}-before`}>{addonBefore}</span>}
 
