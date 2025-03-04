@@ -15,7 +15,7 @@ const Option: React.FC<OptionProps> = ({
   value,
   children,
   disabled,
-  className,
+  className = '',
   style,
   onClick,
   render,

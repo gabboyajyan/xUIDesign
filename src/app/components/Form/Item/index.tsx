@@ -3,7 +3,7 @@ import { FormContext } from '..';
 import { RuleObject } from '@/app/types/form';
 import './style.css';
 
-type FormItemProps = {
+export type FormItemProps = {
   name: string;
   label: string;
   rules?: RuleObject[];

@@ -2,6 +2,7 @@ import { Children, cloneElement, createContext, FC, isValidElement, ReactNode, S
 import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types/form';
 import { useForm } from '@/app/hooks/useForm';
 import { InputSize } from '@/app/components/Input';
+import { FormItem, FormItemProps } from './Item';
 
 export const FormContext = createContext<FormInstance | null>(null);
 
@@ -22,7 +23,7 @@ interface FormProps {
   onFinishFailed?: (errorInfo: { values: Record<string, RuleType>; errorFields: Pick<FieldError, "errors" | "name">[] }) => void;
 }
 
-const Form: FC<FormProps> = ({
+const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   children,
   form,
   onFinish,
@@ -81,5 +82,7 @@ const Form: FC<FormProps> = ({
     </FormContext.Provider>
   );
 };
+
+Form.Item = FormItem
 
 export { Form };

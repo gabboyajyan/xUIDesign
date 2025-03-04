@@ -2,8 +2,9 @@
 
 import { ReactElement, useState, useRef, useEffect } from "react";
 import { OptionProps, SelectProps } from "@/app/types/select";
-import './style.css';
 import { Option } from "./Option";
+import { ArrowIcon, ClearIcon, LoadingIcon } from "../icons";
+import './style.css';
 
 const Select = <OptionType extends OptionProps = OptionProps>({
     prefixCls = 'custom-select',
@@ -18,7 +19,6 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     optionFilterProp = 'value',
     children,
     options = [],
-    defaultActiveFirstOption = true,
     direction = 'ltr',
     listHeight = 200,
     menuItemSelectedIcon,
@@ -40,36 +40,57 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const [isOpen, setIsOpen] = useState(defaultOpen);
     const [selected, setSelected] = useState(value || defaultValue || (hasMode ? [] : ""));
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
-    const [focusedIndex, setFocusedIndex] = useState<number | null>(defaultActiveFirstOption ? 0 : null);
     const selectRef = useRef<HTMLDivElement>(null);
+    const [isHover, setIsHover] = useState(false);
 
+    useEffect(() => {
+        const handleMouseEnter = () => !disabled && setIsHover(true);
+        const handleMouseLeave = () => !disabled && setIsHover(false);
 
-    // Close dropdown when clicking outside
+        if (selectRef.current) {
+            selectRef.current.addEventListener("mouseenter", handleMouseEnter);
+            selectRef.current.addEventListener("mouseleave", handleMouseLeave);
+        }
+
+        return () => {
+            if (selectRef.current) {
+                selectRef.current.removeEventListener("mouseenter", handleMouseEnter);
+                // eslint-disable-next-line react-hooks/exhaustive-deps
+                selectRef.current.removeEventListener("mouseleave", handleMouseLeave);
+            }
+        };
+    }, [disabled]);
+
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+                setIsHover(false);
                 setIsOpen(false);
             }
         };
+
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
     }, []);
 
-    // Handle search query
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
         onSearch?.(e.target.value);
     };
 
-    // Handle selection
     const handleSelect = (optionValue: string, option: OptionType) => {
         if (hasMode) {
             if (maxCount && (selected as string[]).length >= maxCount) return;
             const newSelection = (selected as string[]).includes(optionValue)
                 ? (selected as string[]).filter((item) => item !== optionValue)
                 : [...(selected as string[]), optionValue];
+
             setSelected(newSelection);
             onChange?.(newSelection);
+
             if ((selected as string[]).includes(optionValue)) {
                 onDeselect?.(optionValue, option);
             } else {
@@ -79,29 +100,37 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             setSelected(optionValue);
             onChange?.(optionValue, option);
             setIsOpen(false);
+            setIsHover(false);
             onSelect?.(optionValue, option);
         }
-        if (autoClearSearchValue) setSearchQuery('');
+
+        if (autoClearSearchValue) {
+            setSearchQuery('');
+        }
     };
 
-    // Clear selection
     const handleClear = () => {
         setSelected(hasMode ? [] : "");
         onChange?.(hasMode ? [] : "");
         onClear?.();
-        if (autoClearSearchValue) setSearchQuery('');
+
+        if (autoClearSearchValue) {
+            setSearchQuery('');
+        }
     };
 
-    // Remove selected tag
     const handleRemoveTag = (tag: string) => {
         const updatedSelected = (selected as string[]).filter((item) => item !== tag);
+
         setSelected(updatedSelected);
         onChange?.(updatedSelected);
     };
 
-    // Filter options based on search
     const filteredOptions = options.filter((option: OptionType) => {
-        if (filterOption === false) return true;
+        if (filterOption === false) {
+            return true;
+        }
+
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const valueToCheck = option[optionFilterProp] || option.value;
@@ -120,18 +149,35 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
-                    value={searchQuery || selectValue}
+                    defaultValue={hasMode ? '' : searchQuery || selectValue}
                     placeholder={hasMode && (selected as string[]).length ? '' : placeholder}
                     onClick={() => !disabled && setIsOpen(!isOpen)}
                     onChange={handleSearch}
                     disabled={disabled}
+                    readOnly={!hasMode}
                 />
-                {allowClear && selected && (
-                    <button className={`${prefixCls}-clear-btn`} onClick={handleClear}>&#x2715;</button>
-                )}
+
+                {/* Clear Icon */}
+                {isHover && !loading ?
+                    <>
+                        {allowClear && selected ? (
+                            <button className={`${prefixCls}-clear-btn`} onClick={handleClear}>
+                                <ClearIcon />
+                            </button>
+                        ) : <span className={`${prefixCls}-arrow`}><ArrowIcon isOpen={isOpen} /></span>}
+                    </>
+                    :
+                    <>
+                        {/* Arrow Icon */}
+                        {!loading && <span className={`${prefixCls}-arrow`}><ArrowIcon isOpen={isOpen} /></span>}
+
+                        {/* Loading Icon */}
+                        {loading && <span className={`${prefixCls}-loading`}><LoadingIcon /></span>}
+                    </>
+                }
             </div>
 
-            {/* Display selected tags */}
+            {/* Display selected tags (for multiple or tags mode) */}
             {hasMode && (
                 <div className={`${prefixCls}-tag-container`}>
                     {(selected as string[]).map((tag, index) => (
@@ -144,7 +190,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             )}
 
             {/* Dropdown */}
-            {isOpen && (
+            {!loading && isOpen && (
                 <div className={`${prefixCls}-dropdown`} style={{ maxHeight: listHeight }}>
                     {filterable && (
                         <input
@@ -159,20 +205,23 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                         <div className={`${prefixCls}-loading-spinner`}>Loading...</div>
                     ) : (
                         <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
-                            {extractedOptions.map(({ children, className, ...props }, index) => (
+                            {extractedOptions.map(({ children, className = '', ...props }) => (
                                 <Option
                                     key={props.value}
                                     {...props}
-                                    className={`${className} ${focusedIndex === index ? 'focused' : ''}`}
-                                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                    // @ts-expect-error
-                                    onClick={() => !props.disabled && handleSelect(props.value as string, { children, className, ...props })}
-                                    onMouseEnter={() => setFocusedIndex(index)}
+                                    className={`${className} ${(hasMode ? selected.includes(props.value) : props.value === selected) ? 'focused' : ''}`}
+                                    onClick={() => {
+                                        if (!props.disabled) {
+                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                            // @ts-expect-error
+                                            handleSelect(props.value as string, { children, className, ...props })
+                                        }
+                                    }}
                                     data-value={props.value}
                                 >
                                     {children || props.value}
                                     {menuItemSelectedIcon && (selected as string[]).includes(props.value as string) && (
-                                        <span className="selected-icon">{menuItemSelectedIcon}</span>
+                                        <span className={`${prefixCls}-selected-icon`}>{menuItemSelectedIcon}</span>
                                     )}
                                 </Option>
                             ))}

@@ -6,7 +6,6 @@ import { useForm } from "./hooks/useForm";
 import { FormItem } from "./components/Form/Item";
 import { RuleObject, RuleType } from "./types/form";
 import { Select as AntSelect } from "antd";
-import { Option as AntOption } from "antd/es/mentions";
 import Select from "./components/Select";
 
 export default function Home() {
@@ -61,12 +60,13 @@ export default function Home() {
 
       <h2>Select</h2>
 
-      <AntSelect allowClear mode="tags" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="select">
-        <AntOption value="Gabriel">Gabriel</AntOption>
-        <AntOption value="Armen">Armen</AntOption>
+      <AntSelect allowClear mode="tags" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select...">
+        <AntSelect.Option value="Gabriel">Gabriel</AntSelect.Option>
+        <AntSelect.Option value="Karen">Karen</AntSelect.Option>
+        <AntSelect.Option value="Armen">Armen</AntSelect.Option>
       </AntSelect>
 
-      <Select allowClear mode="tags" size="large">
+      <Select allowClear mode="tags" size="large" placeholder="Select...">
         <Select.Option value="Gabriel">Gabriel</Select.Option>
         <Select.Option value="Armen">Armen</Select.Option>
       </Select>
