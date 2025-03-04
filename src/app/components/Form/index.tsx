@@ -1,5 +1,5 @@
 import { Children, cloneElement, createContext, FC, isValidElement, ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
-import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types';
+import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types/form';
 import { useForm } from '@/app/hooks/useForm';
 import { InputSize } from '@/app/components/Input';
 
@@ -22,7 +22,7 @@ interface FormProps {
   onFinishFailed?: (errorInfo: { values: Record<string, RuleType>; errorFields: Pick<FieldError, "errors" | "name">[] }) => void;
 }
 
-export const Form: FC<FormProps> = ({
+const Form: FC<FormProps> = ({
   children,
   form,
   onFinish,
@@ -82,3 +82,4 @@ export const Form: FC<FormProps> = ({
   );
 };
 
+export { Form };

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FormInstance, RuleType } from '../types';
+import { FormInstance, RuleType } from '../types/form';
 import { FormContext } from '../components/Form';
 
 type UseWatchProps = {

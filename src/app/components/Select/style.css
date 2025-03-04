@@ -1,0 +1,169 @@
+/* General styles for the select component */
+.custom-select {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #d9d9d9;
+    box-sizing: border-box;
+}
+
+.custom-select.rtl {
+    direction: rtl;
+}
+
+.custom-select.middle {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+
+.custom-select.large {
+    font-size: 16px;
+    display: flex;
+    padding: 2px;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.custom-select .custom-select-trigger {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+}
+
+.custom-select .custom-select-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #333;
+}
+
+.custom-select .custom-select-input:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
+}
+
+/* Clear button styles */
+.custom-select .custom-select-clear-btn {
+    margin: 0 8px;
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.custom-select .custom-select-clear-btn:hover {
+    color: #333;
+}
+
+/* Dropdown styles */
+.custom-select .custom-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: #fff;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #d9d9d9;
+}
+
+.custom-select .custom-select-options {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.custom-select .custom-select-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.custom-select .custom-select-option:hover {
+    background-color: #f5f5f5;
+}
+
+.custom-select .custom-select-option.focused {
+    background-color: #e6f7ff;
+}
+
+.custom-select .custom-select-option.selected {
+    background-color: #1890ff;
+    color: #fff;
+}
+
+.custom-select .custom-select-option.selected:hover {
+    background-color: #40a9ff;
+}
+
+/* Tag styles for multiple mode */
+.custom-select .custom-select-tag-container {
+    display: flex;
+    gap: 2px;
+}
+
+.custom-select .custom-select-tag {
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid transparent;
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    align-self: center;
+    flex: none;
+    box-sizing: border-box;
+    max-width: 100%;
+    border-radius: 6px;
+    cursor: default;
+    padding: 0 8px;
+    height: -webkit-fill-available;
+    transition: font-size 0.3s, line-height 0.3s, height 0.3s;
+}
+
+.custom-select .custom-select-tag .close-icon {
+    cursor: pointer;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-select .custom-select-tag .close-icon:hover {
+    color: #333;
+}
+
+/* Loading spinner */
+.custom-select .custom-select-loading-spinner {
+    padding: 10px;
+    text-align: center;
+    color: #999;
+}
+
+/* Focus and hover effects */
+.custom-select:focus-within {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.custom-select:hover .custom-select-trigger {
+    border-color: #40a9ff;
+}
+
+.custom-select-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
