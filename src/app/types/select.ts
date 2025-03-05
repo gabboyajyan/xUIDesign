@@ -1,20 +1,15 @@
-import { MouseEventHandler } from "react";
-export interface OptionProps {
-  value: string;
-  disabled?: boolean;
-  children?: React.ReactNode;
-  className?: string;
-  style?: React.CSSProperties;
-  onClick?: MouseEventHandler<HTMLDivElement>
-  render?: (label: string) => React.ReactNode
-}
+import { MouseEventHandler, SyntheticEvent } from "react";
+
+export type TargetEventProps = { target: { value: string | string[] } };
+export type SyntheticEventTargetProps = SyntheticEvent & { target: { value: string | string[] } }
+
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   prefixCls?: string;
   id?: string;
   searchValue?: string;
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
-  onSelect?: (value: string, option: OptionType) => void;
+  onSelect?: (value: string, option?: OptionType) => void;
   onDeselect?: (value: string, option?: OptionType) => void;
   filterOption?: boolean;
   optionFilterProp?: string;
@@ -28,7 +23,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   value?: string | string[];
   defaultValue?: string | string[];
   maxCount?: number;
-  onChange?: (value: string | string[], option?: OptionType) => void;
+  onChange?: (e: SyntheticEvent) => void;
   disabled?: boolean;
   loading?: boolean;
   placeholder?: string;
@@ -36,5 +31,22 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   filterable?: boolean;
   defaultOpen?: boolean;
   size?: 'small' | 'middle' | 'large';
-  onClear?: () => void
+  onClear?: () => void,
+  error?: string
+}
+
+export interface OptionProps {
+  value: string;
+  disabled?: boolean;
+  children?: React.ReactNode;
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: MouseEventHandler<HTMLDivElement>
+  render?: (label: string) => React.ReactNode
+}
+
+export interface TagProps {
+  prefixCls?: string,
+  values: string[],
+  handleRemoveTag: (e: SyntheticEvent & SyntheticEventTargetProps) => void
 }

@@ -1,0 +1,38 @@
+.custom-select.large .custom-select-tag {
+    font-size: 16px;
+}
+
+.custom-select .custom-select-tag-container {
+    display: flex;
+    gap: 4px;
+}
+
+.custom-select .custom-select-tag {
+    background: rgba(0, 0, 0, 0.06);
+    border: 1px solid transparent;
+    align-items: center;
+    display: flex;
+    gap: 4px;
+    align-self: center;
+    flex: none;
+    box-sizing: border-box;
+    max-width: 100%;
+    border-radius: 6px;
+    cursor: default;
+    padding: 0 8px;
+    height: -webkit-fill-available;
+    transition:
+        font-size 0.3s,
+        line-height 0.3s,
+        height 0.3s;
+}
+
+.custom-select .custom-select-tag .custom-select-tag-close-icon {
+    cursor: pointer;
+    font-size: 16px;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.custom-select .custom-select-tag .custom-select-tag-close-icon:hover {
+    color: #333;
+}

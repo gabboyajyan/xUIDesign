@@ -38,6 +38,13 @@ export default function Home() {
           <Input type="string" allowClear />
         </FormItem>
 
+        <FormItem name="gender" label="Gender" rules={[{ required: true }]}>
+          <Select allowClear size="large" placeholder="Select...">
+          <Select.Option value="Male">Male</Select.Option>
+          <Select.Option value="Female">Female</Select.Option>
+        </Select>
+        </FormItem>
+
         <button type="submit">Submit</button>
       </Form>
 
@@ -60,16 +67,18 @@ export default function Home() {
 
       <h2>Select</h2>
 
-      <AntSelect allowClear mode="tags" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select...">
+      <AntSelect allowClear mode="multiple" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select...">
         <AntSelect.Option value="Gabriel">Gabriel</AntSelect.Option>
         <AntSelect.Option value="Karen">Karen</AntSelect.Option>
+        <AntSelect.Option value="Forsh">Forsh</AntSelect.Option>
+        <AntSelect.Option value="Roma">Roma</AntSelect.Option>
         <AntSelect.Option value="Armen">Armen</AntSelect.Option>
       </AntSelect>
 
-      <Select allowClear mode="tags" size="large" placeholder="Select...">
-        <Select.Option value="Gabriel">Gabriel</Select.Option>
-        <Select.Option value="Armen">Armen</Select.Option>
-      </Select>
+      <Select allowClear size="large" placeholder="Select...">
+          <Select.Option value="Male">Male</Select.Option>
+          <Select.Option value="Female">Female</Select.Option>
+        </Select>
     </div>
   );
 }

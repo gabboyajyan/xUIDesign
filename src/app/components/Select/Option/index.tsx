@@ -1,17 +1,18 @@
-import React, { MouseEventHandler } from 'react';
+import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
+import './style.css'
 
 export interface OptionProps {
   value: string;
   disabled?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>;
-  render?: (label: string) => React.ReactNode;
+  render?: (label: string) => ReactNode;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
 }
 
-const Option: React.FC<OptionProps> = ({
+const Option: FC<OptionProps> = ({
   value,
   children,
   disabled,
@@ -36,4 +37,4 @@ const Option: React.FC<OptionProps> = ({
   );
 };
 
-export { Option};
+export { Option };

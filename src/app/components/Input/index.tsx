@@ -1,23 +1,23 @@
 "use client";
 
-import React, { ForwardedRef, forwardRef, useState } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, ReactNode, SyntheticEvent, useState } from "react";
 import cc from "classcat";
 import "./style.css";
 
 export type InputSize = "small" | "middle" | "large";
 
-type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & {
-	addonBefore?: React.ReactNode;
-	addonAfter?: React.ReactNode;
+type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
+	addonBefore?: ReactNode;
+	addonAfter?: ReactNode;
 	size?: InputSize;
-	prefix?: React.ReactNode;
-	suffix?: React.ReactNode;
+	prefix?: ReactNode;
+	suffix?: ReactNode;
 	disabled?: boolean;
 	allowClear?: boolean;
 	classNames?: string;
 	error?: boolean;
 	prefixCls?: string;
-	onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+	onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
 
 const Input = forwardRef(({
@@ -40,7 +40,7 @@ const Input = forwardRef(({
 
 	const isControlled = props.value !== undefined;
 
-	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (!isControlled) {
 			setInternalValue(e.target.value);
 		}
@@ -48,12 +48,14 @@ const Input = forwardRef(({
 		props.onChange?.(e);
 	};
 
-	const handleClear = () => {
+	const handleClear = (e: SyntheticEvent) => {
 		if (!isControlled) {
 			setInternalValue("");
 		}
 
-		props.onChange?.({ target: { value: "" } } as React.ChangeEvent<HTMLInputElement>);
+		(e as ChangeEvent<HTMLInputElement>).target.value = '';
+
+		props.onChange?.(e as ChangeEvent<HTMLInputElement>);
 	};
 
 	const baseCls = `${prefixCls}-input`;
@@ -102,8 +104,7 @@ const Input = forwardRef(({
 			{addonAfter && <span className={`${baseCls}-addon ${baseCls}-after`}>{addonAfter}</span>}
 		</div>
 	);
-}
-);
+});
 
 Input.displayName = "Input";
 
