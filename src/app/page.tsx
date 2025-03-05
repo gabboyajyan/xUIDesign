@@ -40,9 +40,9 @@ export default function Home() {
 
         <FormItem name="gender" label="Gender" rules={[{ required: true }]}>
           <Select allowClear size="large" placeholder="Select...">
-          <Select.Option value="Male">Male</Select.Option>
-          <Select.Option value="Female">Female</Select.Option>
-        </Select>
+            <Select.Option value="Male">Male</Select.Option>
+            <Select.Option value="Female">Female</Select.Option>
+          </Select>
         </FormItem>
 
         <button type="submit">Submit</button>
@@ -67,7 +67,14 @@ export default function Home() {
 
       <h2>Select</h2>
 
-      <AntSelect allowClear mode="multiple" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select..." onChange={console.log}>
+      <AntSelect
+        mode='tags'
+        style={{ width: '100%', marginBottom: 20 }}
+        placeholder="Select..."
+        onChange={console.log}
+        maxCount={2}
+        maxTagCount={3}
+      >
         <AntSelect.Option value="Gabriel">Gabriel</AntSelect.Option>
         <AntSelect.Option value="Karen">Karen</AntSelect.Option>
         <AntSelect.Option value="Forsh">Forsh</AntSelect.Option>
@@ -75,10 +82,19 @@ export default function Home() {
         <AntSelect.Option value="Armen">Armen</AntSelect.Option>
       </AntSelect>
 
-      <Select allowClear size="large" placeholder="Select..." onChange={console.log}>
-          <Select.Option value="Male">Male</Select.Option>
-          <Select.Option value="Female">Female</Select.Option>
-        </Select>
+      <Select
+        mode='tags'
+        placeholder="Select..."
+        onChange={console.log}
+        maxCount={2}
+        maxTagCount={3}
+      >
+        <Select.Option value="Gabriel">Gabriel</Select.Option>
+        <Select.Option value="Karen">Karen</Select.Option>
+        <Select.Option value="Forsh">Forsh</Select.Option>
+        <Select.Option value="Roma">Roma</Select.Option>
+        <Select.Option value="Armen">Armen</Select.Option>
+      </Select>
     </div>
   );
 }

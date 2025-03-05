@@ -3,32 +3,27 @@
 import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
 import { OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
-import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon } from "../icons";
-import './style.css';
+import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
 import { Tag } from "./Tag";
 import cc from "classcat";
+import { EmptyContent } from "../Empty";
+import './style.css';
 
 const Select = <OptionType extends OptionProps = OptionProps>({
-    prefixCls = 'custom-select',
+    prefixCls = 'xUi-select',
     id,
     searchValue = '',
-    onSearch,
     autoClearSearchValue = true,
-    onSelect,
-    onDeselect,
-    onClear,
     filterOption = true,
     optionFilterProp = 'value',
     children,
     options = [],
-    direction = 'ltr',
     listHeight = 200,
     menuItemSelectedIcon,
     mode = 'default',
     value,
     defaultValue,
     maxCount,
-    onChange,
     disabled = false,
     loading = false,
     placeholder = 'Select',
@@ -36,15 +31,35 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     filterable = false,
     defaultOpen = false,
     size = 'middle',
-    error = ''
+    error = '',
+    dropdownClassName = '',
+    suffixIcon,
+    onSearch,
+    onSelect,
+    onDeselect,
+    onClear,
+    onChange,
+    showSearch = false,
+    open = false,
+    // maxTagCount,
+    // maxTagPlaceholder,
+    // showArrow,
+    // showAction,
+    // tagRender,
+    // onBlur,
+    // onDropdownVisibleChange
 }: SelectProps<OptionType>): ReactElement => {
-    const hasMode = mode === 'multiple' || mode === 'tags';
+    const initialValue = value || defaultValue || '';
 
-    const [isOpen, setIsOpen] = useState(defaultOpen);
-    const [selected, setSelected] = useState(value || defaultValue || (hasMode ? [] : ""));
-    const [searchQuery, setSearchQuery] = useState(searchValue || '');
-    const selectRef = useRef<HTMLDivElement>(null);
+    const asTag = mode === 'tags';
+    const asMultiple = mode === 'multiple'
+    const hasMode = asTag || asMultiple;
+
     const [isHover, setIsHover] = useState(false);
+    const selectRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState(defaultOpen || open);
+    const [searchQuery, setSearchQuery] = useState(searchValue || '');
+    const [selected, setSelected] = useState((hasMode ? (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e) : ""));
 
     const handleMouseEnter = () => !disabled && selected.length && setIsHover(true);
     const handleMouseLeave = () => !disabled && setIsHover(false);
@@ -52,7 +67,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
+                setIsOpen(open);
             }
         };
 
@@ -63,12 +78,24 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         };
     }, []);
 
+    useEffect(() => {
+        setSelected((hasMode ? (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e) : ""))
+    }, [hasMode, initialValue])
+
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
         onSearch?.(e.target.value);
+
+        if (!isOpen) {
+            setIsOpen(!isOpen || open)
+        }
     };
 
     const handleEnterAddNewTag = () => {
+        if (maxCount && (selected as string[]).length >= maxCount && !selected.includes(searchQuery)) {
+            return;
+        }
+
         const newOptionValue = searchQuery.trim();
 
         if (!newOptionValue || !hasMode || (selected as string[]).includes(newOptionValue)) {
@@ -83,6 +110,11 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             onChange?.(updatedSelected);
             onSelect?.(newOptionValue);
 
+            const input = selectRef.current?.querySelector('input') as HTMLInputElement;
+            if (input) {
+                input.value = ''
+            }
+
             return updatedSelected;
         });
 
@@ -91,10 +123,12 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-
-    const handleSelect = (optionValue: string, option?: OptionType) => {
+    const handleSelect = (optionValue: string, option: OptionType[]) => {
         if (hasMode) {
-            if (maxCount && (selected as string[]).length >= maxCount) return;
+            if (maxCount && (selected as string[]).length >= maxCount && !selected.includes(optionValue)) {
+                return;
+            }
+
             const newSelection = (selected as string[]).includes(optionValue)
                 ? (selected as string[]).filter((item) => item !== optionValue)
                 : [...(selected as string[]), optionValue];
@@ -103,15 +137,15 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             onChange?.(newSelection);
 
             if ((selected as string[]).includes(optionValue)) {
-                onDeselect?.(optionValue, option);
+                onDeselect?.(optionValue, option as unknown as OptionType);
             } else {
-                onSelect?.(optionValue, option);
+                onSelect?.(optionValue, option as unknown as OptionType);
             }
         } else {
             setSelected(optionValue);
-            onChange?.(optionValue, option);
-            setIsOpen(false);
-            onSelect?.(optionValue, option);
+            onChange?.(optionValue, option as unknown as OptionType);
+            setIsOpen(open);
+            onSelect?.(optionValue, option as unknown as OptionType);
         }
 
         if (autoClearSearchValue) {
@@ -136,6 +170,18 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         onChange?.(updatedSelected);
     };
 
+    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { value: string } }) => {
+        if (hasMode) {
+            if (e.key === 'Enter' && searchQuery.trim() !== '') {
+                handleEnterAddNewTag()
+            }
+
+            if (e.key === 'Backspace' && !searchQuery.trim().length) {
+                handleRemoveTag(selected[selected.length - 1])
+            }
+        }
+    }
+
     const extractedOptions = children
         ? (Array.isArray(children) ? children : [children]).map((child: { props: OptionType }) => child.props) : options;
 
@@ -155,10 +201,9 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     return (
         <div id={id} className={cc([
             {
-                [size]: Boolean(size),
-                [prefixCls]: Boolean(prefixCls),
-                [direction]: Boolean(direction),
-                [`${prefixCls}-error`]: Boolean(error)
+                [size]: size,
+                [prefixCls]: prefixCls,
+                [`${prefixCls}-error`]: error
             }
         ])} ref={selectRef}>
             <div
@@ -169,30 +214,31 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
-                    defaultValue={hasMode ? '' : searchQuery || selectValue}
+                    defaultValue={hasMode ? '' : searchQuery || selectValue as string}
                     placeholder={hasMode && (selected as string[]).length ? '' : placeholder}
-                    onClick={() => !disabled && setIsOpen(!isOpen)}
+                    onClick={() => !disabled && setIsOpen(!isOpen || open)}
                     onChange={handleSearch}
                     disabled={disabled}
                     readOnly={!hasMode}
-                    onKeyDown={(e: KeyboardEvent<HTMLInputElement> & { target: { value: string } }) => {
-                        if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                            handleEnterAddNewTag()
-                        }
-                    }}
+                    onKeyDown={handleOnKeyDown}
                 />
 
                 {isHover && !loading ?
                     (
                         <>{allowClear && selected ? (
                             <button className={`${prefixCls}-clear-btn`} onClick={handleClear}>
-                                <ClearIcon />
+                                {suffixIcon || <ClearIcon />}
                             </button>
-                        ) : <span className={`${prefixCls}-arrow`}><ArrowIcon isOpen={isOpen} /></span>}
+                        ) : <span className={`${prefixCls}-arrow`}>
+                            {showSearch && isOpen ? <SearchIcon /> : <ArrowIcon isOpen={isOpen} />}
+                        </span>}
                         </>
                     ) : (
                         <>
-                            {!loading && <span className={`${prefixCls}-arrow`}><ArrowIcon isOpen={isOpen} /></span>}
+                            {!loading && <span className={`${prefixCls}-arrow`}>
+                                {showSearch && isOpen ? <SearchIcon /> : <ArrowIcon isOpen={isOpen} />}
+                            </span>}
+
                             {loading && <span className={`${prefixCls}-loading`}><LoadingIcon /></span>}
                         </>
                     )
@@ -202,7 +248,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             {hasMode && <Tag values={selected as string[]} handleRemoveTag={handleRemoveTag} prefixCls={prefixCls} />}
 
             {!loading && isOpen && (
-                <div className={`${prefixCls}-dropdown`} style={{ maxHeight: listHeight }}>
+                <div className={cc([`${prefixCls}-dropdown`, { [dropdownClassName]: dropdownClassName }])} style={{ maxHeight: listHeight }}>
                     {filterable && (
                         <input
                             type="text"
@@ -213,42 +259,48 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                         />
                     )}
 
-                    {!loading && !!filteredOptions.length && (
-                        <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
-                            {hasMode && !!searchQuery && <Option
-                                value={searchQuery}
-                                className={`focused`}
-                                onClick={() => {
-                                    handleSelect(searchQuery)
-                                }}
-                                data-value={searchQuery}
-                            >
-                                {searchQuery}
-                            </Option>}
-
-                            {filteredOptions.map(({ children, className = '', ...props }) => (
-                                <Option
-                                    key={props.value}
-                                    {...props}
-                                    className={`${className} ${(hasMode ? selected.includes(props.value) : props.value === selected) ? 'focused' : ''}`}
+                    {!loading && (
+                            <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
+                                {asTag && !!searchQuery && <Option
+                                    value={searchQuery}
+                                    className={`${prefixCls}-focused`}
                                     onClick={() => {
-                                        if (!props.disabled) {
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            // @ts-expect-error
-                                            handleSelect(props.value as string, { children, className, ...props })
-                                        }
+                                        handleSelect(searchQuery, options)
                                     }}
-                                    data-value={props.value}
+                                    data-value={searchQuery}
                                 >
-                                    {children || props.value}
+                                    {searchQuery}
+                                </Option>}
 
-                                    {hasMode && (selected as string[]).includes(props.value as string) && (
-                                        <span className={`${prefixCls}-selected-icon`}>{menuItemSelectedIcon || <CheckIcon />}</span>
-                                    )}
-                                </Option>
-                            ))}
-                        </div>
-                    )}
+                                {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
+                                    <Option
+                                        key={props.value}
+                                        {...props}
+                                        className={cc([
+                                            className,
+                                            {
+                                                [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
+                                                [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
+                                            }
+                                        ])}
+                                        onClick={() => {
+                                            if (!props.disabled) {
+                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                                // @ts-expect-error
+                                                handleSelect(props.value as string, { children, className, ...props })
+                                            }
+                                        }}
+                                        data-value={props.value}
+                                    >
+                                        {children || props.value}
+
+                                        {menuItemSelectedIcon && (selected as string[]).includes(props.value as string) && (
+                                            <span className={`${prefixCls}-selected-icon`}>{menuItemSelectedIcon || <CheckIcon />}</span>
+                                        )}
+                                    </Option>
+                                )) : !asTag && <EmptyContent />}
+                            </div>
+                        )}
                 </div>
             )}
         </div>

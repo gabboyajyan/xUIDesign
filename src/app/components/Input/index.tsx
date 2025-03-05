@@ -30,7 +30,7 @@ const Input = forwardRef(({
 	onPressEnter,
 	disabled = false,
 	allowClear = false,
-	prefixCls = "xUi",
+	prefixCls = "xUi-input",
 	className,
 	...props
 }: InputProps,
@@ -58,30 +58,28 @@ const Input = forwardRef(({
 		props.onChange?.(e as ChangeEvent<HTMLInputElement>);
 	};
 
-	const baseCls = `${prefixCls}-input`;
-
 	return (
 		<div
 			className={cc([
-				`${baseCls}-container`,
+				`${prefixCls}-container`,
 				{
-					[`${baseCls}-error`]: error,
-					[`${baseCls}-disabled`]: disabled,
-					[`${baseCls}-${size}`]: size,
+					[`${prefixCls}-error`]: error,
+					[`${prefixCls}-disabled`]: disabled,
+					[`${prefixCls}-${size}`]: size,
 				},
 				className
 			])}
 			style={props.style}
 		>
-			{addonBefore && <span className={`${baseCls}-addon ${baseCls}-before`}>{addonBefore}</span>}
+			{addonBefore && <span className={`${prefixCls}-addon ${prefixCls}-before`}>{addonBefore}</span>}
 
-			<div className={`${baseCls}-wrapper`}>
-				{prefix && <span className={`${baseCls}-prefix`}>{prefix}</span>}
+			<div className={`${prefixCls}-wrapper`}>
+				{prefix && <span className={`${prefixCls}-prefix`}>{prefix}</span>}
 
 				<input
 					ref={ref}
 					{...props}
-					className={cc([baseCls, className])}
+					className={cc([prefixCls, className])}
 					value={isControlled ? props.value : internalValue}
 					disabled={disabled}
 					onChange={handleChange}
@@ -93,15 +91,15 @@ const Input = forwardRef(({
 				/>
 
 				{allowClear && (isControlled ? props.value : internalValue) && (
-					<span className={`${baseCls}-clear`} onClick={handleClear}>
+					<span className={`${prefixCls}-clear`} onClick={handleClear}>
 						&#x2715;
 					</span>
 				)}
 
-				{suffix && <span className={`${baseCls}-suffix`}>{suffix}</span>}
+				{suffix && <span className={`${prefixCls}-suffix`}>{suffix}</span>}
 			</div>
 
-			{addonAfter && <span className={`${baseCls}-addon ${baseCls}-after`}>{addonAfter}</span>}
+			{addonAfter && <span className={`${prefixCls}-addon ${prefixCls}-after`}>{addonAfter}</span>}
 		</div>
 	);
 });

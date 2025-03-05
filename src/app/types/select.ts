@@ -1,4 +1,5 @@
-import { MouseEventHandler } from "react";
+import { FocusEventHandler, MouseEventHandler, ReactNode } from "react";
+import { RuleType } from "./form";
 
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   prefixCls?: string;
@@ -29,7 +30,18 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   defaultOpen?: boolean;
   size?: 'small' | 'middle' | 'large';
   onClear?: () => void,
-  error?: string
+  error?: string,
+  showSearch?: boolean,
+  tagRender?: ((props: TagProps) => React.ReactElement) | undefined,
+  maxTagCount?: number | "responsive" | undefined,
+  maxTagPlaceholder?: ReactNode | ((omittedValues: DisplayValueType[]) => React.ReactNode)
+  dropdownClassName?: string,
+  showArrow?: boolean,
+  onBlur?: FocusEventHandler<HTMLElement> | undefined,
+  onDropdownVisibleChange?: ((open: boolean) => void) | undefined,
+  showAction?: ("click" | "focus")[] | undefined,
+  suffixIcon?: ReactNode,
+  open?: boolean
 }
 
 export interface OptionProps {
@@ -46,4 +58,12 @@ export interface TagProps {
   prefixCls?: string,
   values: string[],
   handleRemoveTag: (value: string) => void
+}
+
+export interface DisplayValueType {
+  key?: React.Key;
+  value?: RuleType;
+  label?: React.ReactNode;
+  title?: string | number;
+  disabled?: boolean;
 }

@@ -28,7 +28,7 @@ const Option: FC<OptionProps> = ({
 
   return (
     <div
-      className={`custom-select-option ${className} ${disabled ? 'disabled' : ''}`}
+      className={`xUi-select-option ${className} ${disabled ? 'disabled' : ''}`}
       style={style}
       onClick={handleClick}
     >

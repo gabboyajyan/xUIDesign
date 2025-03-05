@@ -1,11 +1,11 @@
-.custom-select .custom-select-options {
+.xUi-select .xUi-select-options {
     list-style: none;
     margin: 0;
     padding: 4px;
     border-radius: 4px;
 }
 
-.custom-select .custom-select-option {
+.xUi-select .xUi-select-option {
     padding: 8px 16px;
     cursor: pointer;
     display: flex;
@@ -14,11 +14,11 @@
     font-size: 14px;
 }
 
-.custom-select .custom-select-option:hover {
+.xUi-select .xUi-select-option:hover {
     background-color: #f5f5f5;
 }
 
-.custom-select .custom-select-option.focused {
+.xUi-select .xUi-select-option.xUi-select-focused {
     background-color: #e6f7ff;
     font-weight: 600;
     display: flex;
@@ -26,11 +26,16 @@
     justify-content: space-between;
 }
 
-.custom-select .custom-select-option.selected {
+.xUi-select .xUi-select-option.xUi-select-disabled {
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed;
+}
+
+.xUi-select .xUi-select-option.selected {
     background-color: #1890ff;
     color: #fff;
 }
 
-.custom-select .custom-select-option.selected:hover {
+.xUi-select .xUi-select-option.selected:hover {
     background-color: #40a9ff;
 }

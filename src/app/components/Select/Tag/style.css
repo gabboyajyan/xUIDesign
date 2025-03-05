@@ -1,13 +1,13 @@
-.custom-select.large .custom-select-tag {
+.xUi-select.large .xUi-select-tag {
     font-size: 16px;
 }
 
-.custom-select .custom-select-tag-container {
+.xUi-select .xUi-select-tag-container {
     display: flex;
     gap: 4px;
 }
 
-.custom-select .custom-select-tag {
+.xUi-select .xUi-select-tag {
     background: rgba(0, 0, 0, 0.06);
     border: 1px solid transparent;
     align-items: center;
@@ -27,12 +27,12 @@
         height 0.3s;
 }
 
-.custom-select .custom-select-tag .custom-select-tag-close-icon {
+.xUi-select .xUi-select-tag .xUi-select-tag-close-icon {
     cursor: pointer;
-    font-size: 16px;
+    font-size: 11px;
     color: rgba(0, 0, 0, 0.5);
 }
 
-.custom-select .custom-select-tag .custom-select-tag-close-icon:hover {
+.xUi-select .xUi-select-tag .xUi-select-tag-close-icon:hover {
     color: #333;
 }
