@@ -67,7 +67,7 @@ export default function Home() {
 
       <h2>Select</h2>
 
-      <AntSelect allowClear mode="multiple" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select...">
+      <AntSelect allowClear mode="multiple" size="large" style={{ width: '100%', marginBottom: 20 }} placeholder="Select..." onChange={console.log}>
         <AntSelect.Option value="Gabriel">Gabriel</AntSelect.Option>
         <AntSelect.Option value="Karen">Karen</AntSelect.Option>
         <AntSelect.Option value="Forsh">Forsh</AntSelect.Option>
@@ -75,7 +75,7 @@ export default function Home() {
         <AntSelect.Option value="Armen">Armen</AntSelect.Option>
       </AntSelect>
 
-      <Select allowClear size="large" placeholder="Select...">
+      <Select allowClear size="large" placeholder="Select..." onChange={console.log}>
           <Select.Option value="Male">Male</Select.Option>
           <Select.Option value="Female">Female</Select.Option>
         </Select>

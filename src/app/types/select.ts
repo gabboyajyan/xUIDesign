@@ -1,7 +1,4 @@
-import { MouseEventHandler, SyntheticEvent } from "react";
-
-export type TargetEventProps = { target: { value: string | string[] } };
-export type SyntheticEventTargetProps = SyntheticEvent & { target: { value: string | string[] } }
+import { MouseEventHandler } from "react";
 
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   prefixCls?: string;
@@ -23,7 +20,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   value?: string | string[];
   defaultValue?: string | string[];
   maxCount?: number;
-  onChange?: (e: SyntheticEvent) => void;
+  onChange?: (value: string | string[], option?: OptionType) => void;
   disabled?: boolean;
   loading?: boolean;
   placeholder?: string;
@@ -48,5 +45,5 @@ export interface OptionProps {
 export interface TagProps {
   prefixCls?: string,
   values: string[],
-  handleRemoveTag: (e: SyntheticEvent & SyntheticEventTargetProps) => void
+  handleRemoveTag: (value: string) => void
 }

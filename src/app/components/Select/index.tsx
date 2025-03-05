@@ -1,7 +1,7 @@
 'use client'
 
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent } from "react";
-import { SyntheticEventTargetProps, OptionProps, SelectProps, TargetEventProps } from "@/app/types/select";
+import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
+import { OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon } from "../icons";
 import './style.css';
@@ -50,7 +50,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const handleMouseLeave = () => !disabled && setIsHover(false);
 
     useEffect(() => {
-        const handleClickOutside = (event: globalThis.MouseEvent): void => {
+        const handleClickOutside = (event: MouseEvent) => {
             if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
                 setIsOpen(false);
             }
@@ -68,7 +68,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         onSearch?.(e.target.value);
     };
 
-    const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & SyntheticEventTargetProps) => {
+    const handleEnterAddNewTag = () => {
         const newOptionValue = searchQuery.trim();
 
         if (!newOptionValue || !hasMode || (selected as string[]).includes(newOptionValue)) {
@@ -80,9 +80,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 ? [...(prevSelected as string[]), newOptionValue]
                 : newOptionValue;
 
-            e.target.value = updatedSelected
-
-            onChange?.(e);
+            onChange?.(updatedSelected);
             onSelect?.(newOptionValue);
 
             return updatedSelected;
@@ -94,7 +92,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     };
 
 
-    const handleSelect = (e: SyntheticEventTargetProps, optionValue: string, option?: OptionType) => {
+    const handleSelect = (optionValue: string, option?: OptionType) => {
         if (hasMode) {
             if (maxCount && (selected as string[]).length >= maxCount) return;
             const newSelection = (selected as string[]).includes(optionValue)
@@ -102,9 +100,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 : [...(selected as string[]), optionValue];
 
             setSelected(newSelection);
-
-            e.target.value = newSelection
-            onChange?.(e);
+            onChange?.(newSelection);
 
             if ((selected as string[]).includes(optionValue)) {
                 onDeselect?.(optionValue, option);
@@ -113,9 +109,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             }
         } else {
             setSelected(optionValue);
-
-            e.target.value = optionValue;
-            onChange?.(e);
+            onChange?.(optionValue, option);
             setIsOpen(false);
             onSelect?.(optionValue, option);
         }
@@ -125,11 +119,9 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleClear = (e: MouseEvent<HTMLButtonElement> & TargetEventProps) => {
+    const handleClear = () => {
         setSelected(hasMode ? [] : "");
-
-        e.target.value = hasMode ? [] : "";
-        onChange?.(e);
+        onChange?.(hasMode ? [] : "");
         onClear?.();
 
         if (autoClearSearchValue) {
@@ -137,13 +129,11 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleRemoveTag = (e: SyntheticEventTargetProps) => {
-        const updatedSelected = (selected as string[]).filter((item) => item !== e.target.value);
+    const handleRemoveTag = (tag: string) => {
+        const updatedSelected = (selected as string[]).filter((item) => item !== tag);
 
         setSelected(updatedSelected);
-
-        e.target.value = updatedSelected;
-        onChange?.(e);
+        onChange?.(updatedSelected);
     };
 
     const extractedOptions = children
@@ -187,7 +177,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     readOnly={!hasMode}
                     onKeyDown={(e: KeyboardEvent<HTMLInputElement> & { target: { value: string } }) => {
                         if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                            handleEnterAddNewTag(e)
+                            handleEnterAddNewTag()
                         }
                     }}
                 />
@@ -228,10 +218,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                             {hasMode && !!searchQuery && <Option
                                 value={searchQuery}
                                 className={`focused`}
-                                onClick={(e: MouseEvent<HTMLDivElement> & TargetEventProps) => {
-                                    e.target.value = searchQuery;
-
-                                    handleSelect(e, searchQuery)
+                                onClick={() => {
+                                    handleSelect(searchQuery)
                                 }}
                                 data-value={searchQuery}
                             >
@@ -243,11 +231,11 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                     key={props.value}
                                     {...props}
                                     className={`${className} ${(hasMode ? selected.includes(props.value) : props.value === selected) ? 'focused' : ''}`}
-                                    onClick={(e) => {
+                                    onClick={() => {
                                         if (!props.disabled) {
                                             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                                             // @ts-expect-error
-                                            handleSelect(e, props.value as string, { children, className, ...props })
+                                            handleSelect(props.value as string, { children, className, ...props })
                                         }
                                     }}
                                     data-value={props.value}

@@ -1,8 +1,8 @@
-import { FC, SyntheticEvent } from 'react';
-import { SyntheticEventTargetProps, TagProps } from '@/app/types/select';
+import React from 'react';
+import { TagProps } from '@/app/types/select';
 import './style.css'
 
-const Tag: FC<TagProps> = ({
+const Tag: React.FC<TagProps> = ({
     prefixCls = 'custom-select',
     values = [],
     handleRemoveTag
@@ -12,12 +12,7 @@ const Tag: FC<TagProps> = ({
             {values.map((tag, index) => (
                 <div key={`${index}_${tag}`} className={`${prefixCls}-tag`}>
                     {tag}
-                    <span
-                        className={`${prefixCls}-tag-close-icon`}
-                        onClick={(e: SyntheticEvent) => {
-                            (e as SyntheticEventTargetProps).target.value = tag
-                            handleRemoveTag(e as SyntheticEventTargetProps)
-                        }}>×</span>
+                    <span className={`${prefixCls}-tag-close-icon`} onClick={() => handleRemoveTag(tag)}>×</span>
                 </div>
             ))}
         </div>
