@@ -1,4 +1,4 @@
-import { FocusEventHandler, MouseEventHandler, ReactNode } from "react";
+import { CSSProperties, FocusEventHandler, Key, MouseEventHandler, ReactElement, ReactNode } from "react";
 import { RuleType } from "./form";
 
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
@@ -12,11 +12,11 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   filterOption?: boolean;
   optionFilterProp?: string;
   options?: OptionType[];
-  children?: React.ReactNode;
+  children?: ReactNode;
   defaultActiveFirstOption?: boolean;
   direction?: 'ltr' | 'rtl';
   listHeight?: number;
-  menuItemSelectedIcon?: React.ReactNode;
+  menuItemSelectedIcon?: ReactNode;
   mode?: 'default' | 'multiple' | 'tags';
   value?: string | string[];
   defaultValue?: string | string[];
@@ -32,9 +32,9 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   onClear?: () => void,
   error?: string,
   showSearch?: boolean,
-  tagRender?: ((props: TagProps) => React.ReactElement) | undefined,
+  tagRender?: ((props: TagProps) => ReactElement) | undefined,
   maxTagCount?: number | "responsive" | undefined,
-  maxTagPlaceholder?: ReactNode | ((omittedValues: DisplayValueType[]) => React.ReactNode)
+  maxTagPlaceholder?: ReactNode | ((omittedValues: DisplayValueType[]) => ReactNode)
   dropdownClassName?: string,
   showArrow?: boolean,
   onBlur?: FocusEventHandler<HTMLElement> | undefined,
@@ -47,11 +47,11 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
 export interface OptionProps {
   value: string;
   disabled?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
   className?: string;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>
-  render?: (label: string) => React.ReactNode
+  render?: (label: string) => ReactNode
 }
 
 export interface TagProps {
@@ -61,9 +61,9 @@ export interface TagProps {
 }
 
 export interface DisplayValueType {
-  key?: React.Key;
+  key?: Key;
   value?: RuleType;
-  label?: React.ReactNode;
+  label?: ReactNode;
   title?: string | number;
   disabled?: boolean;
 }

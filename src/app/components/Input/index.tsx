@@ -1,8 +1,9 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, ReactNode, SyntheticEvent, useState } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, ReactNode, useState } from "react";
 import cc from "classcat";
 import "./style.css";
+import { prefixClsInput } from "@/app/utils";
 
 export type InputSize = "small" | "middle" | "large";
 
@@ -17,6 +18,7 @@ type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 	classNames?: string;
 	error?: boolean;
 	prefixCls?: string;
+	onChange?: (value: string) => void,
 	onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
 
@@ -30,7 +32,7 @@ const Input = forwardRef(({
 	onPressEnter,
 	disabled = false,
 	allowClear = false,
-	prefixCls = "xUi-input",
+	prefixCls = prefixClsInput,
 	className,
 	...props
 }: InputProps,
@@ -45,17 +47,15 @@ const Input = forwardRef(({
 			setInternalValue(e.target.value);
 		}
 
-		props.onChange?.(e);
+		props.onChange?.(e.target.value);
 	};
 
-	const handleClear = (e: SyntheticEvent) => {
+	const handleClear = () => {
 		if (!isControlled) {
 			setInternalValue("");
 		}
 
-		(e as ChangeEvent<HTMLInputElement>).target.value = '';
-
-		props.onChange?.(e as ChangeEvent<HTMLInputElement>);
+		props.onChange?.('');
 	};
 
 	return (

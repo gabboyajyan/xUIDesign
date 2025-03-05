@@ -1,6 +1,7 @@
 import { cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
 import { RuleObject, RuleType } from '@/app/types/form';
+import { prefixClsForm } from '@/app/utils';
 import './style.css';
 
 export type FormItemProps = {
@@ -9,9 +10,11 @@ export type FormItemProps = {
   rules?: RuleObject[];
   children: ReactElement;
   className?: string;
+  prefixCls?: string;
 };
 
 export const FormItem: FC<FormItemProps> = ({
+  prefixCls = prefixClsForm,
   name,
   label,
   rules = [],
@@ -35,9 +38,9 @@ export const FormItem: FC<FormItemProps> = ({
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 
   return (
-    <div className={`xUi-formItem ${className}`}>
-      <label className="xUi-inputLabel" htmlFor={name}>
-        {label} {isRequired && <span className="xUi-required">*</span>}
+    <div className={`${prefixCls} ${className}`}>
+      <label className={`${prefixCls}-label`} htmlFor={name}>
+        {label} {isRequired && <span className={`${prefixCls}-required`}>*</span>}
       </label>
 
       {cloneElement(children, {
@@ -46,12 +49,13 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
-        onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
-          setFieldValue(name, e?.target?.value || e?.target as unknown as RuleType || e as unknown as RuleType)
+        onChange: (e: RuleType | RuleType[]) => {
+          setFieldValue(name, e)
+        }
       })}
 
       {getFieldError(name).length ? (
-        <span className="xUi-error">{getFieldError(name)[0]}</span>
+        <span className={`${prefixCls}-error`}>{getFieldError(name)[0]}</span>
       ) : null}
     </div>
   );

@@ -1,5 +1,6 @@
 import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
 import './style.css'
+import { prefixClsSelect } from '@/app/utils';
 
 export interface OptionProps {
   value: string;
@@ -10,6 +11,7 @@ export interface OptionProps {
   onClick?: MouseEventHandler<HTMLDivElement>;
   render?: (label: string) => ReactNode;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+  prefixCls?: string;
 }
 
 const Option: FC<OptionProps> = ({
@@ -20,6 +22,7 @@ const Option: FC<OptionProps> = ({
   style,
   onClick,
   render,
+  prefixCls = prefixClsSelect
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = (e) => {
     if (disabled) return;
@@ -28,7 +31,7 @@ const Option: FC<OptionProps> = ({
 
   return (
     <div
-      className={`xUi-select-option ${className} ${disabled ? 'disabled' : ''}`}
+      className={`${prefixCls}-option ${className} ${disabled ? 'disabled' : ''}`}
       style={style}
       onClick={handleClick}
     >

@@ -27,18 +27,18 @@ export interface FormInstance {
   resetFields: () => void;
   getFieldError: (name: string) => string[];
   registerField: (name: string, rules?: RuleObject[]) => void;
-  setFieldValue: (name: string, value: RuleType) => void;
-  getFieldValue: (name: string) => RuleType;
+  setFieldValue: (name: string, value: RuleType | RuleType[]) => void;
+  getFieldValue: (name: string) => RuleType | RuleType[];
   validateFields: () => Promise<boolean>;
-  setFieldsValue: (values: Partial<Record<string, RuleType>>) => void;
-  getFieldsValue: (nameList?: string[]) => Record<string, RuleType>;
+  setFieldsValue: (values: Partial<Record<string, RuleType | RuleType[]>>) => void;
+  getFieldsValue: (nameList?: string[]) => Record<string, RuleType | RuleType[]>;
   isFieldTouched: (name: string) => boolean;
   getFieldsError: () => Pick<FieldError, 'errors' | 'name'>[];
   isFieldsTouched: (nameList?: string[], allFieldsTouched?: boolean) => boolean;
   getFieldWarning: (name: string) => string[];
-  subscribeToField: (name: string, callback: (value: RuleType) => void) => () => void,
-  subscribeToForm: (callback: (values: Record<string, RuleType>) => void) => () => void,
+  subscribeToField: (name: string, callback: (value: RuleType | RuleType[]) => void) => () => void,
+  subscribeToForm: (callback: (values: Record<string, RuleType | RuleType[]>) => void) => () => void,
   isFieldValidating: (name: string) => boolean;
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
-  onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;
+  onValuesChange?: (changedValues: Record<string, RuleType | RuleType[]>, allValues: Record<string, RuleType | RuleType[]>) => void;
 }

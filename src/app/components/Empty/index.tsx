@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import { prefixClsEmpty } from "@/app/utils"
 import './style.css'
 
 interface EmptyContentProps {
@@ -9,7 +10,7 @@ interface EmptyContentProps {
 }
 
 const EmptyContent = ({
-    prefixCls = 'xUi-empty',
+    prefixCls = prefixClsEmpty,
     title = 'No Data',
     description = 'No data',
     icon

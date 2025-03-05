@@ -1,4 +1,4 @@
-import { Children, cloneElement, createContext, FC, isValidElement, ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
+import { Children, cloneElement, ComponentClass, createContext, FC, isValidElement, ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
 import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types/form';
 import { useForm } from '@/app/hooks/useForm';
 import { InputSize } from '@/app/components/Input';
@@ -15,7 +15,7 @@ interface FormProps {
   size?: InputSize;
   initialValues?: Record<string, RuleType>;
   children?: ReactNode;
-  component?: false | string | React.FC<ReactNode> | React.ComponentClass<ReactNode>;
+  component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
   fields?: FieldData[];
   onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;
   onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;

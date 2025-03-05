@@ -6,6 +6,7 @@ import { useForm } from "./hooks/useForm";
 import { FormItem } from "./components/Form/Item";
 import { RuleObject, RuleType } from "./types/form";
 import { Select as AntSelect } from "antd";
+import { Form as AntForm } from 'antd'
 import Select from "./components/Select";
 
 export default function Home() {
@@ -39,7 +40,7 @@ export default function Home() {
         </FormItem>
 
         <FormItem name="gender" label="Gender" rules={[{ required: true }]}>
-          <Select allowClear size="large" placeholder="Select...">
+          <Select onChange={(values) => { console.log(values) }} mode="tags" allowClear size="large" placeholder="Select...">
             <Select.Option value="Male">Male</Select.Option>
             <Select.Option value="Female">Female</Select.Option>
           </Select>
@@ -48,53 +49,20 @@ export default function Home() {
         <button type="submit">Submit</button>
       </Form>
 
-      <br />
+      <AntForm onFinish={(values) => {
+        console.log(values);
+      }}>
+        <AntForm.Item name='gender' label="gender">
+          <AntSelect mode="tags" onChange={(e) => {
+            console.log(e);
+          }}>
+            <AntSelect.Option value="Male">Male</AntSelect.Option>
+            <AntSelect.Option value="Female">Female</AntSelect.Option>
+          </AntSelect>
+        </AntForm.Item>
 
-      <label htmlFor="Small">
-        Small:
-        <Input size='small' />
-      </label>
-      <br />
-      <label htmlFor="Middle">
-        Middle:
-        <Input size='middle' />
-      </label>
-      <br />
-      <label htmlFor="Large">
-        Large:
-        <Input size='large' />
-      </label>
-
-      <h2>Select</h2>
-
-      <AntSelect
-        mode='tags'
-        style={{ width: '100%', marginBottom: 20 }}
-        placeholder="Select..."
-        onChange={console.log}
-        maxCount={2}
-        maxTagCount={3}
-      >
-        <AntSelect.Option value="Gabriel">Gabriel</AntSelect.Option>
-        <AntSelect.Option value="Karen">Karen</AntSelect.Option>
-        <AntSelect.Option value="Forsh">Forsh</AntSelect.Option>
-        <AntSelect.Option value="Roma">Roma</AntSelect.Option>
-        <AntSelect.Option value="Armen">Armen</AntSelect.Option>
-      </AntSelect>
-
-      <Select
-        mode='tags'
-        placeholder="Select..."
-        onChange={console.log}
-        maxCount={2}
-        maxTagCount={3}
-      >
-        <Select.Option value="Gabriel">Gabriel</Select.Option>
-        <Select.Option value="Karen">Karen</Select.Option>
-        <Select.Option value="Forsh">Forsh</Select.Option>
-        <Select.Option value="Roma">Roma</Select.Option>
-        <Select.Option value="Armen">Armen</Select.Option>
-      </Select>
+        <button type="submit">Submit</button>
+      </AntForm>
     </div>
   );
 }

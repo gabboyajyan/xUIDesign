@@ -1,9 +1,10 @@
-import React from 'react';
+import { FC } from 'react';
 import { TagProps } from '@/app/types/select';
+import { prefixClsSelect } from '@/app/utils';
 import './style.css'
 
-const Tag: React.FC<TagProps> = ({
-    prefixCls = 'xUi-select',
+const Tag: FC<TagProps> = ({
+    prefixCls = prefixClsSelect,
     values = [],
     handleRemoveTag
 }: TagProps) => {

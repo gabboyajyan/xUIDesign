@@ -7,10 +7,11 @@ import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../ico
 import { Tag } from "./Tag";
 import cc from "classcat";
 import { EmptyContent } from "../Empty";
+import { prefixClsSelect } from "@/app/utils";
 import './style.css';
 
 const Select = <OptionType extends OptionProps = OptionProps>({
-    prefixCls = 'xUi-select',
+    prefixCls = prefixClsSelect,
     id,
     searchValue = '',
     autoClearSearchValue = true,
@@ -76,7 +77,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, []);
+    }, [open]);
 
     useEffect(() => {
         setSelected((hasMode ? (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e) : ""))
@@ -142,9 +143,9 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 onSelect?.(optionValue, option as unknown as OptionType);
             }
         } else {
+            setIsOpen(open);
             setSelected(optionValue);
             onChange?.(optionValue, option as unknown as OptionType);
-            setIsOpen(open);
             onSelect?.(optionValue, option as unknown as OptionType);
         }
 
@@ -214,7 +215,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 <input
                     type="text"
                     className={`${prefixCls}-input`}
-                    defaultValue={hasMode ? '' : searchQuery || selectValue as string}
+                    defaultValue={hasMode ? '' : searchQuery || selectValue}
                     placeholder={hasMode && (selected as string[]).length ? '' : placeholder}
                     onClick={() => !disabled && setIsOpen(!isOpen || open)}
                     onChange={handleSearch}
@@ -260,47 +261,49 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     )}
 
                     {!loading && (
-                            <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
-                                {asTag && !!searchQuery && <Option
-                                    value={searchQuery}
-                                    className={`${prefixCls}-focused`}
+                        <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
+                            {asTag && !!searchQuery && <Option
+                                value={searchQuery}
+                                className={`${prefixCls}-focused`}
+                                onClick={() => {
+                                    handleSelect(searchQuery, options)
+                                }}
+                                data-value={searchQuery}
+                            >
+                                {searchQuery}
+                            </Option>}
+
+                            {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
+                                <Option
+                                    key={props.value}
+                                    {...props}
+                                    className={cc([
+                                        className,
+                                        {
+                                            [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
+                                            [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
+                                        }
+                                    ])}
                                     onClick={() => {
-                                        handleSelect(searchQuery, options)
+                                        if (!props.disabled) {
+                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                            // @ts-expect-error
+                                            handleSelect(props.value as string, { children, className, ...props })
+                                        }
                                     }}
-                                    data-value={searchQuery}
+                                    data-value={props.value}
                                 >
-                                    {searchQuery}
-                                </Option>}
+                                    {children || props.value}
 
-                                {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
-                                    <Option
-                                        key={props.value}
-                                        {...props}
-                                        className={cc([
-                                            className,
-                                            {
-                                                [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
-                                                [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
-                                            }
-                                        ])}
-                                        onClick={() => {
-                                            if (!props.disabled) {
-                                                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                                // @ts-expect-error
-                                                handleSelect(props.value as string, { children, className, ...props })
-                                            }
-                                        }}
-                                        data-value={props.value}
-                                    >
-                                        {children || props.value}
-
-                                        {menuItemSelectedIcon && (selected as string[]).includes(props.value as string) && (
-                                            <span className={`${prefixCls}-selected-icon`}>{menuItemSelectedIcon || <CheckIcon />}</span>
-                                        )}
-                                    </Option>
-                                )) : !asTag && <EmptyContent />}
-                            </div>
-                        )}
+                                    {(selected as string[]).includes(props.value as string) && (
+                                        <span className={`${prefixCls}-selected-icon`}>{
+                                            menuItemSelectedIcon === true ? <CheckIcon /> : menuItemSelectedIcon}
+                                        </span>
+                                    )}
+                                </Option>
+                            )) : !asTag && <EmptyContent />}
+                        </div>
+                    )}
                 </div>
             )}
         </div>
