@@ -1,4 +1,4 @@
-import { cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
+import { ChangeEvent, cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
 import { RuleObject, RuleType } from '@/app/types/form';
 import { prefixClsForm } from '@/app/utils';
@@ -49,8 +49,8 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
-        onChange: (e: RuleType) => {
-          setFieldValue(name, e)
+        onChange: (e: ChangeEvent & { target: { value: RuleType } }) => {
+          setFieldValue(name, e.target.value)
         },
         ...props
       })}

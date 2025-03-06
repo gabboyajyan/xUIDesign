@@ -125,7 +125,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleSelect = (optionValue: string, option: OptionType[]) => {
+    const handleSelect = (optionValue: string, option?: OptionType) => {
         if (hasMode) {
             if (maxCount && (selected as string[]).length >= maxCount && !selected.includes(optionValue)) {
                 return;
@@ -139,15 +139,15 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             onChange?.(newSelection);
 
             if ((selected as string[]).includes(optionValue)) {
-                onDeselect?.(optionValue, option as unknown as OptionType);
+                onDeselect?.(optionValue, option);
             } else {
-                onSelect?.(optionValue, option as unknown as OptionType);
+                onSelect?.(optionValue, option);
             }
         } else {
             setIsOpen(open);
             setSelected(optionValue);
-            onChange?.(optionValue, option as unknown as OptionType);
-            onSelect?.(optionValue, option as unknown as OptionType);
+            onChange?.(optionValue, option);
+            onSelect?.(optionValue, option);
         }
 
         if (autoClearSearchValue) {
@@ -267,7 +267,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                 value={searchQuery}
                                 className={`${prefixCls}-focused`}
                                 onClick={() => {
-                                    handleSelect(searchQuery, options)
+                                    handleSelect(searchQuery)
                                 }}
                                 data-value={searchQuery}
                             >
@@ -287,9 +287,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                     ])}
                                     onClick={() => {
                                         if (!props.disabled) {
-                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                                            // @ts-expect-error
-                                            handleSelect(props.value as string, { children, className, ...props })
+                                            handleSelect(props.value as string, { children, className, ...props } as OptionType)
                                         }
                                     }}
                                     data-value={props.value}

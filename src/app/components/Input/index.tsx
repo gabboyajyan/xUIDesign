@@ -1,9 +1,10 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, ReactNode, useState } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, MouseEvent, ReactNode, useState } from "react";
 import cc from "classcat";
 import "./style.css";
 import { prefixClsInput } from "@/app/utils";
+import { RuleType } from "@/app/types/form";
 
 export type InputSize = "small" | "middle" | "large";
 
@@ -18,7 +19,7 @@ type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
 	classNames?: string;
 	error?: boolean;
 	prefixCls?: string;
-	onChange?: (value: string) => void,
+	onChange?: (event: ChangeEvent & { target: { value: RuleType } }) => void,
 	onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
 
@@ -47,15 +48,17 @@ const Input = forwardRef(({
 			setInternalValue(e.target.value);
 		}
 
-		props.onChange?.(e.target.value);
+		props.onChange?.(e);
 	};
 
-	const handleClear = () => {
+	const handleClear = (e: MouseEvent<HTMLSpanElement> & { target: { value: RuleType } }) => {
 		if (!isControlled) {
 			setInternalValue("");
 		}
 
-		props.onChange?.('');
+		(e).target.value = ''
+
+		props.onChange?.(e as unknown as ChangeEvent<HTMLInputElement> & { target: { value: RuleType } });
 	};
 
 	return (
