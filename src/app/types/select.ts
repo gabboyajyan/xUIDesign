@@ -42,6 +42,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   showAction?: ("click" | "focus")[] | undefined,
   suffixIcon?: ReactNode,
   open?: boolean
+  style?: CSSProperties
 }
 
 export interface OptionProps {

@@ -5,7 +5,7 @@ import type { RuleObject, FormInstance, RuleType, FieldData, FieldError } from '
 
 const useForm = (
   initialValues: Record<string, RuleType> = {},
-  onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void,
+  onFieldsChange?: (changedFields: FieldData[]) => void,
   onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void
 ): FormInstance => {
   const touchedFieldsRef = useRef<Set<string>>(new Set());
@@ -44,14 +44,14 @@ const useForm = (
     fieldSubscribers.current[name]?.forEach(callback => callback(value));
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
 
-    if (onFieldsChange) {
-      onFieldsChange([{ name, value }], Object.entries(formRef.current).map(([name, value]) => ({ name, value })));
-    }
-
     if (onValuesChange) {
       const changedValues = { [name]: value };
       const allValues = getFieldsValue();
       onValuesChange(changedValues, allValues);
+    }
+
+    if (onFieldsChange) {
+      onFieldsChange([{ name, value }]);
     }
   };
 

@@ -17,8 +17,8 @@ interface FormProps {
   children?: ReactNode;
   component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
   fields?: FieldData[];
+  onFieldsChange?: (changedFields: FieldData[]) => void;
   onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;
-  onFieldsChange?: (changedFields: FieldData[], allFields: FieldData[]) => void;
   onFinish?: (values: Record<string, RuleType>) => void;
   onFinishFailed?: (errorInfo: { values: Record<string, RuleType>; errorFields: Pick<FieldError, "errors" | "name">[] }) => void;
 }
@@ -34,7 +34,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   layout = 'horizontal',
   ...rest
 }) => {
-  const internalForm = useForm(initialValues);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formInstance = form || internalForm;
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -51,17 +51,17 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
   useEffect(() => {
     if (onFieldsChange) {
-      formInstance.onFieldsChange = (changedFields, allFields) => {
-        onFieldsChange(changedFields, allFields);
-      };
+      formInstance.onFieldsChange = onFieldsChange;
     }
 
     if (onValuesChange) {
-      formInstance.onValuesChange = (changedValues, allValues) => {
-        onValuesChange(changedValues, allValues);
-      };
+      formInstance.onValuesChange = onValuesChange;
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <FormContext.Provider value={formInstance}>

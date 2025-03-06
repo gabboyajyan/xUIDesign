@@ -35,6 +35,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     error = '',
     dropdownClassName = '',
     suffixIcon,
+    style,
     onSearch,
     onSelect,
     onDeselect,
@@ -200,7 +201,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const selectValue = hasMode ? '' : selected;
 
     return (
-        <div id={id} className={cc([
+        <div id={id} style={style} className={cc([
             {
                 [size]: size,
                 [prefixCls]: prefixCls,
@@ -312,4 +313,4 @@ const Select = <OptionType extends OptionProps = OptionProps>({
 
 Select.Option = Option;
 
-export default Select;
+export { Select };

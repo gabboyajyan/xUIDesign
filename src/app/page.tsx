@@ -1,68 +1,59 @@
 "use client"
 
+import { Form as AntForm, Input as AntInput, Select as AntSelect } from "antd";
+
 import { Form } from "./components/Form";
 import { Input } from "./components/Input";
-import { useForm } from "./hooks/useForm";
-import { FormItem } from "./components/Form/Item";
-import { RuleObject, RuleType } from "./types/form";
-import { Select as AntSelect } from "antd";
-import { Form as AntForm } from 'antd'
-import Select from "./components/Select";
+import { Select } from "./components/Select";
 
 export default function Home() {
-  const form = useForm()
-
-  const handleSubmit = (values: Record<string, RuleType>) => {
-    console.log("Form submitted with values:", values);
-  };
-
   return (
-    <div style={{ maxWidth: 700, margin: '0 auto' }}>
-      <Form size="middle" form={form} onFinish={handleSubmit}>
-        <h1>Input</h1>
-        <FormItem name="username" label="Username" rules={[{ required: true, message: "Username is required" }]}>
-          <Input />
-        </FormItem>
+    <>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <h2>Ant</h2>
 
-        <FormItem name="age" label="Age" rules={[
-          {
-            required: true,
-            validator: (_: RuleObject, value: RuleType) => {
-              if (value && parseInt(`${value}`) < 18 || parseInt(`${value}`) > 50) {
-                return Promise.reject('Age is not a valid!')
-              }
+        <AntInput onChange={console.log} />
+        <AntSelect onChange={console.log} style={{ minWidth: '100%' }}>
+          <AntSelect.Option value="Male">Male</AntSelect.Option>
+          <AntSelect.Option value="Female">Female</AntSelect.Option>
+        </AntSelect>
 
-              return Promise.resolve()
-            }
-          }
-        ]}>
-          <Input type="string" allowClear />
-        </FormItem>
+        <AntForm onValuesChange={console.log}>
+          <AntForm.Item name={'username'}>
+            <AntInput onChange={console.log} />
+          </AntForm.Item>
 
-        <FormItem name="gender" label="Gender" rules={[{ required: true }]}>
-          <Select onChange={(values) => { console.log(values) }} mode="tags" allowClear size="large" placeholder="Select...">
-            <Select.Option value="Male">Male</Select.Option>
-            <Select.Option value="Female">Female</Select.Option>
-          </Select>
-        </FormItem>
+          <AntForm.Item name={'gender'}>
+            <AntSelect onChange={console.log}>
+              <AntSelect.Option value="Male">Male</AntSelect.Option>
+              <AntSelect.Option value="Female">Female</AntSelect.Option>
+            </AntSelect>
+          </AntForm.Item>
+        </AntForm>
+      </div>
 
-        <button type="submit">Submit</button>
-      </Form>
+      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+        <h2>Custom</h2>
 
-      <AntForm onFinish={(values) => {
-        console.log(values);
-      }}>
-        <AntForm.Item name='gender' label="gender">
-          <AntSelect mode="tags" onChange={(e) => {
-            console.log(e);
-          }}>
-            <AntSelect.Option value="Male">Male</AntSelect.Option>
-            <AntSelect.Option value="Female">Female</AntSelect.Option>
-          </AntSelect>
-        </AntForm.Item>
+        <Input onChange={console.log} />
+        <Select onChange={console.log} style={{ minWidth: '100%' }}>
+          <Select.Option value="Male">Male</Select.Option>
+          <Select.Option value="Female">Female</Select.Option>
+        </Select>
 
-        <button type="submit">Submit</button>
-      </AntForm>
-    </div>
+        <Form onValuesChange={console.log} onFieldsChange={console.log}>
+          <Form.Item name={'username'} label="Username">
+            <Input onChange={console.log} />
+          </Form.Item>
+
+          <Form.Item name={'gender'} label="Gender">
+            <Select onChange={console.log}>
+              <Select.Option value="Male">Male</Select.Option>
+              <Select.Option value="Female">Female</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
   );
 }

@@ -49,9 +49,10 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
-        onChange: (e: RuleType | RuleType[]) => {
+        onChange: (e: RuleType) => {
           setFieldValue(name, e)
-        }
+        },
+        ...props
       })}
 
       {getFieldError(name).length ? (
