@@ -2,6 +2,7 @@ import { ChangeEvent, cloneElement, FC, ReactElement, useContext, useEffect, use
 import { FormContext } from '..';
 import { RuleObject, RuleType } from '@/app/types/form';
 import { prefixClsForm } from '@/app/utils';
+import { OptionProps } from '@/app/types/select';
 import './style.css';
 
 export type FormItemProps = {
@@ -49,8 +50,13 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
-        onChange: (e: ChangeEvent & { target: { value: RuleType } }) => {
-          setFieldValue(name, e.target.value)
+        onChange: (e: ChangeEvent & { target: { value: RuleType, valueAnyType: RuleType } }, option?: OptionProps) => {
+          const value = e.target.valueAnyType || e.target.value;
+
+          setFieldValue(name, value)
+
+          const childOnChange = (children.props as { onChange?: (value: RuleType, option?: OptionProps) => void }).onChange;
+          childOnChange?.(value, option);
         },
         ...props
       })}

@@ -1,7 +1,7 @@
 'use client'
 
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent } from "react";
-import { OptionProps, SelectProps } from "@/app/types/select";
+import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+import { MouseEventHandlerSelect, OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
 import { Tag } from "./Tag";
@@ -57,18 +57,21 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const asMultiple = mode === 'multiple'
     const hasMode = asTag || asMultiple;
 
+    const checkModeInitialValue = (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e)
+
     const [isHover, setIsHover] = useState(false);
     const selectRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(defaultOpen || open);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
-    const [selected, setSelected] = useState((hasMode ? (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e) : ""));
+    const [selected, setSelected] = useState((hasMode ? checkModeInitialValue : initialValue));
 
     const handleMouseEnter = () => !disabled && selected.length && setIsHover(true);
     const handleMouseLeave = () => !disabled && setIsHover(false);
 
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const handleClickOutside = (event: any): void => {
+            if (selectRef.current && !selectRef.current.contains(event.target)) {
                 setIsOpen(open);
             }
         };
@@ -80,10 +83,6 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         };
     }, [open]);
 
-    useEffect(() => {
-        setSelected((hasMode ? (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e) : ""))
-    }, [hasMode, initialValue])
-
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
         onSearch?.(e.target.value);
@@ -93,52 +92,52 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleEnterAddNewTag = () => {
-        if (maxCount && (selected as string[]).length >= maxCount && !selected.includes(searchQuery)) {
+    const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
+        if (maxCount && selected.length >= maxCount && !selected.includes(searchQuery)) {
             return;
         }
 
         const newOptionValue = searchQuery.trim();
 
-        if (!newOptionValue || !hasMode || (selected as string[]).includes(newOptionValue)) {
+        if (!newOptionValue || !hasMode || (selected).includes(newOptionValue)) {
             return;
         }
 
-        setSelected((prevSelected) => {
-            const updatedSelected = hasMode
-                ? [...(prevSelected as string[]), newOptionValue]
-                : newOptionValue;
+        const updatedSelected = [...(selected), newOptionValue];
 
-            onChange?.(updatedSelected);
-            onSelect?.(newOptionValue);
+        e.target.valueAnyType = updatedSelected
 
-            const input = selectRef.current?.querySelector('input') as HTMLInputElement;
-            if (input) {
-                input.value = ''
-            }
+        onChange?.(e);
+        onSelect?.(newOptionValue);
 
-            return updatedSelected;
-        });
+        const input = selectRef.current?.querySelector('input');
+        if (input) {
+            input.value = ''
+        }
+
+        setSelected(updatedSelected);
 
         if (autoClearSearchValue) {
             setSearchQuery('');
         }
     };
 
-    const handleSelect = (optionValue: string, option?: OptionType) => {
+    const handleSelect = (e: MouseEventHandlerSelect, optionValue: string, option?: OptionType) => {
         if (hasMode) {
-            if (maxCount && (selected as string[]).length >= maxCount && !selected.includes(optionValue)) {
+            if (maxCount && selected.length >= maxCount && !selected.includes(optionValue)) {
                 return;
             }
 
-            const newSelection = (selected as string[]).includes(optionValue)
+            const newSelection = selected.includes(optionValue)
                 ? (selected as string[]).filter((item) => item !== optionValue)
-                : [...(selected as string[]), optionValue];
+                : [...selected, optionValue];
 
             setSelected(newSelection);
-            onChange?.(newSelection);
 
-            if ((selected as string[]).includes(optionValue)) {
+            e.target.value = newSelection
+            onChange?.(e, option);
+
+            if ((selected).includes(optionValue)) {
                 onDeselect?.(optionValue, option);
             } else {
                 onSelect?.(optionValue, option);
@@ -146,7 +145,10 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         } else {
             setIsOpen(open);
             setSelected(optionValue);
-            onChange?.(optionValue, option);
+
+            e.target.value = optionValue
+            onChange?.(e, option);
+
             onSelect?.(optionValue, option);
         }
 
@@ -155,9 +157,13 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleClear = () => {
-        setSelected(hasMode ? [] : "");
-        onChange?.(hasMode ? [] : "");
+    const handleClear = (e: MouseEvent<HTMLButtonElement> & { target: { value: string | string[] } }) => {
+        const value = hasMode ? [] : "";
+
+        setSelected(value);
+
+        e.target.value = value
+        onChange?.(e);
         onClear?.();
 
         if (autoClearSearchValue) {
@@ -165,21 +171,28 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleRemoveTag = (tag: string) => {
-        const updatedSelected = (selected as string[]).filter((item) => item !== tag);
+    const handleRemoveTag = (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => {
+        const updatedSelected = (selected as string[]).filter((item) => item !== e.target.valueAnyType[0]);
 
+        e.target.valueAnyType = updatedSelected;
+
+        onChange?.(e);
         setSelected(updatedSelected);
-        onChange?.(updatedSelected);
     };
 
-    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { value: string } }) => {
+    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
         if (hasMode) {
             if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                handleEnterAddNewTag()
+                handleEnterAddNewTag(e)
             }
 
             if (e.key === 'Backspace' && !searchQuery.trim().length) {
-                handleRemoveTag(selected[selected.length - 1])
+                const updatedSelected = (selected as string[]).filter((item) => item !== selected[selected.length - 1]);
+
+                e.target.valueAnyType = updatedSelected;
+
+                onChange?.(e);
+                setSelected(updatedSelected);
             }
         }
     }
@@ -217,7 +230,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     type="text"
                     className={`${prefixCls}-input`}
                     defaultValue={hasMode ? '' : searchQuery || selectValue}
-                    placeholder={hasMode && (selected as string[]).length ? '' : placeholder}
+                    placeholder={selected.length ? '' : placeholder}
                     onClick={() => !disabled && setIsOpen(!isOpen || open)}
                     onChange={handleSearch}
                     disabled={disabled}
@@ -266,8 +279,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                             {asTag && !!searchQuery && <Option
                                 value={searchQuery}
                                 className={`${prefixCls}-focused`}
-                                onClick={() => {
-                                    handleSelect(searchQuery)
+                                onClick={(e) => {
+                                    handleSelect(e as MouseEventHandlerSelect, searchQuery)
                                 }}
                                 data-value={searchQuery}
                             >
@@ -285,9 +298,9 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                             [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
                                         }
                                     ])}
-                                    onClick={() => {
+                                    onClick={(e) => {
                                         if (!props.disabled) {
-                                            handleSelect(props.value as string, { children, className, ...props } as OptionType)
+                                            handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
                                         }
                                     }}
                                     data-value={props.value}

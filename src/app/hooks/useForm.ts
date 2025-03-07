@@ -41,12 +41,13 @@ const useForm = (
     touchedFieldsRef.current.add(name);
     validateField(name);
 
-    fieldSubscribers.current[name]?.forEach(callback => callback(value));
-    formSubscribers.current.forEach(callback => callback(getFieldsValue()));
+    const allValues = getFieldsValue();
 
-    if (onValuesChange) {
+    fieldSubscribers.current[name]?.forEach(callback => callback(value));
+    formSubscribers.current.forEach(callback => callback(allValues));
+
+    if (onValuesChange) {      
       const changedValues = { [name]: value };
-      const allValues = getFieldsValue();
       onValuesChange(changedValues, allValues);
     }
 
@@ -135,7 +136,7 @@ const useForm = (
 
   const registerField = (name: string, rules: RuleObject[] = []) => {
     if (!(name in formRef.current)) {
-      formRef.current[name] = initialValues[name] || "";
+      formRef.current[name] = initialValues[name];
     }
     rulesRef.current[name] = rules;
   };

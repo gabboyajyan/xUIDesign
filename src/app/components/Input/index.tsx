@@ -35,28 +35,23 @@ const Input = forwardRef(({
 	allowClear = false,
 	prefixCls = prefixClsInput,
 	className,
+	value = undefined,
 	...props
 }: InputProps,
 	ref: ForwardedRef<HTMLInputElement>
 ) => {
-	const [internalValue, setInternalValue] = useState(props.value ?? "");
-
-	const isControlled = props.value !== undefined;
+	const [internalValue, setInternalValue] = useState(value ?? '');
 
 	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		if (!isControlled) {
-			setInternalValue(e.target.value);
-		}
+		setInternalValue(e.target.value);
 
 		props.onChange?.(e);
 	};
 
 	const handleClear = (e: MouseEvent<HTMLSpanElement> & { target: { value: RuleType } }) => {
-		if (!isControlled) {
-			setInternalValue("");
-		}
+		setInternalValue("");
 
-		(e).target.value = ''
+		e.target.value = ''
 
 		props.onChange?.(e as unknown as ChangeEvent<HTMLInputElement> & { target: { value: RuleType } });
 	};
@@ -83,7 +78,7 @@ const Input = forwardRef(({
 					ref={ref}
 					{...props}
 					className={cc([prefixCls, className])}
-					value={isControlled ? props.value : internalValue}
+					value={internalValue}
 					disabled={disabled}
 					onChange={handleChange}
 					onKeyDown={(e) => {
@@ -93,7 +88,7 @@ const Input = forwardRef(({
 					}}
 				/>
 
-				{allowClear && (isControlled ? props.value : internalValue) && (
+				{allowClear && (internalValue) && (
 					<span className={`${prefixCls}-clear`} onClick={handleClear}>
 						&#x2715;
 					</span>

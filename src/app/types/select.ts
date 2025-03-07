@@ -1,5 +1,7 @@
-import { CSSProperties, FocusEventHandler, Key, MouseEventHandler, ReactElement, ReactNode } from "react";
+import { CSSProperties, FocusEventHandler, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, SyntheticEvent } from "react";
 import { RuleType } from "./form";
+
+export type MouseEventHandlerSelect = MouseEvent<HTMLDivElement> & { target: { value: string | string[] } }
 
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   prefixCls?: string;
@@ -21,7 +23,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   value?: string | string[];
   defaultValue?: string | string[];
   maxCount?: number;
-  onChange?: (value: string | string[], option?: OptionType) => void;
+  onChange?: (e: SyntheticEvent, option?: OptionType) => void;
   disabled?: boolean;
   loading?: boolean;
   placeholder?: string;
@@ -58,7 +60,7 @@ export interface OptionProps {
 export interface TagProps {
   prefixCls?: string,
   values: string[],
-  handleRemoveTag: (value: string) => void
+  handleRemoveTag: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void
 }
 
 export interface DisplayValueType {
