@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent } from "react";
+import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useMemo } from "react";
 import { MouseEventHandlerSelect, OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
@@ -68,11 +68,25 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const handleMouseEnter = () => !disabled && selected.length && setIsHover(true);
     const handleMouseLeave = () => !disabled && setIsHover(false);
 
+    const handleClearInputValue = useCallback(() => {
+        if (!autoClearSearchValue) {
+            return
+        }
+
+        setSearchQuery('');
+
+        const input = selectRef.current?.querySelector('input');
+        if (input) {
+            input.value = ''
+        }
+    }, [autoClearSearchValue])
+
     useEffect(() => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const handleClickOutside = (event: any): void => {
             if (selectRef.current && !selectRef.current.contains(event.target)) {
                 setIsOpen(open);
+                handleClearInputValue();
             }
         };
 
@@ -81,7 +95,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [open]);
+    }, [handleClearInputValue, open]);
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
@@ -93,7 +107,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     };
 
     const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
-        if (maxCount && selected.length >= maxCount && !selected.includes(searchQuery)) {
+        if (asMultiple || (maxCount && selected.length >= maxCount && !selected.includes(searchQuery))) {
             return;
         }
 
@@ -116,10 +130,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
 
         setSelected(updatedSelected);
-
-        if (autoClearSearchValue) {
-            setSearchQuery('');
-        }
+        handleClearInputValue();
     };
 
     const handleSelect = (e: MouseEventHandlerSelect, optionValue: string, option?: OptionType) => {
@@ -152,9 +163,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             onSelect?.(optionValue, option);
         }
 
-        if (autoClearSearchValue) {
-            setSearchQuery('');
-        }
+        handleClearInputValue();
     };
 
     const handleClear = (e: MouseEvent<HTMLButtonElement> & { target: { value: string | string[] } }) => {
@@ -166,9 +175,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         onChange?.(e);
         onClear?.();
 
-        if (autoClearSearchValue) {
-            setSearchQuery('');
-        }
+        handleClearInputValue();
     };
 
     const handleRemoveTag = (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => {
@@ -211,22 +218,36 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
+    const ArrowContainer = useMemo(() => {
+        return showSearch && isOpen ? <SearchIcon /> : <span onClick={(e) => {
+            e.preventDefault();
+
+            if (!disabled) {
+                setIsOpen(!isOpen || open)
+            }
+        }}>
+            <ArrowIcon isOpen={isOpen} />
+        </span>
+    }, [showSearch, disabled, isOpen, open])
+
     const selectValue = hasMode ? '' : selected;
 
     return (
-        <div id={id} style={style} className={cc([
-            {
+        <div
+            id={id}
+            style={style}
+            ref={selectRef}
+            className={cc([{
                 [size]: size,
                 [prefixCls]: prefixCls,
                 [`${prefixCls}-error`]: error
-            }
-        ])} ref={selectRef}>
+            }])}>
             <div
                 className={`${prefixCls}-trigger`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                <input
+                {hasMode && <Tag values={selected as string[]} handleRemoveTag={handleRemoveTag} prefixCls={prefixCls} searchContainer={<input
                     type="text"
                     className={`${prefixCls}-input`}
                     defaultValue={hasMode ? '' : searchQuery || selectValue}
@@ -236,7 +257,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     disabled={disabled}
                     readOnly={!hasMode}
                     onKeyDown={handleOnKeyDown}
-                />
+                />} />}
 
                 {isHover && !loading ?
                     (
@@ -245,13 +266,13 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                 {suffixIcon || <ClearIcon />}
                             </button>
                         ) : <span className={`${prefixCls}-arrow`}>
-                            {showSearch && isOpen ? <SearchIcon /> : <ArrowIcon isOpen={isOpen} />}
+                            {ArrowContainer}
                         </span>}
                         </>
                     ) : (
                         <>
                             {!loading && <span className={`${prefixCls}-arrow`}>
-                                {showSearch && isOpen ? <SearchIcon /> : <ArrowIcon isOpen={isOpen} />}
+                                {ArrowContainer}
                             </span>}
 
                             {loading && <span className={`${prefixCls}-loading`}><LoadingIcon /></span>}
@@ -260,7 +281,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 }
             </div>
 
-            {hasMode && <Tag values={selected as string[]} handleRemoveTag={handleRemoveTag} prefixCls={prefixCls} />}
+
 
             {!loading && isOpen && (
                 <div className={cc([`${prefixCls}-dropdown`, { [dropdownClassName]: dropdownClassName }])} style={{ maxHeight: listHeight }}>

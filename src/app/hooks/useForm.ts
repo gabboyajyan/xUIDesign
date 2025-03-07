@@ -37,6 +37,8 @@ const useForm = (
   const getFieldWarning = (name: string): string[] => warningsRef.current[name] || [];
 
   const setFieldValue = (name: string, value: RuleType) => {
+    console.log({ name: value });
+    
     formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
     validateField(name);
@@ -82,7 +84,7 @@ const useForm = (
     const fieldWarnings: string[] = [];
 
     for (const rule of rules) {
-      if (rule.required && (value === undefined || value === null || value === "")) {
+      if (rule.required && (value === undefined || value === null || value === "" || (Array.isArray(value) && !value.length))) {
         fieldErrors.push(rule.message || "This field is required");
       }
 
@@ -107,7 +109,7 @@ const useForm = (
       if (rule.warningPattern && !rule.warningPattern.test(String(value))) {
         fieldWarnings.push(rule.warningMessage || "Invalid format");
       }
-
+      
       if (rule.validator) {
         try {
           await rule.validator(rule, value, (error) => {

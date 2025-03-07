@@ -1,9 +1,9 @@
 "use client"
 
-import { 
-  Form as AntForm, 
+import {
+  Form as AntForm,
   // Input as AntInput, 
-  Select as AntSelect 
+  Select as AntSelect
 } from "antd";
 
 import { Form } from "./components/Form";
@@ -11,9 +11,10 @@ import { Form } from "./components/Form";
 import { Select } from "./components/Select";
 
 export default function Home() {
+
   return (
     <>
-      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+      <div style={{ maxWidth: 200, margin: '0 auto' }}>
         <h2>Ant</h2>
 
         {/* <AntInput onChange={(...argument) => console.log(argument)} />
@@ -28,9 +29,10 @@ export default function Home() {
           </AntForm.Item> */}
 
           <AntForm.Item name={'gender'} rules={[{ required: true }]}>
-            <AntSelect mode="tags" >
-              <AntSelect.Option value="Male">Male</AntSelect.Option>
-              <AntSelect.Option value="Female">Female</AntSelect.Option>
+            <AntSelect mode="tags">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => {
+                return <AntSelect.Option key={i} value={`${i}`}>{i}</AntSelect.Option>
+              })}
             </AntSelect>
           </AntForm.Item>
 
@@ -38,7 +40,7 @@ export default function Home() {
         </AntForm>
       </div>
 
-      <div style={{ maxWidth: 700, margin: '0 auto' }}>
+      <div style={{ maxWidth: 200, margin: '0 auto' }}>
         <h2>Custom</h2>
 
         {/* <Input onChange={(...argument) => console.log(argument)} />
@@ -47,15 +49,16 @@ export default function Home() {
           <Select.Option value="Female">Female</Select.Option>
         </Select> */}
 
-        <Form >
+        <Form>
           {/* <Form.Item name={'username'} label="Username" rules={[{ required: true }]}>
             <Input  />
           </Form.Item> */}
 
           <Form.Item name={'gender'} label="Gender" rules={[{ required: true }]}>
-            <Select mode="tags" >
-              <Select.Option value="Male">Male</Select.Option>
-              <Select.Option value="Female">Female</Select.Option>
+            <Select mode="tags">
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => {
+                return <AntSelect.Option key={i} value={`${i}`}>{i}</AntSelect.Option>
+              })}
             </Select>
           </Form.Item>
 

@@ -34,7 +34,7 @@ const Input = forwardRef(({
 	disabled = false,
 	allowClear = false,
 	prefixCls = prefixClsInput,
-	className,
+	classNames = '',
 	value = undefined,
 	...props
 }: InputProps,
@@ -65,7 +65,7 @@ const Input = forwardRef(({
 					[`${prefixCls}-disabled`]: disabled,
 					[`${prefixCls}-${size}`]: size,
 				},
-				className
+				classNames
 			])}
 			style={props.style}
 		>
@@ -77,7 +77,7 @@ const Input = forwardRef(({
 				<input
 					ref={ref}
 					{...props}
-					className={cc([prefixCls, className])}
+					className={cc([prefixCls, classNames])}
 					value={internalValue}
 					disabled={disabled}
 					onChange={handleChange}

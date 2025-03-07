@@ -3,16 +3,19 @@
 }
 
 .xUi-select .xUi-select-tag-container {
-    display: flex;
     gap: 4px;
+    flex: auto;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 100%;
+    line-height: 22px;
+    position: relative;
 }
 
 .xUi-select .xUi-select-tag {
     background: rgba(0, 0, 0, 0.06);
     border: 1px solid transparent;
     align-items: center;
-    display: flex;
-    gap: 4px;
     align-self: center;
     flex: none;
     box-sizing: border-box;
@@ -20,11 +23,19 @@
     border-radius: 6px;
     cursor: default;
     padding: 0 8px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: block;
     height: -webkit-fill-available;
     transition:
         font-size 0.3s,
         line-height 0.3s,
         height 0.3s;
+}
+
+.xUi-select .xUi-select-tag span {
+    margin: 0 2px;
 }
 
 .xUi-select .xUi-select-tag .xUi-select-tag-close-icon {

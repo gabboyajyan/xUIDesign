@@ -6,23 +6,28 @@ import './style.css'
 const Tag: FC<TagProps> = ({
     prefixCls = prefixClsSelect,
     values = [],
-    handleRemoveTag 
+    handleRemoveTag,
+    searchContainer
 }: TagProps) => {
     return (
         <div className={`${prefixCls}-tag-container`}>
             {values.map((tag, index) => (
                 <div key={`${index}_${tag}`} className={`${prefixCls}-tag`}>
-                    {tag}
+                    <span>{tag}</span>
 
                     <span
                         className={`${prefixCls}-tag-close-icon`}
                         onClick={(e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => {
+                            e.preventDefault();
+
                             e.target.valueAnyType = [tag]
 
                             handleRemoveTag(e)
                         }}>&#x2715;</span>
                 </div>
             ))}
+
+            {searchContainer}
         </div>
     );
 };
