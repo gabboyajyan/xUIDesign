@@ -16,7 +16,6 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   options?: OptionType[];
   children?: ReactNode;
   defaultActiveFirstOption?: boolean;
-  direction?: 'ltr' | 'rtl';
   listHeight?: number;
   menuItemSelectedIcon?: ReactNode;
   mode?: 'default' | 'multiple' | 'tags';
@@ -35,7 +34,6 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   error?: string,
   showSearch?: boolean,
   tagRender?: ((props: TagProps) => ReactElement) | undefined,
-  maxTagCount?: number | "responsive" | undefined,
   maxTagPlaceholder?: ReactNode | ((omittedValues: DisplayValueType[]) => ReactNode)
   dropdownClassName?: string,
   showArrow?: boolean,
@@ -45,6 +43,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   suffixIcon?: ReactNode,
   open?: boolean
   style?: CSSProperties
+  notFoundContent?: ReactNode
 }
 
 export interface OptionProps {
@@ -61,6 +60,7 @@ export interface TagProps {
   prefixCls?: string,
   values: string[],
   handleRemoveTag: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+  searchFullWidth?: boolean,
   searchQuery: string;
   searchContainer?: ReactElement | boolean
 }

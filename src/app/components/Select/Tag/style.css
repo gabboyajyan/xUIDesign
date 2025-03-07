@@ -22,7 +22,7 @@
     max-width: 100%;
     border-radius: 6px;
     cursor: default;
-    padding: 0 8px;
+    padding: 2px 8px;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
@@ -48,7 +48,7 @@
     color: #333;
 }
 
-.xUi-select .xUi-select-tag:has([class="xUi-select-input"]) {
+.xUi-select .xUi-select-tag:has([class="xUi-select-tag-input"]) {
     width: 100%;
     border: none;
     outline: none;
@@ -58,11 +58,11 @@
     background: white;
 }
 
-.xUi-select .xUi-select-tag:has([class="xUi-select-input"]) input {
+.xUi-select .xUi-select-tag:has([class="xUi-select-tag-input"]) input {
    border: none;
 }
 
-.xUi-select .xUi-select-input:focus {
+.xUi-select .xUi-select-tag-input:focus {
     border: none;
     outline: none;
     box-shadow: none;

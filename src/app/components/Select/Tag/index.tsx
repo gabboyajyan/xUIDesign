@@ -7,6 +7,7 @@ const Tag: FC<TagProps> = ({
     prefixCls = prefixClsSelect,
     values = [],
     handleRemoveTag,
+    searchFullWidth = true,
     searchQuery = '',
     searchContainer
 }: TagProps) => {
@@ -28,7 +29,13 @@ const Tag: FC<TagProps> = ({
                 </div>
             ))}
 
-            <div className={`${prefixCls}-tag`} style={{ width: searchQuery.length ? `${searchQuery.length * 10}px` : '10px' }}>
+            <div
+                className={`${prefixCls}-tag`}
+                style={{ 
+                    minWidth: '30px',
+                    width: searchQuery.length ? `${searchQuery.length * 10}px` : searchFullWidth ? '100%' : '10px' 
+                }}
+            >
                 {searchContainer}
             </div>
         </div>

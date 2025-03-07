@@ -43,13 +43,13 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     onChange,
     showSearch = false,
     open = false,
-    // maxTagCount,
+    showArrow = true,
     // maxTagPlaceholder,
-    // showArrow,
     // showAction,
     // tagRender,
     // onBlur,
     // onDropdownVisibleChange
+    // notFoundContent
 }: SelectProps<OptionType>): ReactElement => {
     const initialValue = value || defaultValue || '';
 
@@ -86,7 +86,10 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         const handleClickOutside = (event: any): void => {
             if (selectRef.current && !selectRef.current.contains(event.target)) {
                 setIsOpen(open);
-                handleClearInputValue();
+
+                if (hasMode) {
+                    handleClearInputValue();
+                }
             }
         };
 
@@ -95,7 +98,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [handleClearInputValue, open]);
+    }, [handleClearInputValue, open, hasMode]);
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
@@ -220,11 +223,9 @@ const Select = <OptionType extends OptionProps = OptionProps>({
 
     const ArrowContainer = useMemo(() => {
         return showSearch && isOpen ? <SearchIcon /> : <span>
-            <ArrowIcon isOpen={isOpen} />
+            {showArrow && <ArrowIcon isOpen={isOpen} />}
         </span>
-    }, [showSearch, isOpen])
-
-    const selectValue = hasMode ? '' : selected;
+    }, [showArrow, showSearch, isOpen])
 
     return (
         <div
@@ -242,24 +243,32 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 onMouseLeave={handleMouseLeave}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
-                {hasMode && <Tag
+                {hasMode ? <Tag
                     values={selected as string[]}
                     handleRemoveTag={handleRemoveTag}
                     prefixCls={prefixCls}
+                    searchFullWidth={!selected.length}
                     searchQuery={searchQuery}
                     searchContainer={
                         <input
                             type="text"
-                            className={`${prefixCls}-input`}
-                            defaultValue={hasMode ? '' : searchQuery || selectValue}
+                            disabled={disabled}
+                            onChange={handleSearch}
+                            onKeyDown={handleOnKeyDown}
+                            className={`${prefixCls}-tag-input`}
                             placeholder={selected.length ? '' : placeholder}
                             onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                            onChange={handleSearch}
-                            disabled={disabled}
-                            readOnly={!hasMode}
-                            onKeyDown={handleOnKeyDown}
                         />
                     }
+                /> : <input
+                    readOnly
+                    type="text"
+                    value={selected}
+                    disabled={disabled}
+                    placeholder={placeholder || ''}
+                    className={`${prefixCls}-input`}
+                    style={{ opacity: isOpen ? '0.8' : '1' }}
+                    onClick={() => !disabled && setIsOpen(!isOpen || open)}
                 />}
 
                 {isHover && !loading ?
@@ -284,8 +293,6 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     )
                 }
             </div>
-
-
 
             {!loading && isOpen && (
                 <div className={cc([`${prefixCls}-dropdown`, { [dropdownClassName]: dropdownClassName }])} style={{ maxHeight: listHeight }}>
@@ -325,6 +332,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                     ])}
                                     onClick={(e) => {
                                         if (!props.disabled) {
+                                            console.log(props.value);
+
                                             handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
                                         }
                                     }}

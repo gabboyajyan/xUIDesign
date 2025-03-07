@@ -21,10 +21,6 @@
     box-sizing: border-box;
 }
 
-.xUi-select.rtl {
-    direction: rtl;
-}
-
 .xUi-select.middle {
     font-size: 14px;
     padding: 5px;
@@ -123,4 +119,22 @@
 
 .xUi-select-error {
     border-color: red;
+}
+
+.xUi-select .xUi-select-input {
+    width: 100%;
+    padding: 8px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #333;
+    user-select: none;
+    cursor: pointer;
+}
+
+.xUi-select .xUi-select-input:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
 }

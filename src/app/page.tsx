@@ -1,70 +1,129 @@
-"use client"
+'use client'
 
-import {
-  Form as AntForm,
-  // Input as AntInput, 
-  Select as AntSelect
-} from "antd";
-
-import { Form } from "./components/Form";
-// import { Input } from "./components/Input";
+import { Form } from "@/app/components/Form"
+import { Input } from "@/app/components/Input"
 import { Select } from "./components/Select";
 
 export default function Home() {
+    return (
+        <div style={{ width: 700, margin: '0 auto' }}>
+            <h2>Form</h2>
 
-  return (
-    <>
-      <div style={{ maxWidth: 200, margin: '0 auto' }}>
-        <h2>Ant</h2>
+            <hr />
 
-        {/* <AntInput onChange={(...argument) => console.log(argument)} />
-        <AntSelect onChange={(...argument) => console.log(argument)} style={{ minWidth: '100%' }}>
-          <AntSelect.Option value="Male">Male</AntSelect.Option>
-          <AntSelect.Option value="Female">Female</AntSelect.Option>
-        </AntSelect> */}
+            <h3>Small</h3>
 
-        <AntForm>
-          {/* <AntForm.Item name={'username'} rules={[{ required: true }]}>
-            <AntInput  />
-          </AntForm.Item> */}
+            <Form size="small" onFinish={(values) => {
+                alert('Values show in console');
 
-          <AntForm.Item name={'gender'} rules={[{ required: true }]}>
-            <AntSelect mode="tags">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => {
-                return <AntSelect.Option key={i} value={`${i}`}>{i}</AntSelect.Option>
-              })}
-            </AntSelect>
-          </AntForm.Item>
+                console.log(values);
+            }}>
+                <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Username is required.' }]}>
+                    <Input />
+                </Form.Item>
 
-          <button type="submit">Submit</button>
-        </AntForm>
-      </div>
+                <Form.Item name="password" label="Password" rules={[{
+                    required: true,
+                    message: 'Password is required.'
+                }, {
+                    pattern: /^(?!.* )(?=.*?[A-Z])(?=.*?[a-z])(?=.*[0-9]).{8,}$/,
+                    message: 'Password is not a valid.'
+                }]}>
+                    <Input type="password" />
+                </Form.Item>
 
-      <div style={{ maxWidth: 200, margin: '0 auto' }}>
-        <h2>Custom</h2>
+				<Form.Item name="gender" label="Gender" rules={[{
+                    required: true,
+                    message: 'Gender is required.'
+                }]}>
+                    <Select allowClear mode="tags" placeholder="Gender: Mode Tags">
+						<Select.Option value="Male">Male</Select.Option>
+						<Select.Option value="Female">Female</Select.Option>
+					</Select>
+                </Form.Item>
 
-        {/* <Input onChange={(...argument) => console.log(argument)} />
-        <Select onChange={(...argument) => console.log(argument)} style={{ minWidth: '100%' }}>
-          <Select.Option value="Male">Male</Select.Option>
-          <Select.Option value="Female">Female</Select.Option>
-        </Select> */}
+                <button type="submit">Submit</button>
+            </Form>
 
-        <Form>
-          {/* <Form.Item name={'username'} label="Username" rules={[{ required: true }]}>
-            <Input  />
-          </Form.Item> */}
+            <hr />
 
-          <Form.Item name={'gender'} label="Gender" rules={[{ required: true }]}>
-            <Select mode="tags">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => {
-                return <AntSelect.Option key={i} value={`${i}`}>{i}</AntSelect.Option>
-              })}
-            </Select>
-          </Form.Item>
+            <h3>Middle</h3>
 
-          <button type="submit">Submit</button>
-        </Form>
-      </div>
-    </>
-  );
+            <Form size="middle" onFinish={(values) => {
+                alert('Values show in console');
+
+                console.log(values);
+            }}>
+                <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Username is required.' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item name="password" label="Password" rules={[{
+                    required: true,
+                    message: 'Password is required.'
+                }, {
+                    pattern: /^(?!.* )(?=.*?[A-Z])(?=.*?[a-z])(?=.*[0-9]).{8,}$/,
+                    message: 'Password is not a valid.'
+                }]}>
+                    <Input type="password" />
+                </Form.Item>
+
+				<Form.Item name="gender" label="Gender" rules={[{
+                    required: true,
+                    message: 'Gender is required.'
+                }]}>
+                    <Select allowClear mode="multiple" placeholder="Gender: Mode Multiple" menuItemSelectedIcon>
+						<Select.Option value="Male">Male</Select.Option>
+						<Select.Option value="Female">Female</Select.Option>
+					</Select>
+                </Form.Item>
+
+                <button type="submit">Submit</button>
+            </Form>
+
+            <hr />
+            
+            <h3>Large</h3>
+
+            <Form size="large" onFinish={(values) => {
+                alert('Values show in console');
+
+                console.log(values);
+            }}>
+                <Form.Item name="username" label="Username" rules={[{ required: true, message: 'Username is required.' }]}>
+                    <Input />
+                </Form.Item>
+
+                <Form.Item name="password" label="Password" rules={[{
+                    required: true,
+                    message: 'Password is required.'
+                }, {
+                    pattern: /^(?!.* )(?=.*?[A-Z])(?=.*?[a-z])(?=.*[0-9]).{8,}$/,
+                    message: 'Password is not a valid.'
+                }]}>
+                    <Input type="password" />
+                </Form.Item>
+
+				<Form.Item name="gender" label="Gender" rules={[{
+                    required: true,
+                    message: 'Gender is required.'
+                }]}>
+                    <Select allowClear placeholder="Gender: Mode Default">
+						<Select.Option value="Male">Male</Select.Option>
+						<Select.Option value="Female">Female</Select.Option>
+					</Select>
+                </Form.Item>
+
+                <button type="submit">Submit</button>
+            </Form>
+
+            <hr />
+
+            <Input size="small" placeholder="Input Small" />
+            <hr />
+            <Input size="middle" placeholder="Input Middle" />
+            <hr />
+            <Input size="large" placeholder="Input Large" />
+        </div>
+    )
 }
