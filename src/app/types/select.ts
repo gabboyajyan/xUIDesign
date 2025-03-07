@@ -61,6 +61,7 @@ export interface TagProps {
   prefixCls?: string,
   values: string[],
   handleRemoveTag: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+  searchQuery: string;
   searchContainer?: ReactElement | boolean
 }
 

@@ -23,7 +23,7 @@ export default function Home() {
           <AntSelect.Option value="Female">Female</AntSelect.Option>
         </AntSelect> */}
 
-        <AntForm >
+        <AntForm>
           {/* <AntForm.Item name={'username'} rules={[{ required: true }]}>
             <AntInput  />
           </AntForm.Item> */}

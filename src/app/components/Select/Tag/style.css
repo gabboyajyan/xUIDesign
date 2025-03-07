@@ -7,9 +7,9 @@
     flex: auto;
     display: flex;
     flex-wrap: wrap;
-    max-width: 100%;
     line-height: 22px;
     position: relative;
+    max-width: calc(100% - 26px);
 }
 
 .xUi-select .xUi-select-tag {
@@ -46,4 +46,24 @@
 
 .xUi-select .xUi-select-tag .xUi-select-tag-close-icon:hover {
     color: #333;
+}
+
+.xUi-select .xUi-select-tag:has([class="xUi-select-input"]) {
+    width: 100%;
+    border: none;
+    outline: none;
+    color: #333;
+    font-size: 14px;
+    padding: 2px 8px;
+    background: white;
+}
+
+.xUi-select .xUi-select-tag:has([class="xUi-select-input"]) input {
+   border: none;
+}
+
+.xUi-select .xUi-select-input:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
 }

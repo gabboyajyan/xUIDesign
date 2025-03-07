@@ -219,16 +219,10 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     });
 
     const ArrowContainer = useMemo(() => {
-        return showSearch && isOpen ? <SearchIcon /> : <span onClick={(e) => {
-            e.preventDefault();
-
-            if (!disabled) {
-                setIsOpen(!isOpen || open)
-            }
-        }}>
+        return showSearch && isOpen ? <SearchIcon /> : <span>
             <ArrowIcon isOpen={isOpen} />
         </span>
-    }, [showSearch, disabled, isOpen, open])
+    }, [showSearch, isOpen])
 
     const selectValue = hasMode ? '' : selected;
 
@@ -246,18 +240,27 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 className={`${prefixCls}-trigger`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
+                onClick={() => !disabled && setIsOpen(!isOpen)}
             >
-                {hasMode && <Tag values={selected as string[]} handleRemoveTag={handleRemoveTag} prefixCls={prefixCls} searchContainer={<input
-                    type="text"
-                    className={`${prefixCls}-input`}
-                    defaultValue={hasMode ? '' : searchQuery || selectValue}
-                    placeholder={selected.length ? '' : placeholder}
-                    onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                    onChange={handleSearch}
-                    disabled={disabled}
-                    readOnly={!hasMode}
-                    onKeyDown={handleOnKeyDown}
-                />} />}
+                {hasMode && <Tag
+                    values={selected as string[]}
+                    handleRemoveTag={handleRemoveTag}
+                    prefixCls={prefixCls}
+                    searchQuery={searchQuery}
+                    searchContainer={
+                        <input
+                            type="text"
+                            className={`${prefixCls}-input`}
+                            defaultValue={hasMode ? '' : searchQuery || selectValue}
+                            placeholder={selected.length ? '' : placeholder}
+                            onClick={() => !disabled && setIsOpen(!isOpen || open)}
+                            onChange={handleSearch}
+                            disabled={disabled}
+                            readOnly={!hasMode}
+                            onKeyDown={handleOnKeyDown}
+                        />
+                    }
+                />}
 
                 {isHover && !loading ?
                     (
@@ -267,7 +270,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                             </button>
                         ) : <span className={`${prefixCls}-arrow`}>
                             {ArrowContainer}
-                        </span>}
+                        </span>
+                        }
                         </>
                     ) : (
                         <>
