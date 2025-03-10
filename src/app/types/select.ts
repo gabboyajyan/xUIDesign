@@ -1,4 +1,17 @@
-import { CSSProperties, FocusEventHandler, Key, MouseEvent, MouseEventHandler, ReactElement, ReactNode, SyntheticEvent } from "react";
+import {
+  ChangeEventHandler,
+  CSSProperties,
+  Dispatch,
+  FocusEventHandler,
+  Key,
+  KeyboardEventHandler,
+  MouseEvent,
+  MouseEventHandler,
+  ReactElement,
+  ReactNode,
+  SetStateAction,
+  SyntheticEvent
+} from "react";
 import { RuleType } from "./form";
 
 export type MouseEventHandlerSelect = MouseEvent<HTMLDivElement> & { target: { value: string | string[] } }
@@ -33,7 +46,7 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   onClear?: () => void,
   error?: string,
   showSearch?: boolean,
-  tagRender?: ((props: TagProps) => ReactElement) | undefined,
+  tagRender?: ((props: CustomTagProps) => ReactElement) | undefined,
   maxTagPlaceholder?: ReactNode | ((omittedValues: DisplayValueType[]) => ReactNode)
   dropdownClassName?: string,
   showArrow?: boolean,
@@ -56,13 +69,39 @@ export interface OptionProps {
   render?: (label: string) => ReactNode
 }
 
+export type CustomTagProps = {
+    label?: React.ReactNode;
+    value: string;
+    onClose: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+    closable?: boolean;
+    isMaxTag?: boolean;
+    color?: string;
+    prefixCls?: string;
+    style?: CSSProperties
+    icon?: ReactNode
+}
+
+type TagSearchProps = {
+  open?: boolean;
+  query: string;
+  disabled?: boolean;
+  fullWidth?: boolean;
+  placeholder?: string;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
 export interface TagProps {
   prefixCls?: string,
-  values: string[],
-  handleRemoveTag: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
-  searchFullWidth?: boolean,
-  searchQuery: string;
-  searchContainer?: ReactElement | boolean
+  values?: string[],
+  onClose: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+  icon?: ReactNode;
+  style?: CSSProperties;
+  className?: string,
+  closable?: boolean;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
+  search?: TagSearchProps;
+  tagRender?: ((props: CustomTagProps) => ReactElement) | undefined,
 }
 
 export interface DisplayValueType {

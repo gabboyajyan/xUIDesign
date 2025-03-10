@@ -4,7 +4,7 @@ import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, 
 import { MouseEventHandlerSelect, OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
-import { Tag } from "./Tag";
+import { SelectTag } from "./Tag";
 import cc from "classcat";
 import { EmptyContent } from "../Empty";
 import { prefixClsSelect } from "@/app/utils";
@@ -44,12 +44,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     showSearch = false,
     open = false,
     showArrow = true,
-    // maxTagPlaceholder,
-    // showAction,
-    // tagRender,
-    // onBlur,
-    // onDropdownVisibleChange
-    // notFoundContent
+    notFoundContent = true,
+    tagRender,
 }: SelectProps<OptionType>): ReactElement => {
     const initialValue = value || defaultValue || '';
 
@@ -243,23 +239,20 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 onMouseLeave={handleMouseLeave}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
-                {hasMode ? <Tag
-                    values={selected as string[]}
-                    handleRemoveTag={handleRemoveTag}
+                {hasMode ? <SelectTag
                     prefixCls={prefixCls}
-                    searchFullWidth={!selected.length}
-                    searchQuery={searchQuery}
-                    searchContainer={
-                        <input
-                            type="text"
-                            disabled={disabled}
-                            onChange={handleSearch}
-                            onKeyDown={handleOnKeyDown}
-                            className={`${prefixCls}-tag-input`}
-                            placeholder={selected.length ? '' : placeholder}
-                            onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                        />
-                    }
+                    tagRender={tagRender}
+                    onChange={handleSearch}
+                    onClose={handleRemoveTag}
+                    onKeyDown={handleOnKeyDown}
+                    values={selected as string[]}
+                    search={{
+                        disabled,
+                        setIsOpen,
+                        query: searchQuery,
+                        fullWidth: !selected.length,
+                        placeholder: selected.length ? '' : placeholder
+                    }}
                 /> : <input
                     readOnly
                     type="text"
@@ -347,7 +340,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                         </span>
                                     )}
                                 </Option>
-                            )) : !asTag && <EmptyContent />}
+                            )) : !asTag ? notFoundContent || <EmptyContent /> : null}
                         </div>
                     )}
                 </div>

@@ -9,28 +9,18 @@
 
 .xUi-select {
     position: relative;
-    display: flex;
+    display: inline-flex;
     flex-direction: row-reverse;
-    width: 100%;
-    font-size: 14px;
     color: #333;
-    padding: 3px;
+    height: 24px;
     background-color: #fff;
-    border-radius: 8px;
+    border-radius: 4px;
     border: 1px solid #d9d9d9;
     box-sizing: border-box;
 }
 
-.xUi-select.middle {
-    font-size: 14px;
-    padding: 5px;
-}
-
-.xUi-select.large {
-    font-size: 16px;
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+.xUi-select {
+    padding: 0 4px;
 }
 
 .xUi-select-arrow {
@@ -57,6 +47,8 @@
     align-items: center;
     cursor: pointer;
     background: #fff;
+    border-radius: 4px;
+    padding: 0 2px;
 }
 
 .xUi-select .xUi-select-clear-btn {
@@ -123,7 +115,7 @@
 
 .xUi-select .xUi-select-input {
     width: 100%;
-    padding: 8px;
+    padding: 0;
     border: none;
     outline: none;
     background: transparent;
@@ -131,10 +123,39 @@
     color: #333;
     user-select: none;
     cursor: pointer;
+    height: -webkit-fill-available;
 }
 
 .xUi-select .xUi-select-input:focus {
     border: none;
     outline: none;
     box-shadow: none;
+}
+
+.xUi-select.middle {
+    font-size: 14px;
+    height: 30px;
+    border-radius: 6px;
+}
+
+.xUi-select.middle input {
+    font-size: 14px;
+}
+
+.xUi-select.middle .xUi-select-trigger {
+    border-radius: 6px;
+}
+
+.xUi-select.large {
+    font-size: 16px;
+    height: 38px;
+    border-radius: 8px;
+}
+
+.xUi-select.large .xUi-select-trigger {
+    border-radius: 8px;
+}
+
+.xUi-select.large input {
+    font-size: 16px;
 }

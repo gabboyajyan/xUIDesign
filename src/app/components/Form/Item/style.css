@@ -1,11 +1,10 @@
-.xUi-form {
+.xUi-form-item {
     display: flex;
-    flex-direction: column;
     margin-bottom: 16px;
     position: relative;
 }
 
-.xUi-form-label {
+.xUi-form-item-label {
     font-weight: 500;
     margin-bottom: 4px;
     display: flex;
@@ -13,7 +12,7 @@
     font-size: 14px;
 }
 
-.xUi-form-error {
+.xUi-form-item-error {
     color: #ff4d4f;
     font-size: 12px;
     margin-top: 4px;
@@ -22,11 +21,19 @@
     right: 0;
 }
 
-.xUi-form-required {
+.xUi-form-item-required {
     color: #ff4d4f;
     display: inline-block;
     font-size: 14px;
     line-height: 1;
     margin-left: 4px;
     margin-right: 4px;
+}
+
+.xUi-form-item.horizontal {
+    flex-direction: row;
+}
+
+.xUi-form-item.vertical {
+    flex-direction: column;
 }
