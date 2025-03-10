@@ -16,13 +16,15 @@ export default function Home() {
         const { label, value, closable, onClose } = props;
 
         return (
-            <Tag
+            <div style={{ display: 'flex' }}>
+                <Tag
                 color={value}
                 value={value}
                 label={label}
                 onClose={onClose}
                 closable={closable}
             />
+            </div>
         );
     }
 
