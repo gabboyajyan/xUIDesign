@@ -14,7 +14,7 @@
     display: flex;
     gap: 6px;
     height: inherit;
-    padding: 0 12px;
+    padding: 0 6px;
     align-items: center;
     flex-grow: 1;
 }
@@ -67,4 +67,12 @@
 .xUi-input-large .xUi-input-clear,
 .xUi-input-large .xUi-input {
     font-size: 16px;
+}
+
+.xUi-input-middle {
+    padding: 0 12px;
+}
+
+.xUi-input-large {
+    padding: 0 10px;
 }

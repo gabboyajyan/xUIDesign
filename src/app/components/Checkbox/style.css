@@ -1,0 +1,85 @@
+.xUi-checkbox-wrapper {
+    cursor: pointer;
+    font-size: 14px;
+    align-items: center;
+    display: inline-flex;
+}
+
+.xUi-checkbox {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    border-radius: 4px;
+    transition: all 0.3s;
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+}
+
+.xUi-checkbox.xUi-checkbox-checked {
+    border-color: #1677ff;
+    background-color: #f0f5ff;
+}
+
+.xUi-checkbox input {
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+}
+
+.xUi-checkbox-inner {
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 6px;
+    border-top: 0;
+    border-left: 0;
+    position: absolute;
+    border: 2px solid #fff;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.2s ease-in-out;
+}
+
+.xUi-checkbox-check {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: relative;
+    transition: 0.1s ease;
+    border-color: #1677ff;
+    background-color: #1677ff;
+}
+
+.xUi-checkbox-check::after {
+    top: 1px;
+    left: 4px;
+    width: 3px;
+    height: 7px;
+    content: "";
+    position: absolute;
+    border: solid white;
+    transform: rotate(45deg);
+    border-width: 0 2px 2px 0;
+}
+
+.xUi-checkbox-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.xUi-checkbox-label {
+    margin-left: 8px;
+    user-select: none;
+}
+
+.xUi-checkbox:hover:not(.disabled),
+.xUi-checkbox:focus:not(.disabled) {
+    border-color: #1677ff;
+    background-color: #f0f5ff;
+}
+
+.xUi-checkbox.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

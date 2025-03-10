@@ -1,18 +1,7 @@
-import { CSSProperties, FC, MouseEventHandler, ReactNode } from 'react';
-import './style.css'
+import { FC, MouseEventHandler } from 'react';
 import { prefixClsSelect } from '@/app/utils';
-
-export interface OptionProps {
-  value: string;
-  disabled?: boolean;
-  children?: ReactNode;
-  className?: string;
-  style?: CSSProperties;
-  onClick?: MouseEventHandler<HTMLDivElement>;
-  render?: (label: string) => ReactNode;
-  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
-  prefixCls?: string;
-}
+import { OptionProps } from '@/app/types/select';
+import './style.css'
 
 const Option: FC<OptionProps> = ({
   value,

@@ -53,7 +53,7 @@ export const FormItem: FC<FormItemProps> = ({
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
         onChange: (e: ChangeEvent & { target: { value: RuleType, valueAnyType: RuleType } }, option?: OptionProps) => {
-          const value = e.target.valueAnyType || e.target.value;
+          const value = e.target.valueAnyType ?? e.target.value;
 
           setFieldValue(name, value)
 

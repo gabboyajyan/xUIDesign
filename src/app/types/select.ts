@@ -98,3 +98,15 @@ export interface DisplayValueType {
   title?: string | number;
   disabled?: boolean;
 }
+
+export interface OptionProps {
+  value: string;
+  disabled?: boolean;
+  children?: ReactNode;
+  className?: string;
+  style?: CSSProperties;
+  onClick?: MouseEventHandler<HTMLDivElement>;
+  render?: (label: string) => ReactNode;
+  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+  prefixCls?: string;
+}
