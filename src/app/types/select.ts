@@ -1,7 +1,6 @@
 import {
   ChangeEventHandler,
   CSSProperties,
-  Dispatch,
   FocusEventHandler,
   Key,
   KeyboardEventHandler,
@@ -9,7 +8,6 @@ import {
   MouseEventHandler,
   ReactElement,
   ReactNode,
-  SetStateAction,
   SyntheticEvent
 } from "react";
 import { RuleType } from "./form";
@@ -81,15 +79,6 @@ export type CustomTagProps = {
     icon?: ReactNode
 }
 
-type TagSearchProps = {
-  open?: boolean;
-  query: string;
-  disabled?: boolean;
-  fullWidth?: boolean;
-  placeholder?: string;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-}
-
 export interface TagProps {
   prefixCls?: string,
   values?: string[],
@@ -100,8 +89,6 @@ export interface TagProps {
   closable?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
-  search?: TagSearchProps;
-  tagRender?: ((props: CustomTagProps) => ReactElement) | undefined,
 }
 
 export interface DisplayValueType {

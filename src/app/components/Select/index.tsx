@@ -4,7 +4,7 @@ import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, 
 import { MouseEventHandlerSelect, OptionProps, SelectProps } from "@/app/types/select";
 import { Option } from "./Option";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
-import { SelectTag } from "./Tag";
+import { Tag } from "./Tag";
 import cc from "classcat";
 import { EmptyContent } from "../Empty";
 import { prefixClsSelect } from "@/app/utils";
@@ -239,21 +239,40 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 onMouseLeave={handleMouseLeave}
                 onClick={() => !disabled && setIsOpen(!isOpen)}
             >
-                {hasMode ? <SelectTag
-                    prefixCls={prefixCls}
-                    tagRender={tagRender}
-                    onChange={handleSearch}
-                    onClose={handleRemoveTag}
-                    onKeyDown={handleOnKeyDown}
-                    values={selected as string[]}
-                    search={{
-                        disabled,
-                        setIsOpen,
-                        query: searchQuery,
-                        fullWidth: !selected.length,
-                        placeholder: selected.length ? '' : placeholder
-                    }}
-                /> : <input
+
+                {hasMode ? <div
+                    style={style}
+                    className={`${prefixCls}-tag-container`}>
+                    {(selected as string[]).map((tag, index) => (
+                        tagRender 
+                        ? <div key={`${index}_${tag}`}>{tagRender?.({ label: tag, value: tag, onClose: handleRemoveTag, closable: true })}</div>
+                        : <Tag
+                            closable
+                            value={tag}
+                            label={tag}
+                            onClose={handleRemoveTag}
+                            key={`${index}_${tag}`}
+                        />
+                    ))}
+
+                    <div
+                        className={`${prefixCls}-tag`}
+                        style={{
+                            minWidth: '30px',
+                            width: searchQuery.length ? `${searchQuery.length * 10}px` : !selected.length ? '100%' : '10px'
+                        }}
+                    >
+                        <input
+                            type="text"
+                            disabled={disabled}
+                            onChange={onChange}
+                            onKeyDown={handleOnKeyDown}
+                            className={`${prefixCls}-tag-input`}
+                            placeholder={(selected as string[]).length ? '' : placeholder}
+                            onClick={() => !disabled && setIsOpen?.(p => !p || !!open)}
+                        />
+                    </div>
+                </div> : <input
                     readOnly
                     type="text"
                     value={selected}

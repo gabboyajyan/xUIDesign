@@ -22,7 +22,6 @@ export default function Home() {
                 label={label}
                 onClose={onClose}
                 closable={closable}
-                style={{ marginRight: 3 }}
             />
         );
     }
