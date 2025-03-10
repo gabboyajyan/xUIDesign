@@ -187,19 +187,17 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     };
 
     const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
-        if (hasMode) {
-            if (e.key === 'Enter' && searchQuery.trim() !== '') {
-                handleEnterAddNewTag(e)
-            }
+        if (e.key === 'Enter' && searchQuery.trim() !== '') {
+            handleEnterAddNewTag(e)
+        }
 
-            if (e.key === 'Backspace' && !searchQuery.trim().length) {
-                const updatedSelected = (selected as string[]).filter((item) => item !== selected[selected.length - 1]);
+        if (e.key === 'Backspace' && !searchQuery.trim().length) {
+            const updatedSelected = (selected as string[]).filter((item) => item !== selected[selected.length - 1]);
 
-                e.target.valueAnyType = updatedSelected;
+            e.target.valueAnyType = updatedSelected;
 
-                onChange?.(e);
-                setSelected(updatedSelected);
-            }
+            onChange?.(e);
+            setSelected(updatedSelected);
         }
     }
 
@@ -244,15 +242,15 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     style={style}
                     className={`${prefixCls}-tag-container`}>
                     {(selected as string[]).map((tag, index) => (
-                        tagRender 
-                        ? <div key={`${index}_${tag}`}>{tagRender?.({ label: tag, value: tag, onClose: handleRemoveTag, closable: true })}</div>
-                        : <Tag
-                            closable
-                            value={tag}
-                            label={tag}
-                            onClose={handleRemoveTag}
-                            key={`${index}_${tag}`}
-                        />
+                        tagRender
+                            ? <div key={`${index}_${tag}`}>{tagRender?.({ label: tag, value: tag, onClose: handleRemoveTag, closable: true })}</div>
+                            : <Tag
+                                closable
+                                value={tag}
+                                label={tag}
+                                onClose={handleRemoveTag}
+                                key={`${index}_${tag}`}
+                            />
                     ))}
 
                     <div
@@ -265,7 +263,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                         <input
                             type="text"
                             disabled={disabled}
-                            onChange={onChange}
+                            onChange={handleSearch}
                             onKeyDown={handleOnKeyDown}
                             className={`${prefixCls}-tag-input`}
                             placeholder={(selected as string[]).length ? '' : placeholder}
