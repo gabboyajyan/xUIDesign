@@ -56,13 +56,15 @@ const Checkbox: FC<CheckboxProps> = ({
     }, [checked]);
 
     return (
-        <label className={cc([
-            prefixCls,
-            className,
-            {
-                [`${prefixCls}-disabled`]: disabled,
-                [`${prefixCls}-checked`]: isChecked
-            }])} style={style}
+        <label
+            style={style}
+            className={cc([
+                prefixCls,
+                className,
+                {
+                    [`${prefixCls}-disabled`]: disabled,
+                    [`${prefixCls}-checked`]: isChecked
+                }])}
         >
             <input
                 id={id}
@@ -81,7 +83,9 @@ const Checkbox: FC<CheckboxProps> = ({
             />
 
             <span className={`${prefixCls}-box`}>
-                <span className={`${prefixCls}-check`} style={{ opacity: Number(isChecked) }}></span>
+                <span 
+                    className={`${prefixCls}-check`} 
+                    style={{ opacity: Number(isChecked) }}/>
             </span>
 
             {children && <span className={`${prefixCls}-label`}>{children}</span>}
