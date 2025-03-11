@@ -1,11 +1,7 @@
-import { ChangeEvent, CSSProperties, KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
+import { ChangeEvent, KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
+import { DefaultProps } from ".";
 
-export type CheckboxProps = {
-    prefixCls?: string;
-    className?: string;
-    defaultChecked?: boolean;
-    checked?: boolean;
-    style?: CSSProperties;
+export type CheckboxProps = DefaultProps & {
     disabled?: boolean;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
     onClick?: MouseEventHandler<HTMLElement>;
@@ -22,4 +18,6 @@ export type CheckboxProps = {
     type?: string;
     skipGroup?: boolean;
     required?: boolean;
+    defaultChecked?: boolean;
+    checked?: boolean;
 }

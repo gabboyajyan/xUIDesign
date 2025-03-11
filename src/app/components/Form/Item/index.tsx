@@ -1,20 +1,10 @@
-import { ChangeEvent, cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
+import { ChangeEvent, cloneElement, FC, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
-import { RuleObject } from '@/app/types/form';
 import { prefixClsFormItem } from '@/app/utils';
 import { OptionProps } from '@/app/types/select';
 import { RuleTypes, TargetProps } from '@/app/types';
+import { FormItemProps } from '@/app/types/form';
 import './style.css';
-
-export type FormItemProps = {
-  name: string;
-  label: string;
-  rules?: RuleObject[];
-  children: ReactElement;
-  className?: string;
-  prefixCls?: string;
-  layout?: 'horizontal' | 'vertical' | 'inline';
-};
 
 export const FormItem: FC<FormItemProps> = ({
   prefixCls = prefixClsFormItem,
@@ -24,6 +14,7 @@ export const FormItem: FC<FormItemProps> = ({
   children,
   className = '',
   layout = 'horizontal',
+  style = {},
   ...props
 }) => {
   const formContext = useContext(FormContext);
@@ -42,7 +33,7 @@ export const FormItem: FC<FormItemProps> = ({
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 
   return (
-    <div className={`${prefixCls} ${className} ${layout}`}>
+    <div style={style} className={`${prefixCls} ${className} ${layout}`}>
       <label className={`${prefixCls}-label`} htmlFor={name}>
         {layout === 'horizontal' ? `${label}: ` : label} {isRequired && <span className={`${prefixCls}-required`}>*</span>}
       </label>

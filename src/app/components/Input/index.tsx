@@ -1,27 +1,11 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, MouseEvent, ReactNode, useState } from "react";
-import cc from "classcat";
-import "./style.css";
+import { ChangeEvent, ForwardedRef, forwardRef, MouseEvent, useState } from "react";
 import { prefixClsInput } from "@/app/utils";
 import { TargetProps } from "@/app/types";
-
-export type InputSize = "small" | "middle" | "large";
-
-type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & {
-	addonBefore?: ReactNode;
-	addonAfter?: ReactNode;
-	size?: InputSize;
-	prefix?: ReactNode;
-	suffix?: ReactNode;
-	disabled?: boolean;
-	allowClear?: boolean;
-	classNames?: string;
-	error?: boolean;
-	prefixCls?: string;
-	onChange?: (event: ChangeEvent & TargetProps) => void,
-	onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
-};
+import { InputProps } from "@/app/types/input";
+import cc from "classcat";
+import "./style.css";
 
 const Input = forwardRef(({
 	size = "middle",
@@ -34,7 +18,7 @@ const Input = forwardRef(({
 	disabled = false,
 	allowClear = false,
 	prefixCls = prefixClsInput,
-	classNames = '',
+	className = '',
 	value = undefined,
 	...props
 }: InputProps,
@@ -65,7 +49,7 @@ const Input = forwardRef(({
 					[`${prefixCls}-disabled`]: disabled,
 					[`${prefixCls}-${size}`]: size,
 				},
-				classNames
+				className
 			])}
 			style={props.style}
 		>
@@ -77,7 +61,7 @@ const Input = forwardRef(({
 				<input
 					ref={ref}
 					{...props}
-					className={cc([prefixCls, classNames])}
+					className={cc([prefixCls, className])}
 					value={internalValue}
 					disabled={disabled}
 					onChange={handleChange}

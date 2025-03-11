@@ -8,8 +8,8 @@ import { Select } from "./components/Select"
 export default function Home() {
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
-            <AntForm onFinish={(e) => console.log('Ant AntForm', e)}>
-                <AntForm.Item label="Name" name='name'>
+            <AntForm layout="vertical" onFinish={(e) => console.log('Ant AntForm', e)}>
+                <AntForm.Item label="Name" name='name' rules={[{ required: true }]}>
                     <AntInput />
                 </AntForm.Item>
 
@@ -27,8 +27,8 @@ export default function Home() {
                 <button type="submit">Submit</button>
             </AntForm>
             <hr />
-            <Form onFinish={(e) => console.log('Ant Form', e)}>
-                <Form.Item label="Name" name='name'>
+            <Form layout="vertical" onFinish={(e) => console.log('Ant Form', e)}>
+                <Form.Item label="Name" name='name' rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
 

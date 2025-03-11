@@ -12,7 +12,8 @@ import {
     useMemo
 } from "react";
 import {
-    OptionProps,
+    OptionType,
+    // OptionProps,
     SelectProps
 } from "@/app/types/select";
 import cc from "classcat";
@@ -26,7 +27,7 @@ import { Tag } from "./Tag";
 
 import './style.css';
 
-const Select = <OptionType extends OptionProps = OptionProps>({
+const Select = ({
     prefixCls = prefixClsSelect,
     id,
     searchValue = '',
@@ -63,7 +64,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     notFoundContent = true,
     tagRender,
     getPopupContainer
-}: SelectProps<OptionType>): ReactElement => {
+}: SelectProps): ReactElement => {
     const initialValue = value || defaultValue || '';
 
     const asTag = mode === 'tags';

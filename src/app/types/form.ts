@@ -1,7 +1,5 @@
-import { RuleTypes } from ".";
-
-export type RuleType = (string | number | boolean | null | undefined) | (string | number | boolean | null | undefined[]);
-
+import { ComponentClass, FC, ReactElement, ReactNode } from "react";
+import { DefaultProps, RuleType, RuleTypes, SizeType } from ".";
 export interface RuleObject {
 	required?: boolean;
 	message?: string;
@@ -22,6 +20,32 @@ export interface FieldError {
 	name: string;
 	errors: string[];
 }
+
+type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline'
+
+export type FormProps = DefaultProps & {
+  colon?: boolean;
+  name?: string;
+  layout?: FormLayoutTypes;
+  form?: FormInstance;
+  size?: SizeType;
+  initialValues?: Record<string, RuleType>;
+  children?: ReactNode;
+  component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
+  fields?: FieldData[];
+  onFieldsChange?: (changedFields: FieldData[]) => void;
+  onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void;
+  onFinish?: (values: Record<string, RuleTypes>) => void;
+  onFinishFailed?: (errorInfo: { values: Record<string, RuleTypes>; errorFields: Pick<FieldError, "errors" | "name">[] }) => void;
+}
+
+export type FormItemProps = DefaultProps & {
+  name: string;
+  label: string;
+  rules?: RuleObject[];
+  children: ReactElement;
+  layout?: FormLayoutTypes;
+};
 
 export interface FormInstance {
   submit: () => Promise<Record<string, RuleTypes> | undefined>;

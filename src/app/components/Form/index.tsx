@@ -1,31 +1,17 @@
-import { Children, cloneElement, ComponentClass, createContext, FC, isValidElement, ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
-import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types/form';
+import { Children, cloneElement, createContext, FC, isValidElement, SyntheticEvent, useEffect, useRef } from 'react';
+import { FormInstance, FormItemProps, FormProps } from '@/app/types/form';
 import { useForm } from '@/app/hooks/useForm';
-import { InputSize } from '@/app/components/Input';
-import { FormItem, FormItemProps } from './Item';
+import { FormItem } from './Item';
+import { prefixClsForm } from '@/app/utils';
 
 export const FormContext = createContext<FormInstance | null>(null);
-
-interface FormProps {
-  prefixCls?: string;
-  colon?: boolean;
-  name?: string;
-  layout?: 'horizontal' | 'vertical' | 'inline';
-  form?: FormInstance;
-  size?: InputSize;
-  initialValues?: Record<string, RuleType>;
-  children?: ReactNode;
-  component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
-  fields?: FieldData[];
-  onFieldsChange?: (changedFields: FieldData[]) => void;
-  onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;
-  onFinish?: (values: Record<string, RuleType>) => void;
-  onFinishFailed?: (errorInfo: { values: Record<string, RuleType>; errorFields: Pick<FieldError, "errors" | "name">[] }) => void;
-}
 
 const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   children,
   form,
+  style = {},
+  prefixCls = prefixClsForm,
+  className = '',
   onFinish,
   onFinishFailed,
   initialValues = {},
@@ -65,7 +51,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
   return (
     <FormContext.Provider value={formInstance}>
-      <form ref={formRef} onSubmit={handleSubmit} {...rest}>
+      <form style={style} className={`${prefixCls} ${className}`} ref={formRef} onSubmit={handleSubmit} {...rest}>
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
             return cloneElement(child, {

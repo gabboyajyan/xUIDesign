@@ -1,21 +1,16 @@
-import { ReactNode } from "react"
 import { prefixClsEmpty } from "@/app/utils"
+import { EmptyContentProps } from "@/app/types/empty"
 import './style.css'
 
-interface EmptyContentProps {
-    prefixCls?: string,
-    title?: string,
-    description?: string,
-    icon?: ReactNode
-}
-
 const EmptyContent = ({
-    prefixCls = prefixClsEmpty,
+    icon,
+    style = {},
+    className = '',
     title = 'No Data',
     description = 'No data',
-    icon
+    prefixCls = prefixClsEmpty,
 }: EmptyContentProps) => (
-    <div className={`${prefixCls} ${prefixCls}-normal ${prefixCls}-small`}>
+    <div style={style} className={`${prefixCls} ${prefixCls}-normal ${prefixCls}-small ${className}`}>
         <div className={`${prefixCls}-image`}>
             {icon || <svg width="64" height="41" viewBox="0 0 64 41" xmlns="http://www.w3.org/2000/svg">
                 <title>{title}</title>

@@ -10,11 +10,9 @@ import {
   ReactNode,
   SyntheticEvent
 } from "react";
-import { RuleType } from "./form";
-import { TargetProps } from ".";
+import { DefaultProps, RuleType, TargetProps } from ".";
 
-export interface SelectProps<OptionType extends OptionProps = OptionProps> {
-  prefixCls?: string;
+export type SelectProps = DefaultProps & {
   id?: string;
   searchValue?: string;
   onSearch?: (value: string) => void;
@@ -52,40 +50,35 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   showAction?: ("click" | "focus")[] | undefined,
   suffixIcon?: ReactNode,
   open?: boolean
-  style?: CSSProperties
   notFoundContent?: ReactNode;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement
 }
 
-export interface OptionProps {
+export interface OptionType {
   value: string;
   disabled?: boolean;
   children?: ReactNode;
   className?: string;
   style?: CSSProperties;
   onClick?: MouseEventHandler<HTMLDivElement>
-  render?: (label: string) => ReactNode
+  render?: (label: string) => ReactNode;
+  prefixCls?: string;
 }
 
-export type CustomTagProps = {
+export type CustomTagProps = DefaultProps & {
     label?: React.ReactNode;
     value: string;
     onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void,
     closable?: boolean;
     isMaxTag?: boolean;
     color?: string;
-    prefixCls?: string;
-    style?: CSSProperties
     icon?: ReactNode
 }
 
-export interface TagProps {
-  prefixCls?: string,
+export type TagProps = DefaultProps & {
   values?: string[],
   onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void,
   icon?: ReactNode;
-  style?: CSSProperties;
-  className?: string,
   closable?: boolean;
   onChange?: ChangeEventHandler<HTMLInputElement>;
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>;
