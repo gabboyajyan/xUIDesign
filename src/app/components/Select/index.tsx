@@ -12,14 +12,14 @@ import {
     useMemo
 } from "react";
 import {
-    MouseEventHandlerSelect,
     OptionProps,
     SelectProps
-} from "@/src/app/types/select";
+} from "@/app/types/select";
 import cc from "classcat";
-import { prefixClsSelect } from "@/src/app/utils";
-import { EmptyContent } from "@/src/app/components/Empty";
-import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/src/app/components/icons";
+import { prefixClsSelect } from "@/app/utils";
+import { EmptyContent } from "@/app/components/Empty";
+import { MouseEventHandlerSelect, TargetProps } from "@/app/types";
+import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/app/components/icons";
 import { createPortal } from "react-dom";
 import { Option } from "./Option";
 import { Tag } from "./Tag";
@@ -150,7 +150,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     };
 
-    const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
+    const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & TargetProps) => {
         if (asMultiple || (maxCount && selected.length >= maxCount && !selected.includes(searchQuery))) {
             return;
         }
@@ -189,7 +189,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
 
             setSelected(newSelection);
 
-            e.target.value = newSelection
+            e.target.valueAnyType = newSelection
+
             onChange?.(e, option);
 
             if ((selected).includes(optionValue)) {
@@ -210,20 +211,21 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         handleClearInputValue();
     };
 
-    const handleClear = (e: MouseEvent<HTMLButtonElement> & { target: { value: string | string[] } }) => {
+    const handleClear = (e: MouseEvent<HTMLButtonElement> & TargetProps) => {
         const value = hasMode ? [] : "";
 
         setSelected(value);
 
-        e.target.value = value
+        e.target.value = value as string;
+
         onChange?.(e);
         onClear?.();
 
         handleClearInputValue();
     };
 
-    const handleRemoveTag = (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => {
-        const updatedSelected = (selected as string[]).filter((item) => item !== e.target.valueAnyType[0]);
+    const handleRemoveTag = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
+        const updatedSelected = (selected as string[]).filter((item) => item !== e.target.value);
 
         e.target.valueAnyType = updatedSelected;
 
@@ -231,7 +233,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         setSelected(updatedSelected);
     };
 
-    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { valueAnyType: string[] } }) => {
+    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & TargetProps) => {
         if (e.key === 'Enter' && searchQuery.trim() !== '') {
             handleEnterAddNewTag(e)
         }
@@ -307,9 +309,11 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                                 }
                             ])}
                             onClick={(e) => {
-                                if (!props.disabled) {
-                                    handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
+                                if (props.disabled) {
+                                    return
                                 }
+
+                                handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
                             }}
                             data-value={props.value}
                         >
@@ -335,7 +339,8 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             className={cc([{
                 [size]: size,
                 [prefixCls]: prefixCls,
-                [`${prefixCls}-error`]: error
+                [`${prefixCls}-error`]: error,
+                [`${prefixCls}-disabled`]: disabled
             }])}>
 
             <div
@@ -349,14 +354,15 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                     className={`${prefixCls}-tag-container`}>
                     {(selected as string[]).map((tag, index) => (
                         tagRender
-                            ? <div key={`${index}_${tag}`}>{tagRender?.({ label: tag, value: tag, onClose: handleRemoveTag, closable: true })}</div>
+                            ? <div key={`${index}_${tag}`}>
+                                {tagRender?.({ label: tag, value: tag, onClose: handleRemoveTag, closable: true })}
+                            </div>
                             : <Tag
                                 closable
                                 value={tag}
-                                label={tag}
+                                label={tag === '' ? placeholder : extractedOptions.find(e => e.value === tag)?.children || tag}
                                 onClose={handleRemoveTag}
-                                key={`${index}_${tag}`}
-                            />
+                                key={`${index}_${tag}`} />
                     ))}
 
                     <div
@@ -376,16 +382,26 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                             onClick={() => !disabled && setIsOpen?.(p => !p || !!open)}
                         />
                     </div>
-                </div> : <input
+                </div> : (
+                    <div
+                        className={`${prefixCls}-input`}
+                        onClick={() => !disabled && setIsOpen(!isOpen || open)}
+                        style={{ opacity: isOpen || selected === '' ? '0.8' : '1' }}
+                    >
+                        {selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected}
+                    </div>
+                )}
+
+                {/* <input
                     readOnly
                     type="text"
-                    value={selected}
                     disabled={disabled}
                     placeholder={placeholder || ''}
                     className={`${prefixCls}-input`}
                     style={{ opacity: isOpen ? '0.8' : '1' }}
                     onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                />}
+                    value={(extractedOptions.find(e => e.value === selected)?.children as HTMLElement)?.innerText || selected}
+                /> */}
 
                 {isHover && !loading ?
                     (

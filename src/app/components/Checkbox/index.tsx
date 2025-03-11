@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC, ChangeEvent } from "react";
-import { CheckboxProps } from "@/src/app/types/checkbox";
-import { prefixClsCheckbox } from "@/src/app/utils";
-import { RuleType } from "@/src/app/types/form";
+import { CheckboxProps } from "@/app/types/checkbox";
+import { prefixClsCheckbox } from "@/app/utils";
+import { TargetProps } from "@/app/types";
 import cc from "classcat";
 import "./style.css";
 
@@ -29,7 +29,7 @@ const Checkbox: FC<CheckboxProps> = ({
     const [internalChecked, setInternalChecked] = useState(defaultChecked || value);
     const isChecked = checked !== undefined ? checked : internalChecked;
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement> & { target: { valueAnyType: RuleType } }) => {
+    const handleChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
         if (disabled) {
             return;
         }

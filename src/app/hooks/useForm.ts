@@ -1,21 +1,22 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { RuleObject, FormInstance, RuleType, FieldData, FieldError } from '@/src/app/types/form';
+import type { RuleObject, FormInstance, FieldData, FieldError } from '@/app/types/form';
+import { RuleTypes } from "../types";
 
 const useForm = (
-  initialValues: Record<string, RuleType> = {},
+  initialValues: Record<string, RuleTypes> = {},
   onFieldsChange?: (changedFields: FieldData[]) => void,
-  onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void
+  onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void
 ): FormInstance => {
   const touchedFieldsRef = useRef<Set<string>>(new Set());
   const rulesRef = useRef<Record<string, RuleObject[]>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
   const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const formRef = useRef<Record<string, RuleType>>({ ...initialValues });
+  const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
 
-  const fieldSubscribers = useRef<Record<string, ((value: RuleType) => void)[]>>({});
-  const formSubscribers = useRef<((values: Record<string, RuleType>) => void)[]>([]);
+  const fieldSubscribers = useRef<Record<string, ((value: RuleTypes) => void)[]>>({});
+  const formSubscribers = useRef<((values: Record<string, RuleTypes>) => void)[]>([]);
 
   const getFieldValue = (name: string) => formRef.current[name];
 
@@ -24,7 +25,7 @@ const useForm = (
       return nameList.reduce((acc, key) => {
         acc[key] = formRef.current[key];
         return acc;
-      }, {} as Record<string, RuleType>);
+      }, {} as Record<string, RuleTypes>);
     }
     return formRef.current;
   };
@@ -36,7 +37,7 @@ const useForm = (
 
   const getFieldWarning = (name: string): string[] => warningsRef.current[name] || [];
 
-  const setFieldValue = (name: string, value: RuleType) => {
+  const setFieldValue = (name: string, value: RuleTypes) => {
     formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
     validateField(name);
@@ -56,7 +57,7 @@ const useForm = (
     }
   };
 
-  const setFieldsValue = (values: Partial<Record<string, RuleType>>) => {
+  const setFieldsValue = (values: Partial<Record<string, RuleTypes>>) => {
     Object.entries(values).forEach(([name, value]) => setFieldValue(name, value));
   };
 
@@ -155,7 +156,7 @@ const useForm = (
     }
   };
 
-  const subscribeToField = (name: string, callback: (value: RuleType) => void) => {
+  const subscribeToField = (name: string, callback: (value: RuleTypes) => void) => {
     if (!fieldSubscribers.current[name]) {
       fieldSubscribers.current[name] = [];
     }
@@ -167,7 +168,7 @@ const useForm = (
     };
   };
 
-  const subscribeToForm = (callback: (values: Record<string, RuleType>) => void) => {
+  const subscribeToForm = (callback: (values: Record<string, RuleTypes>) => void) => {
     formSubscribers.current.push(callback);
 
     return () => {

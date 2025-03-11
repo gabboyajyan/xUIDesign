@@ -20,6 +20,10 @@
     padding: 2px 4px;
 }
 
+.xUi-select-disabled {
+    background: rgba(0, 0, 0, 0.04);
+}
+
 .xUi-select-arrow {
     margin: 0 4px;
     color: rgba(0, 0, 0, 0.25);
@@ -43,9 +47,8 @@
     width: 100%;
     align-items: center;
     cursor: pointer;
-    background: #fff;
     border-radius: 4px;
-    padding: 2px;
+    background: transparent;
 }
 
 .xUi-select .xUi-select-clear-btn {
@@ -93,13 +96,15 @@
     box-shadow: none;
 }
 
-.xUi-select:hover {
+.xUi-select:hover:not(.xUi-select-disabled) {
     border-color: #40a9ff;
 }
 
+.xUi-select-disabled .xUi-select-input,
+.xUi-select-disabled .xUi-select-trigger,
 .xUi-select-disabled {
-    cursor: not-allowed;
-    opacity: 0.6;
+    cursor: not-allowed !important;
+    opacity: 0.6 !important;
 }
 
 .xUi-select-selected-icon {
@@ -121,6 +126,8 @@
     user-select: none;
     cursor: pointer;
     height: -webkit-fill-available;
+    display: inline-flex;
+    align-items: center;
 }
 
 .xUi-select .xUi-select-input:focus {

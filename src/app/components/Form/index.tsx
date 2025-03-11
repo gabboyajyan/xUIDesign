@@ -1,7 +1,7 @@
 import { Children, cloneElement, ComponentClass, createContext, FC, isValidElement, ReactNode, SyntheticEvent, useEffect, useRef } from 'react';
-import { FormInstance, RuleType, FieldData, FieldError } from '@/src/app/types/form';
-import { useForm } from '@/src/app/hooks/useForm';
-import { InputSize } from '@/src/app/components/Input';
+import { FormInstance, RuleType, FieldData, FieldError } from '@/app/types/form';
+import { useForm } from '@/app/hooks/useForm';
+import { InputSize } from '@/app/components/Input';
 import { FormItem, FormItemProps } from './Item';
 
 export const FormContext = createContext<FormInstance | null>(null);

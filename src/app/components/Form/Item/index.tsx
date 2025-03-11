@@ -1,8 +1,9 @@
 import { ChangeEvent, cloneElement, FC, ReactElement, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
-import { RuleObject, RuleType } from '@/src/app/types/form';
-import { prefixClsFormItem } from '@/src/app/utils';
-import { OptionProps } from '@/src/app/types/select';
+import { RuleObject } from '@/app/types/form';
+import { prefixClsFormItem } from '@/app/utils';
+import { OptionProps } from '@/app/types/select';
+import { RuleTypes, TargetProps } from '@/app/types';
 import './style.css';
 
 export type FormItemProps = {
@@ -43,7 +44,7 @@ export const FormItem: FC<FormItemProps> = ({
   return (
     <div className={`${prefixCls} ${className} ${layout}`}>
       <label className={`${prefixCls}-label`} htmlFor={name}>
-        {label} {isRequired && <span className={`${prefixCls}-required`}>*</span>}
+        {layout === 'horizontal' ? `${label}: ` : label} {isRequired && <span className={`${prefixCls}-required`}>*</span>}
       </label>
 
       {cloneElement(children, {
@@ -52,12 +53,12 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         value: getFieldValue(name),
         error: !!getFieldError(name).length,
-        onChange: (e: ChangeEvent & { target: { value: RuleType, valueAnyType: RuleType } }, option?: OptionProps) => {
+        onChange: (e: ChangeEvent & TargetProps, option?: OptionProps) => {
           const value = e.target.valueAnyType ?? e.target.value;
 
           setFieldValue(name, value)
 
-          const childOnChange = (children.props as { onChange?: (value: RuleType, option?: OptionProps) => void }).onChange;
+          const childOnChange = (children.props as { onChange?: (value: RuleTypes, option?: OptionProps) => void }).onChange;
           childOnChange?.(value, option);
         },
         ...props

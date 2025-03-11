@@ -1,6 +1,6 @@
 import { FC, MouseEventHandler } from 'react';
-import { prefixClsSelect } from '@/src/app/utils';
-import { OptionProps } from '@/src/app/types/select';
+import { prefixClsSelect } from '@/app/utils';
+import { OptionProps } from '@/app/types/select';
 import './style.css'
 
 const Option: FC<OptionProps> = ({

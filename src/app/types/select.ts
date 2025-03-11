@@ -11,8 +11,7 @@ import {
   SyntheticEvent
 } from "react";
 import { RuleType } from "./form";
-
-export type MouseEventHandlerSelect = MouseEvent<HTMLDivElement> & { target: { value: string | string[] } }
+import { TargetProps } from ".";
 
 export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   prefixCls?: string;
@@ -71,7 +70,7 @@ export interface OptionProps {
 export type CustomTagProps = {
     label?: React.ReactNode;
     value: string;
-    onClose: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+    onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void,
     closable?: boolean;
     isMaxTag?: boolean;
     color?: string;
@@ -83,7 +82,7 @@ export type CustomTagProps = {
 export interface TagProps {
   prefixCls?: string,
   values?: string[],
-  onClose: (e: MouseEvent<HTMLSpanElement> & { target: { valueAnyType: string[] } }) => void,
+  onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void,
   icon?: ReactNode;
   style?: CSSProperties;
   className?: string,

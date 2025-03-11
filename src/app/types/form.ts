@@ -1,3 +1,5 @@
+import { RuleTypes } from ".";
+
 export type RuleType = (string | number | boolean | null | undefined) | (string | number | boolean | null | undefined[]);
 
 export interface RuleObject {
@@ -8,12 +10,12 @@ export interface RuleObject {
 	max?: number;
 	warningPattern?: RegExp;
 	warningMessage?: string;
-	validator?: (rule: RuleObject, value: RuleType, callback: (error?: string) => void) => Promise<void> | void;
+	validator?: (rule: RuleObject, value: RuleTypes, callback: (error?: string) => void) => Promise<void> | void;
 }
 
 export interface FieldData {
 	name: string;
-	value: RuleType;
+	value: RuleTypes;
 }
 
 export interface FieldError {
@@ -22,23 +24,23 @@ export interface FieldError {
 }
 
 export interface FormInstance {
-  submit: () => Promise<Record<string, RuleType> | undefined>;
+  submit: () => Promise<Record<string, RuleTypes> | undefined>;
   setFields: (fields: FieldData[]) => void;
   resetFields: () => void;
   getFieldError: (name: string) => string[];
   registerField: (name: string, rules?: RuleObject[]) => void;
-  setFieldValue: (name: string, value: RuleType) => void;
-  getFieldValue: (name: string) => RuleType;
+  setFieldValue: (name: string, value: RuleTypes) => void;
+  getFieldValue: (name: string) => RuleTypes;
   validateFields: () => Promise<boolean>;
-  setFieldsValue: (values: Partial<Record<string, RuleType>>) => void;
-  getFieldsValue: (nameList?: string[]) => Record<string, RuleType>;
+  setFieldsValue: (values: Partial<Record<string, RuleTypes>>) => void;
+  getFieldsValue: (nameList?: string[]) => Record<string, RuleTypes>;
   isFieldTouched: (name: string) => boolean;
   getFieldsError: () => Pick<FieldError, 'errors' | 'name'>[];
   isFieldsTouched: (nameList?: string[], allFieldsTouched?: boolean) => boolean;
   getFieldWarning: (name: string) => string[];
-  subscribeToField: (name: string, callback: (value: RuleType) => void) => () => void,
-  subscribeToForm: (callback: (values: Record<string, RuleType>) => void) => () => void,
+  subscribeToField: (name: string, callback: (value: RuleTypes) => void) => () => void,
+  subscribeToForm: (callback: (values: Record<string, RuleTypes>) => void) => () => void,
   isFieldValidating: (name: string) => boolean;
   onFieldsChange?: (changedFields: FieldData[]) => void;
-  onValuesChange?: (changedValues: Record<string, RuleType>, allValues: Record<string, RuleType>) => void;
+  onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void;
 }

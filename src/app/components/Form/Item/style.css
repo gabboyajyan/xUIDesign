@@ -31,9 +31,15 @@
 }
 
 .xUi-form-item.horizontal {
+    gap: 4px;
     flex-direction: row;
 }
 
 .xUi-form-item.vertical {
     flex-direction: column;
+}
+
+.xUi-form-item .xUi-input-container,
+.xUi-form-item .xUi-select {
+    width: -webkit-fill-available;
 }
