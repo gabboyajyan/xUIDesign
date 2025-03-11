@@ -67,7 +67,7 @@
 }
 
 /* Dropdown styles */
-.xUi-select .xUi-select-dropdown {
+.xUi-select-dropdown {
     position: absolute;
     min-width: max-content;
     top: 100%;
@@ -155,4 +155,24 @@
 
 .xUi-select.large input {
     font-size: 16px;
+}
+
+.xUi-select-options {
+    list-style: none;
+    margin: 0;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.xUi-select-option {
+    padding: 8px 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.xUi-select-option:hover {
+    background-color: #f5f5f5;
 }

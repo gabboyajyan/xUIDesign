@@ -1,13 +1,29 @@
 'use client'
 
-import { ReactElement, useState, useRef, useEffect, ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useMemo } from "react";
-import { MouseEventHandlerSelect, OptionProps, SelectProps } from "@/app/types/select";
-import { Option } from "./Option";
-import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../icons";
-import { Tag } from "./Tag";
+import {
+    ReactElement,
+    useState,
+    useRef,
+    useEffect,
+    ChangeEvent,
+    KeyboardEvent,
+    MouseEvent,
+    useCallback,
+    useMemo
+} from "react";
+import {
+    MouseEventHandlerSelect,
+    OptionProps,
+    SelectProps
+} from "@/src/app/types/select";
 import cc from "classcat";
-import { EmptyContent } from "../Empty";
-import { prefixClsSelect } from "@/app/utils";
+import { prefixClsSelect } from "@/src/app/utils";
+import { EmptyContent } from "@/src/app/components/Empty";
+import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/src/app/components/icons";
+import { createPortal } from "react-dom";
+import { Option } from "./Option";
+import { Tag } from "./Tag";
+
 import './style.css';
 
 const Select = <OptionType extends OptionProps = OptionProps>({
@@ -46,6 +62,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     showArrow = true,
     notFoundContent = true,
     tagRender,
+    getPopupContainer
 }: SelectProps<OptionType>): ReactElement => {
     const initialValue = value || defaultValue || '';
 
@@ -59,6 +76,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
     const selectRef = useRef<HTMLDivElement>(null);
     const [isOpen, setIsOpen] = useState(defaultOpen || open);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
+    const [dropdownPosition, setDropdownPosition] = useState<React.CSSProperties>({});
     const [selected, setSelected] = useState((hasMode ? checkModeInitialValue : initialValue));
 
     const handleMouseEnter = () => !disabled && selected.length && setIsHover(true);
@@ -95,6 +113,33 @@ const Select = <OptionType extends OptionProps = OptionProps>({
             document.removeEventListener("mousedown", handleClickOutside);
         };
     }, [handleClearInputValue, open, hasMode]);
+
+    useEffect(() => {
+        if (!selectRef.current || !getPopupContainer) return;
+
+        const selectBox = selectRef.current.getBoundingClientRect();
+        const dropdownHeight = listHeight;
+        const windowHeight = window.innerHeight;
+        const spaceBelow = windowHeight - selectBox.bottom;
+        const spaceAbove = selectBox.top;
+
+        let positionStyle: React.CSSProperties = {
+            top: `${selectBox.bottom}px`,
+            left: `${selectBox.left}px`,
+            width: `${selectBox.width}px`,
+        };
+
+        if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+            positionStyle = {
+                top: `${selectBox.top - dropdownHeight}px`,
+                left: `${selectBox.left}px`,
+                width: `${selectBox.width}px`,
+            };
+        }
+
+        setDropdownPosition(positionStyle);
+    }, [listHeight, getPopupContainer]);
+
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
@@ -201,6 +246,16 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         }
     }
 
+    const ArrowContainer = useMemo(() => {
+        return showSearch && isOpen ? <SearchIcon /> : <span>
+            {showArrow && <ArrowIcon isOpen={isOpen} />}
+        </span>
+    }, [showArrow, showSearch, isOpen]);
+
+    const popupContainer = useMemo(() => {
+        return getPopupContainer ? getPopupContainer(selectRef.current!) : selectRef.current;
+    }, [getPopupContainer]);
+
     const extractedOptions = children
         ? (Array.isArray(children) ? children : [children]).map((child: { props: OptionType }) => child.props) : options;
 
@@ -215,11 +270,62 @@ const Select = <OptionType extends OptionProps = OptionProps>({
         return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
-    const ArrowContainer = useMemo(() => {
-        return showSearch && isOpen ? <SearchIcon /> : <span>
-            {showArrow && <ArrowIcon isOpen={isOpen} />}
-        </span>
-    }, [showArrow, showSearch, isOpen])
+    const dropdownContent = !loading && isOpen && (
+        <div className={cc([`${prefixCls}-dropdown`, { [dropdownClassName]: dropdownClassName }])} style={{ ...dropdownPosition, maxHeight: listHeight }}>
+            {filterable && (
+                <input
+                    type="text"
+                    className={`${prefixCls}-search`}
+                    value={searchQuery}
+                    onChange={handleSearch}
+                    placeholder="Search..."
+                />
+            )}
+
+            {!loading && (
+                <div className={`${prefixCls}-options`} style={{ maxHeight: listHeight, overflowY: 'auto' }}>
+                    {asTag && !!searchQuery && <Option
+                        value={searchQuery}
+                        className={`${prefixCls}-focused`}
+                        onClick={(e) => {
+                            handleSelect(e as MouseEventHandlerSelect, searchQuery)
+                        }}
+                        data-value={searchQuery}
+                    >
+                        {searchQuery}
+                    </Option>}
+
+                    {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
+                        <Option
+                            key={props.value}
+                            {...props}
+                            className={cc([
+                                className,
+                                {
+                                    [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
+                                    [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
+                                }
+                            ])}
+                            onClick={(e) => {
+                                if (!props.disabled) {
+                                    handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
+                                }
+                            }}
+                            data-value={props.value}
+                        >
+                            {children || props.value}
+
+                            {(selected as string[]).includes(props.value as string) && (
+                                <span className={`${prefixCls}-selected-icon`}>{
+                                    menuItemSelectedIcon === true ? <CheckIcon /> : menuItemSelectedIcon}
+                                </span>
+                            )}
+                        </Option>
+                    )) : !asTag ? notFoundContent || <EmptyContent /> : null}
+                </div>
+            )}
+        </div>
+    );
 
     return (
         <div
@@ -231,12 +337,12 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 [prefixCls]: prefixCls,
                 [`${prefixCls}-error`]: error
             }])}>
+
             <div
                 className={`${prefixCls}-trigger`}
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                onClick={() => !disabled && setIsOpen(!isOpen)}
-            >
+                onClick={() => !disabled && setIsOpen(!isOpen)}>
 
                 {hasMode ? <div
                     style={style}
@@ -304,64 +410,7 @@ const Select = <OptionType extends OptionProps = OptionProps>({
                 }
             </div>
 
-            {!loading && isOpen && (
-                <div className={cc([`${prefixCls}-dropdown`, { [dropdownClassName]: dropdownClassName }])} style={{ maxHeight: listHeight }}>
-                    {filterable && (
-                        <input
-                            type="text"
-                            className={`${prefixCls}-search`}
-                            value={searchQuery}
-                            onChange={handleSearch}
-                            placeholder="Search..."
-                        />
-                    )}
-
-                    {!loading && (
-                        <div className={`${prefixCls}-options`} style={{ maxHeight: `${listHeight}px`, overflowY: 'auto' }}>
-                            {asTag && !!searchQuery && <Option
-                                value={searchQuery}
-                                className={`${prefixCls}-focused`}
-                                onClick={(e) => {
-                                    handleSelect(e as MouseEventHandlerSelect, searchQuery)
-                                }}
-                                data-value={searchQuery}
-                            >
-                                {searchQuery}
-                            </Option>}
-
-                            {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
-                                <Option
-                                    key={props.value}
-                                    {...props}
-                                    className={cc([
-                                        className,
-                                        {
-                                            [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
-                                            [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
-                                        }
-                                    ])}
-                                    onClick={(e) => {
-                                        if (!props.disabled) {
-                                            console.log(props.value);
-
-                                            handleSelect(e as MouseEventHandlerSelect, props.value as string, { children, className, ...props } as OptionType)
-                                        }
-                                    }}
-                                    data-value={props.value}
-                                >
-                                    {children || props.value}
-
-                                    {(selected as string[]).includes(props.value as string) && (
-                                        <span className={`${prefixCls}-selected-icon`}>{
-                                            menuItemSelectedIcon === true ? <CheckIcon /> : menuItemSelectedIcon}
-                                        </span>
-                                    )}
-                                </Option>
-                            )) : !asTag ? notFoundContent || <EmptyContent /> : null}
-                        </div>
-                    )}
-                </div>
-            )}
+            {popupContainer ? createPortal(dropdownContent, popupContainer) : dropdownContent}
         </div>
     );
 };

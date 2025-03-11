@@ -1,9 +1,9 @@
 import React, { useState, useEffect, FC, ChangeEvent } from "react";
-import { CheckboxProps } from "@/app/types/checkbox";
-import { prefixClsCheckbox } from "@/app/utils";
+import { CheckboxProps } from "@/src/app/types/checkbox";
+import { prefixClsCheckbox } from "@/src/app/utils";
+import { RuleType } from "@/src/app/types/form";
 import cc from "classcat";
 import "./style.css";
-import { RuleType } from "@/app/types/form";
 
 const Checkbox: FC<CheckboxProps> = ({
     prefixCls = prefixClsCheckbox,
@@ -24,9 +24,7 @@ const Checkbox: FC<CheckboxProps> = ({
     id,
     autoFocus,
     type = "checkbox",
-    value = false,
-    // skipGroup,
-    // required
+    value = false
 }) => {
     const [internalChecked, setInternalChecked] = useState(defaultChecked || value);
     const isChecked = checked !== undefined ? checked : internalChecked;
@@ -35,8 +33,6 @@ const Checkbox: FC<CheckboxProps> = ({
         if (disabled) {
             return;
         }
-
-        console.log();
 
         const newChecked = !isChecked;
 

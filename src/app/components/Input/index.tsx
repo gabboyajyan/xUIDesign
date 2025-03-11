@@ -3,8 +3,8 @@
 import { ChangeEvent, ForwardedRef, forwardRef, InputHTMLAttributes, KeyboardEvent, MouseEvent, ReactNode, useState } from "react";
 import cc from "classcat";
 import "./style.css";
-import { prefixClsInput } from "@/app/utils";
-import { RuleType } from "@/app/types/form";
+import { prefixClsInput } from "@/src/app/utils";
+import { RuleType } from "@/src/app/types/form";
 
 export type InputSize = "small" | "middle" | "large";
 

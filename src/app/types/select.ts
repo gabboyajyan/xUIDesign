@@ -54,7 +54,8 @@ export interface SelectProps<OptionType extends OptionProps = OptionProps> {
   suffixIcon?: ReactNode,
   open?: boolean
   style?: CSSProperties
-  notFoundContent?: ReactNode
+  notFoundContent?: ReactNode;
+  getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement
 }
 
 export interface OptionProps {

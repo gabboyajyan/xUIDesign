@@ -1,5 +1,5 @@
 import { ReactNode } from "react"
-import { prefixClsEmpty } from "@/app/utils"
+import { prefixClsEmpty } from "@/src/app/utils"
 import './style.css'
 
 interface EmptyContentProps {
