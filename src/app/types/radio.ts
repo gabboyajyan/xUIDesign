@@ -6,6 +6,7 @@ import {
     KeyboardEventHandler,
     MouseEventHandler
 } from "react";
+import { RuleType } from ".";
 
 // export type RadioOptionType = {
 //     label: ReactNode;
@@ -30,7 +31,7 @@ export type RadioProps = {
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     onBlur?: FocusEventHandler<HTMLInputElement>;
-    value?: string | number | string[] | undefined;
+    value?: RuleType;
     tabIndex?: number;
     name?: string;
     children?: ReactNode;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC, ChangeEvent } from "react";
+import React, { useState, useEffect, FC, MouseEvent } from "react";
 import { CheckboxProps } from "@/app/types/checkbox";
 import { prefixClsCheckbox } from "@/app/utils";
 import { TargetProps } from "@/app/types";
@@ -25,24 +25,29 @@ const Checkbox: FC<CheckboxProps> = ({
     autoFocus,
     type = "checkbox",
     value = false,
-    required
+    required = false
 }) => {
     const [internalChecked, setInternalChecked] = useState(defaultChecked || value);
     const isChecked = checked !== undefined ? checked : internalChecked;
 
-    const handleChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
+    const handleClick = (e: MouseEvent<HTMLInputElement> & TargetProps) => {
+        e.stopPropagation()
+        
         if (disabled) {
             return;
         }
 
         const newChecked = !isChecked;
 
+        console.log(newChecked);
+        
         if (checked === undefined) {
             setInternalChecked(newChecked);
         }
 
-        e.target.valueAnyType = e.target.checked;
+        e.target.valueAnyType = newChecked;
 
+        onClick?.(e);
         onChange?.(e);
     };
 
@@ -53,8 +58,9 @@ const Checkbox: FC<CheckboxProps> = ({
     }, [checked]);
 
     return (
-        <label
+        <div
             style={style}
+            onClick={handleClick}
             className={cc([
                 prefixCls,
                 className,
@@ -68,14 +74,13 @@ const Checkbox: FC<CheckboxProps> = ({
                 type={type}
                 name={name}
                 onClick={onClick}
-                checked={isChecked}
                 disabled={disabled}
                 tabIndex={tabIndex}
                 required={required}
                 autoFocus={autoFocus}
                 onKeyDown={onKeyDown}
-                onChange={handleChange}
                 onKeyPress={onKeyPress}
+                checked={internalChecked}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
             />
@@ -87,7 +92,7 @@ const Checkbox: FC<CheckboxProps> = ({
             </span>
 
             {children && <span className={`${prefixCls}-label`}>{children}</span>}
-        </label>
+        </div>
     );
 };
 

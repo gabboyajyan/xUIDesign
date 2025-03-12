@@ -1,9 +1,14 @@
-import { ChangeEvent, KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
-import { DefaultProps } from ".";
+import {
+    KeyboardEventHandler,
+    MouseEvent,
+    MouseEventHandler,
+    ReactNode 
+} from "react";
+import { DefaultProps, TargetProps } from ".";
 
 export type CheckboxProps = DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseEnter?: MouseEventHandler<HTMLElement>;
     onMouseLeave?: MouseEventHandler<HTMLElement>;

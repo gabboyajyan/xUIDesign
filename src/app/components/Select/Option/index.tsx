@@ -24,7 +24,7 @@ const Option: FC<OptionProps> = ({
       style={style}
       onClick={handleClick}
     >
-      {render ? render(value) : children || value}
+      {render ? render(value as string) : children || value}
     </div>
   );
 };

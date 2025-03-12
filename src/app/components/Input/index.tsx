@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef, MouseEvent, useState } from "react";
+import { ChangeEvent, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useState } from "react";
 import { prefixClsInput } from "@/app/utils";
 import { TargetProps } from "@/app/types";
 import { InputProps } from "@/app/types/input";
@@ -40,6 +40,12 @@ const Input = forwardRef(({
 		props.onChange?.(e as unknown as ChangeEvent<HTMLInputElement> & TargetProps);
 	};
 
+	const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+		if (e.key === "Enter" && onPressEnter) {
+			onPressEnter(e);
+		}
+	}
+
 	return (
 		<div
 			className={cc([
@@ -61,15 +67,11 @@ const Input = forwardRef(({
 				<input
 					ref={ref}
 					{...props}
-					className={cc([prefixCls, className])}
-					value={internalValue}
 					disabled={disabled}
+					value={internalValue}
 					onChange={handleChange}
-					onKeyDown={(e) => {
-						if (e.key === "Enter" && onPressEnter) {
-							onPressEnter(e);
-						}
-					}}
+					onKeyDown={handleOnKeyDown}
+					className={cc([prefixCls, className])}
 				/>
 
 				{allowClear && (internalValue) && (

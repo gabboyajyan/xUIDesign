@@ -6,29 +6,32 @@ import './style.css';
 
 const Radio = ({
     prefixCls = prefixClsRadio,
-    value = '', 
-    onChange, 
-    disabled ,
+    value,
+    onChange,
+    disabled,
     children,
-    name
+    name,
+    title
 }: RadioProps) => {
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
+        if (!disabled) {
+            e.target.valueAnyType = e.target.value
+
+            onChange?.(e)
+        }
+    }
+
     return (
-        <label className={`${prefixCls}-label ${disabled ? 'disabled' : ''}`}>
+        <label title={title} className={`${prefixCls}-label ${disabled ? 'disabled' : ''}`}>
             <input
                 type='radio'
-                value={value}
                 disabled={disabled}
+                onChange={handleOnChange}
                 name={name || prefixClsRadio}
-                onChange={(e: ChangeEvent<HTMLInputElement> & TargetProps) => {
-                    if (!disabled) {
-                        e.target.valueAnyType = value
-
-                        onChange?.(e)
-                    }
-                }}
+                value={value as string | number | readonly string[] | undefined}
             />
             <span className={prefixCls} />
-            {children}
+            <span className={`${prefixCls}-title`}>{children}</span>
         </label>
     );
 };

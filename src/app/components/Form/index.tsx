@@ -57,7 +57,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
             return cloneElement(child, {
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
-              layout,
+              layout: child.props.layout || layout,
               ...rest
             });
           }

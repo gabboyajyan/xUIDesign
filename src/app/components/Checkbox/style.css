@@ -76,7 +76,7 @@
 .xUi-checkbox:hover:not(.disabled),
 .xUi-checkbox:focus:not(.disabled) {
     border-color: var(--text-main-color);
-    background-color: #f0f5ff;
+    cursor: pointer;
 }
 
 .xUi-checkbox.disabled {

@@ -83,7 +83,7 @@ const useForm = (
     const fieldWarnings: string[] = [];
 
     for (const rule of rules) {
-      if (rule.required && (value === undefined || value === null || value === "" || (Array.isArray(value) && !value.length))) {
+      if (rule.required && (value === undefined || value === null || value === "" || value === false || (Array.isArray(value) && !value.length))) {
         fieldErrors.push(rule.message || "This field is required");
       }
 

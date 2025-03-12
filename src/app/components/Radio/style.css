@@ -4,7 +4,8 @@
 }
 
 .xUi-radio-label {
-    display: flex;
+    /* gap: 8px; */
+    display: inline-flex;
     align-items: center;
     cursor: pointer;
     font-size: var(--font-md-size);
@@ -21,9 +22,13 @@
     height: 16px;
     border-radius: 50%;
     position: relative;
-    margin-right: 8px;
     transition: all 0.3s;
     border: 1px solid var(--border-color);
+}
+
+.xUi-radio-title {
+    padding-inline-start: 8px;
+    padding-inline-end: 8px;
 }
 
 .xUi-radio-label input:checked + .xUi-radio {
