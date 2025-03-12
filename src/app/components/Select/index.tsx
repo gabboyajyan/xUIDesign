@@ -269,7 +269,7 @@ const Select = ({
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const valueToCheck = option[optionFilterProp] || option.value;
+        const valueToCheck = `${option[optionFilterProp] || option.value}`;
         return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
 
@@ -300,13 +300,13 @@ const Select = ({
 
                     {filteredOptions.length ? filteredOptions.map(({ children, className = '', ...props }) => (
                         <Option
-                            key={props.value}
+                            key={`${props.value}`}
                             {...props}
                             className={cc([
                                 className,
                                 {
-                                    [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value) : props.value === selected,
-                                    [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value) ? selected.length >= maxCount : false
+                                    [`${prefixCls}-focused`]: hasMode ? selected.includes(props.value as string) : props.value === selected,
+                                    [`${prefixCls}-disabled`]: maxCount && hasMode && !selected.includes(props.value as string) ? selected.length >= maxCount : false
                                 }
                             ])}
                             onClick={(e) => {
@@ -318,9 +318,11 @@ const Select = ({
                             }}
                             data-value={props.value}
                         >
-                            {children || props.value}
+                            <div dangerouslySetInnerHTML={{
+                                __html: (children || props.value) as string
+                            }} />
 
-                            {(selected as string[]).includes(props.value as string) && (
+                            {hasMode &&selected.includes(props.value as string) && (
                                 <span className={`${prefixCls}-selected-icon`}>{
                                     menuItemSelectedIcon === true ? <CheckIcon /> : menuItemSelectedIcon}
                                 </span>
@@ -392,17 +394,6 @@ const Select = ({
                         {selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected}
                     </div>
                 )}
-
-                {/* <input
-                    readOnly
-                    type="text"
-                    disabled={disabled}
-                    placeholder={placeholder || ''}
-                    className={`${prefixCls}-input`}
-                    style={{ opacity: isOpen ? '0.8' : '1' }}
-                    onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                    value={(extractedOptions.find(e => e.value === selected)?.children as HTMLElement)?.innerText || selected}
-                /> */}
 
                 {isHover && !loading ?
                     (

@@ -55,7 +55,7 @@ export type SelectProps = DefaultProps & {
 }
 
 export interface OptionType {
-  value: string;
+  value: RuleType;
   disabled?: boolean;
   children?: ReactNode;
   className?: string;
@@ -93,7 +93,7 @@ export interface DisplayValueType {
 }
 
 export interface OptionProps {
-  value: string;
+  value: RuleType;
   disabled?: boolean;
   children?: ReactNode;
   className?: string;
