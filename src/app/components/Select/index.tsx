@@ -389,7 +389,7 @@ const Select = ({
                     <div
                         className={`${prefixCls}-input`}
                         onClick={() => !disabled && setIsOpen(!isOpen || open)}
-                        style={{ opacity: isOpen || selected === '' ? '0.8' : '1' }}
+                        style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
                     >
                         {selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected}
                     </div>

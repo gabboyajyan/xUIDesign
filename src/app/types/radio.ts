@@ -7,6 +7,12 @@ import {
     MouseEventHandler
 } from "react";
 
+// export type RadioOptionType = {
+//     label: ReactNode;
+//     value: string | number;
+//     disabled?: boolean;
+// };
+
 export type RadioProps = {
     prefixCls?: string;
     className?: string;
@@ -24,7 +30,7 @@ export type RadioProps = {
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onFocus?: FocusEventHandler<HTMLInputElement>;
     onBlur?: FocusEventHandler<HTMLInputElement>;
-    value?: boolean;
+    value?: string | number | string[] | undefined;
     tabIndex?: number;
     name?: string;
     children?: ReactNode;
@@ -33,4 +39,4 @@ export type RadioProps = {
     type?: string;
     skipGroup?: boolean;
     required?: boolean;
-}
+};

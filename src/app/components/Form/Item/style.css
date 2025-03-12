@@ -9,25 +9,25 @@
     margin-bottom: 4px;
     display: flex;
     align-items: center;
-    font-size: 14px;
+    font-size: var(--font-md-size);
 }
 
 .xUi-form-item-error {
-    color: #ff4d4f;
-    font-size: 12px;
+    right: 0;
+    bottom: -18px;
+    font-size: var(--font-xs-size);
     margin-top: 4px;
     position: absolute;
-    bottom: -18px;
-    right: 0;
+    color: var(--error-text-color);
 }
 
 .xUi-form-item-required {
-    color: #ff4d4f;
-    display: inline-block;
-    font-size: 14px;
     line-height: 1;
+    font-size: var(--font-md-size);
     margin-left: 4px;
     margin-right: 4px;
+    display: inline-block;
+    color: var(--error-text-color);
 }
 
 .xUi-form-item.horizontal {

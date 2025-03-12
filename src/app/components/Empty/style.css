@@ -8,5 +8,5 @@
 
 .xUi-empty-description {
     text-align: center;
-    color: #9b9b9b
+    color: var(--text-color);
 }

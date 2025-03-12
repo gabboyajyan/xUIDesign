@@ -38,7 +38,7 @@
 }
 
 .xUi-input-disabled {
-    background-color: #f5f5f5;
+    background-color: var(--color-disabled);
     cursor: not-allowed;
 }
 
@@ -48,7 +48,7 @@
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-small .xUi-input {
-    font-size: 14px;
+    font-size: var(--font-md-size);
 }
 
 .xUi-input-middle {
@@ -58,7 +58,7 @@
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-middle .xUi-input {
-    font-size: 14px;
+    font-size: var(--font-md-size);
 }
 
 .xUi-input-large {
@@ -68,7 +68,7 @@
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-large .xUi-input {
-    font-size: 16px;
+    font-size: var(--font-lg-size);
 }
 
 .xUi-input-middle {

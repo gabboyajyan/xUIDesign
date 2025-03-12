@@ -24,7 +24,8 @@ const Checkbox: FC<CheckboxProps> = ({
     id,
     autoFocus,
     type = "checkbox",
-    value = false
+    value = false,
+    required
 }) => {
     const [internalChecked, setInternalChecked] = useState(defaultChecked || value);
     const isChecked = checked !== undefined ? checked : internalChecked;
@@ -70,6 +71,7 @@ const Checkbox: FC<CheckboxProps> = ({
                 checked={isChecked}
                 disabled={disabled}
                 tabIndex={tabIndex}
+                required={required}
                 autoFocus={autoFocus}
                 onKeyDown={onKeyDown}
                 onChange={handleChange}

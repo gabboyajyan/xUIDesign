@@ -11,7 +11,7 @@
     position: relative;
     display: inline-flex;
     flex-direction: row-reverse;
-    color: #333;
+    color: var(--text-color);
     min-height: 24px;
     background-color: #fff;
     border-radius: 4px;
@@ -26,7 +26,7 @@
 
 .xUi-select-arrow {
     margin: 0 4px;
-    color: rgba(0, 0, 0, 0.25);
+    color: var(--text-color-light);
 }
 
 .xUi-select-arrow svg {
@@ -39,7 +39,7 @@
     margin: 0 8px;
     animation: spin 1s linear infinite;
     display: inline-block;
-    color: rgba(0, 0, 0, 0.25);
+    color: var(--text-color-light);
 }
 
 .xUi-select .xUi-select-trigger {
@@ -62,11 +62,11 @@
 }
 
 .xUi-select .xUi-select-clear-btn {
-    font-size: 16px;
+    font-size: var(--font-lg-size);
 }
 
 .xUi-select .xUi-select-clear-btn:hover {
-    color: #333;
+    color: var(--text-color-light);
 }
 
 .xUi-select-dropdown {
@@ -91,12 +91,12 @@
 }
 
 .xUi-select:focus-within {
-    border-color: #40a9ff;
+    border-color: var(--text-main-color-light);
     box-shadow: none;
 }
 
 .xUi-select:hover:not(.xUi-select-disabled) {
-    border-color: #40a9ff;
+    border-color: var(--text-main-color-light);
 }
 
 .xUi-select-disabled .xUi-select-input,
@@ -107,7 +107,7 @@
 }
 
 .xUi-select-selected-icon {
-    color: #40a9ff;
+    color: var(--text-main-color-light);
 }
 
 .xUi-select-error {
@@ -120,8 +120,8 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: 14px;
-    color: #333;
+    font-size: var(--font-md-size);
+    color: var(--text-color);
     user-select: none;
     cursor: pointer;
     height: -webkit-fill-available;
@@ -136,13 +136,13 @@
 }
 
 .xUi-select.middle {
-    font-size: 14px;
+    font-size: var(--font-md-size);
     min-height: 30px;
     border-radius: 6px;
 }
 
 .xUi-select.middle input {
-    font-size: 14px;
+    font-size: var(--font-md-size);
 }
 
 .xUi-select.middle .xUi-select-trigger {
@@ -150,7 +150,7 @@
 }
 
 .xUi-select.large {
-    font-size: 16px;
+    font-size: var(--font-lg-size);
     min-height: 38px;
     border-radius: 8px;
 }
@@ -160,5 +160,5 @@
 }
 
 .xUi-select.large input {
-    font-size: 16px;
+    font-size: var(--font-lg-size);
 }

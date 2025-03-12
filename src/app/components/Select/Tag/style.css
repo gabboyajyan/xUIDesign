@@ -1,5 +1,5 @@
 .xUi-select.large .xUi-select-tag {
-    font-size: 16px;
+    font-size: var(--font-lg-size);
 }
 
 .xUi-select .xUi-select-tag-container {
@@ -35,7 +35,7 @@
 }
 
 .xUi-select.middle .xUi-select-tag {
-    padding: 4px 8px;
+    padding: 6px 8px;
 }
 
 .xUi-select.large .xUi-select-tag {
@@ -44,17 +44,17 @@
 
 .xUi-select .xUi-select-tag span {
     margin: 0 2px;
-    font-size: 13px;
+    font-size: var(--font-sm-size);
 }
 
 .xUi-select .xUi-select-tag .xUi-select-tag-close-icon {
     cursor: pointer;
-    font-size: 11px;
+    font-size: var(--font-xs-size);
     color: rgba(0, 0, 0, 0.5);
 }
 
 .xUi-select .xUi-select-tag .xUi-select-tag-close-icon:hover {
-    color: #333;
+    color: var(--text-color);
 }
 
 .xUi-select .xUi-select-tag:has([class="xUi-select-tag-input"]) {
@@ -62,8 +62,8 @@
     width: 100%;
     border: none;
     outline: none;
-    color: #333;
-    font-size: 14px;
+    color: var(--text-color);
+    font-size: var(--font-md-size);
     background: white;
 }
 

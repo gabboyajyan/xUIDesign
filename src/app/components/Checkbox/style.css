@@ -1,6 +1,6 @@
 .xUi-checkbox-wrapper {
     cursor: pointer;
-    font-size: 14px;
+    font-size: var(--font-md-size);
     align-items: center;
     display: inline-flex;
 }
@@ -17,7 +17,7 @@
 }
 
 .xUi-checkbox.xUi-checkbox-checked {
-    border-color: #1677ff;
+    border-color: var(--text-main-color);
     background-color: #f0f5ff;
 }
 
@@ -47,8 +47,8 @@
     display: block;
     position: relative;
     transition: 0.1s ease;
-    border-color: #1677ff;
-    background-color: #1677ff;
+    border-color: var(--text-main-color);
+    background-color: var(--text-main-color);
 }
 
 .xUi-checkbox-check::after {
@@ -75,7 +75,7 @@
 
 .xUi-checkbox:hover:not(.disabled),
 .xUi-checkbox:focus:not(.disabled) {
-    border-color: #1677ff;
+    border-color: var(--text-main-color);
     background-color: #f0f5ff;
 }
 
