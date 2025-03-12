@@ -39,8 +39,6 @@ const Checkbox: FC<CheckboxProps> = ({
 
         const newChecked = !isChecked;
 
-        console.log(newChecked);
-        
         if (checked === undefined) {
             setInternalChecked(newChecked);
         }
