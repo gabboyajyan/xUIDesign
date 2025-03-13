@@ -9,7 +9,7 @@ import {
 } from "antd"
 import { Input } from "./components/Input"
 import { Select } from "./components/Select"
-import { Radio } from "./components/Radio"
+// import { Radio } from "./components/Radio"
 import { Checkbox } from "./components/Checkbox"
 import { Form } from "./components/Form"
 
@@ -23,17 +23,17 @@ export default function Home() {
                 </AntForm.Item>
 
                 <AntForm.Item name='surname' label='Surname' rules={[{ required: true, message: 'Surname is required!' }]}>
-                    <AntInput />
+                    <AntInput value={'sdfdsf'} />
                 </AntForm.Item>
 
                 <AntForm.Item label='Gender' name='gender' rules={[{ required: true, message: 'Gender is required!' }]}>
-                    <AntSelect options={[
+                    <AntSelect mode="tags" options={[
                         { value: 'Male' },
                         { value: 'Female' }
                     ]} />
                 </AntForm.Item>
 
-                <AntForm.Item layout="horizontal" label="I agree" name='agree' rules={[{ required: true, message: 'Agree is required!' }]}>
+                <AntForm.Item layout="horizontal" label="I agree" name='agree'>
                     <AntCheckbox />
                 </AntForm.Item>
 
@@ -65,16 +65,16 @@ export default function Home() {
                     ]} />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="I agree" name='agree' rules={[{ required: true, message: 'Agree is required!' }]}>
+                <Form.Item layout="horizontal" label="I agree" name='agree'>
                     <Checkbox />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
+                {/* <Form.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
                     <>
                         <Radio value={true}>Yes</Radio>
                         <Radio value={false}>No</Radio>
                     </>
-                </Form.Item>
+                </Form.Item> */}
 
                 <button>Submit</button>
             </Form>
