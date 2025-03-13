@@ -1,10 +1,10 @@
-import React, { ChangeEvent } from 'react';
-import { RadioProps } from '@/app/types/radio';
-import { TargetProps } from '@/app/types';
+import { MouseEvent } from 'react';
+import { RadioProps, RadioValueType } from '@/app/types/radio';
+import { RuleType, TargetProps } from '@/app/types';
 import { prefixClsRadio } from '@/app/utils';
+import { RadioGroup } from './Group';
+import cc from 'classcat';
 import './style.css';
-
-type RadioValueType = string | number | readonly string[] | undefined
 
 const Radio = ({
     prefixCls = prefixClsRadio,
@@ -13,29 +13,60 @@ const Radio = ({
     disabled,
     children,
     name,
-    title
+    title,
+    defaultChecked,
+    checked
 }: RadioProps) => {
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
-        if (!disabled) {
-            e.target.valueAnyType = e.target.value
+    const parseValue = (value: RuleType): RuleType => {
+        if (value === 'true') {
+            return true;
+        }
 
+        if (value === 'false') {
+            return false;
+        }
+
+        if (!isNaN(Number(value))) {
+            return Number(value);
+        }
+
+        return value;
+    };
+
+    const handleOnClick = (e: MouseEvent<HTMLLabelElement> & TargetProps) => {
+        const isRadioChecked = parseValue(e.target.value) 
+
+        e.target.valueAnyType = isRadioChecked
+
+        if (!disabled) {
             onChange?.(e)
         }
     }
 
     return (
-        <label title={title} className={`${prefixCls}-label ${disabled ? 'disabled' : ''}`}>
+        <label
+            title={title}
+            onClick={handleOnClick}
+            className={cc([
+                `${prefixCls}-label`,
+                { disabled }
+            ])}
+        >
             <input
+                name={name}
                 type='radio'
+                onChange={() => {}}
                 disabled={disabled}
-                onChange={handleOnChange}
-                name={name || prefixClsRadio}
                 value={value as RadioValueType}
+                checked={defaultChecked || checked}
             />
+
             <span className={prefixCls} />
             <span className={`${prefixCls}-title`}>{children}</span>
         </label>
     );
 };
+
+Radio.Group = RadioGroup
 
 export { Radio };

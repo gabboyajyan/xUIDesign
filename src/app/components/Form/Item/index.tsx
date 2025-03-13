@@ -42,8 +42,8 @@ export const FormItem: FC<FormItemProps> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         size: props.size,
-        value: getFieldValue(name),
         error: !!getFieldError(name).length,
+        value: getFieldValue(name) ?? children.props.value,
         onChange: (e: ChangeEvent & TargetProps, option?: OptionProps) => {
           const value = e.target.valueAnyType ?? e.target.value;
 

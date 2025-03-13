@@ -9,11 +9,14 @@ import {
 } from "antd"
 import { Input } from "./components/Input"
 import { Select } from "./components/Select"
-// import { Radio } from "./components/Radio"
+import { Radio } from "./components/Radio"
 import { Checkbox } from "./components/Checkbox"
 import { Form } from "./components/Form"
+import { useForm } from "./hooks/useForm"
 
 export default function Home() {
+    const form = useForm()
+
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
@@ -27,7 +30,7 @@ export default function Home() {
                 </AntForm.Item>
 
                 <AntForm.Item label='Gender' name='gender' rules={[{ required: true, message: 'Gender is required!' }]}>
-                    <AntSelect mode="tags" options={[
+                    <AntSelect options={[
                         { value: 'Male' },
                         { value: 'Female' }
                     ]} />
@@ -38,9 +41,9 @@ export default function Home() {
                 </AntForm.Item>
 
                 <AntForm.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
-                    <AntRadio.Group>
-                        <AntRadio value={true}>Yes</AntRadio>
-                        <AntRadio value={false}>No</AntRadio>
+                    <AntRadio.Group value={1}>
+                        <AntRadio value={1}>Yes</AntRadio>
+                        <AntRadio value={2}>No</AntRadio>
                     </AntRadio.Group>
                 </AntForm.Item>
 
@@ -49,7 +52,7 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form size="large" layout="vertical" onFinish={(e) => console.log(e)}>
+            <Form form={form} size="large" layout="vertical" onFinish={(e) => console.log(e)}>
                 <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Name is required!' }]}>
                     <Input value={'sdfdsf'} />
                 </Form.Item>
@@ -59,22 +62,22 @@ export default function Home() {
                 </Form.Item>
 
                 <Form.Item label='Gender' name='gender' rules={[{ required: true, message: 'Gender is required!' }]}>
-                    <Select mode="tags" options={[
+                    <Select value={'Male'} options={[
                         { value: 'Male' },
                         { value: 'Female' }
                     ]} />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="I agree" name='agree'>
+                <Form.Item layout="horizontal" label="I agree" name='agree' rules={[{ required: true, message: 'Agree is required!' }]}>
                     <Checkbox />
                 </Form.Item>
 
-                {/* <Form.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
-                    <>
-                        <Radio value={true}>Yes</Radio>
-                        <Radio value={false}>No</Radio>
-                    </>
-                </Form.Item> */}
+                <Form.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
+                    <Radio.Group>
+                        <Radio value={1}>Yes</Radio>
+                        <Radio value={2}>No</Radio>
+                    </Radio.Group>
+                </Form.Item>
 
                 <button>Submit</button>
             </Form>

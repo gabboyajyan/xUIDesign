@@ -27,8 +27,6 @@ const Checkbox: FC<CheckboxProps> = ({
     value = false,
     required = false
 }) => {
-    console.log(checked);
-    
     const isChecked = checked !== undefined ? checked : defaultChecked || value;
     const [internalChecked, setInternalChecked] = useState(isChecked);
 

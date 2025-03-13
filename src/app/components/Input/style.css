@@ -14,7 +14,7 @@
     display: flex;
     gap: 6px;
     height: inherit;
-    padding: 0 6px;
+    padding: 0 2px;
     align-items: center;
     flex-grow: 1;
 }

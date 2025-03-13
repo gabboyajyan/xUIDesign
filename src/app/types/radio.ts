@@ -1,29 +1,43 @@
 import {
     ReactNode,
-    ChangeEvent,
-    CSSProperties,
     FocusEventHandler,
     KeyboardEventHandler,
-    MouseEventHandler
+    MouseEventHandler,
+    MouseEvent,
+    CSSProperties
 } from "react";
-import { RuleType } from ".";
+import { DefaultProps, RuleType, SizeType, TargetProps } from ".";
 
-// export type RadioOptionType = {
-//     label: ReactNode;
-//     value: string | number;
-//     disabled?: boolean;
-// };
+export type RadioValueType = string | number | readonly string[] | undefined
 
-export type RadioProps = {
+export interface RadioGroupProps {
+    defaultValue?: RuleType;
+    value?: RuleType;
+    onChange?: (e: MouseEvent<HTMLLabelElement>) => void;
+    size?: SizeType;
+    disabled?: boolean;
+    onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+    onMouseLeave?: MouseEventHandler<HTMLDivElement>;
+    name?: string;
+    children?: ReactNode;
+    id?: string;
+    optionType?: 'default' | 'button';
+    buttonStyle?: 'outline' | 'solid';
+    onFocus?: FocusEventHandler<HTMLDivElement>;
+    onBlur?: FocusEventHandler<HTMLDivElement>;
+    block?: boolean;
     prefixCls?: string;
     className?: string;
-    rootClassName?: string;
+    options?: Array<{ label: ReactNode; value: RuleType; disabled?: boolean }> | string[] | number[];
+    style?: CSSProperties;
+}
+
+export type RadioProps = DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
-    style?: CSSProperties;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (e: MouseEvent<HTMLLabelElement> & TargetProps) => void;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseEnter?: MouseEventHandler<HTMLElement>;
     onMouseLeave?: MouseEventHandler<HTMLElement>;

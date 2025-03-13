@@ -43,7 +43,7 @@ export type FormItemProps = DefaultProps & {
   name: string;
   label: string;
   rules?: RuleObject[];
-  children: ReactElement;
+  children: ReactElement & { props: { value: RuleTypes } };
   layout?: FormLayoutTypes;
 };
 
