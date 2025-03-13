@@ -3,26 +3,26 @@
 import {
     Form as AntForm,
     Radio as AntRadio,
-    Checkbox as AntCheckbox,
     Input as AntInput,
     Select as AntSelect,
+    Checkbox as AntCheckbox,
 } from "antd"
-import { Input } from "./components/Input"
-import { Select } from "./components/Select"
-import { Radio } from "./components/Radio"
-import { Checkbox } from "./components/Checkbox"
 import { Form } from "./components/Form"
+import { Input } from "./components/Input"
+import { Radio } from "./components/Radio"
+import { Select } from "./components/Select"
+import { Checkbox } from "./components/Checkbox"
 
 export default function Home() {
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
-            <AntForm size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
+            <AntForm size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
+                <AntForm.Item name='input' label='Input' rules={[{ required: true }]}>
                     <AntInput />
                 </AntForm.Item>
 
-                <AntForm.Item name='select' label='select' rules={[{ required: true }]}>
+                <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
                     <AntSelect
                         mode="tags"
                         options={[
@@ -31,14 +31,14 @@ export default function Home() {
                         ]} />
                 </AntForm.Item>
 
-                <AntForm.Item name='ck' label='ck'>
+                <AntForm.Item name='checkbox' label='Checkbox'>
                     <AntCheckbox />
                 </AntForm.Item>
 
-                <AntForm.Item name='radio' label='radio' rules={[{ required: true }]}>
-                    <AntRadio.Group>
-                        <AntRadio value="Male" title="Male" />
-                        <AntRadio value="Female" title="Female" />
+                <AntForm.Item name='radio' label='Radio' rules={[{ required: true }]}>
+                    <AntRadio.Group buttonStyle="outline">
+                        <AntRadio value="Male" title="Male">Male</AntRadio>
+                        <AntRadio value="Female" title="Female">Female</AntRadio>
                     </AntRadio.Group>
                 </AntForm.Item>
 
@@ -47,12 +47,12 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <Form.Item name='input' label='input' rules={[{ required: true }]}>
+            <Form size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
+                <Form.Item name='input' label='Input' rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
 
-                <Form.Item name='select' label='select' rules={[{ required: true }]}>
+                <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
                         mode="tags"
                         options={[
@@ -61,14 +61,14 @@ export default function Home() {
                         ]} />
                 </Form.Item>
 
-                <Form.Item name='checkbox' label='checkbox' rules={[{ required: true }]}>
+                <Form.Item name='checkbox' label='Checkbox' rules={[{ required: true }]}>
                     <Checkbox />
                 </Form.Item>
 
-                <Form.Item name='radio' label='radio' rules={[{ required: true }]}>
-                    <Radio.Group>
-                        <Radio value="Male" title="Male" />
-                        <Radio value="Female" title="Female" />
+                <Form.Item name='radio' label='Radio' rules={[{ required: true }]}>
+                    <Radio.Group buttonStyle="outline">
+                        <Radio value="Male" title="Male">Male</Radio>
+                        <Radio value="Female" title="Female">Female</Radio>
                     </Radio.Group>
                 </Form.Item>
 

@@ -20,8 +20,12 @@
     padding: 2px 8px;
 }
 
-.xUi-select.xUi-select-multi {
+.xUi-select.large.xUi-select-multi {
     padding: 4px !important;
+}
+
+.xUi-select.middle.xUi-select-multi {
+    padding: 3px !important;
 }
 
 .xUi-select-disabled {

@@ -4,13 +4,12 @@
 }
 
 .xUi-radio-label {
-    /* gap: 8px; */
+    line-height: 2;
     display: inline-flex;
     align-items: center;
     cursor: pointer;
-    font-size: var(--font-md-size);
     position: relative;
-    line-height: 2
+    font-size: var(--font-md-size);
 }
 
 .xUi-radio-label input {
@@ -24,6 +23,10 @@
     position: relative;
     transition: all 0.3s;
     border: 1px solid var(--border-color);
+}
+
+.xUi-radio-label .xUi-radio-enabled:hover {
+    border: 1px solid var(--text-main-color-light) !important;
 }
 
 .xUi-radio-disabled {
