@@ -38,7 +38,7 @@ const Checkbox: FC<CheckboxProps> = ({
         }
 
         setInternalChecked(!internalChecked);
-        e.target.valueAnyType = !internalChecked;
+        e.target.value = !internalChecked;
 
         onClick?.(e);
         onChange?.(e);

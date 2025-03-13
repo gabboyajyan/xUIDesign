@@ -25,8 +25,6 @@ const RadioGroup = ({
     className = '',
     options = [],
     children,
-    onFocus,
-    onBlur,
     ...props
 }: RadioGroupProps) => {
     const selectedValue = useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
@@ -36,14 +34,13 @@ const RadioGroup = ({
             return options.map((option, key) => {
                 const optionValue = typeof option === 'object' ? option.value : option;
                 const optionLabel = typeof option === 'object' ? option.label : option;
+
                 return (
                     <Radio
                         value={optionValue}
                         key={`${key}_${optionValue}`}
                         checked={selectedValue === optionValue}
                         disabled={disabled || (typeof option === 'object' && option.disabled)}
-                        onFocus={onFocus}
-                        onBlur={onBlur}
                         {...props}
                     >
                         {optionLabel}
@@ -60,8 +57,6 @@ const RadioGroup = ({
                     disabled: disabled ?? (child.props as { disabled: boolean }).disabled,
                     checked: selectedValue === (child.props as { value: RuleType }).value,
                     name: name ?? prefixClsRadio,
-                    onFocus,
-                    onBlur,
                     ...props
                 });
             }
@@ -81,8 +76,6 @@ const RadioGroup = ({
                     [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
                 }])}
             id={id}
-            onFocus={(e) => onFocus?.(e)}
-            onBlur={(e) => onBlur?.(e)}
         >
             {renderChildren()}
         </div>

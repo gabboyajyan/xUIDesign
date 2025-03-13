@@ -1,8 +1,8 @@
 "use client";
 
-import { ChangeEvent, ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useState } from "react";
+import { ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useState } from "react";
 import { prefixClsInput } from "@/app/utils";
-import { TargetProps } from "@/app/types";
+import { SyntheticBaseEvent, TargetProps } from "@/app/types";
 import { InputProps } from "@/app/types/input";
 import cc from "classcat";
 import "./style.css";
@@ -26,10 +26,13 @@ const Input = forwardRef(({
 ) => {
 	const [internalValue, setInternalValue] = useState(value ?? '');
 
-	const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-		setInternalValue(e.target.value);
+	const handleChange = (e: SyntheticBaseEvent) => {
+		setInternalValue(e.target.value as string);
 
-		props.onChange?.(e);
+		props.onChange?.({
+			target: e?.target,
+			currentTarget: e.currentTarget
+		});
 	};
 
 	const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
@@ -37,7 +40,10 @@ const Input = forwardRef(({
 
 		e.target.value = ''
 
-		props.onChange?.(e as unknown as ChangeEvent<HTMLInputElement> & TargetProps);
+		props.onChange?.({
+			target: e?.target,
+			currentTarget: e.currentTarget
+		});
 	};
 
 	const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

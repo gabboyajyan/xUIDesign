@@ -35,7 +35,7 @@
 }
 
 .xUi-select.middle .xUi-select-tag {
-    padding: 6px 8px;
+    padding: 4px 8px;
 }
 
 .xUi-select.large .xUi-select-tag {
@@ -69,6 +69,7 @@
 
 .xUi-select .xUi-select-tag:has([class="xUi-select-tag-input"]) input {
    border: none;
+   padding: 4px;
 }
 
 .xUi-select .xUi-select-tag-input:focus {

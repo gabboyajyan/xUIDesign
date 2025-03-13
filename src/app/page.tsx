@@ -2,14 +2,14 @@
 
 import {
     Form as AntForm,
-    Radio as AntRadio,
+    // Radio as AntRadio,
     Checkbox as AntCheckbox,
     Input as AntInput,
     Select as AntSelect,
 } from "antd"
 import { Input } from "./components/Input"
 import { Select } from "./components/Select"
-import { Radio } from "./components/Radio"
+// import { Radio } from "./components/Radio"
 import { Checkbox } from "./components/Checkbox"
 import { Form } from "./components/Form"
 import { useForm } from "./hooks/useForm"
@@ -21,32 +21,21 @@ export default function Home() {
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
             <AntForm size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <AntForm.Item name='name' label='Name' >
-                    <AntInput value={'dfsdf'} />
+                <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
+                    <AntInput />
                 </AntForm.Item>
 
-                <AntForm.Item name='surname' label='Surname' >
-                    <AntInput value={'sdfdsf'} />
-                </AntForm.Item>
-
-                <AntForm.Item label='Gender' name='gender' >
+                <AntForm.Item name='select' label='select' rules={[{ required: true }]}>
                     <AntSelect
-                    onChange={e => console.log('onChange', e)} 
-                    options={[
-                        { value: 'Male' },
-                        { value: 'Female' }
-                    ]} />
+                        mode="tags"
+                        options={[
+                            { value: '1', label: 'one' },
+                            { value: '2', label: 'two' }
+                        ]} />
                 </AntForm.Item>
 
-                <AntForm.Item layout="horizontal" label="I agree" name='agree'>
+                <AntForm.Item name='checkbox' label='checkbox' rules={[{ required: true }]}>
                     <AntCheckbox />
-                </AntForm.Item>
-
-                <AntForm.Item layout="horizontal" label="Are you Robot?" name='robot' >
-                    <AntRadio.Group value={1}>
-                        <AntRadio value={1} disabled>Yes</AntRadio>
-                        <AntRadio value={2}>No</AntRadio>
-                    </AntRadio.Group>
                 </AntForm.Item>
 
                 <button>Submit</button>
@@ -55,33 +44,21 @@ export default function Home() {
 
             <h1>Custom Form</h1>
             <Form form={form} size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <Form.Item name='name' label='Name' >
-                    <Input value={'sdfdsf'} />
-                </Form.Item>
-
-                <Form.Item name='surname' label='Surname' >
+                <Form.Item name='input' label='input' rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
 
-                <Form.Item label='Gender' name='gender' >
+                <Form.Item name='select' label='select' rules={[{ required: true }]}>
                     <Select
-                        onChange={e => console.log('onChange', e)}
-                        value={'Male'}
+                        mode="tags"
                         options={[
-                            { value: 'Male' },
-                            { value: 'Female' }
+                            { value: '1', label: 'one' },
+                            { value: '2', label: 'two' }
                         ]} />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="I agree" name='agree' >
+                <Form.Item name='checkbox' label='checkbox' rules={[{ required: true }]}>
                     <Checkbox />
-                </Form.Item>
-
-                <Form.Item layout="horizontal" label="Are you Robot?" name='robot' >
-                    <Radio.Group>
-                        <Radio value={1} disabled>Yes</Radio>
-                        <Radio value={2}>No</Radio>
-                    </Radio.Group>
                 </Form.Item>
 
                 <button>Submit</button>

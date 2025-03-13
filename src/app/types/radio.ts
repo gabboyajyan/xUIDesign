@@ -6,7 +6,7 @@ import {
     CSSProperties,
     ChangeEvent
 } from "react";
-import { DefaultProps, RuleType, SizeType, TargetProps } from ".";
+import { DefaultProps, RuleType, SizeType, SyntheticBaseEvent, TargetProps } from ".";
 
 export type RadioValueType = string | number | readonly string[] | undefined
 
@@ -37,7 +37,7 @@ export type RadioProps = DefaultProps & {
     checked?: boolean;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: ChangeEvent<HTMLInputElement> & TargetProps) => void;
+    onChange?: (e: SyntheticBaseEvent) => void;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseEnter?: MouseEventHandler<HTMLElement>;
     onMouseLeave?: MouseEventHandler<HTMLElement>;

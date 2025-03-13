@@ -1,5 +1,5 @@
-import { ChangeEvent, InputHTMLAttributes, KeyboardEvent, ReactNode } from "react";
-import { DefaultProps, SizeType, TargetProps } from ".";
+import { InputHTMLAttributes, KeyboardEvent, KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
+import { DefaultProps, SyntheticBaseEvent, SizeType } from ".";
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & DefaultProps & {
     addonBefore?: ReactNode;
@@ -10,6 +10,11 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & D
     disabled?: boolean;
     allowClear?: boolean;
     error?: boolean;
-    onChange?: (event: ChangeEvent & TargetProps) => void,
+    onChange?: (event: SyntheticBaseEvent) => void,
+    onClick?: MouseEventHandler<HTMLElement>;
+    onMouseEnter?: MouseEventHandler<HTMLElement>;
+    onMouseLeave?: MouseEventHandler<HTMLElement>;
+    onKeyPress?: KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };

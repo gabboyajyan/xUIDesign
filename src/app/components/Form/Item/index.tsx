@@ -1,8 +1,8 @@
-import { ChangeEvent, cloneElement, FC, useContext, useEffect, useMemo } from 'react';
+import { cloneElement, FC, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
 import { prefixClsFormItem } from '@/app/utils';
 import { OptionProps } from '@/app/types/select';
-import { TargetProps } from '@/app/types';
+import { SyntheticBaseEvent, RuleType } from '@/app/types';
 import { FormItemProps } from '@/app/types/form';
 import './style.css';
 
@@ -44,12 +44,12 @@ export const FormItem: FC<FormItemProps> = ({
         size: props.size,
         error: !!getFieldError(name).length,
         value: getFieldValue(name) ?? children.props.value,
-        onChange: (e: ChangeEvent & TargetProps, option?: OptionProps) => {
-          const value = e.target.valueAnyType ?? e.target.value;
+        onChange: (e: SyntheticBaseEvent, option?: OptionProps) => {
+          const value: RuleType | SyntheticBaseEvent = e.target ? e.target.value : e;
 
-          setFieldValue(name, value)
+          setFieldValue(name, value as RuleType)
 
-          const childOnChange = (children.props as { onChange?: (e: ChangeEvent & TargetProps, option?: OptionProps) => void }).onChange;
+          const childOnChange = (children.props as { onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void }).onChange;
           childOnChange?.(e, option);
         },
         ...props

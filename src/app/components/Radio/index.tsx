@@ -1,8 +1,8 @@
-import { ChangeEvent } from 'react';
 import { RadioProps, RadioValueType } from '@/app/types/radio';
-import { RuleType, TargetProps } from '@/app/types';
-import { prefixClsRadio } from '@/app/utils';
 import { RadioGroup } from './Group';
+import { SyntheticBaseEvent } from '@/app/types';
+import { prefixClsRadio } from '@/app/utils';
+import { parseValue } from '@/app/helpers';
 import cc from 'classcat';
 import './style.css';
 
@@ -22,22 +22,10 @@ const Radio = ({
     onMouseEnter,
     onMouseLeave
 }: RadioProps) => {
-    const parseValue = (value: RuleType): RuleType => {
-        if (value === 'true') {
-            return true;
-        }
-        if (value === 'false') {
-            return false;
-        }
-        if (!isNaN(Number(value))) {
-            return Number(value);
-        }
-        return value;
-    };
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
+    const handleChange = (e: SyntheticBaseEvent) => {
         if (!disabled) {
-            e.target.valueAnyType = parseValue(e.target.value);
+            e.target.value = parseValue(e.target.value);
+
             onChange?.(e);
         }
     };

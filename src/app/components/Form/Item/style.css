@@ -19,6 +19,7 @@
     margin-top: 4px;
     position: absolute;
     color: var(--error-text-color);
+    user-select: none;
 }
 
 .xUi-form-item-required {

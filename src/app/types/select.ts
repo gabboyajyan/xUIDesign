@@ -8,9 +8,8 @@ import {
   MouseEventHandler,
   ReactElement,
   ReactNode,
-  SyntheticEvent
 } from "react";
-import { DefaultProps, RuleType, TargetProps } from ".";
+import { DefaultProps, RuleType, RuleTypes, TargetProps } from ".";
 
 export type SelectProps = DefaultProps & {
   id?: string;
@@ -30,7 +29,7 @@ export type SelectProps = DefaultProps & {
   value?: string | string[];
   defaultValue?: string | string[];
   maxCount?: number;
-  onChange?: (e: SyntheticEvent, option?: OptionType) => void;
+  onChange?: (e: RuleTypes, option?: OptionType) => void;
   disabled?: boolean;
   loading?: boolean;
   placeholder?: string;
@@ -63,6 +62,7 @@ export interface OptionType {
   onClick?: MouseEventHandler<HTMLDivElement>
   render?: (label: string) => ReactNode;
   prefixCls?: string;
+  label?: RuleType;
 }
 
 export type CustomTagProps = DefaultProps & {

@@ -5,11 +5,9 @@ import {
     useState,
     useRef,
     useEffect,
-    ChangeEvent,
-    KeyboardEvent,
-    MouseEvent,
     useCallback,
-    useMemo
+    useMemo,
+    KeyboardEvent
 } from "react";
 import {
     OptionType,
@@ -18,7 +16,7 @@ import {
 import cc from "classcat";
 import { prefixClsSelect } from "@/app/utils";
 import { EmptyContent } from "@/app/components/Empty";
-import { MouseEventHandlerSelect, TargetProps } from "@/app/types";
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from "@/app/types";
 import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/app/components/icons";
 import { createPortal } from "react-dom";
 import { Option } from "./Option";
@@ -96,9 +94,9 @@ const Select = ({
     }, [autoClearSearchValue])
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const handleClickOutside = (event: any): void => {
-            if (selectRef.current && !selectRef.current.contains(event.target)) {
+         
+        const handleClickOutside = (event: MouseEvent): void => {
+            if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
                 setIsOpen(open);
 
                 if (hasMode) {
@@ -141,16 +139,16 @@ const Select = ({
     }, [listHeight, getPopupContainer]);
 
 
-    const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(e.target.value);
-        onSearch?.(e.target.value);
+    const handleSearch = (e: SyntheticBaseEvent) => {
+        setSearchQuery(e.target.value as string);
+        onSearch?.(e.target.value as string);
 
         if (!isOpen) {
             setIsOpen(!isOpen || open)
         }
     };
 
-    const handleEnterAddNewTag = (e: KeyboardEvent<HTMLInputElement> & TargetProps) => {
+    const handleEnterAddNewTag = () => {
         if (asMultiple || (maxCount && selected.length >= maxCount && !selected.includes(searchQuery))) {
             return;
         }
@@ -163,9 +161,7 @@ const Select = ({
 
         const updatedSelected = [...(selected), newOptionValue];
 
-        e.target.valueAnyType = updatedSelected
-
-        onChange?.(e);
+        onChange?.(updatedSelected);
         onSelect?.(newOptionValue);
 
         const input = selectRef.current?.querySelector('input');
@@ -177,7 +173,7 @@ const Select = ({
         handleClearInputValue();
     };
 
-    const handleSelect = (e: MouseEventHandlerSelect, optionValue: string, option?: OptionType) => {
+    const handleSelect = (e: SyntheticBaseEvent, optionValue: string, option?: OptionType) => {
         if (hasMode) {
             if (maxCount && selected.length >= maxCount && !selected.includes(optionValue)) {
                 return;
@@ -188,10 +184,7 @@ const Select = ({
                 : [...selected, optionValue];
 
             setSelected(newSelection);
-
-            e.target.valueAnyType = newSelection
-
-            onChange?.(e, option);
+            onChange?.(newSelection, option);
 
             if ((selected).includes(optionValue)) {
                 onDeselect?.(optionValue, option);
@@ -201,49 +194,39 @@ const Select = ({
         } else {
             setIsOpen(open);
             setSelected(optionValue);
-
-            e.target.value = optionValue
-            onChange?.(e, option);
-
+            onChange?.(optionValue, option);
             onSelect?.(optionValue, option);
         }
 
         handleClearInputValue();
     };
 
-    const handleClear = (e: MouseEvent<HTMLButtonElement> & TargetProps) => {
+    const handleClear = () => {
         const value = hasMode ? [] : "";
 
         setSelected(value);
-
-        e.target.value = value as string;
-
-        onChange?.(e);
+        onChange?.('');
         onClear?.();
 
         handleClearInputValue();
     };
 
-    const handleRemoveTag = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
+    const handleRemoveTag = (e: SyntheticBaseEvent) => {
         const updatedSelected = (selected as string[]).filter((item) => item !== e.target.value);
 
-        e.target.valueAnyType = updatedSelected;
-
-        onChange?.(e);
+        onChange?.(updatedSelected);
         setSelected(updatedSelected);
     };
 
-    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & TargetProps) => {
+    const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter' && searchQuery.trim() !== '') {
-            handleEnterAddNewTag(e)
+            handleEnterAddNewTag()
         }
 
         if (e.key === 'Backspace' && !searchQuery.trim().length) {
             const updatedSelected = (selected as string[]).filter((item) => item !== selected[selected.length - 1]);
 
-            e.target.valueAnyType = updatedSelected;
-
-            onChange?.(e);
+            onChange?.(updatedSelected);
             setSelected(updatedSelected);
         }
     }
