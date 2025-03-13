@@ -2,21 +2,18 @@
 
 import {
     Form as AntForm,
-    // Radio as AntRadio,
+    Radio as AntRadio,
     Checkbox as AntCheckbox,
     Input as AntInput,
     Select as AntSelect,
 } from "antd"
 import { Input } from "./components/Input"
 import { Select } from "./components/Select"
-// import { Radio } from "./components/Radio"
+import { Radio } from "./components/Radio"
 import { Checkbox } from "./components/Checkbox"
 import { Form } from "./components/Form"
-import { useForm } from "./hooks/useForm"
 
 export default function Home() {
-    const form = useForm()
-
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
@@ -34,8 +31,15 @@ export default function Home() {
                         ]} />
                 </AntForm.Item>
 
-                <AntForm.Item name='checkbox' label='checkbox' rules={[{ required: true }]}>
+                <AntForm.Item name='ck' label='ck'>
                     <AntCheckbox />
+                </AntForm.Item>
+
+                <AntForm.Item name='radio' label='radio' rules={[{ required: true }]}>
+                    <AntRadio.Group>
+                        <AntRadio value="Male" title="Male" />
+                        <AntRadio value="Female" title="Female" />
+                    </AntRadio.Group>
                 </AntForm.Item>
 
                 <button>Submit</button>
@@ -43,7 +47,7 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form form={form} size="large" layout="vertical" onFinish={(e) => console.log(e)}>
+            <Form size="large" layout="vertical" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='input' rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
@@ -59,6 +63,13 @@ export default function Home() {
 
                 <Form.Item name='checkbox' label='checkbox' rules={[{ required: true }]}>
                     <Checkbox />
+                </Form.Item>
+
+                <Form.Item name='radio' label='radio' rules={[{ required: true }]}>
+                    <Radio.Group>
+                        <Radio value="Male" title="Male" />
+                        <Radio value="Female" title="Female" />
+                    </Radio.Group>
                 </Form.Item>
 
                 <button>Submit</button>

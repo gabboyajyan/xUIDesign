@@ -49,7 +49,7 @@ const Radio = ({
                 checked={defaultChecked ?? checked}
             />
             <span className={`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`} />
-            <span className={`${prefixCls}-title`}>{children}</span>
+            <span className={`${prefixCls}-title`}>{children ?? title ?? value}</span>
         </label>
     );
 };

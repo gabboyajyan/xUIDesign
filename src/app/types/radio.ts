@@ -4,16 +4,15 @@ import {
     KeyboardEventHandler,
     MouseEventHandler,
     CSSProperties,
-    ChangeEvent
 } from "react";
-import { DefaultProps, RuleType, SizeType, SyntheticBaseEvent, TargetProps } from ".";
+import { DefaultProps, RuleType, SizeType, SyntheticBaseEvent } from ".";
 
 export type RadioValueType = string | number | readonly string[] | undefined
 
 export interface RadioGroupProps {
     defaultValue?: RuleType;
     value?: RuleType;
-    onChange?: (e: ChangeEvent & TargetProps) => void;
+    onChange?: (e: SyntheticBaseEvent) => void;
     size?: SizeType;
     disabled?: boolean;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;

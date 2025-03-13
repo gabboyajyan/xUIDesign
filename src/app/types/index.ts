@@ -1,4 +1,4 @@
-import { CSSProperties, MouseEvent, SyntheticEvent } from "react";
+import { CSSProperties, MouseEvent } from "react";
 
 export type RuleTypes = RuleType | RuleType[];
 export type SizeType = "small" | "middle" | "large";
@@ -13,11 +13,10 @@ export interface DefaultProps {
 export type TargetProps = {
     target: {
         value: RuleType,
-        valueAnyType: RuleType | RuleType[]
     }
 }
 
-export type SyntheticBaseEvent = SyntheticEvent & {
+export type SyntheticBaseEvent = {
     target: EventTarget & {
         value: RuleType
     },
