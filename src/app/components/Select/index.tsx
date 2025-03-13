@@ -13,7 +13,6 @@ import {
 } from "react";
 import {
     OptionType,
-    // OptionProps,
     SelectProps
 } from "@/app/types/select";
 import cc from "classcat";
@@ -343,6 +342,7 @@ const Select = ({
                 [size]: size,
                 [prefixCls]: prefixCls,
                 [`${prefixCls}-error`]: error,
+                [`${prefixCls}-multi`]: hasMode,
                 [`${prefixCls}-disabled`]: disabled
             }])}>
 

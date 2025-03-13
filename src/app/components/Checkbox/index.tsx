@@ -27,8 +27,10 @@ const Checkbox: FC<CheckboxProps> = ({
     value = false,
     required = false
 }) => {
-    const [internalChecked, setInternalChecked] = useState(defaultChecked || value);
-    const isChecked = checked !== undefined ? checked : internalChecked;
+    console.log(checked);
+    
+    const isChecked = checked !== undefined ? checked : defaultChecked || value;
+    const [internalChecked, setInternalChecked] = useState(isChecked);
 
     const handleClick = (e: MouseEvent<HTMLInputElement> & TargetProps) => {
         e.stopPropagation()
@@ -37,13 +39,8 @@ const Checkbox: FC<CheckboxProps> = ({
             return;
         }
 
-        const newChecked = !isChecked;
-
-        if (checked === undefined) {
-            setInternalChecked(newChecked);
-        }
-
-        e.target.valueAnyType = newChecked;
+        setInternalChecked(!internalChecked);
+        e.target.valueAnyType = !internalChecked;
 
         onClick?.(e);
         onChange?.(e);
@@ -64,21 +61,19 @@ const Checkbox: FC<CheckboxProps> = ({
                 className,
                 {
                     [`${prefixCls}-disabled`]: disabled,
-                    [`${prefixCls}-checked`]: isChecked
+                    [`${prefixCls}-checked`]: internalChecked
                 }])}
         >
             <input
                 id={id}
                 type={type}
                 name={name}
-                onClick={onClick}
                 disabled={disabled}
                 tabIndex={tabIndex}
                 required={required}
                 autoFocus={autoFocus}
                 onKeyDown={onKeyDown}
                 onKeyPress={onKeyPress}
-                checked={internalChecked}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={onMouseLeave}
             />
@@ -86,7 +81,7 @@ const Checkbox: FC<CheckboxProps> = ({
             <span className={`${prefixCls}-box`}>
                 <span 
                     className={`${prefixCls}-check`} 
-                    style={{ opacity: Number(isChecked) }}/>
+                    style={{ opacity: Number(internalChecked) }}/>
             </span>
 
             {children && <span className={`${prefixCls}-label`}>{children}</span>}

@@ -4,6 +4,8 @@ import { TargetProps } from '@/app/types';
 import { prefixClsRadio } from '@/app/utils';
 import './style.css';
 
+type RadioValueType = string | number | readonly string[] | undefined
+
 const Radio = ({
     prefixCls = prefixClsRadio,
     value,
@@ -28,7 +30,7 @@ const Radio = ({
                 disabled={disabled}
                 onChange={handleOnChange}
                 name={name || prefixClsRadio}
-                value={value as string | number | readonly string[] | undefined}
+                value={value as RadioValueType}
             />
             <span className={prefixCls} />
             <span className={`${prefixCls}-title`}>{children}</span>
