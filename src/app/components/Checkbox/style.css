@@ -13,7 +13,7 @@
     transition: all 0.3s;
     display: inline-block;
     background-color: #fff;
-    border: 1px solid #d9d9d9;
+    border: 1px solid var(--border-color);
 }
 
 .xUi-checkbox.xUi-checkbox-checked {
@@ -63,9 +63,12 @@
     border-width: 0 2px 2px 0;
 }
 
-.xUi-checkbox-disabled {
+.xUi-checkbox-disabled,
+.xUi-checkbox-disabled .xUi-checkbox-check {
     opacity: 0.5;
     cursor: not-allowed;
+    background-color: var(--color-disabled);
+    border-color: var(--border-color) !important;
 }
 
 .xUi-checkbox-label {

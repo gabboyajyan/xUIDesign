@@ -25,8 +25,9 @@ const RadioGroup = ({
     className = '',
     options = [],
     children,
+    onFocus,
+    onBlur,
     ...props
-    // optionType = 'default',
 }: RadioGroupProps) => {
     const selectedValue = useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
 
@@ -41,6 +42,8 @@ const RadioGroup = ({
                         key={`${key}_${optionValue}`}
                         checked={selectedValue === optionValue}
                         disabled={disabled || (typeof option === 'object' && option.disabled)}
+                        onFocus={onFocus}
+                        onBlur={onBlur}
                         {...props}
                     >
                         {optionLabel}
@@ -54,13 +57,14 @@ const RadioGroup = ({
                 return cloneElement(child as ReactElement, {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
-                    disabled: disabled ?? (child.props as {  disabled: boolean }).disabled,
+                    disabled: disabled ?? (child.props as { disabled: boolean }).disabled,
                     checked: selectedValue === (child.props as { value: RuleType }).value,
                     name: name ?? prefixClsRadio,
+                    onFocus,
+                    onBlur,
                     ...props
                 });
             }
-
             return child;
         });
     };
@@ -77,6 +81,8 @@ const RadioGroup = ({
                     [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
                 }])}
             id={id}
+            onFocus={(e) => onFocus?.(e)}
+            onBlur={(e) => onBlur?.(e)}
         >
             {renderChildren()}
         </div>

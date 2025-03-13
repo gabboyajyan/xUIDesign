@@ -26,6 +26,10 @@
     border: 1px solid var(--border-color);
 }
 
+.xUi-radio-disabled {
+    background-color: var(--color-disabled);
+}
+
 .xUi-radio-title {
     padding-inline-start: 8px;
     padding-inline-end: 8px;

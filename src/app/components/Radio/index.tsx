@@ -26,30 +26,25 @@ const Radio = ({
         if (value === 'true') {
             return true;
         }
-
         if (value === 'false') {
             return false;
         }
-
         if (!isNaN(Number(value))) {
             return Number(value);
         }
-
         return value;
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
         if (!disabled) {
             e.target.valueAnyType = parseValue(e.target.value);
-
-            onChange?.(e)
+            onChange?.(e);
         }
-    }
+    };
 
     return (
         <label
             title={title}
-            tabIndex={-1}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             className={cc([`${prefixCls}-label`, { disabled }])}
@@ -57,27 +52,20 @@ const Radio = ({
             <input
                 name={name}
                 type='radio'
-                onBlur={(e) => {
-                    console.log("Radio blurred", e);
-                    onBlur?.(e);
-                }}
-                onFocus={(e) => {
-                    console.log("Radio focused", e);
-                    onFocus?.(e);
-                }}
                 onClick={onClick}
                 disabled={disabled}
                 onChange={handleChange}
+                onBlur={(e) => onBlur?.(e)}
+                onFocus={(e) => onFocus?.(e)}
                 value={value as RadioValueType}
-                checked={defaultChecked || checked}
+                checked={defaultChecked ?? checked}
             />
-
-            <span className={prefixCls} />
+            <span className={`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`} />
             <span className={`${prefixCls}-title`}>{children}</span>
         </label>
     );
 };
 
-Radio.Group = RadioGroup
+Radio.Group = RadioGroup;
 
 export { Radio };

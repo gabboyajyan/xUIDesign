@@ -43,12 +43,8 @@ export default function Home() {
                 </AntForm.Item>
 
                 <AntForm.Item layout="horizontal" label="Are you Robot?" name='robot' >
-                    <AntRadio.Group
-                    value={1}
-                    onChange={(e) => console.log('onChange', e)} 
-                    onFocus={(e) => console.log('onFocus', e)}
-                    >
-                        <AntRadio value={1}>Yes</AntRadio>
+                    <AntRadio.Group value={1}>
+                        <AntRadio value={1} disabled>Yes</AntRadio>
                         <AntRadio value={2}>No</AntRadio>
                     </AntRadio.Group>
                 </AntForm.Item>
@@ -82,12 +78,8 @@ export default function Home() {
                 </Form.Item>
 
                 <Form.Item layout="horizontal" label="Are you Robot?" name='robot' >
-                    <Radio.Group
-                        value={1}
-                        // onChange={(e) => console.log('onChange', e)}
-                        // onFocus={(e) => console.log('onFocus', e)}
-                    >
-                        <Radio value={1}>Yes</Radio>
+                    <Radio.Group>
+                        <Radio value={1} disabled>Yes</Radio>
                         <Radio value={2}>No</Radio>
                     </Radio.Group>
                 </Form.Item>
