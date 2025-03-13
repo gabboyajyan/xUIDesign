@@ -21,16 +21,18 @@ export default function Home() {
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
             <AntForm size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <AntForm.Item name='name' label='Name' rules={[{ required: true, message: 'Name is required!' }]}>
+                <AntForm.Item name='name' label='Name' >
                     <AntInput value={'dfsdf'} />
                 </AntForm.Item>
 
-                <AntForm.Item name='surname' label='Surname' rules={[{ required: true, message: 'Surname is required!' }]}>
+                <AntForm.Item name='surname' label='Surname' >
                     <AntInput value={'sdfdsf'} />
                 </AntForm.Item>
 
-                <AntForm.Item label='Gender' name='gender' rules={[{ required: true, message: 'Gender is required!' }]}>
-                    <AntSelect options={[
+                <AntForm.Item label='Gender' name='gender' >
+                    <AntSelect
+                    onChange={e => console.log('onChange', e)} 
+                    options={[
                         { value: 'Male' },
                         { value: 'Female' }
                     ]} />
@@ -40,8 +42,12 @@ export default function Home() {
                     <AntCheckbox />
                 </AntForm.Item>
 
-                <AntForm.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
-                    <AntRadio.Group value={1}>
+                <AntForm.Item layout="horizontal" label="Are you Robot?" name='robot' >
+                    <AntRadio.Group
+                    value={1}
+                    onChange={(e) => console.log('onChange', e)} 
+                    onFocus={(e) => console.log('onFocus', e)}
+                    >
                         <AntRadio value={1}>Yes</AntRadio>
                         <AntRadio value={2}>No</AntRadio>
                     </AntRadio.Group>
@@ -53,27 +59,34 @@ export default function Home() {
 
             <h1>Custom Form</h1>
             <Form form={form} size="large" layout="vertical" onFinish={(e) => console.log(e)}>
-                <Form.Item name='name' label='Name' rules={[{ required: true, message: 'Name is required!' }]}>
+                <Form.Item name='name' label='Name' >
                     <Input value={'sdfdsf'} />
                 </Form.Item>
 
-                <Form.Item name='surname' label='Surname' rules={[{ required: true, message: 'Surname is required!' }]}>
+                <Form.Item name='surname' label='Surname' >
                     <Input />
                 </Form.Item>
 
-                <Form.Item label='Gender' name='gender' rules={[{ required: true, message: 'Gender is required!' }]}>
-                    <Select value={'Male'} options={[
-                        { value: 'Male' },
-                        { value: 'Female' }
-                    ]} />
+                <Form.Item label='Gender' name='gender' >
+                    <Select
+                        onChange={e => console.log('onChange', e)}
+                        value={'Male'}
+                        options={[
+                            { value: 'Male' },
+                            { value: 'Female' }
+                        ]} />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="I agree" name='agree' rules={[{ required: true, message: 'Agree is required!' }]}>
+                <Form.Item layout="horizontal" label="I agree" name='agree' >
                     <Checkbox />
                 </Form.Item>
 
-                <Form.Item layout="horizontal" label="Are you Robot?" name='robot' rules={[{ required: true, message: 'Robot detector is required!' }]}>
-                    <Radio.Group>
+                <Form.Item layout="horizontal" label="Are you Robot?" name='robot' >
+                    <Radio.Group
+                        value={1}
+                        // onChange={(e) => console.log('onChange', e)}
+                        // onFocus={(e) => console.log('onFocus', e)}
+                    >
                         <Radio value={1}>Yes</Radio>
                         <Radio value={2}>No</Radio>
                     </Radio.Group>

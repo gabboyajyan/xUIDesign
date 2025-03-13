@@ -3,32 +3,29 @@ import {
     Children,
     isValidElement,
     cloneElement,
-    useMemo
+    useMemo,
 } from 'react';
 import { RadioGroupProps } from '@/app/types/radio';
 import { prefixClsRadio } from '@/app/utils';
 import { Radio } from '../';
 import cc from 'classcat';
+import { RuleType } from '@/app/types';
 
 const RadioGroup = ({
     defaultValue,
     value,
-    onChange,
     size,
     disabled,
-    onMouseEnter,
-    onMouseLeave,
     name,
     id,
     style = {},
     buttonStyle = 'outline',
-    onFocus,
-    onBlur,
     block,
     prefixCls = prefixClsRadio,
     className = '',
     options = [],
     children,
+    ...props
     // optionType = 'default',
 }: RadioGroupProps) => {
     const selectedValue = useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
@@ -40,12 +37,11 @@ const RadioGroup = ({
                 const optionLabel = typeof option === 'object' ? option.label : option;
                 return (
                     <Radio
-                        name={name}
                         value={optionValue}
-                        onChange={onChange}
                         key={`${key}_${optionValue}`}
                         checked={selectedValue === optionValue}
                         disabled={disabled || (typeof option === 'object' && option.disabled)}
+                        {...props}
                     >
                         {optionLabel}
                     </Radio>
@@ -58,12 +54,10 @@ const RadioGroup = ({
                 return cloneElement(child as ReactElement, {
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
-                    disabled: disabled || child.props.disabled,
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-expect-error
-                    checked: selectedValue === child?.props?.value,
+                    disabled: disabled ?? (child.props as {  disabled: boolean }).disabled,
+                    checked: selectedValue === (child.props as { value: RuleType }).value,
                     name: name ?? prefixClsRadio,
-                    onChange,
+                    ...props
                 });
             }
 
@@ -74,10 +68,6 @@ const RadioGroup = ({
     return (
         <div
             style={style}
-            onBlur={onBlur}
-            onFocus={onFocus}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
             className={cc([
                 `${prefixCls}-group`,
                 {

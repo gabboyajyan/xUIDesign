@@ -1,4 +1,4 @@
-import { MouseEvent } from 'react';
+import { ChangeEvent } from 'react';
 import { RadioProps, RadioValueType } from '@/app/types/radio';
 import { RuleType, TargetProps } from '@/app/types';
 import { prefixClsRadio } from '@/app/utils';
@@ -10,12 +10,17 @@ const Radio = ({
     prefixCls = prefixClsRadio,
     value,
     onChange,
+    onClick,
     disabled,
     children,
     name,
     title,
     defaultChecked,
-    checked
+    checked,
+    onBlur,
+    onFocus,
+    onMouseEnter,
+    onMouseLeave
 }: RadioProps) => {
     const parseValue = (value: RuleType): RuleType => {
         if (value === 'true') {
@@ -33,12 +38,10 @@ const Radio = ({
         return value;
     };
 
-    const handleOnClick = (e: MouseEvent<HTMLLabelElement> & TargetProps) => {
-        const isRadioChecked = parseValue(e.target.value) 
-
-        e.target.valueAnyType = isRadioChecked
-
+    const handleChange = (e: ChangeEvent<HTMLInputElement> & TargetProps) => {
         if (!disabled) {
+            e.target.valueAnyType = parseValue(e.target.value);
+
             onChange?.(e)
         }
     }
@@ -46,17 +49,25 @@ const Radio = ({
     return (
         <label
             title={title}
-            onClick={handleOnClick}
-            className={cc([
-                `${prefixCls}-label`,
-                { disabled }
-            ])}
+            tabIndex={-1}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            className={cc([`${prefixCls}-label`, { disabled }])}
         >
             <input
                 name={name}
                 type='radio'
-                onChange={() => {}}
+                onBlur={(e) => {
+                    console.log("Radio blurred", e);
+                    onBlur?.(e);
+                }}
+                onFocus={(e) => {
+                    console.log("Radio focused", e);
+                    onFocus?.(e);
+                }}
+                onClick={onClick}
                 disabled={disabled}
+                onChange={handleChange}
                 value={value as RadioValueType}
                 checked={defaultChecked || checked}
             />

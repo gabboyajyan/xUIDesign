@@ -3,8 +3,8 @@ import {
     FocusEventHandler,
     KeyboardEventHandler,
     MouseEventHandler,
-    MouseEvent,
-    CSSProperties
+    CSSProperties,
+    ChangeEvent
 } from "react";
 import { DefaultProps, RuleType, SizeType, TargetProps } from ".";
 
@@ -13,7 +13,7 @@ export type RadioValueType = string | number | readonly string[] | undefined
 export interface RadioGroupProps {
     defaultValue?: RuleType;
     value?: RuleType;
-    onChange?: (e: MouseEvent<HTMLLabelElement>) => void;
+    onChange?: (e: ChangeEvent & TargetProps) => void;
     size?: SizeType;
     disabled?: boolean;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;
@@ -37,7 +37,7 @@ export type RadioProps = DefaultProps & {
     checked?: boolean;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: MouseEvent<HTMLLabelElement> & TargetProps) => void;
+    onChange?: (e: ChangeEvent<HTMLInputElement> & TargetProps) => void;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseEnter?: MouseEventHandler<HTMLElement>;
     onMouseLeave?: MouseEventHandler<HTMLElement>;

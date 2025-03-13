@@ -2,7 +2,7 @@ import { ChangeEvent, cloneElement, FC, useContext, useEffect, useMemo } from 'r
 import { FormContext } from '..';
 import { prefixClsFormItem } from '@/app/utils';
 import { OptionProps } from '@/app/types/select';
-import { RuleTypes, TargetProps } from '@/app/types';
+import { TargetProps } from '@/app/types';
 import { FormItemProps } from '@/app/types/form';
 import './style.css';
 
@@ -49,8 +49,8 @@ export const FormItem: FC<FormItemProps> = ({
 
           setFieldValue(name, value)
 
-          const childOnChange = (children.props as { onChange?: (value: RuleTypes, option?: OptionProps) => void }).onChange;
-          childOnChange?.(value, option);
+          const childOnChange = (children.props as { onChange?: (e: ChangeEvent & TargetProps, option?: OptionProps) => void }).onChange;
+          childOnChange?.(e, option);
         },
         ...props
       })}
