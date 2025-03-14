@@ -1,15 +1,10 @@
-.xUi-radio-group {
-    display: flex;
-    gap: 12px;
-}
-
 .xUi-radio-label {
-    line-height: 2;
+    line-height: 1;
     display: inline-flex;
     align-items: center;
     cursor: pointer;
     position: relative;
-    font-size: var(--font-md-size);
+    font-size: var(--font-size-md);
 }
 
 .xUi-radio-label input {
@@ -26,7 +21,7 @@
 }
 
 .xUi-radio-label .xUi-radio-enabled:hover {
-    border: 1px solid var(--text-main-color-light) !important;
+    border: 1px solid var(--main-color-light) !important;
 }
 
 .xUi-radio-disabled {
@@ -39,7 +34,7 @@
 }
 
 .xUi-radio-label input:checked + .xUi-radio {
-    background: var(--text-main-color);
+    background: var(--main-color);
 }
 
 .xUi-radio-label input:checked + .xUi-radio::after {

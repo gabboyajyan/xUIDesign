@@ -55,10 +55,10 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         {Children.map(children, (child) => {
           if (isValidElement(child)) {
             return cloneElement(child, {
+              ...rest,
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
-              layout: child.props.layout || layout,
-              ...rest
+              layout: child.props.layout || layout
             });
           }
 

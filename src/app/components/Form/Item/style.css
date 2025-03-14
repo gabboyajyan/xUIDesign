@@ -9,13 +9,13 @@
     margin-bottom: 4px;
     display: flex;
     align-items: center;
-    font-size: var(--font-md-size);
+    font-size: var(--font-size-md);
 }
 
 .xUi-form-item-error {
     right: 0;
     bottom: -18px;
-    font-size: var(--font-xs-size);
+    font-size: var(--font-size-xs);
     margin-top: 4px;
     position: absolute;
     color: var(--error-text-color);
@@ -24,7 +24,7 @@
 
 .xUi-form-item-required {
     line-height: 1;
-    font-size: var(--font-md-size);
+    font-size: var(--font-size-md);
     margin-left: 4px;
     margin-right: 4px;
     display: inline-block;

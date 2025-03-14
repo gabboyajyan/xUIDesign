@@ -1,13 +1,15 @@
 import { RadioProps, RadioValueType } from '@/app/types/radio';
-import { RadioGroup } from './Group';
 import { SyntheticBaseEvent } from '@/app/types';
 import { prefixClsRadio } from '@/app/utils';
 import { parseValue } from '@/app/helpers';
+import { RadioGroup } from './Group';
+import { RadioButton } from './Button';
 import cc from 'classcat';
 import './style.css';
 
 const Radio = ({
     prefixCls = prefixClsRadio,
+    className = '',
     value,
     onChange,
     onClick,
@@ -35,7 +37,10 @@ const Radio = ({
             title={title}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
-            className={cc([`${prefixCls}-label`, { disabled }])}
+            className={cc([`${prefixCls}-label`, {
+                disabled,
+                [className]: className
+            }])}
         >
             <input
                 name={name}
@@ -55,5 +60,6 @@ const Radio = ({
 };
 
 Radio.Group = RadioGroup;
+Radio.Button = RadioButton;
 
 export { Radio };

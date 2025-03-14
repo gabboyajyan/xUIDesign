@@ -17,7 +17,7 @@ export default function Home() {
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
-            <AntForm size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
+            <AntForm layout="horizontal" onFinish={(e) => console.log(e)}>
                 <AntForm.Item name='input' label='Input' rules={[{ required: true }]}>
                     <AntInput />
                 </AntForm.Item>
@@ -36,9 +36,9 @@ export default function Home() {
                 </AntForm.Item>
 
                 <AntForm.Item name='radio' label='Radio' rules={[{ required: true }]}>
-                    <AntRadio.Group buttonStyle="outline">
-                        <AntRadio value="Male" title="Male">Male</AntRadio>
-                        <AntRadio value="Female" title="Female">Female</AntRadio>
+                    <AntRadio.Group buttonStyle="solid">
+                        <AntRadio.Button value="Male" title="Male">Male</AntRadio.Button>
+                        <AntRadio.Button value="Female" title="Female">Female</AntRadio.Button>
                     </AntRadio.Group>
                 </AntForm.Item>
 
@@ -47,7 +47,7 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
+            <Form layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input' rules={[{ required: true }]}>
                     <Input />
                 </Form.Item>
@@ -66,9 +66,9 @@ export default function Home() {
                 </Form.Item>
 
                 <Form.Item name='radio' label='Radio' rules={[{ required: true }]}>
-                    <Radio.Group buttonStyle="outline">
-                        <Radio value="Male" title="Male">Male</Radio>
-                        <Radio value="Female" title="Female">Female</Radio>
+                    <Radio.Group buttonStyle="solid">
+                        <Radio.Button value="Male" title="Male">Male</Radio.Button>
+                        <Radio.Button value="Female" title="Female">Female</Radio.Button>
                     </Radio.Group>
                 </Form.Item>
 

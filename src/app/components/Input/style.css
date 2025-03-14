@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
     transition: border 0.3s;
 }
 
@@ -48,27 +48,27 @@
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-small .xUi-input {
-    font-size: var(--font-md-size);
+    font-size: var(--font-size-md);
 }
 
 .xUi-input-middle {
     height: 30px;
-    border-radius: 6px;
+    border-radius: var(--border-radius-md);
 }
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-middle .xUi-input {
-    font-size: var(--font-md-size);
+    font-size: var(--font-size-md);
 }
 
 .xUi-input-large {
     height: 40px;
-    border-radius: 8px;
+    border-radius: var(--border-radius-lg);
 }
 
 .xUi-input-large .xUi-input-clear,
 .xUi-input-large .xUi-input {
-    font-size: var(--font-lg-size);
+    font-size: var(--font-size-lg);
 }
 
 .xUi-input-middle {

@@ -31,7 +31,7 @@ export const FormItem: FC<FormItemProps> = ({
   }, [name, registerField, rules]);
 
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
-
+  
   return (
     <div style={style} className={`${prefixCls} ${className} ${layout}`}>
       <label className={`${prefixCls}-label`} htmlFor={name}>
@@ -39,9 +39,10 @@ export const FormItem: FC<FormItemProps> = ({
       </label>
 
       {cloneElement(children, {
+        ...props,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        size: props.size,
+        size: children.props.size || props.size,
         error: !!getFieldError(name).length,
         value: getFieldValue(name) ?? children.props.value,
         onChange: (e: SyntheticBaseEvent, option?: OptionProps) => {
@@ -51,8 +52,7 @@ export const FormItem: FC<FormItemProps> = ({
 
           const childOnChange = (children.props as { onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void }).onChange;
           childOnChange?.(e, option);
-        },
-        ...props
+        }
       })}
 
       {getFieldError(name).length ? (

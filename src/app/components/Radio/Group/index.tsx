@@ -5,16 +5,18 @@ import {
     cloneElement,
     useMemo,
 } from 'react';
+import cc from 'classcat';
+import { Radio } from '../';
+import { RadioButton } from '../Button';
 import { RadioGroupProps } from '@/app/types/radio';
 import { prefixClsRadio } from '@/app/utils';
-import { Radio } from '../';
-import cc from 'classcat';
 import { RuleType } from '@/app/types';
+import './style.css'
 
 const RadioGroup = ({
     defaultValue,
     value,
-    size,
+    size = 'middle',
     disabled,
     name,
     id,
@@ -50,14 +52,16 @@ const RadioGroup = ({
         }
 
         return Children.map(children, (child) => {
-            if (isValidElement(child) && child.type === Radio) {
+            if (isValidElement(child) && (child.type === Radio || child.type === RadioButton)) {
                 return cloneElement(child as ReactElement, {
+                    ...props,
+                    ...(child.type === RadioButton ? { size, buttonStyle } : {}),
                     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                     // @ts-expect-error
+                    defaultValue,
                     disabled: disabled ?? (child.props as { disabled: boolean }).disabled,
                     checked: selectedValue === (child.props as { value: RuleType }).value,
-                    name: name ?? prefixClsRadio,
-                    ...props
+                    name: name ?? prefixClsRadio
                 });
             }
             return child;
@@ -66,6 +70,7 @@ const RadioGroup = ({
 
     return (
         <div
+            id={id}
             style={style}
             className={cc([
                 `${prefixCls}-group`,
@@ -74,9 +79,7 @@ const RadioGroup = ({
                     className,
                     [`${prefixCls}-group-${size}`]: size,
                     [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
-                }])}
-            id={id}
-        >
+                }])}>
             {renderChildren()}
         </div>
     );
