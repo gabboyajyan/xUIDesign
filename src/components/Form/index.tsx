@@ -1,8 +1,8 @@
 import { Children, cloneElement, createContext, FC, isValidElement, SyntheticEvent, useEffect, useRef } from 'react';
-import { FormInstance, FormItemProps, FormProps } from '@/app/types/form';
-import { useForm } from '@/app/hooks/useForm';
+import { FormInstance, FormItemProps, FormProps } from '@/types/form';
+import { useForm } from '@/hooks/useForm';
 import { FormItem } from './Item';
-import { prefixClsForm } from '@/app/utils';
+import { prefixClsForm } from '@/utils';
 
 export const FormContext = createContext<FormInstance | null>(null);
 

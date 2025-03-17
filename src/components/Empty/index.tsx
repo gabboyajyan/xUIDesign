@@ -1,5 +1,5 @@
-import { prefixClsEmpty } from "@/app/utils"
-import { EmptyContentProps } from "@/app/types/empty"
+import { prefixClsEmpty } from "@/utils"
+import { EmptyContentProps } from "@/types/empty"
 import './style.css'
 
 const EmptyContent = ({

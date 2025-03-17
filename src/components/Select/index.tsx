@@ -12,12 +12,12 @@ import {
 import {
     OptionType,
     SelectProps
-} from "@/app/types/select";
+} from "@/types/select";
 import cc from "classcat";
-import { prefixClsSelect } from "@/app/utils";
-import { EmptyContent } from "@/app/components/Empty";
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from "@/app/types";
-import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/app/components/icons";
+import { prefixClsSelect } from "@/utils";
+import { EmptyContent } from "@/components/Empty";
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from "@/types";
+import { ArrowIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "@/components/icons";
 import { createPortal } from "react-dom";
 import { Option } from "./Option";
 import { Tag } from "./Tag";

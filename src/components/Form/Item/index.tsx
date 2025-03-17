@@ -1,9 +1,9 @@
 import { cloneElement, FC, useContext, useEffect, useMemo } from 'react';
 import { FormContext } from '..';
-import { prefixClsFormItem } from '@/app/utils';
-import { OptionProps } from '@/app/types/select';
-import { SyntheticBaseEvent, RuleType } from '@/app/types';
-import { FormItemProps } from '@/app/types/form';
+import { prefixClsFormItem } from '@/utils';
+import { OptionProps } from '@/types/select';
+import { SyntheticBaseEvent, RuleType } from '@/types';
+import { FormItemProps } from '@/types/form';
 import './style.css';
 
 export const FormItem: FC<FormItemProps> = ({

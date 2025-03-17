@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import type { RuleObject, FormInstance, FieldData, FieldError } from '@/app/types/form';
+import type { RuleObject, FormInstance, FieldData, FieldError } from '@/types/form';
 import { RuleTypes } from "../types";
 
 const useForm = (

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-import { RadioProps } from "@/app/types/radio"
-import { prefixClsRadio } from "@/app/utils";
-import { SizeType } from "@/app/types";
+import { RadioProps } from "@/types/radio"
+import { prefixClsRadio } from "@/utils";
+import { SizeType } from "@/types";
 import { Radio } from ".."
 import cc from "classcat";
 import './style.css'

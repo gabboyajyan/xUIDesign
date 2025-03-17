@@ -6,11 +6,11 @@ import {
     useMemo,
 } from 'react';
 import cc from 'classcat';
-import { Radio } from '../';
+import { Radio } from '..';
 import { RadioButton } from '../Button';
-import { RadioGroupProps } from '@/app/types/radio';
-import { prefixClsRadio } from '@/app/utils';
-import { RuleType } from '@/app/types';
+import { RadioGroupProps } from '@/types/radio';
+import { prefixClsRadio } from '@/utils';
+import { RuleType } from '@/types';
 import './style.css'
 
 const RadioGroup = ({

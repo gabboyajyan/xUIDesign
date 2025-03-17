@@ -8,8 +8,8 @@ import {
     KeyboardEvent,
 } from "react";
 import cc from "classcat";
-import { TextareaProps } from "@/app/types/input";
-import { prefixClsTextArea } from "@/app/utils";
+import { TextareaProps } from "@/types/input";
+import { prefixClsTextArea } from "@/utils";
 import "./style.css";
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({

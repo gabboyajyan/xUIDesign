@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC, MouseEvent } from "react";
-import { CheckboxProps } from "@/app/types/checkbox";
-import { prefixClsCheckbox } from "@/app/utils";
-import { SyntheticBaseEvent } from "@/app/types";
+import { CheckboxProps } from "@/types/checkbox";
+import { prefixClsCheckbox } from "@/utils";
+import { SyntheticBaseEvent } from "@/types";
 import cc from "classcat";
 import "./style.css";
 

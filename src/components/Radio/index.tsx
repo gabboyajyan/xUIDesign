@@ -1,7 +1,7 @@
-import { RadioProps, RadioValueType } from '@/app/types/radio';
-import { SyntheticBaseEvent } from '@/app/types';
-import { prefixClsRadio } from '@/app/utils';
-import { parseValue } from '@/app/helpers';
+import { RadioProps, RadioValueType } from '@/types/radio';
+import { SyntheticBaseEvent } from '@/types';
+import { prefixClsRadio } from '@/utils';
+import { parseValue } from '@/helpers';
 import { RadioGroup } from './Group';
 import { RadioButton } from './Button';
 import cc from 'classcat';

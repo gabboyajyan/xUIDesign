@@ -1,9 +1,9 @@
 "use client";
 
 import { ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useState } from "react";
-import { prefixClsInput } from "@/app/utils";
-import { SyntheticBaseEvent, TargetProps } from "@/app/types";
-import { InputProps } from "@/app/types/input";
+import { prefixClsInput } from "@/utils";
+import { SyntheticBaseEvent, TargetProps } from "@/types";
+import { InputProps } from "@/types/input";
 import { Textarea } from "./Textarea";
 import cc from "classcat";
 import "./style.css";

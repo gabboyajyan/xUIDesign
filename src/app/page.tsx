@@ -7,11 +7,11 @@ import {
     Select as AntSelect,
     Checkbox as AntCheckbox,
 } from "antd"
-import { Form } from "./components/Form"
-import { Input } from "./components/Input"
-import { Radio } from "./components/Radio"
-import { Select } from "./components/Select"
-import { Checkbox } from "./components/Checkbox"
+import { Form } from "../components/Form"
+import { Input } from "../components/Input"
+import { Radio } from "../components/Radio"
+import { Select } from "../components/Select"
+import { Checkbox } from "../components/Checkbox"
 
 export default function Home() {
     return (
