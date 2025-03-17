@@ -49,7 +49,7 @@ export default function Home() {
             <h1>Custom Form</h1>
             <Form layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input' rules={[{ required: true }]}>
-                    <Input />
+                    <Input allowClear />
                 </Form.Item>
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>

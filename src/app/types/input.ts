@@ -1,5 +1,18 @@
-import { InputHTMLAttributes, KeyboardEvent, KeyboardEventHandler, MouseEventHandler, ReactNode } from "react";
-import { DefaultProps, SyntheticBaseEvent, SizeType } from ".";
+import {
+    CSSProperties,
+    InputHTMLAttributes,
+    KeyboardEvent,
+    KeyboardEventHandler,
+    MouseEventHandler,
+    ReactNode,
+    TextareaHTMLAttributes
+    
+} from "react";
+import {
+    DefaultProps,
+    SyntheticBaseEvent,
+    SizeType
+} from ".";
 
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & DefaultProps & {
     addonBefore?: ReactNode;
@@ -18,3 +31,26 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> & D
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
 };
+
+export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onResize'> & DefaultProps & {
+    value?: string;
+    className?: string;
+    style?: CSSProperties;
+    autoSize?: boolean | {
+        minRows?: number;
+        maxRows?: number;
+    };
+    onPressEnter?: KeyboardEventHandler<HTMLTextAreaElement>;
+    onResize?: (size: { width: number; height: number }) => void;
+    styles?: {
+        textarea?: CSSProperties;
+        count?: CSSProperties;
+    };
+    bordered?: boolean;
+    size?: SizeType;
+    status?: "success" | "error";
+    rootClassName?: string;
+    variant?: "outlined" | "borderless" | "filled" | "underlined";
+    error?: boolean;
+    allowClear?: boolean;
+}

@@ -4,6 +4,7 @@ import { ForwardedRef, forwardRef, KeyboardEvent, MouseEvent, useState } from "r
 import { prefixClsInput } from "@/app/utils";
 import { SyntheticBaseEvent, TargetProps } from "@/app/types";
 import { InputProps } from "@/app/types/input";
+import { Textarea } from "./Textarea";
 import cc from "classcat";
 import "./style.css";
 
@@ -93,6 +94,8 @@ const Input = forwardRef(({
 		</div>
 	);
 });
+
+Input.TextArea = Textarea;
 
 Input.displayName = "Input";
 

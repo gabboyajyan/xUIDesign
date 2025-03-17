@@ -1,0 +1,96 @@
+.xUi-textarea-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.xUi-textarea {
+    width: calc(100% - 24px);
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    outline: none;
+    box-shadow: none;
+    resize: vertical;
+    min-height: 14px;
+}
+
+.xUi-textarea-small {
+    font-size: 12px;
+    padding: 6px 10px;
+}
+
+.xUi-textarea-middle {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+
+.xUi-textarea-large {
+    font-size: 16px;
+    padding: 10px 14px;
+}
+
+.xUi-textarea-outlined {
+    border: 1px solid var(--border-color);
+    background: var(--background-color);
+}
+
+.xUi-textarea-outlined:focus {
+    border-color: var(--main-color);
+}
+
+.xUi-textarea-borderless {
+    border: none;
+    background: transparent;
+}
+
+.xUi-textarea-filled {
+    border: 1px solid var(--border-color);
+    background: var(--color-hover);
+}
+
+.xUi-textarea-filled:focus {
+    background: var(--background-color);
+    border-color: var(--main-color);
+}
+
+.xUi-textarea-underlined {
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    background: transparent;
+}
+.xUi-textarea-underlined:focus {
+    border-bottom-color: var(--main-color);
+}
+
+.xUi-textarea-bordered {
+    border: 1px solid var(--border-color);
+}
+
+.xUi-textarea-success {
+    border-color: #52c41a;
+}
+
+.xUi-textarea-error {
+    background-color: rgba(255, 77, 79, 0.07);
+    border-color: transparent;
+}
+
+.xUi-textarea-error:focus {
+    border-color: var(--error-color);
+}
+
+.xUi-textarea-clear {
+    position: absolute;
+    right: 0px;
+    top: 15px;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #999;
+}
+
+.xUi-textarea-clear:hover {
+    color: #333;
+}

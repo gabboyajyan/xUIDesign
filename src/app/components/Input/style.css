@@ -7,7 +7,7 @@
 }
 
 .xUi-input-container.xUi-input-error {
-    border-color: red;
+    border-color: var(--error-color);
 }
 
 .xUi-input-wrapper {
