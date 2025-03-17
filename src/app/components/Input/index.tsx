@@ -8,7 +8,7 @@ import { Textarea } from "./Textarea";
 import cc from "classcat";
 import "./style.css";
 
-const Input = forwardRef(({
+const InputComponent = forwardRef(({
 	size = "middle",
 	error,
 	suffix,
@@ -95,8 +95,12 @@ const Input = forwardRef(({
 	);
 });
 
-Input.TextArea = Textarea;
+InputComponent.displayName = "Input";
 
-Input.displayName = "Input";
+const Input = InputComponent as typeof InputComponent & {
+	TextArea: typeof Textarea;
+};
+
+Input.TextArea = Textarea;
 
 export { Input };
