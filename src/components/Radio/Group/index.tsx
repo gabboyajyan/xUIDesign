@@ -16,7 +16,7 @@ import './style.css'
 const RadioGroup = ({
     defaultValue,
     value,
-    size = 'middle',
+    size = 'large',
     disabled,
     name,
     id,

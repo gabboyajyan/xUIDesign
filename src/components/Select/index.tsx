@@ -45,7 +45,7 @@ const Select = ({
     allowClear = false,
     filterable = false,
     defaultOpen = false,
-    size = 'middle',
+    size = 'large',
     error = '',
     dropdownClassName = '',
     suffixIcon,

@@ -38,6 +38,10 @@ const useForm = (
 	const getFieldWarning = (name: string): string[] => warningsRef.current[name] || [];
 
 	const setFieldValue = (name: string, value: RuleTypes) => {
+		if (value === undefined) {
+			return;
+		}
+
 		formRef.current[name] = value;
 		touchedFieldsRef.current.add(name);
 		validateField(name);

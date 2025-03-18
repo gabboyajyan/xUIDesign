@@ -43,7 +43,7 @@ export const FormItem: FC<FormItemProps> = ({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         size: children.props.size || props.size,
-        error: !!getFieldError(name).length,
+        error: Boolean(getFieldError(name).length),
         value: getFieldValue(name) ?? children.props.value,
         onChange: (e: SyntheticBaseEvent, option?: OptionProps) => {
           const value: RuleType | SyntheticBaseEvent = e.target ? e.target.value : e;
@@ -55,7 +55,7 @@ export const FormItem: FC<FormItemProps> = ({
         }
       })}
 
-      {getFieldError(name).length ? (
+      {Boolean(getFieldError(name).length) ? (
         <span className={`${prefixCls}-error`}>{getFieldError(name)[0]}</span>
       ) : null}
     </div>
