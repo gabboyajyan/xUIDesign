@@ -13,7 +13,5 @@ export const parseValue = (value: RuleType): RuleType => {
         return Number(value);
     }
 
-    if (value)
-
     return value;
 };
