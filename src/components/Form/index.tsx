@@ -1,4 +1,4 @@
-import { Children, cloneElement, createContext, FC, isValidElement, SyntheticEvent, useEffect, useRef } from 'react';
+import { Children, cloneElement, createContext, FC, isValidElement, SyntheticEvent, useEffect, useMemo, useRef } from 'react';
 import { FormInstance, FormItemProps, FormProps } from '@/types/form';
 import { useForm } from '@/hooks/useForm';
 import { FormItem } from './Item';
@@ -45,14 +45,12 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
 
-  useEffect(() => {
-
-  }, [])
+  const childrenList = useMemo(() => Array.isArray(children) ? children : [children], [children])
 
   return (
     <FormContext.Provider value={formInstance}>
       <form style={style} className={`${prefixCls} ${className}`} ref={formRef} onSubmit={handleSubmit} {...rest}>
-        {Children.map(children, (child) => {
+        {Children.map(childrenList, (child) => {
           if (isValidElement(child)) {
             return cloneElement(child, {
               ...rest,

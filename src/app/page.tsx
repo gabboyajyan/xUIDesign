@@ -63,6 +63,7 @@ export default function Home() {
 
                 <Form.Item name='checkbox' label='Checkbox' rules={[{ required: true }]}>
                     <Checkbox />
+                    <Checkbox />
                 </Form.Item>
 
                 <Form.Item name='radio' label='Radio' rules={[{ required: true }]}>
