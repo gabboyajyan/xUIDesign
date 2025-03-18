@@ -9,7 +9,7 @@ import cc from "classcat";
 import "./style.css";
 
 const InputComponent = forwardRef(({
-	size = "middle",
+	size = 'large',
 	error,
 	suffix,
 	prefix,
