@@ -11,8 +11,8 @@ import { RuleType, SyntheticBaseEvent } from '@/xUiDesign/types';
 import { FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
-import './style.css';
 import { FormContext } from '..';
+import './style.css';
 
 export const FormItem: FC<FormItemProps> = ({
   prefixCls = prefixClsFormItem,
@@ -47,7 +47,7 @@ export const FormItem: FC<FormItemProps> = ({
   return (
     <div style={style} className={`${prefixCls} ${className} ${layout}`}>
       <label className={`${prefixCls}-label`} htmlFor={name}>
-        {layout === 'vertical' ? `${label}: ` : label}{' '}
+        {layout === 'vertical' ? `${label || name}: ` : label || name}
         {isRequired && <span className={`${prefixCls}-required`}>*</span>}
       </label>
       {Children.map(childrenList, child => {

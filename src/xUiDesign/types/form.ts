@@ -1,5 +1,5 @@
-import { ComponentClass, FC, ReactElement, ReactNode } from 'react';
-import { DefaultProps, RuleType, RuleTypes, SizeType } from '.';
+import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
+import { DefaultProps, RuleTypes, SizeType } from '.';
 
 export interface RuleObject {
   required?: boolean;
@@ -34,10 +34,11 @@ export type FormProps = DefaultProps & {
   layout?: FormLayoutTypes;
   form?: FormInstance;
   size?: SizeType;
-  initialValues?: Record<string, RuleType>;
+  initialValues?: Record<string, RuleTypes>;
   children?: ReactNode;
   component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
   fields?: FieldData[];
+  onChange?: (e: FormEvent<HTMLFormElement>) => void;
   onFieldsChange?: (changedFields: FieldData[]) => void;
   onValuesChange?: (
     changedValues: Record<string, RuleTypes>,
@@ -52,7 +53,7 @@ export type FormProps = DefaultProps & {
 
 export type FormItemProps = DefaultProps & {
   name: string;
-  label: string;
+  label?: string;
   rules?: RuleObject[];
   children:
     | (ReactElement & { props: { value: RuleTypes } })
