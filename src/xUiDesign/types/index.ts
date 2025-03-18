@@ -20,5 +20,6 @@ export type SyntheticBaseEvent = {
   target: EventTarget & {
     value: RuleType;
   };
+  nativeEvent?: Event & { data?: string | null };
   currentTarget: EventTarget;
 };
