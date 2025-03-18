@@ -40,6 +40,7 @@ export type FormProps = DefaultProps & {
   fields?: FieldData[];
   onChange?: (e: FormEvent<HTMLFormElement>) => void;
   onFieldsChange?: (changedFields: FieldData[]) => void;
+  onSubmitCapture?: (changedFields: FieldData[]) => void;
   onValuesChange?: (
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
@@ -69,7 +70,7 @@ export interface FormInstance {
   registerField: (name: string, rules?: RuleObject[]) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
-  validateFields: () => Promise<boolean>;
+  validateFields: (nameList?: string[]) => Promise<boolean>;
   setFieldsValue: (values: Partial<Record<string, RuleTypes>>) => void;
   getFieldsValue: (nameList?: string[]) => Record<string, RuleTypes>;
   isFieldTouched: (name: string) => boolean;

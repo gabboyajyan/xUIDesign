@@ -82,7 +82,7 @@ const useForm = (
 
   const setFieldsValue = (values: Partial<Record<string, RuleTypes>>) => {
     Object.entries(values).forEach(([name, value]) =>
-      setFieldValue(name, value)
+      setFieldValue(name, value as RuleTypes)
     );
   };
 
@@ -177,12 +177,18 @@ const useForm = (
     return fieldErrors.length === 0;
   };
 
-  const validateFields = async () => {
+  const validateFields = async (nameList?: string[]) => {
     let isValid = true;
 
     for (const name of Object.keys(formRef.current)) {
-      if (!(await validateField(name))) {
-        isValid = false;
+      if (nameList?.length) {
+        if (nameList.includes(name) && !(await validateField(name))) {
+          isValid = false;
+        }
+      } else {
+        if (!(await validateField(name))) {
+          isValid = false;
+        }
       }
     }
 
