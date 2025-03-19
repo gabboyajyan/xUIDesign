@@ -294,7 +294,7 @@ const Select = ({
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    const valueToCheck = `${option[optionFilterProp] || option.value}`;
+    const valueToCheck = `${['string', 'number'].includes(typeof option.children) ? option.children : option[optionFilterProp] || option.value}`;
 
     return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
   });
