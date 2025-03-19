@@ -1,7 +1,9 @@
 import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
 import { DefaultProps, RuleTypes, SizeType } from '.';
 
-export interface RuleObject {
+export type RuleRender = (form: FormInstance) => RuleObject
+
+export type RuleObject = RuleRender | {
   required?: boolean;
   message?: string;
   pattern?: RegExp;
@@ -12,7 +14,7 @@ export interface RuleObject {
   validator?: (
     rule: RuleObject,
     value: RuleTypes,
-    callback: (error?: string) => void
+    callback: (error?: string) => void,
   ) => Promise<void> | void;
 }
 

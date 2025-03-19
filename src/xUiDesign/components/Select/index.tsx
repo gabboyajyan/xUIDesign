@@ -27,7 +27,7 @@ import './style.css';
 import { Tag } from './Tag';
 
 const LIST_HEIGHT = 200;
-const SELECT_INPUT_START_WIDTH = 10;
+const SELECT_INPUT_START_WIDTH = 15;
 
 const Select = ({
   prefixCls = prefixClsSelect,

@@ -17,6 +17,29 @@ const useForm = (
     allValues: Record<string, RuleTypes>
   ) => void
 ): FormInstance => {
+
+  const formInstance = {
+    submit,
+    setFields,
+    resetFields,
+    getFieldError,
+    registerField,
+    setFieldValue,
+    getFieldValue,
+    validateFields,
+    setFieldsValue,
+    getFieldsValue,
+    isFieldTouched,
+    getFieldsError,
+    isFieldsTouched,
+    getFieldWarning,
+    isFieldValidating,
+    subscribeToField,
+    subscribeToForm,
+    onFieldsChange,
+    onValuesChange
+  };
+
   const touchedFieldsRef = useRef<Set<string>>(new Set());
   const rulesRef = useRef<Record<string, RuleObject[]>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
@@ -31,9 +54,11 @@ const useForm = (
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
 
-  const getFieldValue = (name: string) => formRef.current[name];
+  function getFieldValue(name: string) {
+    return formRef.current[name]
+  };
 
-  const getFieldsValue = (nameList?: string[]) => {
+  function getFieldsValue(nameList?: string[]) {
     if (nameList?.length) {
       return nameList.reduce((acc, key) => {
         acc[key] = formRef.current[key];
@@ -45,18 +70,22 @@ const useForm = (
     return formRef.current;
   };
 
-  const getFieldError = (name: string): string[] => errors[name] || [];
+  function getFieldError(name: string): string[] {
+    return errors[name] || []
+  };
 
-  const getFieldsError = (): Pick<FieldError, 'errors' | 'name'>[] =>
-    Object.entries(errors).map(([name]) => ({
+  function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
+    return Object.entries(errors).map(([name]) => ({
       name,
       errors: getFieldError(name)
     }));
+  }
 
-  const getFieldWarning = (name: string): string[] =>
-    warningsRef.current[name] || [];
+  function getFieldWarning(name: string): string[] {
+    return warningsRef.current[name] || [];
+  }
 
-  const setFieldValue = (name: string, value: RuleTypes) => {
+  function setFieldValue(name: string, value: RuleTypes) {
     if (value === undefined) {
       return;
     }
@@ -80,23 +109,24 @@ const useForm = (
     }
   };
 
-  const setFieldsValue = (values: Partial<Record<string, RuleTypes>>) => {
+  function setFieldsValue(values: Partial<Record<string, RuleTypes>>) {
     Object.entries(values).forEach(([name, value]) =>
       setFieldValue(name, value as RuleTypes)
     );
   };
 
-  const setFields = (fields: FieldData[]) => {
+  function setFields(fields: FieldData[]) {
     fields.forEach(({ name, value }) => setFieldValue(name, value));
   };
 
-  const isFieldTouched = (name: string): boolean =>
-    touchedFieldsRef.current.has(name);
+  function isFieldTouched(name: string): boolean {
+    return touchedFieldsRef.current.has(name);
+  }
 
-  const isFieldsTouched = (
+  function isFieldsTouched(
     nameList?: string[],
     allFieldsTouched = false
-  ): boolean => {
+  ): boolean {
     if (!nameList) {
       return touchedFieldsRef.current.size > 0;
     }
@@ -106,15 +136,19 @@ const useForm = (
       : nameList.some(name => touchedFieldsRef.current.has(name));
   };
 
-  const isFieldValidating = (name: string): boolean => !!name;
+  function isFieldValidating(name: string): boolean {
+    return !!name;
+  }
 
-  const validateField = async (name: string) => {
+  async function validateField(name: string) {
     let value = formRef.current[name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
 
-    for (const rule of rules) {
+    for (let rule of rules) {
+      rule = typeof rule === 'function' ? rule(formInstance) : rule;
+
       if (
         rule.required &&
         (value === undefined ||
@@ -158,7 +192,7 @@ const useForm = (
 
       if (rule.validator) {
         try {
-          await rule.validator(rule, value, error => {
+          await rule.validator(rule, value, (error: string) => {
             if (error) {
               fieldErrors.push(error);
             }
@@ -177,7 +211,7 @@ const useForm = (
     return fieldErrors.length === 0;
   };
 
-  const validateFields = async (nameList?: string[]) => {
+  async function validateFields(nameList?: string[]) {
     let isValid = true;
 
     for (const name of Object.keys(formRef.current)) {
@@ -195,7 +229,7 @@ const useForm = (
     return isValid;
   };
 
-  const registerField = (name: string, rules: RuleObject[] = []) => {
+  function registerField(name: string, rules: RuleObject[] = []) {
     if (!(name in formRef.current)) {
       formRef.current[name] = initialValues[name];
     }
@@ -203,7 +237,7 @@ const useForm = (
     rulesRef.current[name] = rules;
   };
 
-  const resetFields = () => {
+  function resetFields() {
     formRef.current = { ...initialValues };
     touchedFieldsRef.current.clear();
     warningsRef.current = {};
@@ -211,16 +245,16 @@ const useForm = (
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
   };
 
-  const submit = async () => {
+  async function submit() {
     if (await validateFields()) {
       return formRef.current;
     }
   };
 
-  const subscribeToField = (
+  function subscribeToField(
     name: string,
     callback: (value: RuleTypes) => void
-  ) => {
+  ) {
     if (!fieldSubscribers.current[name]) {
       fieldSubscribers.current[name] = [];
     }
@@ -234,9 +268,9 @@ const useForm = (
     };
   };
 
-  const subscribeToForm = (
+  function subscribeToForm(
     callback: (values: Record<string, RuleTypes>) => void
-  ) => {
+  ) {
     formSubscribers.current.push(callback);
 
     return () => {
@@ -246,27 +280,7 @@ const useForm = (
     };
   };
 
-  return {
-    submit,
-    setFields,
-    resetFields,
-    getFieldError,
-    registerField,
-    setFieldValue,
-    getFieldValue,
-    validateFields,
-    setFieldsValue,
-    getFieldsValue,
-    isFieldTouched,
-    getFieldsError,
-    isFieldsTouched,
-    getFieldWarning,
-    isFieldValidating,
-    subscribeToField,
-    subscribeToForm,
-    onFieldsChange,
-    onValuesChange
-  };
+  return formInstance
 };
 
 export { useForm };

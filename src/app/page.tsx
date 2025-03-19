@@ -49,7 +49,16 @@ export default function Home() {
 
             <h1>Custom Form</h1>
             <Form layout="horizontal" onFinish={(e) => console.log(e)}>
-                <Form.Item name='input' label='Input' rules={[{ required: true }]}>
+                <Form.Item name='input' label='Input' rules={[
+                    ({ getFieldValue }) => ({ 
+                        required: true,
+                        validator() {
+                            console.log(getFieldValue('select'));
+                            
+                            return Promise.reject()
+                        },
+                     })
+                ]}>
                     <Input allowClear />
                 </Form.Item>
 

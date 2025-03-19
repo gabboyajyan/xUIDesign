@@ -20,6 +20,10 @@
     border: 1px solid var(--border-color);
 }
 
+.xUi-radio-group {
+    display: flex;
+}
+
 .xUi-radio-label .xUi-radio-enabled:hover {
     border: 1px solid var(--main-color-light) !important;
 }
