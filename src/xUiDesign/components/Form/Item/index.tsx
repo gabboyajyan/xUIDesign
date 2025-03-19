@@ -46,10 +46,13 @@ export const FormItem: FC<FormItemProps> = ({
 
   return (
     <div style={style} className={`${prefixCls} ${className} ${layout}`}>
-      <label className={`${prefixCls}-label`} htmlFor={name}>
-        {layout === 'vertical' ? `${label || name}: ` : label || name}
-        {isRequired && <span className={`${prefixCls}-required`}>*</span>}
-      </label>
+      {(label || name) && (
+        <label className={`${prefixCls}-label`} htmlFor={name}>
+          {label || name}:
+          {isRequired && <span className={`${prefixCls}-required`}>*</span>}
+        </label>
+      )}
+
       {Children.map(childrenList, child => {
         if (isValidElement(child)) {
           return cloneElement(child, {

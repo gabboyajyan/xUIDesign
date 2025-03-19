@@ -24,7 +24,8 @@ export default function Home() {
 
                 <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
                     <AntSelect
-                        mode="tags"
+                        showAction={['focus']}
+                        showSearch
                         options={[
                             { value: '1', label: 'one' },
                             { value: '2', label: 'two' }
@@ -54,10 +55,27 @@ export default function Home() {
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
-                        mode="tags"
+                        showSearch
                         options={[
                             { value: '1', label: 'one' },
-                            { value: '2', label: 'two' }
+                            { value: '2', label: 'two' },
+                            { value: '3', label: 'two' },
+                            { value: '4', label: 'two' },
+                            { value: '5', label: 'two' },
+                            { value: '6', label: 'two' },
+                            { value: '7', label: 'two' },
+                            { value: '8', label: 'two' },
+                            { value: '9', label: 'two' },
+                            { value: '10', label: 'two' },
+                            { value: '11', label: 'two' },
+                            { value: '12', label: 'two' },
+                            { value: '13', label: 'two' },
+                            { value: '14', label: 'two' },
+                            { value: '15', label: 'two' },
+                            { value: '16', label: 'two' },
+                            { value: '17', label: 'two' },
+                            { value: '18', label: 'two' },
+                            { value: '19', label: 'two' },
                         ]} />
                 </Form.Item>
 
