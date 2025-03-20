@@ -23,6 +23,7 @@ export const FormItem: FC<FormItemProps> = ({
   className = '',
   layout = 'vertical',
   style = {},
+  valuePropName,
   ...props
 }) => {
   const formContext = useContext(FormContext);
@@ -61,14 +62,14 @@ export const FormItem: FC<FormItemProps> = ({
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             size: child.props.size || props.size,
-            error: Boolean(getFieldError(name).length),
-            value: getFieldValue(name) ?? child.props.value,
+            error: Boolean(getFieldError(valuePropName || name).length),
+            value: getFieldValue(valuePropName || name) ?? child.props.value,
             onChange: (e: SyntheticBaseEvent, option?: OptionProps) => {
               const value: RuleType | SyntheticBaseEvent = e.target
                 ? e.target.value
                 : e;
 
-              setFieldValue(name, value as RuleType);
+              setFieldValue(valuePropName || name, value as RuleType);
 
               const childOnChange = (
                 child.props as {
@@ -85,8 +86,8 @@ export const FormItem: FC<FormItemProps> = ({
         }
       })}
 
-      {getFieldError(name).length ? (
-        <span className={`${prefixCls}-error`}>{getFieldError(name)[0]}</span>
+      {getFieldError(valuePropName || name).length ? (
+        <span className={`${prefixCls}-error`}>{getFieldError(valuePropName || name)[0]}</span>
       ) : null}
     </div>
   );
