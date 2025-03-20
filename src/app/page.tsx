@@ -50,12 +50,14 @@ export default function Home() {
             <h1>Custom Form</h1>
             <Form layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input' rules={[
-                    ({ getFieldValue }) => ({ 
+                    () => ({ 
                         required: true,
-                        validator() {
-                            console.log(getFieldValue('select'));
+                        validator(_, val) {
+                            if (val.length > 7) {
+                                return Promise.resolve()
+                            }
                             
-                            return Promise.reject()
+                            return Promise.reject(' ')
                         },
                      })
                 ]}>

@@ -1,22 +1,24 @@
 import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
 import { DefaultProps, RuleTypes, SizeType } from '.';
 
-export type RuleRender = (form: FormInstance) => RuleObject
+export type RuleRender = (form: FormInstance) => RuleObject;
 
-export type RuleObject = RuleRender | {
-  required?: boolean;
-  message?: string;
-  pattern?: RegExp;
-  min?: number;
-  max?: number;
-  warningPattern?: RegExp;
-  warningMessage?: string;
-  validator?: (
-    rule: RuleObject,
-    value: RuleTypes,
-    callback: (error?: string) => void,
-  ) => Promise<void> | void;
-}
+export type RuleObject =
+  | RuleRender
+  | {
+      required?: boolean;
+      message?: string;
+      pattern?: RegExp;
+      min?: number;
+      max?: number;
+      warningPattern?: RegExp;
+      warningMessage?: string;
+      validator?: (
+        rule: RuleObject,
+        value: RuleTypes,
+        callback: (error?: string) => void
+      ) => Promise<void> | void;
+    };
 
 export interface FieldData {
   name: string;

@@ -6,7 +6,8 @@ import type {
   FieldData,
   FieldError,
   FormInstance,
-  RuleObject
+  RuleObject,
+  RuleRender
 } from '@/xUiDesign/types/form';
 
 const useForm = (
@@ -17,7 +18,6 @@ const useForm = (
     allValues: Record<string, RuleTypes>
   ) => void
 ): FormInstance => {
-
   const formInstance = {
     submit,
     setFields,
@@ -41,7 +41,7 @@ const useForm = (
   };
 
   const touchedFieldsRef = useRef<Set<string>>(new Set());
-  const rulesRef = useRef<Record<string, RuleObject[]>>({});
+  const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
@@ -55,8 +55,8 @@ const useForm = (
   >([]);
 
   function getFieldValue(name: string) {
-    return formRef.current[name]
-  };
+    return formRef.current[name];
+  }
 
   function getFieldsValue(nameList?: string[]) {
     if (nameList?.length) {
@@ -68,11 +68,11 @@ const useForm = (
     }
 
     return formRef.current;
-  };
+  }
 
   function getFieldError(name: string): string[] {
-    return errors[name] || []
-  };
+    return errors[name] || [];
+  }
 
   function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
     return Object.entries(errors).map(([name]) => ({
@@ -107,17 +107,17 @@ const useForm = (
     if (onFieldsChange) {
       onFieldsChange([{ name, value }]);
     }
-  };
+  }
 
   function setFieldsValue(values: Partial<Record<string, RuleTypes>>) {
     Object.entries(values).forEach(([name, value]) =>
       setFieldValue(name, value as RuleTypes)
     );
-  };
+  }
 
   function setFields(fields: FieldData[]) {
     fields.forEach(({ name, value }) => setFieldValue(name, value));
-  };
+  }
 
   function isFieldTouched(name: string): boolean {
     return touchedFieldsRef.current.has(name);
@@ -134,7 +134,7 @@ const useForm = (
     return allFieldsTouched
       ? nameList.every(name => touchedFieldsRef.current.has(name))
       : nameList.some(name => touchedFieldsRef.current.has(name));
-  };
+  }
 
   function isFieldValidating(name: string): boolean {
     return !!name;
@@ -209,7 +209,7 @@ const useForm = (
     warningsRef.current[name] = fieldWarnings;
 
     return fieldErrors.length === 0;
-  };
+  }
 
   async function validateFields(nameList?: string[]) {
     let isValid = true;
@@ -227,7 +227,7 @@ const useForm = (
     }
 
     return isValid;
-  };
+  }
 
   function registerField(name: string, rules: RuleObject[] = []) {
     if (!(name in formRef.current)) {
@@ -235,7 +235,7 @@ const useForm = (
     }
 
     rulesRef.current[name] = rules;
-  };
+  }
 
   function resetFields() {
     formRef.current = { ...initialValues };
@@ -243,13 +243,13 @@ const useForm = (
     warningsRef.current = {};
     setErrors({});
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
-  };
+  }
 
   async function submit() {
     if (await validateFields()) {
       return formRef.current;
     }
-  };
+  }
 
   function subscribeToField(
     name: string,
@@ -266,7 +266,7 @@ const useForm = (
         cb => cb !== callback
       );
     };
-  };
+  }
 
   function subscribeToForm(
     callback: (values: Record<string, RuleTypes>) => void
@@ -278,9 +278,9 @@ const useForm = (
         cb => cb !== callback
       );
     };
-  };
+  }
 
-  return formInstance
+  return formInstance;
 };
 
 export { useForm };

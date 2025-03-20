@@ -56,6 +56,7 @@ export const FormItem: FC<FormItemProps> = ({
       {Children.map(childrenList, child => {
         if (isValidElement(child)) {
           return cloneElement(child, {
+            name,
             ...props,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
