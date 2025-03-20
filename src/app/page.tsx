@@ -49,18 +49,7 @@ export default function Home() {
 
             <h1>Custom Form</h1>
             <Form layout="horizontal" onFinish={(e) => console.log(e)}>
-                <Form.Item name='input' label='Input' rules={[
-                    () => ({ 
-                        required: true,
-                        validator(_, val) {
-                            if (val.length > 7) {
-                                return Promise.resolve()
-                            }
-                            
-                            return Promise.reject(' ')
-                        },
-                     })
-                ]}>
+                <Form.Item name='input' label='Input'>
                     <Input allowClear />
                 </Form.Item>
 

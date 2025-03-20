@@ -26,8 +26,8 @@ export type SelectProps = DefaultProps & {
   listHeight?: number;
   menuItemSelectedIcon?: ReactNode;
   mode?: 'default' | 'multiple' | 'tags';
-  value?: string | string[];
-  defaultValue?: string | string[];
+  value?: RuleTypes;
+  defaultValue?: RuleTypes;
   maxCount?: number;
   onChange?: (e: RuleTypes, option?: OptionType) => void;
   disabled?: boolean;

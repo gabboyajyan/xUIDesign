@@ -64,6 +64,7 @@ export type FormItemProps = DefaultProps & {
     | (ReactElement & { props: { value: RuleTypes } })
     | (ReactElement & { props: { value: RuleTypes } })[];
   layout?: FormLayoutTypes;
+  valuePropName?: string;
 };
 
 export interface FormInstance {
