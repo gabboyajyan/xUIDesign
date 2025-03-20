@@ -29,11 +29,13 @@ const InputComponent = forwardRef(
       prefixCls = prefixClsInput,
       className = '',
       value = undefined,
+      iconRender,
       ...props
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const [internalValue, setInternalValue] = useState(value ?? '');
+    const [iconRenderVisible, setIconRenderVisible] = useState(false);
 
     const handleChange = (e: SyntheticBaseEvent) => {
       setInternalValue(e.target.value as string);
@@ -86,6 +88,9 @@ const InputComponent = forwardRef(
           <input
             ref={ref}
             {...props}
+            {...(props.type === 'password' && iconRender ? {
+              type: iconRenderVisible ? 'text' : 'password'
+            } : {})}
             disabled={disabled}
             value={internalValue}
             onChange={handleChange}
@@ -102,11 +107,11 @@ const InputComponent = forwardRef(
           {suffix && <span className={`${prefixCls}-suffix`}>{suffix}</span>}
         </div>
 
-        {addonAfter && (
-          <span className={`${prefixCls}-addon ${prefixCls}-after`}>
-            {addonAfter}
+        {(addonAfter || iconRender) ? (
+          <span className={`${prefixCls}-addon ${prefixCls}-after`} onClick={() => iconRender && setIconRenderVisible(icon => !icon)}>
+            {addonAfter || iconRender?.(iconRenderVisible)}
           </span>
-        )}
+        ) : null}
       </div>
     );
   }

@@ -4,6 +4,7 @@ import {
   KeyboardEvent,
   KeyboardEventHandler,
   MouseEventHandler,
+  ReactElement,
   ReactNode,
   TextareaHTMLAttributes
 } from 'react';
@@ -19,6 +20,7 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
     disabled?: boolean;
     allowClear?: boolean;
     error?: boolean;
+    iconRender?: (visible: boolean) => ReactElement;
     onChange?: (event: SyntheticBaseEvent) => void;
     onClick?: MouseEventHandler<HTMLElement>;
     onMouseEnter?: MouseEventHandler<HTMLElement>;
