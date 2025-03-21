@@ -5,6 +5,8 @@ import {
   forwardRef,
   KeyboardEvent,
   MouseEvent,
+  useImperativeHandle,
+  useRef,
   useState
 } from 'react';
 import cc from 'classcat';
@@ -34,8 +36,16 @@ const InputComponent = forwardRef(
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
+    const inputRef = useRef<HTMLInputElement>(null);
     const [internalValue, setInternalValue] = useState(value ?? '');
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
+
+    useImperativeHandle(ref, () => ({
+        input: inputRef.current,
+        blur: inputRef.current?.blur,
+        focus: inputRef.current?.focus,
+        nativeElement: inputRef.current
+      }));
 
     const handleChange = (e: SyntheticBaseEvent) => {
       setInternalValue(e.target.value as string);
@@ -86,8 +96,8 @@ const InputComponent = forwardRef(
           {prefix && <span className={`${prefixCls}-prefix`}>{prefix}</span>}
 
           <input
-            ref={ref}
             {...props}
+            ref={inputRef}
             {...(props.type === 'password' && iconRender ? {
               type: iconRenderVisible ? 'text' : 'password'
             } : {})}

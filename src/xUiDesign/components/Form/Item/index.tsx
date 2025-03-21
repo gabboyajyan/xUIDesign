@@ -5,10 +5,11 @@ import {
   isValidElement,
   useContext,
   useEffect,
-  useMemo
+  useMemo,
+  useRef,
 } from 'react';
 import { RuleType, SyntheticBaseEvent } from '@/xUiDesign/types';
-import { FormItemProps } from '@/xUiDesign/types/form';
+import { FieldInstancesRef, FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
 import { FormContext } from '..';
@@ -27,6 +28,7 @@ export const FormItem: FC<FormItemProps> = ({
   ...props
 }) => {
   const formContext = useContext(FormContext);
+  const fieldRef = useRef<FieldInstancesRef>(null);
 
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
@@ -36,7 +38,9 @@ export const FormItem: FC<FormItemProps> = ({
     formContext;
 
   useEffect(() => {
-    registerField(name, rules);
+    if (fieldRef.current) {
+      registerField(name, rules, fieldRef.current);
+    }
   }, [name, registerField, rules]);
 
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
@@ -44,6 +48,20 @@ export const FormItem: FC<FormItemProps> = ({
     () => (Array.isArray(children) ? children : [children]),
     [children]
   );
+
+  const mergeRefs = (elementRef: (el: FieldInstancesRef) => void) => {
+    console.log(elementRef);
+
+    return (el: FieldInstancesRef) => {
+      fieldRef.current = el;
+
+      if (typeof elementRef === 'function') {
+        elementRef(el);
+      } else if (elementRef && typeof elementRef === 'object') {
+        elementRef.current = el;
+      }
+    };
+  };
 
   return (
     <div style={style} className={`${prefixCls} ${className} ${layout}`}>
@@ -57,6 +75,7 @@ export const FormItem: FC<FormItemProps> = ({
       {Children.map(childrenList, child => {
         if (isValidElement(child)) {
           return cloneElement(child, {
+            ref: mergeRefs(child.ref),
             name,
             ...props,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

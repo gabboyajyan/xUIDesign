@@ -5,21 +5,33 @@ import {
     Radio as AntRadio,
     Input as AntInput,
     Select as AntSelect,
-    Checkbox as AntCheckbox,
+    // Checkbox as AntCheckbox,
 } from "antd"
 import { Form } from "@/xUiDesign/components/Form"
 import { Input } from "@/xUiDesign/components/Input"
 import { Radio } from "@/xUiDesign/components/Radio"
 import { Select } from "@/xUiDesign/components/Select"
 import { Checkbox } from "@/xUiDesign/components/Checkbox"
+import { useEffect } from "react"
+import { useForm } from "@/xUiDesign/hooks/useForm"
 
 export default function Home() {
+    const form = useForm()
+    const [antForm] = AntForm.useForm()
+
+    useEffect(() => {
+        setTimeout(() => {
+            console.log(form.getFieldInstance('input'));
+            console.log(antForm.getFieldInstance('input'));
+        }, 300);
+    }, [form, antForm])
+
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
-            <AntForm layout="horizontal" onFinish={(e) => console.log(e)}>
-                <AntForm.Item name='input' label='Input' rules={[{ required: true }]}>
-                    <AntInput />
+            <AntForm form={antForm} layout="horizontal" onFinish={(e) => console.log(e)}>
+                <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
+                    <AntInput  />
                 </AntForm.Item>
 
                 <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
@@ -32,9 +44,9 @@ export default function Home() {
                         ]} />
                 </AntForm.Item>
 
-                <AntForm.Item name='checkbox' label='Checkbox'>
+                {/* <AntForm.Item name='checkbox' label='Checkbox'>
                     <AntCheckbox />
-                </AntForm.Item>
+                </AntForm.Item> */}
 
                 <AntForm.Item name='radio' label='Radio' rules={[{ required: true }]}>
                     <AntRadio.Group buttonStyle="solid">
@@ -48,7 +60,7 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form layout="horizontal" onFinish={(e) => console.log(e)}>
+            <Form form={form} layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input'>
                     <Input allowClear />
                 </Form.Item>

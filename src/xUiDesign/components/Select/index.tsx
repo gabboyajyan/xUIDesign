@@ -1,10 +1,13 @@
 'use client';
 
 import {
+  ForwardedRef,
+  forwardRef,
   KeyboardEvent,
   ReactElement,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState
@@ -29,7 +32,7 @@ import { Tag } from './Tag';
 const LIST_HEIGHT = 200;
 const SELECT_INPUT_START_WIDTH = 15;
 
-const Select = ({
+const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -66,7 +69,7 @@ const Select = ({
   notFoundContent = false,
   tagRender,
   getPopupContainer
-}: SelectProps): ReactElement => {
+}, ref: ForwardedRef<HTMLDivElement>): ReactElement => {
   const initialValue = value || defaultValue || '';
 
   const asTag = mode === 'tags';
@@ -88,6 +91,13 @@ const Select = ({
   const [selected, setSelected] = useState(
     hasMode ? checkModeInitialValue : initialValue
   );
+
+  useImperativeHandle(ref, () => ({
+    select: selectRef.current,
+    blur: selectRef.current?.blur,
+    focus: selectRef.current?.focus,
+    nativeElement: selectRef.current
+  }));
 
   const handleMouseEnter = () =>
     !disabled && selected.length && setIsHover(true);
@@ -411,8 +421,8 @@ const Select = ({
   return (
     <div
       id={id}
-      style={style}
       ref={selectRef}
+      style={style}
       className={cc([
         {
           [size]: size,
@@ -528,8 +538,12 @@ const Select = ({
         : dropdownContent}
     </div>
   );
-};
+});
 
-Select.Option = Option;
+SelectComponent.displayName = "Select";
+
+const Select = SelectComponent as typeof SelectComponent & {
+  Option: typeof Option;
+};
 
 export { Select };

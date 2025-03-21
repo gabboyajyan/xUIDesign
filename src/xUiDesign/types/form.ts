@@ -25,6 +25,11 @@ export interface FieldData {
   value: RuleTypes;
 }
 
+export type FieldInstancesInputRef = HTMLElement | null
+export type FieldInstancesRef = {
+  input?: FieldInstancesInputRef
+}
+
 export interface FieldError {
   name: string;
   errors: string[];
@@ -72,7 +77,7 @@ export interface FormInstance {
   setFields: (fields: FieldData[]) => void;
   resetFields: () => void;
   getFieldError: (name: string) => string[];
-  registerField: (name: string, rules?: RuleObject[]) => void;
+  registerField: (name: string, rules?: RuleObject[], fieldRef?: FieldInstancesRef) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
   validateFields: (nameList?: string[]) => Promise<boolean>;
@@ -95,4 +100,5 @@ export interface FormInstance {
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
   ) => void;
+  getFieldInstance: (fieldName: string) => FieldInstancesRef
 }

@@ -5,6 +5,7 @@ import { RuleTypes } from '@/xUiDesign/types';
 import type {
   FieldData,
   FieldError,
+  FieldInstancesRef,
   FormInstance,
   RuleObject,
   RuleRender
@@ -37,7 +38,8 @@ const useForm = (
     subscribeToField,
     subscribeToForm,
     onFieldsChange,
-    onValuesChange
+    onValuesChange,
+    getFieldInstance
   };
 
   const touchedFieldsRef = useRef<Set<string>>(new Set());
@@ -45,6 +47,7 @@ const useForm = (
   const warningsRef = useRef<Record<string, string[]>>({});
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
+  const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -53,6 +56,10 @@ const useForm = (
   const formSubscribers = useRef<
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
+
+  function getFieldInstance(name: string): FieldInstancesRef {
+    return fieldInstancesRef.current[name] || null;
+  }
 
   function getFieldValue(name: string) {
     return formRef.current[name];
@@ -146,6 +153,8 @@ const useForm = (
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
     for (let rule of rules) {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
@@ -229,12 +238,16 @@ const useForm = (
     return isValid;
   }
 
-  function registerField(name: string, rules: RuleObject[] = []) {
+  function registerField(name: string, rules: RuleObject[] = [], fieldRef?: FieldInstancesRef) {
     if (!(name in formRef.current)) {
       formRef.current[name] = initialValues[name];
     }
 
     rulesRef.current[name] = rules;
+
+    if (fieldRef) {
+      fieldInstancesRef.current[name] = fieldRef;
+    }
   }
 
   function resetFields() {
