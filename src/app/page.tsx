@@ -31,7 +31,7 @@ export default function Home() {
             <h1>Ant Form</h1>
             <AntForm form={antForm} layout="horizontal" onFinish={(e) => console.log(e)}>
                 <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
-                    <AntInput  />
+                    <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} />
                 </AntForm.Item>
 
                 <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
@@ -61,8 +61,8 @@ export default function Home() {
 
             <h1>Custom Form</h1>
             <Form form={form} layout="horizontal" onFinish={(e) => console.log(e)}>
-                <Form.Item name='input' label='Input'>
-                    <Input allowClear />
+                <Form.Item name='input' label='Input' rules={[{ required: true }]}>
+                    <Input allowClear suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} />
                 </Form.Item>
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
@@ -104,6 +104,13 @@ export default function Home() {
                 </Form.Item>
 
                 <button>Submit</button>
+                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="small" />
+                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="middle" />
+                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="large" />
+
+                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="small" />
+                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="middle" />
+                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="large" />
             </Form>
         </div>
     )

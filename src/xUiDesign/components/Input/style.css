@@ -45,6 +45,14 @@
     height: -webkit-fill-available;
 }
 
+.xUi-input-addon.xUi-input-after {
+    border-left: 1px solid var(--border-color);
+}
+
+.xUi-input-addon.xUi-input-before {
+    border-right: 1px solid var(--border-color);
+}
+
 .xUi-input-large .xUi-input-addon {
     padding: 0 10px;
 }
