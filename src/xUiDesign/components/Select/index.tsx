@@ -267,7 +267,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
       handleEnterAddNewTag();
     }
 
-    if (e.key === 'Backspace' && !searchQuery.trim().length) {
+    if (e.key === 'Backspace' && searchQuery.trim().length) {
       const updatedSelected = (selected as string[]).filter(
         item => item !== selected[selected.length - 1]
       );
@@ -292,9 +292,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
   }, [getPopupContainer]);
 
   const extractedOptions = children
-    ? (Array.isArray(children) ? children : [children]).map(
-      (child: { props: OptionType }) => child.props
-    )
+    ? (Array.isArray(children) ? children : [children])
+        .filter(e => e)
+        .map((child: { props: OptionType }) => child.props
+      )
     : options;
 
   const filteredOptions = extractedOptions.filter((option: OptionType) => {
@@ -541,9 +542,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
 });
 
 SelectComponent.displayName = "Select";
-
-const Select = SelectComponent as typeof SelectComponent & {
-  Option: typeof Option;
-};
+const Select = Object.assign(SelectComponent, { Option });
 
 export { Select };
