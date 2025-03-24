@@ -2,8 +2,8 @@
     display: flex;
     align-items: center;
     border: 1px solid #ccc;
+    overflow: hidden;
     border-radius: var(--border-radius-sm);
-    transition: border 0.3s;
 }
 
 .xUi-input-container.xUi-input-error {
@@ -12,11 +12,13 @@
 
 .xUi-input-wrapper {
     display: flex;
-    gap: 6px;
-    height: inherit;
-    padding: 0 2px;
     align-items: center;
+    position: relative;
+    height: -webkit-fill-available;
     flex-grow: 1;
+    margin: -1px;
+    border: 1px solid #ccc;
+    transition: border 0.3s;
 }
 
 .xUi-input {
@@ -24,16 +26,34 @@
     padding: 0;
     border: none;
     outline: none;
+    padding: 0 7px;
+    height: -webkit-fill-available;
 }
 
-.xUi-input-prefix,
-.xUi-input-suffix {
-    margin: 0 6px;
+.xUi-input-suffix,
+.xUi-input-prefix {
+    display: flex;
+    padding: 0 7px;
+    align-items: center;
+    height: -webkit-fill-available;
+    background-color: var(--background-color);
+}
+
+.xUi-input-addon {
+    padding: 0 7px;
+    display: flex;
+    align-items: center;
+    height: -webkit-fill-available;
+}
+
+.xUi-input-large .xUi-input-addon {
+    padding: 0 10px;
 }
 
 .xUi-input-clear {
     cursor: pointer;
-    margin: 0 2px;
+    position: absolute;
+    right: 7px;
     color: #ccc;
 }
 
@@ -69,12 +89,4 @@
 .xUi-input-large .xUi-input-clear,
 .xUi-input-large .xUi-input {
     font-size: var(--font-size-lg);
-}
-
-.xUi-input-middle {
-    padding: 0 12px;
-}
-
-.xUi-input-large {
-    padding: 0 10px;
 }
