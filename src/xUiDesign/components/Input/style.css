@@ -33,8 +33,13 @@
     border: none;
     outline: none;
     padding: 0 7px;
+    color: var(--text-color);
     height: -webkit-fill-available;
     background-color: transparent;
+}
+
+.xUi-input::placeholder {
+    color: var(--text-color);
 }
 
 .xUi-input-suffix,
@@ -69,7 +74,7 @@
     cursor: pointer;
     position: absolute;
     right: 7px;
-    color: #ccc;
+    color: var(--text-color);
 }
 
 .xUi-input-disabled {
@@ -82,7 +87,8 @@
 }
 
 .xUi-input-large .xUi-input-clear,
-.xUi-input-small .xUi-input {
+.xUi-input-small .xUi-input,
+.xUi-input-small .xUi-input::placeholder {
     font-size: var(--font-size-md);
 }
 
@@ -92,7 +98,8 @@
 }
 
 .xUi-input-large .xUi-input-clear,
-.xUi-input-middle .xUi-input {
+.xUi-input-middle .xUi-input,
+.xUi-input-middle .xUi-input::placeholder {
     font-size: var(--font-size-md);
 }
 
@@ -102,6 +109,7 @@
 }
 
 .xUi-input-large .xUi-input-clear,
-.xUi-input-large .xUi-input {
+.xUi-input-large .xUi-input,
+.xUi-input-large .xUi-input::placeholder {
     font-size: var(--font-size-lg);
 }
