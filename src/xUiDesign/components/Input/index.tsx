@@ -41,11 +41,11 @@ const InputComponent = forwardRef(
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
-        input: inputRef.current,
-        blur: inputRef.current?.blur,
-        focus: inputRef.current?.focus,
-        nativeElement: inputRef.current
-      }));
+      input: inputRef.current,
+      blur: inputRef.current?.blur,
+      focus: inputRef.current?.focus,
+      nativeElement: inputRef.current
+    }));
 
     const handleChange = (e: SyntheticBaseEvent) => {
       setInternalValue(e.target.value as string);
@@ -114,13 +114,15 @@ const InputComponent = forwardRef(
             </span>
           )}
 
-          {suffix && <span className={`${prefixCls}-suffix`}>{suffix}</span>}
+          {suffix || iconRender && <span
+            className={`${prefixCls}-suffix`}
+            {...(iconRender !== undefined ? {
+              onClick: () => setIconRenderVisible(icon => !icon)
+            } : {})}>{suffix || iconRender?.(iconRenderVisible)}</span>}
         </div>
 
-        {(addonAfter || iconRender) ? (
-          <span className={`${prefixCls}-addon ${prefixCls}-after`} onClick={() => iconRender && setIconRenderVisible(icon => !icon)}>
-            {addonAfter || iconRender?.(iconRenderVisible)}
-          </span>
+        {addonAfter ? (
+          <span className={`${prefixCls}-addon ${prefixCls}-after`}>{addonAfter}</span>
         ) : null}
       </div>
     );

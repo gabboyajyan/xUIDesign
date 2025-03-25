@@ -50,8 +50,6 @@ export const FormItem: FC<FormItemProps> = ({
   );
 
   const mergeRefs = (elementRef: (el: FieldInstancesRef) => void) => {
-    console.log(elementRef);
-
     return (el: FieldInstancesRef) => {
       fieldRef.current = el;
 
