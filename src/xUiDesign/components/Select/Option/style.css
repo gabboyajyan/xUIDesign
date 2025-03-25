@@ -20,7 +20,7 @@
 }
 
 .xUi-select-option.xUi-select-focused {
-    background-color: #e6f7ff;
+    background-color: var(--xui-color-hover);
     font-weight: 600;
     display: flex;
     align-items: center;
