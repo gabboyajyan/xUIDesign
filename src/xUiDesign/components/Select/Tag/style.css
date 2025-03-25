@@ -61,7 +61,7 @@
     outline: none;
     color: var(--text-color);
     font-size: var(--font-size-md);
-    background: white;
+    background: transparent;
 }
 
 .xUi-select .xUi-select-tag:has([class="xUi-select-tag-input"]) input {
