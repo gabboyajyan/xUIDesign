@@ -9,7 +9,7 @@
 
 .xUi-input-container:has(.xUi-input):hover,
 .xUi-input-container:has(.xUi-input:focus) {
-    border: 1px solid var(--xui-primary-color-light);   
+    border: 1px solid var(--v3-primary-6);
 }
 
 .xUi-input-container.xUi-input-error {
@@ -48,6 +48,7 @@
     display: flex;
     padding: 0 7px;
     align-items: center;
+    color: var(--xui-text-color);
     height: -webkit-fill-available;
     background-color: transparent;
 }
@@ -56,6 +57,7 @@
     padding: 0 7px;
     display: flex;
     align-items: center;
+    color: var(--xui-text-color);
     height: -webkit-fill-available;
 }
 
