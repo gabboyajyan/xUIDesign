@@ -22,7 +22,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(({
     onResize,
     styles,
     bordered = true,
-    size = 'large',
+    size = 'middle',
     status,
     rootClassName,
     variant = "outlined",

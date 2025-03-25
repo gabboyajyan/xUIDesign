@@ -5,6 +5,7 @@ import {
     Radio as AntRadio,
     Input as AntInput,
     Select as AntSelect,
+    Checkbox as AntCheckbox
 } from "antd"
 import { Form } from "@/xUiDesign/components/Form"
 import { Input } from "@/xUiDesign/components/Input"
@@ -20,13 +21,14 @@ export default function Home() {
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
             <h1>Ant Form</h1>
-            <AntForm form={antForm} layout="horizontal" onFinish={(e) => console.log(e)}>
+            <AntForm form={antForm} size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
                 <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
                     <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} />
                 </AntForm.Item>
 
                 <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
                     <AntSelect
+                        
                         showAction={['focus']}
                         showSearch
                         options={[
@@ -35,9 +37,9 @@ export default function Home() {
                         ]} />
                 </AntForm.Item>
 
-                {/* <AntForm.Item name='checkbox' label='Checkbox'>
+                <AntForm.Item name='checkbox' label='Checkbox' rules={[{ required: true }]}>
                     <AntCheckbox />
-                </AntForm.Item> */}
+                </AntForm.Item>
 
                 <AntForm.Item name='radio' label='Radio' rules={[{ required: true }]}>
                     <AntRadio.Group buttonStyle="solid">
@@ -51,13 +53,15 @@ export default function Home() {
             <hr />
 
             <h1>Custom Form</h1>
-            <Form form={form} layout="horizontal" onFinish={(e) => console.log(e)}>
+            <Form form={form} size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input' rules={[{ required: true }]}>
                     <Input allowClear suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} />
                 </Form.Item>
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
+                        
+                        allowClear
                         showSearch
                         options={[
                             { value: '1', label: 'one' },
@@ -95,13 +99,6 @@ export default function Home() {
                 </Form.Item>
 
                 <button>Submit</button>
-                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="small" />
-                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="middle" />
-                <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="large" />
-
-                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="small" />
-                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="middle" />
-                <Input suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} allowClear size="large" />
             </Form>
         </div>
     )

@@ -158,6 +158,8 @@ const useForm = (
     for (let rule of rules) {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
+      console.log({ name, value });
+      
       if (
         rule.required &&
         (value === undefined ||

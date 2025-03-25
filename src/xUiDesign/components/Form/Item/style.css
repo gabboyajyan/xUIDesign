@@ -9,27 +9,27 @@
     margin-bottom: 4px;
     display: flex;
     align-items: center;
-    font-size: var(--font-size-md);
-    color: var(--text-color);
+    font-size: var(--xui-font-size-md);
+    color: var(--xui-text-color);
 }
 
 .xUi-form-item-error {
     right: 0;
     bottom: -18px;
-    font-size: var(--font-size-xs);
+    font-size: var(--xui-font-size-xs);
     margin-top: 4px;
     position: absolute;
-    color: var(--error-text-color);
+    color: var(--xui-error-color);
     user-select: none;
 }
 
 .xUi-form-item-required {
     line-height: 1;
-    font-size: var(--font-size-md);
+    font-size: var(--xui-font-size-md);
     margin-left: 4px;
     margin-right: 4px;
     display: inline-block;
-    color: var(--error-text-color);
+    color: var(--xui-error-color);
 }
 
 .xUi-form-item.horizontal {

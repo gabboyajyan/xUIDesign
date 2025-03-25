@@ -53,7 +53,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
   allowClear = false,
   filterable = false,
   defaultOpen = false,
-  size = 'large',
+  size = 'middle',
   error = '',
   dropdownClassName = '',
   suffixIcon,
@@ -254,9 +254,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
   };
 
   const handleRemoveTag = (e: SyntheticBaseEvent) => {
-    const updatedSelected = (selected as string[]).filter(
+    const updatedSelected = hasMode ? (selected as string[]).filter(
       item => item !== e.target.value
-    );
+    ) : e.target.value;
 
     onChange?.(updatedSelected);
     setSelected(updatedSelected);
@@ -267,10 +267,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
       handleEnterAddNewTag();
     }
 
-    if (e.key === 'Backspace' && searchQuery.trim().length) {
-      const updatedSelected = (selected as string[]).filter(
+    if (e.key === 'Backspace' && (hasMode ? !searchQuery.trim().length : searchQuery.trim().length)) {
+      const updatedSelected = hasMode ? (selected as string[]).filter(
         item => item !== selected[selected.length - 1]
-      );
+      ): searchQuery.trim();
 
       onChange?.(updatedSelected);
       setSelected(updatedSelected);
@@ -488,7 +488,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
                 className={`${prefixCls}-tag-input`}
                 placeholder={(selected as string[]).length ? '' : placeholder}
               />
-            </div> : <div
+            </div> : !hasMode ? <div
               className={`${prefixCls}-input`}
               style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
             >
@@ -496,9 +496,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
                 ? placeholder
                 : extractedOptions.find(e => e.value === selected)?.children ||
                 selected}
-            </div>}
+            </div> : null}
           </div>
-        ) : (
+        ) : !hasMode ? (
           <div
             className={`${prefixCls}-input`}
             onClick={() => !disabled && setIsOpen(!isOpen || open)}
@@ -507,9 +507,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(({
             {selected === ''
               ? placeholder
               : extractedOptions.find(e => e.value === selected)?.children ||
-              selected}
+              null}
           </div>
-        )}
+        ) : null}
 
         {isHover && !loading ? (
           allowClear && selected ? (

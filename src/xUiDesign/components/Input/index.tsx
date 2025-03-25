@@ -19,7 +19,7 @@ import { Textarea } from './Textarea';
 const InputComponent = forwardRef(
   (
     {
-      size = 'large',
+      size = 'middle',
       error,
       suffix,
       prefix,

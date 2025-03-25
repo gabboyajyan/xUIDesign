@@ -3,11 +3,12 @@ import { SyntheticBaseEvent } from '@/xUiDesign/types';
 import { prefixClsRadio } from '@/xUiDesign/utils';
 import { parseValue } from '@/xUiDesign/helpers';
 import { RadioGroup } from './Group';
+import { ForwardedRef, forwardRef } from 'react';
 import { RadioButton } from './Button';
 import cc from 'classcat';
 import './style.css';
 
-const Radio = ({
+const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(({
     prefixCls = prefixClsRadio,
     className = '',
     value,
@@ -23,7 +24,7 @@ const Radio = ({
     onFocus,
     onMouseEnter,
     onMouseLeave
-}: RadioProps) => {
+}, ref: ForwardedRef<HTMLLabelElement>) => {
     const handleChange = (e: SyntheticBaseEvent) => {
         if (!disabled) {
             e.target.value = parseValue(e.target.value);
@@ -34,6 +35,7 @@ const Radio = ({
 
     return (
         <label
+            ref={ref}
             title={title}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
@@ -57,9 +59,12 @@ const Radio = ({
             <span className={`${prefixCls}-title`}>{children ?? title ?? value}</span>
         </label>
     );
-};
+});
 
-Radio.Group = RadioGroup;
-Radio.Button = RadioButton;
+RadioComponent.displayName = "Radio";
+const Radio = Object.assign(RadioComponent, {
+    Group: RadioGroup,
+    Button: RadioButton
+});
 
 export { Radio };

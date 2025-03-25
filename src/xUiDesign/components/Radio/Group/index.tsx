@@ -16,7 +16,7 @@ import {
   const RadioGroup = ({
     defaultValue,
     value,
-    size = 'large',
+    size = 'middle',
     disabled,
     name,
     id,

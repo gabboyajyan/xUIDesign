@@ -11,21 +11,13 @@
     position: relative;
     display: inline-flex;
     flex-direction: row-reverse;
-    color: var(--text-color);
+    color: var(--xui-text-color);
     min-height: 24px;
-    background-color: var(--background-color);
-    border-radius: var(--border-radius-sm);
-    border: 1px solid var(--border-color);
+    background-color: var(--xui-background-color);
+    border-radius: var(--xui-border-radius-sm);
+    border: 1px solid var(--xui-border-color);
     box-sizing: border-box;
     padding: 2px 8px;
-}
-
-.xUi-select.large.xUi-select-multi {
-    padding: 4px !important;
-}
-
-.xUi-select.middle.xUi-select-multi {
-    padding: 3px !important;
 }
 
 .xUi-select-disabled {
@@ -34,7 +26,7 @@
 
 .xUi-select-arrow {
     margin: 0 4px;
-    color: var(--text-color-light);
+    color: var(--xui-text-color-light);
 }
 
 .xUi-select-arrow svg {
@@ -47,7 +39,7 @@
     margin: 0 8px;
     animation: spin 1s linear infinite;
     display: inline-block;
-    color: var(--text-color-light);
+    color: var(--xui-text-color-light);
 }
 
 .xUi-select .xUi-select-trigger {
@@ -55,7 +47,7 @@
     width: 100%;
     align-items: center;
     cursor: pointer;
-    border-radius: var(--border-radius-sm);
+    border-radius: var(--xui-border-radius-sm);
     background: transparent;
 }
 
@@ -70,26 +62,26 @@
 }
 
 .xUi-select .xUi-select-clear-btn {
-    font-size: var(--font-size-lg);
+    font-size: var(--xui-font-size-lg);
 }
 
 .xUi-select .xUi-select-clear-btn:hover {
-    color: var(--text-color-light);
+    color: var(--xui-text-color-light);
 }
 
 .xUi-select-dropdown {
-    position: absolute;
-    min-width: max-content;
     top: 100%;
     left: 0;
     right: 0;
     z-index: 10;
     margin-top: 5px;
-    border-radius: var(--border-radius-sm);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    background-color: var(--background-color);
-    max-height: 200px;
     overflow-y: auto;
+    max-height: 200px;
+    position: absolute;
+    min-width: max-content;
+    border-radius: var(--xui-border-radius-sm);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background-color: var(--xui-select-background-color);
 }
 
 .xUi-select .xUi-select-loading-spinner {
@@ -99,12 +91,12 @@
 }
 
 .xUi-select:focus-within {
-    border-color: var(--main-color-light);
+    border-color: var(--xui-primary-color-light);
     box-shadow: none;
 }
 
 .xUi-select:hover:not(.xUi-select-disabled) {
-    border-color: var(--main-color-light);
+    border-color: var(--xui-primary-color-light);
 }
 
 .xUi-select-disabled .xUi-select-input,
@@ -115,11 +107,11 @@
 }
 
 .xUi-select-selected-icon {
-    color: var(--main-color-light);
+    color: var(--xui-primary-color-light);
 }
 
 .xUi-select-error {
-    border-color: var(--error-color);
+    border-color: var(--xui-error-color);
 }
 
 .xUi-select .xUi-select-input {
@@ -128,8 +120,8 @@
     border: none;
     outline: none;
     background: transparent;
-    font-size: var(--font-size-md);
-    color: var(--text-color);
+    font-size: var(--xui-font-size-md);
+    color: var(--xui-text-color);
     user-select: none;
     cursor: pointer;
     height: -webkit-fill-available;
@@ -144,29 +136,29 @@
 }
 
 .xUi-select.middle {
-    font-size: var(--font-size-md);
+    font-size: var(--xui-font-size-md);
     min-height: 30px;
-    border-radius: var(--border-radius-md);
+    border-radius: var(--xui-border-radius-md);
 }
 
 .xUi-select.middle input {
-    font-size: var(--font-size-md);
+    font-size: var(--xui-font-size-md);
 }
 
 .xUi-select.middle .xUi-select-trigger {
-    border-radius: var(--border-radius-md);
+    border-radius: var(--xui-border-radius-md);
 }
 
 .xUi-select.large {
-    font-size: var(--font-size-lg);
+    font-size: var(--xui-font-size-lg);
     min-height: 40px;
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--xui-border-radius-lg);
 }
 
 .xUi-select.large .xUi-select-trigger {
-    border-radius: var(--border-radius-lg);
+    border-radius: var(--xui-border-radius-lg);
 }
 
-.xUi-select.large input {
-    font-size: var(--font-size-lg);
+.xUi-select input {
+    font-size: var(--xui-font-size-lg);
 }

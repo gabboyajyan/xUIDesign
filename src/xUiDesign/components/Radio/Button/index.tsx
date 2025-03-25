@@ -17,7 +17,7 @@ const RadioButton = ({
   checked,
   disabled,
   children,
-  size = 'large',
+  size = 'middle',
   ...props
 }: RadioButtonProps) => {
   return (
