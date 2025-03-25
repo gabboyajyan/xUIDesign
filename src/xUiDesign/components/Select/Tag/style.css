@@ -68,6 +68,7 @@
     width: 100%;
     border: none;
     padding: 4px;
+    height: -webkit-fill-available;
 }
 
 .xUi-select .xUi-select-tag-input:focus {
