@@ -13,7 +13,7 @@
     flex-direction: row-reverse;
     color: var(--xui-text-color);
     min-height: 24px;
-    background-color: var(--xui-background-color);
+    background-color: transparent;
     border-radius: var(--xui-border-radius-sm);
     border: 1px solid var(--xui-border-color);
     box-sizing: border-box;
