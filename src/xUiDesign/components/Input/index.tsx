@@ -114,11 +114,18 @@ const InputComponent = forwardRef(
             </span>
           )}
 
-          {suffix || iconRender && <span
-            className={`${prefixCls}-suffix`}
-            {...(iconRender !== undefined ? {
-              onClick: () => setIconRenderVisible(icon => !icon)
-            } : {})}>{suffix || iconRender?.(iconRenderVisible)}</span>}
+          {(suffix || iconRender) && (
+            <span
+              className={`${prefixCls}-suffix`}
+              {...(iconRender !== undefined
+                ? {
+                  onClick: () => setIconRenderVisible(icon => !icon)
+                }
+                : {})}
+            >
+              {suffix || iconRender?.(iconRenderVisible)}
+            </span>
+          )}
         </div>
 
         {addonAfter ? (
