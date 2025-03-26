@@ -18,7 +18,7 @@
     --xui-font-size-sm: 14px;
     --xui-font-size-md: 14px;
     --xui-font-size-lg: 16px;
-    
+
     /* BORDERS */
     --xui-border-radius-sm: 4px;
     --xui-border-radius-md: 4px;
@@ -34,4 +34,10 @@
 html {
     background-color: grey;
     font-family: sans-serif;
+}
+
+.globalEllipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
 }

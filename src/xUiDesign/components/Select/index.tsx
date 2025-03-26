@@ -358,8 +358,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         {!loading && (
           <div
-            className={`${prefixCls}-options`}
-            style={{ maxHeight: listHeight, overflowY: 'auto' }}
+            className={`${prefixCls}-options globalEllipsis`}
+            style={{
+              maxHeight: listHeight,
+              overflowY: 'auto',
+              width: selectRef.current?.clientWidth || 'unset'
+            }}
           >
             {asTag && !!searchQuery && (
               <Option
