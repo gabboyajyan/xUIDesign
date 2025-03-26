@@ -6,7 +6,7 @@
 
 .xUi-form-item-label {
     font-weight: 500;
-    margin-bottom: 4px;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     font-size: var(--xui-font-size-md);

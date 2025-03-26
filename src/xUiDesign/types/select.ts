@@ -38,7 +38,7 @@ export type SelectProps = DefaultProps & {
   defaultOpen?: boolean;
   size?: 'small' | 'middle' | 'large';
   onClear?: () => void;
-  error?: string;
+  error?: boolean;
   showSearch?: boolean;
   tagRender?: ((props: CustomTagProps) => ReactElement) | undefined;
   maxTagPlaceholder?:

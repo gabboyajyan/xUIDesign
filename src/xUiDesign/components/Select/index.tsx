@@ -57,7 +57,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       filterable = false,
       defaultOpen = false,
       size = 'middle',
-      error = '',
+      error = false,
       dropdownClassName = '',
       suffixIcon,
       style,
@@ -276,8 +276,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       ) {
         const updatedSelected = hasMode
           ? (selected as string[]).filter(
-            item => item !== selected[selected.length - 1]
-          )
+              item => item !== selected[selected.length - 1]
+            )
           : searchQuery.trim();
 
         onChange?.(updatedSelected);
@@ -301,8 +301,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     const extractedOptions = children
       ? (Array.isArray(children) ? children : [children])
-        .filter(e => e)
-        .map((child: { props: OptionType }) => child.props)
+          .filter(e => e)
+          .map((child: { props: OptionType }) => child.props)
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
@@ -310,12 +310,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return true;
       }
 
-      const valueToCheck = `${['string', 'number'].includes(typeof option.children)
+      const valueToCheck = `${
+        ['string', 'number'].includes(typeof option.children)
           ? option.children
           : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          option[optionFilterProp] || option.value
-        }`;
+            // @ts-expect-error
+            option[optionFilterProp] || option.value
+      }`;
 
       return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
@@ -380,58 +381,58 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
             {filteredOptions.length
               ? filteredOptions.map(
-                ({ children, className = '', ...props }) => (
-                  <Option
-                    key={`${props.value}`}
-                    {...props}
-                    className={cc([
-                      className,
-                      {
-                        [`${prefixCls}-focused`]: hasMode
-                          ? selected.includes(props.value as string)
-                          : props.value === selected,
-                        [`${prefixCls}-disabled`]:
-                          maxCount &&
+                  ({ children, className = '', ...props }) => (
+                    <Option
+                      key={`${props.value}`}
+                      {...props}
+                      className={cc([
+                        className,
+                        {
+                          [`${prefixCls}-focused`]: hasMode
+                            ? selected.includes(props.value as string)
+                            : props.value === selected,
+                          [`${prefixCls}-disabled`]:
+                            maxCount &&
                             hasMode &&
                             !selected.includes(props.value as string)
-                            ? selected.length >= maxCount
-                            : false
-                      }
-                    ])}
-                    onClick={e => {
-                      if (props.disabled) {
-                        return;
-                      }
+                              ? selected.length >= maxCount
+                              : false
+                        }
+                      ])}
+                      onClick={e => {
+                        if (props.disabled) {
+                          return;
+                        }
 
-                      handleSelect(
-                        e as MouseEventHandlerSelect,
-                        props.value as string,
-                        { children, className, ...props } as OptionType
-                      );
-                    }}
-                    data-value={props.value}
-                  >
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: (children || props.value) as string
+                        handleSelect(
+                          e as MouseEventHandlerSelect,
+                          props.value as string,
+                          { children, className, ...props } as OptionType
+                        );
                       }}
-                    />
+                      data-value={props.value}
+                    >
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: (children || props.value) as string
+                        }}
+                      />
 
-                    {hasMode && selected.includes(props.value as string) && (
-                      <span className={`${prefixCls}-selected-icon`}>
-                        {menuItemSelectedIcon === true ? (
-                          <CheckIcon />
-                        ) : (
-                          menuItemSelectedIcon
-                        )}
-                      </span>
-                    )}
-                  </Option>
+                      {hasMode && selected.includes(props.value as string) && (
+                        <span className={`${prefixCls}-selected-icon`}>
+                          {menuItemSelectedIcon === true ? (
+                            <CheckIcon />
+                          ) : (
+                            menuItemSelectedIcon
+                          )}
+                        </span>
+                      )}
+                    </Option>
+                  )
                 )
-              )
               : !asTag
-                ? notFoundContent || <EmptyContent />
-                : null}
+              ? notFoundContent || <EmptyContent />
+              : null}
           </div>
         )}
       </div>
@@ -479,7 +480,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                         tag === ''
                           ? placeholder
                           : extractedOptions.find(e => e.value === tag)
-                            ?.children || tag
+                              ?.children || tag
                       }
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
@@ -495,8 +496,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     width: searchQuery.length
                       ? `${searchQuery.length * SELECT_INPUT_START_WIDTH}px`
                       : !selected.length
-                        ? '100%'
-                        : '10px'
+                      ? '100%'
+                      : '10px'
                   }}
                 >
                   <input
@@ -519,7 +520,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                   {selected === ''
                     ? placeholder
                     : extractedOptions.find(e => e.value === selected)
-                      ?.children || selected}
+                        ?.children || selected}
                 </div>
               ) : null}
             </div>
@@ -532,7 +533,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               {selected === ''
                 ? placeholder
                 : extractedOptions.find(e => e.value === selected)?.children ||
-                null}
+                  null}
             </div>
           ) : null}
 
