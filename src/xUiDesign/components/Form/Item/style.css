@@ -15,7 +15,7 @@
 
 .xUi-form-item-error {
     right: 0;
-    bottom: -18px;
+    bottom: -5px;
     font-size: var(--xui-font-size-xs);
     margin-top: 4px;
     position: absolute;
@@ -45,4 +45,8 @@
 .xUi-form-item .xUi-input-container,
 .xUi-form-item .xUi-select {
     width: -webkit-fill-available;
+}
+
+.xUi-form-item .xUi-input-container {
+    margin-bottom: 12px !important;
 }

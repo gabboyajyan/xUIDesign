@@ -19,35 +19,13 @@ const useForm = (
     allValues: Record<string, RuleTypes>
   ) => void
 ): FormInstance => {
-  const formInstance = {
-    submit,
-    setFields,
-    resetFields,
-    getFieldError,
-    registerField,
-    setFieldValue,
-    getFieldValue,
-    validateFields,
-    setFieldsValue,
-    getFieldsValue,
-    isFieldTouched,
-    getFieldsError,
-    isFieldsTouched,
-    getFieldWarning,
-    isFieldValidating,
-    subscribeToField,
-    subscribeToForm,
-    onFieldsChange,
-    onValuesChange,
-    getFieldInstance
-  };
-
-  const touchedFieldsRef = useRef<Set<string>>(new Set());
+  const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
+  const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
+
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
-  const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -66,54 +44,50 @@ const useForm = (
   }
 
   function getFieldsValue(nameList?: string[]) {
-    if (nameList?.length) {
-      return nameList.reduce((acc, key) => {
-        acc[key] = formRef.current[key];
-
-        return acc;
-      }, {} as Record<string, RuleTypes>);
+    if (!nameList) {
+      return { ...formRef.current };
     }
 
-    return formRef.current;
+    return nameList.reduce((acc, key) => {
+      acc[key] = formRef.current[key];
+
+      return acc;
+    }, {} as Record<string, RuleTypes>);
   }
 
-  function getFieldError(name: string): string[] {
+  function getFieldError(name: string) {
     return errors[name] || [];
-  }
-
-  function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
-    return Object.entries(errors).map(([name]) => ({
-      name,
-      errors: getFieldError(name)
-    }));
   }
 
   function getFieldWarning(name: string): string[] {
     return warningsRef.current[name] || [];
   }
 
+  function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
+    return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
+  }
+
   function setFieldValue(name: string, value: RuleTypes) {
-    if (value === undefined) {
+    if (value === undefined || formRef.current[name] === value) {
       return;
     }
 
     formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
-    validateField(name);
 
-    const allValues = getFieldsValue();
+    validateField(name).then(() => {
+      const allValues = getFieldsValue();
+      fieldSubscribers.current[name]?.forEach(callback => callback(value));
+      formSubscribers.current.forEach(callback => callback(allValues));
 
-    fieldSubscribers.current[name]?.forEach(callback => callback(value));
-    formSubscribers.current.forEach(callback => callback(allValues));
+      if (onValuesChange) {
+        onValuesChange({ [name]: value }, allValues);
+      }
 
-    if (onValuesChange) {
-      const changedValues = { [name]: value };
-      onValuesChange(changedValues, allValues);
-    }
-
-    if (onFieldsChange) {
-      onFieldsChange([{ name, value }]);
-    }
+      if (onFieldsChange) {
+        onFieldsChange([{ name, value }]);
+      }
+    });
   }
 
   function setFieldsValue(values: Partial<Record<string, RuleTypes>>) {
@@ -126,14 +100,11 @@ const useForm = (
     fields.forEach(({ name, value }) => setFieldValue(name, value));
   }
 
-  function isFieldTouched(name: string): boolean {
+  function isFieldTouched(name: string) {
     return touchedFieldsRef.current.has(name);
   }
 
-  function isFieldsTouched(
-    nameList?: string[],
-    allFieldsTouched = false
-  ): boolean {
+  function isFieldsTouched(nameList?: string[], allFieldsTouched = false) {
     if (!nameList) {
       return touchedFieldsRef.current.size > 0;
     }
@@ -147,98 +118,11 @@ const useForm = (
     return !!name;
   }
 
-  async function validateField(name: string) {
-    let value = formRef.current[name];
-    const rules = rulesRef.current[name] || [];
-    const fieldErrors: string[] = [];
-    const fieldWarnings: string[] = [];
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    for (let rule of rules) {
-      rule = typeof rule === 'function' ? rule(formInstance) : rule;
-
-      if (
-        rule.required &&
-        (value === undefined ||
-          value === null ||
-          value === '' ||
-          value === false ||
-          (Array.isArray(value) && !value.length))
-      ) {
-        fieldErrors.push(rule.message || 'This field is required');
-      }
-
-      if (
-        typeof value === 'string' ||
-        typeof value === 'number' ||
-        Array.isArray(value)
-      ) {
-        if (typeof value === 'number') {
-          value = `${value}`;
-        }
-
-        if (rule.min !== undefined && value.length < rule.min) {
-          fieldErrors.push(
-            rule.message || `Must be at least ${rule.min} characters`
-          );
-        }
-
-        if (rule.max !== undefined && value.length > rule.max) {
-          fieldErrors.push(
-            rule.message || `Must be at most ${rule.max} characters`
-          );
-        }
-      }
-
-      if (rule.pattern && !rule.pattern.test(String(value))) {
-        fieldErrors.push(rule.message || 'Invalid format');
-      }
-
-      if (rule.warningPattern && !rule.warningPattern.test(String(value))) {
-        fieldWarnings.push(rule.warningMessage || 'Invalid format');
-      }
-
-      if (rule.validator) {
-        try {
-          await rule.validator(rule, value, (error: string) => {
-            if (error) {
-              fieldErrors.push(error);
-            }
-          });
-        } catch (error) {
-          fieldErrors.push(
-            error instanceof Error ? error.message : String(error)
-          );
-        }
-      }
-    }
-
-    setErrors(prev => ({ ...prev, [name]: fieldErrors }));
-    warningsRef.current[name] = fieldWarnings;
-
-    return fieldErrors.length === 0;
-  }
-
-  async function validateFields(nameList?: string[]) {
-    let isValid = true;
-
-    for (const name of Object.keys(formRef.current)) {
-      if (nameList?.length) {
-        if (nameList.includes(name) && !(await validateField(name))) {
-          isValid = false;
-        }
-      } else {
-        if (!(await validateField(name))) {
-          isValid = false;
-        }
-      }
-    }
-
-    return isValid;
-  }
-
-  function registerField(name: string, rules: RuleObject[] = [], fieldRef?: FieldInstancesRef) {
+  function registerField(
+    name: string,
+    rules: RuleObject[] = [],
+    fieldRef?: FieldInstancesRef
+  ) {
     if (!(name in formRef.current)) {
       formRef.current[name] = initialValues[name];
     }
@@ -250,6 +134,90 @@ const useForm = (
     }
   }
 
+  async function validateField(name: string) {
+    const value = formRef.current[name];
+    const rules = rulesRef.current[name] || [];
+    const fieldErrors: string[] = [];
+    const fieldWarnings: string[] = [];
+
+    await Promise.all(
+      [rules].flat(1).map(async (rule: RuleTypes) => {
+        rule = typeof rule === 'function' ? rule(formInstance) : rule;
+
+        if (
+          rule.required &&
+          (value === undefined ||
+            value === null ||
+            value === '' ||
+            value === false ||
+            (Array.isArray(value) && !value.length))
+        ) {
+          fieldErrors.push(rule.message || 'This field is required');
+        }
+
+        if (
+          (typeof value === 'string' ||
+            typeof value === 'number' ||
+            Array.isArray(value)) &&
+          rule.min !== undefined &&
+          String(value).length < rule.min
+        ) {
+          fieldErrors.push(
+            rule.message || `Must be at least ${rule.min} characters`
+          );
+        }
+
+        if (
+          (typeof value === 'string' ||
+            typeof value === 'number' ||
+            Array.isArray(value)) &&
+          rule.max !== undefined &&
+          String(value).length > rule.max
+        ) {
+          fieldErrors.push(
+            rule.message || `Must be at most ${rule.max} characters`
+          );
+        }
+
+        if (rule.pattern && !rule.pattern.test(String(value))) {
+          fieldErrors.push(rule.message || 'Invalid format');
+        }
+
+        if (rule.warningPattern && !rule.warningPattern.test(String(value))) {
+          fieldWarnings.push(rule.warningMessage || 'Invalid format');
+        }
+
+        if (rule.validator) {
+          try {
+            await rule.validator(
+              rule,
+              value,
+              (error?: string) => error && fieldErrors.push(error)
+            );
+          } catch (error) {
+            fieldErrors.push(
+              error instanceof Error ? error.message : String(error)
+            );
+          }
+        }
+      })
+    );
+
+    setErrors(prev => ({ ...prev, [name]: fieldErrors }));
+    warningsRef.current[name] = fieldWarnings;
+
+    return fieldErrors.length === 0;
+  }
+
+  async function validateFields(nameList?: string[]) {
+    const fieldsToValidate = nameList || Object.keys(formRef.current);
+    const results = await Promise.all(
+      fieldsToValidate.map(name => validateField(name))
+    );
+
+    return results.every(valid => valid);
+  }
+
   function resetFields() {
     formRef.current = { ...initialValues };
     touchedFieldsRef.current.clear();
@@ -259,9 +227,7 @@ const useForm = (
   }
 
   async function submit() {
-    if (await validateFields()) {
-      return formRef.current;
-    }
+    return (await validateFields()) ? formRef.current : undefined;
   }
 
   function subscribeToField(
@@ -292,6 +258,29 @@ const useForm = (
       );
     };
   }
+
+  const formInstance: FormInstance = {
+    submit,
+    setFields,
+    resetFields,
+    getFieldError,
+    registerField,
+    setFieldValue,
+    getFieldValue,
+    validateFields,
+    setFieldsValue,
+    getFieldsValue,
+    isFieldTouched,
+    getFieldsError,
+    isFieldsTouched,
+    getFieldWarning,
+    isFieldValidating,
+    subscribeToField,
+    subscribeToForm,
+    onFieldsChange,
+    onValuesChange,
+    getFieldInstance
+  };
 
   return formInstance;
 };

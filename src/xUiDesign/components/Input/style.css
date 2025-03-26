@@ -7,9 +7,9 @@
     border-radius: var(--xui-border-radius-sm);
 }
 
-.xUi-input-container:has(.xUi-input):hover,
-.xUi-input-container:has(.xUi-input:focus) {
-    border: 1px solid var(--v3-primary-6);
+.xUi-input-container:not(.xUi-input-error):has(.xUi-input):hover,
+.xUi-input-container:not(.xUi-input-error):has(.xUi-input:focus) {
+    border: 1px solid var(--v3-primary-6);   
 }
 
 .xUi-input-container.xUi-input-error {
