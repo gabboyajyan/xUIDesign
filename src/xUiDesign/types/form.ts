@@ -1,5 +1,5 @@
 import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
-import { DefaultProps, RuleTypes, SizeType } from '.';
+import { DefaultProps, RuleType, RuleTypes, SizeType } from '.';
 
 export type RuleRender = (form: FormInstance) => RuleObject;
 
@@ -25,10 +25,10 @@ export interface FieldData {
   value: RuleTypes;
 }
 
-export type FieldInstancesInputRef = HTMLElement | null
+export type FieldInstancesInputRef = HTMLElement | null;
 export type FieldInstancesRef = {
-  input?: FieldInstancesInputRef
-}
+  input?: FieldInstancesInputRef;
+};
 
 export interface FieldError {
   name: string;
@@ -65,6 +65,7 @@ export type FormItemProps = DefaultProps & {
   name: string;
   label?: string | ReactNode;
   rules?: RuleObject[];
+  initialValue?: RuleType;
   children:
     | (ReactElement & { props: { value: RuleTypes } })
     | (ReactElement & { props: { value: RuleTypes } })[];
@@ -77,7 +78,11 @@ export interface FormInstance {
   setFields: (fields: FieldData[]) => void;
   resetFields: () => void;
   getFieldError: (name: string) => string[];
-  registerField: (name: string, rules?: RuleObject[], fieldRef?: FieldInstancesRef) => void;
+  registerField: (
+    name: string,
+    rules?: RuleObject[],
+    fieldRef?: FieldInstancesRef
+  ) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
   validateFields: (nameList?: string[]) => Promise<boolean>;
@@ -100,5 +105,5 @@ export interface FormInstance {
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
   ) => void;
-  getFieldInstance: (fieldName: string) => FieldInstancesRef
+  getFieldInstance: (fieldName: string) => FieldInstancesRef;
 }

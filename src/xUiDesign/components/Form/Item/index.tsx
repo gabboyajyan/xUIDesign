@@ -25,6 +25,7 @@ export const FormItem = memo(
     className = '',
     layout = 'vertical',
     style = {},
+    initialValue,
     valuePropName,
     ...props
   }: FormItemProps) => {
@@ -92,7 +93,10 @@ export const FormItem = memo(
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
               size: child.props.size || props.size,
-              value: getFieldValue(valuePropName || name) ?? child.props.value,
+              value:
+                getFieldValue(valuePropName || name) ??
+                initialValue ??
+                child.props.value,
               onChange: (e: SyntheticBaseEvent, option?: OptionProps) => {
                 const value: RuleType | SyntheticBaseEvent = e.target
                   ? e.target.value
@@ -123,4 +127,4 @@ export const FormItem = memo(
   }
 );
 
-FormItem.displayName = 'FormItem'
+FormItem.displayName = 'FormItem';

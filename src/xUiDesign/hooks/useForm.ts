@@ -149,7 +149,6 @@ const useForm = (
           (value === undefined ||
             value === null ||
             value === '' ||
-            value === false ||
             (Array.isArray(value) && !value.length))
         ) {
           fieldErrors.push(rule.message || 'This field is required');

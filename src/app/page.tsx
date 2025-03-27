@@ -28,7 +28,7 @@ export default function Home() {
 
                 <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
                     <AntSelect
-                        
+
                         showAction={['focus']}
                         showSearch
                         options={[
@@ -60,7 +60,7 @@ export default function Home() {
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
-                        
+
                         allowClear
                         showSearch
                         options={[
@@ -92,10 +92,8 @@ export default function Home() {
                 </Form.Item>
 
                 <Form.Item name='radio' label='Radio' rules={[{ required: true }]}>
-                    <Radio.Group buttonStyle="solid">
-                        <Radio.Button value="Male" title="Male">Male</Radio.Button>
-                        <Radio.Button value="Female" title="Female">Female</Radio.Button>
-                    </Radio.Group>
+                    <Radio value="8" title="8">8</Radio>
+                    <Radio value="false" title="false">false</Radio>
                 </Form.Item>
 
                 <button>Submit</button>
