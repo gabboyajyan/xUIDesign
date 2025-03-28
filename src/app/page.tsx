@@ -1,12 +1,5 @@
 'use client'
 
-import {
-    Form as AntForm,
-    Radio as AntRadio,
-    Input as AntInput,
-    Select as AntSelect,
-    Checkbox as AntCheckbox
-} from "antd"
 import { Form } from "@/xUiDesign/components/Form"
 import { Input } from "@/xUiDesign/components/Input"
 import { Radio } from "@/xUiDesign/components/Radio"
@@ -16,42 +9,10 @@ import { useForm } from "@/xUiDesign/hooks/useForm"
 
 export default function Home() {
     const form = useForm()
-    const [antForm] = AntForm.useForm()
+    // const [antForm] = AntForm.useForm()
 
     return (
         <div style={{ width: 700, margin: '0 auto' }}>
-            <h1>Ant Form</h1>
-            <AntForm form={antForm} size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
-                <AntForm.Item name='input' label='input' rules={[{ required: true }]}>
-                    <AntInput suffix={<>sf</>} prefix={<>pf</>} addonAfter={<>aa</>} addonBefore={<>ab</>} />
-                </AntForm.Item>
-
-                <AntForm.Item name='select' label='Select' rules={[{ required: true }]}>
-                    <AntSelect
-
-                        showAction={['focus']}
-                        showSearch
-                        options={[
-                            { value: '1', label: 'one' },
-                            { value: '2', label: 'two' }
-                        ]} />
-                </AntForm.Item>
-
-                <AntForm.Item name='checkbox' label='Checkbox' rules={[{ required: true }]}>
-                    <AntCheckbox />
-                </AntForm.Item>
-
-                <AntForm.Item name='radio' label='Radio' rules={[{ required: true }]}>
-                    <AntRadio.Group buttonStyle="solid">
-                        <AntRadio.Button value="Male" title="Male">Male</AntRadio.Button>
-                        <AntRadio.Button value="Female" title="Female">Female</AntRadio.Button>
-                    </AntRadio.Group>
-                </AntForm.Item>
-
-                <button>Submit</button>
-            </AntForm>
-            <hr />
-
             <h1>Custom Form</h1>
             <Form form={form} size="large" layout="horizontal" onFinish={(e) => console.log(e)}>
                 <Form.Item name='input' label='Input' rules={[{ required: true }]}>
@@ -60,7 +21,7 @@ export default function Home() {
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
-
+                        mode="tags"
                         allowClear
                         showSearch
                         options={[

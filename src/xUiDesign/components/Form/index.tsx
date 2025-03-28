@@ -1,13 +1,8 @@
 import {
-  Children,
-  cloneElement,
   createContext,
   FC,
-  isValidElement,
-  memo,
   SyntheticEvent,
   useEffect,
-  useMemo,
   useRef
 } from 'react';
 import { useForm } from '@/xUiDesign/hooks/useForm';
@@ -17,79 +12,73 @@ import { FormItem } from './Item';
 
 export const FormContext = createContext<FormInstance | null>(null);
 
-const FormComponent = memo(
-  ({
-    children,
-    form,
-    style = {},
-    prefixCls = prefixClsForm,
-    className = '',
-    onFinish,
-    onFinishFailed,
-    initialValues = {},
-    onValuesChange,
+const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
+  children,
+  form,
+  style = {},
+  prefixCls = prefixClsForm,
+  className = '',
+  onFinish,
+  onFinishFailed,
+  initialValues = {},
+  onValuesChange,
+  onFieldsChange,
+  layout,
+  ...rest
+}) => {
+  const internalForm = useForm(
+    {
+      initialValues,
+      layout: layout || 'vertical',
+      children,
+      style,
+      className,
+      onFinish,
+      onFinishFailed,
+      ...rest
+    },
     onFieldsChange,
-    layout = 'vertical',
-    ...rest
-  }: FormProps & { Item: FC<FormItemProps> }) => {
-    const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
-    const formInstance = form || internalForm;
-    const formRef = useRef<HTMLFormElement>(null);
+    onValuesChange
+  );
 
-    const handleSubmit = async (e: SyntheticEvent) => {
-      e.preventDefault();
+  const formInstance = form || internalForm;
+  const formRef = useRef<HTMLFormElement>(null);
 
-      if (await formInstance.validateFields()) {
-        onFinish?.(formInstance.getFieldsValue());
-      } else if (onFinishFailed) {
-        const errorFields = formInstance.getFieldsError();
-        onFinishFailed({ values: formInstance.getFieldsValue(), errorFields });
-      }
-    };
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
 
-    useEffect(() => {
-      if (onFieldsChange) {
-        formInstance.onFieldsChange = onFieldsChange;
-      }
+    if (await formInstance.validateFields()) {
+      onFinish?.(formInstance.getFieldsValue());
+    } else if (onFinishFailed) {
+      const errorFields = formInstance.getFieldsError();
+      onFinishFailed({ values: formInstance.getFieldsValue(), errorFields });
+    }
+  };
 
-      if (onValuesChange) {
-        formInstance.onValuesChange = onValuesChange;
-      }
-    }, [formInstance, onFieldsChange, onValuesChange]);
+  useEffect(() => {
+    if (onFieldsChange) {
+      formInstance.onFieldsChange = onFieldsChange;
+    }
 
-    const childrenList = useMemo(
-      () => (Array.isArray(children) ? children : [children]).filter(e => e),
-      [children]
-    );
+    if (onValuesChange) {
+      formInstance.onValuesChange = onValuesChange;
+    }
+  }, [formInstance, onFieldsChange, onValuesChange]);
 
-    return (
-      <FormContext.Provider value={formInstance}>
-        <form
-          style={style}
-          className={`${prefixCls} ${className}`}
-          ref={formRef}
-          onSubmit={handleSubmit}
-          {...rest}
-        >
-          {Children.map(childrenList, child => {
-            if (isValidElement(child)) {
-              return cloneElement(child, {
-                ...rest,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                layout: child.props.layout || layout
-              });
-            }
+  return (
+    <FormContext.Provider value={formInstance}>
+      <form
+        style={style}
+        ref={formRef}
+        onSubmit={handleSubmit}
+        className={`${prefixCls} ${className}`}
+      >
+        {children}
+      </form>
+    </FormContext.Provider>
+  );
+};
 
-            return child;
-          })}
-        </form>
-      </FormContext.Provider>
-    );
-  }
-);
-
-FormComponent.displayName = "Form"
-const Form = Object.assign(FormComponent, { Item: FormItem });
+Form.Item = FormItem;
 
 export { Form };

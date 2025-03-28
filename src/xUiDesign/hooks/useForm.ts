@@ -12,7 +12,9 @@ import type {
 } from '@/xUiDesign/types/form';
 
 const useForm = (
-  initialValues: Record<string, RuleTypes> = {},
+  { initialValues, 
+    // ...rest
+  }: Record<string, RuleTypes> = {},
   onFieldsChange?: (changedFields: FieldData[]) => void,
   onValuesChange?: (
     changedValues: Record<string, RuleTypes>,
@@ -124,7 +126,7 @@ const useForm = (
     fieldRef?: FieldInstancesRef
   ) {
     if (!(name in formRef.current)) {
-      formRef.current[name] = initialValues[name];
+      formRef.current[name] = initialValues?.[name];
     }
 
     rulesRef.current[name] = rules;

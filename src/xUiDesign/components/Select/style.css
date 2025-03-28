@@ -67,7 +67,7 @@
 }
 
 .xUi-select .xUi-select-clear-btn:hover {
-    color: var(--xui-color-hover);
+    color: var(--xui-primary-color);
 }
 
 .xUi-select-dropdown {
@@ -97,7 +97,7 @@
 }
 
 .xUi-select:hover:not(.xUi-select-disabled) {
-    border-color: var(--xui-color-hover);
+    border-color: var(--xui-primary-color);
 }
 
 .xUi-select-disabled .xUi-select-input,

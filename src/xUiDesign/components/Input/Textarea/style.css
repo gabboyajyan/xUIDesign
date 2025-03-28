@@ -46,7 +46,7 @@
 
 .xUi-textarea-filled {
     border: 1px solid var(--xui-border-color);
-    background: var(--xui-color-hover);
+    background: var(--xui-primary-color);
 }
 
 .xUi-textarea-filled:focus {

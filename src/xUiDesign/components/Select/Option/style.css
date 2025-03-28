@@ -17,11 +17,11 @@
 
 .xUi-select-option:hover {
     color: var(--xui-background-color);
-    background-color: var(--xui-color-hover);
+    background-color: var(--xui-primary-color);
 }
 
 .xUi-select-option.xUi-select-focused {
-    background-color: var(--xui-color-hover);
+    background-color: var(--xui-primary-color);
     color: var(--xui-background-color);
     font-weight: 600;
     display: flex;
