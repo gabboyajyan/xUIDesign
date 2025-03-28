@@ -2,6 +2,7 @@ import {
   Children,
   createContext,
   FC,
+  Fragment,
   isValidElement,
   SyntheticEvent,
   useEffect,
@@ -68,7 +69,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         className={`${prefixCls} ${className}`}
       >
         {Children.map(childrenList, child => {
-          if (isValidElement(child)) {
+          if (isValidElement(child) && child.type !== Fragment) {
             const { ...childProps } = child.props;
 
             return (

@@ -1,11 +1,17 @@
 import {
   Children,
+  Fragment,
   isValidElement,
   useContext,
   useEffect,
-  useMemo,
+  useMemo
 } from 'react';
-import { RuleType, RuleTypes, SizeType, SyntheticBaseEvent } from '@/xUiDesign/types';
+import {
+  RuleType,
+  RuleTypes,
+  SizeType,
+  SyntheticBaseEvent
+} from '@/xUiDesign/types';
 import { FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
@@ -21,7 +27,7 @@ interface FormItemChildComponentProps {
   setFieldValue: (name: string, value: RuleType) => void;
   onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
   valuePropName?: string;
-  size?: SizeType
+  size?: SizeType;
 }
 
 export const FormItem = ({
@@ -35,6 +41,7 @@ export const FormItem = ({
   style = {},
   valuePropName,
   dependencies = [],
+  initialValue,
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
@@ -49,8 +56,7 @@ export const FormItem = ({
     getFieldValue,
     setFieldValue,
     getFieldInstance,
-    subscribeToFields,
-    validateFields
+    subscribeToFields
   } = formContext;
 
   const childrenList = useMemo(
@@ -58,28 +64,21 @@ export const FormItem = ({
     [children]
   );
 
+  const unsubscribe = subscribeToFields(dependencies, () => {});
+
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
-  }, [name, rules, getFieldInstance, registerField]);
+  }, [name, rules, registerField, getFieldInstance]);
 
   useEffect(() => {
-    if (name && dependencies.length > 0) {
-      const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([name]);
-      });
-
-      return () => {
-        unsubscribe();
-      };
+    if (!dependencies.length) {
+      unsubscribe();
     }
-  }, [dependencies, name, validateFields, subscribeToFields]);
+  }, [dependencies, name, unsubscribe]);
 
-  const isRequired = useMemo(
-    () => rules.some(rule => rule.required),
-    [rules]
-  );
+  const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 
   const errorMessage = getFieldError(valuePropName || name)?.[0];
 
@@ -92,10 +91,11 @@ export const FormItem = ({
         </label>
       )}
 
-      {Children.map(childrenList, (child) => {
-        if (isValidElement(child)) {
+      {Children.map(childrenList, child => {
+        if (isValidElement(child) && child.type !== Fragment) {
           const { value, ...childProps } = child.props;
-          const fieldValue = getFieldValue(valuePropName || name);
+          const fieldValue =
+            getFieldValue(valuePropName || name) ?? initialValue;
 
           return (
             <FormItemChildComponent
@@ -103,7 +103,7 @@ export const FormItem = ({
               child={child}
               name={name}
               value={value}
-              size={(childProps.size || props.size)}
+              size={childProps.size || props.size}
               error={Boolean(errorMessage)}
               fieldValue={fieldValue}
               setFieldValue={setFieldValue}
@@ -111,10 +111,13 @@ export const FormItem = ({
             />
           );
         }
+
         return child;
       })}
 
-      {errorMessage && <span className={`${prefixCls}-error`}>{errorMessage}</span>}
+      {errorMessage && (
+        <span className={`${prefixCls}-error`}>{errorMessage}</span>
+      )}
     </div>
   );
 };
