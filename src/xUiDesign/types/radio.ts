@@ -57,4 +57,5 @@ export type RadioProps = DefaultProps & {
   skipGroup?: boolean;
   required?: boolean;
   button?: boolean;
+  error?: boolean;
 };

@@ -95,12 +95,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       hasMode ? checkModeInitialValue : initialValue
     );
 
-    useImperativeHandle(ref, () => ({
-      select: selectRef.current,
-      blur: selectRef.current?.blur,
-      focus: selectRef.current?.focus,
-      nativeElement: selectRef.current
-    }));
+    // useImperativeHandle(ref, () => ({
+    //   select: selectRef.current,
+    //   blur: selectRef.current?.blur,
+    //   focus: selectRef.current?.focus,
+    //   nativeElement: selectRef.current
+    // }));
 
     const handleMouseEnter = () =>
       !disabled && selected.length && setIsHover(true);

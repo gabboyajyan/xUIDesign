@@ -142,7 +142,7 @@ const FormItemChildComponent = ({
     <child.type
       {...props}
       name={name}
-      error={error}
+      {...(error ? { error } : {})}
       value={fieldValue ?? props.value}
       onChange={handleChange}
     />

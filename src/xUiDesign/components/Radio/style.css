@@ -20,11 +20,15 @@
     border: 1px solid var(--xui-border-color);
 }
 
+.xUi-radio-error:not(.xUi-radio-disabled) {
+    border: 1px solid var(--xui-error-color);
+}
+
 .xUi-radio-group {
     display: flex;
 }
 
-.xUi-radio-label .xUi-radio-enabled:hover {
+.xUi-radio-label .xUi-radio-enabled:not(.xUi-radio-error):hover {
     border: 1px solid var(--xui-primary-color-light) !important;
 }
 
