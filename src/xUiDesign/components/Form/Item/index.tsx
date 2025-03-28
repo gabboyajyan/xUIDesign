@@ -5,14 +5,14 @@ import {
   useEffect,
   useMemo,
 } from 'react';
-import { RuleType, RuleTypes, SyntheticBaseEvent } from '@/xUiDesign/types';
+import { RuleType, RuleTypes, SizeType, SyntheticBaseEvent } from '@/xUiDesign/types';
 import { FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
 import './style.css';
 import { FormContext } from '..';
 
-interface ChildComponentProps {
+interface FormItemChildComponentProps {
   child: React.ReactElement;
   name: string;
   error: boolean;
@@ -21,6 +21,7 @@ interface ChildComponentProps {
   setFieldValue: (name: string, value: RuleType) => void;
   onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
   valuePropName?: string;
+  size?: SizeType
 }
 
 export const FormItem = ({
@@ -33,6 +34,7 @@ export const FormItem = ({
   layout = 'vertical',
   style = {},
   valuePropName,
+  ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
 
@@ -77,20 +79,20 @@ export const FormItem = ({
 
       {Children.map(childrenList, (child) => {
         if (isValidElement(child)) {
-          const { onChange, value, ...childProps } = child.props;
+          const { value, ...childProps } = child.props;
           const fieldValue = getFieldValue(valuePropName || name);
 
           return (
-            <ChildComponent
+            <FormItemChildComponent
+              {...childProps}
               child={child}
               name={name}
               value={value}
+              size={(childProps.size || props.size)}
               error={Boolean(errorMessage)}
               fieldValue={fieldValue}
               setFieldValue={setFieldValue}
-              onChange={onChange}
               valuePropName={valuePropName}
-              {...childProps}
             />
           );
         }
@@ -102,7 +104,7 @@ export const FormItem = ({
   );
 };
 
-const ChildComponent = ({
+const FormItemChildComponent = ({
   child,
   name,
   error,
@@ -111,7 +113,7 @@ const ChildComponent = ({
   onChange,
   valuePropName,
   ...props
-}: ChildComponentProps) => {
+}: FormItemChildComponentProps) => {
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     const value: RuleType | SyntheticBaseEvent = e?.target ? e.target.value : e;
     setFieldValue(valuePropName || name, value as RuleType);

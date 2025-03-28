@@ -12,9 +12,7 @@ import type {
 } from '@/xUiDesign/types/form';
 
 const useForm = (
-  { initialValues, 
-    // ...rest
-  }: Record<string, RuleTypes> = {},
+  initialValues: Record<string, RuleTypes> = {},
   onFieldsChange?: (changedFields: FieldData[]) => void,
   onValuesChange?: (
     changedValues: Record<string, RuleTypes>,
