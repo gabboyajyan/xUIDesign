@@ -56,7 +56,7 @@ export const FormItem = ({
   );
 
   useEffect(() => {
-    if (!getFieldInstance(name)) {
+    if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
   }, [name, rules, getFieldInstance, registerField]);
