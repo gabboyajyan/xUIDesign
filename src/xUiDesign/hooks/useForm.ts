@@ -67,28 +67,32 @@ const useForm = (
     return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
   }
 
-  function setFieldValue(name: string, value: RuleTypes) {
+  function setFieldValue(name: string, value: RuleTypes, errors?: string[]) {
     formRef.current[name] = value;
 
     if (value === undefined) {
       return;
     }
-    
+
     touchedFieldsRef.current.add(name);
 
-    validateField(name).then(() => {
-      const allValues = getFieldsValue();
-      fieldSubscribers.current[name]?.forEach(callback => callback(value));
-      formSubscribers.current.forEach(callback => callback(allValues));
+    if (!errors?.length) {
+      validateField(name).then(() => {
+        const allValues = getFieldsValue();
+        fieldSubscribers.current[name]?.forEach(callback => callback(value));
+        formSubscribers.current.forEach(callback => callback(allValues));
 
-      if (onValuesChange) {
-        onValuesChange({ [name]: value }, allValues);
-      }
+        if (onValuesChange) {
+          onValuesChange({ [name]: value }, allValues);
+        }
 
-      if (onFieldsChange) {
-        onFieldsChange([{ name, value }]);
-      }
-    });
+        if (onFieldsChange) {
+          onFieldsChange([{ name, value }]);
+        }
+      });
+    } else {
+      setErrors({ [name]: errors });
+    }
   }
 
   function setFieldsValue(values: Partial<Record<string, RuleTypes>>) {
@@ -98,7 +102,9 @@ const useForm = (
   }
 
   function setFields(fields: FieldData[]) {
-    fields.forEach(({ name, value }) => setFieldValue(name, value));
+    fields.forEach(({ name, value, errors }) =>
+      setFieldValue(Array.isArray(name) ? name[0] : name, value, errors)
+    );
   }
 
   function isFieldTouched(name: string) {
@@ -293,10 +299,10 @@ const useForm = (
     isFieldValidating,
     subscribeToField,
     subscribeToForm,
-    subscribeToFields,
     onFieldsChange,
     onValuesChange,
     getFieldInstance,
+    subscribeToFields
   };
 
   return formInstance;

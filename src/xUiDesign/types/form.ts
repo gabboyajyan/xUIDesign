@@ -21,11 +21,12 @@ export type RuleObject =
     };
 
 export interface FieldData {
-  name: string;
-  value: RuleTypes;
+  name: string | string[];
+  value?: RuleTypes;
+  errors?: string[];
 }
 
-export type FieldInstancesInputRef = HTMLInputElement | null;
+export type FieldInstancesInputRef = HTMLElement | null;
 export type FieldInstancesRef = {
   input?: FieldInstancesInputRef;
 };

@@ -15,11 +15,6 @@ import { FormItem } from './Item';
 
 export const FormContext = createContext<FormInstance | null>(null);
 
-interface FormChildComponentProps {
-  child: React.ReactElement;
-  layout?: 'vertical' | 'horizontal'
-}
-
 const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   children,
   form,
@@ -72,35 +67,24 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, (child) => {
+        {Children.map(childrenList, child => {
           if (isValidElement(child)) {
             const { ...childProps } = child.props;
 
-            return <FormChildComponent
-              {...childProps}
-              child={child}
-              size={childProps.size || rest.size}
-              layout={childProps.layout || layout}
-            />
+            return (
+              <child.type
+                {...childProps}
+                child={child}
+                size={childProps.size || rest.size}
+                layout={childProps.layout || layout}
+              />
+            );
           }
 
-          return child
+          return child;
         })}
       </form>
     </FormContext.Provider>
-  );
-};
-
-const FormChildComponent = ({
-  child,
-  layout,
-  ...props
-}: FormChildComponentProps) => {
-  return (
-    <child.type
-      {...props}
-      layout={layout}
-    />
   );
 };
 

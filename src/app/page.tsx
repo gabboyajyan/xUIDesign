@@ -21,7 +21,6 @@ export default function Home() {
 
                 <Form.Item name='select' label='Select' rules={[{ required: true }]}>
                     <Select
-                        mode="tags"
                         allowClear
                         showSearch
                         options={[
