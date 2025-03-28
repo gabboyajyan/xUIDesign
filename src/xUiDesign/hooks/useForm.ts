@@ -69,11 +69,12 @@ const useForm = (
 
   function setFieldValue(name: string, value: RuleTypes) {
     formRef.current[name] = value;
-    touchedFieldsRef.current.add(name);
 
-    if (value === undefined || formRef.current[name] === value) {
+    if (value === undefined) {
       return;
     }
+    
+    touchedFieldsRef.current.add(name);
 
     validateField(name).then(() => {
       const allValues = getFieldsValue();
@@ -258,6 +259,22 @@ const useForm = (
     };
   }
 
+  function subscribeToFields(
+    names: string[],
+    callback: (values: Record<string, RuleTypes>) => void
+  ) {
+    const fieldCallbacks = names.map(name =>
+      subscribeToField(name, () => {
+        const updatedValues = getFieldsValue(names);
+        callback(updatedValues);
+      })
+    );
+
+    return () => {
+      fieldCallbacks.forEach(unsubscribe => unsubscribe());
+    };
+  }
+
   const formInstance: FormInstance = {
     submit,
     setFields,
@@ -276,9 +293,10 @@ const useForm = (
     isFieldValidating,
     subscribeToField,
     subscribeToForm,
+    subscribeToFields,
     onFieldsChange,
     onValuesChange,
-    getFieldInstance
+    getFieldInstance,
   };
 
   return formInstance;

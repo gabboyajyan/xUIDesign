@@ -71,6 +71,7 @@ export type FormItemProps = DefaultProps & {
     | (ReactElement & { props: { value: RuleTypes } })[];
   layout?: FormLayoutTypes;
   valuePropName?: string;
+  dependencies?: string[];
 };
 
 export interface FormInstance {
@@ -97,6 +98,10 @@ export interface FormInstance {
     callback: (value: RuleTypes) => void
   ) => () => void;
   subscribeToForm: (
+    callback: (values: Record<string, RuleTypes>) => void
+  ) => () => void;
+  subscribeToFields: (
+    names: string[],
     callback: (values: Record<string, RuleTypes>) => void
   ) => () => void;
   isFieldValidating: (name: string) => boolean;

@@ -34,6 +34,7 @@ export const FormItem = ({
   layout = 'vertical',
   style = {},
   valuePropName,
+  dependencies = [],
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
@@ -47,7 +48,8 @@ export const FormItem = ({
     getFieldError,
     getFieldValue,
     setFieldValue,
-    getFieldInstance
+    getFieldInstance,
+    subscribeToFields
   } = formContext;
 
   const childrenList = useMemo(
@@ -55,11 +57,19 @@ export const FormItem = ({
     [children]
   );
 
+  const unsubscribe = subscribeToFields(dependencies, () => {});
+
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
   }, [name, rules, getFieldInstance, registerField]);
+
+  useEffect(() => {
+    if (!dependencies.length) {
+      unsubscribe();
+    }
+  }, [dependencies, unsubscribe]);
 
   const isRequired = useMemo(
     () => rules.some(rule => rule.required),
