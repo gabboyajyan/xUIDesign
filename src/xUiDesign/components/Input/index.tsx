@@ -1,9 +1,9 @@
 'use client';
 
 import {
-  ForwardedRef,
   forwardRef,
   KeyboardEvent,
+  LegacyRef,
   MouseEvent,
   useImperativeHandle,
   useRef,
@@ -19,7 +19,7 @@ import { Textarea } from './Textarea';
 const InputComponent = forwardRef(
   (
     {
-      size = 'middle',
+      size = 'large',
       error,
       suffix,
       prefix,
@@ -34,7 +34,7 @@ const InputComponent = forwardRef(
       iconRender,
       ...props
     }: InputProps,
-    ref: ForwardedRef<HTMLInputElement>
+    ref: LegacyRef<HTMLInputElement>
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [internalValue, setInternalValue] = useState(value ?? '');
@@ -44,7 +44,12 @@ const InputComponent = forwardRef(
       input: inputRef.current,
       blur: inputRef.current?.blur,
       focus: inputRef.current?.focus,
-      nativeElement: inputRef.current
+      nativeElement: inputRef.current,
+      setSelectionRange: (start: number, end: number) => {
+        if (inputRef.current) {
+          inputRef.current.setSelectionRange(start, end);
+        }
+      }
     }));
 
     const handleChange = (e: SyntheticBaseEvent) => {
@@ -98,9 +103,11 @@ const InputComponent = forwardRef(
           <input
             {...props}
             ref={inputRef}
-            {...(props.type === 'password' && iconRender ? {
-              type: iconRenderVisible ? 'text' : 'password'
-            } : {})}
+            {...(props.type === 'password' && iconRender
+              ? {
+                  type: iconRenderVisible ? 'text' : 'password'
+                }
+              : {})}
             disabled={disabled}
             value={internalValue}
             onChange={handleChange}
@@ -119,8 +126,8 @@ const InputComponent = forwardRef(
               className={`${prefixCls}-suffix`}
               {...(iconRender !== undefined
                 ? {
-                  onClick: () => setIconRenderVisible(icon => !icon)
-                }
+                    onClick: () => setIconRenderVisible(icon => !icon)
+                  }
                 : {})}
             >
               {suffix || iconRender?.(iconRenderVisible)}
@@ -129,7 +136,9 @@ const InputComponent = forwardRef(
         </div>
 
         {addonAfter ? (
-          <span className={`${prefixCls}-addon ${prefixCls}-after`}>{addonAfter}</span>
+          <span className={`${prefixCls}-addon ${prefixCls}-after`}>
+            {addonAfter}
+          </span>
         ) : null}
       </div>
     );

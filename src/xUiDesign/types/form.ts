@@ -25,7 +25,7 @@ export interface FieldData {
   value: RuleTypes;
 }
 
-export type FieldInstancesInputRef = HTMLElement | null;
+export type FieldInstancesInputRef = HTMLInputElement | null;
 export type FieldInstancesRef = {
   input?: FieldInstancesInputRef;
 };

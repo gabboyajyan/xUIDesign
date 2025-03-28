@@ -2,9 +2,9 @@
 
 import {
   CSSProperties,
-  ForwardedRef,
   forwardRef,
   KeyboardEvent,
+  LegacyRef,
   ReactElement,
   useCallback,
   useEffect,
@@ -56,7 +56,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       allowClear = false,
       filterable = false,
       defaultOpen = false,
-      size = 'middle',
+      size = 'large',
       error = false,
       dropdownClassName = '',
       suffixIcon,
@@ -73,7 +73,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       tagRender,
       getPopupContainer
     },
-    ref: ForwardedRef<HTMLDivElement>
+    ref: LegacyRef<HTMLDivElement>
   ): ReactElement => {
     const initialValue = value || defaultValue || '';
 
