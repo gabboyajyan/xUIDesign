@@ -49,15 +49,14 @@ export const FormItem = ({
     getFieldValue,
     setFieldValue,
     getFieldInstance,
-    subscribeToFields
+    subscribeToFields,
+    validateFields
   } = formContext;
 
   const childrenList = useMemo(
     () => (Array.isArray(children) ? children : [children]).filter(Boolean),
     [children]
   );
-
-  const unsubscribe = subscribeToFields(dependencies, () => {});
 
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
@@ -66,10 +65,16 @@ export const FormItem = ({
   }, [name, rules, getFieldInstance, registerField]);
 
   useEffect(() => {
-    if (!dependencies.length) {
-      unsubscribe();
+    if (name && dependencies.length > 0) {
+      const unsubscribe = subscribeToFields(dependencies, () => {
+        validateFields([name]);
+      });
+
+      return () => {
+        unsubscribe();
+      };
     }
-  }, [dependencies, unsubscribe]);
+  }, [dependencies, name, validateFields, subscribeToFields]);
 
   const isRequired = useMemo(
     () => rules.some(rule => rule.required),
