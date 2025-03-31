@@ -68,12 +68,11 @@ const useForm = (
   }
 
   function setFieldValue(name: string, value: RuleTypes, errors?: string[]) {
-    formRef.current[name] = value;
-
-    if (value === undefined) {
+    if (!value || formRef.current[name] === value) {
       return;
     }
 
+    formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
 
     if (!errors?.length) {
