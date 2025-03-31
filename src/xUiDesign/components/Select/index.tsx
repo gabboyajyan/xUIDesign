@@ -466,36 +466,37 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           onMouseLeave={handleMouseLeave}
           className={`${prefixCls}-trigger`}
         >
-          {showSearch ? (
+          {hasMode ? (
             <div style={style} className={`${prefixCls}-tag-container`}>
-              {hasMode &&
-                (selected as string[]).map((tag, index) =>
-                  tagRender ? (
-                    <div key={`${index}_${tag}`}>
-                      {tagRender?.({
-                        label: tag,
-                        value: tag,
-                        onClose: handleRemoveTag,
-                        closable: true
-                      })}
-                    </div>
-                  ) : (
-                    <Tag
-                      closable
-                      value={tag}
-                      label={
-                        tag === ''
-                          ? placeholder
-                          : extractedOptions.find(e => e.value === tag)
-                              ?.children || tag
-                      }
-                      onClose={handleRemoveTag}
-                      key={`${index}_${tag}`}
-                    />
-                  )
-                )}
+              {(selected as string[]).map((tag, index) =>
+                tagRender ? (
+                  <div key={`${index}_${tag}`}>
+                    {tagRender?.({
+                      label:
+                        extractedOptions.find(e => e.value === tag)?.children ||
+                        tag,
+                      value: tag,
+                      onClose: handleRemoveTag,
+                      closable: true
+                    })}
+                  </div>
+                ) : (
+                  <Tag
+                    closable
+                    value={tag}
+                    label={
+                      tag === ''
+                        ? placeholder
+                        : extractedOptions.find(e => e.value === tag)
+                            ?.children || tag
+                    }
+                    onClose={handleRemoveTag}
+                    key={`${index}_${tag}`}
+                  />
+                )
+              )}
 
-              {isOpen ? (
+              {showSearch && isOpen ? (
                 <div
                   className={`${prefixCls}-tag`}
                   style={{
