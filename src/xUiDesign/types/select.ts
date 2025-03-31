@@ -16,9 +16,9 @@ export type SelectProps = DefaultProps & {
   searchValue?: string;
   onSearch?: (value: string) => void;
   autoClearSearchValue?: boolean;
-  onSelect?: (value: string, option?: OptionType) => void;
+  onSelect?: (value: RuleTypes, option?: OptionType) => void;
   onDeselect?: (value: string, option?: OptionType) => void;
-  filterOption?: boolean;
+  filterOption?: boolean | ((input: string, option: OptionType) => boolean);
   optionFilterProp?: string;
   options?: OptionType[];
   children?: ReactNode;
@@ -53,6 +53,7 @@ export type SelectProps = DefaultProps & {
   open?: boolean;
   notFoundContent?: ReactNode;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
+  dropdownRender?: (menu: ReactNode) => ReactNode;
 };
 
 export interface OptionType {
@@ -68,7 +69,7 @@ export interface OptionType {
 }
 
 export type CustomTagProps = DefaultProps & {
-  label?: React.ReactNode;
+  label?: ReactNode;
   value: string;
   onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void;
   closable?: boolean;
@@ -104,4 +105,5 @@ export interface OptionProps {
   render?: (label: string) => ReactNode;
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
   prefixCls?: string;
+  selected?: boolean;
 }

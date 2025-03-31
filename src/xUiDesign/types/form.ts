@@ -26,7 +26,7 @@ export interface FieldData {
   errors?: string[];
 }
 
-export type FieldInstancesInputRef = HTMLElement | null;
+export type FieldInstancesInputRef = HTMLInputElement | null;
 export type FieldInstancesRef = {
   input?: FieldInstancesInputRef;
 };
@@ -78,7 +78,7 @@ export type FormItemProps = DefaultProps & {
 export interface FormInstance {
   submit: () => Promise<Record<string, RuleTypes> | undefined>;
   setFields: (fields: FieldData[]) => void;
-  resetFields: () => void;
+  resetFields: (nameList?: string[]) => void;
   getFieldError: (name: string) => string[];
   registerField: (
     name: string,

@@ -4,11 +4,9 @@ import {
   CSSProperties,
   forwardRef,
   KeyboardEvent,
-  LegacyRef,
   ReactElement,
   useCallback,
   useEffect,
-  useImperativeHandle,
   useMemo,
   useRef,
   useState
@@ -34,56 +32,61 @@ const LIST_HEIGHT = 200;
 const SELECT_INPUT_START_WIDTH = 15;
 
 const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
-  (
-    {
-      prefixCls = prefixClsSelect,
-      id,
-      searchValue = '',
-      autoClearSearchValue = true,
-      filterOption = true,
-      optionFilterProp = 'value',
-      children,
-      options = [],
-      listHeight = LIST_HEIGHT,
-      menuItemSelectedIcon,
-      mode = 'default',
-      value,
-      defaultValue,
-      maxCount,
-      disabled = false,
-      loading = false,
-      placeholder = 'Select',
-      allowClear = false,
-      filterable = false,
-      defaultOpen = false,
-      size = 'large',
-      error = false,
-      dropdownClassName = '',
-      suffixIcon,
-      style,
-      onSearch,
-      onSelect,
-      onDeselect,
-      onClear,
-      onChange,
-      showSearch = false,
-      open = false,
-      showArrow = true,
-      notFoundContent = false,
-      tagRender,
-      getPopupContainer
-    },
-    ref: LegacyRef<HTMLDivElement>
-  ): ReactElement => {
-    const initialValue = value || defaultValue || '';
-
+  ({
+    prefixCls = prefixClsSelect,
+    id,
+    searchValue = '',
+    autoClearSearchValue = true,
+    filterOption = true,
+    optionFilterProp = 'value',
+    children,
+    options = [],
+    listHeight = LIST_HEIGHT,
+    menuItemSelectedIcon,
+    mode = 'default',
+    value,
+    defaultValue,
+    maxCount,
+    disabled = false,
+    loading = false,
+    placeholder = 'Select',
+    allowClear = false,
+    filterable = false,
+    defaultOpen = false,
+    size = 'large',
+    error = false,
+    dropdownClassName = '',
+    suffixIcon,
+    style,
+    onSearch,
+    onSelect,
+    onDeselect,
+    onClear,
+    onChange,
+    showSearch = false,
+    open = false,
+    showArrow = true,
+    notFoundContent = false,
+    tagRender,
+    getPopupContainer,
+    dropdownRender
+  }): ReactElement => {
     const asTag = mode === 'tags';
     const asMultiple = mode === 'multiple';
     const hasMode = asTag || asMultiple;
 
-    const checkModeInitialValue = (
-      !Array.isArray(initialValue) ? [initialValue] : initialValue
-    ).filter(e => e);
+    const initialValue = useMemo(
+      () => value || defaultValue || '',
+      [value, defaultValue]
+    );
+
+    const checkModeInitialValue = useMemo(
+      () =>
+        (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(
+          e => e
+        ),
+      [initialValue]
+    );
 
     const [isHover, setIsHover] = useState(false);
     const selectRef = useRef<HTMLDivElement>(null);
@@ -94,13 +97,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const [selected, setSelected] = useState(
       hasMode ? checkModeInitialValue : initialValue
     );
-
-    // useImperativeHandle(ref, () => ({
-    //   select: selectRef.current,
-    //   blur: selectRef.current?.blur,
-    //   focus: selectRef.current?.focus,
-    //   nativeElement: selectRef.current
-    // }));
 
     const handleMouseEnter = () =>
       !disabled && selected.length && setIsHover(true);
@@ -306,6 +302,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
+      if (typeof filterOption === 'function') {
+        return filterOption(searchQuery, option);
+      }
+
       if (filterOption === false) {
         return true;
       }
@@ -338,6 +338,62 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         clearTimeout(timeout);
       }, 0);
     };
+
+    const dataRender = (() => {
+      const options = filteredOptions.map(
+        ({ children, className = '', ...props }) => {
+          const isSelected = hasMode
+            ? selected.includes(props.value as string)
+            : props.value === selected;
+
+          return (
+            <Option
+              key={`${props.value}`}
+              {...props}
+              selected={isSelected}
+              className={cc([
+                className,
+                {
+                  [`${prefixCls}-focused`]: hasMode
+                    ? isSelected
+                    : props.value === selected,
+                  [`${prefixCls}-disabled`]:
+                    maxCount && hasMode && !isSelected
+                      ? selected.length >= maxCount
+                      : false
+                }
+              ])}
+              onClick={e => {
+                if (props.disabled) {
+                  return;
+                }
+
+                handleSelect(
+                  e as MouseEventHandlerSelect,
+                  props.value as string,
+                  { children, className, ...props } as OptionType
+                );
+              }}
+              data-value={props.value}
+            >
+              {children || props.value}
+
+              {hasMode && isSelected && (
+                <span className={`${prefixCls}-selected-icon`}>
+                  {menuItemSelectedIcon === true ? (
+                    <CheckIcon />
+                  ) : (
+                    menuItemSelectedIcon
+                  )}
+                </span>
+              )}
+            </Option>
+          );
+        }
+      );
+
+      return dropdownRender ? dropdownRender(options) : options;
+    })();
 
     const dropdownContent = !loading && isOpen && (
       <div
@@ -380,56 +436,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             )}
 
             {filteredOptions.length
-              ? filteredOptions.map(
-                  ({ children, className = '', ...props }) => (
-                    <Option
-                      key={`${props.value}`}
-                      {...props}
-                      className={cc([
-                        className,
-                        {
-                          [`${prefixCls}-focused`]: hasMode
-                            ? selected.includes(props.value as string)
-                            : props.value === selected,
-                          [`${prefixCls}-disabled`]:
-                            maxCount &&
-                            hasMode &&
-                            !selected.includes(props.value as string)
-                              ? selected.length >= maxCount
-                              : false
-                        }
-                      ])}
-                      onClick={e => {
-                        if (props.disabled) {
-                          return;
-                        }
-
-                        handleSelect(
-                          e as MouseEventHandlerSelect,
-                          props.value as string,
-                          { children, className, ...props } as OptionType
-                        );
-                      }}
-                      data-value={props.value}
-                    >
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html: (children || props.value) as string
-                        }}
-                      />
-
-                      {hasMode && selected.includes(props.value as string) && (
-                        <span className={`${prefixCls}-selected-icon`}>
-                          {menuItemSelectedIcon === true ? (
-                            <CheckIcon />
-                          ) : (
-                            menuItemSelectedIcon
-                          )}
-                        </span>
-                      )}
-                    </Option>
-                  )
-                )
+              ? dataRender
               : !asTag
               ? notFoundContent || <EmptyContent />
               : null}

@@ -1,4 +1,5 @@
 import { FC, MouseEventHandler } from 'react';
+import cc from 'classcat';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsSelect } from '@/xUiDesign/utils';
 import './style.css';
@@ -11,7 +12,8 @@ const Option: FC<OptionProps> = ({
   style,
   onClick,
   render,
-  prefixCls = prefixClsSelect
+  prefixCls = prefixClsSelect,
+  selected
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = e => {
     if (disabled) {
@@ -23,9 +25,13 @@ const Option: FC<OptionProps> = ({
 
   return (
     <div
-      className={`${prefixCls}-option ${className} ${
-        disabled ? 'disabled' : ''
-      }`}
+      className={cc([
+        `${prefixCls}-option ${className} `,
+        {
+          selected: selected,
+          disabled: disabled
+        }
+      ])}
       style={style}
       onClick={handleClick}
     >

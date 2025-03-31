@@ -223,11 +223,21 @@ const useForm = (
     return results.every(valid => valid);
   }
 
-  function resetFields() {
-    formRef.current = { ...initialValues };
-    touchedFieldsRef.current.clear();
-    warningsRef.current = {};
-    setErrors({});
+  function resetFields(nameList?: string[]) {
+    if (nameList?.length) {
+      nameList.forEach((name: string) => {
+        formRef.current[name] = initialValues[name];
+        touchedFieldsRef.current.delete(name);
+        delete warningsRef.current[name];
+        setErrors(prev => ({ ...prev, [name]: [] }));
+      });
+    } else {
+      formRef.current = { ...initialValues };
+      touchedFieldsRef.current.clear();
+      warningsRef.current = {};
+      setErrors({});
+    }
+
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
   }
 
