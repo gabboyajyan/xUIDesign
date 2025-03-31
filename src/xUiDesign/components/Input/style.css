@@ -38,6 +38,10 @@
     background-color: transparent;
 }
 
+.xUi-input:placeholder-shown {
+    text-overflow: ellipsis;
+}
+
 .xUi-input::placeholder {
     opacity: 0.6;
     color: var(--xui-text-color);

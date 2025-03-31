@@ -4,7 +4,8 @@ import {
   isValidElement,
   useContext,
   useEffect,
-  useMemo
+  useMemo,
+  useRef
 } from 'react';
 import {
   RuleType,
@@ -45,6 +46,8 @@ export const FormItem = ({
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
+
+  const errorRef = useRef<HTMLSpanElement>(null);
 
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
@@ -89,6 +92,13 @@ export const FormItem = ({
     }
   }, [dependencies, name]);
 
+  useEffect(() => {
+    if (errorRef.current && errorRef.current?.clientHeight >= 24) {
+      errorRef.current.style.position = 'relative';
+      errorRef.current.style.marginTop = '-16px';
+    }
+  }, [errorRef.current]);
+
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 
   const errorMessage = getFieldError(valuePropName || name)?.[0];
@@ -127,7 +137,9 @@ export const FormItem = ({
       })}
 
       {errorMessage && (
-        <span className={`${prefixCls}-error`}>{errorMessage}</span>
+        <span ref={errorRef} className={`${prefixCls}-error`}>
+          {errorMessage}
+        </span>
       )}
     </div>
   );

@@ -25,8 +25,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
       onBlur,
       onFocus,
       onMouseEnter,
-      onMouseLeave,
-      error
+      onMouseLeave
     },
     ref: ForwardedRef<HTMLLabelElement>
   ) => {
@@ -40,7 +39,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
       if (defaultChecked ?? checked) {
         onChange?.(parseValue(value));
       }
-    }, [defaultChecked, checked, value, onChange]);
+    }, [defaultChecked, checked]);
 
     return (
       <label
@@ -68,8 +67,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
         />
         <span
           className={cc([
-            `${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`,
-            { [`${prefixCls}-error`]: error }
+            `${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`
           ])}
         />
         <span className={`${prefixCls}-title`}>

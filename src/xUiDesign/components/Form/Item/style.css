@@ -6,8 +6,9 @@
 
 .xUi-form-item-label {
     font-weight: 500;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
     display: flex;
+    line-height: 20px;
     align-items: center;
     font-size: var(--xui-font-size-md);
     color: var(--xui-text-color);
@@ -15,12 +16,12 @@
 
 .xUi-form-item-error {
     right: 0;
-    bottom: -5px;
+    bottom: -6px;
     font-size: var(--xui-font-size-xs);
-    margin-top: 4px;
     position: absolute;
     color: var(--xui-error-color);
     user-select: none;
+    line-height: 16px;
 }
 
 .xUi-form-item-required {
@@ -39,11 +40,10 @@
 
 .xUi-form-item.vertical {
     flex-direction: column;
+    align-self: flex-start;
 }
 
-.xUi-form-item.vertical,
-.xUi-form-item .xUi-input-container,
-.xUi-form-item .xUi-select {
+.xUi-form-item .xUi-input-container {
     width: -webkit-fill-available;
 }
 
