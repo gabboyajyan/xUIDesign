@@ -24,7 +24,7 @@
     overflow: hidden;
     white-space: nowrap;
     display: flex;
-    height: -webkit-fill-available;
+    height: 100%;
     transition:
         font-size 0.3s,
         line-height 0.3s,
