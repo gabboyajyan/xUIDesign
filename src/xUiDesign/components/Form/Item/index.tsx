@@ -56,7 +56,8 @@ export const FormItem = ({
     getFieldValue,
     setFieldValue,
     getFieldInstance,
-    subscribeToFields
+    subscribeToFields,
+    validateFields
   } = formContext;
 
   const childrenList = useMemo(
@@ -64,19 +65,29 @@ export const FormItem = ({
     [children]
   );
 
-  const unsubscribe = subscribeToFields(dependencies, () => {});
-
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
-  }, [name, rules, registerField, getFieldInstance]);
+  }, [name, rules]);
 
   useEffect(() => {
-    if (!dependencies.length) {
-      unsubscribe();
+    if (initialValue) {
+      setFieldValue(name, initialValue);
     }
-  }, [dependencies, name, unsubscribe]);
+  }, []);
+
+  useEffect(() => {
+    if (name && dependencies.length > 0) {
+      const unsubscribe = subscribeToFields(dependencies, () => {
+        validateFields([name]);
+      });
+
+      return () => {
+        unsubscribe();
+      };
+    }
+  }, [dependencies, name]);
 
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
 

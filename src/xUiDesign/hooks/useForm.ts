@@ -68,7 +68,7 @@ const useForm = (
   }
 
   function setFieldValue(name: string, value: RuleTypes, errors?: string[]) {
-    if (!value || formRef.current[name] === value) {
+    if ([undefined, null].includes(value) || formRef.current[name] === value) {
       return;
     }
 
