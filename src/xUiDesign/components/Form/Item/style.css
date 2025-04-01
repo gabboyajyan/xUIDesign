@@ -36,6 +36,7 @@
 .xUi-form-item.horizontal {
     gap: 4px;
     flex-direction: row;
+    align-items: center;
 }
 
 .xUi-form-item.vertical {

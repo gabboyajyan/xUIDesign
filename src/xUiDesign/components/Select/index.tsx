@@ -13,17 +13,17 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import cc from 'classcat';
-import { EmptyContent } from '@/xUiDesign/components/Empty';
+import { EmptyContent } from 'xUiDesign/components/Empty';
 import {
   ArrowIcon,
   CheckIcon,
   ClearIcon,
   LoadingIcon,
   SearchIcon
-} from '@/xUiDesign/components/icons';
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from '@/xUiDesign/types';
-import { OptionType, SelectProps } from '@/xUiDesign/types/select';
-import { prefixClsSelect } from '@/xUiDesign/utils';
+} from 'xUiDesign/components/icons';
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from 'xUiDesign/types';
+import { OptionType, SelectProps } from 'xUiDesign/types/select';
+import { prefixClsSelect } from 'xUiDesign/utils';
 import { Option } from './Option';
 import './style.css';
 import { Tag } from './Tag';
@@ -466,37 +466,38 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           onMouseLeave={handleMouseLeave}
           className={`${prefixCls}-trigger`}
         >
-          {hasMode ? (
+          {showSearch ? (
             <div style={style} className={`${prefixCls}-tag-container`}>
-              {(selected as string[]).map((tag, index) =>
-                tagRender ? (
-                  <div key={`${index}_${tag}`}>
-                    {tagRender?.({
-                      label:
-                        extractedOptions.find(e => e.value === tag)?.children ||
-                        tag,
-                      value: tag,
-                      onClose: handleRemoveTag,
-                      closable: true
-                    })}
-                  </div>
-                ) : (
-                  <Tag
-                    closable
-                    value={tag}
-                    label={
-                      tag === ''
-                        ? placeholder
-                        : extractedOptions.find(e => e.value === tag)
-                            ?.children || tag
-                    }
-                    onClose={handleRemoveTag}
-                    key={`${index}_${tag}`}
-                  />
-                )
-              )}
+              {hasMode &&
+                (selected as string[]).map((tag, index) =>
+                  tagRender ? (
+                    <div key={`${index}_${tag}`}>
+                      {tagRender?.({
+                        label:
+                          extractedOptions.find(e => e.value === tag)
+                            ?.children || tag,
+                        value: tag,
+                        onClose: handleRemoveTag,
+                        closable: true
+                      })}
+                    </div>
+                  ) : (
+                    <Tag
+                      closable
+                      value={tag}
+                      label={
+                        tag === ''
+                          ? placeholder
+                          : extractedOptions.find(e => e.value === tag)
+                              ?.children || tag
+                      }
+                      onClose={handleRemoveTag}
+                      key={`${index}_${tag}`}
+                    />
+                  )
+                )}
 
-              {showSearch && isOpen ? (
+              {isOpen ? (
                 <div
                   className={`${prefixCls}-tag`}
                   style={{
