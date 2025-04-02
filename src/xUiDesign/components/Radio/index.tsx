@@ -1,7 +1,6 @@
 import { ForwardedRef, forwardRef, useEffect } from 'react';
 import cc from 'classcat';
 import { parseValue } from '@/xUiDesign/helpers';
-import { SyntheticBaseEvent } from '@/xUiDesign/types';
 import { RadioProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
 import { RadioButton } from './Button';
@@ -29,9 +28,10 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
     },
     ref: ForwardedRef<HTMLLabelElement>
   ) => {
-    const handleChange = (e: SyntheticBaseEvent) => {
+    const handleChange = () => {
       if (!disabled) {
-        onChange?.(parseValue(e.target.value));
+        onClick?.(parseValue(title ?? value));
+        onChange?.(parseValue(title ?? value));
       }
     };
 
@@ -58,7 +58,6 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
         <input
           name={name}
           type="radio"
-          value={value}
           onClick={onClick}
           disabled={disabled}
           onChange={handleChange}

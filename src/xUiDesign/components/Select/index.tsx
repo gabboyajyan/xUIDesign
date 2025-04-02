@@ -13,17 +13,17 @@ import {
 } from 'react';
 import { createPortal } from 'react-dom';
 import cc from 'classcat';
-import { EmptyContent } from 'xUiDesign/components/Empty';
+import { EmptyContent } from '@/xUiDesign/components/Empty';
 import {
   ArrowIcon,
   CheckIcon,
   ClearIcon,
   LoadingIcon,
   SearchIcon
-} from 'xUiDesign/components/icons';
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from 'xUiDesign/types';
-import { OptionType, SelectProps } from 'xUiDesign/types/select';
-import { prefixClsSelect } from 'xUiDesign/utils';
+} from '@/xUiDesign/components/icons';
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from '@/xUiDesign/types';
+import { OptionType, SelectProps } from '@/xUiDesign/types/select';
+import { prefixClsSelect } from '@/xUiDesign/utils';
 import { Option } from './Option';
 import './style.css';
 import { Tag } from './Tag';
