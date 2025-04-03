@@ -1,6 +1,7 @@
 .xUi-datepicker-container {
     position: relative;
     width: 100%;
+    margin-bottom: 10px;
     font-family: Arial, sans-serif;
 }
 
@@ -15,6 +16,7 @@
     align-items: center;
     cursor: pointer;
     transition: all 0.3s;
+    color: var(--xui-text-color);
 }
 
 .xUi-datepicker-input:hover {
@@ -103,4 +105,8 @@
 
 .xUi-datepicker-empty {
     height: 36px;
+}
+
+.xUi-datepicker-error {
+    border-color: var(--xui-error-color);
 }

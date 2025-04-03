@@ -5,15 +5,17 @@ import { prefixClsDatepicker } from "@/xUiDesign/utils";
 
 type TDatePickerProps = DefaultProps & {
     value: Date,
-    onChange: (date: Date) => void,
+    onChange: (date: string) => void,
     disabled?: boolean,
-    placeholder?: string
+    placeholder?: string,
+    error?: boolean
 }
 
 const DatePicker = ({
     value,
     onChange,
     disabled,
+    error,
     placeholder = "Select date",
     prefixCls = prefixClsDatepicker
 }: TDatePickerProps) => {
@@ -33,14 +35,14 @@ const DatePicker = ({
         const date = new Date(currentYear, currentMonth, day);
 
         setSelectedDate(date);
-        onChange?.(date);
+        onChange?.(`${day}/${currentMonth}/${currentYear}`);
         setIsOpen(false);
     };
 
     return (
         <div className={`${prefixCls}-container`}>
             <button
-                className={`${prefixCls}-input ${disabled ? `${prefixCls}-disabled` : ''}`}
+                className={`${prefixCls}-input ${disabled ? `${prefixCls}-disabled` : ''} ${error ? `${prefixCls}-error` : ''}`}
                 disabled={disabled}
                 onClick={() => setIsOpen(!isOpen)}
             >
