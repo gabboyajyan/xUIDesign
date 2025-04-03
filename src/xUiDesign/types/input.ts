@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { DefaultProps, SizeType, SyntheticBaseEvent } from '.';
 
-export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> &
+export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> &
   DefaultProps & {
     addonBefore?: ReactNode;
     addonAfter?: ReactNode;

@@ -74,7 +74,9 @@
 }
 
 .xUi-select .xUi-select-tag-input:focus {
+    padding: 0;
     border: none;
     outline: none;
     box-shadow: none;
+    font-size: var(--xui-font-size-md);
 }
