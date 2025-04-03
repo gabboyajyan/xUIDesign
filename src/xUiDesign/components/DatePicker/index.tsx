@@ -1,0 +1,95 @@
+import React, { useState } from "react";
+import "./style.css";
+
+type TDatePickerProps = {
+    value: Date,
+    onChange: (date: Date) => void,
+    disabled?: boolean,
+    placeholder?: string
+}
+
+const DatePicker = ({
+    value,
+    onChange,
+    disabled,
+    placeholder = "Select date"
+}: TDatePickerProps) => {
+    const [selectedDate, setSelectedDate] = useState<Date>(value || null);
+    const [isOpen, setIsOpen] = useState(false);
+    const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+    const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
+
+    const daysInMonth = (year: number, month: number) => new Date(year, month + 1, 0).getDate();
+    const firstDayOfMonth = (year: number, month: number) => new Date(year, month, 1).getDay();
+
+    const handleSelect = (day: number) => {
+        if (disabled) {
+            return;
+        }
+
+        const date = new Date(currentYear, currentMonth, day);
+
+        setSelectedDate(date);
+        onChange?.(date);
+        setIsOpen(false);
+    };
+
+    return (
+        <div className="datepicker-container">
+            <button
+                className={`datepicker-input ${disabled ? 'datepicker-disabled' : ''}`}
+                disabled={disabled}
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <span>{selectedDate ? selectedDate.toLocaleDateString() : placeholder}</span>
+                <span className="datepicker-icon">📅</span>
+            </button>
+            {isOpen && (
+                <div className="datepicker-dropdown">
+                    <div className="datepicker-header">
+                        <select
+                            className="datepicker-select"
+                            value={currentYear}
+                            onChange={(e) => setCurrentYear(parseInt(e.target.value))}
+                        >
+                            {Array.from({ length: 100 }, (_, i) => 1925 + i).map((year) => (
+                                <option key={year} value={year}>{year}</option>
+                            ))}
+                        </select>
+                        <select
+                            className="datepicker-select"
+                            value={currentMonth}
+                            onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
+                        >
+                            {Array.from({ length: 12 }, (_, i) => i).map((month) => (
+                                <option key={month} value={month}>{new Date(0, month).toLocaleString('default', { month: 'long' })}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className="datepicker-grid">
+                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                            <div key={day} className="datepicker-day-header">{day}</div>
+                        ))}
+                        {[...Array(firstDayOfMonth(currentYear, currentMonth))].map((_, i) => (
+                            <div key={`empty-${i}`} className="datepicker-empty"></div>
+                        ))}
+                        {[...Array(daysInMonth(currentYear, currentMonth))].map((_, i) => (
+                            <button
+                                key={i}
+                                className={`datepicker-day ${selectedDate && selectedDate.getDate() === i + 1 &&
+                                    selectedDate.getMonth() === currentMonth &&
+                                    selectedDate.getFullYear() === currentYear ? "datepicker-selected" : ""
+                                    }`}
+                                onClick={() => handleSelect(i + 1)}
+                            >
+                                {i + 1}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default DatePicker;
