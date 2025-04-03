@@ -1,10 +1,10 @@
-.datepicker-container {
+.xUi-datepicker-container {
     position: relative;
     width: 100%;
     font-family: Arial, sans-serif;
 }
 
-.datepicker-input {
+.xUi-datepicker-input {
     width: 100%;
     padding: 8px 12px;
     border: 1px solid var(--xui-border-color);
@@ -17,26 +17,25 @@
     transition: all 0.3s;
 }
 
-.datepicker-input:hover {
+.xUi-datepicker-input:hover {
     border-color: var(--xui-primary-color);
 }
 
-.datepicker-disabled {
+.xUi-datepicker-disabled {
     background-color: var(--xui-background-color);
     cursor: not-allowed;
     opacity: 0.6;
 }
 
-.datepicker-icon {
+.xUi-datepicker-icon {
     font-size: 16px;
     color: #8c8c8c;
 }
 
-.datepicker-dropdown {
+.xUi-datepicker-dropdown {
     position: absolute;
     top: 40px;
     left: 0;
-    width: 280px;
     background: var(--xui-background-color);
     border: 1px solid var(--xui-border-color);
     border-radius: 4px;
@@ -45,39 +44,40 @@
     z-index: 1000;
 }
 
-.datepicker-header {
+.xUi-datepicker-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
 }
 
-.datepicker-select {
+.xUi-datepicker-select {
     padding: 4px 8px;
     border: 1px solid var(--xui-border-color);
     border-radius: 4px;
     background: var(--xui-background-color);
     cursor: pointer;
+    color: var(--xui-text-color);
     transition: all 0.3s;
 }
 
-.datepicker-select:hover {
+.xUi-datepicker-select:hover {
     border-color: var(--xui-primary-color);
 }
 
-.datepicker-grid {
+.xUi-datepicker-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 4px;
     text-align: center;
 }
 
-.datepicker-day-header {
+.xUi-datepicker-day-header {
     font-weight: bold;
-    color: #595959;
+    color: var(--xui-text-color);
 }
 
-.datepicker-day {
+.xUi-datepicker-day {
     width: 36px;
     height: 36px;
     line-height: 36px;
@@ -87,19 +87,20 @@
     transition: all 0.2s;
     border: none;
     background: none;
+    color: var(--xui-text-color);
 }
 
-.datepicker-day:hover {
+.xUi-datepicker-day:hover {
     background: var(--xui-primary-color-light);
     color: #fff;
 }
 
-.datepicker-selected {
+.xUi-datepicker-selected {
     background: var(--xui-primary-color) !important;
     color: #fff !important;
     font-weight: bold;
 }
 
-.datepicker-empty {
+.xUi-datepicker-empty {
     height: 36px;
 }

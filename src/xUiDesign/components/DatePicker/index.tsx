@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import "./style.css";
+import { DefaultProps } from "@/xUiDesign/types";
+import { prefixClsDatepicker } from "@/xUiDesign/utils";
 
-type TDatePickerProps = {
+type TDatePickerProps = DefaultProps & {
     value: Date,
     onChange: (date: Date) => void,
     disabled?: boolean,
@@ -12,7 +14,8 @@ const DatePicker = ({
     value,
     onChange,
     disabled,
-    placeholder = "Select date"
+    placeholder = "Select date",
+    prefixCls = prefixClsDatepicker
 }: TDatePickerProps) => {
     const [selectedDate, setSelectedDate] = useState<Date>(value || null);
     const [isOpen, setIsOpen] = useState(false);
@@ -35,21 +38,21 @@ const DatePicker = ({
     };
 
     return (
-        <div className="datepicker-container">
+        <div className={`${prefixCls}-container`}>
             <button
-                className={`datepicker-input ${disabled ? 'datepicker-disabled' : ''}`}
+                className={`${prefixCls}-input ${disabled ? `${prefixCls}-disabled` : ''}`}
                 disabled={disabled}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span>{selectedDate ? selectedDate.toLocaleDateString() : placeholder}</span>
-                <span className="datepicker-icon">📅</span>
+                <span className={`${prefixCls}-icon`}>📅</span>
             </button>
             {isOpen && (
-                <div className="datepicker-dropdown">
-                    <div className="datepicker-header">
+                <div className={`${prefixCls}-dropdown`}>
+                    <div className={`${prefixCls}-header`}>
                         <select
-                            className="datepicker-select"
                             value={currentYear}
+                            className={`${prefixCls}-select`}
                             onChange={(e) => setCurrentYear(parseInt(e.target.value))}
                         >
                             {Array.from({ length: 100 }, (_, i) => 1925 + i).map((year) => (
@@ -57,8 +60,8 @@ const DatePicker = ({
                             ))}
                         </select>
                         <select
-                            className="datepicker-select"
                             value={currentMonth}
+                            className={`${prefixCls}-select`}
                             onChange={(e) => setCurrentMonth(parseInt(e.target.value))}
                         >
                             {Array.from({ length: 12 }, (_, i) => i).map((month) => (
@@ -66,19 +69,19 @@ const DatePicker = ({
                             ))}
                         </select>
                     </div>
-                    <div className="datepicker-grid">
+                    <div className={`${prefixCls}-grid`}>
                         {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-                            <div key={day} className="datepicker-day-header">{day}</div>
+                            <div key={day} className={`${prefixCls}-day-header`}>{day}</div>
                         ))}
                         {[...Array(firstDayOfMonth(currentYear, currentMonth))].map((_, i) => (
-                            <div key={`empty-${i}`} className="datepicker-empty"></div>
+                            <div key={`empty-${i}`} className={`${prefixCls}-empty`}></div>
                         ))}
                         {[...Array(daysInMonth(currentYear, currentMonth))].map((_, i) => (
                             <button
                                 key={i}
-                                className={`datepicker-day ${selectedDate && selectedDate.getDate() === i + 1 &&
+                                className={`${prefixCls}-day ${selectedDate && selectedDate.getDate() === i + 1 &&
                                     selectedDate.getMonth() === currentMonth &&
-                                    selectedDate.getFullYear() === currentYear ? "datepicker-selected" : ""
+                                    selectedDate.getFullYear() === currentYear ? `${prefixCls}-selected` : ""
                                     }`}
                                 onClick={() => handleSelect(i + 1)}
                             >

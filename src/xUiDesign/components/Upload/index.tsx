@@ -1,9 +1,10 @@
 import { useRef, useState } from "react";
 import { UploadFile, UploadChangeParam, UploadProps, RcFile } from "@/xUiDesign/types/upload";
+import { prefixClsUpload } from "@/xUiDesign/utils";
 import './style.css';
 
 const Upload = ({
-    prefixCls = "xUi-upload",
+    prefixCls = prefixClsUpload,
     multiple = false,
     onChange,
     action,
