@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { UploadFile, UploadChangeParam, UploadProps, RcFile } from "@/xUiDesign/types/upload";
 import './style.css';
 
@@ -15,6 +15,7 @@ const Upload = ({
     showUploadList = true,
     children
 }: UploadProps) => {
+    const uploadRef = useRef(null);
     const [fileList, setFileList] = useState<(UploadFile | File)[]>(controlledFileList || []);
 
     const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,18 +41,20 @@ const Upload = ({
 
         if (!customRequest && action) {
             filteredFiles.forEach((file: RcFile) => {
-                const uploadUrl = typeof action === "string" ? action : action(file);
+                if (typeof action === "string") {
+                    const formData = new FormData();
+                    formData.append('file', file);
 
-                const formData = new FormData();
-                formData.append('file', file);
-
-                fetch(uploadUrl, {
-                    method: 'POST',
-                    body: formData,
-                })
-                    .then(response => response.json())
-                    .then((res) => console.info('Upload success:', res))
-                    .catch((err) => console.error('Upload error:', err));
+                    fetch(action, {
+                        method: 'POST',
+                        body: formData,
+                    })
+                        .then(response => response.json())
+                        .then((res) => console.info('Upload success:', res))
+                        .catch((err) => console.error('Upload error:', err));
+                } else {
+                    action(file)
+                }
             });
         }
 
@@ -67,6 +70,11 @@ const Upload = ({
         const updatedList = fileList.filter((_, i) => i !== index);
         setFileList(updatedList);
 
+        if (!updatedList.length && uploadRef.current) {
+            (uploadRef.current as HTMLInputElement).files = null;
+            (uploadRef.current as HTMLInputElement).value = '';
+        }
+
         if (onChange) {
             onChange({ fileList: updatedList } as UploadChangeParam);
         }
@@ -78,10 +86,11 @@ const Upload = ({
                 {children || <span>📁 Click or Drag files here</span>}
                 <input
                     type="file"
-                    multiple={multiple}
+                    ref={uploadRef}
                     accept={accept}
-                    className={`${prefixCls}-input`}
+                    multiple={multiple}
                     onChange={handleFileChange}
+                    className={`${prefixCls}-input`}
                 />
             </label>
             {showUploadList && fileList.length > 0 && (
