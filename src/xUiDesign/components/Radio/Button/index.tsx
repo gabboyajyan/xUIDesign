@@ -1,10 +1,12 @@
+"use client"
+
 import { ReactNode } from 'react';
 import cc from 'classcat';
 import { SizeType } from '@/xUiDesign/types';
 import { RadioProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
-import './style.css';
 import { Radio } from '..';
+import './style.css';
 
 interface RadioButtonProps extends RadioProps {
   children?: ReactNode;

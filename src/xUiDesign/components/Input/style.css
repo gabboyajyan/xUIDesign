@@ -1,7 +1,7 @@
 .xUi-input-container {
     display: flex;
     align-items: center;
-    border: 1px solid #ccc;
+    border: 1px solid var(--xui-border-color);
     overflow: hidden;
     background-color: transparent;
     border-radius: var(--xui-border-radius-sm);

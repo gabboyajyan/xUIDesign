@@ -13,7 +13,7 @@
     border-radius: var(--xui-border-radius-sm);
     transition: all 0.3s;
     display: inline-block;
-    background-color: var(--xui-background-color);
+    background-color: transparent;
     border: 1px solid var(--xui-border-color);
 }
 

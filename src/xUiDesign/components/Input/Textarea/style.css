@@ -1,10 +1,10 @@
 .xUi-textarea-wrapper {
     position: relative;
     width: 100%;
+    margin-bottom: 10px;
 }
 
 .xUi-textarea {
-    width: calc(100% - 24px);
     padding: 8px 12px;
     font-size: 14px;
     border-radius: 6px;
@@ -13,6 +13,19 @@
     box-shadow: none;
     resize: vertical;
     min-height: 14px;
+    width: 100%;
+    border: none;
+    color: var(--xui-text-color);
+}
+
+.xUi-textarea:placeholder-shown {
+    text-overflow: ellipsis;
+    font-size: 14px;
+}
+
+.xUi-textarea::placeholder {
+    opacity: 0.6;
+    color: var(--xui-text-color);
 }
 
 .xUi-textarea-small {
@@ -26,13 +39,12 @@
 }
 
 .xUi-textarea-large {
-    font-size: 16px;
-    padding: 10px 14px;
+    padding: 10px;
 }
 
 .xUi-textarea-outlined {
     border: 1px solid var(--xui-border-color);
-    background: var(--xui-background-color);
+    background: transparent;
 }
 
 .xUi-textarea-outlined:focus {
@@ -63,20 +75,16 @@
     border-bottom-color: var(--xui-primary-color);
 }
 
-.xUi-textarea-bordered {
+.xUi-textarea-container:has(.xUi-textarea-bordered) {
     border: 1px solid var(--xui-border-color);
 }
 
-.xUi-textarea-success {
+.xUi-textarea-container:has(.xUi-textarea-success) {
     border-color: #52c41a;
 }
 
-.xUi-textarea-error {
-    background-color: rgba(255, 77, 79, 0.07);
-    border-color: transparent;
-}
-
-.xUi-textarea-error:focus {
+.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,
+.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea:focus {
     border-color: var(--xui-error-color);
 }
 

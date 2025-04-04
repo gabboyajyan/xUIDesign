@@ -1,3 +1,5 @@
+"use client"
+
 import { ForwardedRef, forwardRef, useEffect } from 'react';
 import cc from 'classcat';
 import { parseValue } from '@/xUiDesign/helpers';

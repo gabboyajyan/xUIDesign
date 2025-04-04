@@ -1,7 +1,9 @@
+"use client"
+
 import React, { useState } from "react";
-import "./style.css";
 import { DefaultProps } from "@/xUiDesign/types";
 import { prefixClsDatepicker } from "@/xUiDesign/utils";
+import "./style.css";
 
 type TDatePickerProps = DefaultProps & {
     value: Date,
@@ -42,6 +44,7 @@ const DatePicker = ({
     return (
         <div className={`${prefixCls}-container`}>
             <button
+                type="button"
                 className={`${prefixCls}-input ${disabled ? `${prefixCls}-disabled` : ''} ${error ? `${prefixCls}-error` : ''}`}
                 disabled={disabled}
                 onClick={() => setIsOpen(!isOpen)}

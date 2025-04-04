@@ -1,3 +1,5 @@
+"use client"
+
 import {
   ForwardedRef,
   forwardRef,
@@ -61,39 +63,39 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({
 
   return (
     <div className={`${prefixCls}-wrapper`}>
-      <div
-        ref={ref}
-        style={style}
-        onClick={handleClick}
-        className={cc([
-          prefixCls,
-          className,
-          {
-            [`${prefixCls}-disabled`]: disabled,
-            [`${prefixCls}-checked`]: internalChecked
-          }
-        ])}
-      >
-        <input
-          id={id}
-          type={type}
-          name={name}
-          disabled={disabled}
-          tabIndex={tabIndex}
-          required={required}
-          autoFocus={autoFocus}
-          onKeyDown={onKeyDown}
-          onKeyPress={onKeyPress}
-          onMouseEnter={onMouseEnter}
-          onMouseLeave={onMouseLeave}
-        />
+    <div
+      ref={ref}
+      style={style}
+      onClick={handleClick}
+      className={cc([
+        prefixCls,
+        className,
+        {
+          [`${prefixCls}-disabled`]: disabled,
+          [`${prefixCls}-checked`]: internalChecked
+        }
+      ])}
+    >
+      <input
+        id={id}
+        type={type}
+        name={name}
+        disabled={disabled}
+        tabIndex={tabIndex}
+        required={required}
+        autoFocus={autoFocus}
+        onKeyDown={onKeyDown}
+        onKeyPress={onKeyPress}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
 
-        <span className={`${prefixCls}-box`}>
-          <span
-            className={`${prefixCls}-check`}
-            style={{ opacity: Number(internalChecked) }}
-          />
-        </span>
+      <span className={`${prefixCls}-box`}>
+        <span
+          className={`${prefixCls}-check`}
+          style={{ opacity: Number(internalChecked) }}
+        />
+      </span>
       </div>
 
       {children && <span className={`${prefixCls}-label`}>{children}</span>}

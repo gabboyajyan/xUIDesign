@@ -7,6 +7,7 @@ import { Select } from "@/xUiDesign/components/Select"
 import { Checkbox } from "@/xUiDesign/components/Checkbox"
 import { useForm } from "@/xUiDesign/hooks/useForm"
 import Upload from "@/xUiDesign/components/Upload"
+import DatePicker from "@/xUiDesign/components/DatePicker"
 
 export default function Home() {
     const form = useForm()
@@ -44,6 +45,10 @@ export default function Home() {
 
                 <Form.Item name="upload" label="Upload" rules={[{ required: true }]}>
                     <Upload />
+                </Form.Item>
+
+                <Form.Item name="datepicker" label="Date Picker" rules={[{ required: true }]}>
+                    <DatePicker value={new Date()} onChange={() => {}} />
                 </Form.Item>
 
                 <button>Submit</button>

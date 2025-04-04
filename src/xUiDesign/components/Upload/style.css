@@ -42,11 +42,6 @@
     background: transparent;
     margin-bottom: 4px;
     transition: background 0.3s;
-    font-size: 14px;
-}
-
-.xUi-upload-item:hover {
-    border-color: var(--xui-primary-color);
 }
 
 .xUi-upload-remove {

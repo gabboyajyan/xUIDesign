@@ -1,4 +1,4 @@
-'use client';
+"use client"
 
 import {
   forwardRef,
@@ -13,8 +13,8 @@ import cc from 'classcat';
 import { SyntheticBaseEvent, TargetProps } from '@/xUiDesign/types';
 import { InputProps } from '@/xUiDesign/types/input';
 import { prefixClsInput } from '@/xUiDesign/utils';
-import './style.css';
 import { Textarea } from './Textarea';
+import './style.css';
 
 const InputComponent = forwardRef(
   (

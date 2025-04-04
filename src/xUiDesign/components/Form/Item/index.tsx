@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Children,
   Fragment,
@@ -16,8 +18,8 @@ import {
 import { FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
-import './style.css';
 import { FormContext } from '..';
+import './style.css';
 
 interface FormItemChildComponentProps {
   child: React.ReactElement;

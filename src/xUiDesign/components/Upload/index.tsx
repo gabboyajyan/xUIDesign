@@ -1,3 +1,5 @@
+"use client"
+
 import { useRef, useState } from "react";
 import { UploadFile, UploadChangeParam, UploadProps, RcFile } from "@/xUiDesign/types/upload";
 import { prefixClsUpload } from "@/xUiDesign/utils";
