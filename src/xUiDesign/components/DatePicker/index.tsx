@@ -37,7 +37,7 @@ const DatePicker = ({
         const date = new Date(currentYear, currentMonth, day);
 
         setSelectedDate(date);
-        onChange?.(`${day}/${currentMonth}/${currentYear}`);
+        onChange?.(`${day}/${currentMonth + 1}/${currentYear}`);
         setIsOpen(false);
     };
 
