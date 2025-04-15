@@ -1,9 +1,9 @@
 "use client"
 
 import {
+  ForwardedRef,
   forwardRef,
   KeyboardEvent,
-  LegacyRef,
   MouseEvent,
   useImperativeHandle,
   useRef,
@@ -34,7 +34,7 @@ const InputComponent = forwardRef(
       iconRender,
       ...props
     }: InputProps,
-    ref: LegacyRef<HTMLInputElement>
+    ref: ForwardedRef<HTMLInputElement>
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [internalValue, setInternalValue] = useState(value ?? '');
@@ -42,7 +42,7 @@ const InputComponent = forwardRef(
 
     useImperativeHandle(ref, () => ({
       input: inputRef.current,
-      blur: inputRef.current?.blur,
+      blur: (inputRef.current as HTMLInputElement).blur,
       focus: inputRef.current?.focus,
       nativeElement: inputRef.current,
       setSelectionRange: (start: number, end: number) => {
@@ -55,10 +55,7 @@ const InputComponent = forwardRef(
     const handleChange = (e: SyntheticBaseEvent) => {
       setInternalValue(e.target.value as string);
 
-      props.onChange?.({
-        target: e?.target,
-        currentTarget: e.currentTarget
-      });
+      props.onChange?.(e);
     };
 
     const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
@@ -66,10 +63,7 @@ const InputComponent = forwardRef(
 
       e.target.value = '';
 
-      props.onChange?.({
-        target: e?.target,
-        currentTarget: e.currentTarget
-      });
+      props.onChange?.(e);
     };
 
     const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

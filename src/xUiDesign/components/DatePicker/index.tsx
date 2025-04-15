@@ -1,17 +1,9 @@
 "use client"
 
 import React, { useState } from "react";
-import { DefaultProps } from "@/xUiDesign/types";
 import { prefixClsDatepicker } from "@/xUiDesign/utils";
+import { TDatePickerProps } from "@/xUiDesign/types/datepicker";
 import "./style.css";
-
-type TDatePickerProps = DefaultProps & {
-    value: Date,
-    onChange: (date: string) => void,
-    disabled?: boolean,
-    placeholder?: string,
-    error?: boolean
-}
 
 const DatePicker = ({
     value,

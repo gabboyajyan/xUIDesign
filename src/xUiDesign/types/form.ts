@@ -1,5 +1,18 @@
-import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
-import { DefaultProps, RuleType, RuleTypes, SizeType } from '.';
+import {
+  ComponentClass,
+  FC,
+  FormEvent,
+  ReactElement,
+  ReactNode
+} from 'react';
+import {
+  DefaultProps,
+  RuleType,
+  RuleTypes,
+  SizeType,
+  SyntheticBaseEvent
+} from '.';
+import { OptionProps } from './select';
 
 export type RuleRender = (form: FormInstance) => RuleObject;
 
@@ -73,7 +86,21 @@ export type FormItemProps = DefaultProps & {
   layout?: FormLayoutTypes;
   valuePropName?: string;
   dependencies?: string[];
+  normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
 };
+
+export interface FormItemChildComponentProps {
+  child: React.ReactElement;
+  name: string;
+  error: boolean;
+  fieldValue: RuleTypes;
+  value: RuleType;
+  setFieldValue: (name: string, value: RuleType) => void;
+  onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
+  valuePropName?: string;
+  size?: SizeType;
+  normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
+}
 
 export interface FormInstance {
   submit: () => Promise<Record<string, RuleTypes> | undefined>;
@@ -83,7 +110,6 @@ export interface FormInstance {
   registerField: (
     name: string,
     rules?: RuleObject[],
-    fieldRef?: FieldInstancesRef
   ) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
@@ -112,4 +138,5 @@ export interface FormInstance {
     allValues: Record<string, RuleTypes>
   ) => void;
   getFieldInstance: (fieldName: string) => FieldInstancesRef;
+  isReseting: boolean;
 }

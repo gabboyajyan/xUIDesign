@@ -2,10 +2,13 @@
 
 import {
   CSSProperties,
+  ForwardedRef,
+  forwardRef,
   KeyboardEvent,
   ReactElement,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
   useRef,
   useState
@@ -30,7 +33,7 @@ import './style.css';
 const LIST_HEIGHT = 200;
 const SELECT_INPUT_START_WIDTH = 15;
 
-const SelectComponent = (
+const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   {
     prefixCls = prefixClsSelect,
     id,
@@ -69,7 +72,7 @@ const SelectComponent = (
     tagRender,
     getPopupContainer,
     dropdownRender
-  }: SelectProps): ReactElement => {
+  }, ref: ForwardedRef<HTMLDivElement>): ReactElement => {
     const asTag = mode === 'tags';
     const asMultiple = mode === 'multiple';
     const hasMode = asTag || asMultiple;
@@ -96,6 +99,13 @@ const SelectComponent = (
     const [selected, setSelected] = useState(
       hasMode ? checkModeInitialValue : initialValue
     );
+
+    useImperativeHandle(ref, () => ({
+      focus: selectRef.current?.focus,
+      blur: (selectRef.current as HTMLInputElement)?.blur,
+      scrollTo: (selectRef.current as HTMLDivElement)?.scrollTo,
+      nativeElement: selectRef.current
+    }));
 
     const handleMouseEnter = () =>
       !disabled && selected.length && setIsHover(true);
@@ -576,7 +586,7 @@ const SelectComponent = (
           : dropdownContent}
       </div>
     );
-};
+});
 
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, { Option });

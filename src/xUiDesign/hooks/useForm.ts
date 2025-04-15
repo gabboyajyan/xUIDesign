@@ -22,10 +22,12 @@ const useForm = (
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
+
+  const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
+  const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -67,8 +69,8 @@ const useForm = (
     return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
   }
 
-  function setFieldValue(name: string, value: RuleTypes, errors?: string[]) {
-    if ([undefined, null].includes(value) || formRef.current[name] === value) {
+  function setFieldValue(name: string, value: RuleTypes, errors?: string[], reset?: boolean) {
+    if (!reset && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
 
@@ -127,17 +129,12 @@ const useForm = (
   function registerField(
     name: string,
     rules: RuleObject[] = [],
-    fieldRef?: FieldInstancesRef
   ) {
     if (!(name in formRef.current)) {
       formRef.current[name] = initialValues?.[name];
     }
 
     rulesRef.current[name] = rules;
-
-    if (fieldRef) {
-      fieldInstancesRef.current[name] = fieldRef;
-    }
   }
 
   async function validateField(name: string) {
@@ -230,15 +227,19 @@ const useForm = (
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
         setErrors(prev => ({ ...prev, [name]: [] }));
+        setFieldValue(name, initialValues[name], undefined, true);
       });
     } else {
-      formRef.current = { ...initialValues };
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
-      setErrors({});
+
+      Object.keys(formRef.current).forEach(name => {
+        setFieldValue(name, initialValues[name], undefined, true);
+      });
     }
 
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
+    setIsReseting(prev => !prev);
   }
 
   async function submit() {
@@ -311,7 +312,8 @@ const useForm = (
     onFieldsChange,
     onValuesChange,
     getFieldInstance,
-    subscribeToFields
+    subscribeToFields,
+    isReseting
   };
 
   return formInstance;

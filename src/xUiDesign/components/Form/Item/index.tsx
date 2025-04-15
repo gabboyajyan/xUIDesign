@@ -7,31 +7,18 @@ import {
   useContext,
   useEffect,
   useMemo,
-  useRef
+  useRef,
+  useState
 } from 'react';
 import {
   RuleType,
-  RuleTypes,
-  SizeType,
   SyntheticBaseEvent
 } from '@/xUiDesign/types';
-import { FormItemProps } from '@/xUiDesign/types/form';
+import { FormItemChildComponentProps, FormItemProps } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
 import { FormContext } from '..';
 import './style.css';
-
-interface FormItemChildComponentProps {
-  child: React.ReactElement;
-  name: string;
-  error: boolean;
-  fieldValue: RuleTypes;
-  value: RuleType;
-  setFieldValue: (name: string, value: RuleType) => void;
-  onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
-  valuePropName?: string;
-  size?: SizeType;
-}
 
 export const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -56,6 +43,7 @@ export const FormItem = ({
   }
 
   const {
+    isReseting,
     registerField,
     getFieldError,
     getFieldValue,
@@ -101,7 +89,7 @@ export const FormItem = ({
     }
   }, [errorRef.current]);
 
-  const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
+  const isRequired = useMemo(() => rules.some((rule) => rule.required), [rules]);
 
   const errorMessage = getFieldError(valuePropName || name)?.[0];
 
@@ -115,7 +103,7 @@ export const FormItem = ({
         </label>
       )}
 
-      {Children.map(childrenList, child => {
+      {Children.map(childrenList, (child, key) => {
         if (isValidElement(child) && child.type !== Fragment) {
           const { value, ...childProps } = child.props;
           const fieldValue =
@@ -124,14 +112,16 @@ export const FormItem = ({
           return (
             <FormItemChildComponent
               {...childProps}
-              child={child}
               name={name}
+              child={child}
               value={value}
+              key={`${key}_${isReseting}`}
+              fieldValue={fieldValue}
               size={childProps.size || props.size}
               error={Boolean(errorMessage)}
-              fieldValue={fieldValue}
               setFieldValue={setFieldValue}
               valuePropName={valuePropName}
+              normalize={props.normalize}
             />
           );
         }
@@ -156,11 +146,42 @@ const FormItemChildComponent = ({
   setFieldValue,
   onChange,
   valuePropName,
+  normalize,
   ...props
 }: FormItemChildComponentProps) => {
+  const formContext = useContext(FormContext);
+
+  const [wasNormalize, setWasNormalize] = useState(false);
+
+  const {
+    getFieldsValue
+  } = formContext || {};
+
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
-    const value: RuleType | SyntheticBaseEvent = e?.target ? e.target.value : e;
-    setFieldValue(valuePropName || name, value as RuleType);
+    let rawValue: RuleType | SyntheticBaseEvent = e?.target ? e.target.value : e;
+
+    if (normalize) {
+      const prevValue = fieldValue ?? props.value;
+      const allValues = getFieldsValue?.();
+
+      rawValue = normalize(rawValue, prevValue, allValues);
+
+      if (rawValue === prevValue) {
+        e.target.value = rawValue;
+
+        setWasNormalize(prev => !prev);
+
+        const timeout = setTimeout(() => {
+          (document.querySelector(`[name='${name}']`) as HTMLInputElement)?.focus();
+
+          clearTimeout(timeout)
+        }, 0);
+
+        return
+      }
+    }
+
+    setFieldValue(valuePropName || name, rawValue);
     onChange?.(e, option);
   };
 
@@ -168,9 +189,10 @@ const FormItemChildComponent = ({
     <child.type
       {...props}
       name={name}
-      {...(error ? { error } : {})}
-      value={fieldValue ?? props.value}
       onChange={handleChange}
+      {...(error ? { error } : {})}
+      key={`${name}_${wasNormalize}`}
+      value={fieldValue ?? props.value}
     />
   );
 };
