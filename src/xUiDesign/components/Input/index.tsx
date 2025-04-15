@@ -15,6 +15,7 @@ import { InputProps } from '@/xUiDesign/types/input';
 import { prefixClsInput } from '@/xUiDesign/utils';
 import { Textarea } from './Textarea';
 import './style.css';
+import { ErrorIcon } from '../icons';
 
 const InputComponent = forwardRef(
   (
@@ -32,6 +33,8 @@ const InputComponent = forwardRef(
       className = '',
       value = undefined,
       iconRender,
+      noStyle,
+      feedbackIcons,
       ...props
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
@@ -41,9 +44,11 @@ const InputComponent = forwardRef(
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      focus: inputRef.current?.focus,
       input: inputRef.current,
       blur: (inputRef.current as HTMLInputElement).blur,
-      focus: inputRef.current?.focus,
       nativeElement: inputRef.current,
       setSelectionRange: (start: number, end: number) => {
         if (inputRef.current) {
@@ -79,7 +84,8 @@ const InputComponent = forwardRef(
           {
             [`${prefixCls}-error`]: error,
             [`${prefixCls}-disabled`]: disabled,
-            [`${prefixCls}-${size}`]: size
+            [`${prefixCls}-${size}`]: size,
+            'noStyle': noStyle
           },
           className
         ])}
@@ -125,6 +131,7 @@ const InputComponent = forwardRef(
                 : {})}
             >
               {suffix || iconRender?.(iconRenderVisible)}
+              {feedbackIcons ? <ErrorIcon /> : null}
             </span>
           )}
         </div>

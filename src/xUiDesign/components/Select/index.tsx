@@ -20,6 +20,7 @@ import {
   ArrowIcon,
   CheckIcon,
   ClearIcon,
+  ErrorIcon,
   LoadingIcon,
   SearchIcon
 } from '@/xUiDesign/components/icons';
@@ -71,7 +72,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     notFoundContent = false,
     tagRender,
     getPopupContainer,
-    dropdownRender
+    dropdownRender,
+    noStyle,
+    feedbackIcons
   }, ref: ForwardedRef<HTMLDivElement>): ReactElement => {
     const asTag = mode === 'tags';
     const asMultiple = mode === 'multiple';
@@ -101,6 +104,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     );
 
     useImperativeHandle(ref, () => ({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       focus: selectRef.current?.focus,
       blur: (selectRef.current as HTMLInputElement)?.blur,
       scrollTo: (selectRef.current as HTMLDivElement)?.scrollTo,
@@ -462,6 +467,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
         className={cc([
           {
             [size]: size,
+            'noStyle': noStyle,
             [prefixCls]: prefixCls,
             [`${prefixCls}-error`]: error,
             [`${prefixCls}-multi`]: hasMode,
@@ -564,12 +570,18 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
                 {suffixIcon || <ClearIcon />}
               </button>
             ) : (
-              <span className={`${prefixCls}-arrow`}>{ArrowContainer}</span>
+              <span className={`${prefixCls}-arrow`}>
+                {ArrowContainer}
+                {feedbackIcons ? <ErrorIcon /> : null}
+              </span>
             )
           ) : (
             <>
               {!loading && (
-                <span className={`${prefixCls}-arrow`}>{ArrowContainer}</span>
+                <span className={`${prefixCls}-arrow`}>
+                  {ArrowContainer}
+                  {feedbackIcons ? <ErrorIcon /> : null}
+                </span>
               )}
 
               {loading && (

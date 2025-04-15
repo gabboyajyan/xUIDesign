@@ -26,7 +26,8 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
       onBlur,
       onFocus,
       onMouseEnter,
-      onMouseLeave
+      onMouseLeave,
+      noStyle
     },
     ref: ForwardedRef<HTMLLabelElement>
   ) => {
@@ -53,6 +54,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
           `${prefixCls}-label`,
           {
             disabled,
+            'noStyle': noStyle,
             [className]: className
           }
         ])}

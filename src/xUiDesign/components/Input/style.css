@@ -16,6 +16,10 @@
     border-color: var(--xui-error-color);
 }
 
+.xUi-input-container.xUi-input-error .error-svg-icon {
+    color: var(--xui-error-color);
+}
+
 .xUi-input-wrapper {
     display: flex;
     align-items: center;

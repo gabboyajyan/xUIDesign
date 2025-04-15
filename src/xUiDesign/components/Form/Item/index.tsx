@@ -19,6 +19,7 @@ import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
 import { FormContext } from '..';
 import './style.css';
+import cc from 'classcat';
 
 export const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -32,6 +33,7 @@ export const FormItem = ({
   valuePropName,
   dependencies = [],
   initialValue,
+  feedbackIcons,
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
@@ -89,13 +91,22 @@ export const FormItem = ({
     }
   }, [errorRef.current]);
 
-  const isRequired = useMemo(() => rules.some((rule) => rule.required), [rules]);
+  const isRequired = useMemo(() => rules.some((rule: RuleType) => rule.required), [rules]);
 
   const errorMessage = getFieldError(valuePropName || name)?.[0];
 
   return (
-    <div style={style} className={`${prefixCls} ${className} ${layout}`}>
-      {(label || name) && (
+    <div
+      style={style}
+      className={cc([
+        `${prefixCls}`,
+        {
+          [layout]: layout,
+          [className]: className,
+          'noStyle': props.noStyle
+        }
+      ])}>
+      {!props.noStyle && (label || name) && (
         <label className={`${prefixCls}-label`} htmlFor={name}>
           {label || name}:
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}
@@ -115,13 +126,17 @@ export const FormItem = ({
               name={name}
               child={child}
               value={value}
-              key={`${key}_${isReseting}`}
               fieldValue={fieldValue}
-              size={childProps.size || props.size}
+              noStyle={props.noStyle}
+              normalize={props.normalize}
+              key={`${key}_${isReseting}`}
               error={Boolean(errorMessage)}
               setFieldValue={setFieldValue}
               valuePropName={valuePropName}
-              normalize={props.normalize}
+              feedbackIcons={feedbackIcons}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              size={childProps.size || props.size}
             />
           );
         }
@@ -129,7 +144,7 @@ export const FormItem = ({
         return child;
       })}
 
-      {errorMessage && (
+      {!props.noStyle && errorMessage && (
         <span ref={errorRef} className={`${prefixCls}-error`}>
           {errorMessage}
         </span>

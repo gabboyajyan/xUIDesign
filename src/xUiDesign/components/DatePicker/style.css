@@ -32,6 +32,9 @@
 .xUi-datepicker-icon {
     font-size: 16px;
     color: #8c8c8c;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .xUi-datepicker-dropdown {
@@ -109,4 +112,12 @@
 
 .xUi-datepicker-error {
     border-color: var(--xui-error-color);
+}
+
+.xUi-datepicker-error .xUi-datepicker-icon {
+    color: var(--xui-error-color);
+}
+
+.xUi-datepicker-error .error-svg-icon {
+    color: var(--xui-error-color);
 }

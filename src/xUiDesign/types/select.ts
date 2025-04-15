@@ -54,6 +54,7 @@ export type SelectProps = DefaultProps & {
   notFoundContent?: ReactNode;
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   dropdownRender?: (menu: ReactNode) => ReactNode;
+  feedbackIcons?: boolean
 };
 
 export interface OptionType {

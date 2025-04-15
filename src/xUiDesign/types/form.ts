@@ -87,6 +87,7 @@ export type FormItemProps = DefaultProps & {
   valuePropName?: string;
   dependencies?: string[];
   normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
+  feedbackIcons?: boolean
 };
 
 export interface FormItemChildComponentProps {
@@ -100,6 +101,8 @@ export interface FormItemChildComponentProps {
   valuePropName?: string;
   size?: SizeType;
   normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
+  noStyle?: boolean;
+  feedbackIcons?: boolean
 }
 
 export interface FormInstance {

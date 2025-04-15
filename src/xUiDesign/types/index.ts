@@ -9,6 +9,7 @@ export interface DefaultProps {
   prefixCls?: string;
   className?: string;
   style?: CSSProperties;
+  noStyle?: boolean;
 }
 
 export type TargetProps = {

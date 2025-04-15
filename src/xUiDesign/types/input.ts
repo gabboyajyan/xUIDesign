@@ -28,6 +28,7 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'p
     onKeyPress?: KeyboardEventHandler<HTMLElement>;
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
+    feedbackIcons?: boolean
   };
 
 export type TextareaProps = Omit<

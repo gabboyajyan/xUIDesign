@@ -34,7 +34,8 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({
   autoFocus,
   type = 'checkbox',
   value = false,
-  required = false
+  required = false,
+  noStyle
 }, ref: ForwardedRef<HTMLDivElement>): ReactElement => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
@@ -71,6 +72,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({
         prefixCls,
         className,
         {
+          'noStyle': noStyle,
           [`${prefixCls}-disabled`]: disabled,
           [`${prefixCls}-checked`]: internalChecked
         }

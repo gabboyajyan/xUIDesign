@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react";
-import { prefixClsDatepicker } from "@/xUiDesign/utils";
-import { TDatePickerProps } from "@/xUiDesign/types/datepicker";
-import "./style.css";
+import { useState } from 'react';
+import cc from 'classcat';
+import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
+import { prefixClsDatepicker } from '@/xUiDesign/utils';
+import './style.css';
+import { CalendarIcon, ErrorIcon } from '../icons';
 
 const DatePicker = ({
     value,
@@ -11,9 +13,11 @@ const DatePicker = ({
     disabled,
     error,
     placeholder = "Select date",
-    prefixCls = prefixClsDatepicker
+    prefixCls = prefixClsDatepicker,
+    noStyle,
+    feedbackIcons
 }: TDatePickerProps) => {
-    const [selectedDate, setSelectedDate] = useState<Date>(value || null);
+    const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
     const [isOpen, setIsOpen] = useState(false);
     const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
     const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -34,7 +38,10 @@ const DatePicker = ({
     };
 
     return (
-        <div className={`${prefixCls}-container`}>
+        <div className={cc([
+            `${prefixCls}-container`,
+            { noStyle }
+        ])}>
             <button
                 type="button"
                 className={`${prefixCls}-input ${disabled ? `${prefixCls}-disabled` : ''} ${error ? `${prefixCls}-error` : ''}`}
@@ -42,7 +49,10 @@ const DatePicker = ({
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span>{selectedDate ? selectedDate.toLocaleDateString() : placeholder}</span>
-                <span className={`${prefixCls}-icon`}>📅</span>
+                <span className={`${prefixCls}-icon`}>
+                    {<CalendarIcon />}
+                    {feedbackIcons ? <ErrorIcon /> : null}
+                </span>
             </button>
             {isOpen && (
                 <div className={`${prefixCls}-dropdown`}>

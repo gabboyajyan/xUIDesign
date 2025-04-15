@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { UploadFile, UploadChangeParam, UploadProps, RcFile } from "@/xUiDesign/types/upload";
 import { prefixClsUpload } from "@/xUiDesign/utils";
+import cc from "classcat";
 import './style.css';
 
 const Upload = ({
@@ -16,7 +17,8 @@ const Upload = ({
     accept,
     listType = "text",
     showUploadList = true,
-    children
+    children,
+    noStyle
 }: UploadProps) => {
     const uploadRef = useRef(null);
     const [fileList, setFileList] = useState<(UploadFile | File)[]>(controlledFileList || []);
@@ -84,7 +86,12 @@ const Upload = ({
     };
 
     return (
-        <div className={`${prefixCls}-wrapper`}>
+        <div className={cc([
+            `${prefixCls}-wrapper`,
+            {
+                'noStyle': noStyle
+            }
+        ])}>
             <label className={`${prefixCls} ${prefixCls}-${listType}`}>
                 {children || <span>📁 Click or Drag files here</span>}
                 <input

@@ -28,6 +28,9 @@
 
 .xUi-select-arrow {
     margin: 0 4px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
     color: var(--xui-text-color-light);
 }
 
@@ -115,6 +118,10 @@
 
 .xUi-select-error {
     border-color: var(--xui-error-color);
+}
+
+.xUi-select-error .error-svg-icon {
+    color: var(--xui-error-color);
 }
 
 .xUi-select .xUi-select-input {
