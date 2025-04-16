@@ -78,7 +78,7 @@
 .xUi-select-dropdown {
     top: 100%;
     left: 0;
-    right: 0;
+    right: unset;
     z-index: 10;
     margin-top: 5px;
     overflow-y: auto;
@@ -88,6 +88,12 @@
     border-radius: var(--xui-border-radius-sm);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     background-color: var(--xui-select-background-color);
+}
+
+.xUi-select-dropdown.topRight,
+.xUi-select-dropdown.bottomRight {
+    right: 0;
+    left: unset;
 }
 
 .xUi-select .xUi-select-loading-spinner {

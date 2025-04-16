@@ -24,7 +24,13 @@ export default function Home() {
     const [antForm] = AntForm.useForm();
 
     return (
-        <div style={{ gap: 100, margin: "0 auto", display: 'flex', justifyContent: 'center' }}>
+        <div style={{
+            gap: 100,
+            margin: "0 auto",
+            display: 'flex',
+            // flexDirection: 'column-reverse',
+            justifyContent: 'center'
+        }}>
             <div>
                 <h1>xUiDesign Form</h1>
                 <Form
@@ -40,7 +46,6 @@ export default function Home() {
                     >
                         <Select
                             allowClear
-                            showSearch
                             options={[
                                 { value: "1", label: "one" },
                                 { value: "2", label: "two" },
@@ -51,7 +56,7 @@ export default function Home() {
                     </Form.Item>
 
                     <Form.Item
-                        normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
+                        normalize={(value: string) => value.trim().replace(/\s{2,}/, ' ')}
                         name="input"
                         label="Input"
                         rules={[{ required: true }]}
@@ -121,8 +126,6 @@ export default function Home() {
                     >
                         <AntSelect
                             allowClear
-                            showSearch
-                            placement="topRight"
                             options={[
                                 { value: "1", label: "one" },
                                 { value: "2", label: "two" },
@@ -136,7 +139,7 @@ export default function Home() {
                         name="input"
                         label="Input"
                         rules={[{ required: true }]}
-                        normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
+                        normalize={(value: string) => value.trim().replace(/\s{2,}/, ' ')}
                     >
                         <AntInput
                             allowClear
