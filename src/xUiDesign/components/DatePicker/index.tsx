@@ -7,6 +7,8 @@ import { prefixClsDatepicker } from '@/xUiDesign/utils';
 import './style.css';
 import { CalendarIcon, ErrorIcon } from '../icons';
 
+const START_DATE = 1925;
+
 const DatePicker = ({
     value,
     onChange,
@@ -51,7 +53,7 @@ const DatePicker = ({
                 <span>{selectedDate ? selectedDate.toLocaleDateString() : placeholder}</span>
                 <span className={`${prefixCls}-icon`}>
                     {<CalendarIcon />}
-                    {feedbackIcons ? <ErrorIcon /> : null}
+                    {error && feedbackIcons ? <ErrorIcon /> : null}
                 </span>
             </button>
             {isOpen && (
@@ -62,7 +64,7 @@ const DatePicker = ({
                             className={`${prefixCls}-select`}
                             onChange={(e) => setCurrentYear(parseInt(e.target.value))}
                         >
-                            {Array.from({ length: 100 }, (_, i) => 1925 + i).map((year) => (
+                            {Array.from({ length: 100 }, (_, i) => START_DATE + i).map((year) => (
                                 <option key={year} value={year}>{year}</option>
                             ))}
                         </select>

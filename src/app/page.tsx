@@ -33,7 +33,6 @@ export default function Home() {
                 onFinish={(e) => console.log(e)}
             >
                 <Form.Item
-                    feedbackIcons
                     normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
                     name="input"
                     label="Input"
@@ -51,7 +50,6 @@ export default function Home() {
                 <Form.Item
                     name="select"
                     label="Select"
-                    feedbackIcons
                     rules={[{ required: true }]}
                 >
                     <Select
@@ -97,7 +95,6 @@ export default function Home() {
                 <Form.Item
                     name="datepicker"
                     label="Date Picker"
-                    feedbackIcons
                     rules={[{ required: true }]}
                 >
                     <DatePicker onChange={() => { }} />
@@ -117,7 +114,6 @@ export default function Home() {
                 <AntForm.Item
                     name="input"
                     label="Input"
-                    hasFeedback
                     rules={[{ required: true }]}
                     normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
                 >
@@ -133,7 +129,6 @@ export default function Home() {
                 <AntForm.Item
                     name="select"
                     label="Select"
-                    hasFeedback
                     rules={[{ required: true }]}
                 >
                     <AntSelect
@@ -152,7 +147,6 @@ export default function Home() {
                     name="checkbox"
                     layout="horizontal"
                     label="Checkbox"
-                    hasFeedback
                     rules={[{ required: true }]}
                 >
                     <AntCheckbox name="Check1">Check 1</AntCheckbox>
@@ -163,7 +157,6 @@ export default function Home() {
                     name="radio"
                     layout="horizontal"
                     label="Radio"
-                    hasFeedback
                     rules={[{ required: true }]}
                 >
                     <AntRadio value="8" title="8">8</AntRadio>
@@ -173,7 +166,6 @@ export default function Home() {
                 <AntForm.Item
                     name="datepicker"
                     label="Date Picker"
-                    hasFeedback
                     rules={[{ required: true }]}
                 >
                     <AntDatePicker value={new Date()} onChange={() => { }} />

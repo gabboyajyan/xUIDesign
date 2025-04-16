@@ -120,6 +120,7 @@
     border-color: var(--xui-error-color);
 }
 
+.xUi-select-arrow .error-svg-icon,
 .xUi-select-error .error-svg-icon {
     color: var(--xui-error-color);
 }

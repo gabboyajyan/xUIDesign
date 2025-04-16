@@ -16,6 +16,7 @@
     border-color: var(--xui-error-color);
 }
 
+.xUi-input-suffix .error-svg-icon,
 .xUi-input-container.xUi-input-error .error-svg-icon {
     color: var(--xui-error-color);
 }
@@ -56,6 +57,7 @@
 .xUi-input-prefix {
     display: flex;
     padding: 0 7px;
+    gap: 4px;
     align-items: center;
     color: var(--xui-text-color);
     height: -webkit-fill-available;
@@ -85,7 +87,12 @@
 .xUi-input-clear {
     cursor: pointer;
     position: relative;
-    margin: 0 7px;
+    margin: 0 3px;
+    display: flex;
+    align-items: center;
+}
+
+.xUi-input-clear svg {
     color: var(--xui-text-color);
 }
 

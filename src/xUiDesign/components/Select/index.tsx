@@ -572,7 +572,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
             ) : (
               <span className={`${prefixCls}-arrow`}>
                 {ArrowContainer}
-                {feedbackIcons ? <ErrorIcon /> : null}
+                {error && feedbackIcons ? <ErrorIcon /> : null}
               </span>
             )
           ) : (
@@ -580,7 +580,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
               {!loading && (
                 <span className={`${prefixCls}-arrow`}>
                   {ArrowContainer}
-                  {feedbackIcons ? <ErrorIcon /> : null}
+                  {error && feedbackIcons ? <ErrorIcon /> : null}
                 </span>
               )}
 

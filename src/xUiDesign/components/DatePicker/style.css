@@ -114,6 +114,7 @@
     border-color: var(--xui-error-color);
 }
 
+.xUi-datepicker-icon .error-svg-icon,
 .xUi-datepicker-error .xUi-datepicker-icon {
     color: var(--xui-error-color);
 }

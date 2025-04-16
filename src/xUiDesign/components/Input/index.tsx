@@ -117,7 +117,7 @@ const InputComponent = forwardRef(
 
           {allowClear && internalValue && (
             <span className={`${prefixCls}-clear`} onClick={handleClear}>
-              &#x2715;
+              <ErrorIcon />
             </span>
           )}
 
@@ -131,7 +131,7 @@ const InputComponent = forwardRef(
                 : {})}
             >
               {suffix || iconRender?.(iconRenderVisible)}
-              {feedbackIcons ? <ErrorIcon /> : null}
+              {error && feedbackIcons ? <ErrorIcon /> : null}
             </span>
           )}
         </div>
