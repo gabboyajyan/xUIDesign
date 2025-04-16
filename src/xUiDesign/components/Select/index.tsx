@@ -108,11 +108,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   );
 
   useImperativeHandle(ref, () => ({
+    focus: () => selectRef.current?.focus(),
+    blur: () => (selectRef.current as HTMLInputElement)?.blur(),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    focus: selectRef.current?.focus,
-    blur: (selectRef.current as HTMLInputElement)?.blur,
-    scrollTo: (selectRef.current as HTMLDivElement)?.scrollTo,
+    scrollTo: (...args) =>
+      (selectRef.current as HTMLDivElement)?.scrollTo(...args),
     nativeElement: selectRef.current
   }));
 

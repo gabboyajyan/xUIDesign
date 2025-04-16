@@ -79,6 +79,7 @@
     top: 100%;
     left: 0;
     right: unset;
+    width: inherit;
     z-index: 10;
     margin-top: 5px;
     overflow-y: auto;
