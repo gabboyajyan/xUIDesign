@@ -77,7 +77,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     dropdownRender,
     noStyle,
     feedbackIcons,
-    placement = 'bottomLeft'
+    placement = 'bottomLeft',
+    removeIcon
   }, ref: ForwardedRef<HTMLDivElement>): ReactElement => {
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
@@ -299,12 +300,16 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   };
 
   const ArrowContainer = useMemo(() => {
+    if (!showArrow) {
+      return null;
+    }
+
     return showSearch && isOpen ? (
       <SearchIcon />
     ) : (
-      <span>{showArrow && <ArrowIcon isOpen={isOpen} />}</span>
+      <span>{(suffixIcon || (showArrow && <ArrowIcon isOpen={isOpen} />))}</span>
     );
-  }, [showArrow, showSearch, isOpen]);
+  }, [showArrow, showSearch, isOpen, suffixIcon]);
 
   const popupContainer = useMemo(() => {
     return selectRef.current
@@ -583,7 +588,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
               className={`${prefixCls}-clear-btn`}
               onClick={handleClear}
             >
-              {suffixIcon || <ClearIcon />}
+              {removeIcon || <ClearIcon />}
             </button>
           ) : (
             <span className={`${prefixCls}-arrow`}>
