@@ -24,156 +24,161 @@ export default function Home() {
     const [antForm] = AntForm.useForm();
 
     return (
-        <div style={{ width: 700, margin: "0 auto" }}>
-            <h1>Custom Form</h1>
-            <Form
-                form={form}
-                size="large"
-                layout="vertical"
-                onFinish={(e) => console.log(e)}
-            >
-                <Form.Item
-                    normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
-                    name="input"
-                    label="Input"
-                    rules={[{ required: true }]}
+        <div style={{ gap: 100, margin: "0 auto", display: 'flex', justifyContent: 'center' }}>
+            <div>
+                <h1>xUiDesign Form</h1>
+                <Form
+                    form={form}
+                    size="large"
+                    layout="vertical"
+                    onFinish={(e) => console.log(e)}
                 >
-                    <Input
-                        allowClear
-                        suffix={<>sf</>}
-                        prefix={<>pf</>}
-                        addonAfter={<>aa</>}
-                        addonBefore={<>ab</>}
-                    />
-                </Form.Item>
+                    <Form.Item
+                        name="select"
+                        label="Select"
+                        rules={[{ required: true }]}
+                    >
+                        <Select
+                            allowClear
+                            showSearch
+                            options={[
+                                { value: "1", label: "one" },
+                                { value: "2", label: "two" },
+                                { value: "3", label: "three" },
+                                { value: "4", label: "four" },
+                                { value: "5", label: "five" }
+                            ]} />
+                    </Form.Item>
 
-                <Form.Item
-                    name="select"
-                    label="Select"
-                    rules={[{ required: true }]}
+                    <Form.Item
+                        normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
+                        name="input"
+                        label="Input"
+                        rules={[{ required: true }]}
+                    >
+                        <Input
+                            allowClear
+                            suffix={<>sf</>}
+                            prefix={<>pf</>}
+                            addonAfter={<>aa</>}
+                            addonBefore={<>ab</>}
+                        />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="checkbox"
+                        layout="horizontal"
+                        label="Checkbox"
+                        rules={[{ required: true }]}
+                    >
+                        <Checkbox name="Check1">Check 1</Checkbox>
+                        <Checkbox name="Check2">Check 2</Checkbox>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="radio"
+                        layout="horizontal"
+                        label="Radio"
+                        rules={[{ required: true }]}
+                    >
+                        <Radio value="8" title="8">8</Radio>
+                        <Radio value="false" title="false">false</Radio>
+                    </Form.Item>
+
+                    <Form.Item
+                        name="upload"
+                        label="Upload"
+                        rules={[{ required: true }]}
+                    >
+                        <Upload />
+                    </Form.Item>
+
+                    <Form.Item
+                        name="datepicker"
+                        label="Date Picker"
+                        rules={[{ required: true }]}
+                    >
+                        <DatePicker onChange={() => { }} />
+                    </Form.Item>
+
+                    <button>Submit</button>
+                    <button type="button" onClick={() => form.resetFields()}>Reset</button>
+                </Form>
+            </div>
+
+            <div>
+                <h1>Ant Form</h1>
+                <AntForm
+                    form={antForm}
+                    size="large"
+                    layout="vertical"
+                    onFinish={(e) => console.log(e)}
                 >
-                    <Select
-                        allowClear
-                        showSearch
-                        options={[
-                            { value: "1", label: "one" },
-                            { value: "2", label: "two" },
-                            { value: "3", label: "three" },
-                            { value: "4", label: "four" },
-                            { value: "5", label: "five" }
-                        ]} />
-                </Form.Item>
+                    <AntForm.Item
+                        name="select"
+                        label="Select"
+                        rules={[{ required: true }]}
+                    >
+                        <AntSelect
+                            allowClear
+                            showSearch
+                            placement="topRight"
+                            options={[
+                                { value: "1", label: "one" },
+                                { value: "2", label: "two" },
+                                { value: "3", label: "three" },
+                                { value: "4", label: "four" },
+                                { value: "5", label: "five" }
+                            ]} />
+                    </AntForm.Item>
 
-                <Form.Item
-                    name="checkbox"
-                    layout="horizontal"
-                    label="Checkbox"
-                    rules={[{ required: true }]}
-                >
-                    <Checkbox name="Check1">Check 1</Checkbox>
-                    <Checkbox name="Check2">Check 2</Checkbox>
-                </Form.Item>
+                    <AntForm.Item
+                        name="input"
+                        label="Input"
+                        rules={[{ required: true }]}
+                        normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
+                    >
+                        <AntInput
+                            allowClear
+                            suffix={<>sf</>}
+                            prefix={<>pf</>}
+                            addonAfter={<>aa</>}
+                            addonBefore={<>ab</>}
+                        />
+                    </AntForm.Item>
 
-                <Form.Item
-                    name="radio"
-                    layout="horizontal"
-                    label="Radio"
-                    rules={[{ required: true }]}
-                >
-                    <Radio value="8" title="8">8</Radio>
-                    <Radio value="false" title="false">false</Radio>
-                </Form.Item>
+                    <AntForm.Item
+                        name="checkbox"
+                        layout="horizontal"
+                        label="Checkbox"
+                        rules={[{ required: true }]}
+                    >
+                        <AntCheckbox name="Check1">Check 1</AntCheckbox>
+                        <AntCheckbox name="Check2">Check 2</AntCheckbox>
+                    </AntForm.Item>
 
-                <Form.Item
-                    name="upload"
-                    label="Upload"
-                    rules={[{ required: true }]}
-                >
-                    <Upload />
-                </Form.Item>
+                    <AntForm.Item
+                        name="radio"
+                        layout="horizontal"
+                        label="Radio"
+                        rules={[{ required: true }]}
+                    >
+                        <AntRadio value="8" title="8">8</AntRadio>
+                        <AntRadio value="false" title="false">false</AntRadio>
+                    </AntForm.Item>
 
-                <Form.Item
-                    name="datepicker"
-                    label="Date Picker"
-                    rules={[{ required: true }]}
-                >
-                    <DatePicker onChange={() => { }} />
-                </Form.Item>
+                    <AntForm.Item
+                        name="datepicker"
+                        label="Date Picker"
+                        rules={[{ required: true }]}
+                    >
+                        <AntDatePicker value={new Date()} onChange={() => { }} />
+                    </AntForm.Item>
 
-                <button>Submit</button>
-                <button type="button" onClick={() => form.resetFields()}>Reset</button>
-            </Form>
-
-            <h1>Ant Form</h1>
-            <AntForm
-                form={antForm}
-                size="large"
-                layout="vertical"
-                onFinish={(e) => console.log(e)}
-            >
-                <AntForm.Item
-                    name="input"
-                    label="Input"
-                    rules={[{ required: true }]}
-                    normalize={(value: string) => value.trimLeft().replace(/\s{2,}/, ' ')}
-                >
-                    <AntInput
-                        allowClear
-                        suffix={<>sf</>}
-                        prefix={<>pf</>}
-                        addonAfter={<>aa</>}
-                        addonBefore={<>ab</>}
-                    />
-                </AntForm.Item>
-
-                <AntForm.Item
-                    name="select"
-                    label="Select"
-                    rules={[{ required: true }]}
-                >
-                    <AntSelect
-                        allowClear
-                        showSearch
-                        options={[
-                            { value: "1", label: "one" },
-                            { value: "2", label: "two" },
-                            { value: "3", label: "three" },
-                            { value: "4", label: "four" },
-                            { value: "5", label: "five" }
-                        ]} />
-                </AntForm.Item>
-
-                <AntForm.Item
-                    name="checkbox"
-                    layout="horizontal"
-                    label="Checkbox"
-                    rules={[{ required: true }]}
-                >
-                    <AntCheckbox name="Check1">Check 1</AntCheckbox>
-                    <AntCheckbox name="Check2">Check 2</AntCheckbox>
-                </AntForm.Item>
-
-                <AntForm.Item
-                    name="radio"
-                    layout="horizontal"
-                    label="Radio"
-                    rules={[{ required: true }]}
-                >
-                    <AntRadio value="8" title="8">8</AntRadio>
-                    <AntRadio value="false" title="false">false</AntRadio>
-                </AntForm.Item>
-
-                <AntForm.Item
-                    name="datepicker"
-                    label="Date Picker"
-                    rules={[{ required: true }]}
-                >
-                    <AntDatePicker value={new Date()} onChange={() => { }} />
-                </AntForm.Item>
-
-                <button>Submit</button>
-                <button onClick={() => antForm.resetFields()}>Reset</button>
-            </AntForm>
+                    <button>Submit</button>
+                    <button onClick={() => antForm.resetFields()}>Reset</button>
+                </AntForm>
+            </div>
         </div>
     )
 }

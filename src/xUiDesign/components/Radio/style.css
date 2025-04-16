@@ -5,6 +5,7 @@
     cursor: pointer;
     position: relative;
     font-size: var(--xui-font-size-md);
+    margin: 16px 0;
 }
 
 .xUi-radio-label input {
