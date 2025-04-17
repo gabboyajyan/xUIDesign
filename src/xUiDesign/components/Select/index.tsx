@@ -118,7 +118,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   }));
 
   const handleMouseEnter = () =>
-    !disabled && selected.length && setIsHover(true);
+    !disabled && selected?.length && setIsHover(true);
 
   const handleMouseLeave = () => !disabled && setIsHover(false);
 
