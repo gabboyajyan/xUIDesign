@@ -1,12 +1,10 @@
 .xUi-datepicker-container {
     position: relative;
-    /* width: 100%; */
     margin-bottom: 10px;
     font-family: Arial, sans-serif;
 }
 
 .xUi-datepicker-input {
-    /* width: 100%; */
     gap: 8px;
     padding: 8px 12px;
     display: flex;
@@ -61,7 +59,7 @@
 
 .xUi-datepicker-dropdown {
     position: absolute;
-    top: 40px;
+    top: 4px;
     left: 0;
     z-index: 1000;
     padding: 12px;
@@ -180,4 +178,19 @@
 .xUi-datepicker-other-month:hover {
     color: var(--xui-text-color);
     background-color: var(--xui-color-hover);
+}
+
+.xUi-datepicker-dropdown-wrapper {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    pointer-events: none;
+}
+
+.xUi-datepicker-dropdown-wrapper.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
 }

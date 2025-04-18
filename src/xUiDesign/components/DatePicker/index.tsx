@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import cc from 'classcat';
 import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsDatepicker } from '@/xUiDesign/utils';
@@ -23,14 +23,34 @@ const DatePicker = ({
   noStyle,
   feedbackIcons
 }: TDatePickerProps) => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [selectedDate, setSelectedDate] = useState<Date | null>(value || null);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] =
     useState<string>();
-
   const [isOpen, setIsOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [viewMode, setViewMode] = useState<'day' | 'month' | 'year'>('day');
+
+  // Close on outside click
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isOpen]);
 
   const daysInMonth = (year: number, month: number) =>
     new Date(year, month + 1, 0).getDate();
@@ -39,9 +59,7 @@ const DatePicker = ({
     new Date(year, month, 1).getDay();
 
   const handleSelect = (day: number, month: number, year: number) => {
-    if (disabled) {
-      return;
-    }
+    if (disabled) return;
 
     setCurrentMonth(month);
     setCurrentYear(year);
@@ -49,12 +67,11 @@ const DatePicker = ({
     const date = new Date(year, month, day);
     setSelectedDate(date);
 
-    const selectedDatePlaceholder = `${year}-${
-      month < MONTH_LESS_TEN ? '0' : ''
-    }${month + 1}-${day < DAY_LESS_TEN ? '0' : ''}${day}`;
+    const selectedDatePlaceholder = `${year}-${month < MONTH_LESS_TEN ? '0' : ''
+      }${month + 1}-${day < DAY_LESS_TEN ? '0' : ''}${day}`;
 
     setSelectedDatePlaceholder(selectedDatePlaceholder);
-    onChange?.(selectedDatePlaceholder);
+    onChange?.(date.toUTCString(), selectedDatePlaceholder);
     setIsOpen(false);
   };
 
@@ -66,29 +83,23 @@ const DatePicker = ({
 
   const totalDays = daysInMonth(currentYear, currentMonth);
   const firstDay = firstDayOfMonth(currentYear, currentMonth);
-
   const prevMonthDays = daysInMonth(prevMonthYear, prevMonth);
   const nextDaysCount =
     NEXT_DAYS_COUNT_AS_CURRENT_MUNTH - (firstDay + totalDays);
 
   const days = [
-    // Previous month's tail
     ...Array.from({ length: firstDay }, (_, i) => ({
       day: prevMonthDays - firstDay + i + 1,
       current: false,
       month: prevMonth,
       year: prevMonthYear
     })),
-
-    // Current month
     ...Array.from({ length: totalDays }, (_, i) => ({
       day: i + 1,
       current: true,
       month: currentMonth,
       year: currentYear
     })),
-
-    // Next month's head
     ...Array.from({ length: nextDaysCount }, (_, i) => ({
       day: i + 1,
       current: false,
@@ -98,7 +109,7 @@ const DatePicker = ({
   ];
 
   return (
-    <div className={cc([`${prefixCls}-container`, { noStyle }])}>
+    <div ref={containerRef} className={cc([`${prefixCls}-container`, { noStyle }])}>
       <button
         type="button"
         className={cc([
@@ -112,9 +123,8 @@ const DatePicker = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span
-          className={`${prefixCls}-selected-date ${
-            !selectedDate ? `${prefixCls}-placeholder` : ''
-          }`}
+          className={`${prefixCls}-selected-date ${!selectedDate ? `${prefixCls}-placeholder` : ''
+            }`}
         >
           {selectedDatePlaceholder || placeholder}
         </span>
@@ -124,144 +134,141 @@ const DatePicker = ({
         </span>
       </button>
 
-      {isOpen && (
-        <div className={`${prefixCls}-dropdown`}>
-          <div className={`${prefixCls}-header`}>
-            <div className={`${prefixCls}-nav-buttons`}>
-              <button onClick={() => setCurrentYear(y => y - 1)}>
-                &laquo;
-              </button>
-              <button
-                onClick={() =>
-                  setCurrentMonth(m => {
-                    if (m === 0) {
-                      setCurrentYear(y => y - 1);
-
-                      return MONTH_LENGTH;
-                    }
-
-                    return m - 1;
-                  })
-                }
-              >
-                &lsaquo;
-              </button>
-            </div>
-            <div className={`${prefixCls}-dropdown-selects`}>
-              <button
-                type="button"
-                className={`${prefixCls}-select`}
-                onClick={() => setViewMode('year')}
-              >
-                {currentYear}
-              </button>
-              <button
-                type="button"
-                className={`${prefixCls}-select`}
-                onClick={() => setViewMode('month')}
-              >
-                {new Date(0, currentMonth).toLocaleString('default', {
-                  month: 'long'
-                })}
-              </button>
-            </div>
-            <div className={`${prefixCls}-nav-buttons`}>
-              <button
-                onClick={() =>
-                  setCurrentMonth(m => {
-                    if (m === MONTH_LENGTH) {
-                      setCurrentYear(y => y + 1);
-
-                      return 0;
-                    }
-
-                    return m + 1;
-                  })
-                }
-              >
-                &rsaquo;
-              </button>
-              <button onClick={() => setCurrentYear(y => y + 1)}>
-                &raquo;
-              </button>
-            </div>
-          </div>
-
-          {/* Calendar views */}
-          {viewMode === 'day' && (
-            <div className={`${prefixCls}-grid ${viewMode}`}>
-              {['Su', 'Mo', 'Tu', 'We', 'Thu', 'Fr', 'Sa'].map(day => (
-                <div key={day} className={`${prefixCls}-day-header`}>
-                  {day}
-                </div>
-              ))}
-              {days.map(({ day, current, month, year }, idx) => {
-                const isSelected =
-                  selectedDate &&
-                  selectedDate.getDate() === day &&
-                  selectedDate.getMonth() === month &&
-                  selectedDate.getFullYear() === year;
-
-                return (
-                  <button
-                    key={`${year}-${month}-${day}-${idx}`}
-                    className={cc([
-                      `${prefixCls}-day`,
-                      {
-                        [`${prefixCls}-selected`]: isSelected,
-                        [`${prefixCls}-other-month`]: !current
-                      }
-                    ])}
-                    onClick={() => {
-                      handleSelect(day, month, year);
-                    }}
-                  >
-                    {day}
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          {viewMode === 'month' && (
-            <div className={`${prefixCls}-grid`}>
-              {Array.from({ length: 12 }, (_, i) => (
+      <div
+        className={cc([
+          `${prefixCls}-dropdown-wrapper`,
+          { show: isOpen }
+        ])}
+      >
+        {isOpen && (
+          <div className={`${prefixCls}-dropdown`}>
+            <div className={`${prefixCls}-header`}>
+              <div className={`${prefixCls}-nav-buttons`}>
+                <button onClick={() => setCurrentYear(y => y - 1)}>&laquo;</button>
                 <button
-                  key={i}
-                  className={`${prefixCls}-day`}
-                  onClick={() => {
-                    setCurrentMonth(i);
-                    setViewMode('day');
-                  }}
+                  onClick={() =>
+                    setCurrentMonth(m => {
+                      if (m === 0) {
+                        setCurrentYear(y => y - 1);
+                        return MONTH_LENGTH;
+                      }
+                      return m - 1;
+                    })
+                  }
                 >
-                  {new Date(0, i).toLocaleString('default', { month: 'short' })}
+                  &lsaquo;
                 </button>
-              ))}
+              </div>
+
+              <div className={`${prefixCls}-dropdown-selects`}>
+                <button
+                  type="button"
+                  className={`${prefixCls}-select`}
+                  onClick={() => setViewMode('year')}
+                >
+                  {currentYear}
+                </button>
+                <button
+                  type="button"
+                  className={`${prefixCls}-select`}
+                  onClick={() => setViewMode('month')}
+                >
+                  {new Date(0, currentMonth).toLocaleString('default', {
+                    month: 'long'
+                  })}
+                </button>
+              </div>
+
+              <div className={`${prefixCls}-nav-buttons`}>
+                <button
+                  onClick={() =>
+                    setCurrentMonth(m => {
+                      if (m === MONTH_LENGTH) {
+                        setCurrentYear(y => y + 1);
+                        return 0;
+                      }
+                      return m + 1;
+                    })
+                  }
+                >
+                  &rsaquo;
+                </button>
+                <button onClick={() => setCurrentYear(y => y + 1)}>&raquo;</button>
+              </div>
             </div>
-          )}
 
-          {viewMode === 'year' && (
-            <div className={`${prefixCls}-grid`}>
-              {Array.from({ length: 12 }, (_, i) => {
-                const year = currentYear - NUMBER_SIX + i;
+            {viewMode === 'day' && (
+              <div className={`${prefixCls}-grid ${viewMode}`}>
+                {['Su', 'Mo', 'Tu', 'We', 'Thu', 'Fr', 'Sa'].map(day => (
+                  <div key={day} className={`${prefixCls}-day-header`}>
+                    {day}
+                  </div>
+                ))}
+                {days.map(({ day, current, month, year }, idx) => {
+                  const isSelected =
+                    selectedDate &&
+                    selectedDate.getDate() === day &&
+                    selectedDate.getMonth() === month &&
+                    selectedDate.getFullYear() === year;
 
-                return (
+                  return (
+                    <button
+                      key={`${year}-${month}-${day}-${idx}`}
+                      className={cc([
+                        `${prefixCls}-day`,
+                        {
+                          [`${prefixCls}-selected`]: isSelected,
+                          [`${prefixCls}-other-month`]: !current
+                        }
+                      ])}
+                      onClick={() => handleSelect(day, month, year)}
+                    >
+                      {day}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+
+            {viewMode === 'month' && (
+              <div className={`${prefixCls}-grid`}>
+                {Array.from({ length: 12 }, (_, i) => (
                   <button
-                    key={year}
+                    key={i}
                     className={`${prefixCls}-day`}
                     onClick={() => {
-                      setCurrentYear(year);
-                      setViewMode('month');
+                      setCurrentMonth(i);
+                      setViewMode('day');
                     }}
                   >
-                    {year}
+                    {new Date(0, i).toLocaleString('default', { month: 'short' })}
                   </button>
-                );
-              })}
-            </div>
-          )}
-        </div>
-      )}
+                ))}
+              </div>
+            )}
+
+            {viewMode === 'year' && (
+              <div className={`${prefixCls}-grid`}>
+                {Array.from({ length: 12 }, (_, i) => {
+                  const year = currentYear - NUMBER_SIX + i;
+                  return (
+                    <button
+                      key={year}
+                      className={`${prefixCls}-day`}
+                      onClick={() => {
+                        setCurrentYear(year);
+                        setViewMode('month');
+                      }}
+                    >
+                      {year}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
