@@ -32,9 +32,7 @@ import { Tag } from './Tag';
 import './style.css';
 
 const LIST_HEIGHT = 200;
-const PADDING_OPTIONS = 8;
 const PADDING_PLACEMENT = 18;
-const SELECT_INPUT_START_WIDTH = 15;
 
 const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   {
@@ -99,6 +97,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
 
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(defaultOpen || open);
   const [searchQuery, setSearchQuery] = useState(searchValue || '');
   const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
@@ -113,6 +112,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     scrollTo: (...args) =>
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       (selectRef.current as HTMLDivElement)?.scrollTo(...args),
     nativeElement: selectRef.current
   }));
@@ -129,10 +130,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
 
     setSearchQuery('');
 
-    const input = selectRef.current?.querySelector('input');
-
-    if (input) {
-      input.value = '';
+    const inputContainer = (selectRef.current?.querySelector("[content-editable='plaintext-only']")) as HTMLDivElement;
+    
+    if (inputContainer) {
+      inputContainer.innerText = '';
     }
   }, [autoClearSearchValue]);
 
@@ -191,6 +192,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
 
     if (!isOpen) {
       setIsOpen(!isOpen || open);
+      handleClearInputValue();
     }
   };
 
@@ -280,24 +282,45 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     setSelected(updatedSelected);
   };
 
-  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && searchQuery.trim() !== '') {
-      handleEnterAddNewTag();
-    }
+  const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement> & { target: { value: string, innerText: string } }) => {
+    const timeout = setTimeout(() => {
+      e.target.value = e.target.innerText.trim().replace('\n', '');
 
-    if (
-      e.key === 'Backspace' &&
-      (hasMode ? !searchQuery.trim().length : searchQuery.trim().length)
-    ) {
-      const updatedSelected = hasMode
-        ? (selected as string[]).filter(
-          item => item !== selected[selected.length - 1]
-        )
-        : searchQuery.trim();
+      setSearchQuery(e.target.value);
+      onSearch?.(e.target.value);
 
-      onChange?.(updatedSelected);
-      setSelected(updatedSelected);
-    }
+      if (e.key === 'Enter' && searchQuery.trim() !== '') {
+        if (!asTag) {
+          e.stopPropagation();
+          e.preventDefault();
+
+          clearTimeout(timeout);
+
+          return
+        }
+
+        handleEnterAddNewTag();
+
+        e.target.innerText = ''
+      }
+
+      if (
+        e.key === 'Backspace' &&
+        (hasMode ? !searchQuery.trim().length : searchQuery.trim().length)
+      ) {
+        const updatedSelected = hasMode
+          ? (selected as string[]).filter(
+            item => item !== selected[selected.length - 1]
+          )
+          : searchQuery.trim();
+
+        onChange?.(updatedSelected);
+        setSelected(updatedSelected);
+      }
+
+      clearTimeout(timeout)
+    });
+
   };
 
   const ArrowContainer = useMemo(() => {
@@ -348,11 +371,19 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
       setIsOpen(!isOpen);
     }
 
+    const searchContent = document.getElementsByClassName(
+      `${prefixCls}-tag-container`
+    )?.[0] as HTMLDivElement;
+
+    if (searchContent) {
+      setSearchInputWidth(searchContent.clientWidth);
+    }
+
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(
         `${prefixCls}-search-tag-input`
       );
-
+      
       if (searchInput) {
         searchInput?.focus();
       }
@@ -450,9 +481,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
           style={{
             maxHeight: listHeight,
             overflowY: 'auto',
-            width: (selectRef.current?.clientWidth
-              ? selectRef.current?.clientWidth - PADDING_OPTIONS
-              : selectRef.current?.clientWidth || 'unset')
           }}
         >
           {asTag && !!searchQuery && (
@@ -501,7 +529,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
         className={`${prefixCls}-trigger`}
       >
         {showSearch ? (
-          <div style={style} className={`${prefixCls}-tag-container`}>
+          <div style={{
+            ...style,
+            ...(isOpen ? { maxWidth: `${searchInputWidth}px` } : {}),
+            minWidth: `${searchInputWidth}px`
+          }} className={`${prefixCls}-tag-container`}>
             {hasMode &&
               (selected as string[]).map((tag, index) =>
                 tagRender ? (
@@ -532,27 +564,25 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
               )}
 
             {isOpen ? (
-              <div
-                className={`${prefixCls}-tag`}
-                style={{
-                  minWidth: '30px',
-                  width: searchQuery.length
-                    ? `${searchQuery.length * SELECT_INPUT_START_WIDTH}px`
-                    : !selected.length
-                      ? '100%'
-                      : '10px'
-                }}
-              >
-                <input
-                  type="text"
-                  disabled={disabled}
-                  onChange={handleSearch}
+              <div className={`${prefixCls}-tag`}>
+                <div
+                  onClick={(e) => {  
+                    if (disabled) {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      return;
+                    }
+                  }}
                   onKeyDown={handleOnKeyDown}
+                  style={{
+                    width: 'auto',
+                    display: 'ruby',
+                    textAlign: 'center',
+                  }}
+                  contentEditable='plaintext-only'
                   id={`${prefixCls}-search-tag-input`}
                   className={`${prefixCls}-tag-input`}
-                  placeholder={
-                    (selected as string[]).length ? '' : placeholder
-                  }
                 />
               </div>
             ) : !hasMode ? (
