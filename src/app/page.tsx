@@ -191,19 +191,21 @@ export default function Home() {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
+        <div>
             <AntDatePicker
-                placeholder="Select Date"
+                placeholder="Select Date Date Date"
                 onChange={console.log}
                 format={'DD-MM-YYYY'}
                 picker="week"
+                size="large"
                 disabledDate={disabledDate}
             />
             <DatePicker
-                placeholder="Select Date"
+                placeholder="Select Date Date Date"
                 onChange={console.log}
                 format={'DD-MM-YYYY'}
                 picker="week"
+                size="large"
                 disabledDate={disabledDate}
             />
         </div>

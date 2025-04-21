@@ -1,6 +1,5 @@
 .xUi-datepicker-container {
     position: relative;
-    margin-bottom: 10px;
     font-family: Arial, sans-serif;
 }
 
@@ -18,18 +17,35 @@
     transition: all 0.3s;
 }
 
+.xUi-datepicker-input:placeholder-shown {
+    text-overflow: ellipsis;
+}
+
 .xUi-datepicker-input:hover {
     border-color: var(--xui-primary-color);
 }
 
+.xUi-datepicker-icon {
+    cursor: pointer;
+    opacity: 0.6;
+    width: 16px;
+    height: 16px;
+    color: var(--xui-text-color);
+}
+
 .xUi-datepicker-selected-date {
+    border: none;
+    outline: none;
+    letter-spacing: 0.8px;
     font-size: var(--xui-font-size-md);
     color: var(--xui-text-color);
 }
 
 .xUi-datepicker-placeholder {
     font-size: var(--xui-font-size-md);
-    opacity: 0.6;
+    opacity: 0.3;
+    border: none;
+    outline: none;
     color: var(--xui-text-color);
 }
 
@@ -207,10 +223,12 @@
     color: var(--xui-text-color);
 }
 
-.xUi-datepicker-day {
-    height: 36px;
-    min-width: 36px;
-    line-height: 36px;
+.xUi-datepicker-day,
+.xUi-datepicker-month,
+.xUi-datepicker-year {
+    height: 30px;
+    min-width: 30px;
+    line-height: 30px;
     border-radius: 4px;
     background: none;
     border: none;
@@ -220,14 +238,23 @@
     transition: all 0.2s;
 }
 
+.xUi-datepicker-month,
+.xUi-datepicker-year {
+    height: 50px;
+}
+
 .xUi-datepicker-select:disabled,
-.xUi-datepicker-day:disabled {
+.xUi-datepicker-day:disabled,
+.xUi-datepicker-month:disabled,
+.xUi-datepicker-year:disabled {
     cursor: not-allowed;
     opacity: 0.5;
     background-color: var(--xui-color-disabled);
 }
 
-.xUi-datepicker-day:not(:disabled):hover {
+.xUi-datepicker-day:not(:disabled):hover,
+.xUi-datepicker-month:not(:disabled):hover,
+.xUi-datepicker-year:not(:disabled):hover {
     background: var(--xui-primary-color-light);
     color: #fff;
 }
@@ -269,4 +296,13 @@
 .xUi-datepicker-footer-today-btn:not(:disabled):hover {
     background-color: var(--xui-primary-color-light);
     color: white;
+}
+
+.xUi-datepicker-large .xUi-datepicker-selected-date {
+    font-size: 16px;
+}
+
+.xUi-datepicker-large .xUi-datepicker-input {
+    padding: 10px;
+    border-radius: 6px;
 }
