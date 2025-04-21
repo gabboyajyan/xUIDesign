@@ -18,7 +18,6 @@ import {
 // import Upload from "@/xUiDesign/components/Upload"
 import DatePicker from "@/xUiDesign/components/DatePicker"
 import dayjs from "dayjs";
-import { useState } from "react";
 
 export default function Home() {
     // const form = useForm();
@@ -187,15 +186,7 @@ export default function Home() {
     //     </div>
     // )
 
-    const period: {
-        value: number;
-        unit: "day" | "month" | "year"
-    } = {
-        unit: 'day',
-        value: 2
-    }
-    const disabledDate: RangePickerProps['disabledDate'] = (current) => {
-        // Can not select days before today and today
+    const disabledDate = (current: dayjs.Dayjs) => {
         return current && current < dayjs().endOf('day');
     };
 

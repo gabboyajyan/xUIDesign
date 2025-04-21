@@ -30,7 +30,6 @@ const DatePicker = ({
   showToday = false,
   allowClear = true,
   disabledDate,
-  // inputReadOnly = false,
   suffixIcon,
   picker = 'date'
 }: TDatePickerProps) => {
@@ -106,6 +105,16 @@ const DatePicker = ({
     setSelectedDate(null);
     setSelectedDatePlaceholder(undefined);
     onChange?.(null, '');
+  };
+
+  const isMonthDisabled = (month: number) => {
+    const date = new Date(currentYear, month + 1, 1);
+    return disabledDate?.(date, { from: undefined, to: undefined });
+  };
+
+  const isYearDisabled = (year: number) => {
+    const date = new Date(year + 1, currentMonth, 1);
+    return disabledDate?.(date, { from: undefined, to: undefined });
   };
 
   const prevMonth = currentMonth === 0 ? MONTH_LENGTH : currentMonth - 1;
@@ -242,7 +251,8 @@ const DatePicker = ({
                   <button
                     key={i}
                     className={`${prefixCls}-day`}
-                    onClick={() => { setCurrentMonth(i); setViewMode('day'); }}>
+                    onClick={() => { setCurrentMonth(i); setViewMode('day'); }}
+                    disabled={isMonthDisabled(i)}>
                     {m}
                   </button>
                 ))}
@@ -255,7 +265,13 @@ const DatePicker = ({
                   const year = currentYear - NUMBER_SIX + i;
 
                   return (
-                    <button key={year} className={`${prefixCls}-day`} onClick={() => { setCurrentYear(year); setViewMode('month'); }}>{year}</button>
+                    <button 
+                      key={year} 
+                      className={`${prefixCls}-day`} 
+                      disabled={isYearDisabled(year)}
+                      onClick={() => { setCurrentYear(year); setViewMode('month'); }}>
+                        {year}
+                    </button>
                   );
                 })}
               </div>
