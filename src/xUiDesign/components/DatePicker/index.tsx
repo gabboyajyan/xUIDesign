@@ -36,13 +36,13 @@ const DatePicker = ({
 }: TDatePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const popupContainerRef = useRef<HTMLElement | null>(null);
-  const initialDate = value || defaultValue || null;
+  const initialDate = new Date(value || defaultValue || null);
 
-  const DateNow = new Date();
+  const DateNow = new Date(initialDate);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] =
-    useState<string>();
+    useState<string | undefined>(formatDate(DateNow));
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState(
@@ -104,7 +104,7 @@ const DatePicker = ({
   const firstDayOfMonth = (year: number, month: number) =>
     new Date(year, month, 1).getDay();
 
-  const formatDate = (date: Date): string => {
+  function formatDate(date: Date): string {
     if (typeof format === 'function') {
       return format(date);
     }
@@ -219,13 +219,9 @@ const DatePicker = ({
         >
           <input
             size={INPUT_SIZE}
-            className={cc([
-              `${prefixCls}-selected-date globalEllipsis`,
-              {
-                [`${prefixCls}-placeholder`]: !selectedDate
-              }
-            ])}
-            placeholder={selectedDatePlaceholder || placeholder}
+            className={`${prefixCls}-selected-date globalEllipsis`}
+            placeholder={placeholder}
+            defaultValue={selectedDatePlaceholder}
           />
           <span className={`${prefixCls}-icon`}>
             {allowClear && selectedDate ? (

@@ -191,21 +191,19 @@ export default function Home() {
     };
 
     return (
-        <div>
+        <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
             <AntDatePicker
                 placeholder="Select Date Date Date"
-                onChange={console.log}
                 format={'DD-MM-YYYY'}
-                picker="week"
                 size="large"
+                value={dayjs(new Date())}
                 disabledDate={disabledDate}
             />
             <DatePicker
                 placeholder="Select Date Date Date"
-                onChange={console.log}
                 format={'DD-MM-YYYY'}
-                picker="week"
                 size="large"
+                value={dayjs(new Date())}
                 disabledDate={disabledDate}
             />
         </div>
