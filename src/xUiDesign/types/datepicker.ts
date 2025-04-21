@@ -1,6 +1,5 @@
 import { ReactNode } from "react";
 import { DefaultProps, RuleType, SizeType } from "."
-import { DisabledDate } from "rc-picker/lib/interface";
 
 export interface BaseInfo {
     range?: 'start' | 'end';
@@ -8,6 +7,7 @@ export interface BaseInfo {
 
 export type CustomFormat<DateType> = (value: DateType) => string;
 export type FormatType<DateType = RuleType> = string | CustomFormat<DateType>;
+export type PanelMode = 'time' | 'date' | 'week' | 'month' | 'quarter' | 'year' | 'decade';
 
 export type TDatePickerProps = DefaultProps & {
     value?: RuleType,
@@ -21,7 +21,10 @@ export type TDatePickerProps = DefaultProps & {
         clearIcon?: ReactNode;
     };
     defaultValue?: RuleType;
-    disabledDate?: DisabledDate<RuleType>;
+    disabledDate?: (date: RuleType, info: {
+        to: RuleType;
+        from?: RuleType;
+    }) => boolean;
     suffixIcon?: ReactNode;
     size?: SizeType;
     format?: FormatType<RuleType> | FormatType<RuleType>[] | {
@@ -33,6 +36,7 @@ export type TDatePickerProps = DefaultProps & {
     getPopupContainer?: (node: HTMLElement) => HTMLElement;
     showToday?: boolean;
     inputReadOnly?: boolean;
+    picker?: PanelMode
 }
 
 export type Locale = {
@@ -77,5 +81,5 @@ export type Locale = {
     previousCentury: string;
     nextCentury: string;
     shortWeekDays?: string[];
-    shortMonths?: string[];
+    shortMonths?: string[]
 };

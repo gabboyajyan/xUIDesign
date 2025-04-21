@@ -57,11 +57,66 @@
     color: var(--xui-error-color);
 }
 
-.xUi-datepicker-dropdown {
+/* Sizes */
+.xUi-datepicker-input.sm {
+    padding: 4px 8px;
+    font-size: var(--xui-font-size-sm);
+}
+
+.xUi-datepicker-input.md {
+    padding: 8px 12px;
+    font-size: var(--xui-font-size-md);
+}
+
+.xUi-datepicker-input.lg {
+    padding: 10px 16px;
+    font-size: var(--xui-font-size-lg);
+}
+
+/* Dropdown */
+.xUi-datepicker-dropdown-wrapper {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    pointer-events: none;
     position: absolute;
-    top: 4px;
-    left: 0;
     z-index: 1000;
+}
+
+/* Placement */
+.xUi-datepicker-dropdown-wrapper.bottomLeft {
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+}
+.xUi-datepicker-dropdown-wrapper.bottomRight {
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+}
+
+.xUi-datepicker-dropdown-wrapper.topLeft {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 4px;
+}
+
+.xUi-datepicker-dropdown-wrapper.topRight {
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 4px;
+}
+
+.xUi-datepicker-dropdown-wrapper.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.xUi-datepicker-dropdown {
+    min-width: 250px;
     padding: 12px;
     background: var(--xui-background-color);
     border: 1px solid var(--xui-border-color);
@@ -77,6 +132,16 @@
     margin-bottom: 8px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--xui-border-color);
+}
+
+.xUi-datepicker-day-footer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--xui-border-color);
 }
 
 .xUi-datepicker-nav-buttons {
@@ -96,7 +161,7 @@
     color: var(--xui-text-color);
 }
 
-.xUi-datepicker-nav-buttons button:hover {
+.xUi-datepicker-nav-buttons button:not(:disabled):hover {
     color: var(--xui-primary-color);
 }
 
@@ -109,7 +174,6 @@
 .xUi-datepicker-select,
 .xUi-datepicker-dropdown-selects button {
     padding: 4px 8px;
-    border: 1px solid var(--xui-border-color);
     border-radius: 4px;
     background: var(--xui-background-color);
     color: var(--xui-text-color);
@@ -119,15 +183,16 @@
     border: none;
 }
 
-.xUi-datepicker-select:hover,
+.xUi-datepicker-select:not(:disabled):hover,
 .xUi-datepicker-dropdown-selects button:hover {
     color: var(--xui-primary-color);
 }
 
+/* Grid */
 .xUi-datepicker-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
+    gap: 2px;
     text-align: center;
 }
 
@@ -155,7 +220,14 @@
     transition: all 0.2s;
 }
 
-.xUi-datepicker-day:hover {
+.xUi-datepicker-select:disabled,
+.xUi-datepicker-day:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: var(--xui-color-disabled);
+}
+
+.xUi-datepicker-day:not(:disabled):hover {
     background: var(--xui-primary-color-light);
     color: #fff;
 }
@@ -166,31 +238,35 @@
     font-weight: bold;
 }
 
-.xUi-datepicker-empty {
-    height: 36px;
-}
-
 .xUi-datepicker-other-month {
     opacity: 0.4;
     color: var(--xui-text-color);
 }
 
-.xUi-datepicker-other-month:hover {
+.xUi-datepicker-other-month:not(:disabled):hover {
     color: var(--xui-text-color);
+    user-select: none;
     background-color: var(--xui-color-hover);
 }
 
-.xUi-datepicker-dropdown-wrapper {
-    opacity: 0;
-    transform: scale(0.95);
-    transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
-    pointer-events: none;
+/* Footer */
+.xUi-datepicker-footer {
+    margin-top: 12px;
+    text-align: right;
 }
 
-.xUi-datepicker-dropdown-wrapper.show {
-    opacity: 1;
-    transform: scale(1);
-    pointer-events: auto;
+.xUi-datepicker-footer-today-btn {
+    padding: 4px 8px;
+    font-size: 13px;
+    background: none;
+    border-radius: 4px;
+    border: 1px solid var(--xui-border-color);
+    color: var(--xui-primary-color);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.xUi-datepicker-footer-today-btn:not(:disabled):hover {
+    background-color: var(--xui-primary-color-light);
+    color: white;
 }
