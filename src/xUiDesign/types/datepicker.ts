@@ -17,19 +17,20 @@ export type PanelMode =
   | 'decade';
 
 export type TDatePickerProps = DefaultProps & {
-  value?: RuleType;
+  value?: Date;
   disabled?: boolean;
   placeholder?: string;
   error?: boolean;
   feedbackIcons?: boolean;
   locale?: Locale;
   placement?: string;
+  defaultOpen?: boolean;
   allowClear?:
     | boolean
     | {
         clearIcon?: ReactNode;
       };
-  defaultValue?: RuleType;
+  defaultValue?: Date;
   disabledDate?: (
     date: RuleType,
     info: {
@@ -38,6 +39,7 @@ export type TDatePickerProps = DefaultProps & {
     }
   ) => boolean;
   suffixIcon?: ReactNode;
+  prefix?: ReactNode;
   size?: SizeType;
   format?:
     | FormatType<RuleType>

@@ -18,6 +18,7 @@ import {
 // import Upload from "@/xUiDesign/components/Upload"
 import DatePicker from "@/xUiDesign/components/DatePicker"
 import dayjs from "dayjs";
+import { ArrowIcon, CheckIcon } from "@/xUiDesign/components/icons";
 
 export default function Home() {
     // const form = useForm();
@@ -199,14 +200,27 @@ export default function Home() {
                 value={dayjs(new Date())}
                 disabledDate={disabledDate}
                 placement="topLeft"
+                allowClear
+                defaultOpen={false}
+                prefix={<CheckIcon />}
+                inputReadOnly
+                defaultValue={dayjs(new Date('11-11-3000'))}
+                suffixIcon={<ArrowIcon isOpen />}
             />
+
             <DatePicker
                 placeholder="Select Date Date Date"
                 format={'DD-MM-YYYY'}
                 size="large"
-                value={dayjs(new Date())}
+                value={new Date()}
                 disabledDate={disabledDate}
                 placement="topLeft"
+                allowClear
+                defaultOpen={false}
+                inputReadOnly
+                defaultValue={new Date('11-11-3000')}
+                prefix={<CheckIcon />}
+                suffixIcon={<ArrowIcon isOpen />}
             />
         </div>
     )

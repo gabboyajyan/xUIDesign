@@ -39,7 +39,13 @@
     opacity: 0.6;
     width: 16px;
     height: 16px;
+    transition: .3s ease;
     color: var(--xui-text-color);
+}
+
+.xUi-datepicker-icon:hover {
+    opacity: 1;
+    color: var(--xui-primary-color);
 }
 
 .xUi-datepicker-selected-date {

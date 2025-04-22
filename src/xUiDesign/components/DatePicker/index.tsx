@@ -30,26 +30,29 @@ const DatePicker = ({
   format = 'YYYY-MM-DD',
   getPopupContainer,
   showToday = false,
-  allowClear = true,
+  allowClear = false,
   disabledDate,
   suffixIcon,
-  picker = 'date'
+  picker = 'date',
+  prefix,
+  defaultOpen = false,
+  inputReadOnly = false
 }: TDatePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const initialDate = value || defaultValue;
   const popupContainerRef = useRef<HTMLElement | null>(null);
-  const initialDate = new Date(value || defaultValue || null);
   const [placementPossition, setPlacementPossition] = useState<CSSProperties>(
     {}
   );
 
-  const DateNow = new Date(initialDate);
+  const DateNow = new Date();
 
-  const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = useState<
     string | undefined
-  >(formatDate(DateNow));
+  >(initialDate ? formatDate(initialDate) : undefined);
 
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(defaultOpen);
   const [currentYear, setCurrentYear] = useState(
     initialDate ? new Date(initialDate).getFullYear() : DateNow.getFullYear()
   );
@@ -157,7 +160,7 @@ const DatePicker = ({
   };
 
   const clearSelection = () => {
-    setSelectedDate(null);
+    setSelectedDate(undefined);
     setSelectedDatePlaceholder(undefined);
     onChange?.(null, '');
   };
@@ -266,9 +269,11 @@ const DatePicker = ({
           disabled={disabled}
           onClick={() => setIsOpen(!isOpen)}
         >
+          {prefix || null}
           <input
             size={INPUT_SIZE}
             disabled={disabled}
+            readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date globalEllipsis`}
             placeholder={placeholder}
             style={{ opacity: isOpen ? '0.6' : 1 }}
@@ -305,14 +310,14 @@ const DatePicker = ({
           <div className={`${prefixCls}-dropdown`} style={placementPossition}>
             <div className={`${prefixCls}-header`}>
               <div className={`${prefixCls}-nav-buttons`}>
-                <button onClick={() => setCurrentYear(y => y - 1)}>
+                <button onClick={() => setCurrentYear((y: number) => y - 1)}>
                   &laquo;
                 </button>
                 <button
                   onClick={() =>
-                    setCurrentMonth(m =>
+                    setCurrentMonth((m: number) =>
                       m === 0
-                        ? (setCurrentYear(y => y - 1), MONTH_LENGTH)
+                        ? (setCurrentYear((y: number) => y - 1), MONTH_LENGTH)
                         : m - 1
                     )
                   }
@@ -339,16 +344,16 @@ const DatePicker = ({
               <div className={`${prefixCls}-nav-buttons`}>
                 <button
                   onClick={() =>
-                    setCurrentMonth(m =>
+                    setCurrentMonth((m: number) =>
                       m === MONTH_LENGTH
-                        ? (setCurrentYear(y => y + 1), 0)
+                        ? (setCurrentYear((y: number) => y + 1), 0)
                         : m + 1
                     )
                   }
                 >
                   &rsaquo;
                 </button>
-                <button onClick={() => setCurrentYear(y => y + 1)}>
+                <button onClick={() => setCurrentYear((y: number) => y + 1)}>
                   &raquo;
                 </button>
               </div>
