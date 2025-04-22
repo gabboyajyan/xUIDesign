@@ -466,4 +466,3 @@ const DatePicker = ({
 };
 
 export default DatePicker;
-s
