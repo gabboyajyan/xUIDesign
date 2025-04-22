@@ -1,6 +1,7 @@
 .xUi-datepicker-container {
     position: relative;
     font-family: Arial, sans-serif;
+    height: max-content;
 }
 
 .xUi-datepicker-input {
@@ -49,14 +50,20 @@
     color: var(--xui-text-color);
 }
 
-/* .xUi-datepicker-placeholder {
-    
-} */
-
 .xUi-datepicker-disabled {
-    background-color: var(--xui-background-color);
+    background-color: var(--xui-color-disabled);
     cursor: not-allowed;
+    opacity: 0.5;
+    border-color: var(--xui-border-color) !important;
+}
+
+.xUi-datepicker-disabled .xUi-datepicker-selected-date {
     opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.xUi-datepicker-disabled .xUi-datepicker-icon {
+    cursor: not-allowed;
 }
 
 .xUi-datepicker-icon {

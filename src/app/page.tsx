@@ -198,6 +198,7 @@ export default function Home() {
                 size="large"
                 value={dayjs(new Date())}
                 disabledDate={disabledDate}
+                placement="topLeft"
             />
             <DatePicker
                 placeholder="Select Date Date Date"
@@ -205,6 +206,7 @@ export default function Home() {
                 size="large"
                 value={dayjs(new Date())}
                 disabledDate={disabledDate}
+                placement="topLeft"
             />
         </div>
     )

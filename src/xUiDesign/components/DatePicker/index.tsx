@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { CSSProperties, useEffect, useRef, useState } from 'react';
 import cc from 'classcat';
 import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsDatepicker } from '@/xUiDesign/utils';
@@ -10,6 +10,7 @@ import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
 const NUMBER_SIX = 6;
 const INPUT_SIZE = 12;
 const MONTH_LENGTH = 11;
+const CONTENT_PADDING = 6;
 const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 42;
 
 const DatePicker = ({
@@ -37,12 +38,16 @@ const DatePicker = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const popupContainerRef = useRef<HTMLElement | null>(null);
   const initialDate = new Date(value || defaultValue || null);
+  const [placementPossition, setPlacementPossition] = useState<CSSProperties>(
+    {}
+  );
 
   const DateNow = new Date(initialDate);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(initialDate);
-  const [selectedDatePlaceholder, setSelectedDatePlaceholder] =
-    useState<string | undefined>(formatDate(DateNow));
+  const [selectedDatePlaceholder, setSelectedDatePlaceholder] = useState<
+    string | undefined
+  >(formatDate(DateNow));
 
   const [isOpen, setIsOpen] = useState(false);
   const [currentYear, setCurrentYear] = useState(
@@ -85,11 +90,21 @@ const DatePicker = ({
       }
     };
 
+    const controller = new AbortController();
+
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside);
+      calculateDatePickerPopupPossition();
+      document.addEventListener('scroll', calculateDatePickerPopupPossition, {
+        signal: controller.signal
+      });
+      document.addEventListener('mousedown', handleClickOutside, {
+        signal: controller.signal
+      });
     }
 
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    return () => {
+      controller.abort();
+    };
   }, [isOpen]);
 
   useEffect(() => {
@@ -117,7 +132,7 @@ const DatePicker = ({
     }
 
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-  };
+  }
 
   const handleSelect = (day: number, month: number, year: number) => {
     if (disabled) {
@@ -158,6 +173,40 @@ const DatePicker = ({
 
     return disabledDate?.(date, { from: undefined, to: undefined });
   };
+
+  function calculateDatePickerPopupPossition() {
+    const datePickerContainerHeight =
+      (containerRef.current?.clientHeight || 0) + CONTENT_PADDING;
+
+    const datePickerPossitionFromTop =
+      containerRef.current?.getBoundingClientRect().top || 0;
+
+    const datePickerPossitionFromBottom =
+      window.innerHeight -
+      (containerRef.current?.getBoundingClientRect().bottom || 0);
+
+    const datePickerContainerPopupHeight =
+      containerRef.current?.querySelector(`.${prefixCls}-dropdown`)
+        ?.clientHeight || 0;
+
+    setPlacementPossition(
+      ['topLeft', 'topRight'].includes(placement)
+        ? {
+            position: 'absolute',
+            top:
+              datePickerPossitionFromTop - datePickerContainerPopupHeight < 0
+                ? datePickerContainerHeight
+                : -datePickerContainerPopupHeight
+          }
+        : {
+            position: 'absolute',
+            top:
+              datePickerPossitionFromBottom > datePickerContainerPopupHeight
+                ? 0
+                : -(datePickerContainerPopupHeight + datePickerContainerHeight)
+          }
+    );
+  }
 
   const prevMonth = currentMonth === 0 ? MONTH_LENGTH : currentMonth - 1;
   const nextMonth = currentMonth === MONTH_LENGTH ? 0 : currentMonth + 1;
@@ -219,8 +268,10 @@ const DatePicker = ({
         >
           <input
             size={INPUT_SIZE}
+            disabled={disabled}
             className={`${prefixCls}-selected-date globalEllipsis`}
             placeholder={placeholder}
+            style={{ opacity: isOpen ? '0.6' : 1 }}
             defaultValue={selectedDatePlaceholder}
           />
           <span className={`${prefixCls}-icon`}>
@@ -251,7 +302,7 @@ const DatePicker = ({
         ])}
       >
         {isOpen && (
-          <div className={`${prefixCls}-dropdown`}>
+          <div className={`${prefixCls}-dropdown`} style={placementPossition}>
             <div className={`${prefixCls}-header`}>
               <div className={`${prefixCls}-nav-buttons`}>
                 <button onClick={() => setCurrentYear(y => y - 1)}>
@@ -415,3 +466,4 @@ const DatePicker = ({
 };
 
 export default DatePicker;
+s
