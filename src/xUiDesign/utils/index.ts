@@ -7,4 +7,5 @@ export const prefixClsCheckbox = 'xUi-checkbox';
 export const prefixClsRadio = 'xUi-radio';
 export const prefixClsTextArea = 'xUi-textarea';
 export const prefixClsUpload = 'xUi-upload';
-export const prefixClsDatepicker = 'xUi-datepicker';
+export const prefixClsDatePicker = 'xUi-datepicker';
+export const prefixClsRangePicker = 'xUi-rangepicker';

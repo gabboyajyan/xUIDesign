@@ -1,0 +1,326 @@
+.xUi-rangepicker-range-container {
+    position: relative;
+    font-size: 14px;
+    user-select: none;
+}
+
+.xUi-rangepicker-range-input-wrapper {
+    display: flex;
+    width: 100%;
+    border-radius: 6px;
+    transition: all 0.3s;
+    background-color: #fff;
+}
+
+.xUi-rangepicker-range-input-wrapper:hover {
+    border-color: #4096ff;
+}
+
+.xUi-rangepicker-range-input {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 4px 11px;
+    cursor: pointer;
+    border-right: 1px solid #d9d9d9;
+}
+
+.xUi-rangepicker-range-input:last-child {
+    border-right: none;
+}
+
+.xUi-rangepicker-range-input input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    background: transparent;
+    color: #000;
+    cursor: pointer;
+}
+
+.xUi-rangepicker-range-input input::placeholder {
+    color: #bfbfbf;
+}
+
+.xUi-rangepicker-range-icon,
+.xUi-rangepicker-range-clear {
+    display: flex;
+    align-items: center;
+    margin-left: 8px;
+    transition: color 0.3s;
+}
+
+.xUi-rangepicker-range-icon {
+    color: rgba(0, 0, 0, 0.25);
+}
+
+.xUi-rangepicker-range-clear {
+    color: rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+}
+
+.xUi-rangepicker-range-clear:hover {
+    color: #000;
+}
+
+.xUi-rangepicker-range-dropdown-wrapper {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    z-index: 1050;
+    display: none;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
+    padding: 8px;
+    min-width: 560px;
+    transition:
+        opacity 0.3s ease,
+        transform 0.3s ease;
+    transform: translateY(4px);
+    opacity: 1;
+}
+
+.xUi-rangepicker-range-dropdown-wrapper.show {
+    display: flex;
+}
+
+.xUi-rangepicker-range-dropdown,
+.xUi-rangepicker-dropdown-range {
+    display: flex;
+    margin-top: 2px;
+    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #d9d9d9;
+}
+
+.xUi-rangepicker-calendar {
+    width: 280px;
+    margin: 12px;
+    background: #fff;
+    border-radius: 6px;
+}
+
+.xUi-rangepicker-calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.xUi-rangepicker-calendar-header button,
+.xUi-rangepicker-nav-buttons button,
+.xUi-rangepicker-dropdown-selects button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0 6px;
+    line-height: 1;
+    transition: color 0.3s ease;
+    color: #595959;
+}
+
+.xUi-rangepicker-calendar-header button:hover,
+.xUi-rangepicker-nav-buttons button:hover,
+.xUi-rangepicker-dropdown-selects button:hover {
+    color: var(--xui-primary-color);
+}
+
+.xUi-rangepicker-input {
+    gap: 8px;
+    padding: 3px 7px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid var(--xui-border-color);
+    border-radius: 6px;
+    background-color: transparent;
+    color: var(--xui-text-color);
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.xUi-rangepicker-input input {
+    font-size: var(--xui-font-size-sm);
+    border: none;
+    outline: none;
+    padding: 0;
+    color: var(--xui-text-color);
+}
+
+.xUi-rangepicker-input:placeholder-shown {
+    text-overflow: ellipsis;
+}
+
+.xUi-rangepicker-input:hover {
+    border-color: var(--xui-primary-color);
+}
+
+.xUi-rangepicker-weekday-row {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.xUi-rangepicker-weekday {
+    font-weight: 500;
+    font-size: 12px;
+    color: var(--xui-text-color);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+}
+
+.xUi-rangepicker-days-grid,
+.xUi-rangepicker-grid {
+    gap: 2px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+}
+
+.xUi-rangepicker-day {
+    height: 32px;
+    background-color: transparent;
+    line-height: 32px;
+    text-align: center;
+    border-radius: 4px;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
+    cursor: pointer;
+    border: none;
+}
+
+.xUi-rangepicker-day:hover {
+    border-radius: 4px;
+    background-color:var(--xui-primary-color);
+    color: #fff;
+}
+
+.xUi-rangepicker-selected,
+.xUi-rangepicker-range-start,
+.xUi-rangepicker-range-end {
+    background-color: var(--xui-primary-color);
+    color: #fff;
+    font-weight: 600;
+}
+
+.xUi-rangepicker-in-range {
+    background-color: #f0f5ff;
+}
+
+.xUi-rangepicker-hover-end {
+    background-color: #bae0ff;
+    border-radius: 4px;
+}
+
+.xUi-rangepicker-other-month,
+.xUi-rangepicker-disabled {
+    color: #ccc;
+}
+
+.xUi-rangepicker-disabled {
+    cursor: not-allowed;
+}
+
+.xUi-rangepicker-footer {
+    grid-column: span 7;
+    display: flex;
+    justify-content: center;
+    padding-top: 6px;
+}
+
+.xUi-rangepicker-select {
+    background: none;
+    border: none;
+    color: var(--xui-primary-color);
+    cursor: pointer;
+}
+
+.xUi-rangepicker-input.sm {
+    padding: 4px 8px;
+    font-size: var(--xui-font-size-sm);
+}
+
+.xUi-rangepicker-input.md {
+    padding: 8px 12px;
+    font-size: var(--xui-font-size-md);
+}
+
+.xUi-rangepicker-input.lg {
+    padding: 10px 16px;
+    font-size: var(--xui-font-size-lg);
+}
+
+.xUi-rangepicker-large .xUi-rangepicker-input {
+    padding: 11px;
+}
+
+.xUi-rangepicker-middle .xUi-rangepicker-input {
+    padding: 6px 11px;
+}
+
+.xUi-rangepicker-dropdown-wrapper {
+    opacity: 0;
+    transform: scale(0.95);
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    pointer-events: none;
+    position: absolute;
+    z-index: 1000;
+}
+
+.xUi-rangepicker-dropdown-wrapper.bottomLeft {
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+}
+.xUi-rangepicker-dropdown-wrapper.bottomRight {
+    top: 100%;
+    right: 0;
+    margin-top: 4px;
+}
+
+.xUi-rangepicker-dropdown-wrapper.topLeft {
+    bottom: 100%;
+    left: 0;
+    margin-bottom: 4px;
+}
+
+.xUi-rangepicker-dropdown-wrapper.topRight {
+    bottom: 100%;
+    right: 0;
+    margin-bottom: 4px;
+}
+
+.xUi-rangepicker-dropdown-wrapper.show {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: auto;
+}
+
+.xUi-rangepicker-large .xUi-rangepicker-selected-date {
+    font-size: 16px;
+}
+
+.xUi-rangepicker-large .xUi-rangepicker-input {
+    padding: 11px;
+}
+
+.xUi-rangepicker-middle .xUi-rangepicker-input {
+    padding: 6px 11px;
+}
+

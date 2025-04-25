@@ -3,7 +3,8 @@
 import { CSSProperties, useEffect, useRef, useState } from 'react';
 import cc from 'classcat';
 import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
-import { prefixClsDatepicker } from '@/xUiDesign/utils';
+import { prefixClsDatePicker } from '@/xUiDesign/utils';
+import RangePicker from './RangePicker';
 import './style.css';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
 
@@ -13,14 +14,14 @@ const MONTH_LENGTH = 11;
 const CONTENT_PADDING = 6;
 const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 42;
 
-const DatePicker = ({
+const DatePickerComponent = ({
   value,
   onChange,
   onCalendarChange,
   disabled,
   error,
   placeholder = 'Select date',
-  prefixCls = prefixClsDatepicker,
+  prefixCls = prefixClsDatePicker,
   noStyle,
   feedbackIcons,
   locale,
@@ -469,5 +470,9 @@ const DatePicker = ({
     </div>
   );
 };
+
+const DatePicker = Object.assign(DatePickerComponent, {
+  RangePicker,
+});
 
 export default DatePicker;

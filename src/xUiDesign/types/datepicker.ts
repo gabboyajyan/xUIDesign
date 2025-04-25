@@ -63,6 +63,10 @@ export type TDatePickerProps = DefaultProps & {
   picker?: PanelMode;
 };
 
+export type TRangePickerProps = Omit<TDatePickerProps, 'placeholder'> & {
+  placeholder?: string[]
+}
+
 export type Locale = {
   locale: string;
   dateFormat?: string;

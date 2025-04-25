@@ -193,33 +193,33 @@ export default function Home() {
 
     return (
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            <AntDatePicker
-                placeholder="Select Date Date Date"
+            {/* <AntDatePicker.RangePicker
+                placeholder={['Start Date', 'End Date']}
                 format={'DD-MM-YYYY'}
                 size="large"
-                value={dayjs(new Date())}
+                // value={dayjs(new Date())}
                 disabledDate={disabledDate}
                 placement="topLeft"
                 allowClear
                 defaultOpen={false}
                 prefix={<CheckIcon />}
                 inputReadOnly
-                defaultValue={dayjs(new Date('11-11-3000'))}
+                // defaultValue={dayjs(new Date('11-11-3000'))}
                 suffixIcon={<ArrowIcon isOpen />}
-            />
+            /> */}
 
-            <DatePicker
-                placeholder="Select Date Date Date"
+            <DatePicker.RangePicker
+                placeholder={['Start Date', 'End Date']}
                 format={'DD-MM-YYYY'}
                 size="large"
-                value={new Date()}
+                // value={new Date()}
                 disabledDate={disabledDate}
                 placement="topLeft"
                 allowClear
                 defaultOpen={false}
                 inputReadOnly
                 defaultValue={new Date('11-11-3000')}
-                prefix={<CheckIcon />}
+                // prefix={<CheckIcon />}
                 suffixIcon={<ArrowIcon isOpen />}
             />
         </div>
