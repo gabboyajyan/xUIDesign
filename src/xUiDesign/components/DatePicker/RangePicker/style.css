@@ -77,8 +77,8 @@
     padding: 8px;
     min-width: 560px;
     transition:
-        opacity 0.3s ease,
-        transform 0.3s ease;
+        opacity 0.2s ease,
+        transform 0.2s ease;
     transform: translateY(4px);
     opacity: 1;
 }
@@ -98,10 +98,14 @@
 }
 
 .xUi-rangepicker-calendar {
-    width: 280px;
     margin: 12px;
     background: #fff;
     border-radius: 6px;
+}
+
+.xUi-rangepicker-calendar.year,
+.xUi-rangepicker-calendar.month {
+    width: 280px;
 }
 
 .xUi-rangepicker-calendar-header {
@@ -109,7 +113,41 @@
     justify-content: space-between;
     align-items: center;
     font-weight: 500;
-    margin-bottom: 8px;
+}
+
+.xUi-rangepicker-month,
+.xUi-rangepicker-year {
+    height: 30px;
+    min-width: 30px;
+    line-height: 30px;
+    border-radius: 4px;
+    background: none;
+    border: none;
+    color: var(--xui-text-color);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.xUi-rangepicker-month,
+.xUi-rangepicker-year {
+    margin: 7px;
+}
+
+.xUi-rangepicker-select:disabled,
+.xUi-rangepicker-day:disabled,
+.xUi-rangepicker-month:disabled,
+.xUi-rangepicker-year:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    background-color: var(--xui-color-disabled);
+}
+
+.xUi-rangepicker-day:not(:disabled):hover,
+.xUi-rangepicker-month:not(:disabled):hover,
+.xUi-rangepicker-year:not(:disabled):hover {
+    background: var(--xui-primary-color-light);
+    color: #fff;
 }
 
 .xUi-rangepicker-calendar-header button,
@@ -118,10 +156,11 @@
     background: transparent;
     border: none;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 600;
     padding: 0 6px;
     line-height: 1;
-    transition: color 0.3s ease;
+    transition: color 0.2s ease;
     color: #595959;
 }
 
@@ -175,6 +214,7 @@
 .xUi-rangepicker-weekday {
     font-weight: 500;
     font-size: 12px;
+    font-weight: 600;
     color: var(--xui-text-color);
     text-align: center;
     display: flex;
@@ -187,13 +227,18 @@
 .xUi-rangepicker-grid {
     gap: 2px;
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.xUi-rangepicker-days-grid.day {
+    grid-template-columns: repeat(7, 0fr);
 }
 
 .xUi-rangepicker-day {
-    height: 32px;
+    height: 30px;
+    width: 30px;
     background-color: transparent;
-    line-height: 32px;
+    line-height: 30px;
     text-align: center;
     border-radius: 4px;
     transition:
@@ -205,19 +250,19 @@
 
 .xUi-rangepicker-day:hover {
     border-radius: 4px;
-    background-color:var(--xui-primary-color);
+    background-color: var(--xui-primary-color);
     color: #fff;
 }
 
-.xUi-rangepicker-selected,
-.xUi-rangepicker-range-start,
-.xUi-rangepicker-range-end {
+.xUi-rangepicker-selected:not(.xUi-rangepicker-other-month),
+.xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),
+.xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month) {
     background-color: var(--xui-primary-color);
     color: #fff;
     font-weight: 600;
 }
 
-.xUi-rangepicker-in-range {
+.xUi-rangepicker-in-range:not(.xUi-rangepicker-other-month) {
     background-color: #f0f5ff;
 }
 
@@ -324,3 +369,46 @@
     padding: 6px 11px;
 }
 
+.xUi-rangepicker-dropdown-trigger {
+    cursor: pointer;
+    padding: 0 8px;
+    line-height: 32px;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    background-color: #fff;
+}
+
+.xUi-rangepicker-dropdown-menu {
+    position: absolute;
+    background: white;
+    border: 1px solid #d9d9d9;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.xUi-rangepicker-dropdown-item {
+    padding: 4px 12px;
+    cursor: pointer;
+}
+
+.xUi-rangepicker-dropdown-item:hover {
+    background: #f5f5f5;
+}
+
+.xUi-rangepicker-dropdown-item.active {
+    font-weight: bold;
+    background-color: #e6f7ff;
+}
+
+.xUi-rangepicker-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--xui-border-color);
+}

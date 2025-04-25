@@ -18,7 +18,10 @@ import {
 // import Upload from "@/xUiDesign/components/Upload"
 import DatePicker from "@/xUiDesign/components/DatePicker"
 import dayjs from "dayjs";
-import { ArrowIcon, CheckIcon } from "@/xUiDesign/components/icons";
+import {
+    ArrowIcon,
+    CheckIcon
+} from "@/xUiDesign/components/icons";
 
 export default function Home() {
     // const form = useForm();
@@ -193,7 +196,7 @@ export default function Home() {
 
     return (
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            {/* <AntDatePicker.RangePicker
+            <AntDatePicker.RangePicker
                 placeholder={['Start Date', 'End Date']}
                 format={'DD-MM-YYYY'}
                 size="large"
@@ -206,7 +209,19 @@ export default function Home() {
                 inputReadOnly
                 // defaultValue={dayjs(new Date('11-11-3000'))}
                 suffixIcon={<ArrowIcon isOpen />}
-            /> */}
+            />
+
+            <DatePicker
+                format={'DD-MM-YYYY'}
+                size="large"
+                disabledDate={disabledDate}
+                placement="topLeft"
+                allowClear
+                defaultOpen={false}
+                inputReadOnly
+                // defaultValue={new Date('11-11-3000')}
+                suffixIcon={<ArrowIcon isOpen />}
+            />
 
             <DatePicker.RangePicker
                 placeholder={['Start Date', 'End Date']}
@@ -218,7 +233,7 @@ export default function Home() {
                 allowClear
                 defaultOpen={false}
                 inputReadOnly
-                defaultValue={new Date('11-11-3000')}
+                // defaultValue={new Date('11-11-3000')}
                 // prefix={<CheckIcon />}
                 suffixIcon={<ArrowIcon isOpen />}
             />

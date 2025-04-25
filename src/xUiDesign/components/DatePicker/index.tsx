@@ -8,11 +8,11 @@ import RangePicker from './RangePicker';
 import './style.css';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
 
-const NUMBER_SIX = 6;
 const INPUT_SIZE = 12;
-const MONTH_LENGTH = 11;
 const CONTENT_PADDING = 6;
-const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 42;
+export const NUMBER_SIX = 6;
+export const MONTH_LENGTH = 11;
+export const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 35;
 
 const DatePickerComponent = ({
   value,
@@ -48,7 +48,10 @@ const DatePickerComponent = ({
 
   const DateNow = new Date();
 
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(initialDate);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    initialDate
+  );
+
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = useState<
     string | undefined
   >(initialDate ? formatDate(initialDate) : undefined);
@@ -472,7 +475,7 @@ const DatePickerComponent = ({
 };
 
 const DatePicker = Object.assign(DatePickerComponent, {
-  RangePicker,
+  RangePicker
 });
 
 export default DatePicker;
