@@ -37,7 +37,8 @@ const DatePickerComponent = ({
   picker = 'date',
   prefix,
   defaultOpen = false,
-  inputReadOnly = false
+  inputReadOnly = false,
+  bordered = true
 }: TDatePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const initialDate = value || defaultValue;
@@ -101,9 +102,11 @@ const DatePickerComponent = ({
 
     if (isOpen) {
       calculateDatePickerPopupPossition();
+
       document.addEventListener('scroll', calculateDatePickerPopupPossition, {
         signal: controller.signal
       });
+
       document.addEventListener('mousedown', handleClickOutside, {
         signal: controller.signal
       });
@@ -265,6 +268,7 @@ const DatePickerComponent = ({
           className={cc([
             `${prefixCls}-input`,
             {
+              noBordered: !bordered,
               [`${prefixCls}-error`]: error,
               [`${prefixCls}-${size}`]: size,
               [`${prefixCls}-disabled`]: disabled

@@ -189,6 +189,10 @@
     transition: all 0.3s;
 }
 
+.xUi-rangepicker-input.noBordered {
+    border: none !important
+}
+
 .xUi-rangepicker-input input {
     font-size: var(--xui-font-size-sm);
     border: none;

@@ -18,6 +18,10 @@
     transition: all 0.3s;
 }
 
+.xUi-datepicker-input.noBordered {
+    border: none !important;
+}
+
 .xUi-datepicker-input input {
     font-size: var(--xui-font-size-sm);
     border: none;

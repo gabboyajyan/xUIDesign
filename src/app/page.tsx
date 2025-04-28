@@ -196,45 +196,42 @@ export default function Home() {
 
     return (
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            <AntDatePicker.RangePicker
-                placeholder={['Start Date', 'End Date']}
+            <AntDatePicker
+                placeholder={'Start Date'}
+                // placeholder={['Start Date', 'End Date']}
                 format={'DD-MM-YYYY'}
                 size="large"
-                // value={dayjs(new Date())}
+                value={[dayjs(new Date()), dayjs(new Date())]}
                 disabledDate={disabledDate}
                 placement="topLeft"
                 allowClear
                 defaultOpen={false}
                 prefix={<CheckIcon />}
                 inputReadOnly
-                // defaultValue={dayjs(new Date('11-11-3000'))}
+                // separator={'ok'}
+                bordered={false}
+                onCalendarChange={console.log}
+                defaultValue={[dayjs(new Date('11-11-3000')), dayjs(new Date('11-11-3000'))]}
                 suffixIcon={<ArrowIcon isOpen />}
             />
 
             <DatePicker
+                placeholder={'Start Date'}
+                // placeholder={['Start Date', 'End Date']}
                 format={'DD-MM-YYYY'}
                 size="large"
+                value={new Date()}
+                // value={[new Date(), new Date()]}
                 disabledDate={disabledDate}
                 placement="topLeft"
                 allowClear
                 defaultOpen={false}
                 inputReadOnly
-                // defaultValue={new Date('11-11-3000')}
-                suffixIcon={<ArrowIcon isOpen />}
-            />
-
-            <DatePicker.RangePicker
-                placeholder={['Start Date', 'End Date']}
-                format={'DD-MM-YYYY'}
-                size="large"
-                // value={new Date()}
-                disabledDate={disabledDate}
-                placement="topLeft"
-                allowClear
-                defaultOpen={false}
-                inputReadOnly
-                // defaultValue={new Date('11-11-3000')}
-                // prefix={<CheckIcon />}
+                // separator={'ok'}
+                defaultValue={new Date('11-11-3000')}
+                onCalendarChange={console.log}
+                // defaultValue={[new Date('11-11-3000'), new Date('11-11-3000')]}
+                prefix={<CheckIcon />}
                 suffixIcon={<ArrowIcon isOpen />}
             />
         </div>

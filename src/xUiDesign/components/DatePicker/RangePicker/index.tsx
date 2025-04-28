@@ -22,13 +22,18 @@ const RangePicker = ({
   size = 'large',
   picker = 'date',
   locale,
-  disabledDate
+  disabledDate,
+  style = {},
+  className = '',
+  separator,
+  defaultValue,
+  bordered = true,
 }: TRangePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<
     [Date | null, Date | null]
-  >([value?.[0] || null, value?.[1] || null]);
+  >([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -316,9 +321,13 @@ const RangePicker = ({
   return (
     <div
       ref={containerRef}
+      style={style}
       className={cc([
         `${prefixCls}-range-container`,
-        { [`${prefixCls}-${size}`]: size }
+        { 
+          [`${prefixCls}-${size}`]: size,
+          [className]: className
+        }
       ])}
     >
       <div className={`${prefixCls}-range-input-wrapper`}>
@@ -327,6 +336,7 @@ const RangePicker = ({
           className={cc([
             `${prefixCls}-input`,
             {
+              noBordered: !bordered,
               [`${prefixCls}-error`]: error,
               [`${prefixCls}-disabled`]: disabled
             }
@@ -342,7 +352,7 @@ const RangePicker = ({
             value={selectedDates[0] ? formatDate(selectedDates[0]) : ''}
           />
           <span className={`${prefixCls}-range-separator`}>
-            <DateDistanceIcon />
+            {separator || <DateDistanceIcon />}
           </span>
           <input
             readOnly={inputReadOnly}

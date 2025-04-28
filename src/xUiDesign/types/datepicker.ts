@@ -61,11 +61,14 @@ export type TDatePickerProps = DefaultProps & {
   showToday?: boolean;
   inputReadOnly?: boolean;
   picker?: PanelMode;
+  bordered?: boolean
 };
 
-export type TRangePickerProps = Omit<TDatePickerProps, 'placeholder' | 'value'> & {
+export type TRangePickerProps = Omit<TDatePickerProps, 'placeholder' | 'value' |'defaultValue'> & {
   placeholder?: string[]
   value?: Date[];
+  defaultValue?: Date[];
+  separator?: ReactNode
 }
 
 export type Locale = {
