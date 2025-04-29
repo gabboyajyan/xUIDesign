@@ -6,7 +6,8 @@ import {
     // Select as AntSelect,
     // Checkbox as AntCheckbox,
     // Radio as AntRadio,
-    DatePicker as AntDatePicker
+    // DatePicker as AntDatePicker,
+    TimePicker as AntTimepicker
 } from "antd";
 
 // import { Form } from "@/xUiDesign/components/Form"
@@ -16,12 +17,13 @@ import {
 // import { Checkbox } from "@/xUiDesign/components/Checkbox"
 // import { useForm } from "@/xUiDesign/hooks/useForm"
 // import Upload from "@/xUiDesign/components/Upload"
-import DatePicker from "@/xUiDesign/components/DatePicker"
+// import DatePicker from "@/xUiDesign/components/DatePicker"
 import dayjs from "dayjs";
-import {
-    ArrowIcon,
-    CheckIcon
-} from "@/xUiDesign/components/icons";
+// import {
+//     ArrowIcon,
+//     CheckIcon
+// } from "@/xUiDesign/components/icons";
+import TimePicker from "@/xUiDesign/components/DatePicker/TimePicker";
 
 export default function Home() {
     // const form = useForm();
@@ -190,50 +192,14 @@ export default function Home() {
     //     </div>
     // )
 
-    const disabledDate = (current: dayjs.Dayjs) => {
-        return current && current < dayjs().endOf('day');
-    };
+    // const disabledDate = (current: dayjs.Dayjs) => {
+    //     return current && current < dayjs().endOf('day');
+    // };
 
     return (
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            <AntDatePicker
-                placeholder={'Start Date'}
-                // placeholder={['Start Date', 'End Date']}
-                format={'DD-MM-YYYY'}
-                size="large"
-                value={[dayjs(new Date()), dayjs(new Date())]}
-                disabledDate={disabledDate}
-                placement="topLeft"
-                allowClear
-                defaultOpen={false}
-                prefix={<CheckIcon />}
-                inputReadOnly
-                // separator={'ok'}
-                bordered={false}
-                onCalendarChange={console.log}
-                defaultValue={[dayjs(new Date('11-11-3000')), dayjs(new Date('11-11-3000'))]}
-                suffixIcon={<ArrowIcon isOpen />}
-            />
-
-            <DatePicker
-                placeholder={'Start Date'}
-                // placeholder={['Start Date', 'End Date']}
-                format={'DD-MM-YYYY'}
-                size="large"
-                value={new Date()}
-                // value={[new Date(), new Date()]}
-                disabledDate={disabledDate}
-                placement="topLeft"
-                allowClear
-                defaultOpen={false}
-                inputReadOnly
-                // separator={'ok'}
-                defaultValue={new Date('11-11-3000')}
-                onCalendarChange={console.log}
-                // defaultValue={[new Date('11-11-3000'), new Date('11-11-3000')]}
-                prefix={<CheckIcon />}
-                suffixIcon={<ArrowIcon isOpen />}
-            />
+            <AntTimepicker onChange={console.log} value={dayjs(new Date())} />
+            <TimePicker  onChange={console.log} value={new Date()} />
         </div>
     )
 }

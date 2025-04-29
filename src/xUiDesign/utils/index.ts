@@ -9,3 +9,4 @@ export const prefixClsTextArea = 'xUi-textarea';
 export const prefixClsUpload = 'xUi-upload';
 export const prefixClsDatePicker = 'xUi-datepicker';
 export const prefixClsRangePicker = 'xUi-rangepicker';
+export const prefixClsTimePicker = 'xUi-timepicker';

@@ -3,9 +3,10 @@ import { DefaultProps, RuleType, SizeType } from '.';
 
 export interface BaseInfo {
   range?: 'start' | 'end';
+  source?: string;
 }
 
-export type CustomFormat<DateType> = (value: DateType) => string;
+export type CustomFormat<RuleType> = (value: RuleType) => string;
 export type FormatType<DateType = RuleType> = string | CustomFormat<DateType>;
 export type PanelMode =
   | 'time'
@@ -61,15 +62,18 @@ export type TDatePickerProps = DefaultProps & {
   showToday?: boolean;
   inputReadOnly?: boolean;
   picker?: PanelMode;
-  bordered?: boolean
+  bordered?: boolean;
 };
 
-export type TRangePickerProps = Omit<TDatePickerProps, 'placeholder' | 'value' |'defaultValue'> & {
-  placeholder?: string[]
+export type TRangePickerProps = Omit<
+  TDatePickerProps,
+  'placeholder' | 'value' | 'defaultValue'
+> & {
+  placeholder?: string[];
   value?: Date[];
   defaultValue?: Date[];
-  separator?: ReactNode
-}
+  separator?: ReactNode;
+};
 
 export type Locale = {
   locale: string;
@@ -114,4 +118,50 @@ export type Locale = {
   nextCentury: string;
   shortWeekDays?: string[];
   shortMonths?: string[];
+};
+
+export interface DisabledTimes {
+  disabledHours?: () => number[];
+  disabledMinutes?: (hour: number) => number[];
+  disabledSeconds?: (hour: number, minute: number) => number[];
+  disabledMilliseconds?: (
+    hour: number,
+    minute: number,
+    second: number
+  ) => number[];
+}
+
+export type PickerFocusEventHandler = (
+  e: React.FocusEvent<HTMLElement>,
+  info: BaseInfo
+) => void;
+
+export type DisabledDate<DateType = RuleType> = (
+  date: DateType,
+  info: {
+    type: PanelMode;
+    from?: DateType;
+  }
+) => boolean;
+
+export type TimePickerProps = DefaultProps & {
+  disabledTime?: (date: RuleType) => DisabledTimes;
+  inputReadOnly?: boolean;
+  format?:
+    | FormatType<RuleType>
+    | FormatType<RuleType>[]
+    | {
+        format: string;
+        type?: 'mask';
+      };
+  defaultValue?: RuleType | null;
+  value?: RuleType | null;
+  onChange?: (date: RuleType, dateString: string | string[]) => void;
+  onBlur?: PickerFocusEventHandler;
+  onSelect?: ((value: Date) => void) | undefined;
+  showNow?: boolean;
+  clearIcon?: React.ReactNode;
+  getPopupContainer?: (node: HTMLElement) => HTMLElement;
+  suffixIcon?: ReactNode;
+  placeholder?: string;
 };
