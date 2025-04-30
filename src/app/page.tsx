@@ -15,7 +15,7 @@ import { Radio } from "@/xUiDesign/components/Radio"
 import { Select } from "@/xUiDesign/components/Select"
 import { Checkbox } from "@/xUiDesign/components/Checkbox"
 import { useForm } from "@/xUiDesign/hooks/useForm"
-import Upload from "@/xUiDesign/components/Upload"
+// import Upload from "@/xUiDesign/components/Upload"
 import DatePicker from "@/xUiDesign/components/DatePicker"
 
 export default function Home() {
@@ -26,12 +26,11 @@ export default function Home() {
     return (
         <div style={{
             gap: 100,
-            margin: "0 auto",
+            margin: "0 50px",
             display: 'flex',
-            // flexDirection: 'column-reverse',
             justifyContent: 'center'
         }}>
-            <div>
+            <div style={{ width: '50%' }}>
                 <h1>xUiDesign Form</h1>
                 <Form
                     form={form}
@@ -90,13 +89,13 @@ export default function Home() {
                         <Radio value="false" title="false">false</Radio>
                     </Form.Item>
 
-                    <Form.Item
+                    {/* <Form.Item
                         name="upload"
                         label="Upload"
                         rules={[{ required: true }]}
                     >
                         <Upload />
-                    </Form.Item>
+                    </Form.Item> */}
 
                     <Form.Item
                         name="datepicker"
@@ -111,7 +110,7 @@ export default function Home() {
                 </Form>
             </div>
 
-            <div>
+            <div style={{ width: '50%' }}>
                 <h1>Ant Form</h1>
                 <AntForm
                     form={antForm}
