@@ -198,8 +198,33 @@ export default function Home() {
 
     return (
         <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-            <AntTimepicker onChange={console.log} value={dayjs(new Date())} />
-            <TimePicker  onChange={console.log} value={new Date()} />
+            <AntTimepicker
+                onChange={console.log}
+                value={dayjs(new Date())}
+                showNow={false}
+                disabledTime={() => {
+                    return {
+                        disabledHours: () => [0],
+                        disabledSeconds: () => [0],
+                        disabledMinutes: () => [0],
+                        disabledMilliseconds: () => [0]
+                    }
+                }}
+                getPopupContainer={() => document.body}
+            />
+            <TimePicker
+                onChange={console.log}
+                value={new Date()}
+                showNow={false}
+                disabledTime={() => {
+                    return {
+                        disabledHours: () => [0],
+                        disabledMinutes: () => [0],
+                        disabledSeconds: () => [0],
+                    }
+                }}
+                getPopupContainer={() => document.body}
+            />
         </div>
     )
 }

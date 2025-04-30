@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { FocusEvent, ReactNode } from 'react';
 import { DefaultProps, RuleType, SizeType } from '.';
 
 export interface BaseInfo {
@@ -124,15 +124,10 @@ export interface DisabledTimes {
   disabledHours?: () => number[];
   disabledMinutes?: (hour: number) => number[];
   disabledSeconds?: (hour: number, minute: number) => number[];
-  disabledMilliseconds?: (
-    hour: number,
-    minute: number,
-    second: number
-  ) => number[];
 }
 
 export type PickerFocusEventHandler = (
-  e: React.FocusEvent<HTMLElement>,
+  e: FocusEvent<HTMLElement>,
   info: BaseInfo
 ) => void;
 
@@ -158,9 +153,9 @@ export type TimePickerProps = DefaultProps & {
   value?: RuleType | null;
   onChange?: (date: RuleType, dateString: string | string[]) => void;
   onBlur?: PickerFocusEventHandler;
-  onSelect?: ((value: Date) => void) | undefined;
+  onSelect?: ((value: Date | null) => void) | undefined;
   showNow?: boolean;
-  clearIcon?: React.ReactNode;
+  clearIcon?: ReactNode;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   suffixIcon?: ReactNode;
   placeholder?: string;

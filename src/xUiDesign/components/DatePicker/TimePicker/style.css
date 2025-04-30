@@ -116,6 +116,7 @@
 .xUi-timepicker-cell-disabled {
     color: rgba(0, 0, 0, 0.25);
     pointer-events: none;
+    user-select: none;
 }
 
 .xUi-timepicker-now-btn {
