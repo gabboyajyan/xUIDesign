@@ -135,6 +135,8 @@ const DatePickerComponent = ({
     }
 
     if (typeof format === 'string') {
+      date = new Date(date)
+      
       return format
         .replace(/YYYY/, date.getFullYear().toString())
         .replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0'))

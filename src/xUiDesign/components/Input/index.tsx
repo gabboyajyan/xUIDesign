@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
   ForwardedRef,
@@ -13,8 +13,8 @@ import cc from 'classcat';
 import { SyntheticBaseEvent, TargetProps } from '@/xUiDesign/types';
 import { InputProps } from '@/xUiDesign/types/input';
 import { prefixClsInput } from '@/xUiDesign/utils';
-import { Textarea } from './Textarea';
 import './style.css';
+import { Textarea } from './Textarea';
 import { ErrorIcon } from '../icons';
 
 const InputComponent = forwardRef(
@@ -85,7 +85,7 @@ const InputComponent = forwardRef(
             [`${prefixCls}-error`]: error,
             [`${prefixCls}-disabled`]: disabled,
             [`${prefixCls}-${size}`]: size,
-            'noStyle': noStyle
+            noStyle: noStyle
           },
           className
         ])}
@@ -115,11 +115,9 @@ const InputComponent = forwardRef(
             className={cc([prefixCls, className])}
           />
 
-          {allowClear && internalValue && (
-            <span className={`${prefixCls}-clear`} onClick={handleClear}>
-              <ErrorIcon />
-            </span>
-          )}
+          <span className={`${prefixCls}-clear`} onClick={handleClear}>
+            {allowClear && internalValue ? <ErrorIcon /> : null}
+          </span>
 
           {(suffix || iconRender) && (
             <span
