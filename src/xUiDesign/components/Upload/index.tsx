@@ -57,7 +57,7 @@ const Upload = ({
     setFileList(newList);
 
     if (onChange) {
-      onChange({ fileList: newList } as UploadChangeParam);
+      onChange({ fileList: newList, file: newList[0] } as UploadChangeParam);
     }
   };
 
@@ -92,9 +92,9 @@ const Upload = ({
       uploadFiles = filtered;
     }
 
-    const newList = multiple
+    const newList = (multiple
       ? [...fileList, ...uploadFiles]
-      : uploadFiles.slice(0, maxCount || 1);
+      : uploadFiles).slice(0, maxCount);
 
     updateFileList(newList);
 
