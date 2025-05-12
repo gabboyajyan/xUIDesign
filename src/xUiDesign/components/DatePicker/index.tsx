@@ -30,7 +30,7 @@ const DatePickerComponent = ({
   size = 'large',
   format = 'YYYY-MM-DD',
   getPopupContainer,
-  showToday = false,
+  showToday = true,
   allowClear = false,
   disabledDate,
   suffixIcon,

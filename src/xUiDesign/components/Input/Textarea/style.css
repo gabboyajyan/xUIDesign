@@ -80,7 +80,7 @@
 }
 
 .xUi-textarea-container:has(.xUi-textarea-success) {
-    border-color: #52c41a;
+    border-color: var(--xui-success-color);
 }
 
 .xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,

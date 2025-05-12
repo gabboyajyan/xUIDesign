@@ -1,24 +1,31 @@
 .xUi-upload-wrapper {
     width: 100%;
-    margin-bottom: 12px;
+    font-family: Arial, sans-serif;
 }
 
 .xUi-upload {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: 2px dashed var(--xui-border-color);
-    padding: 12px 24px;
-    width: -webkit-fill-available;
-    border-radius: 8px;
+    justify-content: flex-start;
+    border-radius: 6px;
     cursor: pointer;
-    color: var(--xui-text-color);
-    transition: border-color 0.3s, background-color 0.3s;
-    background: transparent;
+    color: #666;
+    transition: all 0.3s;
+    text-align: center;
 }
 
 .xUi-upload:hover {
-    border-color: var(--xui-primary-color);
+    border-color: var(--xui-primary-color, var(--xui-primary-color));
+    color: var(--xui-primary-color, var(--xui-primary-color));
+}
+
+.xUi-upload-disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.xUi-upload-disabled .xUi-upload-picture button {
+    cursor: not-allowed;
 }
 
 .xUi-upload-input {
@@ -26,49 +33,119 @@
 }
 
 .xUi-upload-list {
-    margin-top: 16px;
+    margin: 0;
     padding: 0;
     list-style: none;
 }
 
+.xUi-upload-list-picture .xUi-upload-item {
+    padding: 8px;
+    margin-top: 8px;
+    line-height: unset;
+    border: 1px dashed var(--xui-border-color);
+}
+
+.xUi-upload-list-picture .xUi-upload-item-done {
+    border: 1px solid var(--xui-border-color);
+}
+
+.xUi-upload-list-picture .xUi-upload-item-error {
+    border: 1px solid var(--xui-error-color);
+}
+
+.xUi-upload-list-picture .xUi-upload-item-error .xUi-upload-item-title {
+    color: var(--xui-error-color);
+}
+
 .xUi-upload-item {
     display: flex;
+    gap: 8px;
+    margin: 0;
+    line-height: 35px;
     align-items: center;
-    justify-content: space-between;
-    padding: 8px;
-    color: var(--xui-text-color);
-    border: 1px solid var(--xui-border-color);
-    border-radius: 4px;
-    background: transparent;
-    margin-bottom: 4px;
+    font-size: 14px;
+    color: #333;
+    border-radius: 8px;
     transition: background 0.3s;
 }
 
+.xUi-upload-item.uploading {
+    color: var(--xui-primary-color);
+}
+
+.xUi-upload-item.done {
+    color: var(--xui-success-color);
+}
+
+.xUi-upload-item.error {
+    color: var(--xui-error-color);
+}
+
 .xUi-upload-remove {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: red;
-    font-size: 14px;
-    transition: color 0.3s;
+    color: rgba(0, 0, 0, 0.45);
 }
 
-.xUi-upload-remove:hover {
-    color: darkred;
-}
-
-.xUi-upload-list-picture .xUi-upload-item {
+.xUi-upload-item-title {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: space-between;
+    color: var(--xui-text-color);
+}
+
+.xUi-upload-item-title svg {
+    color: var(--xui-error-color);
+}
+
+.xUi-upload-list-picture-card {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .xUi-upload-list-picture-card .xUi-upload-item {
-    width: 80px;
-    height: 80px;
+    width: 104px;
+    height: 104px;
+    border-radius: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
+    position: relative;
+}
+
+.xUi-upload-list-picture-card .xUi-upload-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.xUi-upload-list-picture-card .xUi-upload-remove {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    line-height: 1;
+}
+
+.xUi-upload-item-thumbnail {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
     border-radius: 4px;
-    overflow: hidden;
+}
+
+.xUi-upload-item-progress-line {
+    border: 1px solid var(--xui-border-color);
+    height: 0;
+    width: calc(100% - 8px);
+}
+
+.xUi-upload-item-progress-line-percent {
+    border: 1px solid red;
+    height: 0;
+    position: relative;
+    top: -2px;
 }

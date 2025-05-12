@@ -1,122 +1,261 @@
-"use client"
+'use client';
 
-import { useRef, useState } from "react";
-import { UploadFile, UploadChangeParam, UploadProps, RcFile } from "@/xUiDesign/types/upload";
-import { prefixClsUpload } from "@/xUiDesign/utils";
-import cc from "classcat";
+import { useRef, useState } from 'react';
+import cc from 'classcat';
+import { RuleType } from '@/xUiDesign/types';
+import {
+  RcFile,
+  UploadChangeParam,
+  UploadFile,
+  UploadProps
+} from '@/xUiDesign/types/upload';
+import { prefixClsUpload } from '@/xUiDesign/utils';
 import './style.css';
+import { StampleIcon, TrashIcon } from '../icons';
+
+const IMAGE_SIZE = 40;
+const IMAGE_PROGRESS_PERCENT = 100;
 
 const Upload = ({
-    prefixCls = prefixClsUpload,
-    multiple = false,
-    onChange,
-    action,
-    beforeUpload,
-    fileList: controlledFileList,
-    customRequest,
-    accept,
-    listType = "text",
-    showUploadList = true,
-    children,
-    noStyle
+  prefixCls = prefixClsUpload,
+  multiple = false,
+  style,
+  className,
+  onChange,
+  action,
+  name = 'file',
+  method = 'POST',
+  headers,
+  directory,
+  beforeUpload,
+  rootClassName,
+  onRemove,
+  disabled,
+  withCredentials,
+  openFileDialogOnClick = true,
+  maxCount,
+  fileList: controlledFileList,
+  customRequest,
+  accept,
+  listType = 'text',
+  showUploadList = true,
+  children,
+  noStyle,
+  defaultFileList
 }: UploadProps) => {
-    const uploadRef = useRef(null);
-    const [fileList, setFileList] = useState<(UploadFile | File)[]>(controlledFileList || []);
+  const uploadRef = useRef<HTMLInputElement>(null);
+  const [fileList, setFileList] = useState<UploadFile<RuleType>[]>(() =>
+    (controlledFileList || defaultFileList || []).map((file, idx) => ({
+      ...file,
+      uid: file.uid || `${Date.now()}-${idx}`,
+      status: file.status || 'done',
+      percent: file.percent || IMAGE_PROGRESS_PERCENT
+    }))
+  );
 
-    const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const files = Array.from(event.target.files || []);
-        let filteredFiles = files;
+  const updateFileList = (newList: UploadFile<RuleType>[]) => {
+    setFileList(newList);
 
-        if (beforeUpload) {
-            filteredFiles = (await Promise
-                .all(files.map(file => beforeUpload(file, files))))
-                .filter(Boolean) as unknown as UploadFile[];
+    if (onChange) {
+      onChange({ fileList: newList } as UploadChangeParam);
+    }
+  };
+
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const rawFiles: File[] = Array.from(event.target.files || []);
+    let uploadFiles: UploadFile<RuleType>[] = rawFiles.map((file, i) => ({
+      uid: `${Date.now()}-${i}`,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      status: 'uploading',
+      percent: 0,
+      originFileObj: file
+    }));
+
+    if (beforeUpload) {
+      const filtered: UploadFile<RuleType>[] = [];
+
+      for (let i = 0; i < uploadFiles.length; i++) {
+        const file = uploadFiles[i].originFileObj as RcFile;
+        const result = await beforeUpload(file, rawFiles);
+
+        if (result === false) {
+          continue;
         }
 
-        if (customRequest) {
-            filteredFiles.forEach((file: RcFile) => {
-                customRequest({
-                    file,
-                    onSuccess: (res) => console.info('Upload success:', res),
-                    onError: (err) => console.error('Upload error:', err),
-                    onProgress: (event) => console.info('Upload progress:', event.loaded / event.total * 100)
-                });
-            });
-        }
+        filtered.push(uploadFiles[i]);
+      }
 
-        if (!customRequest && action) {
-            filteredFiles.forEach((file: RcFile) => {
-                if (typeof action === "string") {
-                    const formData = new FormData();
-                    formData.append('file', file);
+      uploadFiles = filtered;
+    }
 
-                    fetch(action, {
-                        method: 'POST',
-                        body: formData,
-                    })
-                        .then(response => response.json())
-                        .then((res) => console.info('Upload success:', res))
-                        .catch((err) => console.error('Upload error:', err));
-                } else {
-                    action(file)
-                }
-            });
-        }
+    const newList = multiple
+      ? [...fileList, ...uploadFiles]
+      : uploadFiles.slice(0, maxCount || 1);
 
-        const updatedFileList = multiple ? [...fileList, ...filteredFiles] : filteredFiles;
-        setFileList(updatedFileList);
+    updateFileList(newList);
 
-        if (onChange) {
-            onChange({ fileList: updatedFileList } as UploadChangeParam);
-        }
-    };
+    uploadFiles.forEach(file => {
+      const rcFile = file.originFileObj as RcFile;
 
-    const handleRemove = (index: number) => {
-        const updatedList = fileList.filter((_, i) => i !== index);
-        setFileList(updatedList);
+      const updateProgress = (percent: number) => {
+        file.percent = percent;
+        updateFileList([...newList]);
+      };
 
-        if (!updatedList.length && uploadRef.current) {
-            (uploadRef.current as HTMLInputElement).files = null;
-            (uploadRef.current as HTMLInputElement).value = '';
-        }
+      const markSuccess = () => {
+        file.status = 'done';
+        file.percent = 100;
+        updateFileList([...newList]);
+      };
 
-        if (onChange) {
-            onChange({ fileList: updatedList } as UploadChangeParam);
-        }
-    };
+      const markError = () => {
+        file.status = 'error';
+        updateFileList([...newList]);
+      };
 
-    return (
-        <div className={cc([
-            `${prefixCls}-wrapper`,
-            {
-                'noStyle': noStyle
+      if (customRequest) {
+        customRequest({
+          file: rcFile,
+          onSuccess: markSuccess,
+          onError: markError,
+          onProgress: event => {
+            const percent = Math.round(
+              (event.loaded / (event.total || event.loaded)) *
+                IMAGE_PROGRESS_PERCENT
+            );
+
+            updateProgress(percent);
+          }
+        });
+      } else if (typeof action === 'string') {
+        const formData = new FormData();
+        formData.append(name, rcFile);
+
+        fetch(action, {
+          method,
+          body: formData,
+          headers,
+          credentials: withCredentials ? 'include' : 'same-origin'
+        })
+          .then(res => {
+            if (!res.ok) {
+              throw new Error('Upload failed');
             }
-        ])}>
-            <label className={`${prefixCls} ${prefixCls}-${listType}`}>
-                {children || <span>📁 Click or Drag files here</span>}
-                <input
-                    type="file"
-                    ref={uploadRef}
-                    accept={accept}
-                    multiple={multiple}
-                    onChange={handleFileChange}
-                    className={`${prefixCls}-input`}
-                />
-            </label>
-            {showUploadList && fileList.length > 0 && (
-                <ul className={`${prefixCls}-list ${prefixCls}-list-${listType}`}>
-                    {fileList.map((file, index) => (
-                        <li key={index} className={`${prefixCls}-item`}>
-                            <span>{file.name}</span>
-                            <button className={`${prefixCls}-remove`} onClick={() => handleRemove(index)}>
-                                &#x2715;
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            )}
-        </div>
-    );
+
+            return res.json();
+          })
+          .then(markSuccess)
+          .catch(markError);
+      } else if (typeof action === 'function') {
+        action(rcFile);
+        markSuccess();
+      } else {
+        markSuccess();
+      }
+    });
+
+    if (uploadRef.current) {
+      uploadRef.current.value = '';
+    }
+  };
+
+  const handleRemove = (uid: string) => {
+    const filtered = fileList.filter(file => file.uid !== uid);
+    updateFileList(filtered);
+    onRemove?.(uid);
+  };
+
+  const handleClick = () => {
+    if (!disabled && openFileDialogOnClick && uploadRef.current) {
+      uploadRef.current.click();
+    }
+  };
+
+  return (
+    <div
+      className={cc([
+        `${prefixCls}-wrapper`,
+        className,
+        rootClassName,
+        {
+          noStyle: noStyle,
+          [`${prefixCls}-disabled`]: disabled
+        }
+      ])}
+      style={style}
+    >
+      <span
+        className={cc([`${prefixCls}`, `${prefixCls}-${listType}`])}
+        onClick={handleClick}
+      >
+        {children}
+        <input
+          type="file"
+          ref={uploadRef}
+          accept={accept}
+          multiple={multiple}
+          onChange={handleFileChange}
+          className={`${prefixCls}-input`}
+          disabled={disabled}
+          directory={directory ? 'true' : undefined}
+          webkitdirectory={directory ? 'true' : undefined}
+        />
+      </span>
+
+      {showUploadList && fileList.length > 0 && (
+        <ul className={`${prefixCls}-list ${prefixCls}-list-${listType}`}>
+          {fileList.map(file => (
+            <li
+              key={file.uid}
+              className={`${prefixCls}-item ${prefixCls}-item-${file.status}`}
+            >
+              <span
+                className={`${prefixCls}-remove`}
+                onClick={() => handleRemove(file.uid)}
+              >
+                {listType === 'picture' && (file.originFileObj || file.url) ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    width={IMAGE_SIZE}
+                    height={IMAGE_SIZE}
+                    alt={file.name}
+                    src={file.url || URL.createObjectURL(file.originFileObj)}
+                    className={`${prefixCls}-item-thumbnail`}
+                  />
+                ) : (
+                  <StampleIcon />
+                )}
+              </span>
+              <div style={{ width: '100%' }}>
+                <div
+                  className={`${prefixCls}-item-title`}
+                  style={{
+                    ...(file.status === 'uploading' ? { marginBottom: 12 } : {})
+                  }}
+                >
+                  <span>{file.name}</span>
+                  <TrashIcon />
+                </div>
+                {file.status === 'uploading' && (
+                  <>
+                    <div className={`${prefixCls}-item-progress-line`} />
+                    <div
+                      className={`${prefixCls}-item-progress-line-percent`}
+                      style={{ width: `${file.percent}%` }}
+                    />
+                  </>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
 };
 
 export default Upload;
