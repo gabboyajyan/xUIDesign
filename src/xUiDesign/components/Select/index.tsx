@@ -33,6 +33,7 @@ import './style.css';
 
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
+const PADDING_TAG_INPUT = 4;
 
 const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
   {
@@ -376,7 +377,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
     )?.[0] as HTMLDivElement;
 
     if (searchContent) {
-      setSearchInputWidth(searchContent.clientWidth);
+      setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
 
     const timeout = setTimeout(() => {
