@@ -11,6 +11,9 @@ export default function Home() {
                 action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                 listType="picture"
                 multiple
+                customRequest={(options) => {
+                    console.log(options);
+                }}
             >
                 <Button
                     type="primary"
@@ -21,6 +24,9 @@ export default function Home() {
                 action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
                 listType="picture"
                 multiple
+                customRequest={(options) => {
+                    console.log(options);
+                }}
             >
                 <Button
                     type="primary"

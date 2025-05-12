@@ -6,7 +6,7 @@ export interface RcFile extends File {
   webkitRelativePath: string;
 }
 
-export type UploadFile<RuleType> = {
+export type UploadFile<RcFile> = {
   originFileObj: RcFile;
   uid: string;
   name: string;

@@ -201,8 +201,12 @@ const Upload = ({
           onChange={handleFileChange}
           className={`${prefixCls}-input`}
           disabled={disabled}
-          directory={directory ? 'true' : undefined}
-          webkitdirectory={directory ? 'true' : undefined}
+          {...(directory
+            ? {
+                directory: true,
+                webkitdirectory: true
+              }
+            : {})}
         />
       </span>
 
