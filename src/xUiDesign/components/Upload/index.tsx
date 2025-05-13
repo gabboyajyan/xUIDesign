@@ -57,7 +57,10 @@ const Upload = ({
     setFileList(newList);
 
     if (onChange) {
-      onChange({ fileList: newList, file: newList[0] } as UploadChangeParam);
+      onChange({
+        fileList: newList,
+        file: newList[0] || {}
+      } as UploadChangeParam);
     }
   };
 
@@ -92,9 +95,9 @@ const Upload = ({
       uploadFiles = filtered;
     }
 
-    const newList = (multiple
-      ? [...fileList, ...uploadFiles]
-      : uploadFiles).slice(0, maxCount);
+    const newList = (
+      multiple ? [...fileList, ...uploadFiles] : uploadFiles
+    ).slice(0, maxCount);
 
     updateFileList(newList);
 
@@ -164,9 +167,23 @@ const Upload = ({
   };
 
   const handleRemove = (uid: string) => {
-    const filtered = fileList.filter(file => file.uid !== uid);
+    const filtered: UploadFile<RuleType>[] = [];
+
+    let removedFile: UploadFile<RuleType> | undefined = undefined;
+
+    fileList.forEach(file => {
+      if (file.uid !== uid) {
+        filtered.push(file);
+      } else {
+        removedFile = file;
+      }
+    });
+
     updateFileList(filtered);
-    onRemove?.(uid);
+
+    if (removedFile) {
+      onRemove?.(removedFile);
+    }
   };
 
   const handleClick = () => {
@@ -241,8 +258,15 @@ const Upload = ({
                     ...(file.status === 'uploading' ? { marginBottom: 12 } : {})
                   }}
                 >
-                  <span>{file.name}</span>
-                  <TrashIcon />
+                  <span
+                    className={`${prefixCls}-item-remove-icon`}
+                    onClick={() => handleRemove(file.uid)}
+                    style={{ cursor: 'pointer', marginLeft: 'auto' }}
+                    role="button"
+                    aria-label="Remove file"
+                  >
+                    <TrashIcon />
+                  </span>
                 </div>
                 {file.status === 'uploading' && (
                   <>
