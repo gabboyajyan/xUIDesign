@@ -8,11 +8,11 @@ import {
   useEffect,
   useState
 } from 'react';
-import cc from 'classcat';
 import { SyntheticBaseEvent } from '@/xUiDesign/types';
 import { CheckboxProps } from '@/xUiDesign/types/checkbox';
 import { prefixClsCheckbox } from '@/xUiDesign/utils';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({
   prefixCls = prefixClsCheckbox,
@@ -68,7 +68,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(({
       ref={ref}
       style={style}
       onClick={handleClick}
-      className={cc([
+      className={clsx([
         prefixCls,
         className,
         {

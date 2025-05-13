@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import cc from 'classcat';
 import { RuleType } from '@/xUiDesign/types';
 import {
   RcFile,
@@ -12,6 +11,7 @@ import {
 import { prefixClsUpload } from '@/xUiDesign/utils';
 import './style.css';
 import { StampleIcon, TrashIcon } from '../icons';
+import { clsx } from '@/xUiDesign/helpers';
 
 const IMAGE_SIZE = 40;
 const IMAGE_PROGRESS_PERCENT = 100;
@@ -194,7 +194,7 @@ const Upload = ({
 
   return (
     <div
-      className={cc([
+      className={clsx([
         `${prefixCls}-wrapper`,
         className,
         rootClassName,
@@ -206,7 +206,7 @@ const Upload = ({
       style={style}
     >
       <span
-        className={cc([`${prefixCls}`, `${prefixCls}-${listType}`])}
+        className={clsx([`${prefixCls}`, `${prefixCls}-${listType}`])}
         onClick={handleClick}
       >
         {children}

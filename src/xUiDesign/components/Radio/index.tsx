@@ -1,8 +1,7 @@
 "use client"
 
 import { ForwardedRef, forwardRef, useEffect } from 'react';
-import cc from 'classcat';
-import { parseValue } from '@/xUiDesign/helpers';
+import { clsx, parseValue } from '@/xUiDesign/helpers';
 import { RadioProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
 import { RadioButton } from './Button';
@@ -50,7 +49,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
         title={title}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className={cc([
+        className={clsx([
           `${prefixCls}-label`,
           {
             disabled,
@@ -69,7 +68,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
           onFocus={e => onFocus?.(e)}
         />
         <span
-          className={cc([
+          className={clsx([
             `${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`
           ])}
         />

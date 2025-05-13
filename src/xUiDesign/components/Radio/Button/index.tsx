@@ -1,12 +1,12 @@
 "use client"
 
 import { ReactNode } from 'react';
-import cc from 'classcat';
 import { SizeType } from '@/xUiDesign/types';
 import { RadioProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
 import { Radio } from '..';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 interface RadioButtonProps extends RadioProps {
   children?: ReactNode;
@@ -27,7 +27,7 @@ const RadioButton = ({
       {...props}
       checked={checked}
       disabled={disabled}
-      className={cc([
+      className={clsx([
         `${prefixCls}-button`,
         {
           disabled,

@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import cc from 'classcat';
 import { TRangePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsRangePicker } from '@/xUiDesign/utils';
 import './style.css';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '..';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../icons';
+import { clsx } from '@/xUiDesign/helpers';
 
 const RangePicker = ({
   prefixCls = prefixClsRangePicker,
@@ -248,7 +248,7 @@ const RangePicker = ({
                   })}
                   onClick={() => day && handleSelect(day)}
                   onMouseEnter={() => day && setHoveredDate(day)}
-                  className={cc([
+                  className={clsx([
                     `${prefixCls}-day`,
                     {
                       [`${prefixCls}-selected`]: isSelected,
@@ -322,7 +322,7 @@ const RangePicker = ({
     <div
       ref={containerRef}
       style={style}
-      className={cc([
+      className={clsx([
         `${prefixCls}-range-container`,
         { 
           [`${prefixCls}-${size}`]: size,
@@ -333,7 +333,7 @@ const RangePicker = ({
       <div className={`${prefixCls}-range-input-wrapper`}>
         <button
           type="button"
-          className={cc([
+          className={clsx([
             `${prefixCls}-input`,
             {
               noBordered: !bordered,

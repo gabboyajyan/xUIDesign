@@ -9,13 +9,13 @@ import {
   useRef,
   useState
 } from 'react';
-import cc from 'classcat';
 import { SyntheticBaseEvent, TargetProps } from '@/xUiDesign/types';
 import { InputProps } from '@/xUiDesign/types/input';
 import { prefixClsInput } from '@/xUiDesign/utils';
 import './style.css';
 import { Textarea } from './Textarea';
 import { ErrorIcon } from '../icons';
+import { clsx } from '@/xUiDesign/helpers';
 
 const InputComponent = forwardRef(
   (
@@ -79,7 +79,7 @@ const InputComponent = forwardRef(
 
     return (
       <div
-        className={cc([
+        className={clsx([
           `${prefixCls}-container`,
           {
             [`${prefixCls}-error`]: error,
@@ -112,7 +112,7 @@ const InputComponent = forwardRef(
             value={internalValue}
             onChange={handleChange}
             onKeyDown={handleOnKeyDown}
-            className={cc([prefixCls, className])}
+            className={clsx([prefixCls, className])}
           />
 
           <span className={`${prefixCls}-clear`} onClick={handleClear}>

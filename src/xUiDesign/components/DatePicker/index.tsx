@@ -1,12 +1,12 @@
 'use client';
 
 import { CSSProperties, useEffect, useRef, useState } from 'react';
-import cc from 'classcat';
 import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsDatePicker } from '@/xUiDesign/utils';
 import RangePicker from './RangePicker';
 import './style.css';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
+import { clsx } from '@/xUiDesign/helpers';
 
 const INPUT_SIZE = 12;
 const CONTENT_PADDING = 6;
@@ -256,7 +256,7 @@ const DatePickerComponent = ({
   return (
     <div
       ref={containerRef}
-      className={cc([
+      className={clsx([
         `${prefixCls}-container`,
         {
           noStyle,
@@ -267,7 +267,7 @@ const DatePickerComponent = ({
       <div className={`${prefixCls}-input-wrapper`}>
         <button
           type="button"
-          className={cc([
+          className={clsx([
             `${prefixCls}-input`,
             {
               noBordered: !bordered,
@@ -308,7 +308,7 @@ const DatePickerComponent = ({
 
       <div
         style={popupContainerRef.current ? { position: 'absolute' } : {}}
-        className={cc([
+        className={clsx([
           placement,
           `${prefixCls}-dropdown-wrapper`,
           {
@@ -386,7 +386,7 @@ const DatePickerComponent = ({
                   return (
                     <button
                       key={`${year}-${month}-${day}-${idx}`}
-                      className={cc([
+                      className={clsx([
                         `${prefixCls}-day`,
                         {
                           [`${prefixCls}-selected`]: isSelected,

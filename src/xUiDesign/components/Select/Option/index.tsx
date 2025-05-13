@@ -1,8 +1,8 @@
 import { FC, MouseEventHandler } from 'react';
-import cc from 'classcat';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsSelect } from '@/xUiDesign/utils';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 const Option: FC<OptionProps> = ({
   value,
@@ -25,7 +25,7 @@ const Option: FC<OptionProps> = ({
 
   return (
     <div
-      className={cc([
+      className={clsx([
         `${prefixCls}-option ${className} `,
         {
           selected: selected,

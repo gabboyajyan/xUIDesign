@@ -10,10 +10,10 @@ import {
   useRef,
   useState
 } from 'react';
-import cc from 'classcat';
 import { TextareaProps } from '@/xUiDesign/types/input';
 import { prefixClsTextArea } from '@/xUiDesign/utils';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (
@@ -90,7 +90,7 @@ const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           style={{ ...styles?.textarea, ...style }}
-          className={cc([
+          className={clsx([
             `${prefixCls} ${prefixCls}-${size} ${prefixCls}-${variant} ${className}`,
             {
               [`${prefixCls}-bordered`]: bordered,

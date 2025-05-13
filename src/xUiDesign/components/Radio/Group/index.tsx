@@ -7,13 +7,13 @@ import {
   ReactElement,
   useMemo
 } from 'react';
-import cc from 'classcat';
 import { RuleType } from '@/xUiDesign/types';
 import { RadioGroupProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
 import { RadioButton } from '../Button';
 import { Radio } from '..';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 const RadioGroup = ({
   defaultValue,
@@ -83,7 +83,7 @@ const RadioGroup = ({
     <div
       id={id}
       style={style}
-      className={cc([
+      className={clsx([
         `${prefixCls}-group`,
         {
           block,

@@ -10,7 +10,6 @@ import {
   useRef,
   useState
 } from 'react';
-import cc from 'classcat';
 import { RuleType, SyntheticBaseEvent } from '@/xUiDesign/types';
 import {
   FormItemChildComponentProps,
@@ -20,6 +19,7 @@ import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
 import { FormContext } from '..';
 import './style.css';
+import { clsx } from '@/xUiDesign/helpers';
 
 const REF_CLIENT_HEIGHT = 24;
 
@@ -106,7 +106,7 @@ export const FormItem = ({
   return (
     <div
       style={style}
-      className={cc([
+      className={clsx([
         `${prefixCls}`,
         {
           [layout]: layout,

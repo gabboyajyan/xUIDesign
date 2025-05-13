@@ -14,7 +14,6 @@ import {
   useState
 } from 'react';
 import { createPortal } from 'react-dom';
-import cc from 'classcat';
 import { EmptyContent } from '@/xUiDesign/components/Empty';
 import {
   ArrowIcon,
@@ -27,6 +26,7 @@ import {
 import { MouseEventHandlerSelect, SyntheticBaseEvent } from '@/xUiDesign/types';
 import { OptionType, SelectProps } from '@/xUiDesign/types/select';
 import { prefixClsSelect } from '@/xUiDesign/utils';
+import { clsx } from '@/xUiDesign/helpers';
 import { Option } from './Option';
 import { Tag } from './Tag';
 import './style.css';
@@ -405,7 +405,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
             key={`${props.value}`}
             {...props}
             selected={isSelected}
-            className={cc([
+            className={clsx([
               className,
               {
                 [`${prefixCls}-focused`]: hasMode
@@ -451,7 +451,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
 
   const dropdownContent = !loading && isOpen && (
     <div
-      className={cc([
+      className={clsx([
         `${prefixCls}-dropdown`,
         {
           [placement]: placement,
@@ -512,7 +512,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>((
       id={id}
       ref={selectRef}
       style={style}
-      className={cc([
+      className={clsx([
         {
           [size]: size,
           'noStyle': noStyle,

@@ -11,10 +11,10 @@ import {
   useRef,
   useState
 } from 'react';
-import cc from 'classcat';
 import { RuleType } from '@/xUiDesign/types';
 import { TimePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsTimePicker } from '@/xUiDesign/utils';
+import { clsx } from '@/xUiDesign/helpers';
 import './style.css';
 import { ClearIcon, TimeIcon } from '../../icons';
 
@@ -301,7 +301,7 @@ const TimePicker: FC<TimePickerProps> = ({
               ) : (
                 <div
                   key={h}
-                  className={cc([
+                  className={clsx([
                     `${prefixCls}-cell`,
                     {
                       [`${prefixCls}-cell-disabled`]:
@@ -331,7 +331,7 @@ const TimePicker: FC<TimePickerProps> = ({
               ) : (
                 <div
                   key={m}
-                  className={cc([
+                  className={clsx([
                     `${prefixCls}-cell`,
                     {
                       [`${prefixCls}-cell-disabled`]: getDisabled(
@@ -364,7 +364,7 @@ const TimePicker: FC<TimePickerProps> = ({
               ) : (
                 <div
                   key={s}
-                  className={cc([
+                  className={clsx([
                     `${prefixCls}-cell`,
                     {
                       [`${prefixCls}-cell-disabled`]: getDisabled(
@@ -412,7 +412,7 @@ const TimePicker: FC<TimePickerProps> = ({
   };
 
   return (
-    <div className={cc([`${prefixCls}-wrapper`, className])} style={style}>
+    <div className={clsx([`${prefixCls}-wrapper`, className])} style={style}>
       <div
         className={`${prefixCls}-input-wrapper`}
         onClick={() => setOpen(true)}
