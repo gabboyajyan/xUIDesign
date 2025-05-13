@@ -7,6 +7,11 @@
     position: relative;
 }
 
+.xUi-select.middle .xUi-select-tag-container,
+.xUi-select.large .xUi-select-tag-container {
+    line-height: 22px;
+}
+
 .xUi-select .xUi-select-tag {
     background: rgba(0, 0, 0, 0.06);
     border: 1px solid transparent;
