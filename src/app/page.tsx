@@ -1,18 +1,29 @@
 'use client'
 
-import Upload from "@/xUiDesign/components/Upload";
+import Button from "@/xUiDesign/components/Button"
+import { TrashIcon } from "@/xUiDesign/components/icons"
+import { Button as AntButton } from "antd"
 
 export default function Home() {
     return (
         <>
-            <Upload
-                action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
-                listType="picture"
-                multiple
-                onChange={(e) => console.log(e)}
-            >
-                <button>Select File</button>
-            </Upload>
+            <AntButton
+                shape="round"
+                size="middle"
+                htmlType="submit"
+                iconPosition="end"
+                icon={<TrashIcon />}>
+                Ant Button
+            </AntButton>
+
+            <Button
+                shape="round"
+                size="middle"
+                htmlType="submit"
+                iconPosition="end"
+                icon={<TrashIcon />}>
+                Button
+            </Button>
         </>
     )
 }
