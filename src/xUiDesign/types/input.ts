@@ -23,6 +23,7 @@ export type InputProps = Omit<
     disabled?: boolean;
     allowClear?: boolean;
     error?: boolean;
+    bordered?: boolean;
     iconRender?: (visible: boolean) => ReactElement;
     onChange?: (event: SyntheticBaseEvent) => void;
     onClick?: MouseEventHandler<HTMLElement>;
