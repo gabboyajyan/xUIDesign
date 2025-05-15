@@ -5,7 +5,8 @@ export const ButtonTypes = [
   'primary',
   'dashed',
   'link',
-  'text'
+  'text',
+  'ghost'
 ] as const;
 export const ButtonShapes = ['default', 'circle', 'round'] as const;
 export const ButtonVariantTypes = [

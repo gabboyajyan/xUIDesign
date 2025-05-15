@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { clsx } from '@/xUiDesign/helpers';
 import { ButtonProps } from '@/xUiDesign/types/button';
 import { prefixClsButton } from '@/xUiDesign/utils';
 import './style.css';
 
-const Button: React.FC<ButtonProps> = ({
+export const ButtonComponent = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   href,
   ...restProps
-}) => {
+}: ButtonProps): ReactElement => {
   const [innerLoading, setInnerLoading] = useState(false);
 
   useEffect(() => {
@@ -112,5 +112,3 @@ const Button: React.FC<ButtonProps> = ({
     </button>
   );
 };
-
-export default Button;
