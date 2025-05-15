@@ -7,6 +7,7 @@ import {
   MouseEvent,
   MouseEventHandler,
   ReactElement,
+  ReactEventHandler,
   ReactNode
 } from 'react';
 import { DefaultProps, RuleType, RuleTypes, TargetProps } from '.';
@@ -75,6 +76,8 @@ export type CustomTagProps = DefaultProps & {
   label?: ReactNode;
   value: string;
   onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void;
+  onMouseDown?: MouseEventHandler | undefined;
+  onLoadCapture?: ReactEventHandler | undefined;
   closable?: boolean;
   isMaxTag?: boolean;
   color?: string;
