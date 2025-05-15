@@ -47,5 +47,4 @@ export interface BaseButtonProps {
 export interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'> {
     href?: string;
     htmlType?: ButtonHTMLType;
-    autoInsertSpace?: boolean;
 }

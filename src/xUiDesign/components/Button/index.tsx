@@ -27,7 +27,6 @@ const Button: React.FC<ButtonProps> = ({
   block = false,
   children,
   href,
-  autoInsertSpace = true,
   ...restProps
 }) => {
   const [innerLoading, setInnerLoading] = useState(false);
@@ -44,17 +43,14 @@ const Button: React.FC<ButtonProps> = ({
   }, [loading]);
 
   const classes = clsx(
-    prefixCls,
-    rootClassName,
-    `${prefixCls}-${type} ${prefixCls}-${variant} ${prefixCls}-${color} ${prefixCls}-${shape} ${prefixCls}-size-${size}`,
+    `${prefixCls} ${rootClassName} ${prefixCls}-${type} ${prefixCls}-${variant} ${prefixCls}-${color} ${prefixCls}-${shape} ${prefixCls}-size-${size} ${className}`,
     {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-disabled`]: disabled,
-    },
-    className
+    }
   );
 
   const iconNode = innerLoading

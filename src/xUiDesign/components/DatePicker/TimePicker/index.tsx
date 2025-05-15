@@ -42,7 +42,6 @@ const TimePicker: FC<TimePickerProps> = ({
   clearIcon = <ClearIcon />,
   suffixIcon = <TimeIcon />,
   placeholder = 'Select time'
-  // getPopupContainer
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [innerValue, setInnerValue] = useState<Date | null>(
