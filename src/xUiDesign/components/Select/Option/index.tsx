@@ -13,7 +13,8 @@ const Option: FC<OptionProps> = ({
   onClick,
   render,
   prefixCls = prefixClsSelect,
-  selected
+  selected,
+  title
 }) => {
   const handleClick: MouseEventHandler<HTMLDivElement> = e => {
     if (disabled) {
@@ -34,6 +35,7 @@ const Option: FC<OptionProps> = ({
       ])}
       style={style}
       onClick={handleClick}
+      {...(title ? { title } : {})}
     >
       {render ? render(value as string) : children || value}
     </div>

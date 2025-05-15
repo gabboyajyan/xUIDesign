@@ -109,4 +109,5 @@ export interface OptionProps {
   onMouseEnter?: MouseEventHandler<HTMLDivElement>;
   prefixCls?: string;
   selected?: boolean;
+  title?: string;
 }
