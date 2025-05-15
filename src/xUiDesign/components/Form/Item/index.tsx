@@ -10,6 +10,7 @@ import {
   useRef,
   useState
 } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { RuleType, SyntheticBaseEvent } from '@/xUiDesign/types';
 import {
   FormItemChildComponentProps,
@@ -17,9 +18,8 @@ import {
 } from '@/xUiDesign/types/form';
 import { OptionProps } from '@/xUiDesign/types/select';
 import { prefixClsFormItem } from '@/xUiDesign/utils';
-import { FormContext } from '..';
 import './style.css';
-import { clsx } from '@/xUiDesign/helpers';
+import { FormContext } from '..';
 
 const REF_CLIENT_HEIGHT = 24;
 

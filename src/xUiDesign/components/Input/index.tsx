@@ -9,13 +9,13 @@ import {
   useRef,
   useState
 } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { SyntheticBaseEvent, TargetProps } from '@/xUiDesign/types';
 import { InputProps } from '@/xUiDesign/types/input';
 import { prefixClsInput } from '@/xUiDesign/utils';
 import './style.css';
 import { Textarea } from './Textarea';
 import { ErrorIcon } from '../icons';
-import { clsx } from '@/xUiDesign/helpers';
 
 const InputComponent = forwardRef(
   (

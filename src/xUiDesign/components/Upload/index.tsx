@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { RuleType } from '@/xUiDesign/types';
 import {
   RcFile,
@@ -11,7 +12,6 @@ import {
 import { prefixClsUpload } from '@/xUiDesign/utils';
 import './style.css';
 import { StampleIcon, TrashIcon } from '../icons';
-import { clsx } from '@/xUiDesign/helpers';
 
 const IMAGE_SIZE = 40;
 const IMAGE_PROGRESS_PERCENT = 100;

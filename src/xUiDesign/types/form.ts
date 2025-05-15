@@ -1,10 +1,4 @@
-import {
-  ComponentClass,
-  FC,
-  FormEvent,
-  ReactElement,
-  ReactNode
-} from 'react';
+import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
 import {
   DefaultProps,
   RuleType,
@@ -86,8 +80,12 @@ export type FormItemProps = DefaultProps & {
   layout?: FormLayoutTypes;
   valuePropName?: string;
   dependencies?: string[];
-  normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
-  feedbackIcons?: boolean
+  normalize?: (
+    value: RuleType,
+    prevValue: RuleType,
+    allValues: RuleType
+  ) => RuleType;
+  feedbackIcons?: boolean;
 };
 
 export interface FormItemChildComponentProps {
@@ -100,9 +98,13 @@ export interface FormItemChildComponentProps {
   onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
   valuePropName?: string;
   size?: SizeType;
-  normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
+  normalize?: (
+    value: RuleType,
+    prevValue: RuleType,
+    allValues: RuleType
+  ) => RuleType;
   noStyle?: boolean;
-  feedbackIcons?: boolean
+  feedbackIcons?: boolean;
 }
 
 export interface FormInstance {
@@ -110,10 +112,7 @@ export interface FormInstance {
   setFields: (fields: FieldData[]) => void;
   resetFields: (nameList?: string[]) => void;
   getFieldError: (name: string) => string[];
-  registerField: (
-    name: string,
-    rules?: RuleObject[],
-  ) => void;
+  registerField: (name: string, rules?: RuleObject[]) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
   validateFields: (nameList?: string[]) => Promise<boolean>;

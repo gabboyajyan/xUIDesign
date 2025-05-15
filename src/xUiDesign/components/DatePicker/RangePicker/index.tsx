@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { TRangePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsRangePicker } from '@/xUiDesign/utils';
 import './style.css';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '..';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../icons';
-import { clsx } from '@/xUiDesign/helpers';
 
 const RangePicker = ({
   prefixCls = prefixClsRangePicker,
@@ -27,13 +27,16 @@ const RangePicker = ({
   className = '',
   separator,
   defaultValue,
-  bordered = true,
+  bordered = true
 }: TRangePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<
     [Date | null, Date | null]
-  >([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
+  >([
+    value?.[0] || defaultValue?.[0] || null,
+    value?.[1] || defaultValue?.[1] || null
+  ]);
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -324,7 +327,7 @@ const RangePicker = ({
       style={style}
       className={clsx([
         `${prefixCls}-range-container`,
-        { 
+        {
           [`${prefixCls}-${size}`]: size,
           [className]: className
         }

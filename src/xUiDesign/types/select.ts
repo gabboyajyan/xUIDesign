@@ -55,8 +55,8 @@ export type SelectProps = DefaultProps & {
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   dropdownRender?: (menu: ReactNode) => ReactNode;
   feedbackIcons?: boolean;
-  placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
-  removeIcon?: ReactNode
+  placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
+  removeIcon?: ReactNode;
 };
 
 export interface OptionType {

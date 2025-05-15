@@ -1,12 +1,12 @@
 'use client';
 
 import { CSSProperties, useEffect, useRef, useState } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { TDatePickerProps } from '@/xUiDesign/types/datepicker';
 import { prefixClsDatePicker } from '@/xUiDesign/utils';
 import RangePicker from './RangePicker';
 import './style.css';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
-import { clsx } from '@/xUiDesign/helpers';
 
 const INPUT_SIZE = 12;
 const CONTENT_PADDING = 6;
@@ -135,8 +135,8 @@ const DatePickerComponent = ({
     }
 
     if (typeof format === 'string') {
-      date = new Date(date)
-      
+      date = new Date(date);
+
       return format
         .replace(/YYYY/, date.getFullYear().toString())
         .replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0'))

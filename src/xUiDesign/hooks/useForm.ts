@@ -69,8 +69,16 @@ const useForm = (
     return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
   }
 
-  function setFieldValue(name: string, value: RuleTypes, errors?: string[], reset?: boolean) {
-    if (!reset && ([undefined, null].includes(value) || formRef.current[name] === value)) {
+  function setFieldValue(
+    name: string,
+    value: RuleTypes,
+    errors?: string[],
+    reset?: boolean
+  ) {
+    if (
+      !reset &&
+      ([undefined, null].includes(value) || formRef.current[name] === value)
+    ) {
       return;
     }
 
@@ -126,10 +134,7 @@ const useForm = (
     return !!name;
   }
 
-  function registerField(
-    name: string,
-    rules: RuleObject[] = [],
-  ) {
+  function registerField(name: string, rules: RuleObject[] = []) {
     if (!(name in formRef.current)) {
       formRef.current[name] = initialValues?.[name];
     }

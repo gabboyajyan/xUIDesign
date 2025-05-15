@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { ForwardedRef, forwardRef, useEffect } from 'react';
 import { clsx, parseValue } from '@/xUiDesign/helpers';
@@ -53,7 +53,7 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
           `${prefixCls}-label`,
           {
             disabled,
-            'noStyle': noStyle,
+            noStyle: noStyle,
             [className]: className
           }
         ])}

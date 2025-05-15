@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
   Children,
@@ -7,18 +7,18 @@ import {
   ReactElement,
   useMemo
 } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { RuleType } from '@/xUiDesign/types';
 import { RadioGroupProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
-import { RadioButton } from '../Button';
-import { Radio } from '..';
 import './style.css';
-import { clsx } from '@/xUiDesign/helpers';
+import { Radio } from '..';
+import { RadioButton } from '../Button';
 
 const RadioGroup = ({
   defaultValue,
   value,
-  size = 'middle',
+  size = 'large',
   disabled,
   name,
   id,

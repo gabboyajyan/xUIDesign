@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import {
   ChangeEvent,
@@ -10,10 +10,10 @@ import {
   useRef,
   useState
 } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { TextareaProps } from '@/xUiDesign/types/input';
 import { prefixClsTextArea } from '@/xUiDesign/utils';
 import './style.css';
-import { clsx } from '@/xUiDesign/helpers';
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
   (

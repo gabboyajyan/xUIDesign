@@ -10,7 +10,10 @@ import {
 } from 'react';
 import { DefaultProps, SizeType, SyntheticBaseEvent } from '.';
 
-export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> &
+export type InputProps = Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'size' | 'prefix'
+> &
   DefaultProps & {
     addonBefore?: ReactNode;
     addonAfter?: ReactNode;
@@ -28,7 +31,7 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'p
     onKeyPress?: KeyboardEventHandler<HTMLElement>;
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
-    feedbackIcons?: boolean
+    feedbackIcons?: boolean;
   };
 
 export type TextareaProps = Omit<

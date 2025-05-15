@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ButtonProps
-} from '@/xUiDesign/types/button';
+import React, { useEffect, useState } from 'react';
 import { clsx } from '@/xUiDesign/helpers';
+import { ButtonProps } from '@/xUiDesign/types/button';
 import { prefixClsButton } from '@/xUiDesign/utils';
-import './style.css'
+import './style.css';
 
 const Button: React.FC<ButtonProps> = ({
   type = 'default',
@@ -36,6 +34,7 @@ const Button: React.FC<ButtonProps> = ({
       setInnerLoading(loading);
     } else if (typeof loading === 'object' && loading.delay) {
       const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
+
       return () => clearTimeout(timeout);
     } else {
       setInnerLoading(!!loading);
@@ -55,32 +54,36 @@ const Button: React.FC<ButtonProps> = ({
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
       [`${prefixCls}-loading`]: innerLoading,
-      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixCls}-disabled`]: disabled
     },
     className
   );
 
   const iconNode = innerLoading
-    ? (typeof loading === 'object' && loading.icon) || <span className={`${prefixCls}-spinner`} />
+    ? (typeof loading === 'object' && loading.icon) || (
+        <span className={`${prefixCls}-spinner`} />
+      )
     : icon;
 
   const content = (
     <>
-      {iconNode && iconPosition === 'start' &&
+      {iconNode && iconPosition === 'start' && (
         <span
           className={clsx(`${prefixCls}-icon`, customClassNames.icon)}
-          style={styles.icon}>
+          style={styles.icon}
+        >
           {iconNode}
-        </span>}
-      <span className={`${prefixCls}-content`}>
-        {children}
-      </span>
-      {iconNode && iconPosition === 'end' &&
+        </span>
+      )}
+      <span className={`${prefixCls}-content`}>{children}</span>
+      {iconNode && iconPosition === 'end' && (
         <span
           className={clsx(`${prefixCls}-icon`, customClassNames.icon)}
-          style={styles.icon}>
+          style={styles.icon}
+        >
           {iconNode}
-        </span>}
+        </span>
+      )}
     </>
   );
 

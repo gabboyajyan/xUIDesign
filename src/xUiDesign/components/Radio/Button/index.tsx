@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
 import { ReactNode } from 'react';
+import { clsx } from '@/xUiDesign/helpers';
 import { SizeType } from '@/xUiDesign/types';
 import { RadioProps } from '@/xUiDesign/types/radio';
 import { prefixClsRadio } from '@/xUiDesign/utils';
-import { Radio } from '..';
 import './style.css';
-import { clsx } from '@/xUiDesign/helpers';
+import { Radio } from '..';
 
 interface RadioButtonProps extends RadioProps {
   children?: ReactNode;
@@ -19,7 +19,7 @@ const RadioButton = ({
   checked,
   disabled,
   children,
-  size = 'middle',
+  size = 'large',
   ...props
 }: RadioButtonProps) => {
   return (
