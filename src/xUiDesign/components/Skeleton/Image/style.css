@@ -1,0 +1,21 @@
+.xUi-skeleton-image {
+    width: 96px;
+    height: 96px;
+    line-height: 96px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    background: rgba(190, 190, 190, 0.2);
+}
+
+.xUi-skeleton-image .xUi-skeleton-icon {
+    font-size: inherit !important;
+}
+
+.xUi-skeleton-image svg {
+    width: 48px;
+    height: 100%;
+    max-width: 192px;
+    line-height: 48px;
+}

@@ -1,0 +1,50 @@
+@keyframes xUi-skeleton-loading {
+    0% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.xUi-skeleton-element {
+    display: inline-block !important;
+    width: auto !important;
+}
+
+.xUi-skeleton-button {
+    display: inline-block;
+    vertical-align: top;
+    background: rgba(190, 190, 190, 0.2);
+    border-radius: 4px;
+    width: 64px;
+    min-width: 64px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.xUi-skeleton-button-sm {
+    width: 48px;
+    min-width: 48px;
+    height: 24px;
+    line-height: 24px;
+}
+
+.xUi-skeleton-button-lg {
+    width: 80px;
+    min-width: 80px;
+    height: 40px;
+    line-height: 40px;
+}
+
+.xUi-skeleton-active .xUi-skeleton-button {
+    background: linear-gradient(
+        90deg,
+        rgba(190, 190, 190, 0.2) 25%,
+        rgba(129, 129, 129, 0.24) 37%,
+        rgba(190, 190, 190, 0.2) 63%
+    );
+    background-size: 400% 100%;
+    animation: xUi-skeleton-loading 1.4s ease infinite;
+}

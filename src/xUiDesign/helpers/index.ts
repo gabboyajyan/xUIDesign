@@ -16,6 +16,10 @@ export const parseValue = (value: RuleType): RuleType => {
   return value;
 };
 
+export function createArray(length: number): number[] {
+  return Array.from({ length }, (_, index) => index);
+}
+
 export function clsx(...args: RuleType[]): string {
   return args
     .flatMap(arg => {
