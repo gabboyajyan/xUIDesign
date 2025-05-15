@@ -3,8 +3,8 @@ import {
   ButtonProps
 } from '@/xUiDesign/types/button';
 import { clsx } from '@/xUiDesign/helpers';
-import './style.css'
 import { prefixClsButton } from '@/xUiDesign/utils';
+import './style.css'
 
 const Button: React.FC<ButtonProps> = ({
   type = 'default',
@@ -43,14 +43,21 @@ const Button: React.FC<ButtonProps> = ({
   }, [loading]);
 
   const classes = clsx(
-    `${prefixCls} ${rootClassName} ${prefixCls}-${type} ${prefixCls}-${variant} ${prefixCls}-${color} ${prefixCls}-${shape} ${prefixCls}-size-${size} ${className}`,
+    prefixCls,
+    rootClassName,
+    `${prefixCls}-${type}`,
+    `${prefixCls}-${variant}`,
+    `${prefixCls}-${color}`,
+    `${prefixCls}-${shape}`,
+    `${prefixCls}-size-${size}`,
     {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
       [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-disabled`]: disabled,
-    }
+    },
+    className
   );
 
   const iconNode = innerLoading
@@ -85,7 +92,6 @@ const Button: React.FC<ButtonProps> = ({
         className={classes}
         href={mergedDisabled ? undefined : href}
         aria-disabled={mergedDisabled}
-        {...restProps}
       >
         {content}
       </a>
