@@ -1,8 +1,8 @@
 import { FC, ReactElement } from 'react';
 import { clsx } from '@/xUiDesign/helpers';
 import { SkeletonButtonProps } from '@/xUiDesign/types/skeleton';
-import './style.css';
 import { prefixClsSkeleton } from '@/xUiDesign/utils';
+import './style.css';
 
 const BUTTON_SKELETON_SIZE = {
   small: `${prefixClsSkeleton}-button-sm`,

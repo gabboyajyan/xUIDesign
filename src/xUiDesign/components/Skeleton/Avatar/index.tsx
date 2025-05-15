@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
-import { SkeletonAvatarProps } from '@/xUiDesign/types/skeleton';
 import { clsx } from '@/xUiDesign/helpers';
+import { SkeletonAvatarProps } from '@/xUiDesign/types/skeleton';
 import { prefixClsSkeleton } from '@/xUiDesign/utils';
 import './style.css';
 

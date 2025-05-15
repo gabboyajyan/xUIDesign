@@ -1,15 +1,12 @@
 import { ReactElement } from 'react';
-import {
-  GET_AVATAR_SKELETON_PROPS,
-  SkeletonAvatar,
-} from './Avatar';
-import { SkeletonButton } from './Button';
-import { SkeletonImage } from './Image';
-import { SkeletonInput } from './Input';
 import { clsx, createArray } from '@/xUiDesign/helpers';
 import { SkeletonProps } from '@/xUiDesign/types/skeleton';
 import { prefixClsSkeleton } from '@/xUiDesign/utils';
-import './index.less';
+import { GET_AVATAR_SKELETON_PROPS, SkeletonAvatar } from './Avatar';
+import { SkeletonButton } from './Button';
+import { SkeletonImage } from './Image';
+import { SkeletonInput } from './Input';
+import './style.css';
 
 const PARAGRAPH_AVATAR_ROWS = 2;
 const PARAGRAPH_DEFAULT_ROWS = 3;
@@ -23,7 +20,7 @@ export const Skeleton = ({
   paragraph,
   round,
   title,
-  teamLogo = true,
+  teamLogo = true
 }: SkeletonProps): ReactElement => {
   const GET_TITLE_SKELETON_PROPS =
     typeof title !== 'boolean'
