@@ -387,4 +387,6 @@ const RangePicker = ({
   );
 };
 
-export default RangePicker;
+export {
+  RangePicker
+};

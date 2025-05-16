@@ -458,4 +458,6 @@ const TimePicker: FC<TimePickerProps> = ({
   );
 };
 
-export default TimePicker;
+export {
+  TimePicker
+};

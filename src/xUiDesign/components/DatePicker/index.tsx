@@ -484,4 +484,6 @@ const DatePicker = Object.assign(DatePickerComponent, {
   RangePicker
 });
 
-export default DatePicker;
+export {
+  DatePicker
+};
