@@ -43,3 +43,6 @@ next-env.d.ts
 .history
 ./package-lock.json
 yarn.lock
+
+packages/ui/node_modules
+packages/ui/package-lock.json

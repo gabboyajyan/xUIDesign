@@ -1,6 +1,6 @@
 'use client'
 
-import Button from "@/xUiDesign/components/Button"
+import { ButtonComponent } from "@/xUiDesign/components/Button"
 import { Button as AntButton, Flex } from "antd"
 
 export default function Home() {
@@ -10,68 +10,68 @@ export default function Home() {
                 <h2>xUiDesign Button</h2>
                 <Flex gap="small" align="flex-start" vertical>
                     <Flex gap="small">
-                        <Button type="primary">Primary</Button>
-                        <Button type="primary" disabled>
+                        <ButtonComponent type="primary">Primary</ButtonComponent>
+                        <ButtonComponent type="primary" disabled>
                             Primary(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button>Default</Button>
-                        <Button disabled>Default(disabled)</Button>
+                        <ButtonComponent>Default</ButtonComponent>
+                        <ButtonComponent disabled>Default(disabled)</ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button type="dashed">Dashed</Button>
-                        <Button type="dashed" disabled>
+                        <ButtonComponent type="dashed">Dashed</ButtonComponent>
+                        <ButtonComponent type="dashed" disabled>
                             Dashed(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button type="text">Text</Button>
-                        <Button type="text" disabled>
+                        <ButtonComponent type="text">Text</ButtonComponent>
+                        <ButtonComponent type="text" disabled>
                             Text(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button href="https://vran.am" type="link">Link</Button>
-                        <Button href="https://vran.am" type="link" disabled>
+                        <ButtonComponent href="https://vran.am" type="link">Link</ButtonComponent>
+                        <ButtonComponent href="https://vran.am" type="link" disabled>
                             Link(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button type="primary" href="https://ant.design/index-cn">
+                        <ButtonComponent type="primary" href="https://ant.design/index-cn">
                             Href Primary
-                        </Button>
-                        <Button type="primary" href="https://ant.design/index-cn" disabled>
+                        </ButtonComponent>
+                        <ButtonComponent type="primary" href="https://ant.design/index-cn" disabled>
                             Href Primary(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button danger>Danger Default</Button>
-                        <Button danger disabled>
+                        <ButtonComponent danger>Danger Default</ButtonComponent>
+                        <ButtonComponent danger disabled>
                             Danger Default(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button danger type="text">
+                        <ButtonComponent danger type="text">
                             Danger Text
-                        </Button>
-                        <Button danger type="text" disabled>
+                        </ButtonComponent>
+                        <ButtonComponent danger type="text" disabled>
                             Danger Text(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small">
-                        <Button href="https://vran.am" type="link" danger>
+                        <ButtonComponent href="https://vran.am" type="link" danger>
                             Danger Link
-                        </Button>
-                        <Button href="https://vran.am" type="link" danger disabled>
+                        </ButtonComponent>
+                        <ButtonComponent href="https://vran.am" type="link" danger disabled>
                             Danger Link(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                     <Flex gap="small" className="site-button-ghost-wrapper">
-                        <Button ghost>Ghost</Button>
-                        <Button ghost disabled>
+                        <ButtonComponent ghost>Ghost</ButtonComponent>
+                        <ButtonComponent ghost disabled>
                             Ghost(disabled)
-                        </Button>
+                        </ButtonComponent>
                     </Flex>
                 </Flex>
             </div>

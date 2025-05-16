@@ -72,6 +72,8 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       >
         {Children.map(childrenList, child => {
           if (isValidElement(child) && child.type !== Fragment) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             const { ...childProps } = child.props;
 
             return (
