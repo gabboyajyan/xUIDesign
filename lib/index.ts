@@ -1,29 +1,29 @@
-import { Form } from "@/xUiDesign/components/Form";
-import { FormItem } from "@/xUiDesign/components/Form/Item";
-import { Checkbox } from '@/xUiDesign/components/Checkbox';
-import { DatePicker } from '@/xUiDesign/components/DatePicker';
-import { TimePicker } from "@/xUiDesign/components/DatePicker/TimePicker";
-import { RangePicker } from "@/xUiDesign/components/DatePicker/RangePicker";
-import { ButtonComponent } from "@/xUiDesign/components/Button";
-import { EmptyContent } from "@/xUiDesign/components/Empty";
-import { Input } from "@/xUiDesign/components/Input";
-import { Textarea } from "@/xUiDesign/components/Input/Textarea";
-import { Radio } from "@/xUiDesign/components/Radio";
-import { RadioGroup } from "@/xUiDesign/components/Radio/Group";
-import { RadioButton } from "@/xUiDesign/components/Radio/Button";
-import { Select } from "@/xUiDesign/components/Select";
-import { Option } from "@/xUiDesign/components/Select/Option";
-import { Tag } from "@/xUiDesign/components/Select/Tag";
-import { Skeleton } from "@/xUiDesign/components/Skeleton";
-import { SkeletonAvatar } from "@/xUiDesign/components/Skeleton/Avatar";
-import { SkeletonButton } from "@/xUiDesign/components/Skeleton/Button";
-import { SkeletonImage } from "@/xUiDesign/components/Skeleton/Image";
-import { SkeletonInput } from "@/xUiDesign/components/Skeleton/Input";
-import { Upload } from "@/xUiDesign/components/Upload";
+import { Form } from "@/components/Form";
+import { FormItem } from "@/components/Form/Item";
+import { Checkbox } from '@/components/Checkbox';
+import { DatePicker } from '@/components/DatePicker';
+import { TimePicker } from "@/components/DatePicker/TimePicker";
+import { RangePicker } from "@/components/DatePicker/RangePicker";
+import { ButtonComponent } from "@/components/Button";
+import { EmptyContent } from "@/components/Empty";
+import { Input } from "@/components/Input";
+import { Textarea } from "@/components/Input/Textarea";
+import { Radio } from "@/components/Radio";
+import { RadioGroup } from "@/components/Radio/Group";
+import { RadioButton } from "@/components/Radio/Button";
+import { Select } from "@/components/Select";
+import { Option } from "@/components/Select/Option";
+import { Tag } from "@/components/Select/Tag";
+import { Skeleton } from "@/components/Skeleton";
+import { SkeletonAvatar } from "@/components/Skeleton/Avatar";
+import { SkeletonButton } from "@/components/Skeleton/Button";
+import { SkeletonImage } from "@/components/Skeleton/Image";
+import { SkeletonInput } from "@/components/Skeleton/Input";
+import { Upload } from "@/components/Upload";
 
 // Hooks
-import { useForm } from "@/xUiDesign/hooks/useForm";
-import { useWatch } from "@/xUiDesign/hooks/useWatch";
+import { useForm } from "@/hooks/useForm";
+import { useWatch } from "@/hooks/useWatch";
 
 export {
     Form,
