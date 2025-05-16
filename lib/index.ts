@@ -1,29 +1,29 @@
-import { Form } from "@/components/Form";
-import { FormItem } from "@/components/Form/Item";
-import { Checkbox } from '@/components/Checkbox';
-import { DatePicker } from '@/components/DatePicker';
-import { TimePicker } from "@/components/DatePicker/TimePicker";
-import { RangePicker } from "@/components/DatePicker/RangePicker";
-import { ButtonComponent } from "@/components/Button";
-import { EmptyContent } from "@/components/Empty";
-import { Input } from "@/components/Input";
-import { Textarea } from "@/components/Input/Textarea";
-import { Radio } from "@/components/Radio";
-import { RadioGroup } from "@/components/Radio/Group";
-import { RadioButton } from "@/components/Radio/Button";
-import { Select } from "@/components/Select";
-import { Option } from "@/components/Select/Option";
-import { Tag } from "@/components/Select/Tag";
-import { Skeleton } from "@/components/Skeleton";
-import { SkeletonAvatar } from "@/components/Skeleton/Avatar";
-import { SkeletonButton } from "@/components/Skeleton/Button";
-import { SkeletonImage } from "@/components/Skeleton/Image";
-import { SkeletonInput } from "@/components/Skeleton/Input";
-import { Upload } from "@/components/Upload";
+import { Form } from "lib/components/Form";
+import { FormItem } from "lib/components/Form/Item";
+import { Checkbox } from 'lib/components/Checkbox';
+import { DatePicker } from 'lib/components/DatePicker';
+import { TimePicker } from "lib/components/DatePicker/TimePicker";
+import { RangePicker } from "lib/components/DatePicker/RangePicker";
+import { ButtonComponent } from "lib/components/Button";
+import { EmptyContent } from "lib/components/Empty";
+import { Input } from "lib/components/Input";
+import { Textarea } from "lib/components/Input/Textarea";
+import { Radio } from "lib/components/Radio";
+import { RadioGroup } from "lib/components/Radio/Group";
+import { RadioButton } from "lib/components/Radio/Button";
+import { Select } from "lib/components/Select";
+import { Option } from "lib/components/Select/Option";
+import { Tag } from "lib/components/Select/Tag";
+import { Skeleton } from "lib/components/Skeleton";
+import { SkeletonAvatar } from "lib/components/Skeleton/Avatar";
+import { SkeletonButton } from "lib/components/Skeleton/Button";
+import { SkeletonImage } from "lib/components/Skeleton/Image";
+import { SkeletonInput } from "lib/components/Skeleton/Input";
+import { Upload } from "lib/components/Upload";
 
 // Hooks
-import { useForm } from "@/hooks/useForm";
-import { useWatch } from "@/hooks/useWatch";
+import { useForm } from "lib/hooks/useForm";
+import { useWatch } from "lib/hooks/useWatch";
 
 export {
     Form,
