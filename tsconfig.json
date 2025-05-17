@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist/types",
-    "emitDeclarationOnly": false,
-    "outDir": "./dist",
-    "rootDir": "./lib",
+    "declarationDir": "dist/types",
+    "outDir": "dist",
     "module": "ESNext",
-    "target": "ESNext",
-    "moduleResolution": "Node",
-    "esModuleInterop": true,
+    "target": "ES5",
     "jsx": "preserve",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
     "strict": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "lib/*"
+        "./lib/*"
       ]
     },
     "lib": [
@@ -23,7 +21,6 @@
       "esnext"
     ],
     "allowJs": true,
-    "skipLibCheck": true,
     "noEmit": true,
     "incremental": true,
     "resolveJsonModule": true,
@@ -39,7 +36,6 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "dist",
     "node_modules"
   ]
 }

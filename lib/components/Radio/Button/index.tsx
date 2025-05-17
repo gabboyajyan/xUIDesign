@@ -1,17 +1,10 @@
 'use client';
 
-import { ReactNode } from 'react';
 import { clsx } from '@/helpers';
-import { SizeType } from '@/types';
-import { RadioProps } from '@/types/radio';
+import { RadioButtonProps } from '@/types/radio';
 import { prefixClsRadio } from '@/utils';
 import './style.css';
 import { Radio } from '..';
-
-interface RadioButtonProps extends RadioProps {
-  children?: ReactNode;
-  size?: SizeType;
-}
 
 const RadioButton = ({
   prefixCls = prefixClsRadio,

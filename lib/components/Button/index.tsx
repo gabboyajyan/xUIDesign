@@ -4,7 +4,7 @@ import { ButtonProps } from '@/types/button';
 import { prefixClsButton } from '@/utils';
 import './style.css';
 
-export const ButtonComponent = ({
+const ButtonComponent = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -112,3 +112,5 @@ export const ButtonComponent = ({
     </button>
   );
 };
+
+export default ButtonComponent

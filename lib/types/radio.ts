@@ -59,3 +59,8 @@ export type RadioProps = DefaultProps & {
   button?: boolean;
   error?: boolean;
 };
+
+export type RadioButtonProps = RadioProps & {
+  children?: ReactNode;
+  size?: SizeType;
+}
