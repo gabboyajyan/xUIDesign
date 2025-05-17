@@ -1,5 +1,1 @@
-import ButtonComponent from './components/Button';
-
-export {
-    ButtonComponent
-}
+export { default as ButtonComponent } from './components/Button';
