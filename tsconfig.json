@@ -1,13 +1,13 @@
 {
   "compilerOptions": {
-    "jsx": "preserve",
     "declaration": true,
     "declarationDir": "dist/types",
-    "outDir": "dist",
     "module": "ESNext",
     "target": "ES5",
-    // "jsx": "preserve",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist",
     "moduleResolution": "node",
+    "jsx": "react-jsx",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "strict": true,
@@ -33,14 +33,9 @@
     ]
   },
   "include": [
-    "lib",
-    ".next/types/**/*.ts"
+    "lib/**/*"
   ],
   "exclude": [
     "node_modules"
-  ],
-  "typeRoots": [
-    "./types",
-    "./node_modules/@types"
   ]
 }

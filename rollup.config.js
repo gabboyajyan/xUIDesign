@@ -36,7 +36,9 @@ export default {
             sourceMap: false,
             tsconfigOverride: {
                 compilerOptions: {
-                    jsx: 'react-jsx'
+                    jsx: 'react-jsx',
+                    declaration: true,
+                    declarationDir: 'dist/types'
                 }
             }
         })
