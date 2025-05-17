@@ -1,4 +1,4 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { clsx } from '@/helpers';
 import { ButtonProps } from '@/types/button';
 import { prefixClsButton } from '@/utils';
@@ -59,13 +59,16 @@ const ButtonComponent = ({
     className
   );
 
-  const iconNode = innerLoading
+  const iconNode = useMemo(() => {
+  return innerLoading
     ? (typeof loading === 'object' && loading.icon) || (
-        <span className={`${prefixCls}-spinner`} />
+        <span className={`${prefixCls}-spinner`}></span>
       )
     : icon;
+}, [icon, innerLoading, loading, prefixCls]);
 
-  const content = (
+  const content = useMemo(() => {
+    return (
     <>
       {iconNode && iconPosition === 'start' && (
         <span
@@ -85,7 +88,8 @@ const ButtonComponent = ({
         </span>
       )}
     </>
-  );
+  )
+  }, [children, customClassNames.icon, iconNode, iconPosition, prefixCls, styles.icon]);
 
   const mergedDisabled = disabled || innerLoading;
 

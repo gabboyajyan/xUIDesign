@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from 'rollup-plugin-typescript2';
 import json from '@rollup/plugin-json';
+import postcss from 'rollup-plugin-postcss';
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
@@ -24,9 +25,20 @@ export default {
         resolve(),
         commonjs(),
         json(),
+        postcss({
+            extract: true,
+            minimize: true,
+            sourceMap: true,
+        }),
         typescript({
             tsconfig: './tsconfig.json',
             useTsconfigDeclarationDir: true,
-        }),
+            sourceMap: false,
+            tsconfigOverride: {
+                compilerOptions: {
+                    jsx: 'react-jsx'
+                }
+            }
+        })
     ],
 };

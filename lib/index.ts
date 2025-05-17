@@ -1,1 +1,1 @@
-// export { default as ButtonComponent } from './components/Button';
+export { default as ButtonComponent } from './components/Button';
