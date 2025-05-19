@@ -4,6 +4,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
+import babel from '@rollup/plugin-babel';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dts = require('rollup-plugin-dts').default;
@@ -14,6 +15,7 @@ const packageJson = require('./package.json');
 export default [
     {
         input: 'src/index.ts',
+        external: ['react', 'react-dom'],
         output: [
             {
                 file: packageJson.main,
@@ -36,6 +38,11 @@ export default [
                     "@/*": ["src/*"]
                 }
             }),
+            babel({
+                babelHelpers: 'bundled',
+                extensions: ['.js', '.jsx', '.ts', '.tsx'],
+                presets: ['@babel/preset-react', '@babel/preset-typescript'],
+            }),
             postcss({
                 extract: false,
                 modules: true,
@@ -48,7 +55,7 @@ export default [
     },
     {
         // Generate .d.ts files
-        input: 'dist/index.d.ts',
+        input: 'dist/esm/types/index.d.ts',
         output: [
             {
                 file: 'dist/index.d.ts',
@@ -58,5 +65,6 @@ export default [
         plugins: [
             dts()
         ],
+        external: [/\.css/]
     },
 ];
