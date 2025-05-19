@@ -44,3 +44,4 @@ next-env.d.ts
 yarn.lock
 packages/node_modules
 ./package-lock.json
+.rollup.cache

@@ -14,7 +14,7 @@ const packageJson = require('./package.json');
 // eslint-disable-next-line import/no-anonymous-default-export
 export default [
     {
-        input: 'src/index.ts',
+        input: 'lib/index.ts',
         external: ['react', 'react-dom'],
         output: [
             {
@@ -35,16 +35,13 @@ export default [
             typescript({
                 tsconfig: './tsconfig.json',
                 paths: {
-                    "@/*": ["src/*"]
+                    "@/*": ["lib/*"]
                 }
             }),
             babel({
                 babelHelpers: 'bundled',
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                presets: [
-                    ['@babel/preset-react', { runtime: 'automatic' }],
-                    '@babel/preset-typescript'
-                ],
+                presets: ['@babel/preset-react', '@babel/preset-typescript'],
             }),
             postcss({
                 extract: false,

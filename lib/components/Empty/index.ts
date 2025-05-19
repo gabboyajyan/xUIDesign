@@ -1,0 +1,1 @@
+export { default as Empty } from '@/components/Empty/Empty'

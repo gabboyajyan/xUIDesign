@@ -12,11 +12,11 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "strict": true,
-    "rootDir": "src",
+    "rootDir": "lib",
     "baseUrl": "./",
     "paths": {
       "@/*": [
-        "./src/*"
+        "./lib/*"
       ]
     },
     "allowJs": true,
@@ -30,7 +30,7 @@
     ]
   },
   "include": [
-    "src",
+    "lib",
     ".next/types/**/*.ts"
   ],
   "exclude": [

@@ -1,0 +1,1 @@
+export { default as Textarea } from '@/components/Input/Textarea/Textarea'

@@ -1,0 +1,1 @@
+export { default as RadioGroup } from '@/components/Radio/Group/Group'
