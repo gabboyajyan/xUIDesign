@@ -2,4 +2,4 @@ import { ReactNode } from "react";
 import "./globals.css";
 export default function RootLayout({ children, }: Readonly<{
     children: ReactNode;
-}>): import("react").JSX.Element;
+}>): import("react/jsx-runtime").JSX.Element;
