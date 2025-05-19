@@ -41,7 +41,10 @@ export default [
             babel({
                 babelHelpers: 'bundled',
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                presets: ['@babel/preset-react', '@babel/preset-typescript'],
+                presets: [
+                    ['@babel/preset-react', { runtime: 'automatic' }],
+                    '@babel/preset-typescript'
+                ],
             }),
             postcss({
                 extract: false,
