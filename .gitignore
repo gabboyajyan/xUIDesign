@@ -41,5 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .history
-./package-lock.json
 yarn.lock
+packages/node_modules
+./package-lock.json

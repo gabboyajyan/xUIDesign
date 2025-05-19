@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { FormContext } from '@/components/Form';
+import { FormContext } from '@/components/Form/Form';
 import { RuleType } from '@/types';
 import { FormInstance } from '@/types/form';
 

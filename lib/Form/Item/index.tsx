@@ -19,11 +19,11 @@ import {
 import { OptionProps } from '@/types/select';
 import { prefixClsFormItem } from '@/utils';
 import './style.css';
-import { FormContext } from '../Form';
+import { FormContext } from '..';
 
 const REF_CLIENT_HEIGHT = 24;
 
-const FormItem = ({
+export const FormItem = ({
   prefixCls = prefixClsFormItem,
   name,
   label,
@@ -224,5 +224,3 @@ const FormItemChildComponent = ({
 };
 
 FormItem.displayName = 'FormItem';
-
-export default FormItem;

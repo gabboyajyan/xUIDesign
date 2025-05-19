@@ -3,15 +3,17 @@
     "declaration": true,
     "declarationDir": "dist",
     "module": "ESNext",
-    "target": "ES5",
-    "emitDeclarationOnly": true,
+    "target": "ESNext",
+    "emitDeclarationOnly": false,
     "outDir": "./dist",
     "moduleResolution": "node",
     "jsx": "preserve",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
-    "noImplicitAny": true,
     "strict": true,
+    "rootDir": "src",
+    "baseUrl": "./",
     "paths": {
       "@/*": [
         "./src/*"
@@ -28,6 +30,10 @@
       }
     ]
   },
+  "include": [
+    "src",
+    ".next/types/**/*.ts"
+  ],
   "exclude": [
     "node_modules"
   ]

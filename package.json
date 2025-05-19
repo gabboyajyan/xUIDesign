@@ -3,11 +3,15 @@
   "version": "0.1.59",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "rollup": "rollup -c --bundleConfigAsCjs"
   },
   "dependencies": {
     "next": "15.2.0",
@@ -16,11 +20,19 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@rollup/plugin-commonjs": "^24.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
+    "postcss": "^8.5.3",
+    "rollup": "^3.0.0",
+    "rollup-plugin-dts": "^5.0.0",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.2",
     "typescript": "^5.8.3"
   }
 }
