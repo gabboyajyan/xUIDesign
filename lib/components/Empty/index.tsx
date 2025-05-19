@@ -40,4 +40,4 @@ const EmptyContent = ({
   </div>
 );
 
-export { EmptyContent };
+export default EmptyContent;

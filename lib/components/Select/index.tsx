@@ -14,7 +14,7 @@ import {
   useState
 } from 'react';
 import { createPortal } from 'react-dom';
-import { EmptyContent } from '@/components/Empty';
+import EmptyContent from '@/components/Empty';
 import {
   ArrowIcon,
   CheckIcon,
