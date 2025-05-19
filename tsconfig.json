@@ -7,21 +7,16 @@
     "emitDeclarationOnly": true,
     "outDir": "./dist",
     "moduleResolution": "node",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
     "strict": true,
     "paths": {
       "@/*": [
-        "./lib/*"
+        "./src/*"
       ]
     },
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
     "allowJs": true,
     "noEmit": true,
     "incremental": true,
@@ -33,9 +28,6 @@
       }
     ]
   },
-  "include": [
-    "lib/**/*"
-  ],
   "exclude": [
     "node_modules"
   ]
