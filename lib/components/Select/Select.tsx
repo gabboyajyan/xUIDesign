@@ -21,7 +21,7 @@ import {
   ErrorIcon,
   LoadingIcon,
   SearchIcon
-} from '@/components/icons';
+} from '@/components/Icons/Icons';
 import { clsx } from '../../helpers';
 import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
 import { OptionType, SelectProps } from '../../types/select';

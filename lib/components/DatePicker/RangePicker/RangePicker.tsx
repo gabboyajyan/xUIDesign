@@ -6,7 +6,7 @@ import { TRangePickerProps } from '../../../types/datepicker';
 import { prefixClsRangePicker } from '../../../utils';
 import './style.css';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../DatePicker';
-import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../icons';
+import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
 
 const RangePicker = ({
   prefixCls = prefixClsRangePicker,

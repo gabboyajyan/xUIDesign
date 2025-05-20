@@ -6,7 +6,7 @@ import { TDatePickerProps } from '../../types/datepicker';
 import { prefixClsDatePicker } from '../../utils';
 import RangePicker from './RangePicker/RangePicker';
 import './style.css';
-import { CalendarIcon, ClearIcon, ErrorIcon } from '../icons';
+import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
 
 const INPUT_SIZE = 12;
 const CONTENT_PADDING = 6;

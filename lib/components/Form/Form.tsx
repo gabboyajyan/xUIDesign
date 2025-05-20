@@ -14,7 +14,7 @@ import {
 import { useForm } from '@/hooks/useForm';
 import { FormInstance, FormItemProps, FormProps } from '../../types/form';
 import { prefixClsForm } from '../../utils';
-import FormItem from './Item';
+import FormItem from './Item/Item';
 
 export const FormContext = createContext<FormInstance | null>(null);
 

@@ -11,7 +11,7 @@ import {
 } from '../../types/upload';
 import { prefixClsUpload } from '../../utils';
 import './style.css';
-import { StampleIcon, TrashIcon } from '../icons';
+import { StampleIcon, TrashIcon } from '../Icons/Icons';
 
 const IMAGE_SIZE = 40;
 const IMAGE_PROGRESS_PERCENT = 100;

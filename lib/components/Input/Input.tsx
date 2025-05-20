@@ -15,7 +15,7 @@ import { InputProps } from '../../types/input';
 import { prefixClsInput } from '../../utils';
 import './style.css';
 import Textarea from './Textarea/Textarea';
-import { ErrorIcon } from '../icons';
+import { ErrorIcon } from '../Icons/Icons';
 
 const InputComponent = forwardRef(
   (
