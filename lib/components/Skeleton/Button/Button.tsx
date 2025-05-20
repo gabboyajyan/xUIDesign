@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
-import { clsx } from '@/helpers';
-import { SkeletonButtonProps } from '@/types/skeleton';
-import { prefixClsSkeleton } from '@/utils';
+import { clsx } from '../../../helpers';
+import { SkeletonButtonProps } from '../../../types/skeleton';
+import { prefixClsSkeleton } from '../../../utils';
 import './style.css';
 
 const BUTTON_SKELETON_SIZE = {

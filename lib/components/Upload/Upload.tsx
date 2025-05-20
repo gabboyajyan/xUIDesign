@@ -1,15 +1,15 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { clsx } from '@/helpers';
-import { RuleType } from '@/types';
+import { clsx } from '../../helpers';
+import { RuleType } from '../../types';
 import {
   RcFile,
   UploadChangeParam,
   UploadFile,
   UploadProps
-} from '@/types/upload';
-import { prefixClsUpload } from '@/utils';
+} from '../../types/upload';
+import { prefixClsUpload } from '../../utils';
 import './style.css';
 import { StampleIcon, TrashIcon } from '../icons';
 

@@ -22,10 +22,10 @@ import {
   LoadingIcon,
   SearchIcon
 } from '@/components/icons';
-import { clsx } from '@/helpers';
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from '@/types';
-import { OptionType, SelectProps } from '@/types/select';
-import { prefixClsSelect } from '@/utils';
+import { clsx } from '../../helpers';
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
+import { OptionType, SelectProps } from '../../types/select';
+import { prefixClsSelect } from '../../utils';
 import Option from './Option/Option';
 import Tag from './Tag/Tag';
 import { Empty } from '../Empty';

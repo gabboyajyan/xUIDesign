@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
-import { clsx } from '@/helpers';
-import { SkeletonInputProps } from '@/types/skeleton';
-import { prefixClsSkeleton } from '@/utils';
+import { clsx } from '../../../helpers';
+import { SkeletonInputProps } from '../../../types/skeleton';
+import { prefixClsSkeleton } from '../../../utils';
 import './style.css';
 
 const INPUT_SKELETON_SIZE = {

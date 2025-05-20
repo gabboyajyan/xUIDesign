@@ -1,4 +1,4 @@
-import { RuleType } from '@/types';
+import { RuleType } from '../types';
 
 export const parseValue = (value: RuleType): RuleType => {
   if (value === 'true') {

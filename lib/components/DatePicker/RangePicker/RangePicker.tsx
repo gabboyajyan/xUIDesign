@@ -1,9 +1,9 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { clsx } from '@/helpers';
-import { TRangePickerProps } from '@/types/datepicker';
-import { prefixClsRangePicker } from '@/utils';
+import { clsx } from '../../../helpers';
+import { TRangePickerProps } from '../../../types/datepicker';
+import { prefixClsRangePicker } from '../../../utils';
 import './style.css';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../DatePicker';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../icons';

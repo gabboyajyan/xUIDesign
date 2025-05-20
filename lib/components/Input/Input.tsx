@@ -9,10 +9,10 @@ import {
   useRef,
   useState
 } from 'react';
-import { clsx } from '@/helpers';
-import { SyntheticBaseEvent, TargetProps } from '@/types';
-import { InputProps } from '@/types/input';
-import { prefixClsInput } from '@/utils';
+import { clsx } from '../../helpers';
+import { SyntheticBaseEvent, TargetProps } from '../../types';
+import { InputProps } from '../../types/input';
+import { prefixClsInput } from '../../utils';
 import './style.css';
 import Textarea from './Textarea/Textarea';
 import { ErrorIcon } from '../icons';

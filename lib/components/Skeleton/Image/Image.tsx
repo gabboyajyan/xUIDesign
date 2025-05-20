@@ -1,6 +1,6 @@
 import { FC, ReactElement } from 'react';
-import { SkeletonImageProps } from '@/types/skeleton';
-import { prefixClsSkeleton } from '@/utils';
+import { SkeletonImageProps } from '../../../types/skeleton';
+import { prefixClsSkeleton } from '../../../utils';
 import './style.css';
 
 const CUSTOm_ICON_SIZE = 48;

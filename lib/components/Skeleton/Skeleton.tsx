@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
-import { clsx, createArray } from '@/helpers';
-import { SkeletonProps } from '@/types/skeleton';
-import { prefixClsSkeleton } from '@/utils';
+import { clsx, createArray } from '../../helpers';
+import { SkeletonProps } from '../../types/skeleton';
+import { prefixClsSkeleton } from '../../utils';
 import { SkeletonButton } from './Button';
 import { SkeletonAvatar } from './Avatar';
 import { GET_AVATAR_SKELETON_PROPS } from './Avatar/Avatar';

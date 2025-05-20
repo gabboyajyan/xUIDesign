@@ -1,8 +1,8 @@
 'use client';
 
-import { clsx } from '@/helpers';
-import { RadioButtonProps } from '@/types/radio';
-import { prefixClsRadio } from '@/utils';
+import { clsx } from '../../../helpers';
+import { RadioButtonProps } from '../../../types/radio';
+import { prefixClsRadio } from '../../../utils';
 import './style.css';
 import Radio from '../Radio';
 

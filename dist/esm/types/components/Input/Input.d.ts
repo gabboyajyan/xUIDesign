@@ -1,11 +1,11 @@
 import { KeyboardEvent } from 'react';
-import { SyntheticBaseEvent } from '@/types';
+import { SyntheticBaseEvent } from '../../types';
 import './style.css';
 import Textarea from './Textarea/Textarea';
-declare const InputComponent: import("react").ForwardRefExoticComponent<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "prefix" | "size"> & import("@/types").DefaultProps & {
+declare const InputComponent: import("react").ForwardRefExoticComponent<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "prefix" | "size"> & import("../../types").DefaultProps & {
     addonBefore?: import("react").ReactNode;
     addonAfter?: import("react").ReactNode;
-    size?: import("@/types").SizeType;
+    size?: import("../../types").SizeType;
     prefix?: import("react").ReactNode;
     suffix?: import("react").ReactNode;
     disabled?: boolean;

@@ -7,10 +7,10 @@ import {
   ReactElement,
   useMemo
 } from 'react';
-import { clsx } from '@/helpers';
-import { RuleType } from '@/types';
-import { RadioGroupProps } from '@/types/radio';
-import { prefixClsRadio } from '@/utils';
+import { clsx } from '../../../helpers';
+import { RuleType } from '../../../types';
+import { RadioGroupProps } from '../../../types/radio';
+import { prefixClsRadio } from '../../../utils';
 import './style.css';
 import Radio from '../Radio';
 import RadioButton from '../Button/Button';

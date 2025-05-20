@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { RuleTypes } from '@/types';
+import { RuleTypes } from '../types';
 import type {
   FieldData,
   FieldError,
@@ -9,7 +9,7 @@ import type {
   FormInstance,
   RuleObject,
   RuleRender
-} from '@/types/form';
+} from '../types/form';
 
 const useForm = (
   initialValues: Record<string, RuleTypes> = {},

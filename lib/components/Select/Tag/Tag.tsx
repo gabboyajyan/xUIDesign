@@ -1,7 +1,7 @@
 import { FC, MouseEvent } from 'react';
-import { TargetProps } from '@/types';
-import { CustomTagProps } from '@/types/select';
-import { prefixClsSelect } from '@/utils';
+import { TargetProps } from '../../../types';
+import { CustomTagProps } from '../../../types/select';
+import { prefixClsSelect } from '../../../utils';
 import './style.css';
 
 const Tag: FC<CustomTagProps> = ({

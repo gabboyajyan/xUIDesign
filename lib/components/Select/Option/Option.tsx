@@ -1,7 +1,7 @@
 import { FC, MouseEventHandler } from 'react';
-import { clsx } from '@/helpers';
-import { OptionProps } from '@/types/select';
-import { prefixClsSelect } from '@/utils';
+import { clsx } from '../../../helpers';
+import { OptionProps } from '../../../types/select';
+import { prefixClsSelect } from '../../../utils';
 import './style.css';
 
 const Option: FC<OptionProps> = ({

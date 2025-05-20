@@ -11,10 +11,10 @@ import {
   useRef,
   useState
 } from 'react';
-import { clsx } from '@/helpers';
-import { RuleType } from '@/types';
-import { TimePickerProps } from '@/types/datepicker';
-import { prefixClsTimePicker } from '@/utils';
+import { clsx } from '../../../helpers';
+import { RuleType } from '../../../types';
+import { TimePickerProps } from '../../../types/datepicker';
+import { prefixClsTimePicker } from '../../../utils';
 import './style.css';
 import { ClearIcon, TimeIcon } from '../../icons';
 

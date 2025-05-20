@@ -1,5 +1,5 @@
-import { EmptyContentProps } from '@/types/empty';
-import { prefixClsEmpty } from '@/utils';
+import { EmptyContentProps } from '../../types/empty';
+import { prefixClsEmpty } from '../../utils';
 import './style.css';
 
 const EmptyContent = ({

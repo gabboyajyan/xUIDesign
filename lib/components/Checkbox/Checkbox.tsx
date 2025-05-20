@@ -8,10 +8,10 @@ import {
   useEffect,
   useState
 } from 'react';
-import { clsx } from '@/helpers';
-import { SyntheticBaseEvent } from '@/types';
-import { CheckboxProps } from '@/types/checkbox';
-import { prefixClsCheckbox } from '@/utils';
+import { clsx } from '../../helpers';
+import { SyntheticBaseEvent } from '../../types';
+import { CheckboxProps } from '../../types/checkbox';
+import { prefixClsCheckbox } from '../../utils';
 import './style.css';
 
 const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(

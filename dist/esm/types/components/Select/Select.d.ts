@@ -1,12 +1,12 @@
 import { ReactElement } from 'react';
-import { OptionType } from '@/types/select';
+import { OptionType } from '../../types/select';
 import './style.css';
-declare const Select: import("react").ForwardRefExoticComponent<import("@/types").DefaultProps & {
+declare const Select: import("react").ForwardRefExoticComponent<import("../../types").DefaultProps & {
     id?: string;
     searchValue?: string;
     onSearch?: (value: string) => void;
     autoClearSearchValue?: boolean;
-    onSelect?: (value: import("@/types").RuleTypes, option?: OptionType) => void;
+    onSelect?: (value: import("../../types").RuleTypes, option?: OptionType) => void;
     onDeselect?: (value: string, option?: OptionType) => void;
     filterOption?: boolean | ((input: string, option: OptionType) => boolean);
     optionFilterProp?: string;
@@ -16,10 +16,10 @@ declare const Select: import("react").ForwardRefExoticComponent<import("@/types"
     listHeight?: number;
     menuItemSelectedIcon?: import("react").ReactNode;
     mode?: "default" | "multiple" | "tags";
-    value?: import("@/types").RuleTypes;
-    defaultValue?: import("@/types").RuleTypes;
+    value?: import("../../types").RuleTypes;
+    defaultValue?: import("../../types").RuleTypes;
     maxCount?: number;
-    onChange?: (e: import("@/types").RuleTypes, option?: OptionType) => void;
+    onChange?: (e: import("../../types").RuleTypes, option?: OptionType) => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;
@@ -30,8 +30,8 @@ declare const Select: import("react").ForwardRefExoticComponent<import("@/types"
     onClear?: () => void;
     error?: boolean;
     showSearch?: boolean;
-    tagRender?: ((props: import("@/types/select").CustomTagProps) => ReactElement) | undefined;
-    maxTagPlaceholder?: import("react").ReactNode | ((omittedValues: import("@/types/select").DisplayValueType[]) => import("react").ReactNode);
+    tagRender?: ((props: import("../../types/select").CustomTagProps) => ReactElement) | undefined;
+    maxTagPlaceholder?: import("react").ReactNode | ((omittedValues: import("../../types/select").DisplayValueType[]) => import("react").ReactNode);
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: import("react").FocusEventHandler<HTMLElement> | undefined;
@@ -46,6 +46,6 @@ declare const Select: import("react").ForwardRefExoticComponent<import("@/types"
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
     removeIcon?: import("react").ReactNode;
 } & import("react").RefAttributes<HTMLDivElement>> & {
-    Option: import("react").FC<import("@/types/select").OptionProps>;
+    Option: import("react").FC<import("../../types/select").OptionProps>;
 };
 export default Select;

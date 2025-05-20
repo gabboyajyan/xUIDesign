@@ -1,7 +1,7 @@
 import { FC, ReactElement } from 'react';
-import { clsx } from '@/helpers';
-import { SkeletonAvatarProps } from '@/types/skeleton';
-import { prefixClsSkeleton } from '@/utils';
+import { clsx } from '../../../helpers';
+import { SkeletonAvatarProps } from '../../../types/skeleton';
+import { prefixClsSkeleton } from '../../../utils';
 import './style.css';
 
 export const AVATAR_DEFAULT_SIZE = 32;

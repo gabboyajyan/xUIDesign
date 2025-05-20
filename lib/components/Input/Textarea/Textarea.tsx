@@ -10,9 +10,9 @@ import {
   useRef,
   useState
 } from 'react';
-import { clsx } from '@/helpers';
-import { TextareaProps } from '@/types/input';
-import { prefixClsTextArea } from '@/utils';
+import { clsx } from '../../../helpers';
+import { TextareaProps } from '../../../types/input';
+import { prefixClsTextArea } from '../../../utils';
 import './style.css';
 
 const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
