@@ -10,7 +10,7 @@ const INPUT_SKELETON_SIZE = {
   default: ''
 };
 
-export const SkeletonInput: FC<SkeletonInputProps> = ({
+const SkeletonInput: FC<SkeletonInputProps> = ({
   prefixCls = prefixClsSkeleton,
   style,
   block,
@@ -38,3 +38,5 @@ export const SkeletonInput: FC<SkeletonInputProps> = ({
     </div>
   );
 };
+
+export default SkeletonInput

@@ -5,7 +5,7 @@ import './style.css';
 
 const CUSTOm_ICON_SIZE = 48;
 
-export const SkeletonImage: FC<SkeletonImageProps> = ({
+const SkeletonImage: FC<SkeletonImageProps> = ({
   prefixCls = prefixClsSkeleton,
   className,
   style = {}
@@ -41,3 +41,5 @@ export const SkeletonImage: FC<SkeletonImageProps> = ({
     </div>
   );
 };
+
+export default SkeletonImage

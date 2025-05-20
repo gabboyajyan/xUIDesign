@@ -2,8 +2,9 @@ import { ReactElement } from 'react';
 import { clsx, createArray } from '@/helpers';
 import { SkeletonProps } from '@/types/skeleton';
 import { prefixClsSkeleton } from '@/utils';
-import { GET_AVATAR_SKELETON_PROPS, SkeletonAvatar } from './Avatar';
 import { SkeletonButton } from './Button';
+import { SkeletonAvatar } from './Avatar';
+import { GET_AVATAR_SKELETON_PROPS } from './Avatar/Avatar';
 import { SkeletonImage } from './Image';
 import { SkeletonInput } from './Input';
 import './style.css';
@@ -11,7 +12,7 @@ import './style.css';
 const PARAGRAPH_AVATAR_ROWS = 2;
 const PARAGRAPH_DEFAULT_ROWS = 3;
 
-export const Skeleton = ({
+const Skeleton = ({
   prefixCls = prefixClsSkeleton,
   active,
   className,
@@ -90,3 +91,5 @@ Skeleton.Image = SkeletonImage;
 Skeleton.Input = SkeletonInput;
 Skeleton.Avatar = SkeletonAvatar;
 Skeleton.Button = SkeletonButton;
+
+export default Skeleton

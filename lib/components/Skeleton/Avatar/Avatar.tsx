@@ -23,7 +23,7 @@ export const GET_AVATAR_SKELETON_PROPS = (
       };
 };
 
-export const SkeletonAvatar: FC<SkeletonAvatarProps> = ({
+const SkeletonAvatar: FC<SkeletonAvatarProps> = ({
   prefixCls = prefixClsSkeleton,
   className,
   shape = 'circle',
@@ -57,3 +57,5 @@ export const SkeletonAvatar: FC<SkeletonAvatarProps> = ({
     </div>
   );
 };
+
+export default SkeletonAvatar

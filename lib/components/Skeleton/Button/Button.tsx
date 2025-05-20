@@ -10,7 +10,7 @@ const BUTTON_SKELETON_SIZE = {
   default: ''
 };
 
-export const SkeletonButton: FC<SkeletonButtonProps> = ({
+const SkeletonButton: FC<SkeletonButtonProps> = ({
   prefixCls = prefixClsSkeleton,
   style = {},
   active,
@@ -40,3 +40,5 @@ export const SkeletonButton: FC<SkeletonButtonProps> = ({
     </div>
   );
 };
+
+export default SkeletonButton
