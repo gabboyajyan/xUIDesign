@@ -689,4 +689,13 @@ declare const StampleIcon: () => react_jsx_runtime.JSX.Element;
 declare const TrashIcon: () => react_jsx_runtime.JSX.Element;
 declare const SpinerIcon: () => react_jsx_runtime.JSX.Element;
 
-export { ArrowIcon, ButtonComponent as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload };
+declare const useForm: (initialValues?: Record<string, RuleTypes>, onFieldsChange?: (changedFields: FieldData[]) => void, onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => FormInstance;
+
+type UseWatchProps = {
+    name?: string;
+    defaultValue?: RuleType;
+    form?: FormInstance;
+};
+declare const useWatch: ({ name, defaultValue, form }: UseWatchProps) => any;
+
+export { ArrowIcon, ButtonComponent as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload, useForm, useWatch };

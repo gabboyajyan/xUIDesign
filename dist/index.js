@@ -3066,6 +3066,30 @@ const Checkbox = /*#__PURE__*/react.forwardRef(({
 });
 Checkbox.displayName = 'Checkbox';
 
+const useWatch = ({
+  name,
+  defaultValue,
+  form
+}) => {
+  const formContext = react.useContext(FormContext);
+  const formInstance = form || formContext;
+  if (!formInstance) {
+    throw new Error('useWatch must be used within a Form or with a form instance.');
+  }
+  const [value, setValue] = react.useState(() => {
+    return name ? formInstance.getFieldValue(name) ?? defaultValue : formInstance.getFieldsValue() ?? defaultValue;
+  });
+  react.useEffect(() => {
+    if (!name) {
+      const unsubscribe = formInstance.subscribeToForm(setValue);
+      return () => unsubscribe();
+    }
+    const unsubscribe = formInstance.subscribeToField(name, setValue);
+    return () => unsubscribe();
+  }, [name, formInstance]);
+  return value;
+};
+
 exports.ArrowIcon = ArrowIcon;
 exports.Button = ButtonComponent;
 exports.CalendarIcon = CalendarIcon;
@@ -3101,4 +3125,6 @@ exports.TimeIcon = TimeIcon;
 exports.TimePicker = TimePicker;
 exports.TrashIcon = TrashIcon;
 exports.Upload = Upload;
+exports.useForm = useForm;
+exports.useWatch = useWatch;
 //# sourceMappingURL=index.js.map

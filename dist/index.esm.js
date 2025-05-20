@@ -3064,5 +3064,29 @@ const Checkbox = /*#__PURE__*/forwardRef(({
 });
 Checkbox.displayName = 'Checkbox';
 
-export { ArrowIcon, ButtonComponent as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload };
+const useWatch = ({
+  name,
+  defaultValue,
+  form
+}) => {
+  const formContext = useContext(FormContext);
+  const formInstance = form || formContext;
+  if (!formInstance) {
+    throw new Error('useWatch must be used within a Form or with a form instance.');
+  }
+  const [value, setValue] = useState(() => {
+    return name ? formInstance.getFieldValue(name) ?? defaultValue : formInstance.getFieldsValue() ?? defaultValue;
+  });
+  useEffect(() => {
+    if (!name) {
+      const unsubscribe = formInstance.subscribeToForm(setValue);
+      return () => unsubscribe();
+    }
+    const unsubscribe = formInstance.subscribeToField(name, setValue);
+    return () => unsubscribe();
+  }, [name, formInstance]);
+  return value;
+};
+
+export { ArrowIcon, ButtonComponent as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload, useForm, useWatch };
 //# sourceMappingURL=index.esm.js.map

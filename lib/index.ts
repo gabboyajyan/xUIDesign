@@ -1,5 +1,7 @@
+// Styles
 import './styles/global.css';
 
+// Components
 export { default as Form } from "./components/Form/Form";
 export { default as FormItem } from "./components/Form/Item/Item";
 
@@ -44,3 +46,12 @@ export {
     TrashIcon,
     SpinerIcon
 } from './components/Icons/Icons'
+
+// Hooks
+import { useForm } from './hooks/useForm';
+import { useWatch } from './hooks/useWatch';
+
+export {
+    useForm,
+    useWatch
+}

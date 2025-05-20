@@ -22,3 +22,6 @@ export { default as Button } from "./components/Button/Button";
 export { default as Upload } from "./components/Upload/Upload";
 export { default as Checkbox } from "./components/Checkbox/Checkbox";
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon } from './components/Icons/Icons';
+import { useForm } from './hooks/useForm';
+import { useWatch } from './hooks/useWatch';
+export { useForm, useWatch };
