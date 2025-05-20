@@ -44,13 +44,10 @@ export default [
                 presets: ['@babel/preset-react', '@babel/preset-typescript'],
             }),
             postcss({
-                extract: false,
-                modules: true,
-                use: {
-                    sass: null
-                }
+                extract: true,
+                minimize: true,
+                modules: false
             })
-
         ],
     },
     {
