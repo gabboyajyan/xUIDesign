@@ -47,12 +47,11 @@ export default [
                 presets: ['@babel/preset-react', '@babel/preset-typescript']
             }),
             postcss({
-                inject: true,
-                extract: false,
+                extract: 'styles.css',
                 minimize: true,
                 modules: false
             })
-        ],
+        ]
     },
     {
         // Generate .d.ts files
