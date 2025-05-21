@@ -1,6 +1,6 @@
 {
   "name": "x-ui-design",
-  "version": "0.1.82",
+  "version": "0.1.83",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
   "main": "dist/index.js",
@@ -39,7 +39,7 @@
     "rollup-plugin-postcss": "^4.0.2",
     "typescript": "^5.8.3"
   },
-  "resolutions": {
+  "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   }
