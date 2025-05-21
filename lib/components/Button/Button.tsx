@@ -1,3 +1,5 @@
+'use client'
+
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
