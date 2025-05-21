@@ -44,10 +44,7 @@ export default [
             babel({
                 babelHelpers: 'bundled',
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
-                presets: ['@babel/preset-react', '@babel/preset-typescript'],
-                plugins: [
-                    ['styled-jsx/babel', { optimizeForSpeed: true }]
-                ]
+                presets: ['@babel/preset-react', '@babel/preset-typescript']
             }),
             postcss({
                 inject: true,

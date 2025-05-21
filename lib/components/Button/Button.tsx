@@ -1,10 +1,12 @@
-import { ReactElement } from 'react';
+'use client'
+
+import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 import './style.css';
 
-const Button = ({
+const ButtonComponent = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -27,7 +29,19 @@ const Button = ({
   href,
   ...restProps
 }: ButtonProps): ReactElement => {
-  const innerLoading = typeof loading === 'object' ? !!loading : Boolean(loading);
+  const [innerLoading, setInnerLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof loading === 'boolean') {
+      setInnerLoading(loading);
+    } else if (typeof loading === 'object' && loading.delay) {
+      const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
+
+      return () => clearTimeout(timeout);
+    } else {
+      setInnerLoading(!!loading);
+    }
+  }, [loading]);
 
   const classes = clsx(
     prefixCls,
@@ -47,13 +61,16 @@ const Button = ({
     className
   );
 
-  const iconNode = innerLoading
+  const iconNode = useMemo(() => {
+  return innerLoading
     ? (typeof loading === 'object' && loading.icon) || (
         <span className={`${prefixCls}-spinner`}></span>
       )
     : icon;
+}, [icon, innerLoading, loading, prefixCls]);
 
-  const content = (
+  const content = useMemo(() => {
+    return (
     <>
       {iconNode && iconPosition === 'start' && (
         <span
@@ -73,7 +90,8 @@ const Button = ({
         </span>
       )}
     </>
-  );
+  )
+  }, [children, customClassNames.icon, iconNode, iconPosition, prefixCls, styles.icon]);
 
   const mergedDisabled = disabled || innerLoading;
 
@@ -101,4 +119,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default ButtonComponent
