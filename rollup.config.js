@@ -35,6 +35,7 @@ export default [
             }),
             commonjs(),
             typescript({
+                outputToFilesystem: false,
                 tsconfig: './tsconfig.json',
                 paths: {
                     "@/*": ["lib/*"]
@@ -44,6 +45,9 @@ export default [
                 babelHelpers: 'bundled',
                 extensions: ['.js', '.jsx', '.ts', '.tsx'],
                 presets: ['@babel/preset-react', '@babel/preset-typescript'],
+                plugins: [
+                    ['styled-jsx/babel', { optimizeForSpeed: true }]
+                ]
             }),
             postcss({
                 inject: true,
