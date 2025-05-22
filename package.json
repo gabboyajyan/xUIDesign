@@ -1,6 +1,6 @@
 {
   "name": "x-ui-design",
-  "version": "0.1.84",
+  "version": "0.1.86",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
   "main": "dist/index.js",
@@ -27,6 +27,7 @@
     "@rollup/plugin-commonjs": "^24.1.0",
     "@rollup/plugin-node-resolve": "^15.3.1",
     "@rollup/plugin-typescript": "^11.1.6",
+    "@rollup/plugin-alias": "^5.1.1",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

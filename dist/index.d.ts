@@ -1,10 +1,11 @@
 import * as react from 'react';
-import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FC, ComponentClass, FormEvent, ReactElement, FocusEvent, KeyboardEvent, FocusEventHandler, KeyboardEventHandler, ButtonHTMLAttributes } from 'react';
+import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FC, ComponentClass, FormEvent, ReactElement, FocusEvent, KeyboardEvent, FocusEventHandler, KeyboardEventHandler } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
+import { ButtonProps } from '@/types/button';
 
 type RuleType = any;
 type RuleTypes = RuleType | RuleType[];
-type SizeType$1 = 'small' | 'middle' | 'large';
+type SizeType = 'small' | 'middle' | 'large';
 interface DefaultProps {
     prefixCls?: string;
     className?: string;
@@ -99,7 +100,7 @@ type FormProps = DefaultProps & {
     name?: string;
     layout?: FormLayoutTypes;
     form?: FormInstance;
-    size?: SizeType$1;
+    size?: SizeType;
     initialValues?: Record<string, RuleTypes>;
     children?: ReactNode;
     component?: false | string | FC<ReactNode> | ComponentClass<ReactNode>;
@@ -194,7 +195,7 @@ type TDatePickerProps = DefaultProps & {
     }) => boolean;
     suffixIcon?: ReactNode;
     prefix?: ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
     format?: FormatType<RuleType> | FormatType<RuleType>[] | {
         format: string;
         type?: 'mask';
@@ -308,7 +309,7 @@ declare const Textarea: react.ForwardRefExoticComponent<Omit<react.TextareaHTMLA
         count?: react.CSSProperties;
     };
     bordered?: boolean;
-    size?: SizeType$1;
+    size?: SizeType;
     status?: "success" | "error";
     rootClassName?: string;
     variant?: "outlined" | "borderless" | "filled" | "underlined";
@@ -319,7 +320,7 @@ declare const Textarea: react.ForwardRefExoticComponent<Omit<react.TextareaHTMLA
 declare const InputComponent: react.ForwardRefExoticComponent<Omit<react.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & DefaultProps & {
     addonBefore?: react.ReactNode;
     addonAfter?: react.ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
     prefix?: react.ReactNode;
     suffix?: react.ReactNode;
     disabled?: boolean;
@@ -344,7 +345,7 @@ interface RadioGroupProps {
     defaultValue?: RuleType;
     value?: RuleType;
     onChange?: (e: SyntheticBaseEvent) => void;
-    size?: SizeType$1;
+    size?: SizeType;
     disabled?: boolean;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: MouseEventHandler<HTMLDivElement>;
@@ -392,7 +393,7 @@ type RadioProps = DefaultProps & {
 };
 type RadioButtonProps = RadioProps & {
     children?: ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
 };
 
 declare const Radio: react.ForwardRefExoticComponent<DefaultProps & {
@@ -551,48 +552,6 @@ type EmptyContentProps = DefaultProps & {
 };
 
 declare const EmptyContent: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react_jsx_runtime.JSX.Element;
-
-declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
-declare const ButtonShapes: readonly ["default", "circle", "round"];
-declare const ButtonVariantTypes: readonly ["outlined", "dashed", "solid", "filled", "text", "link"];
-declare const ButtonColorTypes: readonly ["default", "primary", "danger", "blue", "purple", "cyan", "green", "magenta", "pink", "red", "orange", "yellow", "volcano", "geekblue", "lime", "gold"];
-type ButtonType = (typeof ButtonTypes)[number];
-type ButtonShape = (typeof ButtonShapes)[number];
-type ButtonVariantType = (typeof ButtonVariantTypes)[number];
-type ButtonColorType = (typeof ButtonColorTypes)[number];
-type SizeType = 'small' | 'middle' | 'large' | undefined;
-type ButtonHTMLType = 'button' | 'submit' | 'reset';
-interface BaseButtonProps {
-    type?: ButtonType;
-    color?: ButtonColorType;
-    variant?: ButtonVariantType;
-    icon?: ReactNode;
-    iconPosition?: 'start' | 'end';
-    shape?: ButtonShape;
-    size?: SizeType;
-    disabled?: boolean;
-    loading?: boolean | {
-        delay?: number;
-        icon?: ReactNode;
-    };
-    prefixCls?: string;
-    className?: string;
-    rootClassName?: string;
-    ghost?: boolean;
-    danger?: boolean;
-    block?: boolean;
-    children?: ReactNode;
-    classNames?: {
-        icon?: string;
-    };
-    styles?: {
-        icon?: CSSProperties;
-    };
-}
-interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'> {
-    href?: string;
-    htmlType?: ButtonHTMLType;
-}
 
 declare const ButtonComponent: ({ type, variant, color, shape, size, htmlType, className, rootClassName, classNames: customClassNames, styles, prefixCls, icon, iconPosition, loading, disabled, ghost, danger, block, children, href, ...restProps }: ButtonProps) => ReactElement;
 
