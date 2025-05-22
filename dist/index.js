@@ -1,7 +1,6 @@
 'use strict';
 
 var jsxRuntime = require('react/jsx-runtime');
-var react = require('react');
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -119,34 +118,5 @@ const ButtonBase = ({
   });
 };
 
-const MyButton = props => {
-  const {
-    loading = false,
-    icon,
-    prefixCls = prefixClsButton
-  } = props;
-  const [innerLoading, setInnerLoading] = react.useState(false);
-  react.useEffect(() => {
-    if (typeof loading === 'boolean') {
-      setInnerLoading(loading);
-    } else if (typeof loading === 'object' && loading.delay) {
-      const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
-      return () => clearTimeout(timeout);
-    } else {
-      setInnerLoading(!!loading);
-    }
-  }, [loading]);
-  const iconNode = react.useMemo(() => {
-    return innerLoading ? typeof loading === 'object' && loading.icon || jsxRuntime.jsx("span", {
-      className: `${prefixCls}-spinner`
-    }) : icon;
-  }, [icon, innerLoading, loading, prefixCls]);
-  return jsxRuntime.jsx(ButtonBase, {
-    ...props,
-    isLoading: innerLoading,
-    iconNode: iconNode
-  });
-};
-
-exports.Button = MyButton;
+exports.Button = ButtonBase;
 //# sourceMappingURL=index.js.map

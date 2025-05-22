@@ -1,5 +1,4 @@
-import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ButtonHTMLAttributes, ReactNode, CSSProperties } from 'react';
+import { ButtonHTMLAttributes, ReactNode, CSSProperties, ReactElement } from 'react';
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
@@ -43,6 +42,10 @@ interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLBut
     htmlType?: ButtonHTMLType;
 }
 
-declare const MyButton: (props: ButtonProps) => react_jsx_runtime.JSX.Element;
+type ButtonBaseProps = ButtonProps & {
+    iconNode?: ReactNode;
+    isLoading?: boolean;
+};
+declare const ButtonBase: ({ type, variant, color, shape, size, htmlType, className, rootClassName, classNames: customClassNames, styles, prefixCls, iconPosition, disabled, ghost, danger, block, children, href, iconNode, isLoading, ...restProps }: ButtonBaseProps) => ReactElement;
 
-export { MyButton as Button };
+export { ButtonBase as Button };

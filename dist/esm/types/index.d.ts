@@ -1,2 +1,2 @@
 import './styles/global.css';
-export { default as Button } from "./components/Button/Button.client";
+export { default as Button } from "./components/Button/Button";

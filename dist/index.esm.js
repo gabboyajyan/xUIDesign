@@ -1,5 +1,4 @@
 import { jsxs, Fragment, jsx } from 'react/jsx-runtime';
-import { useState, useEffect, useMemo } from 'react';
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -117,34 +116,5 @@ const ButtonBase = ({
   });
 };
 
-const MyButton = props => {
-  const {
-    loading = false,
-    icon,
-    prefixCls = prefixClsButton
-  } = props;
-  const [innerLoading, setInnerLoading] = useState(false);
-  useEffect(() => {
-    if (typeof loading === 'boolean') {
-      setInnerLoading(loading);
-    } else if (typeof loading === 'object' && loading.delay) {
-      const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
-      return () => clearTimeout(timeout);
-    } else {
-      setInnerLoading(!!loading);
-    }
-  }, [loading]);
-  const iconNode = useMemo(() => {
-    return innerLoading ? typeof loading === 'object' && loading.icon || jsx("span", {
-      className: `${prefixCls}-spinner`
-    }) : icon;
-  }, [icon, innerLoading, loading, prefixCls]);
-  return jsx(ButtonBase, {
-    ...props,
-    isLoading: innerLoading,
-    iconNode: iconNode
-  });
-};
-
-export { MyButton as Button };
+export { ButtonBase as Button };
 //# sourceMappingURL=index.esm.js.map
