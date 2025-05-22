@@ -1,6 +1,5 @@
 import * as react from 'react';
 import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FC, ComponentClass, FormEvent, ReactElement, FocusEvent, KeyboardEvent, FocusEventHandler, KeyboardEventHandler, ButtonHTMLAttributes } from 'react';
-import * as react_jsx_runtime from 'react/jsx-runtime';
 
 type RuleType = any;
 type RuleTypes = RuleType | RuleType[];
@@ -164,7 +163,7 @@ declare const Form: FC<FormProps> & {
 };
 
 declare const FormItem: {
-    ({ prefixCls, name, label, rules, children, className, layout, style, valuePropName, dependencies, initialValue, feedbackIcons, ...props }: FormItemProps): react_jsx_runtime.JSX.Element;
+    ({ prefixCls, name, label, rules, children, className, layout, style, valuePropName, dependencies, initialValue, feedbackIcons, ...props }: FormItemProps): react.JSX.Element;
     displayName: string;
 };
 
@@ -282,13 +281,13 @@ type TimePickerProps = DefaultProps & {
     placeholder?: string;
 };
 
-declare const DatePicker: (({ value, onChange, onCalendarChange, disabled, error, placeholder, prefixCls, noStyle, feedbackIcons, locale, placement, defaultValue, size, format, getPopupContainer, showToday, allowClear, disabledDate, suffixIcon, picker, prefix, defaultOpen, inputReadOnly, bordered }: TDatePickerProps) => react_jsx_runtime.JSX.Element) & {
-    RangePicker: ({ prefixCls, value, onChange, placeholder, disabled, error, format, prefix, allowClear, inputReadOnly, size, picker, locale, disabledDate, style, className, separator, defaultValue, bordered }: TRangePickerProps) => react_jsx_runtime.JSX.Element;
+declare const DatePicker: (({ value, onChange, onCalendarChange, disabled, error, placeholder, prefixCls, noStyle, feedbackIcons, locale, placement, defaultValue, size, format, getPopupContainer, showToday, allowClear, disabledDate, suffixIcon, picker, prefix, defaultOpen, inputReadOnly, bordered }: TDatePickerProps) => react.JSX.Element) & {
+    RangePicker: ({ prefixCls, value, onChange, placeholder, disabled, error, format, prefix, allowClear, inputReadOnly, size, picker, locale, disabledDate, style, className, separator, defaultValue, bordered }: TRangePickerProps) => react.JSX.Element;
 };
 
 declare const TimePicker: FC<TimePickerProps>;
 
-declare const RangePicker: ({ prefixCls, value, onChange, placeholder, disabled, error, format, prefix, allowClear, inputReadOnly, size, picker, locale, disabledDate, style, className, separator, defaultValue, bordered }: TRangePickerProps) => react_jsx_runtime.JSX.Element;
+declare const RangePicker: ({ prefixCls, value, onChange, placeholder, disabled, error, format, prefix, allowClear, inputReadOnly, size, picker, locale, disabledDate, style, className, separator, defaultValue, bordered }: TRangePickerProps) => react.JSX.Element;
 
 declare const Textarea: react.ForwardRefExoticComponent<Omit<react.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & DefaultProps & {
     value?: string;
@@ -420,13 +419,13 @@ declare const Radio: react.ForwardRefExoticComponent<DefaultProps & {
     button?: boolean;
     error?: boolean;
 } & react.RefAttributes<HTMLLabelElement>> & {
-    Group: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: RadioGroupProps) => react_jsx_runtime.JSX.Element;
-    Button: ({ prefixCls, className, checked, disabled, children, size, ...props }: RadioButtonProps) => react_jsx_runtime.JSX.Element;
+    Group: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: RadioGroupProps) => react.JSX.Element;
+    Button: ({ prefixCls, className, checked, disabled, children, size, ...props }: RadioButtonProps) => react.JSX.Element;
 };
 
-declare const RadioGroup: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: RadioGroupProps) => react_jsx_runtime.JSX.Element;
+declare const RadioGroup: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: RadioGroupProps) => react.JSX.Element;
 
-declare const RadioButton: ({ prefixCls, className, checked, disabled, children, size, ...props }: RadioButtonProps) => react_jsx_runtime.JSX.Element;
+declare const RadioButton: ({ prefixCls, className, checked, disabled, children, size, ...props }: RadioButtonProps) => react.JSX.Element;
 
 declare const Select: react.ForwardRefExoticComponent<DefaultProps & {
     id?: string;
@@ -550,7 +549,7 @@ type EmptyContentProps = DefaultProps & {
     icon?: ReactNode;
 };
 
-declare const EmptyContent: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react_jsx_runtime.JSX.Element;
+declare const EmptyContent: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react.JSX.Element;
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
@@ -594,7 +593,7 @@ interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLBut
     htmlType?: ButtonHTMLType;
 }
 
-declare const ButtonComponent: ({ type, variant, color, shape, size, htmlType, className, rootClassName, classNames: customClassNames, styles, prefixCls, icon, iconPosition, loading, disabled, ghost, danger, block, children, href, ...restProps }: ButtonProps) => ReactElement;
+declare const MyButton: (props: ButtonProps) => react.JSX.Element;
 
 interface RcFile extends File {
     uid: string;
@@ -650,7 +649,7 @@ type UploadProps = DefaultProps & {
     children?: React.ReactNode;
 };
 
-declare const Upload: ({ prefixCls, multiple, style, className, onChange, action, name, method, headers, directory, beforeUpload, rootClassName, onRemove, disabled, withCredentials, openFileDialogOnClick, maxCount, fileList: controlledFileList, customRequest, accept, listType, showUploadList, children, noStyle, defaultFileList }: UploadProps) => react_jsx_runtime.JSX.Element;
+declare const Upload: ({ prefixCls, multiple, style, className, onChange, action, name, method, headers, directory, beforeUpload, rootClassName, onRemove, disabled, withCredentials, openFileDialogOnClick, maxCount, fileList: controlledFileList, customRequest, accept, listType, showUploadList, children, noStyle, defaultFileList }: UploadProps) => react.JSX.Element;
 
 declare const Checkbox: react.ForwardRefExoticComponent<DefaultProps & {
     disabled?: boolean;
@@ -673,21 +672,21 @@ declare const Checkbox: react.ForwardRefExoticComponent<DefaultProps & {
     checked?: boolean;
 } & react.RefAttributes<HTMLDivElement>>;
 
-declare const ClearIcon: () => react_jsx_runtime.JSX.Element;
+declare const ClearIcon: () => react.JSX.Element;
 declare const ArrowIcon: ({ isOpen }: {
     isOpen: boolean;
-}) => react_jsx_runtime.JSX.Element;
-declare const LoadingIcon: () => react_jsx_runtime.JSX.Element;
-declare const CheckIcon: () => react_jsx_runtime.JSX.Element;
-declare const SearchIcon: () => react_jsx_runtime.JSX.Element;
-declare const CalendarIcon: () => react_jsx_runtime.JSX.Element;
-declare const SuccessIcon: () => react_jsx_runtime.JSX.Element;
-declare const ErrorIcon: () => react_jsx_runtime.JSX.Element;
-declare const DateDistanceIcon: () => react_jsx_runtime.JSX.Element;
-declare const TimeIcon: () => react_jsx_runtime.JSX.Element;
-declare const StampleIcon: () => react_jsx_runtime.JSX.Element;
-declare const TrashIcon: () => react_jsx_runtime.JSX.Element;
-declare const SpinerIcon: () => react_jsx_runtime.JSX.Element;
+}) => react.JSX.Element;
+declare const LoadingIcon: () => react.JSX.Element;
+declare const CheckIcon: () => react.JSX.Element;
+declare const SearchIcon: () => react.JSX.Element;
+declare const CalendarIcon: () => react.JSX.Element;
+declare const SuccessIcon: () => react.JSX.Element;
+declare const ErrorIcon: () => react.JSX.Element;
+declare const DateDistanceIcon: () => react.JSX.Element;
+declare const TimeIcon: () => react.JSX.Element;
+declare const StampleIcon: () => react.JSX.Element;
+declare const TrashIcon: () => react.JSX.Element;
+declare const SpinerIcon: () => react.JSX.Element;
 
 declare const useForm: (initialValues?: Record<string, RuleTypes>, onFieldsChange?: (changedFields: FieldData[]) => void, onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => FormInstance;
 
@@ -698,4 +697,4 @@ type UseWatchProps = {
 };
 declare const useWatch: ({ name, defaultValue, form }: UseWatchProps) => any;
 
-export { ArrowIcon, ButtonComponent as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload, useForm, useWatch };
+export { ArrowIcon, MyButton as Button, CalendarIcon, CheckIcon, Checkbox, ClearIcon, DateDistanceIcon, DatePicker, EmptyContent as Empty, ErrorIcon, Form, FormItem, Input, LoadingIcon, Option, Radio, RadioButton, RadioGroup, RangePicker, SearchIcon, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Tag, Textarea, TimeIcon, TimePicker, TrashIcon, Upload, useForm, useWatch };

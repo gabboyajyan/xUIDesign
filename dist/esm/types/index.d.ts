@@ -18,7 +18,7 @@ export { default as SkeletonInput } from "./components/Skeleton/Input/Input";
 export { default as SkeletonAvatar } from "./components/Skeleton/Avatar/Avatar";
 export { default as SkeletonButton } from "./components/Skeleton/Button/Button";
 export { default as Empty } from "./components/Empty/Empty";
-export { default as Button } from "./components/Button/Button";
+export { default as Button } from "./components/Button/Button.client";
 export { default as Upload } from "./components/Upload/Upload";
 export { default as Checkbox } from "./components/Checkbox/Checkbox";
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon } from './components/Icons/Icons';

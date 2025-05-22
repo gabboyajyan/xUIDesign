@@ -1,12 +1,16 @@
-'use client'
-
-import { ReactElement, useEffect, useMemo, useState } from 'react';
+// ✅ This is a pure component — NO hooks
+import { ReactElement } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
-import './style.css'
+import './style.css';
 
-const ButtonComponent = ({
+type ButtonBaseProps = ButtonProps & {
+  iconNode?: React.ReactNode;
+  isLoading?: boolean;
+};
+
+const ButtonBase = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -18,31 +22,17 @@ const ButtonComponent = ({
   classNames: customClassNames = {},
   styles = {},
   prefixCls = prefixClsButton,
-  icon,
   iconPosition = 'start',
-  loading = false,
   disabled = false,
   ghost = false,
   danger = false,
   block = false,
   children,
   href,
+  iconNode,
+  isLoading = false,
   ...restProps
-}: ButtonProps): ReactElement => {
-  const [innerLoading, setInnerLoading] = useState(false);
-
-  useEffect(() => {
-    if (typeof loading === 'boolean') {
-      setInnerLoading(loading);
-    } else if (typeof loading === 'object' && loading.delay) {
-      const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
-
-      return () => clearTimeout(timeout);
-    } else {
-      setInnerLoading(!!loading);
-    }
-  }, [loading]);
-
+}: ButtonBaseProps): ReactElement => {
   const classes = clsx(
     prefixCls,
     rootClassName,
@@ -55,22 +45,15 @@ const ButtonComponent = ({
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
-      [`${prefixCls}-loading`]: innerLoading,
+      [`${prefixCls}-loading`]: isLoading,
       [`${prefixCls}-disabled`]: disabled
     },
     className
   );
 
-  const iconNode = useMemo(() => {
-  return innerLoading
-    ? (typeof loading === 'object' && loading.icon) || (
-        <span className={`${prefixCls}-spinner`}></span>
-      )
-    : icon;
-}, [icon, innerLoading, loading, prefixCls]);
+  const mergedDisabled = disabled || isLoading;
 
-  const content = useMemo(() => {
-    return (
+  const content = (
     <>
       {iconNode && iconPosition === 'start' && (
         <span
@@ -90,10 +73,7 @@ const ButtonComponent = ({
         </span>
       )}
     </>
-  )
-  }, [children, customClassNames.icon, iconNode, iconPosition, prefixCls, styles.icon]);
-
-  const mergedDisabled = disabled || innerLoading;
+  );
 
   if (href) {
     return (
@@ -119,4 +99,4 @@ const ButtonComponent = ({
   );
 };
 
-export default ButtonComponent
+export default ButtonBase;

@@ -35,7 +35,6 @@ export default [
             }),
             commonjs(),
             typescript({
-                jsx: "react-jsx",
                 outputToFilesystem: false,
                 tsconfig: './tsconfig.json',
                 paths: {
