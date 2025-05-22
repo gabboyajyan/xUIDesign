@@ -1,7 +1,7 @@
 import * as react from 'react';
 import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FC, ComponentClass, FormEvent, ReactElement, FocusEvent, KeyboardEvent, FocusEventHandler, KeyboardEventHandler } from 'react';
 import * as react_jsx_runtime from 'react/jsx-runtime';
-import { ButtonProps } from '@/types/button';
+import { ButtonProps } from 'lib/types/button';
 
 type RuleType = any;
 type RuleTypes = RuleType | RuleType[];
