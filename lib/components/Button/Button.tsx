@@ -1,12 +1,11 @@
-// ✅ This is a pure component — NO hooks
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 import './style.css';
 
 type ButtonBaseProps = ButtonProps & {
-  iconNode?: React.ReactNode;
+  iconNode?: ReactNode;
   isLoading?: boolean;
 };
 
