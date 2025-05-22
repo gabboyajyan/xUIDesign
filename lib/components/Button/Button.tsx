@@ -1,10 +1,11 @@
 'use client'
 
-import { ReactElement, useEffect, useMemo, useState } from 'react';
-import { clsx } from '@/helpers';
-import { ButtonProps } from 'lib/types/button';
-import { prefixClsButton } from '@/utils';
 import './style.css';
+
+import { ReactElement, useEffect, useMemo, useState } from 'react';
+import { clsx } from '../../helpers';
+import { ButtonProps } from '../../types/button';
+import { prefixClsButton } from '../../utils';
 
 const ButtonComponent = ({
   type = 'default',

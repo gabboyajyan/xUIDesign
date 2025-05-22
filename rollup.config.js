@@ -5,7 +5,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import babel from '@rollup/plugin-babel';
-import alias from '@rollup/plugin-alias';
 
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const dts = require('rollup-plugin-dts').default;
@@ -48,17 +47,10 @@ export default [
                 presets: ['@babel/preset-react', '@babel/preset-typescript']
             }),
             postcss({
-                inject: true,
+                extract: true,
                 minimize: true,
                 modules: false
-            }),
-            alias({
-                entries: [
-                    { find: '@', replacement: '/lib' },
-                    { find: '@/types', replacement: '/lib/types' },
-                    { find: '@/components', replacement: '/lib/components' }
-                ]
-            }),
+            })
         ]
     },
     {
