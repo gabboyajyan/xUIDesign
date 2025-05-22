@@ -1,6 +1,6 @@
 {
   "name": "x-ui-design",
-  "version": "0.1.91",
+  "version": "0.1.92",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
   "main": "dist/index.js",
@@ -43,9 +43,5 @@
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
-  },
-  "files": [
-    "dist",
-    "dist/styles.css"
-  ]
+  }
 }
