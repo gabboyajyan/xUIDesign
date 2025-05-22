@@ -1,6 +1,6 @@
 {
   "name": "x-ui-design",
-  "version": "0.1.92",
+  "version": "0.1.93",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
   "main": "dist/index.js",
@@ -16,7 +16,9 @@
     "rollup": "npm run build:types && npm run build:rollup"
   },
   "dependencies": {
-    "next": "15.2.0"
+    "next": "15.2.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",
@@ -39,9 +41,5 @@
     "rollup-plugin-peer-deps-external": "^2.2.4",
     "rollup-plugin-postcss": "^4.0.2",
     "typescript": "^5.8.3"
-  },
-  "peerDependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
   }
 }
