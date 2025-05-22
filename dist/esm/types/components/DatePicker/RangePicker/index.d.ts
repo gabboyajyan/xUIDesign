@@ -1,1 +1,0 @@
-export { default as RangePicker } from '@/components/DatePicker/RangePicker/RangePicker';
