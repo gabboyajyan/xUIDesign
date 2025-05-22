@@ -54,8 +54,9 @@ export default [
             }),
             alias({
                 entries: [
-                    { find: '@', replacement: '/src' },
-                    { find: '@components', replacement: '/src/components' }
+                    { find: '@', replacement: '/lib' },
+                    { find: '@/types', replacement: '/lib/types' },
+                    { find: '@/components', replacement: '/lib/components' }
                 ]
             }),
         ]
