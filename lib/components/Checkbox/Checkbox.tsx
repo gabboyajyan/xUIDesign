@@ -36,6 +36,7 @@ const Checkbox = ({
       <div
         ref={ref}
         style={style}
+        onClick={onChange}
         className={clsx([
           prefixCls,
           className,
@@ -55,7 +56,6 @@ const Checkbox = ({
           tabIndex={tabIndex}
           required={required}
           autoFocus={autoFocus}
-          onChange={onChange}
           onClick={onClick}
           onKeyDown={onKeyDown}
           onKeyPress={onKeyPress}
