@@ -2,7 +2,6 @@ import * as react_jsx_runtime from 'react/jsx-runtime';
 import { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
 
 type RuleType = any;
-type RuleTypes = RuleType | RuleType[];
 interface DefaultProps {
     prefixCls?: string;
     className?: string;
@@ -96,62 +95,4 @@ declare const Checkbox: {
     displayName: string;
 };
 
-type RuleRender = (form: FormInstance) => RuleObject;
-type RuleObject = RuleRender | {
-    required?: boolean;
-    message?: string;
-    pattern?: RegExp;
-    min?: number;
-    max?: number;
-    warningPattern?: RegExp;
-    warningMessage?: string;
-    validator?: (rule: RuleObject, value: RuleTypes, callback: (error?: string) => void) => Promise<void> | void;
-};
-interface FieldData {
-    name: string | string[];
-    value?: RuleTypes;
-    errors?: string[];
-}
-type FieldInstancesInputRef = HTMLInputElement | null;
-type FieldInstancesRef = {
-    input?: FieldInstancesInputRef;
-};
-interface FieldError {
-    name: string;
-    errors: string[];
-}
-interface FormInstance {
-    submit: () => Promise<Record<string, RuleTypes> | undefined>;
-    setFields: (fields: FieldData[]) => void;
-    resetFields: (nameList?: string[]) => void;
-    getFieldError: (name: string) => string[];
-    registerField: (name: string, rules?: RuleObject[]) => void;
-    setFieldValue: (name: string, value: RuleTypes) => void;
-    getFieldValue: (name: string) => RuleTypes;
-    validateFields: (nameList?: string[]) => Promise<boolean>;
-    setFieldsValue: (values: Partial<Record<string, RuleTypes>>) => void;
-    getFieldsValue: (nameList?: string[]) => Record<string, RuleTypes>;
-    isFieldTouched: (name: string) => boolean;
-    getFieldsError: () => Pick<FieldError, 'errors' | 'name'>[];
-    isFieldsTouched: (nameList?: string[], allFieldsTouched?: boolean) => boolean;
-    getFieldWarning: (name: string) => string[];
-    subscribeToField: (name: string, callback: (value: RuleTypes) => void) => () => void;
-    subscribeToForm: (callback: (values: Record<string, RuleTypes>) => void) => () => void;
-    subscribeToFields: (names: string[], callback: (values: Record<string, RuleTypes>) => void) => () => void;
-    isFieldValidating: (name: string) => boolean;
-    onFieldsChange?: (changedFields: FieldData[]) => void;
-    onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void;
-    getFieldInstance: (fieldName: string) => FieldInstancesRef;
-    isReseting: boolean;
-}
-
-declare const useForm: (initialValues?: Record<string, RuleTypes>, onFieldsChange?: (changedFields: FieldData[]) => void, onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => FormInstance;
-
-type UseWatchProps = {
-    name?: string;
-    defaultValue?: RuleType;
-    form?: FormInstance;
-};
-declare const useWatch: ({ name, defaultValue, form }: UseWatchProps) => any;
-
-export { Button, Checkbox, EmptyContent as Empty, useForm, useWatch };
+export { Button, Checkbox, EmptyContent as Empty };
