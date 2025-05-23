@@ -13,7 +13,7 @@ import {
 } from 'react';
 import { useForm } from '@/hooks/useForm';
 import { FormInstance, FormItemProps, FormProps } from '../../types/form';
-import { prefixClsForm } from '../../../lib/utils';
+import { prefixClsForm } from '../../utils';
 import FormItem from './Item/Item';
 
 export const FormContext = createContext<FormInstance | null>(null);

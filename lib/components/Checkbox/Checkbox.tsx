@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
-import { CheckboxProps } from '../../types/checkbox';
-import { prefixClsCheckbox } from '../../../lib/utils';
+import { CheckboxProps } from 'lib/types/checkbox';
+import { prefixClsCheckbox } from 'lib/utils';
 import CheckboxClient from './Checkbox.client';
 
 const Checkbox = ({

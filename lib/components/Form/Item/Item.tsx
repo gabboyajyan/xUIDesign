@@ -10,14 +10,14 @@ import {
   useRef,
   useState
 } from 'react';
-import { clsx } from '../../../../lib/helpers';
-import { RuleType, SyntheticBaseEvent } from '../../../types';
+import { clsx } from 'lib/helpers';
+import { RuleType, SyntheticBaseEvent } from 'lib/types';
 import {
   FormItemChildComponentProps,
   FormItemProps
-} from '../../../types/form';
-import { OptionProps } from '../../../types/select';
-import { prefixClsFormItem } from '../../../../lib/utils';
+} from 'lib/types/form';
+import { OptionProps } from 'lib/types/select';
+import { prefixClsFormItem } from 'lib/utils';
 import './style.css';
 import { FormContext } from '../Form';
 
