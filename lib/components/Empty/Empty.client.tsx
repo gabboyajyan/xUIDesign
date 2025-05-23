@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { EmptyContentProps } from '../../types/empty';
 import { prefixClsEmpty } from '../../utils';
 import './style.css';
@@ -12,7 +12,9 @@ const EmptyClient = ({
   title = 'No Data',
   description = 'No data',
   prefixCls = prefixClsEmpty
-}: EmptyContentProps) => (
+}: EmptyContentProps) => {
+  useEffect(() => {}, [])
+  return (
   <div
     style={style}
     className={`${prefixCls} ${prefixCls}-normal ${prefixCls}-small ${className}`}
@@ -41,6 +43,6 @@ const EmptyClient = ({
     </div>
     <div className={`${prefixCls}-description`}>{description}</div>
   </div>
-);
+)};
 
 export default EmptyClient;
