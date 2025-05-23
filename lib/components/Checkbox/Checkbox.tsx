@@ -55,12 +55,12 @@ const Checkbox = ({
           tabIndex={tabIndex}
           required={required}
           autoFocus={autoFocus}
+          onChange={onChange}
           onClick={onClick}
           onKeyDown={onKeyDown}
           onKeyPress={onKeyPress}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          onChange={(e) => onChange?.(e)}
         />
 
         <span className={`${prefixCls}-box`}>
