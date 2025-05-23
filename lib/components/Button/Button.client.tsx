@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import ButtonBase from './Button';
-import { ButtonProps } from 'lib/types/button';
-import { prefixClsButton } from 'lib/utils';
+import { ButtonProps } from '../../types/button';
+import { prefixClsButton } from '../../utils';
 
 const ButtonClient = (props: ButtonProps) => {
   const {

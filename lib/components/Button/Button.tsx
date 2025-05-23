@@ -1,7 +1,7 @@
 import { ReactElement, ReactNode } from 'react';
-import { clsx } from 'lib/helpers';
-import { ButtonProps } from 'lib/types/button';
-import { prefixClsButton } from 'lib/utils';
+import { clsx } from '../../helpers';
+import { ButtonProps } from '../../types/button';
+import { prefixClsButton } from '../../utils';
 import './style.css';
 
 const Button = ({

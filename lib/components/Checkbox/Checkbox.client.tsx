@@ -8,9 +8,9 @@ import {
   useEffect,
   useState
 } from 'react';
-import { clsx } from 'lib/helpers';
-import { SyntheticBaseEvent } from 'lib/types';
-import { CheckboxProps } from 'lib/types/checkbox';
+import { clsx } from '../../helpers';
+import { SyntheticBaseEvent } from '../../types';
+import { CheckboxProps } from '../../types/checkbox';
 import './style.css';
 
 const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(

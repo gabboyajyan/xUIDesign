@@ -1,8 +1,8 @@
 import { MouseEvent } from 'react';
 import './style.css';
-declare const CheckboxClient: import("react").ForwardRefExoticComponent<import("lib/types").DefaultProps & {
+declare const CheckboxClient: import("react").ForwardRefExoticComponent<import("../../types").DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: MouseEvent<HTMLInputElement> & import("lib/types").TargetProps) => void;
+    onChange?: (e: MouseEvent<HTMLInputElement> & import("../../types").TargetProps) => void;
     onClick?: import("react").MouseEventHandler<HTMLElement>;
     onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
     onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
