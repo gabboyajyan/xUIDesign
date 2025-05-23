@@ -7,7 +7,10 @@ export default function Home() {
     return (
         <>
             <Button>Button</Button>
-            <Checkbox />
+            <Checkbox
+                onChange={e => console.log(e)}>
+                Checkbox
+            </Checkbox>
         </>
     )
 }

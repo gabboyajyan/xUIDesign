@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler, ForwardedRef } from 'react';
+import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
 
 type RuleType = any;
 interface DefaultProps {
@@ -90,9 +90,7 @@ type CheckboxProps = DefaultProps & {
 };
 
 declare const Checkbox: {
-    ({ prefixCls, className, style, disabled, onClick, onMouseEnter, onMouseLeave, onKeyPress, onKeyDown, tabIndex, name, children, id, autoFocus, type, required, noStyle, checked, ref }: CheckboxProps & {
-        ref: ForwardedRef<HTMLDivElement>;
-    }): React.JSX.Element;
+    ({ prefixCls, className, defaultChecked, checked, style, disabled, onChange, onClick, onMouseEnter, onMouseLeave, onKeyPress, onKeyDown, tabIndex, name, children, id, autoFocus, type, value, required, noStyle }: CheckboxProps): ReactElement;
     displayName: string;
 };
 

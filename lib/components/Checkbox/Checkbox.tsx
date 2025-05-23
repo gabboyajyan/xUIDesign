@@ -1,12 +1,16 @@
-import React, { ForwardedRef } from 'react';
+import React, { ReactElement } from 'react';
 import { CheckboxProps } from '../../types/checkbox';
-import { clsx } from '../../helpers';
+import { prefixClsCheckbox } from '../../utils';
+import CheckboxClient from './Checkbox.client';
 
 const Checkbox = ({
-  prefixCls,
+  prefixCls = prefixClsCheckbox,
   className = '',
+  defaultChecked = false,
+  checked,
   style,
   disabled = false,
+  onChange,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -18,53 +22,35 @@ const Checkbox = ({
   id,
   autoFocus,
   type = 'checkbox',
+  value = false,
   required = false,
-  noStyle,
-  checked,
-  ref
-}: CheckboxProps & { ref: ForwardedRef<HTMLDivElement> }) => {
+  noStyle
+}: CheckboxProps): ReactElement => {
   return (
-    (
-      <div className={`${prefixCls}-wrapper`}>
-        <div
-          ref={ref}
-          style={style}
-          onClick={onClick}
-          className={clsx([
-            prefixCls,
-            className,
-            {
-              noStyle: noStyle,
-              [`${prefixCls}-disabled`]: disabled,
-              [`${prefixCls}-checked`]: checked
-            }
-          ])}
-        >
-          <input
-            id={id}
-            type={type}
-            name={name}
-            disabled={disabled}
-            tabIndex={tabIndex}
-            required={required}
-            autoFocus={autoFocus}
-            onKeyDown={onKeyDown}
-            onKeyPress={onKeyPress}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-
-          <span className={`${prefixCls}-box`}>
-            <span
-              className={`${prefixCls}-check`}
-              style={{ opacity: Number(checked) }}
-            />
-          </span>
-        </div>
-
-        {children && <span className={`${prefixCls}-label`}>{children}</span>}
-      </div>
-    )
+    <CheckboxClient
+      prefixCls={prefixCls}
+      className={className}
+      defaultChecked={defaultChecked}
+      checked={checked}
+      style={style}
+      disabled={disabled}
+      onChange={onChange}
+      onClick={onClick}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      onKeyPress={onKeyPress}
+      onKeyDown={onKeyDown}
+      tabIndex={tabIndex}
+      name={name}
+      id={id}
+      autoFocus={autoFocus}
+      type={type}
+      value={value}
+      required={required}
+      noStyle={noStyle}
+    >
+      {children}
+    </CheckboxClient>
   );
 };
 
