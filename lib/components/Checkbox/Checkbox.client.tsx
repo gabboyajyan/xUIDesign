@@ -21,8 +21,8 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
       disabled = false,
       onChange,
       onClick,
-      children,
       value = false,
+      ...props
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
@@ -54,11 +54,10 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
     return (
       <Checkbox
         ref={ref}
+        {...props}
         onClick={handleClick}
         checked={internalChecked}
-      >
-        {children}
-      </Checkbox>
+      />
     )
   }
 );
