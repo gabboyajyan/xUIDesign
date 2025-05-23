@@ -1,8 +1,8 @@
+import React, { createContext, FC } from 'react';
 import { FormInstance, FormItemProps, FormProps } from '../../types/form';
 import { prefixClsForm } from '../../utils';
 import FormItem from './Item/FormItem';
 import FormClient from './Form.client';
-import { createContext, FC } from 'react';
 
 export const FormContext = createContext<FormInstance | null>(null);
 

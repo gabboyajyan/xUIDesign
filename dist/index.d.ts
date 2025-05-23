@@ -1,5 +1,4 @@
-import * as react from 'react';
-import { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
+import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
 
 type RuleType = any;
 interface DefaultProps {
@@ -20,7 +19,7 @@ type EmptyContentProps = DefaultProps & {
     icon?: ReactNode;
 };
 
-declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react.JSX.Element;
+declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => React.JSX.Element;
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
