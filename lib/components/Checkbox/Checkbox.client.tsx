@@ -11,13 +11,12 @@ import {
 import { clsx } from '../../../lib/helpers';
 import { SyntheticBaseEvent } from '../../types';
 import { CheckboxProps } from '../../types/checkbox';
-import { prefixClsCheckbox } from '../../../lib/utils';
 import './style.css';
 
-const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
+const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
   (
     {
-      prefixCls = prefixClsCheckbox,
+      prefixCls,
       className = '',
       defaultChecked = false,
       checked,
@@ -110,6 +109,6 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
   }
 );
 
-Checkbox.displayName = 'Checkbox';
+CheckboxClient.displayName = 'CheckboxClient';
 
-export default Checkbox;
+export default CheckboxClient;
