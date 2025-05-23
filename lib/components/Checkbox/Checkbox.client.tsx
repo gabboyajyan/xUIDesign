@@ -50,7 +50,6 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
       }
 
       if (onChange) {
-        // Create a synthetic event with the new value
         const syntheticEvent = {
           ...e,
           target: {

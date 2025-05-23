@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ForwardedRef, ReactElement } from 'react';
 import { CheckboxProps } from '../../types/checkbox';
 import { prefixClsCheckbox } from '../../utils';
 import { clsx } from '../../helpers';
@@ -24,13 +24,17 @@ const Checkbox = ({
   type = 'checkbox',
   value = false,
   required = false,
-  noStyle
-}: CheckboxProps): ReactElement => {
+  noStyle,
+  ref
+}: CheckboxProps & {
+  ref?: ForwardedRef<HTMLDivElement>
+}): ReactElement => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
 
   return (
     <div className={`${prefixCls}-wrapper`}>
       <div
+        ref={ref}
         style={style}
         className={clsx([
           prefixCls,
