@@ -37,7 +37,7 @@ const prefixClsButton = 'xUi-button';
 var css_248z$2 = ".xUi-empty{align-items:center;display:grid;gap:4px;justify-content:center;padding:14px}.xUi-empty-description{color:var(--xui-text-color);font-size:var(--xui-font-size-md);text-align:center}";
 styleInject(css_248z$2);
 
-const EmptyContent = ({
+const EmptyClient = ({
   icon,
   style = {},
   className = '',
@@ -73,6 +73,24 @@ const EmptyContent = ({
 }))))), /*#__PURE__*/React.createElement("div", {
   className: `${prefixCls}-description`
 }, description));
+
+const Empty = ({
+  icon,
+  style = {},
+  className = '',
+  title = 'No Data',
+  description = 'No data',
+  prefixCls = prefixClsEmpty
+}) => {
+  return /*#__PURE__*/React.createElement(EmptyClient, {
+    icon: icon,
+    style: style,
+    className: className,
+    title: title,
+    description: description,
+    prefixCls: prefixCls
+  });
+};
 
 function _extends() {
   return _extends = Object.assign ? Object.assign.bind() : function (n) {
@@ -291,5 +309,5 @@ Checkbox.displayName = 'Checkbox';
 
 exports.Button = Button;
 exports.Checkbox = Checkbox;
-exports.Empty = EmptyContent;
+exports.Empty = Empty;
 //# sourceMappingURL=index.js.map

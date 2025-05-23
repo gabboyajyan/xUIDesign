@@ -20,7 +20,7 @@ type EmptyContentProps = DefaultProps & {
     icon?: ReactNode;
 };
 
-declare const EmptyContent: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react.JSX.Element;
+declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react.JSX.Element;
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
@@ -95,4 +95,4 @@ declare const Checkbox: {
     displayName: string;
 };
 
-export { Button, Checkbox, EmptyContent as Empty };
+export { Button, Checkbox, Empty };
