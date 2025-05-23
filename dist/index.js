@@ -161,7 +161,7 @@ const Button = ({
   }, restProps), content);
 };
 
-const Checkbox = /*#__PURE__*/React.forwardRef(({
+const Checkbox = ({
   prefixCls,
   className = '',
   style,
@@ -179,8 +179,9 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   type = 'checkbox',
   required = false,
   noStyle,
-  checked
-}, ref) => {
+  checked,
+  ref
+}) => {
   return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
   }, /*#__PURE__*/React.createElement("div", {
@@ -214,7 +215,7 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   }))), children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
-});
+};
 Checkbox.displayName = 'Checkbox';
 
 exports.Button = Button;

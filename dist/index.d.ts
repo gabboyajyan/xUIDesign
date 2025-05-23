@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement } from 'react';
+import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler, ForwardedRef } from 'react';
 
 type RuleType = any;
 interface DefaultProps {
@@ -68,18 +68,18 @@ declare const Button: ({ type, variant, color, shape, size, htmlType, className,
     isLoading?: boolean;
 }) => ReactElement;
 
-declare const Checkbox: React.ForwardRefExoticComponent<DefaultProps & {
+type CheckboxProps = DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: React.MouseEvent<HTMLInputElement> & TargetProps) => void;
-    onClick?: React.MouseEventHandler<HTMLElement>;
-    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
-    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
+    onClick?: MouseEventHandler<HTMLElement>;
+    onMouseEnter?: MouseEventHandler<HTMLElement>;
+    onMouseLeave?: MouseEventHandler<HTMLElement>;
+    onKeyPress?: KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLElement>;
     value?: boolean;
     tabIndex?: number;
     name?: string;
-    children?: React.ReactNode;
+    children?: ReactNode;
     id?: string;
     autoFocus?: boolean;
     type?: string;
@@ -87,6 +87,13 @@ declare const Checkbox: React.ForwardRefExoticComponent<DefaultProps & {
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
-} & React.RefAttributes<HTMLDivElement>>;
+};
+
+declare const Checkbox: {
+    ({ prefixCls, className, style, disabled, onClick, onMouseEnter, onMouseLeave, onKeyPress, onKeyDown, tabIndex, name, children, id, autoFocus, type, required, noStyle, checked, ref }: CheckboxProps & {
+        ref: ForwardedRef<HTMLDivElement>;
+    }): React.JSX.Element;
+    displayName: string;
+};
 
 export { Button, Checkbox, Empty };

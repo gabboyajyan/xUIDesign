@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React from 'react';
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -159,7 +159,7 @@ const Button = ({
   }, restProps), content);
 };
 
-const Checkbox = /*#__PURE__*/forwardRef(({
+const Checkbox = ({
   prefixCls,
   className = '',
   style,
@@ -177,8 +177,9 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   type = 'checkbox',
   required = false,
   noStyle,
-  checked
-}, ref) => {
+  checked,
+  ref
+}) => {
   return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
   }, /*#__PURE__*/React.createElement("div", {
@@ -212,7 +213,7 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   }))), children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
-});
+};
 Checkbox.displayName = 'Checkbox';
 
 export { Button, Checkbox, Empty };
