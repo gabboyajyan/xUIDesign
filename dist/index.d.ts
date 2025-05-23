@@ -1,4 +1,4 @@
-import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
+import React, { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement } from 'react';
 
 type RuleType = any;
 interface DefaultProps {
@@ -13,13 +13,13 @@ type TargetProps = {
     };
 };
 
-type EmptyContentProps = DefaultProps & {
+type EmptyProps = DefaultProps & {
     title?: string;
     description?: string;
     icon?: ReactNode;
 };
 
-declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => React.JSX.Element;
+declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyProps) => React.JSX.Element;
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
@@ -68,18 +68,18 @@ declare const Button: ({ type, variant, color, shape, size, htmlType, className,
     isLoading?: boolean;
 }) => ReactElement;
 
-type CheckboxProps = DefaultProps & {
+declare const Checkbox: React.ForwardRefExoticComponent<DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
-    onClick?: MouseEventHandler<HTMLElement>;
-    onMouseEnter?: MouseEventHandler<HTMLElement>;
-    onMouseLeave?: MouseEventHandler<HTMLElement>;
-    onKeyPress?: KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: KeyboardEventHandler<HTMLElement>;
+    onChange?: (e: React.MouseEvent<HTMLInputElement> & TargetProps) => void;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
     value?: boolean;
     tabIndex?: number;
     name?: string;
-    children?: ReactNode;
+    children?: React.ReactNode;
     id?: string;
     autoFocus?: boolean;
     type?: string;
@@ -87,11 +87,6 @@ type CheckboxProps = DefaultProps & {
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
-};
-
-declare const Checkbox: {
-    ({ prefixCls, className, defaultChecked, checked, style, disabled, onChange, onClick, onMouseEnter, onMouseLeave, onKeyPress, onKeyDown, tabIndex, name, children, id, autoFocus, type, value, required, noStyle }: CheckboxProps): ReactElement;
-    displayName: string;
-};
+} & React.RefAttributes<HTMLDivElement>>;
 
 export { Button, Checkbox, Empty };

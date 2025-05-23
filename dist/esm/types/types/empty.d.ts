@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 import { DefaultProps } from '.';
-export type EmptyContentProps = DefaultProps & {
+export type EmptyProps = DefaultProps & {
     title?: string;
     description?: string;
     icon?: ReactNode;

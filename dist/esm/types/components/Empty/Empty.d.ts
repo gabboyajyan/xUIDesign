@@ -1,4 +1,5 @@
 import React from 'react';
-import { EmptyContentProps } from '../../types/empty';
-declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => React.JSX.Element;
+import { EmptyProps } from '../../types/empty';
+import './style.css';
+declare const Empty: ({ icon, style, className, title, description, prefixCls }: EmptyProps) => React.JSX.Element;
 export default Empty;
