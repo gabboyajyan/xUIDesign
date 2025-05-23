@@ -5,7 +5,7 @@ import ButtonBase from './Button';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 
-const MyButton = (props: ButtonProps) => {
+const ButtonClient = (props: ButtonProps) => {
   const {
     loading = false,
     icon,
@@ -36,4 +36,4 @@ const MyButton = (props: ButtonProps) => {
   return <ButtonBase {...props} isLoading={innerLoading} iconNode={iconNode} />;
 };
 
-export default MyButton;
+export default ButtonClient;

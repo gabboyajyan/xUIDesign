@@ -4,12 +4,7 @@ import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 import './style.css';
 
-type ButtonBaseProps = ButtonProps & {
-  iconNode?: ReactNode;
-  isLoading?: boolean;
-};
-
-const ButtonBase = ({
+const Button = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -31,7 +26,10 @@ const ButtonBase = ({
   iconNode,
   isLoading = false,
   ...restProps
-}: ButtonBaseProps): ReactElement => {
+}: ButtonProps & {
+  iconNode?: ReactNode;
+  isLoading?: boolean;
+}): ReactElement => {
   const classes = clsx(
     prefixCls,
     rootClassName,
@@ -98,4 +96,4 @@ const ButtonBase = ({
   );
 };
 
-export default ButtonBase;
+export default Button;

@@ -47,9 +47,7 @@ export default [
                 presets: ['@babel/preset-react', '@babel/preset-typescript']
             }),
             postcss({
-                extensions: ['.css', '.less'],
-                use: ['less'],
-                extract: true,
+                inject: true,
                 minimize: true,
                 modules: false
             })
