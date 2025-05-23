@@ -1,23 +1,14 @@
 'use client';
 
-import React, {
-  ForwardedRef,
-  forwardRef,
-  MouseEvent,
-  ReactElement,
-  useEffect,
-  useState
-} from 'react';
-import { clsx } from '../../helpers';
-import { SyntheticBaseEvent } from '../../types';
+import React, { ForwardedRef, forwardRef, useState, useEffect } from 'react';
+import CheckboxServer from './Checkbox';
 import { CheckboxProps } from '../../types/checkbox';
-import './style.css';
 
 const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
   (
     {
       prefixCls,
-      className = '',
+      className,
       defaultChecked = false,
       checked,
       style,
@@ -39,24 +30,37 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
       noStyle
     },
     ref: ForwardedRef<HTMLDivElement>
-  ): ReactElement => {
-    const isChecked = checked !== undefined ? checked : defaultChecked || value;
-    const [internalChecked, setInternalChecked] = useState(isChecked);
+  ) => {
+    const [internalChecked, setInternalChecked] = useState(
+      checked !== undefined ? checked : defaultChecked || value
+    );
 
-    const handleClick = (
-      e: MouseEvent<HTMLInputElement> & SyntheticBaseEvent
-    ) => {
+    const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
       e.stopPropagation();
 
       if (disabled) {
         return;
       }
 
-      setInternalChecked(!internalChecked);
-      e.target.value = !internalChecked;
+      const newChecked = !internalChecked;
+      setInternalChecked(newChecked);
 
-      onClick?.(e);
-      onChange?.(e);
+      if (onClick) {
+        onClick(e);
+      }
+
+      if (onChange) {
+        // Create a synthetic event with the new value
+        const syntheticEvent = {
+          ...e,
+          target: {
+            ...e.target,
+            value: newChecked,
+            checked: newChecked
+          }
+        };
+        onChange(syntheticEvent);
+      }
     };
 
     useEffect(() => {
@@ -66,45 +70,30 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
     }, [checked]);
 
     return (
-      <div className={`${prefixCls}-wrapper`}>
-        <div
-          ref={ref}
-          style={style}
-          onClick={handleClick}
-          className={clsx([
-            prefixCls,
-            className,
-            {
-              noStyle: noStyle,
-              [`${prefixCls}-disabled`]: disabled,
-              [`${prefixCls}-checked`]: internalChecked
-            }
-          ])}
-        >
-          <input
-            id={id}
-            type={type}
-            name={name}
-            disabled={disabled}
-            tabIndex={tabIndex}
-            required={required}
-            autoFocus={autoFocus}
-            onKeyDown={onKeyDown}
-            onKeyPress={onKeyPress}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-
-          <span className={`${prefixCls}-box`}>
-            <span
-              className={`${prefixCls}-check`}
-              style={{ opacity: Number(internalChecked) }}
-            />
-          </span>
-        </div>
-
-        {children && <span className={`${prefixCls}-label`}>{children}</span>}
-      </div>
+      <CheckboxServer
+        ref={ref}
+        prefixCls={prefixCls}
+        className={className}
+        checked={internalChecked}
+        style={style}
+        disabled={disabled}
+        onChange={handleClick}
+        onClick={handleClick}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onKeyPress={onKeyPress}
+        onKeyDown={onKeyDown}
+        tabIndex={tabIndex}
+        name={name}
+        id={id}
+        autoFocus={autoFocus}
+        type={type}
+        value={value}
+        required={required}
+        noStyle={noStyle}
+      >
+        {children}
+      </CheckboxServer>
     );
   }
 );

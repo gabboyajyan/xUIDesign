@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { CheckboxProps } from '../../types/checkbox';
 import { prefixClsCheckbox } from '../../utils';
-import CheckboxClient from './Checkbox.client';
+import { clsx } from '../../helpers';
 
 const Checkbox = ({
   prefixCls = prefixClsCheckbox,
@@ -26,31 +26,49 @@ const Checkbox = ({
   required = false,
   noStyle
 }: CheckboxProps): ReactElement => {
+  const isChecked = checked !== undefined ? checked : defaultChecked || value;
+
   return (
-    <CheckboxClient
-      prefixCls={prefixCls}
-      className={className}
-      defaultChecked={defaultChecked}
-      checked={checked}
-      style={style}
-      disabled={disabled}
-      onChange={onChange}
-      onClick={onClick}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-      onKeyPress={onKeyPress}
-      onKeyDown={onKeyDown}
-      tabIndex={tabIndex}
-      name={name}
-      id={id}
-      autoFocus={autoFocus}
-      type={type}
-      value={value}
-      required={required}
-      noStyle={noStyle}
-    >
-      {children}
-    </CheckboxClient>
+    <div className={`${prefixCls}-wrapper`}>
+      <div
+        style={style}
+        className={clsx([
+          prefixCls,
+          className,
+          {
+            noStyle: noStyle,
+            [`${prefixCls}-disabled`]: disabled,
+            [`${prefixCls}-checked`]: isChecked
+          }
+        ])}
+      >
+        <input
+          id={id}
+          type={type}
+          name={name}
+          checked={isChecked}
+          disabled={disabled}
+          tabIndex={tabIndex}
+          required={required}
+          autoFocus={autoFocus}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          onKeyPress={onKeyPress}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onChange={(e) => onChange?.(e)}
+        />
+
+        <span className={`${prefixCls}-box`}>
+          <span
+            className={`${prefixCls}-check`}
+            style={{ opacity: Number(isChecked) }}
+          />
+        </span>
+      </div>
+
+      {children && <span className={`${prefixCls}-label`}>{children}</span>}
+    </div>
   );
 };
 
