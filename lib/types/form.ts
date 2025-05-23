@@ -46,7 +46,6 @@ export interface FieldError {
 type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline';
 
 export type FormProps = DefaultProps & {
-  colon?: boolean;
   name?: string;
   layout?: FormLayoutTypes;
   form?: FormInstance;

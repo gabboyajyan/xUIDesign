@@ -26,6 +26,7 @@ const FormClient: FC<FormProps> = ({
   onValuesChange,
   onFieldsChange,
   layout = 'horizontal',
+  onSubmitCapture,
   ...rest
 }) => {
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
@@ -64,6 +65,9 @@ const FormClient: FC<FormProps> = ({
         style={style}
         ref={formRef}
         onSubmit={handleSubmit}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        onSubmitCapture={onSubmitCapture}
         className={`${prefixCls} ${className}`}
         {...rest}
       >
