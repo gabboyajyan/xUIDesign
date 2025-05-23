@@ -1,26 +1,4 @@
-import * as react from 'react';
-import { CSSProperties, ReactNode, ButtonHTMLAttributes, ReactElement, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
-
-type RuleType = any;
-interface DefaultProps {
-    prefixCls?: string;
-    className?: string;
-    style?: CSSProperties;
-    noStyle?: boolean;
-}
-type TargetProps = {
-    target: {
-        value: RuleType;
-    };
-};
-
-type EmptyContentProps = DefaultProps & {
-    title?: string;
-    description?: string;
-    icon?: ReactNode;
-};
-
-declare const EmptyContent: ({ icon, style, className, title, description, prefixCls }: EmptyContentProps) => react.JSX.Element;
+import { ButtonHTMLAttributes, ReactNode, CSSProperties, ReactElement } from 'react';
 
 declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
 declare const ButtonShapes: readonly ["default", "circle", "round"];
@@ -69,30 +47,4 @@ declare const Button: ({ type, variant, color, shape, size, htmlType, className,
     isLoading?: boolean;
 }) => ReactElement;
 
-type CheckboxProps = DefaultProps & {
-    disabled?: boolean;
-    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
-    onClick?: MouseEventHandler<HTMLElement>;
-    onMouseEnter?: MouseEventHandler<HTMLElement>;
-    onMouseLeave?: MouseEventHandler<HTMLElement>;
-    onKeyPress?: KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: KeyboardEventHandler<HTMLElement>;
-    value?: boolean;
-    tabIndex?: number;
-    name?: string;
-    children?: ReactNode;
-    id?: string;
-    autoFocus?: boolean;
-    type?: string;
-    skipGroup?: boolean;
-    required?: boolean;
-    defaultChecked?: boolean;
-    checked?: boolean;
-};
-
-declare const Checkbox: {
-    ({ prefixCls, className, defaultChecked, checked, style, disabled, onChange, onClick, onMouseEnter, onMouseLeave, onKeyPress, onKeyDown, tabIndex, name, children, id, autoFocus, type, value, required, noStyle }: CheckboxProps): ReactElement;
-    displayName: string;
-};
-
-export { Button, Checkbox, EmptyContent as Empty };
+export { Button };
