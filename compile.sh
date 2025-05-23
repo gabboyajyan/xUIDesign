@@ -4,10 +4,11 @@ rm -rf dist
 
 yarn rollup
 
-npm version patch --no-git-tag-version
-
 git add .
 git commit -m  "Push command from compile"
+
+npm version patch
+
 git push origin main
 
 npm publish
