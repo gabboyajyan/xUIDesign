@@ -88,7 +88,7 @@ export type FormItemProps = DefaultProps & {
 };
 
 export interface FormItemChildComponentProps {
-  child: React.ReactElement;
+  child: ReactElement;
   name: string;
   error: boolean;
   fieldValue: RuleTypes;

@@ -1,3 +1,4 @@
+import { CSSProperties, DragEvent, ReactNode } from 'react';
 import { DefaultProps, RuleType } from '.';
 
 export interface RcFile extends File {
@@ -43,7 +44,7 @@ export type UploadProps = DefaultProps & {
   accept?: string;
   beforeUpload?: (file: RcFile, fileList: File[]) => boolean | Promise<boolean>;
   onChange?: (info: UploadChangeParam) => void;
-  onDrop?: (event: React.DragEvent<HTMLDivElement>) => void;
+  onDrop?: (event: DragEvent<HTMLDivElement>) => void;
   listType?: string;
   className?: string;
   rootClassName?: string;
@@ -53,7 +54,7 @@ export type UploadProps = DefaultProps & {
     file: UploadFile<RuleType>
   ) => void | boolean | Promise<void | boolean>;
   disabled?: boolean;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   customRequest?: (options: {
     file: RcFile;
     onSuccess: (response: RuleType) => void;
@@ -63,5 +64,5 @@ export type UploadProps = DefaultProps & {
   withCredentials?: boolean;
   openFileDialogOnClick?: boolean;
   maxCount?: number;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
