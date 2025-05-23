@@ -23,7 +23,7 @@ import { FormContext } from '../Form';
 
 const REF_CLIENT_HEIGHT = 24;
 
-const FormItem = ({
+const FormItemClient = ({
   prefixCls = prefixClsFormItem,
   name,
   label,
@@ -39,7 +39,6 @@ const FormItem = ({
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
-
   const errorRef = useRef<HTMLSpanElement>(null);
 
   if (!formContext) {
@@ -87,10 +86,7 @@ const FormItem = ({
   }, [dependencies, name]);
 
   useEffect(() => {
-    if (
-      errorRef.current &&
-      errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT
-    ) {
+    if (errorRef.current && errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT) {
       errorRef.current.style.position = 'relative';
       errorRef.current.style.marginTop = '-16px';
     }
@@ -119,15 +115,13 @@ const FormItem = ({
         <label className={`${prefixCls}-label`} htmlFor={name}>
           {label || name}:
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}
-          {/* @Todo need to add Tooltip like Ant design */}
         </label>
       )}
 
       {Children.map(childrenList, (child, key) => {
         if (isValidElement(child) && child.type !== Fragment) {
           const { value, ...childProps } = child.props;
-          const fieldValue =
-            getFieldValue(valuePropName || name) ?? initialValue;
+          const fieldValue = getFieldValue(valuePropName || name) ?? initialValue;
 
           return (
             <FormItemChildComponent
@@ -174,15 +168,11 @@ const FormItemChildComponent = ({
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
-
   const [wasNormalize, setWasNormalize] = useState(false);
-
   const { getFieldsValue } = formContext || {};
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
-    let rawValue: RuleType | SyntheticBaseEvent = e?.target
-      ? e.target.value
-      : e;
+    let rawValue: RuleType | SyntheticBaseEvent = e?.target ? e.target.value : e;
 
     if (normalize) {
       const prevValue = fieldValue ?? props.value;
@@ -192,14 +182,10 @@ const FormItemChildComponent = ({
 
       if (rawValue === prevValue) {
         e.target.value = rawValue;
-
         setWasNormalize(prev => !prev);
 
         const timeout = setTimeout(() => {
-          (
-            document.querySelector(`[name='${name}']`) as HTMLInputElement
-          )?.focus();
-
+          (document.querySelector(`[name='${name}']`) as HTMLInputElement)?.focus();
           clearTimeout(timeout);
         }, 0);
 
@@ -223,6 +209,6 @@ const FormItemChildComponent = ({
   );
 };
 
-FormItem.displayName = 'FormItem';
+FormItemClient.displayName = 'FormItemClient';
 
-export default FormItem;
+export default FormItemClient;

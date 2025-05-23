@@ -7,7 +7,7 @@
     "emitDeclarationOnly": true,
     "outDir": "./dist",
     "moduleResolution": "node",
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
