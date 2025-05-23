@@ -42,10 +42,9 @@ interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLBut
     htmlType?: ButtonHTMLType;
 }
 
-type ButtonBaseProps = ButtonProps & {
+declare const Button: ({ type, variant, color, shape, size, htmlType, className, rootClassName, classNames: customClassNames, styles, prefixCls, iconPosition, disabled, ghost, danger, block, children, href, iconNode, isLoading, ...restProps }: ButtonProps & {
     iconNode?: ReactNode;
     isLoading?: boolean;
-};
-declare const ButtonBase: ({ type, variant, color, shape, size, htmlType, className, rootClassName, classNames: customClassNames, styles, prefixCls, iconPosition, disabled, ghost, danger, block, children, href, iconNode, isLoading, ...restProps }: ButtonBaseProps) => ReactElement;
+}) => ReactElement;
 
-export { ButtonBase as Button };
+export { Button };
