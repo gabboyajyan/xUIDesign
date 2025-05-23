@@ -205,9 +205,9 @@ const CheckboxClient = /*#__PURE__*/React$1.forwardRef(({
       setInternalChecked(checked);
     }
   }, [checked]);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-wrapper`
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     ref: ref,
     style: style,
     onClick: handleClick,
@@ -216,7 +216,7 @@ const CheckboxClient = /*#__PURE__*/React$1.forwardRef(({
       [`${prefixCls}-disabled`]: disabled,
       [`${prefixCls}-checked`]: internalChecked
     }])
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React$1.createElement("input", {
     id: id,
     type: type,
     name: name,
@@ -228,14 +228,14 @@ const CheckboxClient = /*#__PURE__*/React$1.forwardRef(({
     onKeyPress: onKeyPress,
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-box`
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-check`,
     style: {
       opacity: Number(internalChecked)
     }
-  }))), children && /*#__PURE__*/React.createElement("span", {
+  }))), children && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
 });
@@ -264,7 +264,7 @@ const Checkbox = ({
   required = false,
   noStyle
 }) => {
-  return /*#__PURE__*/React.createElement(CheckboxClient, {
+  return /*#__PURE__*/React$1.createElement(CheckboxClient, {
     prefixCls: prefixCls,
     className: className,
     defaultChecked: defaultChecked,
