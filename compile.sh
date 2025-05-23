@@ -4,7 +4,7 @@ rm -rf dist
 
 yarn rollup
 
-npm version patch
+npm version patch --no-git-tag-version
 
 git add .
 git commit -m  "Push command from compile"
