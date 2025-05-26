@@ -27,7 +27,7 @@ declare const RangePicker: import("react").ComponentType<import("./types/datepic
 declare const TimePicker: import("react").ComponentType<import("./types/datepicker").TimePickerProps>;
 declare const Form: import("react").ComponentType<import("./types/form").FormProps>;
 declare const FormItem: import("react").ComponentType<import("./types/form").FormItemProps>;
-declare const Input: import("react").ComponentType<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "prefix" | "size"> & import("./types").DefaultProps & {
+declare const Input: import("react").ComponentType<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("./types").DefaultProps & {
     addonBefore?: import("react").ReactNode;
     addonAfter?: import("react").ReactNode;
     size?: import("./types").SizeType;
@@ -151,5 +151,7 @@ declare const SkeletonAvatar: import("react").ComponentType<import("./types/skel
 declare const SkeletonButton: import("react").ComponentType<import("./types/skeleton").SkeletonButtonProps>;
 declare const SkeletonImage: import("react").ComponentType<import("./types/skeleton").SkeletonImageProps>;
 declare const SkeletonInput: import("react").ComponentType<import("./types/skeleton").SkeletonInputProps>;
-export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon } from '@/components/Icons';
 export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload };
+export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon } from '@/components/Icons';
+export { useForm } from '@/hooks/useForm';
+export { useWatch } from '@/hooks/useWatch';

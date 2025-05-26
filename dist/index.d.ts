@@ -1,6 +1,8 @@
 import * as react from 'react';
 import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FocusEventHandler, KeyboardEventHandler, FC, ComponentClass, FormEvent, ReactElement, FocusEvent, ButtonHTMLAttributes } from 'react';
 export { ArrowIcon, CalendarIcon, CheckIcon, ClearIcon, DateDistanceIcon, ErrorIcon, LoadingIcon, SearchIcon, SpinerIcon, StampleIcon, SuccessIcon, TimeIcon, TrashIcon } from '@/components/Icons';
+export { useForm } from '@/hooks/useForm';
+export { useWatch } from '@/hooks/useWatch';
 
 type RuleType = any;
 type RuleTypes = RuleType | RuleType[];
@@ -506,7 +508,7 @@ declare const RangePicker: react.ComponentType<TRangePickerProps>;
 declare const TimePicker: react.ComponentType<TimePickerProps>;
 declare const Form: react.ComponentType<FormProps>;
 declare const FormItem: react.ComponentType<FormItemProps>;
-declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInputElement>, "prefix" | "size"> & DefaultProps & {
+declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & DefaultProps & {
     addonBefore?: react.ReactNode;
     addonAfter?: react.ReactNode;
     size?: SizeType$1;
