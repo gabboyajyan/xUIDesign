@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from './Button';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';

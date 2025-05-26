@@ -1,3 +1,5 @@
+import React from 'react';
+
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
   var insertAt = ref.insertAt;

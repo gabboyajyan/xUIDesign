@@ -1,5 +1,7 @@
 'use strict';
 
+var React = require('react');
+
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
   var insertAt = ref.insertAt;
