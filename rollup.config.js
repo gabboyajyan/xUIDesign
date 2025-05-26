@@ -15,6 +15,7 @@ const packageJson = require('./package.json');
 export default [
     {
         input: 'lib/index.ts',
+        inlineDynamicImports: true,
         external: ["react", /^react\/.*/, "react-dom", /react-dom\/.*/],
         output: [
             {
@@ -25,7 +26,7 @@ export default [
             {
                 file: packageJson.module,
                 format: 'esm',
-                sourcemap: true,
+                sourcemap: true
             },
         ],
         plugins: [

@@ -1,0 +1,23 @@
+import { MouseEvent } from 'react';
+import './style.css';
+declare const Checkbox: import("react").ForwardRefExoticComponent<import("../../types").DefaultProps & {
+    disabled?: boolean;
+    onChange?: (e: MouseEvent<HTMLInputElement> & import("../../types").TargetProps) => void;
+    onClick?: import("react").MouseEventHandler<HTMLElement>;
+    onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
+    onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
+    onKeyPress?: import("react").KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: import("react").KeyboardEventHandler<HTMLElement>;
+    value?: boolean;
+    tabIndex?: number;
+    name?: string;
+    children?: import("react").ReactNode;
+    id?: string;
+    autoFocus?: boolean;
+    type?: string;
+    skipGroup?: boolean;
+    required?: boolean;
+    defaultChecked?: boolean;
+    checked?: boolean;
+} & import("react").RefAttributes<HTMLDivElement>>;
+export default Checkbox;
