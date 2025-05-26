@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
-import ButtonBase from './Button';
+import Button from './Button';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 
@@ -33,7 +33,7 @@ const ButtonClient = (props: ButtonProps) => {
       : icon;
   }, [icon, innerLoading, loading, prefixCls]);
 
-  return <ButtonBase {...props} isLoading={innerLoading} iconNode={iconNode} />;
+  return <Button {...props} isLoading={innerLoading} iconNode={iconNode} />;
 };
 
 export default ButtonClient;
