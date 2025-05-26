@@ -52,7 +52,9 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
       <Checkbox
         ref={ref}
         {...props}
-        onClick={handleClick}
+        onClick={(e) => {
+          handleClick(e as MouseEvent<HTMLInputElement> & SyntheticBaseEvent)
+        }}
         internalChecked={internalChecked}
         setInternalChecked={setInternalChecked}
       />

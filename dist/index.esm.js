@@ -209,7 +209,9 @@ const CheckboxClient = /*#__PURE__*/forwardRef(({
   return /*#__PURE__*/React.createElement(Checkbox, _extends({
     ref: ref
   }, props, {
-    onClick: handleClick,
+    onClick: e => {
+      handleClick(e);
+    },
     internalChecked: internalChecked,
     setInternalChecked: setInternalChecked
   }));
