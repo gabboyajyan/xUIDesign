@@ -4,7 +4,7 @@ import {
   MouseEventHandler,
   ReactNode
 } from 'react';
-import { DefaultProps, TargetProps } from '../../lib/types';
+import { DefaultProps, TargetProps } from 'lib/types';
 
 export type CheckboxProps = DefaultProps & {
   disabled?: boolean;

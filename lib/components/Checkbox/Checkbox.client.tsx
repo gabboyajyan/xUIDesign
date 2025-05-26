@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { SyntheticBaseEvent } from '../../types';
 import { CheckboxProps } from '../../types/checkbox';
-import { clsx } from '../../../lib/helpers';
+import { clsx } from '../../helpers';
 import { prefixClsCheckbox } from '../../utils';
 import './style.css';
 
@@ -79,6 +79,9 @@ const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
           ref={ref}
           style={style}
           onClick={(e) => {
+
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
             handleClick(e);
           }}
           className={clsx([
