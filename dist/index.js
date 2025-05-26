@@ -1,7 +1,5 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', { value: true });
-
 var React$1 = require('react');
 
 function styleInject(css, ref) {
@@ -203,5 +201,5 @@ const Checkbox = /*#__PURE__*/React$1.forwardRef(({
 Checkbox.displayName = 'Checkbox';
 
 exports.Button = Button;
-exports.default = Checkbox;
+exports.Checkbox = Checkbox;
 //# sourceMappingURL=index.js.map

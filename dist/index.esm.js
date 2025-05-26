@@ -198,5 +198,5 @@ const Checkbox = /*#__PURE__*/forwardRef(({
 });
 Checkbox.displayName = 'Checkbox';
 
-export { Button, Checkbox as default };
+export { Button, Checkbox };
 //# sourceMappingURL=index.esm.js.map
