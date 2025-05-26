@@ -1,11 +1,11 @@
 'use client'
 
-import { Checkbox } from "../components/Checkbox"
+import { Checkbox } from "../components/Checkbox";
 
 export default function Home() {
     return (
         <>
-            <Checkbox>Checkbox</Checkbox>
+            <Checkbox onClick={(e) => console.log(e)}>Checkbox</Checkbox>
         </>
     )
 }

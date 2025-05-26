@@ -127,11 +127,8 @@ styleInject(css_248z);
 const Checkbox = /*#__PURE__*/React.forwardRef(({
   prefixCls = prefixClsCheckbox,
   className = '',
-  defaultChecked = false,
-  checked,
   style,
   disabled = false,
-  onChange,
   onClick,
   onMouseEnter,
   onMouseLeave,
@@ -143,33 +140,18 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   id,
   autoFocus,
   type = 'checkbox',
-  value = false,
+  internalChecked,
   required = false,
   noStyle
 }, ref) => {
-  const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = React.useState(isChecked);
-  const handleClick = e => {
-    e.stopPropagation();
-    if (disabled) {
-      return;
-    }
-    setInternalChecked(!internalChecked);
-    e.target.value = !internalChecked;
-    onClick?.(e);
-    onChange?.(e);
-  };
-  React.useEffect(() => {
-    if (checked !== undefined) {
-      setInternalChecked(checked);
-    }
-  }, [checked]);
   return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
   }, /*#__PURE__*/React.createElement("div", {
     ref: ref,
     style: style,
-    onClick: handleClick,
+    onClick: e => {
+      onClick?.(e);
+    },
     className: clsx([prefixCls, className, {
       noStyle: noStyle,
       [`${prefixCls}-disabled`]: disabled,
@@ -198,7 +180,43 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
     className: `${prefixCls}-label`
   }, children));
 });
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
+
+const CheckboxClient = /*#__PURE__*/React.forwardRef(({
+  defaultChecked = false,
+  checked,
+  disabled = false,
+  onChange,
+  onClick,
+  value = false,
+  ...props
+}, ref) => {
+  const isChecked = checked !== undefined ? checked : defaultChecked || value;
+  const [internalChecked, setInternalChecked] = React.useState(isChecked);
+  const handleClick = e => {
+    e.stopPropagation();
+    if (disabled) {
+      return;
+    }
+    setInternalChecked(!internalChecked);
+    e.target.value = !internalChecked;
+    onClick?.(e);
+    onChange?.(e);
+  };
+  React.useEffect(() => {
+    if (checked !== undefined) {
+      setInternalChecked(checked);
+    }
+  }, [checked]);
+  return /*#__PURE__*/React.createElement(Checkbox, _extends({
+    ref: ref
+  }, props, {
+    onClick: handleClick,
+    internalChecked: internalChecked,
+    setInternalChecked: setInternalChecked
+  }));
+});
+CheckboxClient.displayName = 'CheckboxClient';
 
 exports.Button = Button;
 exports.Checkbox = Checkbox;

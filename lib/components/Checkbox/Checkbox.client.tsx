@@ -1,5 +1,3 @@
-"use client"
-
 import React, {
   ForwardedRef,
   forwardRef,
@@ -8,36 +6,20 @@ import React, {
   useEffect,
   useState
 } from 'react';
-import { clsx } from '../../helpers';
 import { SyntheticBaseEvent } from '../../types';
 import { CheckboxProps } from '../../types/checkbox';
-import { prefixClsCheckbox } from '../../utils';
-import './style.css';
+import Checkbox from './Checkbox';
 
-const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
+const CheckboxClient = forwardRef<HTMLDivElement, CheckboxProps>(
   (
     {
-      prefixCls = prefixClsCheckbox,
-      className = '',
       defaultChecked = false,
       checked,
-      style,
       disabled = false,
       onChange,
       onClick,
-      onMouseEnter,
-      onMouseLeave,
-      onKeyPress,
-      onKeyDown,
-      tabIndex,
-      name,
-      children,
-      id,
-      autoFocus,
-      type = 'checkbox',
       value = false,
-      required = false,
-      noStyle
+      ...props
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
@@ -67,49 +49,17 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     }, [checked]);
 
     return (
-      <div className={`${prefixCls}-wrapper`}>
-        <div
-          ref={ref}
-          style={style}
-          onClick={handleClick}
-          className={clsx([
-            prefixCls,
-            className,
-            {
-              noStyle: noStyle,
-              [`${prefixCls}-disabled`]: disabled,
-              [`${prefixCls}-checked`]: internalChecked
-            }
-          ])}
-        >
-          <input
-            id={id}
-            type={type}
-            name={name}
-            disabled={disabled}
-            tabIndex={tabIndex}
-            required={required}
-            autoFocus={autoFocus}
-            onKeyDown={onKeyDown}
-            onKeyPress={onKeyPress}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-          />
-
-          <span className={`${prefixCls}-box`}>
-            <span
-              className={`${prefixCls}-check`}
-              style={{ opacity: Number(internalChecked) }}
-            />
-          </span>
-        </div>
-
-        {children && <span className={`${prefixCls}-label`}>{children}</span>}
-      </div>
-    );
+      <Checkbox
+        ref={ref}
+        {...props}
+        onClick={handleClick}
+        internalChecked={internalChecked}
+        setInternalChecked={setInternalChecked}
+      />
+    )
   }
 );
 
-Checkbox.displayName = 'Checkbox';
+CheckboxClient.displayName = 'CheckboxClient';
 
 export default Checkbox;
