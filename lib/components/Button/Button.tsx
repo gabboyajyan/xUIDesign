@@ -1,10 +1,10 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
 import './style.css';
 
-const Button = ({
+const ButtonComponent = ({
   type = 'default',
   variant = 'solid',
   color = 'default',
@@ -16,20 +16,31 @@ const Button = ({
   classNames: customClassNames = {},
   styles = {},
   prefixCls = prefixClsButton,
+  icon,
   iconPosition = 'start',
+  loading = false,
   disabled = false,
   ghost = false,
   danger = false,
   block = false,
   children,
   href,
-  iconNode,
-  isLoading = false,
   ...restProps
-}: ButtonProps & {
-  iconNode?: ReactNode;
-  isLoading?: boolean;
-}): ReactElement => {
+}: ButtonProps): ReactElement => {
+  const [innerLoading, setInnerLoading] = useState(false);
+
+  useEffect(() => {
+    if (typeof loading === 'boolean') {
+      setInnerLoading(loading);
+    } else if (typeof loading === 'object' && loading.delay) {
+      const timeout = setTimeout(() => setInnerLoading(true), loading.delay);
+
+      return () => clearTimeout(timeout);
+    } else {
+      setInnerLoading(!!loading);
+    }
+  }, [loading]);
+
   const classes = clsx(
     prefixCls,
     rootClassName,
@@ -42,13 +53,17 @@ const Button = ({
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
-      [`${prefixCls}-loading`]: isLoading,
+      [`${prefixCls}-loading`]: innerLoading,
       [`${prefixCls}-disabled`]: disabled
     },
     className
   );
 
-  const mergedDisabled = disabled || isLoading;
+  const iconNode = innerLoading
+    ? (typeof loading === 'object' && loading.icon) || (
+        <span className={`${prefixCls}-spinner`} />
+      )
+    : icon;
 
   const content = (
     <>
@@ -71,6 +86,8 @@ const Button = ({
       )}
     </>
   );
+
+  const mergedDisabled = disabled || innerLoading;
 
   if (href) {
     return (
@@ -96,4 +113,4 @@ const Button = ({
   );
 };
 
-export default Button;
+export default ButtonComponent
