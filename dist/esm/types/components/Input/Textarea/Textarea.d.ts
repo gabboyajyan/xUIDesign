@@ -1,20 +1,21 @@
+import React from 'react';
 import './style.css';
-declare const Textarea: import("react").ForwardRefExoticComponent<Omit<import("react").TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("../../../types").DefaultProps & {
+declare const Textarea: React.ForwardRefExoticComponent<Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("../../../types").DefaultProps & {
     value?: string;
     className?: string;
-    style?: import("react").CSSProperties;
+    style?: React.CSSProperties;
     autoSize?: boolean | {
         minRows?: number;
         maxRows?: number;
     };
-    onPressEnter?: import("react").KeyboardEventHandler<HTMLTextAreaElement>;
+    onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
     onResize?: (size: {
         width: number;
         height: number;
     }) => void;
     styles?: {
-        textarea?: import("react").CSSProperties;
-        count?: import("react").CSSProperties;
+        textarea?: React.CSSProperties;
+        count?: React.CSSProperties;
     };
     bordered?: boolean;
     size?: import("../../../types").SizeType;
@@ -23,5 +24,5 @@ declare const Textarea: import("react").ForwardRefExoticComponent<Omit<import("r
     variant?: "outlined" | "borderless" | "filled" | "underlined";
     error?: boolean;
     allowClear?: boolean;
-} & import("react").RefAttributes<HTMLTextAreaElement>>;
+} & React.RefAttributes<HTMLTextAreaElement>>;
 export default Textarea;

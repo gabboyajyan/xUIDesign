@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { SkeletonImageProps } from '../../../types/skeleton';
 import { prefixClsSkeleton } from '../../../utils';
 import './style.css';

@@ -1,21 +1,22 @@
+import React from 'react';
 import './style.css';
-declare const Radio: import("react").ForwardRefExoticComponent<import("../../types").DefaultProps & {
+declare const Radio: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     disabled?: boolean;
     title?: string;
     onChange?: (e: import("../../types").SyntheticBaseEvent) => void;
-    onClick?: import("react").MouseEventHandler<HTMLElement>;
-    onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
-    onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
-    onKeyPress?: import("react").KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: import("react").KeyboardEventHandler<HTMLElement>;
-    onFocus?: import("react").FocusEventHandler<HTMLInputElement>;
-    onBlur?: import("react").FocusEventHandler<HTMLInputElement>;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
     value?: import("../../types").RuleType;
     tabIndex?: number;
     name?: string;
-    children?: import("react").ReactNode;
+    children?: React.ReactNode;
     id?: string;
     autoFocus?: boolean;
     type?: string;
@@ -23,8 +24,8 @@ declare const Radio: import("react").ForwardRefExoticComponent<import("../../typ
     required?: boolean;
     button?: boolean;
     error?: boolean;
-} & import("react").RefAttributes<HTMLLabelElement>> & {
-    Group: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: import("../../types/radio").RadioGroupProps) => import("react").JSX.Element;
-    Button: ({ prefixCls, className, checked, disabled, children, size, ...props }: import("../../types/radio").RadioButtonProps) => import("react").JSX.Element;
+} & React.RefAttributes<HTMLLabelElement>> & {
+    Group: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: import("../../types/radio").RadioGroupProps) => React.JSX.Element;
+    Button: ({ prefixCls, className, checked, disabled, children, size, ...props }: import("../../types/radio").RadioButtonProps) => React.JSX.Element;
 };
 export default Radio;

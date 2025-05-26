@@ -1,7 +1,7 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { OptionType } from '../../types/select';
 import './style.css';
-declare const Select: import("react").ForwardRefExoticComponent<import("../../types").DefaultProps & {
+declare const Select: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
     id?: string;
     searchValue?: string;
     onSearch?: (value: string) => void;
@@ -11,10 +11,10 @@ declare const Select: import("react").ForwardRefExoticComponent<import("../../ty
     filterOption?: boolean | ((input: string, option: OptionType) => boolean);
     optionFilterProp?: string;
     options?: OptionType[];
-    children?: import("react").ReactNode;
+    children?: React.ReactNode;
     defaultActiveFirstOption?: boolean;
     listHeight?: number;
-    menuItemSelectedIcon?: import("react").ReactNode;
+    menuItemSelectedIcon?: React.ReactNode;
     mode?: "default" | "multiple" | "tags";
     value?: import("../../types").RuleTypes;
     defaultValue?: import("../../types").RuleTypes;
@@ -31,21 +31,21 @@ declare const Select: import("react").ForwardRefExoticComponent<import("../../ty
     error?: boolean;
     showSearch?: boolean;
     tagRender?: ((props: import("../../types/select").CustomTagProps) => ReactElement) | undefined;
-    maxTagPlaceholder?: import("react").ReactNode | ((omittedValues: import("../../types/select").DisplayValueType[]) => import("react").ReactNode);
+    maxTagPlaceholder?: React.ReactNode | ((omittedValues: import("../../types/select").DisplayValueType[]) => React.ReactNode);
     dropdownClassName?: string;
     showArrow?: boolean;
-    onBlur?: import("react").FocusEventHandler<HTMLElement> | undefined;
+    onBlur?: React.FocusEventHandler<HTMLElement> | undefined;
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
-    suffixIcon?: import("react").ReactNode;
+    suffixIcon?: React.ReactNode;
     open?: boolean;
-    notFoundContent?: import("react").ReactNode;
+    notFoundContent?: React.ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
-    dropdownRender?: (menu: import("react").ReactNode) => import("react").ReactNode;
+    dropdownRender?: (menu: React.ReactNode) => React.ReactNode;
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
-    removeIcon?: import("react").ReactNode;
-} & import("react").RefAttributes<HTMLDivElement>> & {
-    Option: import("react").FC<import("../../types/select").OptionProps>;
+    removeIcon?: React.ReactNode;
+} & React.RefAttributes<HTMLDivElement>> & {
+    Option: React.FC<import("../../types/select").OptionProps>;
 };
 export default Select;

@@ -1,6 +1,6 @@
 'use client';
 
-import { ForwardedRef, forwardRef, useEffect } from 'react';
+import React, { ForwardedRef, forwardRef, useEffect } from 'react';
 import { clsx, parseValue } from '../../helpers';
 import { RadioProps } from '../../types/radio';
 import { prefixClsRadio } from '../../utils';

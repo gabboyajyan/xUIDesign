@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import React, { FC, MouseEvent } from 'react';
 import { TargetProps } from '../../../types';
 import { CustomTagProps } from '../../../types/select';
 import { prefixClsSelect } from '../../../utils';

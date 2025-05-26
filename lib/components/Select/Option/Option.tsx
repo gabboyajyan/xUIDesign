@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from 'react';
+import React, { FC, MouseEventHandler } from 'react';
 import { clsx } from '../../../helpers';
 import { OptionProps } from '../../../types/select';
 import { prefixClsSelect } from '../../../utils';

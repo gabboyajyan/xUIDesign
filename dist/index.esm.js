@@ -939,17 +939,17 @@ const FormItem$1 = ({
   }, [errorRef.current]);
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
   const errorMessage = getFieldError(valuePropName || name)?.[0];
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     style: style,
     className: clsx([`${prefixCls}`, {
       [layout]: layout,
       [className]: className,
       noStyle: props.noStyle
     }])
-  }, !props.noStyle && (label || name) && /*#__PURE__*/React.createElement("label", {
+  }, !props.noStyle && (label || name) && /*#__PURE__*/React$1.createElement("label", {
     className: `${prefixCls}-label`,
     htmlFor: name
-  }, label || name, ":", isRequired && /*#__PURE__*/React.createElement("span", {
+  }, label || name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child) && child.type !== Fragment) {
@@ -958,7 +958,7 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = getFieldValue(valuePropName || name) ?? initialValue;
-      return /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, childProps, {
+      return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, childProps, {
         name: name,
         child: child,
         value: value,
@@ -977,7 +977,7 @@ const FormItem$1 = ({
       }));
     }
     return child;
-  }), !props.noStyle && errorMessage && /*#__PURE__*/React.createElement("span", {
+  }), !props.noStyle && errorMessage && /*#__PURE__*/React$1.createElement("span", {
     ref: errorRef,
     className: `${prefixCls}-error`
   }, errorMessage));
@@ -1017,7 +1017,7 @@ const FormItemChildComponent = ({
     setFieldValue(valuePropName || name, rawValue);
     onChange?.(e, option);
   };
-  return /*#__PURE__*/React.createElement(child.type, _extends({}, props, {
+  return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, {
     name: name,
     onChange: handleChange
   }, error ? {
@@ -1073,9 +1073,9 @@ const Form$1 = ({
       formInstance.onValuesChange = onValuesChange;
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
-  return /*#__PURE__*/React.createElement(FormContext.Provider, {
+  return /*#__PURE__*/React$1.createElement(FormContext.Provider, {
     value: formInstance
-  }, /*#__PURE__*/React.createElement("form", {
+  }, /*#__PURE__*/React$1.createElement("form", {
     style: style,
     ref: formRef,
     onSubmit: handleSubmit,
@@ -1087,7 +1087,7 @@ const Form$1 = ({
       const {
         ...childProps
       } = child.props;
-      return /*#__PURE__*/React.createElement(child.type, _extends({}, childProps, {
+      return /*#__PURE__*/React$1.createElement(child.type, _extends({}, childProps, {
         child: child,
         size: childProps.size || rest.size,
         layout: childProps.layout || layout
@@ -1544,16 +1544,16 @@ const Upload = ({
       uploadRef.current.click();
     }
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}-wrapper`, className, rootClassName, {
       noStyle: noStyle,
       [`${prefixCls}-disabled`]: disabled
     }]),
     style: style
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: clsx([`${prefixCls}`, `${prefixCls}-${listType}`]),
     onClick: handleClick
-  }, children, /*#__PURE__*/React.createElement("input", _extends({
+  }, children, /*#__PURE__*/React$1.createElement("input", _extends({
     type: "file",
     ref: uploadRef,
     accept: accept,
@@ -1564,35 +1564,35 @@ const Upload = ({
   }, directory ? {
     directory: true,
     webkitdirectory: true
-  } : {}))), showUploadList && fileList.length > 0 && /*#__PURE__*/React.createElement("ul", {
+  } : {}))), showUploadList && fileList.length > 0 && /*#__PURE__*/React$1.createElement("ul", {
     className: `${prefixCls}-list ${prefixCls}-list-${listType}`
-  }, fileList.map(file => /*#__PURE__*/React.createElement("li", {
+  }, fileList.map(file => /*#__PURE__*/React$1.createElement("li", {
     key: file.uid,
     className: `${prefixCls}-item ${prefixCls}-item-${file.status}`
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-remove`,
     onClick: () => handleRemove(file.uid)
   }, listType === 'picture' && (file.originFileObj || file.url) ?
   /*#__PURE__*/
   // eslint-disable-next-line @next/next/no-img-element
-  React.createElement("img", {
+  React$1.createElement("img", {
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
     alt: file.name,
     src: file.url || URL.createObjectURL(file.originFileObj),
     className: `${prefixCls}-item-thumbnail`
-  }) : /*#__PURE__*/React.createElement(StampleIcon, null)), /*#__PURE__*/React.createElement("div", {
+  }) : /*#__PURE__*/React$1.createElement(StampleIcon, null)), /*#__PURE__*/React$1.createElement("div", {
     style: {
       width: '100%'
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-item-title`,
     style: {
       ...(file.status === 'uploading' ? {
         marginBottom: 12
       } : {})
     }
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-item-remove-icon`,
     onClick: () => handleRemove(file.uid),
     style: {
@@ -1601,9 +1601,9 @@ const Upload = ({
     },
     role: "button",
     "aria-label": "Remove file"
-  }, /*#__PURE__*/React.createElement(TrashIcon, null))), file.status === 'uploading' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement(TrashIcon, null))), file.status === 'uploading' && /*#__PURE__*/React$1.createElement(React$1.Fragment, null, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-item-progress-line`
-  }), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-item-progress-line-percent`,
     style: {
       width: `${file.percent}%`
@@ -1701,31 +1701,31 @@ const RangePicker = ({
   const renderMonthYearSelector = (monthOffset = 0, all) => {
     const baseYear = currentYear;
     const baseMonth = currentMonth + monthOffset;
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-header`
-    }, all || !monthOffset ? /*#__PURE__*/React.createElement("div", {
+    }, all || !monthOffset ? /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-nav-buttons`
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/React$1.createElement("button", {
       onClick: () => setCurrentYear(y => y - 1)
-    }, "\xAB"), /*#__PURE__*/React.createElement("button", {
+    }, "\xAB"), /*#__PURE__*/React$1.createElement("button", {
       onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
-    }, "\u2039")) : /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("div", {
+    }, "\u2039")) : /*#__PURE__*/React$1.createElement("span", null), /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-dropdown-selects`
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/React$1.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
       onClick: () => setViewMode('year')
-    }, baseYear), /*#__PURE__*/React.createElement("button", {
+    }, baseYear), /*#__PURE__*/React$1.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
       onClick: () => setViewMode('month')
-    }, localeMonths[baseMonth])), all || monthOffset ? /*#__PURE__*/React.createElement("div", {
+    }, localeMonths[baseMonth])), all || monthOffset ? /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-nav-buttons`
-    }, /*#__PURE__*/React.createElement("button", {
+    }, /*#__PURE__*/React$1.createElement("button", {
       onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
-    }, "\u203A"), /*#__PURE__*/React.createElement("button", {
+    }, "\u203A"), /*#__PURE__*/React$1.createElement("button", {
       onClick: () => setCurrentYear(y => y + 1)
-    }, "\xBB")) : /*#__PURE__*/React.createElement("span", null));
+    }, "\xBB")) : /*#__PURE__*/React$1.createElement("span", null));
   };
   const renderCalendar = (monthOffset = 0, all) => {
     const baseDate = new Date(currentYear, currentMonth + monthOffset, 1);
@@ -1749,20 +1749,20 @@ const RangePicker = ({
       length: remaining
     }, (_, i) => new Date(year, month + 1, i + 1));
     const days = [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
-    return /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-calendar ${viewMode}`
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-calendar-header`
-    }, renderMonthYearSelector(monthOffset, all)), viewMode === 'day' && /*#__PURE__*/React.createElement("div", {
+    }, renderMonthYearSelector(monthOffset, all)), viewMode === 'day' && /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-days-grid day`
-    }, localeWeekdays.map((day, i) => /*#__PURE__*/React.createElement("div", {
+    }, localeWeekdays.map((day, i) => /*#__PURE__*/React$1.createElement("div", {
       key: i,
       className: `${prefixCls}-weekday`
     }, day)), days.map((day, i) => {
       const isSelected = day && selectedDates.some(d => d?.toDateString() === day.toDateString());
       const inRange = day && isInRange(day);
       const isSameMonth = day?.getMonth() === month;
-      return /*#__PURE__*/React.createElement("button", {
+      return /*#__PURE__*/React$1.createElement("button", {
         key: i,
         disabled: disabledDate?.(day, {
           from: undefined,
@@ -1777,9 +1777,9 @@ const RangePicker = ({
           [`${prefixCls}-other-month`]: !isSameMonth
         }])
       }, day?.getDate());
-    })), viewMode === 'month' && /*#__PURE__*/React.createElement("div", {
+    })), viewMode === 'month' && /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-grid`
-    }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
+    }, localeMonths.map((m, i) => /*#__PURE__*/React$1.createElement("button", {
       key: i,
       className: `${prefixCls}-month`,
       onClick: () => {
@@ -1787,13 +1787,13 @@ const RangePicker = ({
         setViewMode('day');
       },
       disabled: isMonthDisabled(i)
-    }, m))), viewMode === 'year' && /*#__PURE__*/React.createElement("div", {
+    }, m))), viewMode === 'year' && /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-grid`
     }, Array.from({
       length: 12
     }, (_, i) => {
       const year = currentYear - NUMBER_SIX + i;
-      return /*#__PURE__*/React.createElement("button", {
+      return /*#__PURE__*/React$1.createElement("button", {
         key: year,
         className: `${prefixCls}-year`,
         disabled: isYearDisabled(year),
@@ -1808,16 +1808,16 @@ const RangePicker = ({
     setSelectedDates([null, null]);
     onChange?.(null, ['', '']);
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     ref: containerRef,
     style: style,
     className: clsx([`${prefixCls}-range-container`, {
       [`${prefixCls}-${size}`]: size,
       [className]: className
     }])
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-range-input-wrapper`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
       noBordered: !bordered,
@@ -1826,26 +1826,26 @@ const RangePicker = ({
     }]),
     disabled: disabled,
     onClick: () => setIsOpen(!isOpen)
-  }, prefix, /*#__PURE__*/React.createElement("input", {
+  }, prefix, /*#__PURE__*/React$1.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[0],
     value: selectedDates[0] ? formatDate(selectedDates[0]) : ''
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-range-separator`
-  }, separator || /*#__PURE__*/React.createElement(DateDistanceIcon, null)), /*#__PURE__*/React.createElement("input", {
+  }, separator || /*#__PURE__*/React$1.createElement(DateDistanceIcon, null)), /*#__PURE__*/React$1.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[1],
     value: selectedDates[1] ? formatDate(selectedDates[1]) : ''
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-icon`
-  }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React.createElement("span", {
+  }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement(ClearIcon, null)) : /*#__PURE__*/React$1.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-dropdown-wrapper show`
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-dropdown-range`
   }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day'))));
 };
@@ -2027,15 +2027,15 @@ const DatePickerComponent = ({
     month: nextMonth,
     year: nextMonthYear
   }))];
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     ref: containerRef,
     className: clsx([`${prefixCls}-container`, {
       noStyle,
       [`${prefixCls}-${size}`]: size
     }])
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-input-wrapper`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
       noBordered: !bordered,
@@ -2045,7 +2045,7 @@ const DatePickerComponent = ({
     }]),
     disabled: disabled,
     onClick: () => setIsOpen(!isOpen)
-  }, prefix || null, /*#__PURE__*/React.createElement("input", {
+  }, prefix || null, /*#__PURE__*/React$1.createElement("input", {
     size: INPUT_SIZE$1,
     disabled: disabled,
     readOnly: inputReadOnly,
@@ -2055,48 +2055,48 @@ const DatePickerComponent = ({
       opacity: isOpen ? '0.6' : 1
     },
     defaultValue: selectedDatePlaceholder
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-icon`
-  }, allowClear && selectedDate ? /*#__PURE__*/React.createElement("span", {
+  }, allowClear && selectedDate ? /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: clearSelection
-  }, typeof allowClear === 'object' && allowClear.clearIcon ? allowClear.clearIcon : /*#__PURE__*/React.createElement(ClearIcon, null)) : suffixIcon || /*#__PURE__*/React.createElement(CalendarIcon, null), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null))), /*#__PURE__*/React.createElement("div", {
+  }, typeof allowClear === 'object' && allowClear.clearIcon ? allowClear.clearIcon : /*#__PURE__*/React$1.createElement(ClearIcon, null)) : suffixIcon || /*#__PURE__*/React$1.createElement(CalendarIcon, null), error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null))), /*#__PURE__*/React$1.createElement("div", {
     style: popupContainerRef.current ? {
       position: 'absolute'
     } : {},
     className: clsx([placement, `${prefixCls}-dropdown-wrapper`, {
       show: isOpen
     }])
-  }, isOpen && /*#__PURE__*/React.createElement("div", {
+  }, isOpen && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-dropdown`,
     style: placementPossition
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-header`
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-nav-buttons`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     onClick: () => setCurrentYear(y => y - 1)
-  }, "\xAB"), /*#__PURE__*/React.createElement("button", {
+  }, "\xAB"), /*#__PURE__*/React$1.createElement("button", {
     onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
-  }, "\u2039")), /*#__PURE__*/React.createElement("div", {
+  }, "\u2039")), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-dropdown-selects`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
     onClick: () => setViewMode('year')
-  }, currentYear), /*#__PURE__*/React.createElement("button", {
+  }, currentYear), /*#__PURE__*/React$1.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
     onClick: () => setViewMode('month')
-  }, localeMonths[currentMonth])), /*#__PURE__*/React.createElement("div", {
+  }, localeMonths[currentMonth])), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-nav-buttons`
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
-  }, "\u203A"), /*#__PURE__*/React.createElement("button", {
+  }, "\u203A"), /*#__PURE__*/React$1.createElement("button", {
     onClick: () => setCurrentYear(y => y + 1)
-  }, "\xBB"))), viewMode === 'day' && /*#__PURE__*/React.createElement("div", {
+  }, "\xBB"))), viewMode === 'day' && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-grid day`
-  }, localeWeekdays.map(day => /*#__PURE__*/React.createElement("div", {
+  }, localeWeekdays.map(day => /*#__PURE__*/React$1.createElement("div", {
     key: day,
     className: `${prefixCls}-day-header`
   }, day)), days.map(({
@@ -2106,7 +2106,7 @@ const DatePickerComponent = ({
     year
   }, idx) => {
     const isSelected = selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
-    return /*#__PURE__*/React.createElement("button", {
+    return /*#__PURE__*/React$1.createElement("button", {
       key: `${year}-${month}-${day}-${idx}`,
       className: clsx([`${prefixCls}-day`, {
         [`${prefixCls}-selected`]: isSelected,
@@ -2118,9 +2118,9 @@ const DatePickerComponent = ({
         to: undefined
       })
     }, day);
-  })), viewMode === 'month' && /*#__PURE__*/React.createElement("div", {
+  })), viewMode === 'month' && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-grid`
-  }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
+  }, localeMonths.map((m, i) => /*#__PURE__*/React$1.createElement("button", {
     key: i,
     className: `${prefixCls}-month`,
     onClick: () => {
@@ -2128,13 +2128,13 @@ const DatePickerComponent = ({
       setViewMode('day');
     },
     disabled: isMonthDisabled(i)
-  }, m))), viewMode === 'year' && /*#__PURE__*/React.createElement("div", {
+  }, m))), viewMode === 'year' && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-grid`
   }, Array.from({
     length: 12
   }, (_, i) => {
     const year = currentYear - NUMBER_SIX + i;
-    return /*#__PURE__*/React.createElement("button", {
+    return /*#__PURE__*/React$1.createElement("button", {
       key: year,
       className: `${prefixCls}-year`,
       disabled: isYearDisabled(year),
@@ -2143,12 +2143,12 @@ const DatePickerComponent = ({
         setViewMode('month');
       }
     }, year);
-  })), showToday && /*#__PURE__*/React.createElement("div", {
+  })), showToday && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-day-footer`,
     style: {
       gridColumn: 'span 7'
     }
-  }, /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React$1.createElement("button", {
     className: `${prefixCls}-select`,
     disabled: disabledDate?.(new Date(DateNow.getDate(), DateNow.getMonth(), DateNow.getFullYear()), {
       from: undefined,
@@ -2193,8 +2193,8 @@ const TimePicker = ({
   onBlur,
   onSelect,
   showNow = true,
-  clearIcon = /*#__PURE__*/React.createElement(ClearIcon, null),
-  suffixIcon = /*#__PURE__*/React.createElement(TimeIcon, null),
+  clearIcon = /*#__PURE__*/React$1.createElement(ClearIcon, null),
+  suffixIcon = /*#__PURE__*/React$1.createElement(TimeIcon, null),
   placeholder = 'Select time'
 }) => {
   const [open, setOpen] = useState(false);
@@ -2377,12 +2377,12 @@ const TimePicker = ({
     } = getTimeParts(tempValue);
     const currentHour = selectedHour ?? 0;
     const currentMinute = selectedMinute ?? 0;
-    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
+    return /*#__PURE__*/React$1.createElement("div", null, /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-panel`
-    }, /*#__PURE__*/React.createElement("div", {
+    }, /*#__PURE__*/React$1.createElement("div", {
       ref: hourRef,
       className: `${prefixCls}-column`
-    }, hours.map((h, index) => h === false ? /*#__PURE__*/React.createElement("div", {
+    }, hours.map((h, index) => h === false ? /*#__PURE__*/React$1.createElement("div", {
       key: `${h}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2390,17 +2390,17 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React.createElement("div", {
+    }, "0") : /*#__PURE__*/React$1.createElement("div", {
       key: h,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('hour').includes(h),
         [`${prefixCls}-cell-selected`]: selectedHour === h
       }]),
       onClick: () => !getDisabled('hour').includes(h) && onSelectHour(h)
-    }, pad(h)))), /*#__PURE__*/React.createElement("div", {
+    }, pad(h)))), /*#__PURE__*/React$1.createElement("div", {
       ref: minuteRef,
       className: `${prefixCls}-column`
-    }, minutesSeconds.map((m, index) => m === false ? /*#__PURE__*/React.createElement("div", {
+    }, minutesSeconds.map((m, index) => m === false ? /*#__PURE__*/React$1.createElement("div", {
       key: `${m}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2408,17 +2408,17 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React.createElement("div", {
+    }, "0") : /*#__PURE__*/React$1.createElement("div", {
       key: m,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('minute', currentHour).includes(m),
         [`${prefixCls}-cell-selected`]: selectedMinute === m
       }]),
       onClick: () => !getDisabled('minute', currentHour).includes(m) && onSelectMinute(m)
-    }, pad(m)))), /*#__PURE__*/React.createElement("div", {
+    }, pad(m)))), /*#__PURE__*/React$1.createElement("div", {
       ref: secondRef,
       className: `${prefixCls}-column`
-    }, minutesSeconds.map((s, index) => s === false ? /*#__PURE__*/React.createElement("div", {
+    }, minutesSeconds.map((s, index) => s === false ? /*#__PURE__*/React$1.createElement("div", {
       key: `${s}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2426,31 +2426,31 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React.createElement("div", {
+    }, "0") : /*#__PURE__*/React$1.createElement("div", {
       key: s,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('second', currentHour, currentMinute).includes(s),
         [`${prefixCls}-cell-selected`]: selectedSecond === s
       }]),
       onClick: () => !getDisabled('second', currentHour, currentMinute).includes(s) && onSelectSecond(s)
-    }, pad(s))))), /*#__PURE__*/React.createElement("div", {
+    }, pad(s))))), /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-actions`
-    }, showNow ? /*#__PURE__*/React.createElement("div", {
+    }, showNow ? /*#__PURE__*/React$1.createElement("div", {
       className: `${prefixCls}-now-btn`,
       onClick: handleShowNow
-    }, "Now") : /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("button", {
+    }, "Now") : /*#__PURE__*/React$1.createElement("span", null), /*#__PURE__*/React$1.createElement("button", {
       className: `${prefixCls}-ok-btn`,
       disabled: selectedHour === null || selectedMinute === null || selectedSecond === null,
       onClick: handleOkButton
     }, "OK")));
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}-wrapper`, className]),
     style: style
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-input-wrapper`,
     onClick: () => setOpen(true)
-  }, /*#__PURE__*/React.createElement("input", _extends({
+  }, /*#__PURE__*/React$1.createElement("input", _extends({
     ref: inputRef,
     size: INPUT_SIZE,
     placeholder: placeholder,
@@ -2465,18 +2465,18 @@ const TimePicker = ({
         source: 'input'
       });
     }
-  })), /*#__PURE__*/React.createElement("div", {
+  })), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-icons`
-  }, clearIcon && innerValue ? /*#__PURE__*/React.createElement("span", {
+  }, clearIcon && innerValue ? /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, clearIcon) : suffixIcon && /*#__PURE__*/React.createElement("span", {
+  }, clearIcon) : suffixIcon && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-suffix`,
     onClick: e => {
       e.stopPropagation();
       setOpen(true);
     }
-  }, suffixIcon))), open && /*#__PURE__*/React.createElement("div", {
+  }, suffixIcon))), open && /*#__PURE__*/React$1.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-popup`
   }, renderOptions()));
@@ -2547,9 +2547,9 @@ const Textarea = /*#__PURE__*/forwardRef(({
       });
     }
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-wrapper ${rootClassName || ''}`
-  }, /*#__PURE__*/React.createElement("textarea", _extends({}, props, {
+  }, /*#__PURE__*/React$1.createElement("textarea", _extends({}, props, {
     ref: ref || textareaRef,
     value: inputValue,
     onChange: handleChange,
@@ -2563,7 +2563,7 @@ const Textarea = /*#__PURE__*/forwardRef(({
       [`${prefixCls}-success`]: status === 'success',
       [`${prefixCls}-error`]: status === 'error' || error
     }])
-  })), allowClear && inputValue && /*#__PURE__*/React.createElement("button", {
+  })), allowClear && inputValue && /*#__PURE__*/React$1.createElement("button", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
   }, "\u2715"));
@@ -2623,7 +2623,7 @@ const InputComponent = /*#__PURE__*/forwardRef(({
       onPressEnter(e);
     }
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}-container`, {
       [`${prefixCls}-error`]: error,
       [`${prefixCls}-disabled`]: disabled,
@@ -2631,13 +2631,13 @@ const InputComponent = /*#__PURE__*/forwardRef(({
       noStyle: noStyle
     }, className]),
     style: props.style
-  }, addonBefore && /*#__PURE__*/React.createElement("span", {
+  }, addonBefore && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-before`
-  }, addonBefore), /*#__PURE__*/React.createElement("div", {
+  }, addonBefore), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-wrapper`
-  }, prefix && /*#__PURE__*/React.createElement("span", {
+  }, prefix && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-prefix`
-  }, prefix), /*#__PURE__*/React.createElement("input", _extends({}, props, {
+  }, prefix), /*#__PURE__*/React$1.createElement("input", _extends({}, props, {
     ref: inputRef
   }, props.type === 'password' && iconRender ? {
     type: iconRenderVisible ? 'text' : 'password'
@@ -2647,14 +2647,14 @@ const InputComponent = /*#__PURE__*/forwardRef(({
     onChange: handleChange,
     onKeyDown: handleOnKeyDown,
     className: clsx([prefixCls, className])
-  })), /*#__PURE__*/React.createElement("span", {
+  })), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, allowClear && internalValue ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), (suffix || iconRender) && /*#__PURE__*/React.createElement("span", _extends({
+  }, allowClear && internalValue ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), (suffix || iconRender) && /*#__PURE__*/React$1.createElement("span", _extends({
     className: `${prefixCls}-suffix`
   }, iconRender !== undefined ? {
     onClick: () => setIconRenderVisible(icon => !icon)
-  } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React.createElement("span", {
+  } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-after`
   }, addonAfter) : null);
 });
@@ -2723,7 +2723,7 @@ const RadioGroup = ({
       return options.map((option, key) => {
         const optionValue = typeof option === 'object' ? option.value : option;
         const optionLabel = typeof option === 'object' ? option.label : option;
-        return /*#__PURE__*/React.createElement(Radio$1, _extends({
+        return /*#__PURE__*/React$1.createElement(Radio$1, _extends({
           value: optionValue,
           key: `${key}_${optionValue}`,
           checked: selectedValue === optionValue,
@@ -2750,7 +2750,7 @@ const RadioGroup = ({
       return child;
     });
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     id: id,
     style: style,
     className: clsx([`${prefixCls}-group`, {
@@ -2799,7 +2799,7 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
       onChange?.(parseValue(value));
     }
   }, [defaultChecked, checked]);
-  return /*#__PURE__*/React.createElement("label", {
+  return /*#__PURE__*/React$1.createElement("label", {
     ref: ref,
     title: title,
     onMouseEnter: onMouseEnter,
@@ -2809,7 +2809,7 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
       noStyle: noStyle,
       [className]: className
     }])
-  }, /*#__PURE__*/React.createElement("input", {
+  }, /*#__PURE__*/React$1.createElement("input", {
     name: name,
     type: "radio",
     onClick: onClick,
@@ -2817,9 +2817,9 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
     onChange: handleChange,
     onBlur: e => onBlur?.(e),
     onFocus: e => onFocus?.(e)
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: clsx([`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`])
-  }), /*#__PURE__*/React.createElement("span", {
+  }), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-title`
   }, children ?? title ?? value));
 });
@@ -2856,7 +2856,7 @@ const Option = ({
     }
     onClick?.(e);
   };
-  return /*#__PURE__*/React.createElement("div", _extends({
+  return /*#__PURE__*/React$1.createElement("div", _extends({
     className: clsx([`${prefixCls}-option ${className} `, {
       selected: selected,
       disabled: disabled
@@ -2892,16 +2892,16 @@ const Tag = ({
     e.target.value = value;
     onClose(e);
   };
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     style: {
       ...style,
       backgroundColor: color
     },
     className: `${prefixCls}-tag`
-  }, /*#__PURE__*/React.createElement("span", null, label !== undefined ? label : value), closable && /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", null, label !== undefined ? label : value), closable && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-tag-close-icon`,
     onClick: handleOnClick
-  }, icon || /*#__PURE__*/React.createElement(React.Fragment, null, "\u2715")));
+  }, icon || /*#__PURE__*/React$1.createElement(React$1.Fragment, null, "\u2715")));
 };
 
 var Tag$1 = /*#__PURE__*/Object.freeze({
@@ -3116,7 +3116,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (!showArrow) {
       return null;
     }
-    return showSearch && isOpen ? /*#__PURE__*/React.createElement(SearchIcon, null) : /*#__PURE__*/React.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
+    return showSearch && isOpen ? /*#__PURE__*/React$1.createElement(SearchIcon, null) : /*#__PURE__*/React$1.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React$1.createElement(ArrowIcon, {
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
@@ -3160,7 +3160,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       ...props
     }) => {
       const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
-      return /*#__PURE__*/React.createElement(Option, _extends({
+      return /*#__PURE__*/React$1.createElement(Option, _extends({
         key: `${props.value}`
       }, props, {
         selected: isSelected,
@@ -3179,13 +3179,13 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
           });
         },
         "data-value": props.value
-      }), children || props.value, hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
+      }), children || props.value, hasMode && isSelected && /*#__PURE__*/React$1.createElement("span", {
         className: `${prefixCls}-selected-icon`
-      }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
+      }, menuItemSelectedIcon === true ? /*#__PURE__*/React$1.createElement(CheckIcon, null) : menuItemSelectedIcon));
     });
     return dropdownRender ? dropdownRender(options) : options;
   })();
-  const dropdownContent = !loading && isOpen && /*#__PURE__*/React.createElement("div", {
+  const dropdownContent = !loading && isOpen && /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}-dropdown`, {
       [placement]: placement,
       [dropdownClassName]: dropdownClassName
@@ -3197,27 +3197,27 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
         top: -((selectRef.current?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || listHeight) + PADDING_PLACEMENT) + (selectRef.current?.clientHeight || 0)
       } : {})
     }
-  }, filterable && /*#__PURE__*/React.createElement("input", {
+  }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",
     className: `${prefixCls}-search`,
     value: searchQuery,
     onChange: handleSearch,
     placeholder: "Search..."
-  }), !loading && /*#__PURE__*/React.createElement("div", {
+  }), !loading && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-options globalEllipsis`,
     style: {
       maxHeight: listHeight,
       overflowY: 'auto'
     }
-  }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
+  }, asTag && !!searchQuery && /*#__PURE__*/React$1.createElement(Option, {
     value: searchQuery,
     className: `${prefixCls}-focused`,
     onClick: e => {
       handleSelect(e, searchQuery);
     },
     "data-value": searchQuery
-  }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null));
-  return /*#__PURE__*/React.createElement("div", {
+  }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React$1.createElement(EmptyContent, null) : null));
+  return /*#__PURE__*/React$1.createElement("div", {
     id: id,
     ref: selectRef,
     style: style,
@@ -3229,12 +3229,12 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       [`${prefixCls}-multi`]: hasMode,
       [`${prefixCls}-disabled`]: disabled
     }])
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     onClick: handleTriggerClick,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
     className: `${prefixCls}-trigger`
-  }, showSearch ? /*#__PURE__*/React.createElement("div", {
+  }, showSearch ? /*#__PURE__*/React$1.createElement("div", {
     style: {
       ...style,
       ...(isOpen ? {
@@ -3243,22 +3243,22 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode && selected.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
+  }, hasMode && selected.map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
     value: tag,
     onClose: handleRemoveTag,
     closable: true
-  })) : /*#__PURE__*/React.createElement(Tag, {
+  })) : /*#__PURE__*/React$1.createElement(Tag, {
     closable: true,
     value: tag,
     label: tag === '' ? placeholder : extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  })), isOpen ? /*#__PURE__*/React.createElement("div", {
+  })), isOpen ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-tag`
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
       if (disabled) {
         e.preventDefault();
@@ -3275,12 +3275,12 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     contentEditable: "plaintext-only",
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  })) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  })) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-input`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-input`,
     onClick: () => !disabled && setIsOpen(!isOpen || open),
     style: {
@@ -3289,16 +3289,16 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   }, selected === '' ? placeholder : (() => {
     const option = extractedOptions.find(e => e.value === selected);
     return option?.children || option?.value || null;
-  })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
+  })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React$1.createElement("button", {
     className: `${prefixCls}-clear-btn`,
     onClick: handleClear
-  }, removeIcon || /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement("span", {
+  }, removeIcon || /*#__PURE__*/React$1.createElement(ClearIcon, null)) : /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-arrow`
-  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null) : /*#__PURE__*/React.createElement(React.Fragment, null, !loading && /*#__PURE__*/React.createElement("span", {
+  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null) : /*#__PURE__*/React$1.createElement(React$1.Fragment, null, !loading && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-arrow`
-  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
+  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-loading`
-  }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), popupContainer ? /*#__PURE__*/createPortal(dropdownContent, popupContainer) : dropdownContent);
+  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), popupContainer ? /*#__PURE__*/createPortal(dropdownContent, popupContainer) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
@@ -3326,12 +3326,12 @@ const SkeletonButton = ({
   size = 'default',
   applyElementStyle = true
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}`, {
       [`${prefixCls}-element`]: applyElementStyle,
       [`${prefixCls}-active`]: active
     }, className])
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: clsx([`${prefixCls}-button `, BUTTON_SKELETON_SIZE[size], className]),
     style: style
   }));
@@ -3369,13 +3369,13 @@ const SkeletonAvatar = ({
   applyElementStyle = true,
   ...props
 }) => {
-  return /*#__PURE__*/React.createElement("div", _extends({
+  return /*#__PURE__*/React$1.createElement("div", _extends({
     className: clsx([`${prefixCls}`, {
       [`${prefixCls}-element`]: applyElementStyle,
       [`${prefixCls}-active`]: active
     }, className]),
     style: wrapperStyle
-  }, props), /*#__PURE__*/React.createElement("span", {
+  }, props), /*#__PURE__*/React$1.createElement("span", {
     className: clsx([`${prefixCls}-avatar ${prefixCls}-avatar-${shape}`]),
     style: {
       ...(size ? {
@@ -3405,10 +3405,10 @@ const SkeletonImage = ({
   className,
   style = {}
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-image ${className || ''}`,
     style: style
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-icon`,
     style: {
       fontSize: `${style?.width || CUSTOm_ICON_SIZE}px`,
@@ -3420,13 +3420,13 @@ const SkeletonImage = ({
         backgroundColor: style?.backgroundColor
       } : {})
     }
-  }, /*#__PURE__*/React.createElement("svg", {
+  }, /*#__PURE__*/React$1.createElement("svg", {
     viewBox: "0 0 1098 1024",
     xmlns: "http://www.w3.org/2000/svg",
     width: "1em",
     height: "1em",
     fill: "currentColor"
-  }, /*#__PURE__*/React.createElement("path", {
+  }, /*#__PURE__*/React$1.createElement("path", {
     d: "M365.714286 329.142857q0 45.714286-32.036571 77.677714t-77.677714 32.036571-77.677714-32.036571-32.036571-77.677714 32.036571-77.677714 77.677714-32.036571 77.677714 32.036571 32.036571 77.677714zM950.857143 548.571429l0 256-804.571429 0 0-109.714286 182.857143-182.857143 91.428571 91.428571 292.571429-292.571429zM1005.714286 146.285714l-914.285714 0q-7.460571 0-12.873143 5.412571t-5.412571 12.873143l0 694.857143q0 7.460571 5.412571 12.873143t12.873143 5.412571l914.285714 0q7.460571 0 12.873143-5.412571t5.412571-12.873143l0-694.857143q0-7.460571-5.412571-12.873143t-12.873143-5.412571zM1097.142857 164.571429l0 694.857143q0 37.741714-26.843429 64.585143t-64.585143 26.843429l-914.285714 0q-37.741714 0-64.585143-26.843429t-26.843429-64.585143l0-694.857143q0-37.741714 26.843429-64.585143t64.585143-26.843429l914.285714 0q37.741714 0 64.585143 26.843429t26.843429 64.585143z",
     className: `${prefixCls}-image-path`
   }))));
@@ -3453,12 +3453,12 @@ const SkeletonInput = ({
   className,
   size = 'default'
 }) => {
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([`${prefixCls}-element`, {
       [`${prefixCls}-active`]: active,
       [`${prefixCls}-block`]: block
     }, className])
-  }, /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-input ${INPUT_SKELETON_SIZE[size]} ${className || ''}`,
     style: style
   }));
@@ -3494,28 +3494,28 @@ const Skeleton = ({
   } : {};
   const PARAGRAPH_ROWS = avatar ? PARAGRAPH_AVATAR_ROWS : PARAGRAPH_DEFAULT_ROWS;
   const HAS_PHARAGRAPH = typeof paragraph === 'boolean' || !paragraph ? PARAGRAPH_ROWS : paragraph?.rows ?? PARAGRAPH_ROWS;
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: clsx([prefixCls, {
       [`${prefixCls}__withAvatar`]: avatar,
       [`${prefixCls}-active`]: active,
       [`${prefixCls}-round`]: round
     }, className]),
     style: style
-  }, avatar && teamLogo && /*#__PURE__*/React.createElement("div", {
+  }, avatar && teamLogo && /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}__header`
-  }, /*#__PURE__*/React.createElement(SkeletonAvatar, GET_AVATAR_SKELETON_PROPS(avatar))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement(SkeletonAvatar, GET_AVATAR_SKELETON_PROPS(avatar))), /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-content`
-  }, /*#__PURE__*/React.createElement("h3", {
+  }, /*#__PURE__*/React$1.createElement("h3", {
     className: clsx([`${prefixCls}-title ${GET_TITLE_SKELETON_PROPS.className}`, {
       [`${prefixCls}-title-avatar`]: avatar
     }]),
     style: GET_TITLE_SKELETON_PROPS.style
-  }), paragraph !== false && /*#__PURE__*/React.createElement("ul", {
+  }), paragraph !== false && /*#__PURE__*/React$1.createElement("ul", {
     className: `${prefixCls}-paragraph`,
     style: {
       ...(typeof paragraph !== 'boolean' && paragraph ? paragraph.style : {})
     }
-  }, createArray(HAS_PHARAGRAPH).map(key => /*#__PURE__*/React.createElement("li", {
+  }, createArray(HAS_PHARAGRAPH).map(key => /*#__PURE__*/React$1.createElement("li", {
     key: key
   })))));
 };

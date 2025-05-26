@@ -1,4 +1,4 @@
-import { FC, ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { clsx } from '../../../helpers';
 import { SkeletonButtonProps } from '../../../types/skeleton';
 import { prefixClsSkeleton } from '../../../utils';

@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import { clsx, createArray } from '../../helpers';
 import { SkeletonProps } from '../../types/skeleton';
 import { prefixClsSkeleton } from '../../utils';

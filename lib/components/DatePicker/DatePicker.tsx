@@ -1,6 +1,6 @@
 'use client';
 
-import { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { clsx } from '../../helpers';
 import { TDatePickerProps } from '../../types/datepicker';
 import { prefixClsDatePicker } from '../../utils';
