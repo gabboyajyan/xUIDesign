@@ -1,6 +1,6 @@
 'use client'
 
-import { Checkbox } from "../../lib/components/Checkbox"
+import { Checkbox } from "../components/Checkbox"
 
 export default function Home() {
     return (

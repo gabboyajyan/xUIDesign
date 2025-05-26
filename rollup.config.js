@@ -55,7 +55,7 @@ export default [
     },
     {
         // Generate .d.ts files
-        input: 'dist/esm/types/index.d.ts',
+        input: 'dist/esm/types/lib/index.d.ts',
         output: [
             {
                 file: 'dist/index.d.ts',
