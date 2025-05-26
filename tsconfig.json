@@ -12,7 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "strict": true,
-    "rootDir": ".",
+    "rootDir": "lib",
     "baseUrl": "./",
     "paths": {
       "@/*": [
