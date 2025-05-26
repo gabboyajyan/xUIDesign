@@ -1,7 +1,7 @@
 'use strict';
 
-var require$$1$1 = require('react/jsx-runtime');
-var require$$1 = require('react');
+var require$$1 = require('react/jsx-runtime');
+var React = require('react');
 
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -41,7 +41,7 @@ function requireLoadableContext_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(require$$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const LoadableContext = _react.default.createContext(null);
     if (process.env.NODE_ENV !== 'production') {
       LoadableContext.displayName = 'LoadableContext';
@@ -66,7 +66,7 @@ function requireLoadable_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(require$$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const _loadablecontextsharedruntime = requireLoadableContext_sharedRuntime();
     function resolve(obj) {
       return obj && obj.default ? obj.default : obj;
@@ -310,7 +310,7 @@ function requireLoadable_sharedRuntime() {
     }
   });
   const _interop_require_default = _interop_require_default$1;
-  const _jsxruntime = require$$1$1;
+  const _jsxruntime = require$$1;
   const _loadablesharedruntime = /*#__PURE__*/_interop_require_default._(requireLoadable_sharedRuntime());
   const isServerSide = typeof window === 'undefined';
   // Normalize loader to return the module as form { default: Component } for `React.lazy`.
@@ -482,7 +482,7 @@ const prefixClsCheckbox = 'xUi-checkbox';
 var css_248z = ".xUi-checkbox-wrapper{align-items:center;color:var(--xui-main-color);cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);margin:16px 0}.xUi-checkbox{background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:inline-block;height:14px;position:relative;transition:all .3s;width:14px}.xUi-checkbox.xUi-checkbox-checked{background-color:#f0f5ff;border-color:var(--xui-primary-color)}.xUi-checkbox input{cursor:pointer;inset:0;opacity:0;position:absolute}.xUi-checkbox-inner{border-left:0;border-top:0;border:2px solid var(--xui-background-color);height:6px;left:50%;position:absolute;top:50%;transform:rotate(45deg) scale(0);transition:transform .2s ease-in-out;width:10px}.xUi-checkbox-check{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);display:block;height:100%;position:relative;transition:.1s ease;width:100%}.xUi-checkbox-check:after{border:solid #fff;border-width:0 2px 2px 0;content:\"\";height:8px;left:3px;position:absolute;top:1px;transform:rotate(45deg);width:5px}.xUi-checkbox-disabled,.xUi-checkbox-disabled .xUi-checkbox-check{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-checkbox-label{font-size:14px;margin-left:8px;user-select:none}.xUi-checkbox:focus:not(.disabled),.xUi-checkbox:hover:not(.disabled){border-color:var(--xui-primary-color);cursor:pointer}.xUi-checkbox.disabled{cursor:not-allowed;opacity:.5}";
 styleInject(css_248z);
 
-const Checkbox = /*#__PURE__*/require$$1.forwardRef(({
+const Checkbox = /*#__PURE__*/React.forwardRef(({
   prefixCls = prefixClsCheckbox,
   className = '',
   defaultChecked = false,
@@ -506,7 +506,7 @@ const Checkbox = /*#__PURE__*/require$$1.forwardRef(({
   noStyle
 }, ref) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = require$$1.useState(isChecked);
+  const [internalChecked, setInternalChecked] = React.useState(isChecked);
   const handleClick = e => {
     e.stopPropagation();
     if (disabled) {
@@ -517,7 +517,7 @@ const Checkbox = /*#__PURE__*/require$$1.forwardRef(({
     onClick?.(e);
     onChange?.(e);
   };
-  require$$1.useEffect(() => {
+  React.useEffect(() => {
     if (checked !== undefined) {
       setInternalChecked(checked);
     }

@@ -1,5 +1,5 @@
-import require$$1$1 from 'react/jsx-runtime';
-import require$$1, { forwardRef, useState, useEffect } from 'react';
+import require$$1 from 'react/jsx-runtime';
+import React, { forwardRef, useState, useEffect } from 'react';
 
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -39,7 +39,7 @@ function requireLoadableContext_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(require$$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const LoadableContext = _react.default.createContext(null);
     if (process.env.NODE_ENV !== 'production') {
       LoadableContext.displayName = 'LoadableContext';
@@ -64,7 +64,7 @@ function requireLoadable_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(require$$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const _loadablecontextsharedruntime = requireLoadableContext_sharedRuntime();
     function resolve(obj) {
       return obj && obj.default ? obj.default : obj;
@@ -308,7 +308,7 @@ function requireLoadable_sharedRuntime() {
     }
   });
   const _interop_require_default = _interop_require_default$1;
-  const _jsxruntime = require$$1$1;
+  const _jsxruntime = require$$1;
   const _loadablesharedruntime = /*#__PURE__*/_interop_require_default._(requireLoadable_sharedRuntime());
   const isServerSide = typeof window === 'undefined';
   // Normalize loader to return the module as form { default: Component } for `React.lazy`.
