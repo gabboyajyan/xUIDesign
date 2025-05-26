@@ -130,6 +130,7 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   style,
   disabled = false,
   onClick,
+  onChange,
   onMouseEnter,
   onMouseLeave,
   onKeyPress,
@@ -142,16 +143,25 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   type = 'checkbox',
   internalChecked,
   required = false,
-  noStyle
+  noStyle,
+  setInternalChecked
 }, ref) => {
+  const handleClick = e => {
+    e.stopPropagation();
+    if (disabled) {
+      return;
+    }
+    setInternalChecked?.(!internalChecked);
+    e.target.value = !internalChecked;
+    onClick?.(e);
+    onChange?.(e);
+  };
   return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
   }, /*#__PURE__*/React.createElement("div", {
     ref: ref,
     style: style,
-    onClick: e => {
-      onClick?.(e);
-    },
+    onClick: e => handleClick(e),
     className: clsx([prefixCls, className, {
       noStyle: noStyle,
       [`${prefixCls}-disabled`]: disabled,
@@ -185,24 +195,11 @@ Checkbox.displayName = "Checkbox";
 const CheckboxClient = /*#__PURE__*/React.forwardRef(({
   defaultChecked = false,
   checked,
-  disabled = false,
-  onChange,
-  onClick,
   value = false,
   ...props
 }, ref) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = React.useState(isChecked);
-  const handleClick = e => {
-    e.stopPropagation();
-    if (disabled) {
-      return;
-    }
-    setInternalChecked(!internalChecked);
-    e.target.value = !internalChecked;
-    onClick?.(e);
-    onChange?.(e);
-  };
   React.useEffect(() => {
     if (checked !== undefined) {
       setInternalChecked(checked);
@@ -211,9 +208,6 @@ const CheckboxClient = /*#__PURE__*/React.forwardRef(({
   return /*#__PURE__*/React.createElement(Checkbox, _extends({
     ref: ref
   }, props, {
-    onClick: e => {
-      handleClick(e);
-    },
     internalChecked: internalChecked,
     setInternalChecked: setInternalChecked
   }));

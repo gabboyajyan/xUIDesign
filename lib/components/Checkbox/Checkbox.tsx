@@ -1,7 +1,9 @@
 import { prefixClsCheckbox } from '@/utils';
 import { CheckboxProps } from '../../types/checkbox';
-import React, { Dispatch, ForwardedRef, forwardRef, ReactElement, SetStateAction } from 'react';
+import React, { Dispatch, ForwardedRef, forwardRef, MouseEvent, ReactElement, SetStateAction } from 'react';
 import { clsx } from '../../helpers';
+import { SyntheticBaseEvent } from '../../types';
+
 import './style.css';
 
 const Checkbox = forwardRef<HTMLDivElement, CheckboxProps & {
@@ -15,6 +17,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps & {
       style,
       disabled = false,
       onClick,
+      onChange,
       onMouseEnter,
       onMouseLeave,
       onKeyPress,
@@ -27,17 +30,33 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps & {
       type = 'checkbox',
       internalChecked,
       required = false,
-      noStyle
+      noStyle,
+      setInternalChecked
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
-  return <div className={`${prefixCls}-wrapper`}>
+    const handleClick = (
+          e: MouseEvent<HTMLInputElement> & SyntheticBaseEvent
+        ) => {
+          e.stopPropagation();
+    
+          if (disabled) {
+            return;
+          }
+    
+          setInternalChecked?.(!internalChecked);
+          e.target.value = !internalChecked;
+    
+          onClick?.(e);
+          onChange?.(e);
+        };
+
+  return (
+    <div className={`${prefixCls}-wrapper`}>
         <div
           ref={ref}
           style={style}
-          onClick={(e) => {
-            onClick?.(e)
-          }}
+          onClick={(e) => handleClick(e as MouseEvent<HTMLInputElement> & SyntheticBaseEvent)}
           className={clsx([
             prefixCls,
             className,
@@ -72,6 +91,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps & {
 
         {children && <span className={`${prefixCls}-label`}>{children}</span>}
       </div>
+  )
 })
 
 Checkbox.displayName = "Checkbox";

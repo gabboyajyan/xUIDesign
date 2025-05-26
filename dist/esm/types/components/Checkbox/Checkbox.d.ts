@@ -1,8 +1,8 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, MouseEvent, SetStateAction } from 'react';
 import './style.css';
 declare const Checkbox: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: React.MouseEvent<HTMLInputElement> & import("../../types").TargetProps) => void;
+    onChange?: (e: MouseEvent<HTMLInputElement> & import("../../types").TargetProps) => void;
     onClick?: React.MouseEventHandler<HTMLElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLElement>;
