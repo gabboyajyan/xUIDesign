@@ -1,30 +1,22 @@
-'use client';
-
-import {
-  ForwardedRef,
-  forwardRef,
-  MouseEvent,
-  ReactElement,
-  useEffect,
-  useState
-} from 'react';
-import { clsx } from '../../../lib/helpers';
-import { SyntheticBaseEvent } from '../../types';
+import { prefixClsCheckbox } from '@/utils';
 import { CheckboxProps } from '../../types/checkbox';
-import { prefixClsCheckbox } from '../../../lib/utils';
+import React, { Dispatch, ForwardedRef, forwardRef, MouseEvent, ReactElement, SetStateAction } from 'react';
+import { clsx } from '../../helpers';
+import { SyntheticBaseEvent } from '../../types';
 import './style.css';
 
-const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
+const Checkbox = forwardRef<HTMLDivElement, CheckboxProps & {
+  internalChecked: boolean,
+  setInternalChecked?: Dispatch<SetStateAction<boolean>>
+}>(
   (
     {
       prefixCls = prefixClsCheckbox,
       className = '',
-      defaultChecked = false,
-      checked,
       style,
       disabled = false,
-      onChange,
       onClick,
+      onChange,
       onMouseEnter,
       onMouseLeave,
       onKeyPress,
@@ -35,15 +27,13 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       id,
       autoFocus,
       type = 'checkbox',
-      value = false,
+      internalChecked,
       required = false,
-      noStyle
+      noStyle,
+      setInternalChecked
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
-    const isChecked = checked !== undefined ? checked : defaultChecked || value;
-    const [internalChecked, setInternalChecked] = useState(isChecked);
-
     const handleClick = (
       e: MouseEvent<HTMLInputElement> & SyntheticBaseEvent
     ) => {
@@ -53,25 +43,19 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
         return;
       }
 
-      setInternalChecked(!internalChecked);
+      setInternalChecked?.(!internalChecked);
       e.target.value = !internalChecked;
 
       onClick?.(e);
       onChange?.(e);
     };
 
-    useEffect(() => {
-      if (checked !== undefined) {
-        setInternalChecked(checked);
-      }
-    }, [checked]);
-
     return (
       <div className={`${prefixCls}-wrapper`}>
         <div
           ref={ref}
           style={style}
-          onClick={handleClick}
+          onClick={(e) => handleClick(e as MouseEvent<HTMLInputElement> & SyntheticBaseEvent)}
           className={clsx([
             prefixCls,
             className,
@@ -106,10 +90,9 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
 
         {children && <span className={`${prefixCls}-label`}>{children}</span>}
       </div>
-    );
-  }
-);
+    )
+  })
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
 
 export default Checkbox;
