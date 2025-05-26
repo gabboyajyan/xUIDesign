@@ -1,6 +1,6 @@
 'use strict';
 
-var React$1 = require('react');
+var React = require('react');
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -98,23 +98,23 @@ const Button = ({
     [`${prefixCls}-disabled`]: disabled
   }, className);
   const mergedDisabled = disabled || isLoading;
-  const content = /*#__PURE__*/React$1.createElement(React$1.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React$1.createElement("span", {
+  const content = /*#__PURE__*/React.createElement(React.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
-  }, iconNode), /*#__PURE__*/React$1.createElement("span", {
+  }, iconNode), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-content`
-  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React$1.createElement("span", {
+  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode));
   if (href) {
-    return /*#__PURE__*/React$1.createElement("a", {
+    return /*#__PURE__*/React.createElement("a", {
       className: classes,
       href: mergedDisabled ? undefined : href,
       "aria-disabled": mergedDisabled
     }, content);
   }
-  return /*#__PURE__*/React$1.createElement("button", _extends({
+  return /*#__PURE__*/React.createElement("button", _extends({
     type: htmlType,
     className: classes,
     disabled: mergedDisabled
@@ -124,7 +124,7 @@ const Button = ({
 var css_248z = ".xUi-checkbox-wrapper{align-items:center;color:var(--xui-main-color);cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);margin:16px 0}.xUi-checkbox{background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:inline-block;height:14px;position:relative;transition:all .3s;width:14px}.xUi-checkbox.xUi-checkbox-checked{background-color:#f0f5ff;border-color:var(--xui-primary-color)}.xUi-checkbox input{cursor:pointer;inset:0;opacity:0;position:absolute}.xUi-checkbox-inner{border-left:0;border-top:0;border:2px solid var(--xui-background-color);height:6px;left:50%;position:absolute;top:50%;transform:rotate(45deg) scale(0);transition:transform .2s ease-in-out;width:10px}.xUi-checkbox-check{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);display:block;height:100%;position:relative;transition:.1s ease;width:100%}.xUi-checkbox-check:after{border:solid #fff;border-width:0 2px 2px 0;content:\"\";height:8px;left:3px;position:absolute;top:1px;transform:rotate(45deg);width:5px}.xUi-checkbox-disabled,.xUi-checkbox-disabled .xUi-checkbox-check{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-checkbox-label{font-size:14px;margin-left:8px;user-select:none}.xUi-checkbox:focus:not(.disabled),.xUi-checkbox:hover:not(.disabled){border-color:var(--xui-primary-color);cursor:pointer}.xUi-checkbox.disabled{cursor:not-allowed;opacity:.5}";
 styleInject(css_248z);
 
-const Checkbox = /*#__PURE__*/React$1.forwardRef(({
+const Checkbox = /*#__PURE__*/React.forwardRef(({
   prefixCls = prefixClsCheckbox,
   className = '',
   defaultChecked = false,
@@ -148,7 +148,7 @@ const Checkbox = /*#__PURE__*/React$1.forwardRef(({
   noStyle
 }, ref) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = React$1.useState(isChecked);
+  const [internalChecked, setInternalChecked] = React.useState(isChecked);
   const handleClick = e => {
     e.stopPropagation();
     if (disabled) {
@@ -159,7 +159,7 @@ const Checkbox = /*#__PURE__*/React$1.forwardRef(({
     onClick?.(e);
     onChange?.(e);
   };
-  React$1.useEffect(() => {
+  React.useEffect(() => {
     if (checked !== undefined) {
       setInternalChecked(checked);
     }

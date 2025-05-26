@@ -1,4 +1,4 @@
-import React$1, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -96,23 +96,23 @@ const Button = ({
     [`${prefixCls}-disabled`]: disabled
   }, className);
   const mergedDisabled = disabled || isLoading;
-  const content = /*#__PURE__*/React$1.createElement(React$1.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React$1.createElement("span", {
+  const content = /*#__PURE__*/React.createElement(React.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
-  }, iconNode), /*#__PURE__*/React$1.createElement("span", {
+  }, iconNode), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-content`
-  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React$1.createElement("span", {
+  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode));
   if (href) {
-    return /*#__PURE__*/React$1.createElement("a", {
+    return /*#__PURE__*/React.createElement("a", {
       className: classes,
       href: mergedDisabled ? undefined : href,
       "aria-disabled": mergedDisabled
     }, content);
   }
-  return /*#__PURE__*/React$1.createElement("button", _extends({
+  return /*#__PURE__*/React.createElement("button", _extends({
     type: htmlType,
     className: classes,
     disabled: mergedDisabled
