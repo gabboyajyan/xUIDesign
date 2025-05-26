@@ -192,28 +192,6 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
 });
 Checkbox.displayName = "Checkbox";
 
-const CheckboxClient = /*#__PURE__*/React.forwardRef(({
-  defaultChecked = false,
-  checked,
-  value = false,
-  ...props
-}, ref) => {
-  const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = React.useState(isChecked);
-  React.useEffect(() => {
-    if (checked !== undefined) {
-      setInternalChecked(checked);
-    }
-  }, [checked]);
-  return /*#__PURE__*/React.createElement(Checkbox, _extends({
-    ref: ref
-  }, props, {
-    internalChecked: internalChecked,
-    setInternalChecked: setInternalChecked
-  }));
-});
-CheckboxClient.displayName = 'CheckboxClient';
-
 exports.Button = Button;
 exports.Checkbox = Checkbox;
 //# sourceMappingURL=index.js.map

@@ -1,4 +1,4 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React, { forwardRef } from 'react';
 
 function styleInject(css, ref) {
   if (ref === void 0) ref = {};
@@ -189,28 +189,6 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   }, children));
 });
 Checkbox.displayName = "Checkbox";
-
-const CheckboxClient = /*#__PURE__*/forwardRef(({
-  defaultChecked = false,
-  checked,
-  value = false,
-  ...props
-}, ref) => {
-  const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = useState(isChecked);
-  useEffect(() => {
-    if (checked !== undefined) {
-      setInternalChecked(checked);
-    }
-  }, [checked]);
-  return /*#__PURE__*/React.createElement(Checkbox, _extends({
-    ref: ref
-  }, props, {
-    internalChecked: internalChecked,
-    setInternalChecked: setInternalChecked
-  }));
-});
-CheckboxClient.displayName = 'CheckboxClient';
 
 export { Button, Checkbox };
 //# sourceMappingURL=index.esm.js.map
