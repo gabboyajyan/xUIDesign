@@ -1242,27 +1242,27 @@ const ButtonComponent = ({
     [`${prefixCls}-loading`]: innerLoading,
     [`${prefixCls}-disabled`]: disabled
   }, className);
-  const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React.createElement("span", {
+  const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-spinner`
   }) : icon;
-  const content = /*#__PURE__*/React.createElement(React.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React.createElement("span", {
+  const content = /*#__PURE__*/React$1.createElement(React$1.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React$1.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
-  }, iconNode), /*#__PURE__*/React.createElement("span", {
+  }, iconNode), /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-content`
-  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React.createElement("span", {
+  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React$1.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode));
   const mergedDisabled = disabled || innerLoading;
   if (href) {
-    return /*#__PURE__*/React.createElement("a", {
+    return /*#__PURE__*/React$1.createElement("a", {
       className: classes,
       href: mergedDisabled ? undefined : href,
       "aria-disabled": mergedDisabled
     }, content);
   }
-  return /*#__PURE__*/React.createElement("button", _extends({
+  return /*#__PURE__*/React$1.createElement("button", _extends({
     type: htmlType,
     className: classes,
     disabled: mergedDisabled
