@@ -70,7 +70,9 @@ export {
   StampleIcon,
   TrashIcon,
   SpinerIcon
-} from '@/components/Icons'
+} from '@/components/Icons';
 
-export { useForm } from '@/hooks/useForm'
-export { useWatch } from '@/hooks/useWatch'
+export { useForm } from '@/hooks/useForm';
+export { useWatch } from '@/hooks/useWatch';
+
+export type { FormInstance } from '@/types/form';

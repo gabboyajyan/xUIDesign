@@ -25,8 +25,8 @@ declare const Upload: import("react").ComponentType<import("./types/upload").Upl
 declare const DatePicker: import("react").ComponentType<import("./types/datepicker").TDatePickerProps>;
 declare const RangePicker: import("react").ComponentType<import("./types/datepicker").TRangePickerProps>;
 declare const TimePicker: import("react").ComponentType<import("./types/datepicker").TimePickerProps>;
-declare const Form: import("react").ComponentType<import("./types/form").FormProps>;
-declare const FormItem: import("react").ComponentType<import("./types/form").FormItemProps>;
+declare const Form: import("react").ComponentType<import("@/types/form").FormProps>;
+declare const FormItem: import("react").ComponentType<import("@/types/form").FormItemProps>;
 declare const Input: import("react").ComponentType<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("./types").DefaultProps & {
     addonBefore?: import("react").ReactNode;
     addonAfter?: import("react").ReactNode;
@@ -155,3 +155,4 @@ export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, For
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
+export type { FormInstance } from '@/types/form';
