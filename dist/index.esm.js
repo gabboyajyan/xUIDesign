@@ -3474,7 +3474,7 @@ styleInject(css_248z);
 
 const PARAGRAPH_AVATAR_ROWS = 2;
 const PARAGRAPH_DEFAULT_ROWS = 3;
-const Skeleton = ({
+const SkeletonComponent = ({
   prefixCls = prefixClsSkeleton,
   active,
   className,
@@ -3519,10 +3519,12 @@ const Skeleton = ({
     key: key
   })))));
 };
-Skeleton.Image = SkeletonImage;
-Skeleton.Input = SkeletonInput;
-Skeleton.Avatar = SkeletonAvatar;
-Skeleton.Button = SkeletonButton;
+const Skeleton = Object.assign(SkeletonComponent, {
+  Image: SkeletonImage,
+  Input: SkeletonInput,
+  Avatar: SkeletonAvatar,
+  Button: SkeletonButton
+});
 
 var Skeleton$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,

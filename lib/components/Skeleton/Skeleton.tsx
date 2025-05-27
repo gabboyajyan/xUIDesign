@@ -12,7 +12,7 @@ import './style.css';
 const PARAGRAPH_AVATAR_ROWS = 2;
 const PARAGRAPH_DEFAULT_ROWS = 3;
 
-const Skeleton = ({
+const SkeletonComponent = ({
   prefixCls = prefixClsSkeleton,
   active,
   className,
@@ -87,9 +87,11 @@ const Skeleton = ({
   );
 };
 
-Skeleton.Image = SkeletonImage;
-Skeleton.Input = SkeletonInput;
-Skeleton.Avatar = SkeletonAvatar;
-Skeleton.Button = SkeletonButton;
+const Skeleton = Object.assign(SkeletonComponent, {
+  Image: SkeletonImage,
+  Input: SkeletonInput,
+  Avatar: SkeletonAvatar,
+  Button: SkeletonButton
+})
 
 export default Skeleton
