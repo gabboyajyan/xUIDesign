@@ -13,7 +13,7 @@ declare const Radio: React.ForwardRefExoticComponent<import("../../types").Defau
     onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
     onFocus?: React.FocusEventHandler<HTMLInputElement>;
     onBlur?: React.FocusEventHandler<HTMLInputElement>;
-    value?: import("../../types").RuleType;
+    value?: import("../..").RuleType;
     tabIndex?: number;
     name?: string;
     children?: React.ReactNode;

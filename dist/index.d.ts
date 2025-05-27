@@ -3,7 +3,7 @@ import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHand
 import * as __types_form from '@/types/form';
 export { FormInstance } from '@/types/form';
 import * as __types from '@/types';
-export { RuleTypes } from '@/types';
+export { RuleType, RuleTypes } from '@/types';
 import * as __types_button from '@/types/button';
 export { ButtonProps } from '@/types/button';
 export { ArrowIcon, CalendarIcon, CheckIcon, ClearIcon, DateDistanceIcon, ErrorIcon, LoadingIcon, SearchIcon, SpinerIcon, StampleIcon, SuccessIcon, TimeIcon, TrashIcon } from '@/components/Icons';

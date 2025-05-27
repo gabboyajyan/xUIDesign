@@ -75,8 +75,8 @@ export {
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
 
-export type { RuleTypes } from '@/types';
 export type { FormInstance } from '@/types/form';
 export type { ButtonProps } from '@/types/button';
+export type { RuleTypes, RuleType } from '@/types';
 
 export { clsx, createArray, parseValue } from '@/helpers'
