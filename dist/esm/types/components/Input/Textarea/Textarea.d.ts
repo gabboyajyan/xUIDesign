@@ -1,6 +1,6 @@
 import React from 'react';
 import './style.css';
-declare const Textarea: React.ForwardRefExoticComponent<Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("../../../types").DefaultProps & {
+declare const Textarea: React.ForwardRefExoticComponent<Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("../../..").DefaultProps & {
     value?: string;
     className?: string;
     style?: React.CSSProperties;

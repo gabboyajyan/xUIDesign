@@ -1,11 +1,11 @@
 import React from 'react';
 import './style.css';
-declare const Radio: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
+declare const Radio: React.ForwardRefExoticComponent<import("../..").DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: import("../../types").SyntheticBaseEvent) => void;
+    onChange?: (e: import("../..").SyntheticBaseEvent) => void;
     onClick?: React.MouseEventHandler<HTMLElement>;
     onMouseEnter?: React.MouseEventHandler<HTMLElement>;
     onMouseLeave?: React.MouseEventHandler<HTMLElement>;
