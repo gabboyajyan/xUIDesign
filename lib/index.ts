@@ -76,3 +76,4 @@ export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
 
 export type { FormInstance } from '@/types/form';
+export type { ButtonProps } from '@/types/button';

@@ -1,14 +1,16 @@
 import * as react from 'react';
-import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FocusEventHandler, KeyboardEventHandler, FocusEvent, ButtonHTMLAttributes } from 'react';
+import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FocusEventHandler, KeyboardEventHandler, FocusEvent } from 'react';
 import * as __types_form from '@/types/form';
 export { FormInstance } from '@/types/form';
+import * as __types_button from '@/types/button';
+export { ButtonProps } from '@/types/button';
 export { ArrowIcon, CalendarIcon, CheckIcon, ClearIcon, DateDistanceIcon, ErrorIcon, LoadingIcon, SearchIcon, SpinerIcon, StampleIcon, SuccessIcon, TimeIcon, TrashIcon } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
 
 type RuleType = any;
 type RuleTypes = RuleType | RuleType[];
-type SizeType$1 = 'small' | 'middle' | 'large';
+type SizeType = 'small' | 'middle' | 'large';
 interface DefaultProps {
     prefixCls?: string;
     className?: string;
@@ -125,7 +127,7 @@ interface RadioGroupProps {
     defaultValue?: RuleType;
     value?: RuleType;
     onChange?: (e: SyntheticBaseEvent) => void;
-    size?: SizeType$1;
+    size?: SizeType;
     disabled?: boolean;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;
     onMouseLeave?: MouseEventHandler<HTMLDivElement>;
@@ -173,7 +175,7 @@ type RadioProps = DefaultProps & {
 };
 type RadioButtonProps = RadioProps & {
     children?: ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
 };
 
 interface BaseInfo {
@@ -202,7 +204,7 @@ type TDatePickerProps = DefaultProps & {
     }) => boolean;
     suffixIcon?: ReactNode;
     prefix?: ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
     format?: FormatType<RuleType> | FormatType<RuleType>[] | {
         format: string;
         type?: 'mask';
@@ -350,49 +352,7 @@ type EmptyContentProps = DefaultProps & {
     icon?: ReactNode;
 };
 
-declare const ButtonTypes: readonly ["default", "primary", "dashed", "link", "text", "ghost"];
-declare const ButtonShapes: readonly ["default", "circle", "round"];
-declare const ButtonVariantTypes: readonly ["outlined", "dashed", "solid", "filled", "text", "link"];
-declare const ButtonColorTypes: readonly ["default", "primary", "danger", "blue", "purple", "cyan", "green", "magenta", "pink", "red", "orange", "yellow", "volcano", "geekblue", "lime", "gold"];
-type ButtonType = (typeof ButtonTypes)[number];
-type ButtonShape = (typeof ButtonShapes)[number];
-type ButtonVariantType = (typeof ButtonVariantTypes)[number];
-type ButtonColorType = (typeof ButtonColorTypes)[number];
-type SizeType = 'small' | 'middle' | 'large' | undefined;
-type ButtonHTMLType = 'button' | 'submit' | 'reset';
-interface BaseButtonProps {
-    type?: ButtonType;
-    color?: ButtonColorType;
-    variant?: ButtonVariantType;
-    icon?: ReactNode;
-    iconPosition?: 'start' | 'end';
-    shape?: ButtonShape;
-    size?: SizeType;
-    disabled?: boolean;
-    loading?: boolean | {
-        delay?: number;
-        icon?: ReactNode;
-    };
-    prefixCls?: string;
-    className?: string;
-    rootClassName?: string;
-    ghost?: boolean;
-    danger?: boolean;
-    block?: boolean;
-    children?: ReactNode;
-    classNames?: {
-        icon?: string;
-    };
-    styles?: {
-        icon?: CSSProperties;
-    };
-}
-interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'> {
-    href?: string;
-    htmlType?: ButtonHTMLType;
-}
-
-declare const Button: react.ComponentType<ButtonProps>;
+declare const Button: react.ComponentType<__types_button.ButtonProps>;
 declare const Checkbox: react.ComponentType<DefaultProps & {
     disabled?: boolean;
     onChange?: (e: react.MouseEvent<HTMLInputElement> & TargetProps) => void;
@@ -423,7 +383,7 @@ declare const FormItem: react.ComponentType<__types_form.FormItemProps>;
 declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & DefaultProps & {
     addonBefore?: react.ReactNode;
     addonAfter?: react.ReactNode;
-    size?: SizeType$1;
+    size?: SizeType;
     prefix?: react.ReactNode;
     suffix?: react.ReactNode;
     disabled?: boolean;
@@ -458,7 +418,7 @@ declare const Textarea: react.ComponentType<Omit<react.TextareaHTMLAttributes<HT
         count?: react.CSSProperties;
     };
     bordered?: boolean;
-    size?: SizeType$1;
+    size?: SizeType;
     status?: "success" | "error";
     rootClassName?: string;
     variant?: "outlined" | "borderless" | "filled" | "underlined";

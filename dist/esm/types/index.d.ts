@@ -1,5 +1,5 @@
 import './styles/global.css';
-declare const Button: import("react").ComponentType<import("./types/button").ButtonProps>;
+declare const Button: import("react").ComponentType<import("@/types/button").ButtonProps>;
 declare const Checkbox: import("react").ComponentType<import("./types").DefaultProps & {
     disabled?: boolean;
     onChange?: (e: import("react").MouseEvent<HTMLInputElement> & import("./types").TargetProps) => void;
@@ -156,3 +156,4 @@ export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon,
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
 export type { FormInstance } from '@/types/form';
+export type { ButtonProps } from '@/types/button';
