@@ -1,11 +1,11 @@
 'use client'
 
-import { Checkbox } from "../../lib/components/Checkbox";
+import { Skeleton } from "../../lib/components/Skeleton";
 
 export default function Home() {
     return (
         <>
-            <Checkbox>Checkbox</Checkbox>
+           <Skeleton.Avatar />
         </>
     )
 }

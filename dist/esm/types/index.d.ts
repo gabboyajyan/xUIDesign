@@ -1,8 +1,8 @@
 import './styles/global.css';
 declare const Button: import("react").ComponentType<import("@/types/button").ButtonProps>;
-declare const Checkbox: import("react").ComponentType<import("./types").DefaultProps & {
+declare const Checkbox: import("react").ComponentType<import("@/types").DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: import("react").MouseEvent<HTMLInputElement> & import("./types").TargetProps) => void;
+    onChange?: (e: import("react").MouseEvent<HTMLInputElement> & import("@/types").TargetProps) => void;
     onClick?: import("react").MouseEventHandler<HTMLElement>;
     onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
     onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
@@ -27,10 +27,10 @@ declare const RangePicker: import("react").ComponentType<import("./types/datepic
 declare const TimePicker: import("react").ComponentType<import("./types/datepicker").TimePickerProps>;
 declare const Form: import("react").ComponentType<import("@/types/form").FormProps>;
 declare const FormItem: import("react").ComponentType<import("@/types/form").FormItemProps>;
-declare const Input: import("react").ComponentType<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("./types").DefaultProps & {
+declare const Input: import("react").ComponentType<Omit<import("react").InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("@/types").DefaultProps & {
     addonBefore?: import("react").ReactNode;
     addonAfter?: import("react").ReactNode;
-    size?: import("./types").SizeType;
+    size?: import("@/types").SizeType;
     prefix?: import("react").ReactNode;
     suffix?: import("react").ReactNode;
     disabled?: boolean;
@@ -38,7 +38,7 @@ declare const Input: import("react").ComponentType<Omit<import("react").InputHTM
     error?: boolean;
     bordered?: boolean;
     iconRender?: (visible: boolean) => import("react").ReactElement;
-    onChange?: (event: import("./types").SyntheticBaseEvent) => void;
+    onChange?: (event: import("@/types").SyntheticBaseEvent) => void;
     onClick?: import("react").MouseEventHandler<HTMLElement>;
     onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
     onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
@@ -47,7 +47,7 @@ declare const Input: import("react").ComponentType<Omit<import("react").InputHTM
     onPressEnter?: (event: import("react").KeyboardEvent<HTMLInputElement>) => void;
     feedbackIcons?: boolean;
 } & import("react").RefAttributes<HTMLInputElement>>;
-declare const Textarea: import("react").ComponentType<Omit<import("react").TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("./types").DefaultProps & {
+declare const Textarea: import("react").ComponentType<Omit<import("react").TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("@/types").DefaultProps & {
     value?: string;
     className?: string;
     style?: import("react").CSSProperties;
@@ -65,19 +65,19 @@ declare const Textarea: import("react").ComponentType<Omit<import("react").Texta
         count?: import("react").CSSProperties;
     };
     bordered?: boolean;
-    size?: import("./types").SizeType;
+    size?: import("@/types").SizeType;
     status?: "success" | "error";
     rootClassName?: string;
     variant?: "outlined" | "borderless" | "filled" | "underlined";
     error?: boolean;
     allowClear?: boolean;
 } & import("react").RefAttributes<HTMLTextAreaElement>>;
-declare const Radio: import("react").ComponentType<import("./types").DefaultProps & {
+declare const Radio: import("react").ComponentType<import("@/types").DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: import("./types").SyntheticBaseEvent) => void;
+    onChange?: (e: import("@/types").SyntheticBaseEvent) => void;
     onClick?: import("react").MouseEventHandler<HTMLElement>;
     onMouseEnter?: import("react").MouseEventHandler<HTMLElement>;
     onMouseLeave?: import("react").MouseEventHandler<HTMLElement>;
@@ -85,7 +85,7 @@ declare const Radio: import("react").ComponentType<import("./types").DefaultProp
     onKeyDown?: import("react").KeyboardEventHandler<HTMLElement>;
     onFocus?: import("react").FocusEventHandler<HTMLInputElement>;
     onBlur?: import("react").FocusEventHandler<HTMLInputElement>;
-    value?: import("./types").RuleType;
+    value?: import("@/types").RuleType;
     tabIndex?: number;
     name?: string;
     children?: import("react").ReactNode;
@@ -99,12 +99,12 @@ declare const Radio: import("react").ComponentType<import("./types").DefaultProp
 } & import("react").RefAttributes<HTMLLabelElement>>;
 declare const RadioButton: import("react").ComponentType<import("./types/radio").RadioButtonProps>;
 declare const RadioGroup: import("react").ComponentType<import("./types/radio").RadioGroupProps>;
-declare const Select: import("react").ComponentType<import("./types").DefaultProps & {
+declare const Select: import("react").ComponentType<import("@/types").DefaultProps & {
     id?: string;
     searchValue?: string;
     onSearch?: (value: string) => void;
     autoClearSearchValue?: boolean;
-    onSelect?: (value: import("./types").RuleTypes, option?: import("./types/select").OptionType) => void;
+    onSelect?: (value: import("@/types").RuleTypes, option?: import("./types/select").OptionType) => void;
     onDeselect?: (value: string, option?: import("./types/select").OptionType) => void;
     filterOption?: boolean | ((input: string, option: import("./types/select").OptionType) => boolean);
     optionFilterProp?: string;
@@ -114,10 +114,10 @@ declare const Select: import("react").ComponentType<import("./types").DefaultPro
     listHeight?: number;
     menuItemSelectedIcon?: import("react").ReactNode;
     mode?: "default" | "multiple" | "tags";
-    value?: import("./types").RuleTypes;
-    defaultValue?: import("./types").RuleTypes;
+    value?: import("@/types").RuleTypes;
+    defaultValue?: import("@/types").RuleTypes;
     maxCount?: number;
-    onChange?: (e: import("./types").RuleTypes, option?: import("./types/select").OptionType) => void;
+    onChange?: (e: import("@/types").RuleTypes, option?: import("./types/select").OptionType) => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;
@@ -155,6 +155,7 @@ export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, For
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon, } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
+export type { RuleTypes } from '@/types';
 export type { FormInstance } from '@/types/form';
 export type { ButtonProps } from '@/types/button';
 export { clsx, createArray, parseValue } from '@/helpers';

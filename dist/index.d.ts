@@ -2,6 +2,8 @@ import * as react from 'react';
 import { CSSProperties, ReactNode, MouseEventHandler, MouseEvent, ReactEventHandler, Key, FocusEventHandler, KeyboardEventHandler, FocusEvent } from 'react';
 import * as __types_form from '@/types/form';
 export { FormInstance } from '@/types/form';
+import * as __types from '@/types';
+export { RuleTypes } from '@/types';
 import * as __types_button from '@/types/button';
 export { ButtonProps } from '@/types/button';
 export { ArrowIcon, CalendarIcon, CheckIcon, ClearIcon, DateDistanceIcon, ErrorIcon, LoadingIcon, SearchIcon, SpinerIcon, StampleIcon, SuccessIcon, TimeIcon, TrashIcon } from '@/components/Icons';
@@ -10,7 +12,6 @@ export { useWatch } from '@/hooks/useWatch';
 export { clsx, createArray, parseValue } from '@/helpers';
 
 type RuleType = any;
-type RuleTypes = RuleType | RuleType[];
 type SizeType = 'small' | 'middle' | 'large';
 interface DefaultProps {
     prefixCls?: string;
@@ -354,9 +355,9 @@ type EmptyContentProps = DefaultProps & {
 };
 
 declare const Button: react.ComponentType<__types_button.ButtonProps>;
-declare const Checkbox: react.ComponentType<DefaultProps & {
+declare const Checkbox: react.ComponentType<__types.DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: react.MouseEvent<HTMLInputElement> & TargetProps) => void;
+    onChange?: (e: react.MouseEvent<HTMLInputElement> & __types.TargetProps) => void;
     onClick?: react.MouseEventHandler<HTMLElement>;
     onMouseEnter?: react.MouseEventHandler<HTMLElement>;
     onMouseLeave?: react.MouseEventHandler<HTMLElement>;
@@ -381,10 +382,10 @@ declare const RangePicker: react.ComponentType<TRangePickerProps>;
 declare const TimePicker: react.ComponentType<TimePickerProps>;
 declare const Form: react.ComponentType<__types_form.FormProps>;
 declare const FormItem: react.ComponentType<__types_form.FormItemProps>;
-declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & DefaultProps & {
+declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & __types.DefaultProps & {
     addonBefore?: react.ReactNode;
     addonAfter?: react.ReactNode;
-    size?: SizeType;
+    size?: __types.SizeType;
     prefix?: react.ReactNode;
     suffix?: react.ReactNode;
     disabled?: boolean;
@@ -392,7 +393,7 @@ declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInpu
     error?: boolean;
     bordered?: boolean;
     iconRender?: (visible: boolean) => react.ReactElement;
-    onChange?: (event: SyntheticBaseEvent) => void;
+    onChange?: (event: __types.SyntheticBaseEvent) => void;
     onClick?: react.MouseEventHandler<HTMLElement>;
     onMouseEnter?: react.MouseEventHandler<HTMLElement>;
     onMouseLeave?: react.MouseEventHandler<HTMLElement>;
@@ -401,7 +402,7 @@ declare const Input: react.ComponentType<Omit<react.InputHTMLAttributes<HTMLInpu
     onPressEnter?: (event: react.KeyboardEvent<HTMLInputElement>) => void;
     feedbackIcons?: boolean;
 } & react.RefAttributes<HTMLInputElement>>;
-declare const Textarea: react.ComponentType<Omit<react.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & DefaultProps & {
+declare const Textarea: react.ComponentType<Omit<react.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & __types.DefaultProps & {
     value?: string;
     className?: string;
     style?: react.CSSProperties;
@@ -419,19 +420,19 @@ declare const Textarea: react.ComponentType<Omit<react.TextareaHTMLAttributes<HT
         count?: react.CSSProperties;
     };
     bordered?: boolean;
-    size?: SizeType;
+    size?: __types.SizeType;
     status?: "success" | "error";
     rootClassName?: string;
     variant?: "outlined" | "borderless" | "filled" | "underlined";
     error?: boolean;
     allowClear?: boolean;
 } & react.RefAttributes<HTMLTextAreaElement>>;
-declare const Radio: react.ComponentType<DefaultProps & {
+declare const Radio: react.ComponentType<__types.DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     disabled?: boolean;
     title?: string;
-    onChange?: (e: SyntheticBaseEvent) => void;
+    onChange?: (e: __types.SyntheticBaseEvent) => void;
     onClick?: react.MouseEventHandler<HTMLElement>;
     onMouseEnter?: react.MouseEventHandler<HTMLElement>;
     onMouseLeave?: react.MouseEventHandler<HTMLElement>;
@@ -439,7 +440,7 @@ declare const Radio: react.ComponentType<DefaultProps & {
     onKeyDown?: react.KeyboardEventHandler<HTMLElement>;
     onFocus?: react.FocusEventHandler<HTMLInputElement>;
     onBlur?: react.FocusEventHandler<HTMLInputElement>;
-    value?: RuleType;
+    value?: __types.RuleType;
     tabIndex?: number;
     name?: string;
     children?: react.ReactNode;
@@ -453,12 +454,12 @@ declare const Radio: react.ComponentType<DefaultProps & {
 } & react.RefAttributes<HTMLLabelElement>>;
 declare const RadioButton: react.ComponentType<RadioButtonProps>;
 declare const RadioGroup: react.ComponentType<RadioGroupProps>;
-declare const Select: react.ComponentType<DefaultProps & {
+declare const Select: react.ComponentType<__types.DefaultProps & {
     id?: string;
     searchValue?: string;
     onSearch?: (value: string) => void;
     autoClearSearchValue?: boolean;
-    onSelect?: (value: RuleTypes, option?: OptionType) => void;
+    onSelect?: (value: __types.RuleTypes, option?: OptionType) => void;
     onDeselect?: (value: string, option?: OptionType) => void;
     filterOption?: boolean | ((input: string, option: OptionType) => boolean);
     optionFilterProp?: string;
@@ -468,10 +469,10 @@ declare const Select: react.ComponentType<DefaultProps & {
     listHeight?: number;
     menuItemSelectedIcon?: react.ReactNode;
     mode?: "default" | "multiple" | "tags";
-    value?: RuleTypes;
-    defaultValue?: RuleTypes;
+    value?: __types.RuleTypes;
+    defaultValue?: __types.RuleTypes;
     maxCount?: number;
-    onChange?: (e: RuleTypes, option?: OptionType) => void;
+    onChange?: (e: __types.RuleTypes, option?: OptionType) => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;
