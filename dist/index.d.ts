@@ -19,6 +19,7 @@ export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
 export { CheckboxProps } from '@/types/checkbox';
 export { InputProps, TextareaProps } from '@/types/input';
+export { FormContext } from '@/components/Form/Form';
 export { clsx, createArray, parseValue } from '@/helpers';
 
 interface DefaultProps {

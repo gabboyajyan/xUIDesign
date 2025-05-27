@@ -164,4 +164,5 @@ export type { RadioProps, RadioGroupProps, RadioButtonProps } from '@/types/radi
 export type { TDatePickerProps, TRangePickerProps, TimePickerProps } from '@/types/datepicker';
 export type { SelectProps, OptionType, OptionProps, CustomTagProps, TagProps, DisplayValueType } from '@/types/select';
 export type { RcFile, UploadFile, UploadProps, UploadChangeParam } from '@/types/upload';
+export type { FormContext } from '@/components/Form/Form';
 export { clsx, createArray, parseValue } from '@/helpers';
