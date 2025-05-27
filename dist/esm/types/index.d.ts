@@ -159,7 +159,7 @@ export type { FormInstance, RuleObject, RuleRender, FieldData, FieldInstancesInp
 export type { DefaultProps, TargetProps, RuleTypes, RuleType, MouseEventHandlerSelect, SyntheticBaseEvent } from '@/types';
 export type { CheckboxProps } from '@/types/checkbox';
 export type { InputProps, TextareaProps } from '@/types/input';
-export type { ButtonProps, BaseButtonProps } from '@/types/button';
+export type { ButtonProps, BaseButtonProps, ButtonType } from '@/types/button';
 export type { RadioProps, RadioGroupProps, RadioButtonProps } from '@/types/radio';
 export type { TDatePickerProps, TRangePickerProps, TimePickerProps } from '@/types/datepicker';
 export type { SelectProps, OptionType, OptionProps, CustomTagProps, TagProps, DisplayValueType } from '@/types/select';

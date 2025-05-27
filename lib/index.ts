@@ -98,7 +98,7 @@ export type {
 
 export type { CheckboxProps } from '@/types/checkbox';
 export type { InputProps, TextareaProps } from '@/types/input';
-export type { ButtonProps, BaseButtonProps } from '@/types/button';
+export type { ButtonProps, BaseButtonProps, ButtonType } from '@/types/button';
 
 export type {
   RadioProps,

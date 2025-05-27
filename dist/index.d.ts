@@ -13,7 +13,7 @@ export { RcFile, UploadChangeParam, UploadFile, UploadProps } from '@/types/uplo
 import * as __types from '@/types';
 export { DefaultProps, MouseEventHandlerSelect, RuleType, RuleTypes, SyntheticBaseEvent, TargetProps } from '@/types';
 import * as __types_button from '@/types/button';
-export { BaseButtonProps, ButtonProps } from '@/types/button';
+export { BaseButtonProps, ButtonProps, ButtonType } from '@/types/button';
 export { ArrowIcon, CalendarIcon, CheckIcon, ClearIcon, DateDistanceIcon, ErrorIcon, LoadingIcon, SearchIcon, SpinerIcon, StampleIcon, SuccessIcon, TimeIcon, TrashIcon } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
