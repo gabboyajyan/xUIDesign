@@ -128,6 +128,6 @@ export type {
   UploadChangeParam
 } from '@/types/upload';
 
-export type { FormContext } from '@/components/Form/Form';
+export { FormContext } from '@/components/Form/Form';
 
 export { clsx, createArray, parseValue } from '@/helpers'
