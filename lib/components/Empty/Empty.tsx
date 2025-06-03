@@ -1,3 +1,4 @@
+import React from 'react';
 import { EmptyContentProps } from '../../types/empty';
 import { prefixClsEmpty } from '../../utils';
 import './style.css';
