@@ -3001,6 +3001,8 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
         setIsOpen(open);
         if (hasMode) {
           handleClearInputValue();
+        } else {
+          setSearchQuery('');
         }
       }
     };

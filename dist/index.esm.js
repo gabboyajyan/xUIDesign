@@ -2999,6 +2999,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
         setIsOpen(open);
         if (hasMode) {
           handleClearInputValue();
+        } else {
+          setSearchQuery('');
         }
       }
     };
