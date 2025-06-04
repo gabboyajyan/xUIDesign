@@ -390,6 +390,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       )?.[0] as HTMLDivElement;
 
       if (searchContent) {
+        console.info({
+          clientWidth: searchContent.clientWidth,
+          searchContent
+        });
+        
         setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
 
