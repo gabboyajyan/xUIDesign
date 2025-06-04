@@ -179,14 +179,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       let positionStyle: CSSProperties = {
         top: `${selectBox.bottom}px`,
-        left: `${selectBox.left}px`,
+        // left: `${selectBox.left}px`,
         width: `${selectBox.width}px`
       };
 
       if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
         positionStyle = {
           top: `${selectBox.top - dropdownHeight}px`,
-          left: `${selectBox.left}px`,
+          // left: `${selectBox.left}px`,
           width: `${selectBox.width}px`
         };
       }
