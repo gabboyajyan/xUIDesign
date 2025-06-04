@@ -3143,12 +3143,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (!disabled) {
       setIsOpen(!isOpen);
     }
-    const searchContent = document.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
+    const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {
-      console.info({
-        clientWidth: searchContent.clientWidth,
-        searchContent
-      });
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
     const timeout = setTimeout(() => {
