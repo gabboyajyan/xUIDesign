@@ -1,11 +1,16 @@
 'use client'
 
-import { Skeleton } from "../../lib/components/Skeleton";
+import { Select } from "../../lib/components/Select";
 
 export default function Home() {
     return (
         <>
-           <Skeleton.Avatar />
+           <Select 
+            showSearch
+            options={[
+            { value: 'Spain', label: 'Spain' },
+            { value: 'Armenia', label: 'Armenia' }
+           ]} />
         </>
     )
 }

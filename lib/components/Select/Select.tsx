@@ -153,6 +153,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
           if (hasMode) {
             handleClearInputValue();
+          } else {
+            setSearchQuery('');
           }
         }
       };
