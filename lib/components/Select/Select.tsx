@@ -360,10 +360,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           .map((child: { props: OptionType }) => child.props)
       : options;
 
-      useEffect(() => {
-        console.log({ filterOption, extractedOptions });
-      }, [filterOption, extractedOptions])
-
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
       if (typeof filterOption === 'function') {
         return filterOption(searchQuery, option);
