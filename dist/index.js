@@ -3135,6 +3135,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (filterOption === false) {
       return true;
     }
+    console.info(option);
     const valueToCheck = `${['string', 'number'].includes(typeof option.children) ? option.children :
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
