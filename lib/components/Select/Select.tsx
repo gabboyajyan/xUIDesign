@@ -365,9 +365,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return filterOption(searchQuery, option);
       }
 
-      // if (filterOption === false) {
-      //   return true;
-      // }
+      if (filterOption === false) {
+        return true;
+      }
 
       const valueToCheck = `${
         ['string', 'number'].includes(typeof option.children)
