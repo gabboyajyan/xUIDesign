@@ -134,14 +134,20 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       setSearchQuery('');
 
-      const inputContainer = selectRef.current?.querySelector(
-        "[content-editable='plaintext-only']"
+      let inputContainer = selectRef.current?.querySelector(
+        `[id='${prefixCls}-search-tag-input']`
       ) as HTMLDivElement;
+
+      if (!inputContainer) {
+        inputContainer = selectRef.current?.querySelector(
+          "[content-editable='plaintext-only']"
+        ) as HTMLDivElement;
+      }
 
       if (inputContainer) {
         inputContainer.innerText = '';
       }
-    }, [autoClearSearchValue]);
+    }, [autoClearSearchValue, prefixCls]);
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent): void => {
@@ -150,12 +156,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           !selectRef.current.contains(event.target as Node)
         ) {
           setIsOpen(open);
-
-          if (hasMode) {
-            handleClearInputValue();
-          } else {
-            setSearchQuery('');
-          }
+          handleClearInputValue();
         }
       };
 
@@ -322,8 +323,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ) {
           const updatedSelected = hasMode
             ? (selected as string[]).filter(
-                item => item !== selected[selected.length - 1]
-              )
+              item => item !== selected[selected.length - 1]
+            )
             : searchQuery.trim();
 
           onChange?.(updatedSelected);
@@ -356,8 +357,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     const extractedOptions = children
       ? (Array.isArray(children) ? children : [children])
-          .filter(e => e)
-          .map((child: { props: OptionType }) => child.props)
+        .filter(e => e)
+        .map((child: { props: OptionType }) => child.props)
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
@@ -369,13 +370,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return true;
       }
 
-      const valueToCheck = `${
-        ['string', 'number'].includes(typeof option.children)
+      const valueToCheck = `${['string', 'number'].includes(typeof option.children)
           ? option.children
           : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            option[optionFilterProp] || option.value
-      }`;
+          // @ts-expect-error
+          option[optionFilterProp] || option.value
+        }`;
 
       return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
@@ -389,7 +389,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         `${prefixCls}-tag-container`
       )?.[0] as HTMLDivElement;
 
-      if (searchContent) {       
+      if (searchContent) {
         setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
 
@@ -435,6 +435,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                   return;
                 }
 
+
                 handleSelect(
                   e as MouseEventHandlerSelect,
                   props.value as string,
@@ -476,12 +477,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           maxHeight: listHeight,
           ...(['topLeft', 'topRight'].includes(placement)
             ? {
-                top:
-                  -(
-                    (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
-                      ?.clientHeight || listHeight) + PADDING_PLACEMENT
-                  ) + (selectRef.current?.clientHeight || 0)
-              }
+              top:
+                -(
+                  (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
+                    ?.clientHeight || listHeight) + PADDING_PLACEMENT
+                ) + (selectRef.current?.clientHeight || 0)
+            }
             : {})
         }}
       >
@@ -519,8 +520,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             {filteredOptions.length
               ? dataRender
               : !asTag
-              ? notFoundContent || <Empty />
-              : null}
+                ? notFoundContent || <Empty />
+                : null}
           </div>
         )}
       </div>
@@ -578,7 +579,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                         tag === ''
                           ? placeholder
                           : extractedOptions.find(e => e.value === tag)
-                              ?.children || tag
+                            ?.children || tag
                       }
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
@@ -616,7 +617,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                   {selected === ''
                     ? placeholder
                     : extractedOptions.find(e => e.value === selected)
-                        ?.children || selected}
+                      ?.children || selected}
                 </div>
               ) : null}
             </div>
@@ -629,12 +630,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               {selected === ''
                 ? placeholder
                 : (() => {
-                    const option = extractedOptions.find(
-                      e => e.value === selected
-                    );
+                  const option = extractedOptions.find(
+                    e => e.value === selected
+                  );
 
-                    return option?.children || option?.value || null;
-                  })()}
+                  return option?.children || option?.value || null;
+                })()}
             </div>
           ) : null}
 

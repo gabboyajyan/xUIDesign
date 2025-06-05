@@ -2990,20 +2990,19 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       return;
     }
     setSearchQuery('');
-    const inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
+    let inputContainer = selectRef.current?.querySelector(`[id='${prefixCls}-search-tag-input']`);
+    if (!inputContainer) {
+      inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
+    }
     if (inputContainer) {
       inputContainer.innerText = '';
     }
-  }, [autoClearSearchValue]);
+  }, [autoClearSearchValue, prefixCls]);
   React$1.useEffect(() => {
     const handleClickOutside = event => {
       if (selectRef.current && !selectRef.current.contains(event.target)) {
         setIsOpen(open);
-        if (hasMode) {
-          handleClearInputValue();
-        } else {
-          setSearchQuery('');
-        }
+        handleClearInputValue();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
