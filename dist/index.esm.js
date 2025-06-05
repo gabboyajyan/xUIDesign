@@ -3130,10 +3130,9 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);
     }
-    if (filterOption === false) {
-      return true;
-    }
-    console.info(option);
+    // if (filterOption === false) {
+    //   return true;
+    // }
     const valueToCheck = `${['string', 'number'].includes(typeof option.children) ? option.children :
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
