@@ -3375,9 +3375,11 @@ export const CountryCodes = [
 ];
 
 export default function Home() {
+
     return (
         <>
             <Select
+                showSearch
                 filterOption={(input, option) => {
                     const value =
                         option?.children?.props?.children[1]?.props?.children ?? '';

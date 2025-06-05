@@ -369,6 +369,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return true;
       }
 
+      console.info(option);
+      
       const valueToCheck = `${
         ['string', 'number'].includes(typeof option.children)
           ? option.children
