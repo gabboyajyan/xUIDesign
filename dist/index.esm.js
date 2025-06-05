@@ -3126,6 +3126,11 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   }, [getPopupContainer]);
   const extractedOptions = children ? (Array.isArray(children) ? children : [children]).filter(e => e).map(child => child.props) : options;
   const filteredOptions = extractedOptions.filter(option => {
+    console.info({
+      searchQuery,
+      option,
+      optionFilterProp
+    });
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);
     }
