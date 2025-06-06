@@ -2921,7 +2921,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   searchValue = '',
   autoClearSearchValue = true,
   filterOption = true,
-  optionFilterProp = 'value',
+  optionFilterProp,
   children,
   options = [],
   listHeight = LIST_HEIGHT,

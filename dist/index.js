@@ -2923,7 +2923,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   searchValue = '',
   autoClearSearchValue = true,
   filterOption = true,
-  optionFilterProp = 'value',
+  optionFilterProp,
   children,
   options = [],
   listHeight = LIST_HEIGHT,
