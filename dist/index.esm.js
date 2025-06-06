@@ -638,12 +638,18 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
       errors: err
     }));
   }
-  function setFieldValue(name, value, errors, reset) {
-    if (!reset && ([undefined, null].includes(value) || formRef.current[name] === value)) {
+  function setFieldValue(name, value, errors, reset = null) {
+    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
     formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
+    if (reset === null) {
+      setErrors({
+        [name]: []
+      });
+      return;
+    }
     if (!errors?.length) {
       validateField(name).then(() => {
         const allValues = getFieldsValue();
@@ -737,37 +743,23 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
-  function resetFields(nameList, showError = false) {
+  function resetFields(nameList, showError = true) {
     if (nameList?.length) {
       nameList.forEach(name => {
         formRef.current[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
-        if (showError) {
-          setErrors(prev => ({
-            ...prev,
-            [name]: []
-          }));
-          setFieldValue(name, initialValues[name], undefined, true);
-        } else {
-          setFieldValue(name, initialValues[name], undefined, true);
-          setErrors(prev => ({
-            ...prev,
-            [name]: []
-          }));
-        }
+        setErrors(prev => ({
+          ...prev,
+          [name]: []
+        }));
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
-        if (!showError) {
-          setErrors(prev => ({
-            ...prev,
-            [name]: []
-          }));
-        }
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
