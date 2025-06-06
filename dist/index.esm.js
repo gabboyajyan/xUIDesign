@@ -737,7 +737,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
-  function resetFields(nameList) {
+  function resetFields(nameList, showError = true) {
     if (nameList?.length) {
       nameList.forEach(name => {
         formRef.current[name] = initialValues[name];
@@ -747,13 +747,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
           ...prev,
           [name]: []
         }));
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));

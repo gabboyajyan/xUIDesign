@@ -3,8 +3,6 @@
 import { Select } from "../../lib/components/Select";
 import { Option } from "../../lib/components/Select/Option";
 
-import { Select as SelectAnt } from 'antd'
-
 export const CountryCodes = [...new Set([
     {
         "label": "Afghanistan",
@@ -1828,38 +1826,20 @@ export default function Home() {
             <Select style={{ width: 500 }} showSearch>
                 {CountryCodes.map(country => (
                     <Option
-                        key={country.label}
-                        value={country.label}
+                        key={country.value}
+                        value={country.value}
                     >
                         <div
                             className="countyCode"
-                            title={country.name}
+                            title={country.label}
                         >
                             <div dir="ltr" className="phoneCode">
-                                {country.name}
+                                {country.label}
                             </div>
                         </div>
                     </Option>
                 ))}
             </Select>
-
-             <SelectAnt style={{ width: 500 }} showSearch>
-                {CountryCodes.map(country => (
-                    <Option
-                        key={country.label}
-                        value={country.label}
-                    >
-                        <div
-                            className="countyCode"
-                            title={country.name}
-                        >
-                            <div dir="ltr" className="phoneCode">
-                                {country.name}
-                            </div>
-                        </div>
-                    </Option>
-                ))}
-            </SelectAnt>
         </>
     )
 }

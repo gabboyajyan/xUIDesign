@@ -225,21 +225,21 @@ const useForm = (
     return results.every(valid => valid);
   }
 
-  function resetFields(nameList?: string[]) {
+  function resetFields(nameList?: string[], showError: boolean = true) {
     if (nameList?.length) {
       nameList.forEach((name: string) => {
         formRef.current[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
         setErrors(prev => ({ ...prev, [name]: [] }));
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
 
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
 
