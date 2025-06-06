@@ -110,7 +110,7 @@ export interface FormItemChildComponentProps {
 export interface FormInstance {
   submit: () => Promise<Record<string, RuleTypes> | undefined>;
   setFields: (fields: FieldData[]) => void;
-  resetFields: (nameList?: string[], showError?: boolean) => void;
+  resetFields: (nameList?: string[], showError?: boolean | null) => void;
   getFieldError: (name: string) => string[];
   registerField: (name: string, rules?: RuleObject[]) => void;
   setFieldValue: (name: string, value: RuleTypes) => void;

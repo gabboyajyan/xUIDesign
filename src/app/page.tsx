@@ -1,7 +1,9 @@
 'use client'
 
-import { Select } from "../../lib/components/Select";
-import { Option } from "../../lib/components/Select/Option";
+import { useForm } from "../../lib/hooks/useForm";
+import { Input } from "../../lib/components/Input";
+import { Form } from "../../lib/components/Form";
+import FormItem from "../../lib/components/Form/Item/Item";
 
 export const CountryCodes = [...new Set([
     {
@@ -1820,26 +1822,19 @@ export const CountryCodes = [...new Set([
 ])]
 
 export default function Home() {
+    const form = useForm();
 
     return (
         <>
-            <Select style={{ width: 500 }} showSearch>
-                {CountryCodes.map(country => (
-                    <Option
-                        key={country.value}
-                        value={country.value}
-                    >
-                        <div
-                            className="countyCode"
-                            title={country.label}
-                        >
-                            <div dir="ltr" className="phoneCode">
-                                {country.label}
-                            </div>
-                        </div>
-                    </Option>
-                ))}
-            </Select>
+            <Form form={form} onFinish={() => {
+                form.resetFields(undefined)
+            }}>
+                <FormItem label="Name" name="Name" rules={[{ required: true }]}>
+                    <Input />
+                </FormItem>
+
+                <button type="submit">Submit</button>
+            </Form>
         </>
     )
 }

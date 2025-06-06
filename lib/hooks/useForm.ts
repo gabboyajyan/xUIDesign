@@ -73,10 +73,10 @@ const useForm = (
     name: string,
     value: RuleTypes,
     errors?: string[],
-    reset?: boolean
+    reset: boolean | null | undefined = null
   ) {
     if (
-      !reset &&
+      !reset && reset !== null &&
       ([undefined, null].includes(value) || formRef.current[name] === value)
     ) {
       return;
@@ -84,6 +84,12 @@ const useForm = (
 
     formRef.current[name] = value;
     touchedFieldsRef.current.add(name);
+
+    if (reset === null) {
+      setErrors({ [name]: [] });
+
+      return
+    }
 
     if (!errors?.length) {
       validateField(name).then(() => {
@@ -225,31 +231,22 @@ const useForm = (
     return results.every(valid => valid);
   }
 
-  function resetFields(nameList?: string[], showError: boolean = false) {
+  function resetFields(nameList?: string[], showError: boolean | null = true) {
     if (nameList?.length) {
       nameList.forEach((name: string) => {
         formRef.current[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
 
-        if (showError) {
-          setErrors(prev => ({ ...prev, [name]: [] }));
-          setFieldValue(name, initialValues[name], undefined, true);
-        } else {
-          setFieldValue(name, initialValues[name], undefined, true);
-          setErrors(prev => ({ ...prev, [name]: [] }));
-        }
+        setErrors(prev => ({ ...prev, [name]: [] }));
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
 
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
-
-        if (!showError) {
-          setErrors(prev => ({ ...prev, [name]: [] }));
-        }
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
 
