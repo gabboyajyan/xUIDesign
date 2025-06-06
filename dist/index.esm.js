@@ -640,11 +640,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   }
   function setFieldValue(name, value, errors, reset) {
     if (!reset && ([undefined, null].includes(value) || formRef.current[name] === value)) {
-      if (reset === false) {
-        setErrors({
-          [name]: []
-        });
-      }
       return;
     }
     formRef.current[name] = value;
@@ -742,23 +737,37 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
-  function resetFields(nameList, resetWithoutError) {
+  function resetFields(nameList, showError = false) {
     if (nameList?.length) {
       nameList.forEach(name => {
         formRef.current[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
-        setErrors(prev => ({
-          ...prev,
-          [name]: []
-        }));
-        setFieldValue(name, initialValues[name], undefined, resetWithoutError);
+        if (showError) {
+          setErrors(prev => ({
+            ...prev,
+            [name]: []
+          }));
+          setFieldValue(name, initialValues[name], undefined, true);
+        } else {
+          setFieldValue(name, initialValues[name], undefined, true);
+          setErrors(prev => ({
+            ...prev,
+            [name]: []
+          }));
+        }
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, resetWithoutError);
+        setFieldValue(name, initialValues[name], undefined, true);
+        if (!showError) {
+          setErrors(prev => ({
+            ...prev,
+            [name]: []
+          }));
+        }
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
