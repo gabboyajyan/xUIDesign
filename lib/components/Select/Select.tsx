@@ -43,7 +43,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       searchValue = '',
       autoClearSearchValue = true,
       filterOption = true,
-      optionFilterProp = 'value',
+      optionFilterProp,
       children,
       options = [],
       listHeight = LIST_HEIGHT,
@@ -370,7 +370,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return true;
       }
 
-      const valueToCheck = `${['string', 'number'].includes(typeof option.children)
+      const valueToCheck = `${['string', 'number'].includes(typeof (option.children))
           ? option.children
           : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
