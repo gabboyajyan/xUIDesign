@@ -362,12 +362,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
-      console.info({
-        searchQuery,
-        option,
-        optionFilterProp
-      });
-
       if (typeof filterOption === 'function') {
         return filterOption(searchQuery, option);
       }
