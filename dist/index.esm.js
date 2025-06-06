@@ -640,6 +640,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   }
   function setFieldValue(name, value, errors, reset) {
     if (!reset && ([undefined, null].includes(value) || formRef.current[name] === value)) {
+      if (reset === false) {
+        setErrors({
+          [name]: []
+        });
+      }
       return;
     }
     formRef.current[name] = value;
@@ -737,7 +742,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
-  function resetFields(nameList, showError = true) {
+  function resetFields(nameList, resetWithoutError) {
     if (nameList?.length) {
       nameList.forEach(name => {
         formRef.current[name] = initialValues[name];
@@ -747,13 +752,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
           ...prev,
           [name]: []
         }));
-        setFieldValue(name, initialValues[name], undefined, showError);
+        setFieldValue(name, initialValues[name], undefined, resetWithoutError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, showError);
+        setFieldValue(name, initialValues[name], undefined, resetWithoutError);
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
