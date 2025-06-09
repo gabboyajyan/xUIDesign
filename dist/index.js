@@ -756,13 +756,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
           ...prev,
           [name]: []
         }));
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
@@ -3037,18 +3037,19 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      top: `${selectBox.bottom}px`,
+      top: `${selectBox.bottom}px`
       // left: `${selectBox.left}px`,
-      width: `${selectBox.width}px`
     };
     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
       positionStyle = {
-        top: `${selectBox.top - dropdownHeight}px`,
+        top: `${selectBox.top - dropdownHeight}px`
         // left: `${selectBox.left}px`,
-        width: `${selectBox.width}px`
       };
     }
-    setDropdownPosition(positionStyle);
+    setDropdownPosition({
+      ...positionStyle,
+      width: `${selectBox.width}px`
+    });
   }, [listHeight, getPopupContainer]);
   const handleSearch = e => {
     setSearchQuery(e.target.value);
