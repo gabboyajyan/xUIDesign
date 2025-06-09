@@ -3293,12 +3293,12 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
   })) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
-    className: `${prefixCls}-input`,
+    className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
   }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
-    className: `${prefixCls}-input`,
+    className: `${prefixCls}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || open),
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
