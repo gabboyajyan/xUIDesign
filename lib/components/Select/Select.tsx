@@ -627,7 +627,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 </div>
               ) : !hasMode ? (
                 <div
-                  className={`${prefixCls}-input`}
+                  className={`${prefixCls}-input globalEllipsis`}
                   style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
                 >
                   {selected === ''
@@ -639,7 +639,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             </div>
           ) : !hasMode ? (
             <div
-              className={`${prefixCls}-input`}
+              className={`${prefixCls}-input globalEllipsis`}
               onClick={() => !disabled && setIsOpen(!isOpen || open)}
               style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
             >
