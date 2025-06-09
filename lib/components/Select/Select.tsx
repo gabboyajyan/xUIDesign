@@ -6,6 +6,7 @@ import React, {
   forwardRef,
   KeyboardEvent,
   ReactElement,
+  ReactNode,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -14,6 +15,7 @@ import React, {
   useState
 } from 'react';
 import { createPortal } from 'react-dom';
+import ReactDOMServer from 'react-dom/server';
 import {
   ArrowIcon,
   CheckIcon,
@@ -34,6 +36,19 @@ import './style.css';
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
 const PADDING_TAG_INPUT = 4;
+
+function getTextFromNode(node: ReactNode): string {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return node.toString();
+  }
+
+  if (React.isValidElement(node)) {
+    const html = ReactDOMServer.renderToStaticMarkup(node);
+    return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  return '';
+}
 
 const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
   (
@@ -356,29 +371,31 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [getPopupContainer]);
 
     const extractedOptions = children
-      ? (Array.isArray(children) ? children : [children])
-        .filter(e => e)
-        .map((child: { props: OptionType }) => child.props)
+        ? (Array.isArray(children) ? children : [children])
+          .filter(e => e)
+          .map((child: { props: OptionType }) => child.props)
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
-      if (typeof filterOption === 'function') {
-        return filterOption(searchQuery, option);
-      }
+        if (typeof filterOption === 'function') {
+          return filterOption(searchQuery, option);
+        }
 
-      if (filterOption === false) {
-        return true;
-      }
+        if (filterOption === false) {
+          return true;
+        }
 
-      const valueToCheck = `${['string', 'number'].includes(typeof (option.children))
-          ? option.children
-          : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          option[optionFilterProp] || option.value
-        }`;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const optionFilterPropValue = option[optionFilterProp]
 
-      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-    });
+        const valueToCheck =
+          optionFilterProp && typeof optionFilterPropValue === 'string'
+            ? String(optionFilterPropValue)
+            : getTextFromNode(option.children) || String(option.value);
+
+        return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+      });
 
     const handleTriggerClick = () => {
       if (!disabled) {
@@ -408,14 +425,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     const dataRender = (() => {
       const options = filteredOptions.map(
-        ({ children, className = '', ...props }) => {
+        ({ children, className = '', ...props }, index) => {
           const isSelected = hasMode
             ? selected.includes(props.value as string)
             : props.value === selected;
 
           return (
             <Option
-              key={`${props.value}`}
+              key={`${props.value}_${index}`}
               {...props}
               selected={isSelected}
               className={clsx([
