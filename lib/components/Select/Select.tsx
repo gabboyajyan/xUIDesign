@@ -182,10 +182,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       };
     }, [handleClearInputValue, open, hasMode]);
 
-    useEffect(() => {
-      if (!selectRef.current || !getPopupContainer) {
-        return;
-      }
+    const updateDropdownPosition = useCallback(() => {
+      if (!selectRef.current) return;
 
       const selectBox = selectRef.current.getBoundingClientRect();
       const dropdownHeight = listHeight;
@@ -194,19 +192,66 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const spaceAbove = selectBox.top;
 
       let positionStyle: CSSProperties = {
-        top: `${selectBox.bottom}px`,
-        // left: `${selectBox.left}px`,
+        top: `${selectBox.bottom + window.scrollY}px`,
+        left: `${selectBox.left + window.scrollX}px`,
+        width: `${selectBox.width}px`,
+        position: 'absolute',
       };
 
       if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
         positionStyle = {
-          top: `${selectBox.top - dropdownHeight}px`,
-          // left: `${selectBox.left}px`,
+          top: `${selectBox.top + window.scrollY - dropdownHeight}px`,
+          left: `${selectBox.left + window.scrollX}px`,
+          width: `${selectBox.width}px`,
+          position: 'absolute',
         };
       }
 
       setDropdownPosition(positionStyle);
-    }, [listHeight, getPopupContainer]);
+    }, [listHeight]);
+
+    useEffect(() => {
+      if (!isOpen) return;
+
+      updateDropdownPosition();
+
+      // const container = getPopupContainer?.(selectRef.current!);
+      const scrollableParents = getScrollParents(selectRef.current!);
+      
+      const handleScroll = () => {
+        updateDropdownPosition();
+      };
+
+      // Add scroll listeners to all scrollable parents
+      scrollableParents.forEach(el => {
+        el.addEventListener('scroll', handleScroll, { passive: true });
+      });
+
+      // Add resize listener
+      window.addEventListener('resize', updateDropdownPosition);
+
+      return () => {
+        scrollableParents.forEach(el => {
+          el.removeEventListener('scroll', handleScroll);
+        });
+        window.removeEventListener('resize', updateDropdownPosition);
+      };
+    }, [isOpen, getPopupContainer, updateDropdownPosition]);
+
+    // Helper function to get all scrollable parents
+    const getScrollParents = (element: HTMLElement): HTMLElement[] => {
+      const parents: HTMLElement[] = [];
+      let current = element.parentElement;
+
+      while (current) {
+        if (current.scrollHeight > current.clientHeight) {
+          parents.push(current);
+        }
+        current = current.parentElement;
+      }
+
+      return parents;
+    };
 
     const handleSearch = (e: SyntheticBaseEvent) => {
       setSearchQuery(e.target.value as string);
@@ -363,9 +408,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [showArrow, showSearch, isOpen, suffixIcon]);
 
     const popupContainer = useMemo(() => {
+      if (typeof window === 'undefined') return null;
+
       return selectRef.current
         ? getPopupContainer?.(selectRef.current)
-        : selectRef.current;
+        : document.body;
     }, [getPopupContainer]);
 
     const extractedOptions = children
@@ -449,7 +496,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 if (props.disabled) {
                   return;
                 }
-
 
                 handleSelect(
                   e as MouseEventHandlerSelect,

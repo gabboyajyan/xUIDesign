@@ -3027,27 +3027,64 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [handleClearInputValue, open, hasMode]);
-  React$1.useEffect(() => {
-    if (!selectRef.current || !getPopupContainer) {
-      return;
-    }
+  const updateDropdownPosition = React$1.useCallback(() => {
+    if (!selectRef.current) return;
     const selectBox = selectRef.current.getBoundingClientRect();
     const dropdownHeight = listHeight;
     const windowHeight = window.innerHeight;
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      top: `${selectBox.bottom}px`
-      // left: `${selectBox.left}px`,
+      top: `${selectBox.bottom + window.scrollY}px`,
+      left: `${selectBox.left + window.scrollX}px`,
+      width: `${selectBox.width}px`,
+      position: 'absolute'
     };
     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
       positionStyle = {
-        top: `${selectBox.top - dropdownHeight}px`
-        // left: `${selectBox.left}px`,
+        top: `${selectBox.top + window.scrollY - dropdownHeight}px`,
+        left: `${selectBox.left + window.scrollX}px`,
+        width: `${selectBox.width}px`,
+        position: 'absolute'
       };
     }
     setDropdownPosition(positionStyle);
-  }, [listHeight, getPopupContainer]);
+  }, [listHeight]);
+  React$1.useEffect(() => {
+    if (!isOpen) return;
+    updateDropdownPosition();
+    // const container = getPopupContainer?.(selectRef.current!);
+    const scrollableParents = getScrollParents(selectRef.current);
+    const handleScroll = () => {
+      updateDropdownPosition();
+    };
+    // Add scroll listeners to all scrollable parents
+    scrollableParents.forEach(el => {
+      el.addEventListener('scroll', handleScroll, {
+        passive: true
+      });
+    });
+    // Add resize listener
+    window.addEventListener('resize', updateDropdownPosition);
+    return () => {
+      scrollableParents.forEach(el => {
+        el.removeEventListener('scroll', handleScroll);
+      });
+      window.removeEventListener('resize', updateDropdownPosition);
+    };
+  }, [isOpen, getPopupContainer, updateDropdownPosition]);
+  // Helper function to get all scrollable parents
+  const getScrollParents = element => {
+    const parents = [];
+    let current = element.parentElement;
+    while (current) {
+      if (current.scrollHeight > current.clientHeight) {
+        parents.push(current);
+      }
+      current = current.parentElement;
+    }
+    return parents;
+  };
   const handleSearch = e => {
     setSearchQuery(e.target.value);
     onSearch?.(e.target.value);
@@ -3139,7 +3176,8 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
   const popupContainer = React$1.useMemo(() => {
-    return selectRef.current ? getPopupContainer?.(selectRef.current) : selectRef.current;
+    if (typeof window === 'undefined') return null;
+    return selectRef.current ? getPopupContainer?.(selectRef.current) : document.body;
   }, [getPopupContainer]);
   const extractedOptions = children ? (Array.isArray(children) ? children : [children]).filter(e => e).map(child => child.props) : options;
   const filteredOptions = extractedOptions.filter(option => {
