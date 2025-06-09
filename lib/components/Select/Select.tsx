@@ -205,10 +205,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         };
       }
 
-      setDropdownPosition({
-        ...positionStyle,
-        width: `${selectBox.width}px`
-      });
+      setDropdownPosition(positionStyle);
     }, [listHeight, getPopupContainer]);
 
     const handleSearch = (e: SyntheticBaseEvent) => {
@@ -516,10 +513,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         {!loading && (
           <div
-            className={`${prefixCls}-options globalEllipsis`}
+            className={`${prefixCls}-options`}
             style={{
               maxHeight: listHeight,
-              overflowY: 'auto'
+              overflowY: 'auto',
+              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - 8}px` : 'inherit',
             }}
           >
             {asTag && !!searchQuery && (

@@ -5,7 +5,7 @@ import { Option } from "../../lib/components/Select/Option";
 
 export const CountryCodes = [...new Set([
     {
-        "label": "Afghanistan",
+        "label": "Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan",
         "value": "AF",
         "name": "Afghanistan",
         "currencyCountries": "AFN",
