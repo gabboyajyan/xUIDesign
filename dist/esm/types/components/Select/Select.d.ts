@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import { OptionType } from '../../types/select';
 import './style.css';
 declare const Select: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
@@ -11,10 +11,10 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     filterOption?: boolean | ((input: string, option: OptionType) => boolean);
     optionFilterProp?: string;
     options?: OptionType[];
-    children?: React.ReactNode;
+    children?: ReactNode;
     defaultActiveFirstOption?: boolean;
     listHeight?: number;
-    menuItemSelectedIcon?: React.ReactNode;
+    menuItemSelectedIcon?: ReactNode;
     mode?: "default" | "multiple" | "tags";
     value?: import("../../types").RuleTypes;
     defaultValue?: import("../../types").RuleTypes;
@@ -31,20 +31,20 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     error?: boolean;
     showSearch?: boolean;
     tagRender?: ((props: import("../../types/select").CustomTagProps) => ReactElement) | undefined;
-    maxTagPlaceholder?: React.ReactNode | ((omittedValues: import("../../types/select").DisplayValueType[]) => React.ReactNode);
+    maxTagPlaceholder?: ReactNode | ((omittedValues: import("../../types/select").DisplayValueType[]) => ReactNode);
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: React.FocusEventHandler<HTMLElement> | undefined;
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
-    suffixIcon?: React.ReactNode;
+    suffixIcon?: ReactNode;
     open?: boolean;
-    notFoundContent?: React.ReactNode;
+    notFoundContent?: ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
-    dropdownRender?: (menu: React.ReactNode) => React.ReactNode;
+    dropdownRender?: (menu: ReactNode) => ReactNode;
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
-    removeIcon?: React.ReactNode;
+    removeIcon?: ReactNode;
 } & React.RefAttributes<HTMLDivElement>> & {
     Option: React.FC<import("../../types/select").OptionProps>;
 };

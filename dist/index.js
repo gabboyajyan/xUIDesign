@@ -3,6 +3,7 @@
 var require$$1 = require('react/jsx-runtime');
 var React$1 = require('react');
 var reactDom = require('react-dom');
+var ReactDOMServer = require('react-dom/server');
 
 function getDefaultExportFromCjs (x) {
 	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
@@ -2923,6 +2924,16 @@ styleInject(css_248z$5);
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
 const PADDING_TAG_INPUT = 4;
+function getTextFromNode(node) {
+  if (typeof node === 'string' || typeof node === 'number') {
+    return node.toString();
+  }
+  if (/*#__PURE__*/React$1.isValidElement(node)) {
+    const html = ReactDOMServer.renderToStaticMarkup(node);
+    return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+  return '';
+}
 const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   prefixCls = prefixClsSelect,
   id,
@@ -3140,10 +3151,10 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (filterOption === false) {
       return true;
     }
-    const valueToCheck = `${['string', 'number'].includes(typeof option.children) ? option.children :
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
-    option[optionFilterProp] || option.value}`;
+    const optionFilterPropValue = option[optionFilterProp];
+    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : getTextFromNode(option.children) || String(option.value);
     return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
   });
   const handleTriggerClick = () => {
@@ -3167,10 +3178,10 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       children,
       className = '',
       ...props
-    }) => {
+    }, index) => {
       const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
       return /*#__PURE__*/React$1.createElement(Option, _extends({
-        key: `${props.value}`
+        key: `${props.value}_${index}`
       }, props, {
         selected: isSelected,
         className: clsx([className, {
