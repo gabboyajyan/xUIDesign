@@ -754,13 +754,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
           ...prev,
           [name]: []
         }));
-        setFieldValue(name, initialValues[name], undefined, showError);
+        setFieldValue(name, initialValues[name], undefined, true);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, showError);
+        setFieldValue(name, initialValues[name], undefined, true);
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
