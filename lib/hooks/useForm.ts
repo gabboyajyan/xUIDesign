@@ -239,14 +239,14 @@ const useForm = (
         delete warningsRef.current[name];
 
         setErrors(prev => ({ ...prev, [name]: [] }));
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
 
       Object.keys(formRef.current).forEach(name => {
-        setFieldValue(name, initialValues[name], undefined, true);
+        setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
 
