@@ -3046,10 +3046,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
         // left: `${selectBox.left}px`,
       };
     }
-    setDropdownPosition({
-      ...positionStyle,
-      width: `${selectBox.width}px`
-    });
+    setDropdownPosition(positionStyle);
   }, [listHeight, getPopupContainer]);
   const handleSearch = e => {
     setSearchQuery(e.target.value);
@@ -3225,10 +3222,11 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     onChange: handleSearch,
     placeholder: "Search..."
   }), !loading && /*#__PURE__*/React$1.createElement("div", {
-    className: `${prefixCls}-options globalEllipsis`,
+    className: `${prefixCls}-options`,
     style: {
       maxHeight: listHeight,
-      overflowY: 'auto'
+      overflowY: 'auto',
+      maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - 8}px` : 'inherit'
     }
   }, asTag && !!searchQuery && /*#__PURE__*/React$1.createElement(Option, {
     value: searchQuery,
