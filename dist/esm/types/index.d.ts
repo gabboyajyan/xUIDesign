@@ -138,7 +138,7 @@ declare const Select: import("react").ComponentType<import("@/types").DefaultPro
     suffixIcon?: import("react").ReactNode;
     open?: boolean;
     notFoundContent?: import("react").ReactNode;
-    getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
+    getPopupContainer?: (triggerNode: HTMLElement | null) => HTMLElement;
     dropdownRender?: (menu: import("react").ReactNode) => import("react").ReactNode;
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";

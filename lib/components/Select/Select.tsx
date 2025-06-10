@@ -36,7 +36,6 @@ import './style.css';
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
 const PADDING_TAG_INPUT = 4;
-const DROPDOWN_CONTENT_PADDING = 8;
 
 function getTextFromNode(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -167,11 +166,15 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent): void => {
-        if (
-          selectRef.current &&
-          !selectRef.current.contains(event.target as Node)
-        ) {
-          setIsOpen(open);
+        if (!selectRef.current) return;
+
+        const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+        const clickedInside =
+          selectRef.current.contains(event.target as Node) ||
+          (dropdown && dropdown.contains(event.target as Node));
+
+        if (!clickedInside) {
+          setIsOpen(false);
           handleClearInputValue();
         }
       };
@@ -181,7 +184,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [handleClearInputValue, open, hasMode]);
+    }, [handleClearInputValue, open, hasMode, prefixCls]);
 
     const updateDropdownPosition = useCallback(() => {
       if (!selectRef.current) return;
@@ -193,42 +196,43 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const spaceAbove = selectBox.top;
 
       let positionStyle: CSSProperties = {
-        top: `${selectBox.bottom + window.scrollY - DROPDOWN_CONTENT_PADDING}px`,
-        left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+        ...getPopupContainer ? {
+          top: `${selectBox.bottom}px`,
+          left: `${selectBox.left}px`,
+        } : {},
         width: `${selectBox.width}px`,
         position: 'absolute',
       };
 
       if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
         positionStyle = {
-          top: `${selectBox.top + window.scrollY - dropdownHeight - DROPDOWN_CONTENT_PADDING}px`,
-          left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+          ...getPopupContainer ? {
+            top: `${selectBox.top - dropdownHeight}px`,
+            left: `${selectBox.left}px`,
+          } : {},
           width: `${selectBox.width}px`,
           position: 'absolute',
         };
       }
 
       setDropdownPosition(positionStyle);
-    }, [listHeight]);
+    }, [listHeight, getPopupContainer]);
 
     useEffect(() => {
       if (!isOpen) return;
 
       updateDropdownPosition();
 
-      // const container = getPopupContainer?.(selectRef.current!);
       const scrollableParents = getScrollParents(selectRef.current!);
-      
+
       const handleScroll = () => {
         updateDropdownPosition();
       };
 
-      // Add scroll listeners to all scrollable parents
       scrollableParents.forEach(el => {
         el.addEventListener('scroll', handleScroll, { passive: true });
       });
 
-      // Add resize listener
       window.addEventListener('resize', updateDropdownPosition);
 
       return () => {
@@ -239,7 +243,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       };
     }, [isOpen, getPopupContainer, updateDropdownPosition]);
 
-    // Helper function to get all scrollable parents
     const getScrollParents = (element: HTMLElement): HTMLElement[] => {
       const parents: HTMLElement[] = [];
       let current = element.parentElement;
@@ -412,40 +415,40 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       );
     }, [showArrow, showSearch, isOpen, suffixIcon]);
 
-    const popupContainer = (() => {
-      if (typeof window === 'undefined') return null;
+    const popupContainer = useMemo(() => {
+      if (typeof window === 'undefined') {
+        return selectRef.current;
+      }
 
-      return selectRef.current
-        ? getPopupContainer?.(selectRef.current)
-        : document.body;
-    })();
+      return getPopupContainer?.(selectRef.current) || selectRef.current;
+    }, [getPopupContainer]);
 
     const extractedOptions = children
-        ? (Array.isArray(children) ? children : [children])
-          .filter(e => e)
-          .map((child: { props: OptionType }) => child.props)
+      ? (Array.isArray(children) ? children : [children])
+        .filter(e => e)
+        .map((child: { props: OptionType }) => child.props)
       : options;
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
-        if (typeof filterOption === 'function') {
-          return filterOption(searchQuery, option);
-        }
+      if (typeof filterOption === 'function') {
+        return filterOption(searchQuery, option);
+      }
 
-        if (filterOption === false) {
-          return true;
-        }
+      if (filterOption === false) {
+        return true;
+      }
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const optionFilterPropValue = option[optionFilterProp]
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const optionFilterPropValue = option[optionFilterProp]
 
-        const valueToCheck =
-          optionFilterProp && typeof optionFilterPropValue === 'string'
-            ? String(optionFilterPropValue)
-            : getTextFromNode(option.children) || String(option.value);
+      const valueToCheck =
+        optionFilterProp && typeof optionFilterPropValue === 'string'
+          ? String(optionFilterPropValue)
+          : getTextFromNode(option.children) || String(option.value);
 
-        return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-      });
+      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+    });
 
     const handleTriggerClick = () => {
       if (!disabled) {
@@ -568,7 +571,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             style={{
               maxHeight: listHeight,
               overflowY: 'auto',
-              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - DROPDOWN_CONTENT_PADDING}px` : 'inherit',
+              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit',
             }}
           >
             {asTag && !!searchQuery && (

@@ -2924,7 +2924,6 @@ styleInject(css_248z$5);
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
 const PADDING_TAG_INPUT = 4;
-const DROPDOWN_CONTENT_PADDING = 8;
 function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
     return node.toString();
@@ -3018,8 +3017,11 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   }, [autoClearSearchValue, prefixCls]);
   React$1.useEffect(() => {
     const handleClickOutside = event => {
-      if (selectRef.current && !selectRef.current.contains(event.target)) {
-        setIsOpen(open);
+      if (!selectRef.current) return;
+      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+      const clickedInside = selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target);
+      if (!clickedInside) {
+        setIsOpen(false);
         handleClearInputValue();
       }
     };
@@ -3027,7 +3029,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [handleClearInputValue, open, hasMode]);
+  }, [handleClearInputValue, open, hasMode, prefixCls]);
   const updateDropdownPosition = React$1.useCallback(() => {
     if (!selectRef.current) return;
     const selectBox = selectRef.current.getBoundingClientRect();
@@ -3036,36 +3038,37 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      top: `${selectBox.bottom + window.scrollY - DROPDOWN_CONTENT_PADDING}px`,
-      left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+      ...(getPopupContainer ? {
+        top: `${selectBox.bottom}px`,
+        left: `${selectBox.left}px`
+      } : {}),
       width: `${selectBox.width}px`,
       position: 'absolute'
     };
     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
       positionStyle = {
-        top: `${selectBox.top + window.scrollY - dropdownHeight - DROPDOWN_CONTENT_PADDING}px`,
-        left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+        ...(getPopupContainer ? {
+          top: `${selectBox.top - dropdownHeight}px`,
+          left: `${selectBox.left}px`
+        } : {}),
         width: `${selectBox.width}px`,
         position: 'absolute'
       };
     }
     setDropdownPosition(positionStyle);
-  }, [listHeight]);
+  }, [listHeight, getPopupContainer]);
   React$1.useEffect(() => {
     if (!isOpen) return;
     updateDropdownPosition();
-    // const container = getPopupContainer?.(selectRef.current!);
     const scrollableParents = getScrollParents(selectRef.current);
     const handleScroll = () => {
       updateDropdownPosition();
     };
-    // Add scroll listeners to all scrollable parents
     scrollableParents.forEach(el => {
       el.addEventListener('scroll', handleScroll, {
         passive: true
       });
     });
-    // Add resize listener
     window.addEventListener('resize', updateDropdownPosition);
     return () => {
       scrollableParents.forEach(el => {
@@ -3074,7 +3077,6 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       window.removeEventListener('resize', updateDropdownPosition);
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
-  // Helper function to get all scrollable parents
   const getScrollParents = element => {
     const parents = [];
     let current = element.parentElement;
@@ -3180,10 +3182,12 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
-  const popupContainer = (() => {
-    if (typeof window === 'undefined') return null;
-    return selectRef.current ? getPopupContainer?.(selectRef.current) : document.body;
-  })();
+  const popupContainer = React$1.useMemo(() => {
+    if (typeof window === 'undefined') {
+      return selectRef.current;
+    }
+    return getPopupContainer?.(selectRef.current) || selectRef.current;
+  }, [getPopupContainer]);
   const extractedOptions = children ? (Array.isArray(children) ? children : [children]).filter(e => e).map(child => child.props) : options;
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
@@ -3269,7 +3273,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     style: {
       maxHeight: listHeight,
       overflowY: 'auto',
-      maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - DROPDOWN_CONTENT_PADDING}px` : 'inherit'
+      maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit'
     }
   }, asTag && !!searchQuery && /*#__PURE__*/React$1.createElement(Option, {
     value: searchQuery,

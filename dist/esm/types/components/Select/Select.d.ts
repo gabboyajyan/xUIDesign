@@ -40,7 +40,7 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     suffixIcon?: ReactNode;
     open?: boolean;
     notFoundContent?: ReactNode;
-    getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
+    getPopupContainer?: (triggerNode: HTMLElement | null) => HTMLElement;
     dropdownRender?: (menu: ReactNode) => ReactNode;
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
