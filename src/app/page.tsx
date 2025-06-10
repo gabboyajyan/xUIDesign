@@ -3,8 +3,8 @@
 import { Select } from "../../lib/components/Select";
 import { Option } from "../../lib/components/Select/Option";
 
-import { Select as AntSelect } from 'antd';
-import { Option as AntOption } from 'antd/es/mentions';
+// import { Select as AntSelect } from 'antd';
+// import { Option as AntOption } from 'antd/es/mentions';
 
 export const CountryCodes = [...new Set([
     {
@@ -1826,7 +1826,11 @@ export default function Home() {
 
     return (
         <>
-            <Select  showSearch onSelect={(e) => {console.log(e)}} onChange={(e) => {console.log(e)}}>
+            <Select
+                showSearch
+                onSelect={(e) => { console.log(e) }}
+                onChange={(e) => { console.log(e) }}
+            >
                 {CountryCodes.map(country => (
                     <Option
                         key={country.value}
@@ -1844,7 +1848,11 @@ export default function Home() {
                 ))}
             </Select>
 
-            <AntSelect  showSearch onSelect={(e) => {console.log(e)}} onChange={(e) => {console.log(e)}}>
+            {/* <AntSelect
+                showSearch
+                onSelect={(e) => { console.log(e) }}
+                onChange={(e) => { console.log(e) }}
+            >
                 {CountryCodes.map(country => (
                     <AntOption
                         key={country.value}
@@ -1860,7 +1868,7 @@ export default function Home() {
                         </div>
                     </AntOption>
                 ))}
-            </AntSelect>
+            </AntSelect> */}
         </>
     )
 }

@@ -36,6 +36,7 @@ import './style.css';
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 18;
 const PADDING_TAG_INPUT = 4;
+const DROPDOWN_CONTENT_PADDING = 8;
 
 function getTextFromNode(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -192,16 +193,16 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const spaceAbove = selectBox.top;
 
       let positionStyle: CSSProperties = {
-        top: `${selectBox.bottom + window.scrollY}px`,
-        left: `${selectBox.left + window.scrollX}px`,
+        top: `${selectBox.bottom + window.scrollY - DROPDOWN_CONTENT_PADDING}px`,
+        left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
         width: `${selectBox.width}px`,
         position: 'absolute',
       };
 
       if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
         positionStyle = {
-          top: `${selectBox.top + window.scrollY - dropdownHeight}px`,
-          left: `${selectBox.left + window.scrollX}px`,
+          top: `${selectBox.top + window.scrollY - dropdownHeight - DROPDOWN_CONTENT_PADDING}px`,
+          left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
           width: `${selectBox.width}px`,
           position: 'absolute',
         };
@@ -411,13 +412,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       );
     }, [showArrow, showSearch, isOpen, suffixIcon]);
 
-    const popupContainer = useMemo(() => {
+    const popupContainer = (() => {
       if (typeof window === 'undefined') return null;
 
       return selectRef.current
         ? getPopupContainer?.(selectRef.current)
         : document.body;
-    }, [getPopupContainer]);
+    })();
 
     const extractedOptions = children
         ? (Array.isArray(children) ? children : [children])
@@ -567,7 +568,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             style={{
               maxHeight: listHeight,
               overflowY: 'auto',
-              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - 8}px` : 'inherit',
+              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width - DROPDOWN_CONTENT_PADDING}px` : 'inherit',
             }}
           >
             {asTag && !!searchQuery && (
