@@ -282,7 +282,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const updatedSelected = [...selected, newOptionValue];
 
       onChange?.(updatedSelected);
-      onSelect?.(newOptionValue);
+      onSelect?.(updatedSelected);
 
       const input = selectRef.current?.querySelector('input');
 
@@ -314,6 +314,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         setSelected(newSelection);
         onChange?.(newSelection, option);
+        onSelect?.(newSelection, option);
 
         if (selected.includes(optionValue)) {
           onDeselect?.(optionValue, option);
@@ -335,6 +336,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       setSelected(value);
       onChange?.('');
+      onSelect?.('');
       onClear?.();
 
       handleClearInputValue();
@@ -346,6 +348,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         : e.target.value;
 
       onChange?.(updatedSelected);
+      onSelect?.(updatedSelected);
       setSelected(updatedSelected);
     };
 
@@ -386,6 +389,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             : searchQuery.trim();
 
           onChange?.(updatedSelected);
+          onSelect?.(updatedSelected);
           setSelected(updatedSelected);
         }
 

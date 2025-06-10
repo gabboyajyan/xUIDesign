@@ -3,6 +3,9 @@
 import { Select } from "../../lib/components/Select";
 import { Option } from "../../lib/components/Select/Option";
 
+import { Select as AntSelect } from 'antd';
+import { Option as AntOption } from 'antd/es/mentions';
+
 export const CountryCodes = [...new Set([
     {
         "label": "Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan Afghanistan",
@@ -1823,8 +1826,7 @@ export default function Home() {
 
     return (
         <>
-            <Select style={{ width: 500 }} showSearch onChange={(e) => {console.log(e)
-            }}>
+            <Select  showSearch onSelect={(e) => {console.log(e)}} onChange={(e) => {console.log(e)}}>
                 {CountryCodes.map(country => (
                     <Option
                         key={country.value}
@@ -1841,6 +1843,24 @@ export default function Home() {
                     </Option>
                 ))}
             </Select>
+
+            <AntSelect  showSearch onSelect={(e) => {console.log(e)}} onChange={(e) => {console.log(e)}}>
+                {CountryCodes.map(country => (
+                    <AntOption
+                        key={country.value}
+                        value={country.value}
+                    >
+                        <div
+                            className="countyCode"
+                            title={country.label}
+                        >
+                            <div dir="ltr" className="phoneCode">
+                                {country.label}
+                            </div>
+                        </div>
+                    </AntOption>
+                ))}
+            </AntSelect>
         </>
     )
 }

@@ -3101,7 +3101,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
     const updatedSelected = [...selected, newOptionValue];
     onChange?.(updatedSelected);
-    onSelect?.(newOptionValue);
+    onSelect?.(updatedSelected);
     const input = selectRef.current?.querySelector('input');
     if (input) {
       input.value = '';
@@ -3117,6 +3117,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       const newSelection = selected.includes(optionValue) ? selected.filter(item => item !== optionValue) : [...selected, optionValue];
       setSelected(newSelection);
       onChange?.(newSelection, option);
+      onSelect?.(newSelection, option);
       if (selected.includes(optionValue)) {
         onDeselect?.(optionValue, option);
       } else {
@@ -3134,12 +3135,14 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     const value = hasMode ? [] : '';
     setSelected(value);
     onChange?.('');
+    onSelect?.('');
     onClear?.();
     handleClearInputValue();
   };
   const handleRemoveTag = e => {
     const updatedSelected = hasMode ? selected.filter(item => item !== e.target.value) : e.target.value;
     onChange?.(updatedSelected);
+    onSelect?.(updatedSelected);
     setSelected(updatedSelected);
   };
   const handleOnKeyDown = e => {
@@ -3160,6 +3163,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       if (e.key === 'Backspace' && (hasMode ? !searchQuery.trim().length : searchQuery.trim().length)) {
         const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : searchQuery.trim();
         onChange?.(updatedSelected);
+        onSelect?.(updatedSelected);
         setSelected(updatedSelected);
       }
       clearTimeout(timeout);
