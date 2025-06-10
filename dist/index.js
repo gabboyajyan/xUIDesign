@@ -3036,15 +3036,15 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      top: `${selectBox.bottom + window.scrollY - DROPDOWN_CONTENT_PADDING}px`,
-      left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+      top: `${selectBox.bottom + window.scrollY}px`,
+      left: `${selectBox.left + window.scrollX}px`,
       width: `${selectBox.width}px`,
       position: 'absolute'
     };
     if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
       positionStyle = {
-        top: `${selectBox.top + window.scrollY - dropdownHeight - DROPDOWN_CONTENT_PADDING}px`,
-        left: `${selectBox.left + window.scrollX - DROPDOWN_CONTENT_PADDING}px`,
+        top: `${selectBox.top + window.scrollY - dropdownHeight}px`,
+        left: `${selectBox.left + window.scrollX}px`,
         width: `${selectBox.width}px`,
         position: 'absolute'
       };
@@ -3180,10 +3180,10 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
-  const popupContainer = (() => {
+  const popupContainer = React$1.useMemo(() => {
     if (typeof window === 'undefined') return null;
     return selectRef.current ? getPopupContainer?.(selectRef.current) : document.body;
-  })();
+  }, [getPopupContainer, selectRef.current]);
   const extractedOptions = children ? (Array.isArray(children) ? children : [children]).filter(e => e).map(child => child.props) : options;
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
