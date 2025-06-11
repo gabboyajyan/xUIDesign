@@ -3242,7 +3242,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
           });
         },
         "data-value": props.value
-      }), children || props.value, hasMode && isSelected && /*#__PURE__*/React$1.createElement("span", {
+      }), children || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React$1.createElement("span", {
         className: `${prefixCls}-selected-icon`
       }, menuItemSelectedIcon === true ? /*#__PURE__*/React$1.createElement(CheckIcon, null) : menuItemSelectedIcon));
     });
