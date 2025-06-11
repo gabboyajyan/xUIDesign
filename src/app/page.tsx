@@ -1824,9 +1824,11 @@ export default function Home() {
     return (
         <>
             <Select
+                mode="multiple"
                 showSearch
                 onSelect={(e) => { console.log(e) }}
                 onChange={(e) => { console.log(e) }}
+                value={['Afghanistan', 'Spain']}
             >
                 {CountryCodes.map(country => (
                     <Option

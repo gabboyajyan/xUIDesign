@@ -39,7 +39,7 @@
 }
 
 .xUi-select.large .xUi-select-tag {
-    padding: 8px;
+    padding: 4px 8px;
     font-size: var(--xui-font-size-lg);
 }
 
