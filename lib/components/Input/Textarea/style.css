@@ -85,7 +85,7 @@
 
 .xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,
 .xUi-textarea-wrapper:has(.xUi-textarea-error) textarea:focus {
-    border-color: var(--xui-error-color);
+    border: 1px solid var(--xui-error-color);
 }
 
 .xUi-textarea-clear {
