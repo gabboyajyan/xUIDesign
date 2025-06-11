@@ -1819,6 +1819,34 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
+const statusOption = [
+    {
+        "label": "All",
+        "value": 0
+    },
+    {
+        "label": "Canceled",
+        "value": -1
+    },
+    {
+        "label": "Finished",
+        "value": 1
+    },
+    {
+        "label": "Live",
+        "value": 2
+    },
+    {
+        "label": "Upcoming",
+        "value": 3
+    }
+]
+
+const statusValue = [
+    2,
+    3
+]
+
 export default function Home() {
 
     return (
@@ -1826,21 +1854,22 @@ export default function Home() {
             <Select
                 mode="multiple"
                 showSearch
+                value={statusValue}
+                menuItemSelectedIcon={<>ok</>}
                 onSelect={(e) => { console.log(e) }}
                 onChange={(e) => { console.log(e) }}
-                value={['Afghanistan', 'Spain']}
             >
-                {CountryCodes.map(country => (
+                {statusOption.map(item => (
                     <Option
-                        key={country.value}
-                        value={country.value}
+                        key={item.value}
+                        value={item.value}
                     >
                         <div
                             className="countyCode"
-                            title={country.label}
+                            title={item.label}
                         >
                             <div dir="ltr" className="phoneCode">
-                                {country.label}
+                                {item.label}
                             </div>
                         </div>
                     </Option>

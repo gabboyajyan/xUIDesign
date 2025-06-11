@@ -515,7 +515,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             >
               {children || props.value}
 
-              {hasMode && isSelected && (
+              {menuItemSelectedIcon && hasMode && isSelected && (
                 <span className={`${prefixCls}-selected-icon`}>
                   {menuItemSelectedIcon === true ? (
                     <CheckIcon />
