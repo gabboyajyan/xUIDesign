@@ -4,6 +4,8 @@ import React, {
   CSSProperties,
   ForwardedRef,
   forwardRef,
+  Fragment,
+  isValidElement,
   KeyboardEvent,
   ReactElement,
   ReactNode,
@@ -428,11 +430,36 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return getPopupContainer?.(selectRef.current) || selectRef.current;
     }, [getPopupContainer]);
 
+    console.log(extractOptions(children));
+    
     const extractedOptions = children
-      ? (Array.isArray(children) ? children : [children])
-        .filter(e => e)
-        .map((child: { props: OptionType }) => child.props)
+      ? extractOptions(children)
       : options;
+
+    function extractOptions(children: ReactNode, options?: OptionType[]) {
+      const result: OptionType[] = [];
+
+      const flatten = (nodes: ReactNode): void => {
+        React.Children.forEach(nodes, (child) => {
+          if (!child) return;
+
+          if (isValidElement(child)) {
+            if (child.type === Fragment) {
+              flatten((child.props as OptionType).children);
+            } else {
+              result.push(child.props as OptionType);
+            }
+          }
+        });
+      };
+
+      if (children) {
+        flatten(children);
+        return result;
+      }
+
+      return options || [];
+    }
 
     const filteredOptions = extractedOptions.filter((option: OptionType) => {
       if (typeof filterOption === 'function') {

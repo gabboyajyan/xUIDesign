@@ -3190,7 +3190,28 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
     return getPopupContainer?.(selectRef.current) || selectRef.current;
   }, [getPopupContainer]);
-  const extractedOptions = children ? (Array.isArray(children) ? children : [children]).filter(e => e).map(child => child.props) : options;
+  console.log(extractOptions(children));
+  const extractedOptions = children ? extractOptions(children) : options;
+  function extractOptions(children, options) {
+    const result = [];
+    const flatten = nodes => {
+      React$1.Children.forEach(nodes, child => {
+        if (!child) return;
+        if (/*#__PURE__*/isValidElement(child)) {
+          if (child.type === Fragment) {
+            flatten(child.props.children);
+          } else {
+            result.push(child.props);
+          }
+        }
+      });
+    };
+    if (children) {
+      flatten(children);
+      return result;
+    }
+    return options || [];
+  }
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);

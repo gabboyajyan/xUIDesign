@@ -1863,10 +1863,7 @@ export default function Home() {
                         key={item.value}
                         value={item.value}
                     >
-                        
-                        <div>
-                            {item.label}
-                        </div>
+                        {item.label}
                     </Option>
                 ))}
             </Select>
