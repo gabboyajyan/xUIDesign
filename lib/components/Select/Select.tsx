@@ -623,7 +623,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           onMouseLeave={handleMouseLeave}
           className={`${prefixCls}-trigger`}
         >
-          {showSearch ? (
+          {(showSearch || hasMode) ? (
             <div
               style={{
                 ...style,
@@ -646,6 +646,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       })}
                     </div>
                   ) : (
+                    <>
+                    {console.log(extractedOptions)}
                     <Tag
                       closable
                       value={tag}
@@ -658,6 +660,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
                     />
+                    </>
                   )
                 )}
 

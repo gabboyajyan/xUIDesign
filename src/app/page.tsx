@@ -1819,33 +1819,33 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-// const statusOption = [
-//     {
-//         "label": "All",
-//         "value": 0
-//     },
-//     {
-//         "label": "Canceled",
-//         "value": -1
-//     },
-//     {
-//         "label": "Finished",
-//         "value": 1
-//     },
-//     {
-//         "label": "Live",
-//         "value": 2
-//     },
-//     {
-//         "label": "Upcoming",
-//         "value": 3
-//     }
-// ]
+const statusOption = [
+    {
+        "label": "All",
+        "value": 0
+    },
+    {
+        "label": "Canceled",
+        "value": -1
+    },
+    {
+        "label": "Finished",
+        "value": 1
+    },
+    {
+        "label": "Live",
+        "value": 2
+    },
+    {
+        "label": "Upcoming",
+        "value": 3
+    }
+]
 
-// const statusValue = [
-//     2,
-//     3
-// ]
+const statusValue = [
+    2,
+    3
+]
 
 export default function Home() {
 
@@ -1853,11 +1853,13 @@ export default function Home() {
         <>
             <Select
                 showSearch
+                value={statusValue}
+                mode="tags"
                 menuItemSelectedIcon={<>ok</>}
                 onSelect={(e) => { console.log(e) }}
                 onChange={(e) => { console.log(e) }}
             >
-                {CountryCodes.map(item => (
+                {statusOption.map(item => (
                     <Option
                         key={item.value}
                         value={item.value}

@@ -50,7 +50,7 @@
 .xUi-select .xUi-select-trigger {
     display: flex;
     width: 100%;
-    justify-content: end;
+    justify-content: space-between;
     align-items: center;
     cursor: pointer;
     border-radius: var(--xui-border-radius-sm);
