@@ -2979,7 +2979,6 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
   const initialValue = useMemo(() => value || defaultValue || '', [value, defaultValue]);
-  console.log(initialValue);
   const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e), [initialValue]);
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef(null);

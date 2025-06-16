@@ -106,9 +106,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       [value, defaultValue]
     );
 
-    console.log(initialValue);
-    
-
     const checkModeInitialValue = useMemo(
       () =>
         (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(
