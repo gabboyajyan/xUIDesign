@@ -106,6 +106,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       [value, defaultValue]
     );
 
+    console.log(initialValue);
+    
+
     const checkModeInitialValue = useMemo(
       () =>
         (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(
@@ -163,6 +166,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         inputContainer.innerText = '';
       }
     }, [autoClearSearchValue, prefixCls]);
+
+    useEffect(() => {
+      setSelected(hasMode ? checkModeInitialValue : initialValue)
+    }, [checkModeInitialValue, hasMode, initialValue])
 
     useEffect(() => {
       const handleClickOutside = (event: MouseEvent): void => {

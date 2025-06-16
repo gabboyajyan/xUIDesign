@@ -2979,6 +2979,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
   const initialValue = useMemo(() => value || defaultValue || '', [value, defaultValue]);
+  console.log(initialValue);
   const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e), [initialValue]);
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef(null);
@@ -3013,6 +3014,9 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls]);
+  useEffect(() => {
+    setSelected(hasMode ? checkModeInitialValue : initialValue);
+  }, [checkModeInitialValue, hasMode, initialValue]);
   useEffect(() => {
     const handleClickOutside = event => {
       if (!selectRef.current) return;
