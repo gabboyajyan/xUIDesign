@@ -76,6 +76,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       size = 'large',
       error = false,
       dropdownClassName = '',
+      className,
       suffixIcon,
       style,
       onSearch,
@@ -607,6 +608,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ref={selectRef}
         style={style}
         className={clsx([
+          `${className}`,
           {
             [size]: size,
             noStyle: noStyle,

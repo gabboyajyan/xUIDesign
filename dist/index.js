@@ -2958,6 +2958,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   size = 'large',
   error = false,
   dropdownClassName = '',
+  className,
   suffixIcon,
   style,
   onSearch,
@@ -3290,7 +3291,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     id: id,
     ref: selectRef,
     style: style,
-    className: clsx([{
+    className: clsx([`${className}`, {
       [size]: size,
       noStyle: noStyle,
       [prefixCls]: prefixCls,

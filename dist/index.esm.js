@@ -2956,6 +2956,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   size = 'large',
   error = false,
   dropdownClassName = '',
+  className,
   suffixIcon,
   style,
   onSearch,
@@ -3288,7 +3289,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     id: id,
     ref: selectRef,
     style: style,
-    className: clsx([{
+    className: clsx([`${className}`, {
       [size]: size,
       noStyle: noStyle,
       [prefixCls]: prefixCls,
