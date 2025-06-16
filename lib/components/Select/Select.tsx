@@ -109,7 +109,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const checkModeInitialValue = useMemo(
       () =>
         (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(
-          e => e
+          e => e !== undefined
         ),
       [initialValue]
     );
@@ -646,12 +646,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       })}
                     </div>
                   ) : (
-                    <>
-                    {console.log({
-                      extractedOptions,
-                      tag,
-                      placeholder
-                    })}
                     <Tag
                       closable
                       value={tag}
@@ -664,7 +658,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
                     />
-                    </>
                   )
                 )}
 

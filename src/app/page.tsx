@@ -1,7 +1,7 @@
 'use client'
 
 import { Select } from "../../lib/components/Select";
-import { Option } from "../../lib/components/Select/Option";
+import Option from "../../lib/components/Select/Option/Option";
 
 export const CountryCodes = [...new Set([
     {
@@ -1852,8 +1852,8 @@ export default function Home() {
     return (
         <>
             <Select
-                value={statusValue}
                 mode="tags"
+                value={statusValue}
                 menuItemSelectedIcon={<>ok</>}
                 onSelect={(e) => { console.log(e) }}
                 onChange={(e) => { console.log(e) }}

@@ -2979,7 +2979,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
   const initialValue = useMemo(() => value || defaultValue || '', [value, defaultValue]);
-  const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e), [initialValue]);
+  const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined), [initialValue]);
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef(null);
   const [searchInputWidth, setSearchInputWidth] = useState(0);
@@ -3317,17 +3317,13 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     value: tag,
     onClose: handleRemoveTag,
     closable: true
-  })) : /*#__PURE__*/React$1.createElement(React$1.Fragment, null, console.log({
-    extractedOptions,
-    tag,
-    placeholder
-  }), /*#__PURE__*/React$1.createElement(Tag, {
+  })) : /*#__PURE__*/React$1.createElement(Tag, {
     closable: true,
     value: tag,
     label: tag === '' ? placeholder : extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  }))), isOpen ? /*#__PURE__*/React$1.createElement("div", {
+  })), isOpen ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-tag`
   }, /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
