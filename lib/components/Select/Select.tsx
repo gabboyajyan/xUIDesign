@@ -464,7 +464,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       )?.[0] as HTMLDivElement;
 
       if (searchContent) {
-        setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
+        setSearchInputWidth(searchContent.clientWidth - (hasMode ? PADDING_TAG_INPUT : 0));
       }
 
       const timeout = setTimeout(() => {

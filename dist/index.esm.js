@@ -3209,7 +3209,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {
-      setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
+      setSearchInputWidth(searchContent.clientWidth - (hasMode ? PADDING_TAG_INPUT : 0));
     }
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
