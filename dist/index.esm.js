@@ -3190,7 +3190,6 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
     return getPopupContainer?.(selectRef.current) || selectRef.current;
   }, [getPopupContainer]);
-  console.log(extractOptions(children));
   const extractedOptions = children ? extractOptions(children) : options;
   function extractOptions(children, options) {
     const result = [];

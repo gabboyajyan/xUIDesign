@@ -430,8 +430,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return getPopupContainer?.(selectRef.current) || selectRef.current;
     }, [getPopupContainer]);
 
-    console.log(extractOptions(children));
-    
     const extractedOptions = children
       ? extractOptions(children)
       : options;
