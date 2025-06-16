@@ -3319,7 +3319,11 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     value: tag,
     onClose: handleRemoveTag,
     closable: true
-  })) : /*#__PURE__*/React$1.createElement(React$1.Fragment, null, console.log(extractedOptions), /*#__PURE__*/React$1.createElement(Tag, {
+  })) : /*#__PURE__*/React$1.createElement(React$1.Fragment, null, console.log({
+    extractedOptions,
+    tag,
+    placeholder
+  }), /*#__PURE__*/React$1.createElement(Tag, {
     closable: true,
     value: tag,
     label: tag === '' ? placeholder : extractedOptions.find(e => e.value === tag)?.children || tag,

@@ -1852,7 +1852,6 @@ export default function Home() {
     return (
         <>
             <Select
-                showSearch
                 value={statusValue}
                 mode="tags"
                 menuItemSelectedIcon={<>ok</>}

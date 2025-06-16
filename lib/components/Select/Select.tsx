@@ -647,7 +647,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     </div>
                   ) : (
                     <>
-                    {console.log(extractedOptions)}
+                    {console.log({
+                      extractedOptions,
+                      tag,
+                      placeholder
+                    })}
                     <Tag
                       closable
                       value={tag}
