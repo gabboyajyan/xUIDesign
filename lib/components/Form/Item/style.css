@@ -60,3 +60,7 @@
 .xUi-form-item .xUi-datepicker-container {
     margin-bottom: 10px;
 }
+
+.xUi-form-item .xUi-select {
+    margin-bottom: 15px;
+}
