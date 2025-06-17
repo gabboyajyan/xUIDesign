@@ -209,6 +209,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
 
+      console.info({
+        selectBox,
+        shouldShowAbove,
+        scrollX: window.scrollX,
+        offsetTop: selectRef.current.offsetTop,
+        clientHeight: selectRef.current.clientHeight,
+      })
+
       if (getPopupContainer) {
         positionStyle = {
           ...positionStyle,
@@ -229,6 +237,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       setDropdownPosition(positionStyle);
     }, [listHeight, getPopupContainer]);
+
+    useEffect(() => {
+      if (!isOpen) {
+        return setDropdownPosition({})
+      }
+    }, [isOpen])
 
     useEffect(() => {
       if (!isOpen) return;
@@ -503,7 +517,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       )?.[0] as HTMLDivElement;
 
       if (searchContent) {
-        setSearchInputWidth(searchContent.clientWidth - (hasMode ? PADDING_TAG_INPUT : 0));
+        setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
 
       const timeout = setTimeout(() => {
@@ -586,7 +600,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ])}
         style={{
           ...dropdownPosition,
-          maxHeight: listHeight
+          maxHeight: listHeight,
+          opacity: Object.keys(dropdownPosition).length ? 1 : 0
         }}
       >
         {filterable && (

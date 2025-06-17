@@ -3046,6 +3046,13 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       position: 'absolute'
     };
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    console.info({
+      selectBox,
+      shouldShowAbove,
+      scrollX: window.scrollX,
+      offsetTop: selectRef.current.offsetTop,
+      clientHeight: selectRef.current.clientHeight
+    });
     if (getPopupContainer) {
       positionStyle = {
         ...positionStyle,
@@ -3061,6 +3068,11 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     }
     setDropdownPosition(positionStyle);
   }, [listHeight, getPopupContainer]);
+  React$1.useEffect(() => {
+    if (!isOpen) {
+      return setDropdownPosition({});
+    }
+  }, [isOpen]);
   React$1.useEffect(() => {
     if (!isOpen) return;
     updateDropdownPosition();
@@ -3237,7 +3249,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {
-      setSearchInputWidth(searchContent.clientWidth - (hasMode ? PADDING_TAG_INPUT : 0));
+      setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
@@ -3286,7 +3298,8 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     }]),
     style: {
       ...dropdownPosition,
-      maxHeight: listHeight
+      maxHeight: listHeight,
+      opacity: Object.keys(dropdownPosition).length ? 1 : 0
     }
   }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",

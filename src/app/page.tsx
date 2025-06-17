@@ -1853,7 +1853,10 @@ export default function Home() {
         <>
         <div style={{ height: 1000 }} />
 
-        <Select
+        <div style={{ display: 'flex' }}>
+
+            <div style={{ width: 100 }}></div>
+            <Select
             mode="tags"
             getPopupContainer={() => document.body}
             value={statusValue}
@@ -1870,6 +1873,7 @@ export default function Home() {
                 </Option>
             ))}
         </Select>
+        </div>
 
         <div style={{ height: 1000 }} />
         </>
