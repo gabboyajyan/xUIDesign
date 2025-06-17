@@ -2842,7 +2842,7 @@ var Radio$2 = /*#__PURE__*/Object.freeze({
 	default: Radio$1
 });
 
-var css_248z$7 = ".xUi-select-options{list-style:none;margin:0;padding:4px}.xUi-select-option,.xUi-select-options{border-radius:var(--xui-border-radius-sm)}.xUi-select-option{align-items:center;color:var(--xui-text-color);cursor:pointer;display:flex;font-size:var(--xui-font-size-md);padding:8px 16px}.xUi-select-option.xUi-select-focused,.xUi-select-option:hover{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.xUi-select-focused{align-items:center;display:flex;font-weight:600;justify-content:space-between}.xUi-select-option.xUi-select-disabled{color:rgba(0,0,0,.25);cursor:not-allowed}.xUi-select-option.selected{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.selected:hover{background-color:var(--xui-primary-color-light)}";
+var css_248z$7 = ".xUi-select-options{list-style:none;margin:0;padding:4px}.xUi-select-option,.xUi-select-options{border-radius:var(--xui-border-radius-sm)}.xUi-select-option{align-items:center;color:var(--xui-text-color);cursor:pointer;display:flex;font-size:var(--xui-font-size-md);margin-bottom:2px;padding:8px 16px}.xUi-select-option.xUi-select-focused,.xUi-select-option:hover{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.xUi-select-focused{align-items:center;display:flex;font-weight:600;justify-content:space-between}.xUi-select-option.xUi-select-disabled{color:rgba(0,0,0,.25);cursor:not-allowed}.xUi-select-option.selected{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.selected:hover{background-color:var(--xui-primary-color-light)}";
 styleInject(css_248z$7);
 
 const Option = ({
@@ -3040,21 +3040,21 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      ...(getPopupContainer ? {
-        top: `${selectBox.bottom}px`,
-        left: `${selectBox.left}px`
-      } : {}),
       width: `${selectBox.width}px`,
       position: 'absolute'
     };
-    if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+    const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    if (getPopupContainer) {
       positionStyle = {
-        ...(getPopupContainer ? {
-          top: `${selectBox.top - dropdownHeight}px`,
-          left: `${selectBox.left}px`
-        } : {}),
-        width: `${selectBox.width}px`,
-        position: 'absolute'
+        ...positionStyle,
+        top: shouldShowAbove ? `${selectBox.top - dropdownHeight}px` : `${selectBox.bottom}px`,
+        left: `${selectBox.left}px`
+      };
+    } else {
+      positionStyle = {
+        ...positionStyle,
+        top: shouldShowAbove ? `${selectRef.current.clientHeight - dropdownHeight - PADDING_PLACEMENT}px` : `${selectBox.height}px`,
+        left: `${window.scrollX}px`
       };
     }
     setDropdownPosition(positionStyle);
@@ -3062,21 +3062,26 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   useEffect(() => {
     if (!isOpen) return;
     updateDropdownPosition();
+    const controller = new AbortController();
     const scrollableParents = getScrollParents(selectRef.current);
     const handleScroll = () => {
       updateDropdownPosition();
     };
     scrollableParents.forEach(el => {
       el.addEventListener('scroll', handleScroll, {
-        passive: true
+        passive: true,
+        signal: controller.signal
       });
     });
-    window.addEventListener('resize', updateDropdownPosition);
+    window.addEventListener('scroll', handleScroll, {
+      passive: true,
+      signal: controller.signal
+    });
+    window.addEventListener('resize', updateDropdownPosition, {
+      signal: controller.signal
+    });
     return () => {
-      scrollableParents.forEach(el => {
-        el.removeEventListener('scroll', handleScroll);
-      });
-      window.removeEventListener('resize', updateDropdownPosition);
+      controller.abort();
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
   const getScrollParents = element => {
@@ -3279,10 +3284,16 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }]),
     style: {
       ...dropdownPosition,
-      maxHeight: listHeight,
-      ...(['topLeft', 'topRight'].includes(placement) ? {
-        top: -((selectRef.current?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || listHeight) + PADDING_PLACEMENT) + (selectRef.current?.clientHeight || 0)
-      } : {})
+      maxHeight: listHeight
+      // ...(['topLeft', 'topRight'].includes(placement)
+      //   ? {
+      //     top:
+      //       -(
+      //         (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
+      //           ?.clientHeight || listHeight) + PADDING_PLACEMENT
+      //       ) + (selectRef.current?.clientHeight || 0)
+      //   }
+      //   : {})
     }
   }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",

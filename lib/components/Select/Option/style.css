@@ -8,6 +8,7 @@
 .xUi-select-option {
     padding: 8px 16px;
     cursor: pointer;
+    margin-bottom: 2px;
     display: flex;
     align-items: center;
     border-radius: var(--xui-border-radius-sm);

@@ -1851,22 +1851,26 @@ export default function Home() {
 
     return (
         <>
-            <Select
-                mode="tags"
-                value={statusValue}
-                menuItemSelectedIcon={<>ok</>}
-                onSelect={(e) => { console.log(e) }}
-                onChange={(e) => { console.log(e) }}
-            >
-                {statusOption.map(item => (
-                    <Option
-                        key={item.value}
-                        value={item.value}
-                    >
-                        {item.label}
-                    </Option>
-                ))}
-            </Select>
+        <div style={{ height: 1000 }} />
+
+        <Select
+            mode="tags"
+            value={statusValue}
+            menuItemSelectedIcon={<>ok</>}
+            onSelect={(e) => { console.log(e) }}
+            onChange={(e) => { console.log(e) }}
+        >
+            {statusOption.map(item => (
+                <Option
+                    key={item.value}
+                    value={item.value}
+                >
+                    {item.label}
+                </Option>
+            ))}
+        </Select>
+
+        <div style={{ height: 1000 }} />
         </>
     )
 }

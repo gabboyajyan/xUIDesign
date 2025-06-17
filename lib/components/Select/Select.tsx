@@ -203,22 +203,27 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const spaceAbove = selectBox.top;
 
       let positionStyle: CSSProperties = {
-        ...getPopupContainer ? {
-          top: `${selectBox.bottom}px`,
-          left: `${selectBox.left}px`,
-        } : {},
         width: `${selectBox.width}px`,
         position: 'absolute',
       };
 
-      if (spaceBelow < dropdownHeight && spaceAbove > dropdownHeight) {
+      const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+
+      if (getPopupContainer) {
         positionStyle = {
-          ...getPopupContainer ? {
-            top: `${selectBox.top - dropdownHeight}px`,
-            left: `${selectBox.left}px`,
-          } : {},
-          width: `${selectBox.width}px`,
-          position: 'absolute',
+          ...positionStyle,
+          top: shouldShowAbove
+            ? `${selectBox.top - dropdownHeight}px`
+            : `${selectBox.bottom}px`,
+          left: `${selectBox.left}px`,
+        };
+      } else {
+        positionStyle = {
+          ...positionStyle,
+          top: shouldShowAbove
+            ? `${selectRef.current.clientHeight - dropdownHeight - PADDING_PLACEMENT}px`
+            : `${selectBox.height}px`,
+          left: `${window.scrollX}px`,
         };
       }
 
@@ -230,6 +235,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       updateDropdownPosition();
 
+      const controller = new AbortController();
       const scrollableParents = getScrollParents(selectRef.current!);
 
       const handleScroll = () => {
@@ -237,16 +243,23 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       };
 
       scrollableParents.forEach(el => {
-        el.addEventListener('scroll', handleScroll, { passive: true });
+        el.addEventListener('scroll', handleScroll, {
+          passive: true,
+          signal: controller.signal
+        });
       });
 
-      window.addEventListener('resize', updateDropdownPosition);
+      window.addEventListener('scroll', handleScroll, {
+        passive: true,
+        signal: controller.signal
+      });
+
+      window.addEventListener('resize', updateDropdownPosition, {
+        signal: controller.signal
+      });
 
       return () => {
-        scrollableParents.forEach(el => {
-          el.removeEventListener('scroll', handleScroll);
-        });
-        window.removeEventListener('resize', updateDropdownPosition);
+        controller.abort();
       };
     }, [isOpen, getPopupContainer, updateDropdownPosition]);
 
@@ -573,16 +586,16 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ])}
         style={{
           ...dropdownPosition,
-          maxHeight: listHeight,
-          ...(['topLeft', 'topRight'].includes(placement)
-            ? {
-              top:
-                -(
-                  (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
-                    ?.clientHeight || listHeight) + PADDING_PLACEMENT
-                ) + (selectRef.current?.clientHeight || 0)
-            }
-            : {})
+          maxHeight: listHeight
+          // ...(['topLeft', 'topRight'].includes(placement)
+          //   ? {
+          //     top:
+          //       -(
+          //         (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
+          //           ?.clientHeight || listHeight) + PADDING_PLACEMENT
+          //       ) + (selectRef.current?.clientHeight || 0)
+          //   }
+          //   : {})
         }}
       >
         {filterable && (
