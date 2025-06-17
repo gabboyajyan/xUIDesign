@@ -3050,8 +3050,8 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (getPopupContainer) {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${triggerNode.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${triggerNode.offsetTop + selectRef.current.clientHeight}px`,
-        left: `${triggerNode.offsetLeft - PADDING_PLACEMENT / 2}px`
+        top: shouldShowAbove ? `${selectRef.current.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
+        left: `${selectBox.left - PADDING_PLACEMENT / 2}px`
       };
     } else {
       positionStyle = {
@@ -3197,14 +3197,10 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
-  const popupContainer = React$1.useMemo(() => {
-    if (typeof window === 'undefined') {
-      return selectRef.current;
-    }
-    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
-    return triggerNode ? getPopupContainer?.(triggerNode) : selectRef.current;
-  }, [getPopupContainer, prefixCls]);
   const extractedOptions = children ? extractOptions(children) : options;
+  const triggerNode = React$1.useMemo(() => {
+    return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+  }, [prefixCls]);
   function extractOptions(children, options) {
     const result = [];
     const flatten = nodes => {
@@ -3399,7 +3395,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     className: `${prefixCls}-arrow`
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-loading`
-  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), popupContainer ? /*#__PURE__*/reactDom.createPortal(dropdownContent, popupContainer) : dropdownContent);
+  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {

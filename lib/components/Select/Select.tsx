@@ -1,6 +1,7 @@
 'use client';
 
 import React, {
+  Children,
   CSSProperties,
   ForwardedRef,
   forwardRef,
@@ -215,9 +216,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         positionStyle = {
           ...positionStyle,
           top: shouldShowAbove
-            ? `${triggerNode.offsetTop + (PADDING_PLACEMENT / 2) - dropdownHeight}px`
-            : `${triggerNode.offsetTop + selectRef.current.clientHeight}px`,
-          left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
+            ? `${selectRef.current.offsetTop + (PADDING_PLACEMENT / 2) - dropdownHeight}px`
+            : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
+          left: `${selectBox.left - (PADDING_PLACEMENT / 2)}px`,
         };
       } else {
         positionStyle = {
@@ -443,25 +444,19 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       );
     }, [showArrow, showSearch, isOpen, suffixIcon]);
 
-    const popupContainer = useMemo(() => {
-      if (typeof window === 'undefined') {
-        return selectRef.current;
-      }
-
-      const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement;
-
-      return triggerNode ? getPopupContainer?.(triggerNode) : selectRef.current;
-    }, [getPopupContainer, prefixCls]);
-
     const extractedOptions = children
       ? extractOptions(children)
       : options;
+
+    const triggerNode = useMemo(() => {
+      return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
+    }, [prefixCls]);
 
     function extractOptions(children: ReactNode, options?: OptionType[]) {
       const result: OptionType[] = [];
 
       const flatten = (nodes: ReactNode): void => {
-        React.Children.forEach(nodes, (child) => {
+        Children.forEach(nodes, (child) => {
           if (!child) return;
 
           if (isValidElement(child)) {
@@ -787,8 +782,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           )}
         </div>
 
-        {popupContainer
-          ? createPortal(dropdownContent, popupContainer)
+        {getPopupContainer
+          ? createPortal(dropdownContent, getPopupContainer(triggerNode))
           : dropdownContent}
       </div>
     );
