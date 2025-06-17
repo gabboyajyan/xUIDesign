@@ -217,6 +217,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           top: shouldShowAbove
             ? `${triggerNode.offsetTop + (PADDING_PLACEMENT / 2) - dropdownHeight}px`
             : `${triggerNode.offsetTop + selectRef.current.clientHeight}px`,
+          left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
         };
       } else {
         positionStyle = {
@@ -224,6 +225,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           top: shouldShowAbove
             ? `${triggerNode.offsetTop - dropdownHeight + (PADDING_PLACEMENT / 2)}px`
             : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
+          left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
         };
       }
 
