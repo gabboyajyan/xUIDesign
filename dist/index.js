@@ -3486,7 +3486,7 @@ var Avatar = /*#__PURE__*/Object.freeze({
 	default: SkeletonAvatar
 });
 
-var css_248z$2 = ".xUi-skeleton-image{align-items:center;background:hsla(0,0%,75%,.2);display:flex;height:96px;justify-content:center;line-height:96px;vertical-align:top;width:96px}.xUi-skeleton-image .xUi-skeleton-icon{font-size:inherit!important}.xUi-skeleton-image svg{height:100%;line-height:48px;max-width:192px;width:48px}";
+var css_248z$2 = ".xUi-skeleton-image{align-items:center;background:hsla(0,0%,75%,.2);display:flex;height:96px;justify-content:center;line-height:96px;vertical-align:top;width:96px}.xUi-skeleton-image .xUi-skeleton-icon{font-size:inherit!important}.xUi-skeleton-image svg{display:flex;height:100%;line-height:48px;margin:0 auto;max-width:192px;width:48px}";
 styleInject(css_248z$2);
 
 const CUSTOm_ICON_SIZE = 48;
