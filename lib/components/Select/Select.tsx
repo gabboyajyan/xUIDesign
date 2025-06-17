@@ -78,7 +78,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       size = 'large',
       error = false,
       dropdownClassName = '',
-      className,
+      className = '',
       suffixIcon,
       style,
       onSearch,
@@ -213,8 +213,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         positionStyle = {
           ...positionStyle,
           top: shouldShowAbove
-            ? `${selectBox.top - dropdownHeight}px`
-            : `${selectBox.bottom}px`,
+            ? `${selectRef.current.offsetTop + (PADDING_PLACEMENT / 2) - dropdownHeight}px`
+            : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
           left: `${selectBox.left}px`,
         };
       } else {
@@ -587,15 +587,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         style={{
           ...dropdownPosition,
           maxHeight: listHeight
-          // ...(['topLeft', 'topRight'].includes(placement)
-          //   ? {
-          //     top:
-          //       -(
-          //         (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
-          //           ?.clientHeight || listHeight) + PADDING_PLACEMENT
-          //       ) + (selectRef.current?.clientHeight || 0)
-          //   }
-          //   : {})
         }}
       >
         {filterable && (
@@ -646,11 +637,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ref={selectRef}
         style={style}
         className={clsx([
-          `${className}`,
           {
             [size]: size,
             noStyle: noStyle,
             [prefixCls]: prefixCls,
+            [className]: !!className,
             [`${prefixCls}-error`]: error,
             [`${prefixCls}-multi`]: hasMode,
             [`${prefixCls}-disabled`]: disabled

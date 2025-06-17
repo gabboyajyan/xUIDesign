@@ -2958,7 +2958,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   size = 'large',
   error = false,
   dropdownClassName = '',
-  className,
+  className = '',
   suffixIcon,
   style,
   onSearch,
@@ -3049,7 +3049,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (getPopupContainer) {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${selectBox.top - dropdownHeight}px` : `${selectBox.bottom}px`,
+        top: shouldShowAbove ? `${selectRef.current.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
         left: `${selectBox.left}px`
       };
     } else {
@@ -3287,15 +3287,6 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     style: {
       ...dropdownPosition,
       maxHeight: listHeight
-      // ...(['topLeft', 'topRight'].includes(placement)
-      //   ? {
-      //     top:
-      //       -(
-      //         (selectRef.current?.querySelector(`.${prefixCls}-dropdown`)
-      //           ?.clientHeight || listHeight) + PADDING_PLACEMENT
-      //       ) + (selectRef.current?.clientHeight || 0)
-      //   }
-      //   : {})
     }
   }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",
@@ -3322,10 +3313,11 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     id: id,
     ref: selectRef,
     style: style,
-    className: clsx([`${className}`, {
+    className: clsx([{
       [size]: size,
       noStyle: noStyle,
       [prefixCls]: prefixCls,
+      [className]: !!className,
       [`${prefixCls}-error`]: error,
       [`${prefixCls}-multi`]: hasMode,
       [`${prefixCls}-disabled`]: disabled

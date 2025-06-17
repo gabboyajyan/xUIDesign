@@ -1855,6 +1855,7 @@ export default function Home() {
 
         <Select
             mode="tags"
+            getPopupContainer={() => document.body}
             value={statusValue}
             menuItemSelectedIcon={<>ok</>}
             onSelect={(e) => { console.log(e) }}
