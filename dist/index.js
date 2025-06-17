@@ -1000,6 +1000,8 @@ const FormItemChildComponent = ({
   onChange,
   valuePropName,
   normalize,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  noStyle,
   ...props
 }) => {
   const formContext = React$1.useContext(FormContext);
