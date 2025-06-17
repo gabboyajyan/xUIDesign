@@ -173,6 +173,8 @@ const FormItemChildComponent = ({
   normalize,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   noStyle,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  feedbackIcons,
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
