@@ -222,7 +222,7 @@ declare const Select: react.ComponentType<__types.DefaultProps & {
     suffixIcon?: react.ReactNode;
     open?: boolean;
     notFoundContent?: react.ReactNode;
-    getPopupContainer?: (triggerNode: HTMLElement | null) => HTMLElement;
+    getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
     dropdownRender?: (menu: react.ReactNode) => react.ReactNode;
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";

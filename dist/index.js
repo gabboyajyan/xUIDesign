@@ -2922,7 +2922,7 @@ var css_248z$5 = "@keyframes spin{0%{transform:rotate(0deg)}to{transform:rotate(
 styleInject(css_248z$5);
 
 const LIST_HEIGHT = 200;
-const PADDING_PLACEMENT = 18;
+const PADDING_PLACEMENT = 16;
 const PADDING_TAG_INPUT = 4;
 function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -3036,38 +3036,30 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   }, [handleClearInputValue, open, hasMode, prefixCls]);
   const updateDropdownPosition = React$1.useCallback(() => {
     if (!selectRef.current) return;
-    const selectBox = selectRef.current.getBoundingClientRect();
+    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+    const selectBox = triggerNode.getBoundingClientRect();
     const dropdownHeight = listHeight;
     const windowHeight = window.innerHeight;
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
-      width: `${selectBox.width}px`,
+      width: `${triggerNode.offsetWidth + PADDING_PLACEMENT}px`,
       position: 'absolute'
     };
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    console.info({
-      selectBox,
-      shouldShowAbove,
-      scrollX: window.scrollX,
-      offsetTop: selectRef.current.offsetTop,
-      clientHeight: selectRef.current.clientHeight
-    });
     if (getPopupContainer) {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${selectRef.current.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
-        left: `${selectBox.left}px`
+        top: shouldShowAbove ? `${triggerNode.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${triggerNode.offsetTop + selectRef.current.clientHeight}px`
       };
     } else {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${selectRef.current.clientHeight - dropdownHeight - PADDING_PLACEMENT}px` : `${selectBox.height}px`,
-        left: `${window.scrollX}px`
+        top: shouldShowAbove ? `${triggerNode.offsetTop - dropdownHeight + PADDING_PLACEMENT / 2}px` : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`
       };
     }
     setDropdownPosition(positionStyle);
-  }, [listHeight, getPopupContainer]);
+  }, [prefixCls, listHeight, getPopupContainer]);
   React$1.useEffect(() => {
     if (!isOpen) {
       return setDropdownPosition({});
@@ -3207,8 +3199,9 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (typeof window === 'undefined') {
       return selectRef.current;
     }
-    return getPopupContainer?.(selectRef.current) || selectRef.current;
-  }, [getPopupContainer]);
+    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+    return triggerNode ? getPopupContainer?.(triggerNode) : selectRef.current;
+  }, [getPopupContainer, prefixCls]);
   const extractedOptions = children ? extractOptions(children) : options;
   function extractOptions(children, options) {
     const result = [];

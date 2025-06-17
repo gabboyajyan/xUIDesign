@@ -1851,31 +1851,31 @@ export default function Home() {
 
     return (
         <>
-        <div style={{ height: 1000 }} />
+            <div style={{ height: 1000 }} />
 
-        <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex' }}>
+                <div style={{ width: 100 }}></div>
 
-            <div style={{ width: 100 }}></div>
-            <Select
-            mode="tags"
-            getPopupContainer={() => document.body}
-            value={statusValue}
-            menuItemSelectedIcon={<>ok</>}
-            onSelect={(e) => { console.log(e) }}
-            onChange={(e) => { console.log(e) }}
-        >
-            {statusOption.map(item => (
-                <Option
-                    key={item.value}
-                    value={item.value}
+                <Select
+                    mode="tags"
+                    getPopupContainer={(t: HTMLElement) => t?.parentElement || document.body}
+                    value={statusValue}
+                    menuItemSelectedIcon={<>ok</>}
+                    onSelect={(e) => { console.log(e) }}
+                    onChange={(e) => { console.log(e) }}
                 >
-                    {item.label}
-                </Option>
-            ))}
-        </Select>
-        </div>
+                    {statusOption.map(item => (
+                        <Option
+                            key={item.value}
+                            value={item.value}
+                        >
+                            {item.label}
+                        </Option>
+                    ))}
+                </Select>
+            </div>
 
-        <div style={{ height: 1000 }} />
+            <div style={{ height: 1000 }} />
         </>
     )
 }
