@@ -2928,6 +2928,7 @@ styleInject(css_248z$5);
 const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 16;
 const PADDING_TAG_INPUT = 4;
+const FORM_MARGIN_BOTTOM = 20;
 function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
     return node.toString();
@@ -3042,7 +3043,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     if (!selectRef.current) return;
     const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
     const selectBox = triggerNode.getBoundingClientRect();
-    const dropdownHeight = listHeight;
+    const dropdownHeight = (getPopupContainer ? getPopupContainer(triggerNode) : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || listHeight;
     const windowHeight = window.innerHeight;
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
@@ -3051,16 +3052,17 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       position: 'absolute'
     };
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
     if (getPopupContainer) {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${selectRef.current.offsetTop + PADDING_PLACEMENT / 2 - dropdownHeight}px` : `${selectRef.current.offsetTop + selectRef.current.clientHeight}px`,
+        top: shouldShowAbove ? `${selectBox.top + document.documentElement.scrollTop - dropdownHeight + PADDING_PLACEMENT / 2 - inForm}px` : `${selectBox.top + document.documentElement.scrollTop + triggerNode.offsetHeight}px`,
         left: `${selectBox.left - PADDING_PLACEMENT / 2}px`
       };
     } else {
       positionStyle = {
         ...positionStyle,
-        top: shouldShowAbove ? `${triggerNode.offsetTop - dropdownHeight + PADDING_PLACEMENT / 2}px` : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
+        top: shouldShowAbove ? `${triggerNode.offsetTop - dropdownHeight + PADDING_PLACEMENT / 2 - inForm}px` : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
         left: `${triggerNode.offsetLeft - PADDING_PLACEMENT / 2}px`
       };
     }
@@ -3068,7 +3070,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   }, [prefixCls, listHeight, getPopupContainer]);
   React$1.useEffect(() => {
     if (!isOpen) {
-      return setDropdownPosition({});
+      setDropdownPosition({});
     }
   }, [isOpen]);
   React$1.useEffect(() => {
@@ -3076,16 +3078,13 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     updateDropdownPosition();
     const controller = new AbortController();
     const scrollableParents = getScrollParents(selectRef.current);
-    const handleScroll = () => {
-      updateDropdownPosition();
-    };
     scrollableParents.forEach(el => {
-      el.addEventListener('scroll', handleScroll, {
+      el.addEventListener('scroll', updateDropdownPosition, {
         passive: true,
         signal: controller.signal
       });
     });
-    window.addEventListener('scroll', handleScroll, {
+    window.addEventListener('scroll', updateDropdownPosition, {
       passive: true,
       signal: controller.signal
     });
@@ -3096,6 +3095,9 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       controller.abort();
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
+  React$1.useEffect(() => {
+    updateDropdownPosition();
+  }, [searchQuery.length]);
   const getScrollParents = element => {
     const parents = [];
     let current = element.parentElement;
@@ -3170,6 +3172,9 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     setSelected(updatedSelected);
   };
   const handleOnKeyDown = e => {
+    if (!isOpen) {
+      return;
+    }
     const timeout = setTimeout(() => {
       e.target.value = e.target.innerText.trim().replace('\n', '');
       setSearchQuery(e.target.value);
@@ -3184,11 +3189,13 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
         handleEnterAddNewTag();
         e.target.innerText = '';
       }
-      if (e.key === 'Backspace' && (hasMode ? !searchQuery.trim().length : searchQuery.trim().length)) {
-        const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : searchQuery.trim();
-        onChange?.(updatedSelected);
-        onSelect?.(updatedSelected);
-        setSelected(updatedSelected);
+      if (e.key === 'Backspace') {
+        if (hasMode && !e.target.value.trim().length) {
+          const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : e.target.value.trim();
+          onChange?.(updatedSelected);
+          onSelect?.(updatedSelected);
+          setSelected(updatedSelected);
+        }
       }
       clearTimeout(timeout);
     });
@@ -3399,7 +3406,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     className: `${prefixCls}-arrow`
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-loading`
-  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
+  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {

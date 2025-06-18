@@ -1,7 +1,11 @@
 'use client'
 
+import { Form } from "../../lib/components/Form";
+import { Item } from "../../lib/components/Form/Item";
 import { Select } from "../../lib/components/Select";
 import Option from "../../lib/components/Select/Option/Option";
+
+import { Form as AntForm, Select as AntSelect } from 'antd'
 
 export const CountryCodes = [...new Set([
     {
@@ -1856,23 +1860,54 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
 
-                <Select
-                    mode="tags"
-                    getPopupContainer={() => document.body}
-                    value={statusValue}
-                    menuItemSelectedIcon={<>ok</>}
-                    onSelect={(e) => { console.log(e) }}
-                    onChange={(e) => { console.log(e) }}
-                >
-                    {statusOption.map(item => (
-                        <Option
-                            key={item.value}
-                            value={item.value}
+                <Form>
+                    <Item label={'dsfdsf'} name="sdfdsf">
+                        <Select
+                            style={{ width: 200 }}
+                            // mode="tags"
+                            showSearch
+                            getPopupContainer={() => document.body}
+                            defaultValue={'Live'}
+                            menuItemSelectedIcon={<>ok</>}
+                            onSelect={(e) => { console.log(e) }}
+                            onChange={(e) => { console.log(e) }}
                         >
-                            {item.label}
-                        </Option>
-                    ))}
-                </Select>
+                            {statusOption.map(item => (
+                                <Option
+                                    key={item.label}
+                                    value={item.label}
+                                >
+                                    {item.label}
+                                </Option>
+                            ))}
+                        </Select>
+
+                    </Item>
+                </Form>
+
+                <AntForm>
+                    <AntForm.Item label={'dsfdsf'} name="sdfdsf">
+                        <AntSelect
+                            style={{ width: 200 }}
+                            showSearch
+                            // mode="tags"
+                            getPopupContainer={() => document.body}
+                            // defaultValue={'Live'}
+                            onSelect={(e) => { console.log(e) }}
+                            onChange={(e) => { console.log(e) }}
+                        >
+                            {statusOption.map(item => (
+                                <AntSelect.Option
+                                    key={item.label}
+                                    value={item.label}
+                                >
+                                    {item.label}
+                                </AntSelect.Option>
+                            ))}
+                        </AntSelect>
+
+                    </AntForm.Item>
+                </AntForm>
             </div>
 
             <div style={{ height: 1000 }} />
