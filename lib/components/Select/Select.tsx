@@ -204,7 +204,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const dropdownHeight = ((getPopupContainer 
           ? getPopupContainer(triggerNode)
           : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`) as HTMLElement)?.clientHeight || listHeight;
-      const windowHeight = triggerNode.scrollHeight;
+      const windowHeight = window.innerHeight;
       const spaceBelow = windowHeight - selectBox.bottom;
       const spaceAbove = selectBox.top;
 
@@ -213,28 +213,31 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         position: 'absolute',
       };
 
-      const shouldShowAbove = spaceBelow > dropdownHeight && spaceAbove < dropdownHeight;
-      const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;  
+      const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+      const shouldShowBelow = spaceAbove < dropdownHeight && spaceBelow > dropdownHeight;
+      const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
 
-      if (getPopupContainer) {
-        positionStyle = {
-          ...positionStyle,
-          top: shouldShowAbove
-            ? `${selectBox.top + document.documentElement.scrollTop - dropdownHeight + (PADDING_PLACEMENT / 2) - inForm}px`
-            : `${selectBox.top + document.documentElement.scrollTop + triggerNode.offsetHeight}px`,
-          left: `${selectBox.left - (PADDING_PLACEMENT / 2)}px`,
-        };
-      } else {
-        positionStyle = {
-          ...positionStyle,
-          top: shouldShowAbove
-            ? `${(triggerNode.offsetTop - dropdownHeight + (PADDING_PLACEMENT / 2)) - inForm}px`
-            : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
-          left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
-        };
+      if (shouldShowAbove || shouldShowBelow) {
+        if (getPopupContainer) {
+          positionStyle = {
+            ...positionStyle,
+            top: shouldShowAbove
+              ? `${selectBox.top + document.documentElement.scrollTop - dropdownHeight + (PADDING_PLACEMENT / 2) - inForm}px`
+              : `${selectBox.top + document.documentElement.scrollTop + triggerNode.offsetHeight}px`,
+            left: `${selectBox.left - (PADDING_PLACEMENT / 2)}px`,
+          };
+        } else {
+          positionStyle = {
+            ...positionStyle,
+            top: shouldShowAbove
+              ? `${(triggerNode.offsetTop - dropdownHeight + (PADDING_PLACEMENT / 2)) - inForm}px`
+              : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
+            left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
+          };
+        }
+
+        setDropdownPosition(positionStyle);
       }
-
-      setDropdownPosition(positionStyle);
     }, [prefixCls, listHeight, getPopupContainer]);
 
     useEffect(() => {
@@ -598,8 +601,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ])}
         style={{
           ...dropdownPosition,
-          maxHeight: listHeight,
-          opacity: Object.keys(dropdownPosition).length ? 1 : 0
+          maxHeight: listHeight
         }}
       >
         {filterable && (
