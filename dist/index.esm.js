@@ -3042,14 +3042,14 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
     const selectBox = triggerNode.getBoundingClientRect();
     const dropdownHeight = (getPopupContainer ? getPopupContainer(triggerNode) : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || listHeight;
-    const windowHeight = window.innerHeight;
+    const windowHeight = triggerNode.scrollHeight;
     const spaceBelow = windowHeight - selectBox.bottom;
     const spaceAbove = selectBox.top;
     let positionStyle = {
       width: `${triggerNode.offsetWidth + PADDING_PLACEMENT}px`,
       position: 'absolute'
     };
-    const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    const shouldShowAbove = spaceBelow > dropdownHeight && spaceAbove < dropdownHeight;
     const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
     if (getPopupContainer) {
       positionStyle = {

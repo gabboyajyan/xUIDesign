@@ -1866,7 +1866,7 @@ export default function Home() {
                             style={{ width: 200 }}
                             // mode="tags"
                             showSearch
-                            getPopupContainer={() => document.body}
+                            // getPopupContainer={() => document.body}
                             defaultValue={'Live'}
                             menuItemSelectedIcon={<>ok</>}
                             onSelect={(e) => { console.log(e) }}
