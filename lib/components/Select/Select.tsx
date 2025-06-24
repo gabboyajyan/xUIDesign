@@ -195,8 +195,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       };
     }, [handleClearInputValue, open, hasMode, prefixCls]);
 
-    const updateDropdownPosition = useCallback(() => {
-      if (!selectRef.current) return;
+    const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
+      if (!selectRef.current) {
+        return;
+      }
 
       const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement;
 
@@ -217,7 +219,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const shouldShowBelow = spaceAbove < dropdownHeight && spaceBelow > dropdownHeight;
       const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
 
-      if (shouldShowAbove || shouldShowBelow) {
+      if (shouldShowAbove || shouldShowBelow || searchQueryUpdated) {
         if (getPopupContainer) {
           positionStyle = {
             ...positionStyle,
@@ -249,24 +251,26 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     useEffect(() => {
       if (!isOpen) return;
 
-      updateDropdownPosition();
+      const _updateDropdownPosition = () => updateDropdownPosition();
+      
+      _updateDropdownPosition();
 
       const controller = new AbortController();
       const scrollableParents = getScrollParents(selectRef.current!);
 
       scrollableParents.forEach(el => {
-        el.addEventListener('scroll', updateDropdownPosition, {
+        el.addEventListener('scroll', _updateDropdownPosition, {
           passive: true,
           signal: controller.signal
         });
       });
 
-      window.addEventListener('scroll', updateDropdownPosition, {
+      window.addEventListener('scroll', _updateDropdownPosition, {
         passive: true,
         signal: controller.signal
       });
 
-      window.addEventListener('resize', updateDropdownPosition, {
+      window.addEventListener('resize', _updateDropdownPosition, {
         signal: controller.signal
       });
 
@@ -276,7 +280,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [isOpen, getPopupContainer, updateDropdownPosition]);
 
     useEffect(() => {
-      updateDropdownPosition();
+      updateDropdownPosition(true);
     }, [searchQuery.length])
 
     const getScrollParents = (element: HTMLElement): HTMLElement[] => {
@@ -720,7 +724,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     onKeyDown={handleOnKeyDown}
                     style={{
-                      width: 'auto',
+                      width: showSearch && !searchQuery.length ? 0 : 'auto',
                       display: 'ruby',
                       textAlign: 'center'
                     }}
@@ -728,6 +732,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />
+                  {!searchQuery.length ? (selected === ''
+                    ? placeholder
+                    : extractedOptions.find(e => e.value === selected)
+                      ?.children || selected) : null}
                 </div>
               ) : !hasMode ? (
                 <div
