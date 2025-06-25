@@ -525,7 +525,21 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
 
+      
       const timeout = setTimeout(() => {
+        if (!hasMode) {
+          const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
+  
+          if (selectedOption) {
+            const selectedOptionTop: number = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
+  
+            selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
+              top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
+              behavior: 'smooth'
+            })
+          }
+        }
+
         const searchInput = document.getElementById(
           `${prefixCls}-search-tag-input`
         );
@@ -732,7 +746,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />
-                  {!searchQuery.length ? (selected === ''
+                  {!hasMode && !searchQuery.length ? (selected === ''
                     ? placeholder
                     : extractedOptions.find(e => e.value === selected)
                       ?.children || selected) : null}

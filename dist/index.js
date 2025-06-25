@@ -3260,6 +3260,16 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
     const timeout = setTimeout(() => {
+      if (!hasMode) {
+        const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
+        if (selectedOption) {
+          const selectedOptionTop = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
+          selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
+            top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
+            behavior: 'smooth'
+          });
+        }
+      }
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
       if (searchInput) {
         searchInput?.focus();
@@ -3388,7 +3398,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     contentEditable: "plaintext-only",
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  }), !searchQuery.length ? selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
+  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'

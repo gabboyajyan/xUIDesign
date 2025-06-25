@@ -1855,7 +1855,7 @@ export default function Home() {
 
     return (
         <>
-            <div style={{ height: 1000 }} />
+            {/* <div style={{ height: 1000 }} /> */}
 
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
@@ -1892,7 +1892,7 @@ export default function Home() {
                             showSearch
                             // mode="tags"
                             getPopupContainer={() => document.body}
-                            // defaultValue={'Live'}
+                            defaultValue={'Live'}
                             onSelect={(e) => { console.log(e) }}
                             onChange={(e) => { console.log(e) }}
                         >
@@ -1910,7 +1910,7 @@ export default function Home() {
                 </AntForm>
             </div>
 
-            <div style={{ height: 1000 }} />
+            {/* <div style={{ height: 1000 }} /> */}
         </>
     )
 }
