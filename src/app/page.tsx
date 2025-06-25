@@ -1,11 +1,13 @@
 'use client'
 
 import { Form } from "../../lib/components/Form";
+import { Radio } from "../../lib/components/Radio";
 import { Item } from "../../lib/components/Form/Item";
-import { Select } from "../../lib/components/Select";
-import Option from "../../lib/components/Select/Option/Option";
+// import { Select } from "../../lib/components/Select";
+// import Option from "../../lib/components/Select/Option/Option";
 
-import { Form as AntForm, Select as AntSelect } from 'antd'
+// import { Form as AntForm, Radio } from 'antd'
+// import FormItem from "antd/es/form/FormItem";
 
 export const CountryCodes = [...new Set([
     {
@@ -1860,8 +1862,14 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
 
-                <Form>
-                    <Item label={'dsfdsf'} name="sdfdsf">
+                <Form onFinish={(e) => console.log(e)}>
+                    <Item name="gender" label="Gender" initialValue={'female'}>
+                        <Radio.Group value={'female'}>
+                            <Radio name="Male" value={'male'}>Male</Radio>
+                            <Radio name="Female" value={'female'}>Female</Radio>
+                        </Radio.Group>
+                    </Item>
+                    {/* <Item label={'dsfdsf'} name="sdfdsf">
                         <Select
                             style={{ width: 200 }}
                             // mode="tags"
@@ -1881,11 +1889,11 @@ export default function Home() {
                                 </Option>
                             ))}
                         </Select>
-
-                    </Item>
+                    </Item> */}
+                    <button type="submit">Submit</button>
                 </Form>
 
-                <AntForm>
+                {/* <AntForm>
                     <AntForm.Item label={'dsfdsf'} name="sdfdsf">
                         <AntSelect
                             style={{ width: 200 }}
@@ -1905,9 +1913,13 @@ export default function Home() {
                                 </AntSelect.Option>
                             ))}
                         </AntSelect>
-
                     </AntForm.Item>
-                </AntForm>
+
+                    <FormItem label="Male">
+                        <Radio name="gender" />
+                        <Radio name="gender" />
+                    </FormItem>
+                </AntForm> */}
             </div>
 
             {/* <div style={{ height: 1000 }} /> */}

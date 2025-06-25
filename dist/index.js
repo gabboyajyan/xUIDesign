@@ -2746,19 +2746,20 @@ const RadioGroup = ({
     }
     return React$1.Children.map(children, child => {
       if (/*#__PURE__*/React$1.isValidElement(child) && (child.type === Radio$1 || child.type === RadioButton)) {
-        return /*#__PURE__*/React$1.cloneElement(child, {
-          ...props,
-          ...(child.type === RadioButton ? {
-            size,
-            buttonStyle
-          } : {}),
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          defaultValue,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const {
+          ...childProps
+        } = child.props;
+        return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
+          size,
+          buttonStyle
+        } : {}, {
+          defaultValue: defaultValue,
           disabled: disabled ?? child.props.disabled,
           checked: selectedValue === child.props.value,
           name: name ?? prefixClsRadio
-        });
+        }));
       }
       return child;
     });
@@ -2829,7 +2830,8 @@ const RadioComponent = /*#__PURE__*/React$1.forwardRef(({
     disabled: disabled,
     onChange: handleChange,
     onBlur: e => onBlur?.(e),
-    onFocus: e => onFocus?.(e)
+    onFocus: e => onFocus?.(e),
+    defaultChecked: defaultChecked ?? checked
   }), /*#__PURE__*/React$1.createElement("span", {
     className: clsx([`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`])
   }), /*#__PURE__*/React$1.createElement("span", {

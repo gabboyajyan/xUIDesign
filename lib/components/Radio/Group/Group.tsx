@@ -2,9 +2,7 @@
 
 import React, {
   Children,
-  cloneElement,
   isValidElement,
-  ReactElement,
   useMemo
 } from 'react';
 import { clsx } from '../../../helpers';
@@ -63,19 +61,24 @@ const RadioGroup = ({
         isValidElement(child) &&
         (child.type === Radio || child.type === RadioButton)
       ) {
-        return cloneElement(child as ReactElement, {
-          ...props,
-          ...(child.type === RadioButton ? { size, buttonStyle } : {}),
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
-          defaultValue,
-          disabled: disabled ?? (child.props as { disabled: boolean }).disabled,
-          checked: selectedValue === (child.props as { value: RuleType }).value,
-          name: name ?? prefixClsRadio
-        });
-      }
+          const { ...childProps } = child.props;
 
-      return child;
+          return (
+            <child.type
+              {...props}
+              {...childProps}
+              {...(child.type === RadioButton ? { size, buttonStyle } : {})}
+              defaultValue={defaultValue}
+              disabled={disabled ?? (child.props as { disabled: boolean }).disabled}
+              checked={selectedValue === (child.props as { value: RuleType }).value}
+              name={name ?? prefixClsRadio}
+            />
+          );
+        }
+
+        return child;
     });
   };
 
