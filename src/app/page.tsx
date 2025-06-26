@@ -1866,7 +1866,7 @@ export default function Home() {
 
                 <Form form={form} onFinish={(e) => console.log(e)}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
-                        <Radio.Group>
+                        <Radio.Group onChange={(e) => console.log(e)}>
                             <Radio name="Male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
                         </Radio.Group>

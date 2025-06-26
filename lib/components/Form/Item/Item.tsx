@@ -211,6 +211,8 @@ const FormItemChildComponent = ({
       }
     }
 
+    console.log('___', valuePropName || name, rawValue);
+    
     setFieldValue(valuePropName || name, rawValue);
     onChange?.(e, option);
   };
