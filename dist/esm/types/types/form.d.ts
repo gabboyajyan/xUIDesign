@@ -8,6 +8,7 @@ export type RuleObject = RuleRender | {
     pattern?: RegExp;
     min?: number;
     max?: number;
+    validateBooleanFalse?: boolean;
     warningPattern?: RegExp;
     warningMessage?: string;
     validator?: (rule: RuleObject, value: RuleTypes, callback: (error?: string) => void) => Promise<void> | void;

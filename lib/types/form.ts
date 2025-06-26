@@ -18,6 +18,7 @@ export type RuleObject =
       pattern?: RegExp;
       min?: number;
       max?: number;
+      validateBooleanFalse?: boolean;
       warningPattern?: RegExp;
       warningMessage?: string;
       validator?: (

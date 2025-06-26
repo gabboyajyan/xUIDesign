@@ -711,7 +711,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const fieldWarnings = [];
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
-      if (rule.required && (value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
+      if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
         fieldErrors.push(rule.message || 'This field is required');
       }
       if ((typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) && rule.min !== undefined && String(value).length < rule.min) {

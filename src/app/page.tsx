@@ -2,6 +2,7 @@
 
 import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
+import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Select } from "../../lib/components/Select";
@@ -1859,9 +1860,9 @@ export default function Home() {
 
     return (
         <>
-            <div style={{ height: 1000 }} />
+            {/* <div style={{ height: 1000 }} /> */}
 
-            <Select options={CountryCodes} getPopupContainer={() => document.body} />
+            {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
 
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
@@ -1878,6 +1879,10 @@ export default function Home() {
                                 <Radio name="sdfdsf" value={'dsfdsf'}>Male</Radio>
                                 <Radio name="Female" value={'fesdfdsfmale'}>Female</Radio>
                             </Radio.Group>
+                        </Item>
+
+                        <Item rules={[{ required: true, validateBooleanFalse: true }]} name="dsfds" label="dzfdsfdsffdsf">
+                            <Checkbox>sdvcdsv</Checkbox>
                         </Item>
                     </div>
                     {/* <Item label={'dsfdsf'} name="sdfdsf">
@@ -1933,7 +1938,7 @@ export default function Home() {
                 </AntForm> */}
             </div>
 
-            <div style={{ height: 1000 }} />
+            {/* <div style={{ height: 1000 }} /> */}
         </>
     )
 }

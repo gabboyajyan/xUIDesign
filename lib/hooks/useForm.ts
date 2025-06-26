@@ -160,7 +160,8 @@ const useForm = (
 
         if (
           rule.required &&
-          (value === undefined ||
+          ((rule.validateBooleanFalse && !value) ||
+            value === undefined ||
             value === null ||
             value === '' ||
             (Array.isArray(value) && !value.length))
