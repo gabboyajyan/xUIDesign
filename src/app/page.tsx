@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
-// import { Select } from "../../lib/components/Select";
+import { Select } from "../../lib/components/Select";
 // import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Radio } from 'antd'
@@ -1859,7 +1859,9 @@ export default function Home() {
 
     return (
         <>
-            {/* <div style={{ height: 1000 }} /> */}
+            <div style={{ height: 1000 }} />
+
+            <Select options={CountryCodes} getPopupContainer={() => document.body} />
 
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
@@ -1867,17 +1869,14 @@ export default function Home() {
                 <Form form={form} onFinish={(e) => console.log(e)}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Radio.Group onChange={(e) => console.log(e)}>
-                                <Radio name="Male" value={'male'}>Male</Radio>
-                                <Radio name="Female" value={'female'}>Female</Radio>
-                            </Radio.Group>
+                            <Select options={CountryCodes} />
                         </Item>
                     </div>
                     <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>
                                 <Radio name="sdfdsf" value={'dsfdsf'}>Male</Radio>
-                                <Radio name="Femsdfdsfale" value={'fesdfdsfmale'}>Female</Radio>
+                                <Radio name="Female" value={'fesdfdsfmale'}>Female</Radio>
                             </Radio.Group>
                         </Item>
                     </div>
@@ -1934,7 +1933,7 @@ export default function Home() {
                 </AntForm> */}
             </div>
 
-            {/* <div style={{ height: 1000 }} /> */}
+            <div style={{ height: 1000 }} />
         </>
     )
 }

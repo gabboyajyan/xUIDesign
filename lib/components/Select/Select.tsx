@@ -123,6 +123,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const selectRef = useRef<HTMLDivElement>(null);
     const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
     const [isOpen, setIsOpen] = useState(defaultOpen || open);
+    const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
@@ -203,9 +204,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement;
 
       const selectBox = triggerNode.getBoundingClientRect();
-      const dropdownHeight = ((getPopupContainer 
-          ? getPopupContainer(triggerNode)
-          : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`) as HTMLElement)?.clientHeight || listHeight;
+      const dropdownHeight = ((getPopupContainer
+        ? getPopupContainer(triggerNode)
+        : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`) as HTMLElement)?.clientHeight || listHeight;
       const windowHeight = window.innerHeight;
       const spaceBelow = windowHeight - selectBox.bottom;
       const spaceAbove = selectBox.top;
@@ -217,14 +218,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
       const shouldShowBelow = spaceAbove < dropdownHeight && spaceBelow > dropdownHeight;
-      const inForm = !!triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
+      const inForm = !triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
 
-      if (shouldShowAbove || shouldShowBelow || searchQueryUpdated) {
+      if (shouldShowAbove || shouldShowBelow || searchQueryUpdated || !isOpenChecker) {
         if (getPopupContainer) {
           positionStyle = {
             ...positionStyle,
             top: shouldShowAbove
-              ? `${selectBox.top + document.documentElement.scrollTop - dropdownHeight + (PADDING_PLACEMENT / 2) - inForm}px`
+              ? `${selectBox.top + document.documentElement.scrollTop - dropdownHeight + (PADDING_PLACEMENT / 2) + inForm - triggerNode.offsetHeight}px`
               : `${selectBox.top + document.documentElement.scrollTop + triggerNode.offsetHeight}px`,
             left: `${selectBox.left - (PADDING_PLACEMENT / 2)}px`,
           };
@@ -232,7 +233,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           positionStyle = {
             ...positionStyle,
             top: shouldShowAbove
-              ? `${(triggerNode.offsetTop - dropdownHeight + (PADDING_PLACEMENT / 2)) - inForm}px`
+              ? `${(triggerNode.offsetTop - dropdownHeight + (PADDING_PLACEMENT / 6)) + inForm - triggerNode.offsetHeight}px`
               : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
             left: `${triggerNode.offsetLeft - (PADDING_PLACEMENT / 2)}px`
           };
@@ -240,9 +241,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         setDropdownPosition(positionStyle);
       }
-    }, [prefixCls, listHeight, getPopupContainer]);
+    }, [prefixCls, listHeight, getPopupContainer, isOpenChecker]);
 
     useEffect(() => {
+      setIsOpenChecker(isOpen);
+
       if (!isOpen) {
         setDropdownPosition({});
       }
@@ -252,7 +255,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       if (!isOpen) return;
 
       const _updateDropdownPosition = () => updateDropdownPosition();
-      
+
       _updateDropdownPosition();
 
       const controller = new AbortController();
@@ -433,7 +436,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 item => item !== selected[selected.length - 1]
               )
               : e.target.value.trim();
-  
+
             onChange?.(updatedSelected);
             onSelect?.(updatedSelected);
             setSelected(updatedSelected);
@@ -525,20 +528,20 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
 
-      
+
       const timeout = setTimeout(() => {
-        if (!hasMode) {
-          const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
-  
-          if (selectedOption) {
-            const selectedOptionTop: number = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
-  
-            selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
-              top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
-              behavior: 'smooth'
-            })
-          }
-        }
+        // if (!hasMode) {
+        //   const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
+
+        //   if (selectedOption) {
+        //     const selectedOptionTop: number = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
+
+        //     selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
+        //       top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
+        //       behavior: 'smooth'
+        //     })
+        //   }
+        // }
 
         const searchInput = document.getElementById(
           `${prefixCls}-search-tag-input`
@@ -619,7 +622,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ])}
         style={{
           ...dropdownPosition,
-          maxHeight: listHeight
+          maxHeight: listHeight,
+          opacity: Object.keys(dropdownPosition).length ? 1 : 0
         }}
       >
         {filterable && (
