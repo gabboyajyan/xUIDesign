@@ -639,7 +639,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
       errors: err
     }));
   }
-  function setFieldValue(name, value, errors, reset = null) {
+  function setFieldValue(name, value, errors, reset = undefined) {
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }

@@ -73,7 +73,7 @@ const useForm = (
     name: string,
     value: RuleTypes,
     errors?: string[],
-    reset: boolean | null | undefined = null
+    reset: boolean | null | undefined = undefined
   ) {
     if (
       !reset && reset !== null &&
