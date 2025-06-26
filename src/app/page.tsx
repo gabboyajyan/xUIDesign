@@ -3,6 +3,7 @@
 import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 import { Item } from "../../lib/components/Form/Item";
+import { useForm } from "../../lib/hooks/useForm";
 // import { Select } from "../../lib/components/Select";
 // import Option from "../../lib/components/Select/Option/Option";
 
@@ -1854,6 +1855,7 @@ const statusValue = [
 ]
 
 export default function Home() {
+    const form = useForm();
 
     return (
         <>
@@ -1862,9 +1864,9 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
 
-                <Form onFinish={(e) => console.log(e)}>
-                    <Item name="gender" label="Gender" initialValue={'female'}>
-                        <Radio.Group value={'female'}>
+                <Form form={form} onFinish={(e) => console.log(e)}>
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Radio.Group>
                             <Radio name="Male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
                         </Radio.Group>

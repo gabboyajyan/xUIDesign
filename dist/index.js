@@ -642,6 +642,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     }));
   }
   function setFieldValue(name, value, errors, reset = null) {
+    console.info({
+      name,
+      value,
+      errors,
+      reset
+    });
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
