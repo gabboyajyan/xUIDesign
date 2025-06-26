@@ -75,12 +75,6 @@ const useForm = (
     errors?: string[],
     reset: boolean | null | undefined = null
   ) {
-    console.info({
-      name,
-      value,
-      errors,
-      reset
-    })
     if (
       !reset && reset !== null &&
       ([undefined, null].includes(value) || formRef.current[name] === value)

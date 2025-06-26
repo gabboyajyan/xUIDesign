@@ -1865,12 +1865,14 @@ export default function Home() {
                 <div style={{ width: 100 }}></div>
 
                 <Form form={form} onFinish={(e) => console.log(e)}>
-                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                    <div>
+                        <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Radio.Group onChange={(e) => console.log(e)}>
                             <Radio name="Male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
                         </Radio.Group>
                     </Item>
+                    </div>
                     {/* <Item label={'dsfdsf'} name="sdfdsf">
                         <Select
                             style={{ width: 200 }}
