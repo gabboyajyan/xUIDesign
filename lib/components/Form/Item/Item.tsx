@@ -123,7 +123,9 @@ const FormItem = ({
 
       {Children.map(childrenList, (child, key) => {
         if (isValidElement(child) && child.type !== Fragment) {
-          const { value, ...childProps } = child.props;
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          const { onChange, value, ...childProps } = child.props;
           const fieldValue =
             getFieldValue(valuePropName || name) ?? initialValue;
 
@@ -144,6 +146,8 @@ const FormItem = ({
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
               size={childProps.size || props.size}
+              onChange={onChange}
+              {...childProps}
             />
           );
         }
