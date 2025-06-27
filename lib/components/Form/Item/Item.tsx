@@ -12,6 +12,7 @@ import React, {
 } from 'react';
 import { clsx } from '../../../helpers';
 import { RuleType, SyntheticBaseEvent } from '../../../types';
+import { flattenChildren } from '../../../helpers/flatten';
 import {
   FormItemChildComponentProps,
   FormItemProps
@@ -57,10 +58,7 @@ const FormItem = ({
     validateFields
   } = formContext;
 
-  const childrenList = useMemo(
-    () => (Array.isArray(children) ? children : [children]).filter(Boolean),
-    [children]
-  );
+  const childrenList = useMemo(() => flattenChildren(children), [children]);
 
   useEffect(() => {
     if (name && !getFieldInstance(name)) {

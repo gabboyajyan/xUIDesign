@@ -6,6 +6,7 @@ import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Select } from "../../lib/components/Select";
+import { Suspense } from "react";
 // import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Radio } from 'antd'
@@ -1882,7 +1883,9 @@ export default function Home() {
                         </Item>
 
                         <Item rules={[{ required: true, validateBooleanFalse: true }]} name="dsfds" label="dzfdsfdsffdsf">
-                            <Checkbox>sdvcdsv</Checkbox>
+                            <Suspense fallback={null}>
+                                <Checkbox>sdvcdsv</Checkbox>
+                            </Suspense>
                         </Item>
                     </div>
                     {/* <Item label={'dsfdsf'} name="sdfdsf">

@@ -15,6 +15,7 @@ import { useForm } from '../../hooks/useForm';
 import { FormInstance, FormItemProps, FormProps } from '../../types/form';
 import { prefixClsForm } from '../../utils';
 import FormItem from './Item/Item';
+import { flattenChildren } from '@/helpers/flatten';
 
 export const FormContext = createContext<FormInstance | null>(null);
 
@@ -47,10 +48,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   };
 
-  const childrenList = useMemo(
-    () => (Array.isArray(children) ? children : [children]).filter(Boolean),
-    [children]
-  );
+  const childrenList = useMemo(() => flattenChildren(children), [children]);
 
   useEffect(() => {
     if (onFieldsChange) {
