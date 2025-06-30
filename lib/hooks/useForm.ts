@@ -75,13 +75,6 @@ const useForm = (
     errors?: string[],
     reset: boolean | null | undefined = undefined
   ) {
-    console.log('setFieldValue', {
-      name,
-      value,
-      errors,
-      reset
-    });
-    
     if (
       !reset && reset !== null &&
       ([undefined, null].includes(value) || formRef.current[name] === value)
@@ -165,13 +158,6 @@ const useForm = (
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
-        console.log('validateField', {
-          name,
-          rule,
-          value,
-          form: formRef.current
-        });
-
         if (
           rule.required &&
           ((rule.validateBooleanFalse && !value) ||
@@ -239,7 +225,6 @@ const useForm = (
 
   async function validateFields(nameList?: string[]) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
-    console.log({fieldsToValidate, form: formRef.current});
     
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))

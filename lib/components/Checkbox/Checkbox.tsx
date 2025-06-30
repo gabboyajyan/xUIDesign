@@ -64,9 +64,6 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       if (checked !== undefined) {
         setInternalChecked(checked);
       }
-
-      console.log('checkbox', name);
-      
     }, [checked]);
 
     return (

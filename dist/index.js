@@ -642,12 +642,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     }));
   }
   function setFieldValue(name, value, errors, reset = undefined) {
-    console.log('setFieldValue', {
-      name,
-      value,
-      errors,
-      reset
-    });
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
@@ -717,12 +711,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const fieldWarnings = [];
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
-      console.log('validateField', {
-        name,
-        rule,
-        value,
-        form: formRef.current
-      });
       if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
         fieldErrors.push(rule.message || 'This field is required');
       }
@@ -755,10 +743,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   }
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
-    console.log({
-      fieldsToValidate,
-      form: formRef.current
-    });
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
@@ -1062,6 +1046,10 @@ const FormItemChildComponent = ({
     setFieldValue(name, rawValue);
     onChange?.(e, option);
   };
+  console.log({
+    name,
+    child: child.type
+  });
   return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, {
     name: name,
     onChange: handleChange
@@ -1359,7 +1347,6 @@ const Checkbox = /*#__PURE__*/React$1.forwardRef(({
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
-    console.log('checkbox', name);
   }, [checked]);
   return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-wrapper`

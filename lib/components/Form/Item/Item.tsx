@@ -214,6 +214,12 @@ const FormItemChildComponent = ({
     onChange?.(e, option);
   };
 
+  console.log({
+    name,
+    child: child.type
+  });
+  
+
   return (
     <child.type
       {...props}
