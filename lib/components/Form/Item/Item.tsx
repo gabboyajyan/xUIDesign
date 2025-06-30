@@ -38,8 +38,6 @@ const FormItem = ({
   feedbackIcons,
   ...props
 }: FormItemProps) => {
-  const [_name] = useState(name);
-
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
@@ -62,28 +60,28 @@ const FormItem = ({
   const childrenList = useMemo(() => flattenChildren(children), [children]);
 
   useEffect(() => {
-    if (_name && !getFieldInstance(_name)) {
-      registerField(_name, rules);
+    if (name && !getFieldInstance(name)) {
+      registerField(name, rules);
     }
-  }, [_name, rules]);
+  }, [name, rules]);
 
   useEffect(() => {
     if (initialValue) {
-      setFieldValue(_name, initialValue);
+      setFieldValue(name, initialValue);
     }
   }, []);
 
   useEffect(() => {
-    if (_name && dependencies.length > 0) {
+    if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([_name]);
+        validateFields([name]);
       });
 
       return () => {
         unsubscribe();
       };
     }
-  }, [dependencies, _name]);
+  }, [dependencies, name]);
 
   useEffect(() => {
     if (
@@ -100,7 +98,7 @@ const FormItem = ({
     [rules]
   );
 
-  const errorMessage = getFieldError(_name)?.[0];
+  const errorMessage = getFieldError(name)?.[0];
 
   return (
     <div
@@ -114,9 +112,9 @@ const FormItem = ({
         }
       ])}
     >
-      {!props.noStyle && (label || _name) && (
-        <label className={`${prefixCls}-label`} htmlFor={_name}>
-          {label || _name}:
+      {!props.noStyle && (label || name) && (
+        <label className={`${prefixCls}-label`} htmlFor={name}>
+          {label || name}:
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}
           {/* @Todo need to add Tooltip like Ant design */}
         </label>
@@ -128,12 +126,12 @@ const FormItem = ({
           // @ts-expect-error
           const { onChange, value, ...childProps } = child.props;
           const fieldValue =
-            getFieldValue(_name) ?? initialValue;
+            getFieldValue(name) ?? initialValue;
 
           return (
             <FormItemChildComponent
               {...childProps}
-              name={_name}
+              name={name}
               child={child}
               value={value}
               fieldValue={fieldValue}

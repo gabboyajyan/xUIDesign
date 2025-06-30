@@ -932,7 +932,6 @@ const FormItem$1 = ({
   feedbackIcons,
   ...props
 }) => {
-  const [_name] = useState(name);
   const formContext = useContext(FormContext);
   const errorRef = useRef(null);
   if (!formContext) {
@@ -950,25 +949,25 @@ const FormItem$1 = ({
   } = formContext;
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
-    if (_name && !getFieldInstance(_name)) {
-      registerField(_name, rules);
+    if (name && !getFieldInstance(name)) {
+      registerField(name, rules);
     }
-  }, [_name, rules]);
+  }, [name, rules]);
   useEffect(() => {
     if (initialValue) {
-      setFieldValue(_name, initialValue);
+      setFieldValue(name, initialValue);
     }
   }, []);
   useEffect(() => {
-    if (_name && dependencies.length > 0) {
+    if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([_name]);
+        validateFields([name]);
       });
       return () => {
         unsubscribe();
       };
     }
-  }, [dependencies, _name]);
+  }, [dependencies, name]);
   useEffect(() => {
     if (errorRef.current && errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT) {
       errorRef.current.style.position = 'relative';
@@ -976,7 +975,7 @@ const FormItem$1 = ({
     }
   }, [errorRef.current]);
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
-  const errorMessage = getFieldError(_name)?.[0];
+  const errorMessage = getFieldError(name)?.[0];
   return /*#__PURE__*/React$1.createElement("div", {
     style: style,
     className: clsx([`${prefixCls}`, {
@@ -984,10 +983,10 @@ const FormItem$1 = ({
       [className]: className,
       noStyle: props.noStyle
     }])
-  }, !props.noStyle && (label || _name) && /*#__PURE__*/React$1.createElement("label", {
+  }, !props.noStyle && (label || name) && /*#__PURE__*/React$1.createElement("label", {
     className: `${prefixCls}-label`,
-    htmlFor: _name
-  }, label || _name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
+    htmlFor: name
+  }, label || name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child) && child.type !== Fragment) {
@@ -998,9 +997,9 @@ const FormItem$1 = ({
         value,
         ...childProps
       } = child.props;
-      const fieldValue = getFieldValue(_name) ?? initialValue;
+      const fieldValue = getFieldValue(name) ?? initialValue;
       return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, childProps, {
-        name: _name,
+        name: name,
         child: child,
         value: value,
         fieldValue: fieldValue,
@@ -1358,6 +1357,7 @@ const Checkbox = /*#__PURE__*/forwardRef(({
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
+    console.log('checkbox', name);
   }, [checked]);
   return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-wrapper`
