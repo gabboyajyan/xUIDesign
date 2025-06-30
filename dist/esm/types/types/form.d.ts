@@ -62,7 +62,6 @@ export type FormItemProps = DefaultProps & {
         };
     })[];
     layout?: FormLayoutTypes;
-    valuePropName?: string;
     dependencies?: string[];
     normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
     feedbackIcons?: boolean;
@@ -75,7 +74,6 @@ export interface FormItemChildComponentProps {
     value: RuleType;
     setFieldValue: (name: string, value: RuleType) => void;
     onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
-    valuePropName?: string;
     size?: SizeType;
     normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
     noStyle?: boolean;

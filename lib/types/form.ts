@@ -79,7 +79,6 @@ export type FormItemProps = DefaultProps & {
     | (ReactElement & { props: { value: RuleTypes } })
     | (ReactElement & { props: { value: RuleTypes } })[];
   layout?: FormLayoutTypes;
-  valuePropName?: string;
   dependencies?: string[];
   normalize?: (
     value: RuleType,
@@ -97,7 +96,6 @@ export interface FormItemChildComponentProps {
   value: RuleType;
   setFieldValue: (name: string, value: RuleType) => void;
   onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
-  valuePropName?: string;
   size?: SizeType;
   normalize?: (
     value: RuleType,

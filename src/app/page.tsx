@@ -1885,10 +1885,10 @@ export default function Home() {
                         <Item
                             name="agree"
                             label="Agree"
-                            valuePropName="checked"
                             rules={[{
+                                // required: true,
                                 validateBooleanFalse: true,
-                                validator(_, checked) {
+                                validator: async (_, checked) => {
                                     if (!checked) {
                                         return Promise.reject('account.acceptAgreement');
                                     } else {

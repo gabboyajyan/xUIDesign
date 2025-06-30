@@ -239,6 +239,8 @@ const useForm = (
 
   async function validateFields(nameList?: string[]) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
+    console.log({fieldsToValidate, form: formRef.current});
+    
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))
     );

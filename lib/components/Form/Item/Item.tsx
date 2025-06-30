@@ -33,13 +33,12 @@ const FormItem = ({
   className = '',
   layout = 'vertical',
   style = {},
-  valuePropName,
   dependencies = [],
   initialValue,
   feedbackIcons,
   ...props
 }: FormItemProps) => {
-  const [_name] = useState(valuePropName || name);
+  const [_name] = useState(name);
 
   const formContext = useContext(FormContext);
 
@@ -64,11 +63,6 @@ const FormItem = ({
 
   useEffect(() => {
     if (_name && !getFieldInstance(_name)) {
-      console.log({
-        _name,
-        rules
-      });
-      
       registerField(_name, rules);
     }
   }, [_name, rules]);

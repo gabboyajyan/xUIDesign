@@ -753,6 +753,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   }
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
+    console.log({
+      fieldsToValidate,
+      form: formRef.current
+    });
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     return results.every(valid => valid);
   }
@@ -923,13 +927,12 @@ const FormItem$1 = ({
   className = '',
   layout = 'vertical',
   style = {},
-  valuePropName,
   dependencies = [],
   initialValue,
   feedbackIcons,
   ...props
 }) => {
-  const [_name] = useState(valuePropName || name);
+  const [_name] = useState(name);
   const formContext = useContext(FormContext);
   const errorRef = useRef(null);
   if (!formContext) {
@@ -948,10 +951,6 @@ const FormItem$1 = ({
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
     if (_name && !getFieldInstance(_name)) {
-      console.log({
-        _name,
-        rules
-      });
       registerField(_name, rules);
     }
   }, [_name, rules]);
