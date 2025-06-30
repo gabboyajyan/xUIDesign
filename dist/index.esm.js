@@ -947,6 +947,10 @@ const FormItem$1 = ({
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
     if (_name && !getFieldInstance(_name)) {
+      console.log({
+        _name,
+        rules
+      });
       registerField(_name, rules);
     }
   }, [_name, rules]);
