@@ -1,12 +1,19 @@
-import { Children, Fragment, isValidElement, Suspense } from 'react';
+import {
+    Children,
+    Fragment,
+    isValidElement,
+    ReactElement,
+    ReactNode,
+    Suspense
+} from 'react';
 
-export function flattenChildren(children: React.ReactNode): React.ReactElement[] {
-    const result: React.ReactElement[] = [];
+export function flattenChildren(children: ReactNode): ReactElement[] {
+    const result: ReactElement[] = [];
 
     Children.forEach(children, child => {
         if (!isValidElement(child)) return;
 
-        if (child.type === Fragment || child.type === Suspense) {
+        if (child.type === 'div' || child.type === Fragment || child.type === Suspense) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             result.push(...flattenChildren(child.props.children));

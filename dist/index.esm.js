@@ -887,7 +887,7 @@ function flattenChildren(children) {
   const result = [];
   Children.forEach(children, child => {
     if (! /*#__PURE__*/isValidElement(child)) return;
-    if (child.type === Fragment || child.type === Suspense) {
+    if (child.type === 'div' || child.type === Fragment || child.type === Suspense) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       result.push(...flattenChildren(child.props.children));

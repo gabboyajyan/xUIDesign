@@ -1,1 +1,2 @@
-export declare function flattenChildren(children: React.ReactNode): React.ReactElement[];
+import { ReactElement, ReactNode } from 'react';
+export declare function flattenChildren(children: ReactNode): ReactElement[];
