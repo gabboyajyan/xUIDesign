@@ -75,6 +75,8 @@ const useForm = (
     errors?: string[],
     reset: boolean | null | undefined = undefined
   ) {
+    debugger
+
     if (
       !reset && reset !== null &&
       ([undefined, null].includes(value) || formRef.current[name] === value)
@@ -154,7 +156,6 @@ const useForm = (
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
 
-    debugger
     await Promise.all(
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;

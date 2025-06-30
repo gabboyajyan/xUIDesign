@@ -642,6 +642,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     }));
   }
   function setFieldValue(name, value, errors, reset = undefined) {
+    debugger;
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
@@ -709,7 +710,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
     const fieldWarnings = [];
-    debugger;
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
       if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
