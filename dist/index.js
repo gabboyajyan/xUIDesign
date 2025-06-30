@@ -720,7 +720,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
       console.log('validateField', {
         name,
         rule,
-        value
+        value,
+        form: formRef.current
       });
       if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
         fieldErrors.push(rule.message || 'This field is required');

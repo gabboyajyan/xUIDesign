@@ -168,7 +168,8 @@ const useForm = (
         console.log('validateField', {
           name,
           rule,
-          value
+          value,
+          form: formRef.current
         });
 
         if (
