@@ -158,6 +158,7 @@ const useForm = (
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
+        debugger
         if (
           rule.required &&
           ((rule.validateBooleanFalse && !value) ||
