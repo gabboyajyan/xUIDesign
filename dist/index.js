@@ -919,6 +919,7 @@ const FormItem$1 = ({
   feedbackIcons,
   ...props
 }) => {
+  const [_name] = React$1.useState(valuePropName || name);
   const formContext = React$1.useContext(FormContext);
   const errorRef = React$1.useRef(null);
   if (!formContext) {
@@ -936,25 +937,25 @@ const FormItem$1 = ({
   } = formContext;
   const childrenList = React$1.useMemo(() => flattenChildren(children), [children]);
   React$1.useEffect(() => {
-    if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+    if (_name && !getFieldInstance(_name)) {
+      registerField(_name, rules);
     }
-  }, [name, rules]);
+  }, [_name, rules]);
   React$1.useEffect(() => {
     if (initialValue) {
-      setFieldValue(name, initialValue);
+      setFieldValue(_name, initialValue);
     }
   }, []);
   React$1.useEffect(() => {
-    if (name && dependencies.length > 0) {
+    if (_name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([name]);
+        validateFields([_name]);
       });
       return () => {
         unsubscribe();
       };
     }
-  }, [dependencies, name]);
+  }, [dependencies, _name]);
   React$1.useEffect(() => {
     if (errorRef.current && errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT) {
       errorRef.current.style.position = 'relative';
@@ -962,7 +963,7 @@ const FormItem$1 = ({
     }
   }, [errorRef.current]);
   const isRequired = React$1.useMemo(() => rules.some(rule => rule.required), [rules]);
-  const errorMessage = getFieldError(valuePropName || name)?.[0];
+  const errorMessage = getFieldError(_name)?.[0];
   return /*#__PURE__*/React$1.createElement("div", {
     style: style,
     className: clsx([`${prefixCls}`, {
@@ -970,10 +971,10 @@ const FormItem$1 = ({
       [className]: className,
       noStyle: props.noStyle
     }])
-  }, !props.noStyle && (label || name) && /*#__PURE__*/React$1.createElement("label", {
+  }, !props.noStyle && (label || _name) && /*#__PURE__*/React$1.createElement("label", {
     className: `${prefixCls}-label`,
-    htmlFor: name
-  }, label || name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
+    htmlFor: _name
+  }, label || _name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), React$1.Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/React$1.isValidElement(child) && child.type !== React$1.Fragment) {
@@ -984,9 +985,9 @@ const FormItem$1 = ({
         value,
         ...childProps
       } = child.props;
-      const fieldValue = getFieldValue(valuePropName || name) ?? initialValue;
+      const fieldValue = getFieldValue(_name) ?? initialValue;
       return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, childProps, {
-        name: name,
+        name: _name,
         child: child,
         value: value,
         fieldValue: fieldValue,
@@ -995,7 +996,6 @@ const FormItem$1 = ({
         key: `${key}_${isReseting}`,
         error: Boolean(errorMessage),
         setFieldValue: setFieldValue,
-        valuePropName: valuePropName,
         feedbackIcons: feedbackIcons
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -1017,7 +1017,6 @@ const FormItemChildComponent = ({
   fieldValue,
   setFieldValue,
   onChange,
-  valuePropName,
   normalize,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   noStyle,
@@ -1046,7 +1045,7 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    setFieldValue(valuePropName || name, rawValue);
+    setFieldValue(name, rawValue);
     onChange?.(e, option);
   };
   return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, {

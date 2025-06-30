@@ -1882,7 +1882,21 @@ export default function Home() {
                             </Radio.Group>
                         </Item>
 
-                        <Item rules={[{ required: true, validateBooleanFalse: true }]} name="dsfds" label="dzfdsfdsffdsf">
+                        <Item
+                            name="agree"
+                            label="Agree"
+                            valuePropName="checked"
+                            rules={[{
+                                validateBooleanFalse: true,
+                                validator(_, checked) {
+                                    if (!checked) {
+                                        return Promise.reject('account.acceptAgreement');
+                                    } else {
+                                        Promise.resolve();
+                                    }
+                                }
+                            }]}
+                        >
                             <Suspense fallback={null}>
                                 <Checkbox>sdvcdsv</Checkbox>
                             </Suspense>

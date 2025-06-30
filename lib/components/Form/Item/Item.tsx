@@ -39,6 +39,8 @@ const FormItem = ({
   feedbackIcons,
   ...props
 }: FormItemProps) => {
+  const [_name] = useState(valuePropName || name);
+
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
@@ -61,28 +63,28 @@ const FormItem = ({
   const childrenList = useMemo(() => flattenChildren(children), [children]);
 
   useEffect(() => {
-    if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+    if (_name && !getFieldInstance(_name)) {
+      registerField(_name, rules);
     }
-  }, [name, rules]);
+  }, [_name, rules]);
 
   useEffect(() => {
     if (initialValue) {
-      setFieldValue(name, initialValue);
+      setFieldValue(_name, initialValue);
     }
   }, []);
 
   useEffect(() => {
-    if (name && dependencies.length > 0) {
+    if (_name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([name]);
+        validateFields([_name]);
       });
 
       return () => {
         unsubscribe();
       };
     }
-  }, [dependencies, name]);
+  }, [dependencies, _name]);
 
   useEffect(() => {
     if (
@@ -99,7 +101,7 @@ const FormItem = ({
     [rules]
   );
 
-  const errorMessage = getFieldError(valuePropName || name)?.[0];
+  const errorMessage = getFieldError(_name)?.[0];
 
   return (
     <div
@@ -113,9 +115,9 @@ const FormItem = ({
         }
       ])}
     >
-      {!props.noStyle && (label || name) && (
-        <label className={`${prefixCls}-label`} htmlFor={name}>
-          {label || name}:
+      {!props.noStyle && (label || _name) && (
+        <label className={`${prefixCls}-label`} htmlFor={_name}>
+          {label || _name}:
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}
           {/* @Todo need to add Tooltip like Ant design */}
         </label>
@@ -127,12 +129,12 @@ const FormItem = ({
           // @ts-expect-error
           const { onChange, value, ...childProps } = child.props;
           const fieldValue =
-            getFieldValue(valuePropName || name) ?? initialValue;
+            getFieldValue(_name) ?? initialValue;
 
           return (
             <FormItemChildComponent
               {...childProps}
-              name={name}
+              name={_name}
               child={child}
               value={value}
               fieldValue={fieldValue}
@@ -141,7 +143,6 @@ const FormItem = ({
               key={`${key}_${isReseting}`}
               error={Boolean(errorMessage)}
               setFieldValue={setFieldValue}
-              valuePropName={valuePropName}
               feedbackIcons={feedbackIcons}
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
@@ -171,7 +172,6 @@ const FormItemChildComponent = ({
   fieldValue,
   setFieldValue,
   onChange,
-  valuePropName,
   normalize,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   noStyle,
@@ -213,7 +213,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    setFieldValue(valuePropName || name, rawValue);
+    setFieldValue(name, rawValue);
     onChange?.(e, option);
   };
 
