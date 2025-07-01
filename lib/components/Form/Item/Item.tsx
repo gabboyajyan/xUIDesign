@@ -231,7 +231,7 @@ const FormItemChildComponent = ({
         ...childProps,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        children: Children.map(childProps.children, injectPropsIntoFinalLeaf),
+        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
       });
     }
 

@@ -84,7 +84,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         ...childProps,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        children: Children.map(childProps.children, injectPropsIntoFinalLeaf),
+        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
       });
     }
 
@@ -109,7 +109,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
+        {Children.map(flattenChildren(childrenList), child => injectPropsIntoFinalLeaf(child))}
       </form>
     </FormContext.Provider>
   );

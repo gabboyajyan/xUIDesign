@@ -1828,33 +1828,33 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-const statusOption = [
-    {
-        "label": "All",
-        "value": 0
-    },
-    {
-        "label": "Canceled",
-        "value": -1
-    },
-    {
-        "label": "Finished",
-        "value": 1
-    },
-    {
-        "label": "Live",
-        "value": 2
-    },
-    {
-        "label": "Upcoming",
-        "value": 3
-    }
-]
+// const statusOption = [
+//     {
+//         "label": "All",
+//         "value": 0
+//     },
+//     {
+//         "label": "Canceled",
+//         "value": -1
+//     },
+//     {
+//         "label": "Finished",
+//         "value": 1
+//     },
+//     {
+//         "label": "Live",
+//         "value": 2
+//     },
+//     {
+//         "label": "Upcoming",
+//         "value": 3
+//     }
+// ]
 
-const statusValue = [
-    2,
-    3
-]
+// const statusValue = [
+//     2,
+//     3
+// ]
 
 export default function Home() {
     const form = useForm();
@@ -1866,14 +1866,12 @@ export default function Home() {
             {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
 
             <div style={{ display: 'flex' }}>
-                <div style={{ width: 100 }}></div>
+                <div style={{ width: 500 }}></div>
 
                 <Form form={form} onFinish={(e) => console.log(e)} size="large">
-                    <div>
-                        <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select options={CountryCodes} />
-                        </Item>
-                    </div>
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
                     <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>
@@ -1897,13 +1895,15 @@ export default function Home() {
                                 }
                             }]}
                         >
-                            <Suspense fallback={null}>
-                                <div>
-                                    <div className="checkbox">
-                                        <Checkbox>sdvcdsv</Checkbox>
+                            <div>
+                                <Suspense fallback={null}>
+                                    <div>
+                                        <div className="checkbox">
+                                            <Checkbox>sdvcdsv</Checkbox>
+                                        </div>
                                     </div>
-                                </div>
-                            </Suspense>
+                                </Suspense>
+                            </div>
                         </Item>
                     </div>
                     {/* <Item label={'dsfdsf'} name="sdfdsf">

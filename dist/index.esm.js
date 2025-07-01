@@ -1055,7 +1055,7 @@ const FormItemChildComponent = ({
         ...childProps,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        children: Children.map(childProps.children, injectPropsIntoFinalLeaf)
+        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
       });
     }
     if (childProps?.__injected) {
@@ -1134,7 +1134,7 @@ const Form$1 = ({
         ...childProps,
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        children: Children.map(childProps.children, injectPropsIntoFinalLeaf)
+        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
       });
     }
     if (childProps?.__injected) {
@@ -1155,7 +1155,7 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
+  }, Children.map(flattenChildren(childrenList), child => injectPropsIntoFinalLeaf(child))));
 };
 Form$1.Item = FormItem$1;
 
