@@ -1897,10 +1897,12 @@ export default function Home() {
                         >
                             <div>
                                 <Suspense fallback={null}>
-                                    <div>
-                                        <div className="checkbox">
-                                            <Checkbox>sdvcdsv</Checkbox>
-                                        </div>
+                                    <div className="checkbox" >
+                                        <Checkbox>sdvcdsv</Checkbox>
+                                        ok
+                                        <div dangerouslySetInnerHTML={{
+                                            __html: `<i>okokok</i>`
+                                        }} />
                                     </div>
                                 </Suspense>
                             </div>
