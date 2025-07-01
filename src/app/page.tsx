@@ -9,7 +9,7 @@ import { Select } from "../../lib/components/Select";
 import { Suspense } from "react";
 // import Option from "../../lib/components/Select/Option/Option";
 
-// import { Form as AntForm, Radio } from 'antd'
+// import { Form as AntForm, Select as AntSelect } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
 
 export const CountryCodes = [...new Set([
@@ -1868,7 +1868,7 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <div style={{ width: 100 }}></div>
 
-                <Form form={form} onFinish={(e) => console.log(e)}>
+                <Form form={form} onFinish={(e) => console.log(e)} size="large">
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select options={CountryCodes} />
@@ -1898,7 +1898,11 @@ export default function Home() {
                             }]}
                         >
                             <Suspense fallback={null}>
-                                <Checkbox>sdvcdsv</Checkbox>
+                                <div>
+                                    <div className="checkbox">
+                                        <Checkbox>sdvcdsv</Checkbox>
+                                    </div>
+                                </div>
                             </Suspense>
                         </Item>
                     </div>
@@ -1924,6 +1928,7 @@ export default function Home() {
                         </Select>
                     </Item> */}
                     <button type="submit">Submit</button>
+                    <button onClick={() => form.resetFields()}>Reset</button>
                 </Form>
 
                 {/* <AntForm>
@@ -1934,8 +1939,6 @@ export default function Home() {
                             // mode="tags"
                             getPopupContainer={() => document.body}
                             defaultValue={'Live'}
-                            onSelect={(e) => { console.log(e) }}
-                            onChange={(e) => { console.log(e) }}
                         >
                             {statusOption.map(item => (
                                 <AntSelect.Option

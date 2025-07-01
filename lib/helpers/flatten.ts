@@ -13,7 +13,7 @@ export function flattenChildren(children: ReactNode): ReactElement[] {
     Children.forEach(children, child => {
         if (!isValidElement(child)) return;
 
-        if (child.type === 'div' || child.type === Fragment || child.type === Suspense) {
+        if (child.type === Fragment || child.type === Suspense) {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-expect-error
             result.push(...flattenChildren(child.props.children));

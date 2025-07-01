@@ -44,7 +44,7 @@ export interface FieldError {
   errors: string[];
 }
 
-type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline';
+export type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline';
 
 export type FormProps = DefaultProps & {
   colon?: boolean;
@@ -89,7 +89,7 @@ export type FormItemProps = DefaultProps & {
 };
 
 export interface FormItemChildComponentProps {
-  child: React.ReactElement;
+  child: ReactElement;
   name: string;
   error: boolean;
   fieldValue: RuleTypes;

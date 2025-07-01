@@ -26,7 +26,7 @@ export interface FieldError {
     name: string;
     errors: string[];
 }
-type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline';
+export type FormLayoutTypes = 'horizontal' | 'vertical' | 'inline';
 export type FormProps = DefaultProps & {
     colon?: boolean;
     name?: string;
@@ -67,7 +67,7 @@ export type FormItemProps = DefaultProps & {
     feedbackIcons?: boolean;
 };
 export interface FormItemChildComponentProps {
-    child: React.ReactElement;
+    child: ReactElement;
     name: string;
     error: boolean;
     fieldValue: RuleTypes;
@@ -103,4 +103,3 @@ export interface FormInstance {
     getFieldInstance: (fieldName: string) => FieldInstancesRef;
     isReseting: boolean;
 }
-export {};
