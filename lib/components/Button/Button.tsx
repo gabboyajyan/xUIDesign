@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
 import { prefixClsButton } from '../../utils';
@@ -41,28 +41,30 @@ const ButtonComponent = ({
     }
   }, [loading]);
 
-  const classes = clsx(
-    prefixCls,
-    rootClassName,
-    `${prefixCls}-${type}`,
-    `${prefixCls}-${variant}`,
-    `${prefixCls}-${color}`,
-    `${prefixCls}-${shape}`,
-    `${prefixCls}-size-${size}`,
-    {
-      [`${prefixCls}-block`]: block,
-      [`${prefixCls}-ghost`]: ghost,
-      [`${prefixCls}-danger`]: danger,
-      [`${prefixCls}-loading`]: innerLoading,
-      [`${prefixCls}-disabled`]: disabled
-    },
-    className
-  );
+  const classes = useMemo(() => {
+    return clsx([...new Set([
+      prefixCls,
+      rootClassName,
+      `${prefixCls}-${type}`,
+      `${prefixCls}-${variant}`,
+      `${prefixCls}-${color}`,
+      `${prefixCls}-${shape}`,
+      `${prefixCls}-size-${size}`,
+      {
+        [`${prefixCls}-block`]: block,
+        [`${prefixCls}-ghost`]: ghost,
+        [`${prefixCls}-danger`]: danger,
+        [`${prefixCls}-loading`]: innerLoading,
+        [`${prefixCls}-disabled`]: disabled
+      },
+      className
+    ])])
+  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, rootClassName, shape, size, type, variant]);
 
   const iconNode = innerLoading
     ? (typeof loading === 'object' && loading.icon) || (
-        <span className={`${prefixCls}-spinner`} />
-      )
+      <span className={`${prefixCls}-spinner`} />
+    )
     : icon;
 
   const content = (

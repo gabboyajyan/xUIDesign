@@ -5,8 +5,10 @@ import { Radio } from "../../lib/components/Radio";
 import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
+import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
+import { Button } from "../../lib/components/Button";
 // import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
@@ -1859,6 +1861,8 @@ export const CountryCodes = [...new Set([
 export default function Home() {
     const form = useForm();
 
+    const [eye, setEye] = useState(false);
+
     return (
         <>
             {/* <div style={{ height: 1000 }} /> */}
@@ -1866,12 +1870,21 @@ export default function Home() {
             {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
 
             <div style={{ display: 'flex' }}>
+
+                    <Button>Button</Button>
+
                 <div style={{ width: 500 }}></div>
 
                 <Form form={form} onFinish={(e) => console.log(e)} size="large">
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select options={CountryCodes} />
                     </Item>
+
+                    <Item rules={[{ required: true }]} name="username" label="Username">
+                        <Input type={!eye ? 'password' : 'text'} suffix={<button onClick={() => setEye(!eye)}>{eye ? 'show' : 'hide'}</button>} />
+                    </Item>
+
+
                     <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>

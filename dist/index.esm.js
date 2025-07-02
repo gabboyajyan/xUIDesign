@@ -1296,13 +1296,15 @@ const ButtonComponent = ({
       setInnerLoading(!!loading);
     }
   }, [loading]);
-  const classes = clsx(prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-${variant}`, `${prefixCls}-${color}`, `${prefixCls}-${shape}`, `${prefixCls}-size-${size}`, {
-    [`${prefixCls}-block`]: block,
-    [`${prefixCls}-ghost`]: ghost,
-    [`${prefixCls}-danger`]: danger,
-    [`${prefixCls}-loading`]: innerLoading,
-    [`${prefixCls}-disabled`]: disabled
-  }, className);
+  const classes = useMemo(() => {
+    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-${variant}`, `${prefixCls}-${color}`, `${prefixCls}-${shape}`, `${prefixCls}-size-${size}`, {
+      [`${prefixCls}-block`]: block,
+      [`${prefixCls}-ghost`]: ghost,
+      [`${prefixCls}-danger`]: danger,
+      [`${prefixCls}-loading`]: innerLoading,
+      [`${prefixCls}-disabled`]: disabled
+    }, className])]);
+  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, rootClassName, shape, size, type, variant]);
   const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-spinner`
   }) : icon;
