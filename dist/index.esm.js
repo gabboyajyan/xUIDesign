@@ -1063,16 +1063,18 @@ const FormItemChildComponent = ({
     }
     return /*#__PURE__*/cloneElement(child, {
       ...props,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       name,
       onChange: handleChange,
       key: `${name}_${wasNormalize}`,
       value: fieldValue ?? props.value,
-      ...(error ? {
-        error
-      } : {}),
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      __injected: true
+      ...('dangerouslySetInnerHTML' in childProps ? {} : {
+        __injected: true,
+        ...(error ? {
+          error
+        } : {})
+      })
     });
   };
   return injectPropsIntoFinalLeaf(child);
