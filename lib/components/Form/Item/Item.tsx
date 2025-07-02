@@ -224,6 +224,7 @@ const FormItemChildComponent = ({
 
     const isWrapper =
       typeof child.type === 'string' &&
+      !('dangerouslySetInnerHTML' in childProps) && 
       ['div', 'span', 'label'].includes(child.type);
 
     if (isWrapper) {

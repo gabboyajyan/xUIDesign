@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, createElement, useContext, useMemo, useEffect, cloneElement, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, cloneElement, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -887,53 +887,15 @@ function flattenChildren(children) {
   const result = [];
   Children.forEach(children, child => {
     if (! /*#__PURE__*/isValidElement(child)) return;
-    const childProps = child.props;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const childType = child.type;
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const childKey = child.key;
     if (child.type === Fragment || child.type === Suspense) {
-      result.push(...flattenChildren(childProps.children));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      result.push(...flattenChildren(child.props.children));
     } else {
-      if ('dangerouslySetInnerHTML' in childProps) {
-        const isWrapper = typeof child.type === 'string' && ['div', 'span', 'label'].includes(childType);
-        if (isWrapper) {
-          const divElement = document.createElement(childType);
-          if (childProps?.dangerouslySetInnerHTML?.__html) {
-            divElement.insertAdjacentHTML("beforeend", childProps?.dangerouslySetInnerHTML?.__html);
-          }
-          const node = convertDomNodeToReact(divElement, childKey);
-          if (node) {
-            result.push(node);
-          }
-          return;
-        }
-      }
       result.push(child);
     }
   });
   return result;
-}
-function convertDomNodeToReact(node, key) {
-  if (node.nodeType === Node.TEXT_NODE) {
-    return node.textContent;
-  }
-  if (node.nodeType === Node.ELEMENT_NODE) {
-    const el = node;
-    const tag = el.tagName.toLowerCase();
-    const props = {};
-    for (const attr of el.attributes) {
-      props[attr.name === 'class' ? 'className' : attr.name] = attr.value;
-    }
-    if (key !== undefined) {
-      props.key = key;
-    }
-    const children = Array.from(el.childNodes).map((childNode, index) => convertDomNodeToReact(childNode, `${key ?? 'node'}-${index}`));
-    return /*#__PURE__*/createElement(tag, props, ...children);
-  }
-  return null;
 }
 
 var css_248z$k = ".xUi-form-item{display:flex;margin-bottom:10px;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:-6px;color:var(--xui-error-color);font-size:var(--xui-font-size-xs);line-height:16px;position:absolute;right:0;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}";
@@ -1087,7 +1049,7 @@ const FormItemChildComponent = ({
       return child;
     }
     const childProps = child.props;
-    const isWrapper = typeof child.type === 'string' && ['div', 'span', 'label'].includes(child.type);
+    const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
       return /*#__PURE__*/cloneElement(child, {
         ...childProps,
@@ -1166,7 +1128,7 @@ const Form$1 = ({
       return child;
     }
     const childProps = child.props;
-    const isWrapper = typeof child.type === 'string' && ['div', 'span', 'label'].includes(child.type);
+    const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
       return /*#__PURE__*/cloneElement(child, {
         ...childProps,
@@ -1193,7 +1155,7 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, Children.map(flattenChildren(childrenList), child => injectPropsIntoFinalLeaf(child))));
+  }, Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
 };
 Form$1.Item = FormItem$1;
 

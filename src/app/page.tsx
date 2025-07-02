@@ -1899,7 +1899,6 @@ export default function Home() {
                                 <Suspense fallback={null}>
                                     <div className="checkbox" >
                                         <Checkbox>sdvcdsv</Checkbox>
-                                        ok
                                         <div dangerouslySetInnerHTML={{
                                             __html: `<i>okokok</i>`
                                         }} />

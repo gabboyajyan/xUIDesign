@@ -77,6 +77,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
     const isWrapper =
       typeof child.type === 'string' &&
+      !('dangerouslySetInnerHTML' in childProps) && 
       ['div', 'span', 'label'].includes(child.type);
 
     if (isWrapper) {
@@ -109,7 +110,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(flattenChildren(childrenList), child => injectPropsIntoFinalLeaf(child))}
+        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
       </form>
     </FormContext.Provider>
   );
