@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, cloneElement, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, cloneElement, createContext, forwardRef, useImperativeHandle, memo, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -3481,7 +3481,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
-const Select = Object.assign(SelectComponent, {
+const Select = Object.assign(/*#__PURE__*/memo(SelectComponent), {
   Option
 });
 

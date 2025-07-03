@@ -8,6 +8,7 @@ import React, {
   Fragment,
   isValidElement,
   KeyboardEvent,
+  memo,
   ReactElement,
   ReactNode,
   useCallback,
@@ -826,6 +827,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 );
 
 SelectComponent.displayName = 'Select';
-const Select = Object.assign(SelectComponent, { Option });
+const Select = Object.assign(memo(SelectComponent), { Option });
 
 export default Select;

@@ -3483,7 +3483,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
-const Select = Object.assign(SelectComponent, {
+const Select = Object.assign(/*#__PURE__*/React$1.memo(SelectComponent), {
   Option
 });
 

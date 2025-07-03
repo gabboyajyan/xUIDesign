@@ -1881,9 +1881,8 @@ export default function Home() {
                     </Item>
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
-                        <Input type={!eye ? 'password' : 'text'} suffix={<button onClick={() => setEye(!eye)}>{eye ? 'show' : 'hide'}</button>} />
+                        <Input type={!eye ? 'password' : 'text'} suffix={<span onClick={() => setEye(!eye)}>{eye ? 'show' : 'hide'}</span>} />
                     </Item>
-
 
                     <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
