@@ -822,6 +822,16 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   return formInstance;
 };
 
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
+
 const prefixClsForm = 'xUi-form';
 const prefixClsFormItem = 'xUi-form-item';
 const prefixClsEmpty = 'xUi-empty';
@@ -836,16 +846,6 @@ const prefixClsRangePicker = 'xUi-rangepicker';
 const prefixClsTimePicker = 'xUi-timepicker';
 const prefixClsButton = 'xUi-button';
 const prefixClsSkeleton = 'xUi-skeleton';
-
-function _extends() {
-  return _extends = Object.assign ? Object.assign.bind() : function (n) {
-    for (var e = 1; e < arguments.length; e++) {
-      var t = arguments[e];
-      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
-    }
-    return n;
-  }, _extends.apply(null, arguments);
-}
 
 const parseValue = value => {
   if (value === 'true') {
@@ -975,7 +975,7 @@ const FormItem$1 = ({
   }, label || name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), React$1.Children.map(childrenList, (child, key) => {
-    if (/*#__PURE__*/React$1.isValidElement(child)) {
+    if (/*#__PURE__*/React$1.isValidElement(child) && child.type !== React$1.Fragment) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       const {
@@ -984,23 +984,23 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = getFieldValue(name) ?? initialValue;
-      return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, props, {
-        key: `${key}_${isReseting}`,
+      return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, childProps, {
         name: name,
         child: child,
         value: value,
-        error: !!errorMessage,
         fieldValue: fieldValue,
-        setFieldValue: setFieldValue,
-        feedbackIcons: feedbackIcons,
-        onChange: onChange,
         noStyle: props.noStyle,
-        normalize: props.normalize
+        normalize: props.normalize,
+        key: `${key}_${isReseting}`,
+        error: Boolean(errorMessage),
+        setFieldValue: setFieldValue,
+        feedbackIcons: feedbackIcons
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         ,
-        size: childProps.size || props.size
-      }));
+        size: childProps.size || props.size,
+        onChange: onChange
+      }, childProps));
     }
     return child;
   }), !props.noStyle && errorMessage && /*#__PURE__*/React$1.createElement("span", {
@@ -1046,40 +1046,19 @@ const FormItemChildComponent = ({
     setFieldValue(name, rawValue);
     onChange?.(e, option);
   };
-  const injectPropsIntoFinalLeaf = child => {
-    if (! /*#__PURE__*/React$1.isValidElement(child)) {
-      return child;
-    }
-    const childProps = child.props;
-    const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
-    if (isWrapper) {
-      return /*#__PURE__*/React$1.cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
-      });
-    }
-    if (childProps?.__injected) {
-      return child;
-    }
-    return /*#__PURE__*/React$1.cloneElement(child, {
-      ...props,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      name,
-      onChange: handleChange,
-      key: `${name}_${wasNormalize}`,
-      value: fieldValue ?? props.value,
-      ...('dangerouslySetInnerHTML' in childProps ? {} : {
-        __injected: true,
-        ...(error ? {
-          error
-        } : {})
-      })
-    });
-  };
-  return injectPropsIntoFinalLeaf(child);
+  console.log({
+    name,
+    child: child.type
+  });
+  return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, {
+    name: name,
+    onChange: handleChange
+  }, error ? {
+    error
+  } : {}, {
+    key: `${name}_${wasNormalize}`,
+    value: fieldValue ?? props.value
+  }));
 };
 FormItem$1.displayName = 'FormItem';
 
@@ -1127,31 +1106,6 @@ const Form$1 = ({
       formInstance.onValuesChange = onValuesChange;
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
-  const injectPropsIntoFinalLeaf = child => {
-    if (! /*#__PURE__*/React$1.isValidElement(child)) {
-      return child;
-    }
-    const childProps = child.props;
-    const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
-    if (isWrapper) {
-      return /*#__PURE__*/React$1.cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
-      });
-    }
-    if (childProps?.__injected) {
-      return child;
-    }
-    return /*#__PURE__*/React$1.cloneElement(child, {
-      ...childProps,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      size: childProps.size || rest.size,
-      layout: childProps.layout || layout
-    });
-  };
   return /*#__PURE__*/React$1.createElement(FormContext.Provider, {
     value: formInstance
   }, /*#__PURE__*/React$1.createElement("form", {
@@ -1159,7 +1113,21 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, React$1.Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
+  }, React$1.Children.map(childrenList, child => {
+    if (/*#__PURE__*/React$1.isValidElement(child) && child.type !== React$1.Fragment) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const {
+        ...childProps
+      } = child.props;
+      return /*#__PURE__*/React$1.createElement(child.type, _extends({}, childProps, {
+        child: child,
+        size: childProps.size || rest.size,
+        layout: childProps.layout || layout
+      }));
+    }
+    return child;
+  })));
 };
 Form$1.Item = FormItem$1;
 

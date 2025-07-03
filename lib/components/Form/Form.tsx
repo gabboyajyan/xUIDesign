@@ -2,23 +2,20 @@
 
 import React, {
   Children,
-  cloneElement,
   createContext,
   FC,
+  Fragment,
   isValidElement,
-  ReactElement,
-  ReactNode,
   SyntheticEvent,
   useEffect,
   useMemo,
   useRef
 } from 'react';
 import { useForm } from '../../hooks/useForm';
-import { FormInstance, FormItemProps, FormLayoutTypes, FormProps } from '../../types/form';
+import { FormInstance, FormItemProps, FormProps } from '../../types/form';
 import { prefixClsForm } from '../../utils';
 import FormItem from './Item/Item';
 import { flattenChildren } from '@/helpers/flatten';
-import { SizeType } from '../../types';
 
 export const FormContext = createContext<FormInstance | null>(null);
 
@@ -63,45 +60,6 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
 
-  const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
-    if (!isValidElement(child)) {
-      return child;
-    }
-
-    const childProps = child.props as ReactElement & {
-          children: ReactElement[],
-          __injected: boolean;
-          size?: SizeType;
-          layout?: FormLayoutTypes;
-        }
-
-    const isWrapper =
-      typeof child.type === 'string' &&
-      !('dangerouslySetInnerHTML' in childProps) && 
-      ['div', 'span', 'label'].includes(child.type);
-
-    if (isWrapper) {
-      return cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
-      });
-    }
-
-    if (childProps?.__injected) {
-      return child;
-    }
-
-    return cloneElement(child, {
-      ...childProps,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      size: childProps.size || rest.size,
-      layout: childProps.layout || layout
-    });
-  };
-
   return (
     <FormContext.Provider value={formInstance}>
       <form
@@ -110,7 +68,24 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
+        {Children.map(childrenList, child => {
+          if (isValidElement(child) && child.type !== Fragment) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-expect-error
+            const { ...childProps } = child.props;
+
+            return (
+              <child.type
+                {...childProps}
+                child={child}
+                size={childProps.size || rest.size}
+                layout={childProps.layout || layout}
+              />
+            );
+          }
+
+          return child;
+        })}
       </form>
     </FormContext.Provider>
   );

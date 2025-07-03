@@ -2,9 +2,8 @@
 
 import React, {
   Children,
-  cloneElement,
+  Fragment,
   isValidElement,
-  ReactElement,
   useContext,
   useEffect,
   useMemo,
@@ -122,30 +121,33 @@ const FormItem = ({
       )}
 
       {Children.map(childrenList, (child, key) => {
-        if (isValidElement(child)) {
+        if (isValidElement(child) && child.type !== Fragment) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           const { onChange, value, ...childProps } = child.props;
           const fieldValue =
             getFieldValue(name) ?? initialValue;
 
-          return <FormItemChildComponent
-            {...props}
-            key={`${key}_${isReseting}`}
-            name={name}
-            child={child}
-            value={value}
-            error={!!errorMessage}
-            fieldValue={fieldValue}
-            setFieldValue={setFieldValue}
-            feedbackIcons={feedbackIcons}
-            onChange={onChange}
-            noStyle={props.noStyle}
-            normalize={props.normalize}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            size={childProps.size || props.size}
-          />
+          return (
+            <FormItemChildComponent
+              {...childProps}
+              name={name}
+              child={child}
+              value={value}
+              fieldValue={fieldValue}
+              noStyle={props.noStyle}
+              normalize={props.normalize}
+              key={`${key}_${isReseting}`}
+              error={Boolean(errorMessage)}
+              setFieldValue={setFieldValue}
+              feedbackIcons={feedbackIcons}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              size={childProps.size || props.size}
+              onChange={onChange}
+              {...childProps}
+            />
+          );
         }
 
         return child;
@@ -212,50 +214,22 @@ const FormItemChildComponent = ({
     onChange?.(e, option);
   };
 
-  const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
-    if (!isValidElement(child)) {
-      return child;
-    }
+  console.log({
+    name,
+    child: child.type
+  });
+  
 
-    const childProps = child.props as ReactElement & {
-      children: ReactElement[],
-      __injected: boolean
-    }
-
-    const isWrapper =
-      typeof child.type === 'string' &&
-      !('dangerouslySetInnerHTML' in childProps) && 
-      ['div', 'span', 'label'].includes(child.type);
-
-    if (isWrapper) {
-      return cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
-      });
-    }
-
-    if (childProps?.__injected) {
-      return child;
-    }
-
-    return cloneElement(child, {
-      ...props,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      name,
-      onChange: handleChange,
-      key: `${name}_${wasNormalize}`,
-      value: fieldValue ?? props.value,
-      ...('dangerouslySetInnerHTML' in childProps ? {} : { 
-        __injected: true,
-        ...(error ? { error } : {}),
-      })
-    });
-  };
-
-  return injectPropsIntoFinalLeaf(child)
+  return (
+    <child.type
+      {...props}
+      name={name}
+      onChange={handleChange}
+      {...(error ? { error } : {})}
+      key={`${name}_${wasNormalize}`}
+      value={fieldValue ?? props.value}
+    />
+  );
 };
 
 FormItem.displayName = 'FormItem';
