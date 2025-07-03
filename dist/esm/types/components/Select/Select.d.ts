@@ -1,7 +1,7 @@
 import React, { ReactElement, ReactNode } from 'react';
 import { OptionType } from '../../types/select';
 import './style.css';
-declare const Select: React.NamedExoticComponent<import("../../types").DefaultProps & {
+declare const Select: React.ForwardRefExoticComponent<import("../../types").DefaultProps & {
     id?: string;
     searchValue?: string;
     onSearch?: (value: string) => void;
