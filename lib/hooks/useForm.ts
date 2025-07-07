@@ -28,7 +28,6 @@ const useForm = (
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
-  const [isSubmit, setIsSubmit] = useState(false);
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
 
@@ -223,23 +222,6 @@ const useForm = (
     setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
 
-    console.log({
-      isSubmit,
-      _scrollToFirstError: _scrollToFirstError.current
-    });
-    
-    
-    if (isSubmit || _scrollToFirstError.current) {
-      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
-  
-      if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
-
-        setIsSubmit(false);
-        setScrollToFirstError(false);
-      }
-    }
-
     return fieldErrors.length === 0;
   }
 
@@ -249,6 +231,18 @@ const useForm = (
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))
     );
+    
+    console.log(_scrollToFirstError.current);
+    
+    if (_scrollToFirstError.current) {
+      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+  
+      if (firstErrorContent) {
+        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
+
+        setScrollToFirstError(false);
+      }
+    }
 
     return results.every(valid => valid);
   }
@@ -277,7 +271,7 @@ const useForm = (
   }
 
   async function submit() {
-    setIsSubmit(true);
+    setScrollToFirstError(true);
 
     return (await validateFields()) ? formRef.current : undefined;
   }

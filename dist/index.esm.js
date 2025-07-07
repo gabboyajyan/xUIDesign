@@ -607,7 +607,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = useRef({});
-  const [isSubmit, setIsSubmit] = useState(false);
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
   const fieldSubscribers = useRef({});
@@ -739,23 +738,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       [name]: fieldErrors
     }));
     warningsRef.current[name] = fieldWarnings;
-    console.log({
-      isSubmit,
-      _scrollToFirstError: _scrollToFirstError.current
-    });
-    if (isSubmit || _scrollToFirstError.current) {
-      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
-      if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
-        setIsSubmit(false);
-        setScrollToFirstError(false);
-      }
-    }
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
+    console.log(_scrollToFirstError.current);
+    if (_scrollToFirstError.current) {
+      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+      if (firstErrorContent) {
+        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
+        setScrollToFirstError(false);
+      }
+    }
     return results.every(valid => valid);
   }
   function resetFields(nameList, showError = true) {
@@ -781,7 +776,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setIsReseting(prev => !prev);
   }
   async function submit() {
-    setIsSubmit(true);
+    setScrollToFirstError(true);
     return (await validateFields()) ? formRef.current : undefined;
   }
   function subscribeToField(name, callback) {
