@@ -3149,9 +3149,6 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
   React$1.useEffect(() => {
-    console.log(1);
-  }, []);
-  React$1.useEffect(() => {
     updateDropdownPosition(true);
   }, [searchQuery.length]);
   const getScrollParents = element => {

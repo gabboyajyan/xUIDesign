@@ -283,10 +283,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [isOpen, getPopupContainer, updateDropdownPosition]);
 
     useEffect(() => {
-      console.log(1);
-    }, [])
-
-    useEffect(() => {
       updateDropdownPosition(true);
     }, [searchQuery.length])
 
