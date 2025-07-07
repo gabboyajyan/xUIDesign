@@ -222,6 +222,12 @@ const useForm = (
 
     setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
+
+    console.log({
+      isSubmit,
+      _scrollToFirstError: _scrollToFirstError.current
+    });
+    
     
     if (isSubmit || _scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];

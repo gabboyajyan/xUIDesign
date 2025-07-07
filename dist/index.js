@@ -741,6 +741,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       [name]: fieldErrors
     }));
     warningsRef.current[name] = fieldWarnings;
+    console.log({
+      isSubmit,
+      _scrollToFirstError: _scrollToFirstError.current
+    });
     if (isSubmit || _scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
       if (firstErrorContent) {
