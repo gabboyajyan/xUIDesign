@@ -36,15 +36,14 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange, scrollToFirstError);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formInstance = form || internalForm;
-
-  formInstance.setScrollToFirstError(scrollToFirstError);
-
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+
+    formInstance.setScrollToFirstError(scrollToFirstError);
 
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
@@ -66,7 +65,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
 
-  const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
+  const injectPropsIntoFinalLeaf = (child: ReactNode, key: number): ReactNode => {
     if (!isValidElement(child)) {
       return child;
     }
@@ -85,7 +84,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
     if (isWrapper) {
       return (
-        <child.type {...childProps}>
+        <child.type {...childProps} data-item={key == 0 ? 'first-content' : ''}>
           {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
         </child.type>
       )
@@ -113,7 +112,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
+        {Children.map(childrenList, (child, key) => injectPropsIntoFinalLeaf(child, key))}
       </form>
     </FormContext.Provider>
   );

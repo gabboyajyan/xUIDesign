@@ -609,6 +609,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = React$1.useRef({});
+  const [isSubmit, setIsSubmit] = React$1.useState(false);
   const [isReseting, setIsReseting] = React$1.useState(false);
   const [errors, setErrors] = React$1.useState({});
   const fieldSubscribers = React$1.useRef({});
@@ -740,10 +741,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       [name]: fieldErrors
     }));
     warningsRef.current[name] = fieldWarnings;
-    if (_scrollToFirstError.current) {
+    if (isSubmit || _scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
       if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView();
+        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
+        setIsSubmit(false);
+        setScrollToFirstError(false);
       }
     }
     return fieldErrors.length === 0;
@@ -776,6 +779,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setIsReseting(prev => !prev);
   }
   async function submit() {
+    setIsSubmit(true);
     return (await validateFields()) ? formRef.current : undefined;
   }
   function subscribeToField(name, callback) {
@@ -1108,12 +1112,12 @@ const Form$1 = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange, scrollToFirstError);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formInstance = form || internalForm;
-  formInstance.setScrollToFirstError(scrollToFirstError);
   const formRef = React$1.useRef(null);
   const handleSubmit = async e => {
     e.preventDefault();
+    formInstance.setScrollToFirstError(scrollToFirstError);
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
@@ -1133,14 +1137,16 @@ const Form$1 = ({
       formInstance.onValuesChange = onValuesChange;
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
-  const injectPropsIntoFinalLeaf = child => {
+  const injectPropsIntoFinalLeaf = (child, key) => {
     if (! /*#__PURE__*/React$1.isValidElement(child)) {
       return child;
     }
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/React$1.createElement(child.type, childProps, React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
+      return /*#__PURE__*/React$1.createElement(child.type, _extends({}, childProps, {
+        "data-item": key == 0 ? 'first-content' : ''
+      }), React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
@@ -1158,7 +1164,7 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, React$1.Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
+  }, React$1.Children.map(childrenList, (child, key) => injectPropsIntoFinalLeaf(child, key))));
 };
 Form$1.Item = FormItem$1;
 

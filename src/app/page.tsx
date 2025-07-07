@@ -1878,7 +1878,127 @@ export default function Home() {
                 <div style={{ width: 500 }}></div>
 
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
+                    <div>
+                        <div style={{ height: 200 }}></div>
+
+                        <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+                    </div>
+
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender1" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender2" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender3" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender4" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender5" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender6" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender7" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender8" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender9" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender10" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender11" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender12" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender13" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender14" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender15" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender16" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender17" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender18" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender19" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender20" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender21" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender22" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item name="gender23" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender24" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender24" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender26" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender27" label="Gender">
+                        <Select options={CountryCodes} />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="gender30" label="Gender">
                         <Select options={CountryCodes} />
                     </Item>
 
