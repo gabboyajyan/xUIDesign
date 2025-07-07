@@ -745,13 +745,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
-    console.log(_scrollToFirstError.current);
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
-      console.log(firstErrorContent);
       if (firstErrorContent) {
         function findFormItem(item) {
-          console.log(item?.parentElement?.tagName);
           if (item?.parentElement?.tagName !== 'FORM') {
             findFormItem(item?.parentElement);
           } else {
@@ -3390,7 +3387,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     style: {
       ...dropdownPosition,
       maxHeight: listHeight,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
+      opacity: dropdownPosition.top ? 1 : 0
     }
   }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",

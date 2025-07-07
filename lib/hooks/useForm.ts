@@ -232,17 +232,11 @@ const useForm = (
       fieldsToValidate.map(name => validateField(name))
     );
     
-    console.log(_scrollToFirstError.current);
-    
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
   
-      console.log(firstErrorContent);
-      
       if (firstErrorContent) {
         function findFormItem(item: Element | undefined | null): void {
-            console.log(item?.parentElement?.tagName);
-          
             if (item?.parentElement?.tagName !== 'FORM') {
               findFormItem(item?.parentElement)
             } else {

@@ -623,7 +623,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         style={{
           ...dropdownPosition,
           maxHeight: listHeight,
-          opacity: Object.keys(dropdownPosition).length ? 1 : 0
+          opacity: dropdownPosition.top ? 1 : 0
         }}
       >
         {filterable && (
