@@ -33,10 +33,14 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   onValuesChange,
   onFieldsChange,
   layout = 'horizontal',
+  scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange, scrollToFirstError);
   const formInstance = form || internalForm;
+
+  formInstance.setScrollToFirstError(scrollToFirstError);
+
   const formRef = useRef<HTMLFormElement>(null);
 
   const handleSubmit = async (e: SyntheticEvent) => {
@@ -91,13 +95,13 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       return child;
     }
 
-    return <child.type 
+    return <child.type
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      {...child.props} 
-      child={child} 
-      size={childProps.size || rest.size} 
-      layout={childProps.layout || layout} 
+      {...child.props}
+      child={child}
+      size={childProps.size || rest.size}
+      layout={childProps.layout || layout}
     />
   };
 

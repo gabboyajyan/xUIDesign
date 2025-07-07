@@ -600,10 +600,11 @@ const SpinerIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
-const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
+const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError) => {
   const touchedFieldsRef = React$1.useRef(new Set());
   const rulesRef = React$1.useRef({});
   const warningsRef = React$1.useRef({});
+  const _scrollToFirstError = React$1.useRef(scrollToFirstError);
   const formRef = React$1.useRef({
     ...initialValues
   });
@@ -739,6 +740,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
       [name]: fieldErrors
     }));
     warningsRef.current[name] = fieldWarnings;
+    if (_scrollToFirstError.current) {
+      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+      if (firstErrorContent) {
+        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView();
+      }
+    }
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
@@ -795,6 +802,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
     };
   }
+  function setScrollToFirstError(value) {
+    _scrollToFirstError.current = value;
+  }
   const formInstance = {
     submit,
     setFields,
@@ -817,6 +827,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
     onValuesChange,
     getFieldInstance,
     subscribeToFields,
+    setScrollToFirstError,
+    scrollToFirstError,
     isReseting
   };
   return formInstance;
@@ -1093,10 +1105,12 @@ const Form$1 = ({
   onValuesChange,
   onFieldsChange,
   layout = 'horizontal',
+  scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange, scrollToFirstError);
   const formInstance = form || internalForm;
+  formInstance.setScrollToFirstError(scrollToFirstError);
   const formRef = React$1.useRef(null);
   const handleSubmit = async e => {
     e.preventDefault();

@@ -1877,7 +1877,7 @@ export default function Home() {
 
                 <div style={{ width: 500 }}></div>
 
-                <Form form={form} onFinish={handle} size="large">
+                <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select options={CountryCodes} />
                     </Item>

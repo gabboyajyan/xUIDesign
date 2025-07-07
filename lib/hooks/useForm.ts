@@ -17,11 +17,13 @@ const useForm = (
   onValuesChange?: (
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
-  ) => void
+  ) => void,
+  scrollToFirstError?: boolean
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
+  const _scrollToFirstError = useRef<boolean>(scrollToFirstError);
 
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
@@ -220,6 +222,14 @@ const useForm = (
     setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
 
+    if (_scrollToFirstError.current) {
+      const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+
+      if (firstErrorContent) {
+        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView();
+      }
+    }
+
     return fieldErrors.length === 0;
   }
 
@@ -305,6 +315,10 @@ const useForm = (
     };
   }
 
+  function setScrollToFirstError(value: boolean) {
+    _scrollToFirstError.current = value;
+  }
+
   const formInstance: FormInstance = {
     submit,
     setFields,
@@ -327,7 +341,9 @@ const useForm = (
     onValuesChange,
     getFieldInstance,
     subscribeToFields,
-    isReseting
+    setScrollToFirstError,
+    scrollToFirstError,
+    isReseting,
   };
 
   return formInstance;

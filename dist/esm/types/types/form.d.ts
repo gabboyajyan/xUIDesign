@@ -46,6 +46,7 @@ export type FormProps = DefaultProps & {
         values: Record<string, RuleTypes>;
         errorFields: Pick<FieldError, 'errors' | 'name'>[];
     }) => void;
+    scrollToFirstError?: boolean;
 };
 export type FormItemProps = DefaultProps & {
     name: string;
@@ -101,5 +102,7 @@ export interface FormInstance {
     onFieldsChange?: (changedFields: FieldData[]) => void;
     onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void;
     getFieldInstance: (fieldName: string) => FieldInstancesRef;
+    setScrollToFirstError: (value: boolean) => void;
+    scrollToFirstError?: boolean;
     isReseting: boolean;
 }
