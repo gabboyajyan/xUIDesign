@@ -3133,13 +3133,10 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       } else {
         positionStyle = {
           ...positionStyle,
-          top: shouldShowAbove ? `${triggerNode.offsetTop - dropdownHeight + PADDING_PLACEMENT / 6 + inForm - triggerNode.offsetHeight}px` : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
+          top: shouldShowAbove ? `${triggerNode.offsetTop - dropdownHeight + PADDING_PLACEMENT + inForm - triggerNode.offsetHeight}px` : `${triggerNode.offsetTop + triggerNode.offsetHeight}px`,
           left: `${triggerNode.offsetLeft - PADDING_PLACEMENT / 2}px`
         };
       }
-      console.log(1, {
-        ...positionStyle
-      });
       setDropdownPosition(positionStyle);
     }
   }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
