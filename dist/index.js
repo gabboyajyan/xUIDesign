@@ -3125,7 +3125,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
     const shouldShowBelow = spaceAbove < dropdownHeight && spaceBelow > dropdownHeight;
     const inForm = !triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
-    if (shouldShowAbove || shouldShowBelow || searchQueryUpdated || !isOpenChecker) {
+    if (isOpen && (shouldShowAbove || shouldShowBelow || searchQueryUpdated || !isOpenChecker)) {
       if (getPopupContainer) {
         positionStyle = {
           ...positionStyle,
@@ -3139,9 +3139,12 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
           left: `${triggerNode.offsetLeft - PADDING_PLACEMENT / 2}px`
         };
       }
+      console.log(1, {
+        ...positionStyle
+      });
       setDropdownPosition(positionStyle);
     }
-  }, [prefixCls, listHeight, getPopupContainer, isOpenChecker]);
+  }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
   React$1.useEffect(() => {
     setIsOpenChecker(isOpen);
     if (!isOpen) {
@@ -3387,7 +3390,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     style: {
       ...dropdownPosition,
       maxHeight: listHeight,
-      opacity: dropdownPosition.top ? 1 : 0
+      opacity: Object.keys(dropdownPosition).length ? 1 : 0
     }
   }, filterable && /*#__PURE__*/React$1.createElement("input", {
     type: "text",

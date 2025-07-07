@@ -220,7 +220,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const shouldShowBelow = spaceAbove < dropdownHeight && spaceBelow > dropdownHeight;
       const inForm = !triggerNode.closest(`.${prefixClsForm}`) ? FORM_MARGIN_BOTTOM : 0;
 
-      if (shouldShowAbove || shouldShowBelow || searchQueryUpdated || !isOpenChecker) {
+      if (isOpen && (shouldShowAbove || shouldShowBelow || searchQueryUpdated || !isOpenChecker)) {
         if (getPopupContainer) {
           positionStyle = {
             ...positionStyle,
@@ -239,13 +239,15 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           };
         }
 
+        console.log(1, { ...positionStyle });
+
         setDropdownPosition(positionStyle);
       }
-    }, [prefixCls, listHeight, getPopupContainer, isOpenChecker]);
+    }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
-
+      
       if (!isOpen) {
         setDropdownPosition({});
       }
@@ -623,7 +625,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         style={{
           ...dropdownPosition,
           maxHeight: listHeight,
-          opacity: dropdownPosition.top ? 1 : 0
+          opacity: Object.keys(dropdownPosition).length ? 1 : 0
         }}
       >
         {filterable && (
