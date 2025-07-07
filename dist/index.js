@@ -2658,6 +2658,10 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
   iconRender,
   noStyle,
   feedbackIcons,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  __injected,
   ...props
 }, ref) => {
   const inputRef = React$1.useRef(null);

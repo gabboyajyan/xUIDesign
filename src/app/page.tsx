@@ -7,7 +7,7 @@ import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
-import { Suspense, useState } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { Button } from "../../lib/components/Button";
 // import Option from "../../lib/components/Select/Option/Option";
 
@@ -1863,6 +1863,8 @@ export default function Home() {
 
     const [eye, setEye] = useState(false);
 
+    const handle = useCallback((e) => console.log(e), [])
+
     return (
         <>
             {/* <div style={{ height: 1000 }} /> */}
@@ -1875,7 +1877,7 @@ export default function Home() {
 
                 <div style={{ width: 500 }}></div>
 
-                <Form form={form} onFinish={(e) => console.log(e)} size="large">
+                <Form form={form} onFinish={handle} size="large">
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select options={CountryCodes} />
                     </Item>
