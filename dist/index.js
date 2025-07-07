@@ -748,8 +748,17 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     console.log(_scrollToFirstError.current);
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+      console.log(firstErrorContent);
       if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
+        function findFormItem(item) {
+          console.log(item?.parentElement?.tagName);
+          if (item?.parentElement?.tagName !== 'FORM') {
+            findFormItem(item?.parentElement);
+          } else {
+            item.scrollIntoView();
+          }
+        }
+        findFormItem(firstErrorContent.closest('.xUi-form-item'));
         setScrollToFirstError(false);
       }
     }
@@ -1136,16 +1145,14 @@ const Form$1 = ({
       formInstance.onValuesChange = onValuesChange;
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
-  const injectPropsIntoFinalLeaf = (child, key) => {
+  const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/React$1.isValidElement(child)) {
       return child;
     }
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/React$1.createElement(child.type, _extends({}, childProps, {
-        "data-item": key == 0 ? 'first-content' : ''
-      }), React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
+      return /*#__PURE__*/React$1.createElement(child.type, childProps, React$1.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
@@ -1163,7 +1170,7 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, React$1.Children.map(childrenList, (child, key) => injectPropsIntoFinalLeaf(child, key))));
+  }, React$1.Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
 };
 Form$1.Item = FormItem$1;
 

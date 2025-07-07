@@ -237,8 +237,20 @@ const useForm = (
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
   
+      console.log(firstErrorContent);
+      
       if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.closest('[data-item="first-content"]')?.scrollIntoView();
+        function findFormItem(item: Element | undefined | null): void {
+            console.log(item?.parentElement?.tagName);
+          
+            if (item?.parentElement?.tagName !== 'FORM') {
+              findFormItem(item?.parentElement)
+            } else {
+              item.scrollIntoView()
+            }
+        }
+
+        findFormItem(firstErrorContent.closest('.xUi-form-item'))
 
         setScrollToFirstError(false);
       }

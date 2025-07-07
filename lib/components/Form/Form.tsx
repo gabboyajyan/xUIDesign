@@ -65,7 +65,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
 
-  const injectPropsIntoFinalLeaf = (child: ReactNode, key: number): ReactNode => {
+  const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {
       return child;
     }
@@ -84,7 +84,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
     if (isWrapper) {
       return (
-        <child.type {...childProps} data-item={key == 0 ? 'first-content' : ''}>
+        <child.type {...childProps}>
           {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
         </child.type>
       )
@@ -112,7 +112,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, (child, key) => injectPropsIntoFinalLeaf(child, key))}
+        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
       </form>
     </FormContext.Provider>
   );
