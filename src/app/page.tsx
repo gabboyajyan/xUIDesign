@@ -1882,6 +1882,10 @@ export default function Home() {
                         <Select options={CountryCodes} />
                     </Item>
 
+                    <Item rules={[{ required: true }]} name="country" label="country">
+                        <Select options={CountryCodes} />
+                    </Item>
+
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input type={!eye ? 'password' : 'text'} suffix={<span onClick={() => setEye(!eye)}>{eye ? 'show' : 'hide'}</span>} />
                     </Item>

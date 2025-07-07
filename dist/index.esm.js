@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, cloneElement, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -820,6 +820,16 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange) => {
   return formInstance;
 };
 
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function (n) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t = arguments[e];
+      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
+    }
+    return n;
+  }, _extends.apply(null, arguments);
+}
+
 const prefixClsForm = 'xUi-form';
 const prefixClsFormItem = 'xUi-form-item';
 const prefixClsEmpty = 'xUi-empty';
@@ -834,16 +844,6 @@ const prefixClsRangePicker = 'xUi-rangepicker';
 const prefixClsTimePicker = 'xUi-timepicker';
 const prefixClsButton = 'xUi-button';
 const prefixClsSkeleton = 'xUi-skeleton';
-
-function _extends() {
-  return _extends = Object.assign ? Object.assign.bind() : function (n) {
-    for (var e = 1; e < arguments.length; e++) {
-      var t = arguments[e];
-      for (var r in t) ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]);
-    }
-    return n;
-  }, _extends.apply(null, arguments);
-}
 
 const parseValue = value => {
   if (value === 'true') {
@@ -1051,31 +1051,23 @@ const FormItemChildComponent = ({
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
-      });
+      return /*#__PURE__*/React$1.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
     }
-    return /*#__PURE__*/cloneElement(child, {
-      ...props,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      name,
+    return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, child.props, {
+      name: name,
+      child: child,
       onChange: handleChange,
       key: `${name}_${wasNormalize}`,
-      value: fieldValue ?? props.value,
-      ...('dangerouslySetInnerHTML' in childProps ? {} : {
-        __injected: true,
-        ...(error ? {
-          error
-        } : {})
-      })
-    });
+      value: fieldValue ?? props.value
+    }, 'dangerouslySetInnerHTML' in childProps ? {} : {
+      __injected: true,
+      ...(error ? {
+        error
+      } : {})
+    }));
   };
   return injectPropsIntoFinalLeaf(child);
 };
@@ -1132,23 +1124,16 @@ const Form$1 = ({
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
-      });
+      return /*#__PURE__*/React$1.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
     }
-    return /*#__PURE__*/cloneElement(child, {
-      ...childProps,
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
+    return /*#__PURE__*/React$1.createElement(child.type, _extends({}, child.props, {
+      child: child,
       size: childProps.size || rest.size,
       layout: childProps.layout || layout
-    });
+    }));
   };
   return /*#__PURE__*/React$1.createElement(FormContext.Provider, {
     value: formInstance
@@ -3161,6 +3146,9 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       controller.abort();
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
+  useEffect(() => {
+    console.log(1);
+  }, []);
   useEffect(() => {
     updateDropdownPosition(true);
   }, [searchQuery.length]);

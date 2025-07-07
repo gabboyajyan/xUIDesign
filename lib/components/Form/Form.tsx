@@ -2,7 +2,6 @@
 
 import React, {
   Children,
-  cloneElement,
   createContext,
   FC,
   isValidElement,
@@ -69,37 +68,37 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
 
     const childProps = child.props as ReactElement & {
-          children: ReactElement[],
-          __injected: boolean;
-          size?: SizeType;
-          layout?: FormLayoutTypes;
-        }
+      children: ReactElement[],
+      __injected: boolean;
+      size?: SizeType;
+      layout?: FormLayoutTypes;
+    }
 
     const isWrapper =
       typeof child.type === 'string' &&
-      !('dangerouslySetInnerHTML' in childProps) && 
+      !('dangerouslySetInnerHTML' in childProps) &&
       ['div', 'span', 'label'].includes(child.type);
 
     if (isWrapper) {
-      return cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
-      });
+      return (
+        <child.type {...childProps}>
+          {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
+        </child.type>
+      )
     }
 
     if (childProps?.__injected) {
       return child;
     }
 
-    return cloneElement(child, {
-      ...childProps,
+    return <child.type 
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      size: childProps.size || rest.size,
-      layout: childProps.layout || layout
-    });
+      {...child.props} 
+      child={child} 
+      size={childProps.size || rest.size} 
+      layout={childProps.layout || layout} 
+    />
   };
 
   return (

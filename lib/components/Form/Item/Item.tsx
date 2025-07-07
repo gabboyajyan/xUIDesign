@@ -2,7 +2,6 @@
 
 import React, {
   Children,
-  cloneElement,
   isValidElement,
   ReactElement,
   useContext,
@@ -224,35 +223,37 @@ const FormItemChildComponent = ({
 
     const isWrapper =
       typeof child.type === 'string' &&
-      !('dangerouslySetInnerHTML' in childProps) && 
+      !('dangerouslySetInnerHTML' in childProps) &&
       ['div', 'span', 'label'].includes(child.type);
 
     if (isWrapper) {
-      return cloneElement(child, {
-        ...childProps,
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        children: Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf),
-      });
+      return (
+        <child.type {...childProps}>
+          {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
+        </child.type>
+      )
     }
 
     if (childProps?.__injected) {
       return child;
     }
 
-    return cloneElement(child, {
-      ...props,
+    return <child.type
+      {...props}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
-      name,
-      onChange: handleChange,
-      key: `${name}_${wasNormalize}`,
-      value: fieldValue ?? props.value,
-      ...('dangerouslySetInnerHTML' in childProps ? {} : { 
+      {...child.props}
+      name={name}
+      child={child}
+      onChange={handleChange}
+      key={`${name}_${wasNormalize}`}
+      value={fieldValue ?? props.value}
+      {...('dangerouslySetInnerHTML' in childProps ? {} : {
         __injected: true,
         ...(error ? { error } : {}),
       })
-    });
+      }
+    />
   };
 
   return injectPropsIntoFinalLeaf(child)
