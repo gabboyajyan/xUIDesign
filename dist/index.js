@@ -3091,7 +3091,6 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
     }
   }, [autoClearSearchValue, prefixCls]);
   React$1.useEffect(() => {
-    console.log(hasMode ? checkModeInitialValue : initialValue);
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   React$1.useEffect(() => {

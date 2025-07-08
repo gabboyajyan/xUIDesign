@@ -171,8 +171,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [autoClearSearchValue, prefixCls]);
 
     useEffect(() => {
-      console.log(hasMode ? checkModeInitialValue : initialValue);
-      
       setSelected(hasMode ? checkModeInitialValue : initialValue)
     }, [checkModeInitialValue, hasMode, initialValue])
 
