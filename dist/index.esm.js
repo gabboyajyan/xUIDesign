@@ -3053,7 +3053,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
   const initialValue = useMemo(() => value || defaultValue || '', [value, defaultValue]);
-  const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined), [initialValue]);
+  const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef(null);
   const [searchInputWidth, setSearchInputWidth] = useState(0);
@@ -3089,6 +3089,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
   }, [autoClearSearchValue, prefixCls]);
   useEffect(() => {
+    console.log(hasMode ? checkModeInitialValue : initialValue);
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   useEffect(() => {
@@ -3435,7 +3436,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, !!selected?.filter(e => e).length ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, hasMode ? selected?.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
+  }, hasMode ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, selected.length ? selected.map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
@@ -3448,11 +3449,11 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  })) : null) : /*#__PURE__*/React$1.createElement("span", {
+  })) : /*#__PURE__*/React$1.createElement("span", {
     style: {
       opacity: 0.5
     }
-  }, placeholder), isOpen ? /*#__PURE__*/React$1.createElement("div", {
+  }, placeholder)) : null, isOpen ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-tag`
   }, /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {

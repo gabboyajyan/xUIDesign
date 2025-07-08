@@ -114,7 +114,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const checkModeInitialValue = useMemo(
       () =>
         (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(
-          e => e !== undefined
+          e => e !== undefined && e !== ''
         ),
       [initialValue]
     );
@@ -171,6 +171,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [autoClearSearchValue, prefixCls]);
 
     useEffect(() => {
+      console.log(hasMode ? checkModeInitialValue : initialValue);
+      
       setSelected(hasMode ? checkModeInitialValue : initialValue)
     }, [checkModeInitialValue, hasMode, initialValue])
 
@@ -245,7 +247,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
-
+      
       if (!isOpen) {
         setDropdownPosition({});
       }
@@ -700,34 +702,33 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               }}
               className={`${prefixCls}-tag-container`}
             >
-              {!!(selected as string[])?.filter(e => e).length ? <>
-                {hasMode ?
-                  (selected as string[])?.filter(e => e).map((tag, index) =>
-                    tagRender ? (
-                      <div key={`${index}_${tag}`}>
-                        {tagRender?.({
-                          label:
-                            extractedOptions.find(e => e.value === tag)
-                              ?.children || tag,
-                          value: tag,
-                          onClose: handleRemoveTag,
-                          closable: true
-                        })}
-                      </div>
-                    ) : (
-                      <Tag
-                        closable
-                        value={tag}
-                        label={
+              {hasMode ? <>
+                {(selected as string[]).length ? (selected as string[]).map((tag, index) =>
+                  tagRender ? (
+                    <div key={`${index}_${tag}`}>
+                      {tagRender?.({
+                        label:
                           extractedOptions.find(e => e.value === tag)
+                            ?.children || tag,
+                        value: tag,
+                        onClose: handleRemoveTag,
+                        closable: true
+                      })}
+                    </div>
+                  ) : (
+                    <Tag
+                      closable
+                      value={tag}
+                      label={
+                        extractedOptions.find(e => e.value === tag)
                             ?.children || tag
-                        }
-                        onClose={handleRemoveTag}
-                        key={`${index}_${tag}`}
-                      />
-                    )
-                  ) : null}
-              </> : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
+                      }
+                      onClose={handleRemoveTag}
+                      key={`${index}_${tag}`}
+                    />
+                  )
+                ) : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
+              </> : null}
 
               {isOpen ? (
                 <div className={`${prefixCls}-tag`}>
