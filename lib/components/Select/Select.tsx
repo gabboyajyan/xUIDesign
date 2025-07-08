@@ -245,7 +245,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
-      
+
       if (!isOpen) {
         setDropdownPosition({});
       }
@@ -700,32 +700,34 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               }}
               className={`${prefixCls}-tag-container`}
             >
-              {hasMode && !!(selected as string[]).filter(e => e).length ?
-                (selected as string[]).filter(e => e).map((tag, index) =>
-                  tagRender ? (
-                    <div key={`${index}_${tag}`}>
-                      {tagRender?.({
-                        label:
+              {!!(selected as string[]).filter(e => e).length ? <>
+                {hasMode ?
+                  (selected as string[]).filter(e => e).map((tag, index) =>
+                    tagRender ? (
+                      <div key={`${index}_${tag}`}>
+                        {tagRender?.({
+                          label:
+                            extractedOptions.find(e => e.value === tag)
+                              ?.children || tag,
+                          value: tag,
+                          onClose: handleRemoveTag,
+                          closable: true
+                        })}
+                      </div>
+                    ) : (
+                      <Tag
+                        closable
+                        value={tag}
+                        label={
                           extractedOptions.find(e => e.value === tag)
-                            ?.children || tag,
-                        value: tag,
-                        onClose: handleRemoveTag,
-                        closable: true
-                      })}
-                    </div>
-                  ) : (
-                    <Tag
-                      closable
-                      value={tag}
-                      label={
-                        extractedOptions.find(e => e.value === tag)
                             ?.children || tag
-                      }
-                      onClose={handleRemoveTag}
-                      key={`${index}_${tag}`}
-                    />
-                  )
-                ) : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
+                        }
+                        onClose={handleRemoveTag}
+                        key={`${index}_${tag}`}
+                      />
+                    )
+                  ) : null}
+              </> : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
 
               {isOpen ? (
                 <div className={`${prefixCls}-tag`}>

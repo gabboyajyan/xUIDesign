@@ -3435,7 +3435,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode && !!selected.filter(e => e).length ? selected.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
+  }, !!selected.filter(e => e).length ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, hasMode ? selected.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
@@ -3448,7 +3448,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  })) : /*#__PURE__*/React$1.createElement("span", {
+  })) : null) : /*#__PURE__*/React$1.createElement("span", {
     style: {
       opacity: 0.5
     }
