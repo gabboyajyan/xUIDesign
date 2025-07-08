@@ -700,8 +700,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               }}
               className={`${prefixCls}-tag-container`}
             >
-              {hasMode &&
-                (selected as string[]).map((tag, index) =>
+              {hasMode && !!(selected as string[]).filter(e => e).length ?
+                (selected as string[]).filter(e => e).map((tag, index) =>
                   tagRender ? (
                     <div key={`${index}_${tag}`}>
                       {tagRender?.({
@@ -718,16 +718,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       closable
                       value={tag}
                       label={
-                        tag === ''
-                          ? placeholder
-                          : extractedOptions.find(e => e.value === tag)
+                        extractedOptions.find(e => e.value === tag)
                             ?.children || tag
                       }
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
                     />
                   )
-                )}
+                ) : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
 
               {isOpen ? (
                 <div className={`${prefixCls}-tag`}>

@@ -3437,7 +3437,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode && selected.map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
+  }, hasMode && !!selected.filter(e => e).length ? selected.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
@@ -3447,10 +3447,14 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   })) : /*#__PURE__*/React$1.createElement(Tag, {
     closable: true,
     value: tag,
-    label: tag === '' ? placeholder : extractedOptions.find(e => e.value === tag)?.children || tag,
+    label: extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  })), isOpen ? /*#__PURE__*/React$1.createElement("div", {
+  })) : /*#__PURE__*/React$1.createElement("span", {
+    style: {
+      opacity: 0.5
+    }
+  }, placeholder), isOpen ? /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}-tag`
   }, /*#__PURE__*/React$1.createElement("div", {
     onClick: e => {
