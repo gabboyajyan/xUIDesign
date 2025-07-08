@@ -700,9 +700,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               }}
               className={`${prefixCls}-tag-container`}
             >
-              {!!(selected as string[]).filter(e => e).length ? <>
+              {!!(selected as string[])?.filter(e => e).length ? <>
                 {hasMode ?
-                  (selected as string[]).filter(e => e).map((tag, index) =>
+                  (selected as string[])?.filter(e => e).map((tag, index) =>
                     tagRender ? (
                       <div key={`${index}_${tag}`}>
                         {tagRender?.({

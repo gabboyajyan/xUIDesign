@@ -3435,7 +3435,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, !!selected.filter(e => e).length ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, hasMode ? selected.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
+  }, !!selected?.filter(e => e).length ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, hasMode ? selected?.filter(e => e).map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
