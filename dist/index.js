@@ -959,11 +959,13 @@ const FormItem$1 = ({
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
   React$1.useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   React$1.useEffect(() => {
     if (name && dependencies.length > 0) {
@@ -974,12 +976,14 @@ const FormItem$1 = ({
         unsubscribe();
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
   React$1.useEffect(() => {
     if (errorRef.current && errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT) {
       errorRef.current.style.position = 'relative';
       errorRef.current.style.marginTop = '-16px';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorRef.current]);
   const isRequired = React$1.useMemo(() => rules.some(rule => rule.required), [rules]);
   const errorMessage = getFieldError(name)?.[0];
@@ -2670,6 +2674,8 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  defaultValue,
   ...props
 }, ref) => {
   const inputRef = React$1.useRef(null);
@@ -2688,6 +2694,9 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
       }
     }
   }));
+  React$1.useEffect(() => {
+    setInternalValue(value ?? '');
+  }, [value]);
   const handleChange = e => {
     setInternalValue(e.target.value);
     props.onChange?.(e);

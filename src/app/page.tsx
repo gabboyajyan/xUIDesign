@@ -1861,7 +1861,7 @@ export const CountryCodes = [...new Set([
 export default function Home() {
     const form = useForm();
 
-    const [eye, setEye] = useState(false);
+    const [eye, setEye] = useState('');
 
     const handle = useCallback((e) => console.log(e), [])
 
@@ -1871,8 +1871,17 @@ export default function Home() {
 
             {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
 
-            <div style={{ display: 'flex' }}>
+            {/* <Input
+                value={eye}
+                suffix={
+                    <span onClick={() => {
+                        setEye('')
+                    }}>Clear</span>
+                }
+                onChange={e => setEye(e.target.value)}
+            /> */}
 
+            <div style={{ display: 'flex' }}>
                 <Button>Button</Button>
 
                 <div style={{ width: 500 }}></div>
@@ -1886,9 +1895,11 @@ export default function Home() {
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
-                            allowClear
-                            type={!eye ? 'password' : 'text'}
-                            suffix={<span onClick={() => setEye(!eye)}>{eye ? 'show' : 'hide'}</span>}
+                            value={eye}
+                            onChange={e => {
+                                setEye(e.target.value)
+                            }}
+                            suffix={<span onClick={() => setEye('')}>Clear</span>}
                         />
                     </Item>
 

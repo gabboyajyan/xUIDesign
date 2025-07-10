@@ -227,21 +227,21 @@ const useForm = (
 
   async function validateFields(nameList?: string[]) {
     const fieldsToValidate = nameList || Object.keys(formRef.current);
-    
+
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))
     );
-    
+
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
-  
+
       if (firstErrorContent) {
         function findFormItem(item: Element | undefined | null): void {
-            if (item?.parentElement?.tagName !== 'FORM') {
-              findFormItem(item?.parentElement)
-            } else {
-              item.scrollIntoView()
-            }
+          if (item?.parentElement?.tagName !== 'FORM') {
+            findFormItem(item?.parentElement)
+          } else {
+            item.scrollIntoView()
+          }
         }
 
         findFormItem(firstErrorContent.closest('.xUi-form-item'))

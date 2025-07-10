@@ -63,12 +63,14 @@ const FormItem = ({
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
 
   useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -81,6 +83,7 @@ const FormItem = ({
         unsubscribe();
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
 
   useEffect(() => {
@@ -91,6 +94,7 @@ const FormItem = ({
       errorRef.current.style.position = 'relative';
       errorRef.current.style.marginTop = '-16px';
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errorRef.current]);
 
   const isRequired = useMemo(
@@ -125,8 +129,7 @@ const FormItem = ({
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           const { onChange, value, ...childProps } = child.props;
-          const fieldValue =
-            getFieldValue(name) ?? initialValue;
+          const fieldValue = getFieldValue(name) ?? initialValue;
 
           return <FormItemChildComponent
             {...props}

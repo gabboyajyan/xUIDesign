@@ -5,6 +5,7 @@ import React, {
   forwardRef,
   KeyboardEvent,
   MouseEvent,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState
@@ -39,6 +40,8 @@ const InputComponent = forwardRef(
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       __injected,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      defaultValue,
       ...props
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
@@ -60,6 +63,10 @@ const InputComponent = forwardRef(
         }
       }
     }));
+
+    useEffect(() => {
+      setInternalValue(value ?? '');
+    }, [value]);
 
     const handleChange = (e: SyntheticBaseEvent) => {
       setInternalValue(e.target.value as string);
