@@ -2723,6 +2723,7 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
   ...props
 }, ref) => {
   const inputRef = React$1.useRef(null);
+  const lastKeyPressed = React$1.useRef(null);
   const [internalValue, setInternalValue] = React$1.useState(() => mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : value ?? '');
   const [iconRenderVisible, setIconRenderVisible] = React$1.useState(false);
   React$1.useImperativeHandle(ref, () => ({
@@ -2745,7 +2746,6 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
     const inputEl = inputRef.current;
     if (!inputEl) return;
     const rawInput = e.target.value;
-    const prevMasked = internalValue;
     const prevCaretPos = inputEl.selectionStart ?? rawInput.length;
     const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
     const masked = mask ? applyMask(raw, mask) : rawInput;
@@ -2754,8 +2754,19 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
       requestAnimationFrame(() => {
         if (!inputEl) return;
         let nextCaret = prevCaretPos;
-        if (masked.length > prevMasked?.toString()?.length && masked[nextCaret - 1] !== maskChar) {
-          nextCaret++;
+        const isBackspace = lastKeyPressed.current === 'Backspace';
+        const isDelete = lastKeyPressed.current === 'Delete';
+        if (isBackspace || isDelete) {
+          if (mask.includes(masked[nextCaret - 1])) {
+            nextCaret--;
+          }
+        } else {
+          if (mask.includes(masked[nextCaret - 1])) {
+            nextCaret++;
+          }
+          while (nextCaret < masked.length && mask[nextCaret] !== maskChar) {
+            nextCaret++;
+          }
         }
         inputEl.setSelectionRange(nextCaret, nextCaret);
       });
@@ -2775,6 +2786,7 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
     props.onChange?.(e);
   };
   const handleOnKeyDown = e => {
+    lastKeyPressed.current = e.key;
     if (e.key === 'Enter' && onPressEnter) {
       onPressEnter(e);
     }

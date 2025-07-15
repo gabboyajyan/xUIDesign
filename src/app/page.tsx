@@ -1893,8 +1893,7 @@ export default function Home() {
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
-                            mask="___.___.___.__"
-                            value={'1234'}
+                            mask="___.___.___._"
                         />
                     </Item>
 

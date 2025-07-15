@@ -53,6 +53,7 @@ const InputComponent = forwardRef(
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
+    const lastKeyPressed = useRef<string | null>(null);
     const [internalValue, setInternalValue] = useState(() =>
       mask
         ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar)
@@ -83,8 +84,6 @@ const InputComponent = forwardRef(
       if (!inputEl) return;
 
       const rawInput = e.target.value as string;
-
-      const prevMasked = internalValue;
       const prevCaretPos = inputEl.selectionStart ?? rawInput.length;
 
       const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
@@ -98,8 +97,21 @@ const InputComponent = forwardRef(
 
           let nextCaret = prevCaretPos;
 
-          if (masked.length > prevMasked?.toString()?.length && masked[nextCaret - 1] !== maskChar) {
-            nextCaret++;
+          const isBackspace = lastKeyPressed.current === 'Backspace';
+          const isDelete = lastKeyPressed.current === 'Delete';
+
+          if ((isBackspace || isDelete)) {
+            if (mask.includes(masked[nextCaret - 1])) {
+              nextCaret--;
+            }
+          } else {
+            if (mask.includes(masked[nextCaret - 1])) {
+              nextCaret++;
+            }
+
+            while (nextCaret < masked.length && mask[nextCaret] !== maskChar) {
+              nextCaret++;
+            }
           }
 
           inputEl.setSelectionRange(nextCaret, nextCaret);
@@ -124,6 +136,8 @@ const InputComponent = forwardRef(
     };
 
     const handleOnKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+      lastKeyPressed.current = e.key;
+
       if (e.key === 'Enter' && onPressEnter) {
         onPressEnter(e);
       }
