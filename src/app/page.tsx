@@ -7,7 +7,7 @@ import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback } from "react";
 import { Button } from "../../lib/components/Button";
 // import Option from "../../lib/components/Select/Option/Option";
 
@@ -1861,8 +1861,6 @@ export const CountryCodes = [...new Set([
 export default function Home() {
     const form = useForm();
 
-    const [eye, setEye] = useState('');
-
     const handle = useCallback((e) => console.log(e), [])
 
     return (
@@ -1895,11 +1893,8 @@ export default function Home() {
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
-                            value={eye}
-                            onChange={e => {
-                                setEye(e.target.value)
-                            }}
-                            suffix={<span onClick={() => setEye('')}>Clear</span>}
+                            mask="___.___.___.__"
+                            value={'1234'}
                         />
                     </Item>
 

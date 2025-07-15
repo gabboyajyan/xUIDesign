@@ -46,6 +46,10 @@ declare const Input: import("react").ComponentType<Omit<import("react").InputHTM
     onKeyDown?: import("react").KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: import("react").KeyboardEvent<HTMLInputElement>) => void;
     feedbackIcons?: boolean;
+    child?: import("react").ReactNode;
+    mask?: string;
+    maskChar?: string;
+    maskRegex?: RegExp;
 } & import("react").RefAttributes<HTMLInputElement>>;
 declare const Textarea: import("react").ComponentType<Omit<import("react").TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("@/types").DefaultProps & {
     value?: string;

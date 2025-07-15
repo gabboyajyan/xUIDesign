@@ -19,6 +19,10 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'p
     onKeyDown?: KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
     feedbackIcons?: boolean;
+    child?: ReactNode;
+    mask?: string;
+    maskChar?: string;
+    maskRegex?: RegExp;
 };
 export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onResize'> & DefaultProps & {
     value?: string;

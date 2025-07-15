@@ -2566,11 +2566,8 @@ var TimePicker$1 = /*#__PURE__*/Object.freeze({
 	default: TimePicker
 });
 
-var css_248z$c = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;margin:-1px;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:0 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 3px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:40px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
+var css_248z$c = ".xUi-textarea-wrapper{margin-bottom:10px;position:relative;width:100%}.xUi-textarea{border:none;border-radius:6px;box-shadow:none;color:var(--xui-text-color);font-size:14px;min-height:14px;outline:none;padding:8px 12px;resize:vertical;transition:all .3s ease;width:100%}.xUi-textarea:placeholder-shown{font-size:14px;text-overflow:ellipsis}.xUi-textarea::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-textarea-small{font-size:12px;padding:6px 10px}.xUi-textarea-middle{font-size:14px;padding:8px 12px}.xUi-textarea-large{padding:10px}.xUi-textarea-outlined{background:transparent;border:1px solid var(--xui-border-color)}.xUi-textarea-outlined:focus{border-color:var(--xui-primary-color)}.xUi-textarea-borderless{background:transparent;border:none}.xUi-textarea-filled{background:var(--xui-primary-color);border:1px solid var(--xui-border-color)}.xUi-textarea-filled:focus{background:var(--xui-background-color);border-color:var(--xui-primary-color)}.xUi-textarea-underlined{background:transparent;border:none;border-bottom:1px solid var(--xui-border-color)}.xUi-textarea-underlined:focus{border-bottom-color:var(--xui-primary-color)}.xUi-textarea-container:has(.xUi-textarea-bordered){border:1px solid var(--xui-border-color)}.xUi-textarea-container:has(.xUi-textarea-success){border-color:var(--xui-success-color)}.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea:focus{border:1px solid var(--xui-error-color)}.xUi-textarea-clear{background:transparent;border:none;color:#999;cursor:pointer;position:absolute;right:0;top:15px;transform:translateY(-50%)}.xUi-textarea-clear:hover{color:#333}";
 styleInject(css_248z$c);
-
-var css_248z$b = ".xUi-textarea-wrapper{margin-bottom:10px;position:relative;width:100%}.xUi-textarea{border:none;border-radius:6px;box-shadow:none;color:var(--xui-text-color);font-size:14px;min-height:14px;outline:none;padding:8px 12px;resize:vertical;transition:all .3s ease;width:100%}.xUi-textarea:placeholder-shown{font-size:14px;text-overflow:ellipsis}.xUi-textarea::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-textarea-small{font-size:12px;padding:6px 10px}.xUi-textarea-middle{font-size:14px;padding:8px 12px}.xUi-textarea-large{padding:10px}.xUi-textarea-outlined{background:transparent;border:1px solid var(--xui-border-color)}.xUi-textarea-outlined:focus{border-color:var(--xui-primary-color)}.xUi-textarea-borderless{background:transparent;border:none}.xUi-textarea-filled{background:var(--xui-primary-color);border:1px solid var(--xui-border-color)}.xUi-textarea-filled:focus{background:var(--xui-background-color);border-color:var(--xui-primary-color)}.xUi-textarea-underlined{background:transparent;border:none;border-bottom:1px solid var(--xui-border-color)}.xUi-textarea-underlined:focus{border-bottom-color:var(--xui-primary-color)}.xUi-textarea-container:has(.xUi-textarea-bordered){border:1px solid var(--xui-border-color)}.xUi-textarea-container:has(.xUi-textarea-success){border-color:var(--xui-success-color)}.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea:focus{border:1px solid var(--xui-error-color)}.xUi-textarea-clear{background:transparent;border:none;color:#999;cursor:pointer;position:absolute;right:0;top:15px;transform:translateY(-50%)}.xUi-textarea-clear:hover{color:#333}";
-styleInject(css_248z$b);
 
 const Textarea = /*#__PURE__*/React$1.forwardRef(({
   prefixCls = prefixClsTextArea,
@@ -2654,6 +2651,48 @@ var Textarea$1 = /*#__PURE__*/Object.freeze({
 	default: Textarea
 });
 
+const MASK_CHAR = '_';
+const MASK_REGEX = /[^A-Za-z0-9]/g;
+function stripMask(value, mask, maskChar = MASK_CHAR) {
+  const stripped = [];
+  let maskIndex = 0;
+  for (let i = 0; i < value.length && maskIndex < mask.length; i++) {
+    if (mask[maskIndex] === maskChar) {
+      stripped.push(value[i]);
+      maskIndex++;
+    } else {
+      if (value[i] === mask[maskIndex]) {
+        maskIndex++;
+      } else {
+        stripped.push(value[i]);
+        continue;
+      }
+    }
+  }
+  return stripped.join('');
+}
+function applyMask(raw, mask, maskChar = MASK_CHAR) {
+  let masked = '';
+  let rawIndex = 0;
+  for (let i = 0; i < mask.length; i++) {
+    const mChar = mask[i];
+    if (mChar === maskChar) {
+      if (rawIndex < raw.length) {
+        masked += raw[rawIndex];
+        rawIndex++;
+      } else {
+        masked += maskChar;
+      }
+    } else {
+      masked += mChar;
+    }
+  }
+  return masked;
+}
+
+var css_248z$b = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;margin:-1px;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:0 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 5px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:40px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
+styleInject(css_248z$b);
+
 const InputComponent = /*#__PURE__*/React$1.forwardRef(({
   size = 'large',
   error,
@@ -2670,16 +2709,21 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
   iconRender,
   noStyle,
   feedbackIcons,
+  mask,
+  maskChar = MASK_CHAR,
+  maskRegex = MASK_REGEX,
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultValue,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  child,
   ...props
 }, ref) => {
   const inputRef = React$1.useRef(null);
-  const [internalValue, setInternalValue] = React$1.useState(value ?? '');
+  const [internalValue, setInternalValue] = React$1.useState(() => mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : value ?? '');
   const [iconRenderVisible, setIconRenderVisible] = React$1.useState(false);
   React$1.useImperativeHandle(ref, () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -2695,11 +2739,35 @@ const InputComponent = /*#__PURE__*/React$1.forwardRef(({
     }
   }));
   React$1.useEffect(() => {
-    setInternalValue(value ?? '');
-  }, [value]);
+    setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask), mask) : `${value ?? ''}`);
+  }, [value, mask]);
   const handleChange = e => {
-    setInternalValue(e.target.value);
-    props.onChange?.(e);
+    const inputEl = inputRef.current;
+    if (!inputEl) return;
+    const rawInput = e.target.value;
+    const prevMasked = internalValue;
+    const prevCaretPos = inputEl.selectionStart ?? rawInput.length;
+    const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
+    const masked = mask ? applyMask(raw, mask) : rawInput;
+    setInternalValue(masked);
+    if (mask) {
+      requestAnimationFrame(() => {
+        if (!inputEl) return;
+        let nextCaret = prevCaretPos;
+        if (masked.length > prevMasked?.toString()?.length && masked[nextCaret - 1] !== maskChar) {
+          nextCaret++;
+        }
+        inputEl.setSelectionRange(nextCaret, nextCaret);
+      });
+    }
+    const eventWithMaskedValue = {
+      ...e,
+      target: {
+        ...e.target,
+        value: masked
+      }
+    };
+    props.onChange?.(eventWithMaskedValue);
   };
   const handleClear = e => {
     setInternalValue('');

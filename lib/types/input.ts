@@ -33,6 +33,10 @@ export type InputProps = Omit<
         onKeyDown?: KeyboardEventHandler<HTMLElement>;
         onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
         feedbackIcons?: boolean;
+        child?: ReactNode;
+        mask?: string;
+        maskChar?: string;
+        maskRegex?: RegExp;
     };
 
 export type TextareaProps = Omit<

@@ -1,7 +1,7 @@
 import React, { KeyboardEvent } from 'react';
 import { SyntheticBaseEvent } from '../../types';
-import './style.css';
 import Textarea from './Textarea/Textarea';
+import './style.css';
 declare const InputComponent: React.ForwardRefExoticComponent<Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("../../types").DefaultProps & {
     addonBefore?: React.ReactNode;
     addonAfter?: React.ReactNode;
@@ -21,6 +21,10 @@ declare const InputComponent: React.ForwardRefExoticComponent<Omit<React.InputHT
     onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
     onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
     feedbackIcons?: boolean;
+    child?: React.ReactNode;
+    mask?: string;
+    maskChar?: string;
+    maskRegex?: RegExp;
 } & React.RefAttributes<HTMLInputElement>>;
 declare const Input: typeof InputComponent & {
     TextArea: typeof Textarea;

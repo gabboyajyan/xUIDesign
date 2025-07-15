@@ -16,7 +16,7 @@ import { useForm } from '../../hooks/useForm';
 import { FormInstance, FormItemProps, FormLayoutTypes, FormProps } from '../../types/form';
 import { prefixClsForm } from '../../utils';
 import FormItem from './Item/Item';
-import { flattenChildren } from '@/helpers/flatten';
+import { flattenChildren } from '../../helpers/flatten';
 import { SizeType } from '../../types';
 
 export const FormContext = createContext<FormInstance | null>(null);

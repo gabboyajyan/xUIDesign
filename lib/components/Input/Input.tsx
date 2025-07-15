@@ -11,12 +11,13 @@ import React, {
   useState
 } from 'react';
 import { clsx } from '../../helpers';
-import { SyntheticBaseEvent, TargetProps } from '../../types';
+import { RuleType, SyntheticBaseEvent, TargetProps } from '../../types';
 import { InputProps } from '../../types/input';
 import { prefixClsInput } from '../../utils';
-import './style.css';
 import Textarea from './Textarea/Textarea';
 import { ErrorIcon } from '../Icons/Icons';
+import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
+import './style.css';
 
 const InputComponent = forwardRef(
   (
@@ -36,18 +37,27 @@ const InputComponent = forwardRef(
       iconRender,
       noStyle,
       feedbackIcons,
+      mask,
+      maskChar = MASK_CHAR,
+      maskRegex = MASK_REGEX,
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       __injected,
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       defaultValue,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      child,
       ...props
     }: InputProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
-    const [internalValue, setInternalValue] = useState(value ?? '');
+    const [internalValue, setInternalValue] = useState(() =>
+      mask
+        ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar)
+        : value ?? ''
+    );
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -65,20 +75,51 @@ const InputComponent = forwardRef(
     }));
 
     useEffect(() => {
-      setInternalValue(value ?? '');
-    }, [value]);
+      setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask), mask) : `${value ?? ''}`);
+    }, [value, mask]);
 
     const handleChange = (e: SyntheticBaseEvent) => {
-      setInternalValue(e.target.value as string);
+      const inputEl = inputRef.current;
+      if (!inputEl) return;
 
-      props.onChange?.(e);
+      const rawInput = e.target.value as string;
+
+      const prevMasked = internalValue;
+      const prevCaretPos = inputEl.selectionStart ?? rawInput.length;
+
+      const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
+      const masked = mask ? applyMask(raw, mask) : rawInput;
+
+      setInternalValue(masked);
+
+      if (mask) {
+        requestAnimationFrame(() => {
+          if (!inputEl) return;
+
+          let nextCaret = prevCaretPos;
+
+          if (masked.length > prevMasked?.toString()?.length && masked[nextCaret - 1] !== maskChar) {
+            nextCaret++;
+          }
+
+          inputEl.setSelectionRange(nextCaret, nextCaret);
+        });
+      }
+
+      const eventWithMaskedValue = {
+        ...e,
+        target: {
+          ...e.target,
+          value: masked
+        }
+      };
+
+      props.onChange?.(eventWithMaskedValue as RuleType);
     };
 
     const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
       setInternalValue('');
-
       e.target.value = '';
-
       props.onChange?.(e);
     };
 
@@ -115,9 +156,7 @@ const InputComponent = forwardRef(
             {...props}
             ref={inputRef}
             {...(props.type === 'password' && iconRender
-              ? {
-                  type: iconRenderVisible ? 'text' : 'password'
-                }
+              ? { type: iconRenderVisible ? 'text' : 'password' }
               : {})}
             disabled={disabled}
             value={internalValue}
@@ -135,8 +174,8 @@ const InputComponent = forwardRef(
               className={`${prefixCls}-suffix`}
               {...(iconRender !== undefined
                 ? {
-                    onClick: () => setIconRenderVisible(icon => !icon)
-                  }
+                  onClick: () => setIconRenderVisible(icon => !icon)
+                }
                 : {})}
             >
               {suffix || iconRender?.(iconRenderVisible)}
