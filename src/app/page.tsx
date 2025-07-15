@@ -1894,6 +1894,7 @@ export default function Home() {
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
                             mask="___.___.___._"
+                            maskChar="_"
                         />
                     </Item>
 

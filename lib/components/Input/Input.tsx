@@ -76,18 +76,18 @@ const InputComponent = forwardRef(
     }));
 
     useEffect(() => {
-      setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask), mask) : `${value ?? ''}`);
-    }, [value, mask]);
+      setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
+    }, [value, mask, maskChar]);
 
     const handleChange = (e: SyntheticBaseEvent) => {
       const inputEl = inputRef.current;
       if (!inputEl) return;
 
       const rawInput = e.target.value as string;
-      const prevCaretPos = inputEl.selectionStart ?? rawInput.length;
+      let nextCaret = inputEl.selectionStart ?? rawInput.length;
 
       const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
-      const masked = mask ? applyMask(raw, mask) : rawInput;
+      const masked = mask ? applyMask(raw, mask, maskChar) : rawInput;
 
       setInternalValue(masked);
 
@@ -95,21 +95,13 @@ const InputComponent = forwardRef(
         requestAnimationFrame(() => {
           if (!inputEl) return;
 
-          let nextCaret = prevCaretPos;
-
           const isBackspace = lastKeyPressed.current === 'Backspace';
           const isDelete = lastKeyPressed.current === 'Delete';
 
-          if ((isBackspace || isDelete)) {
-            if (mask.includes(masked[nextCaret - 1])) {
+          while (mask.includes(masked[nextCaret - 1])) {
+            if (isBackspace || isDelete) {
               nextCaret--;
-            }
-          } else {
-            if (mask.includes(masked[nextCaret - 1])) {
-              nextCaret++;
-            }
-
-            while (nextCaret < masked.length && mask[nextCaret] !== maskChar) {
+            } else {
               nextCaret++;
             }
           }
