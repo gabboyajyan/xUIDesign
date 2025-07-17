@@ -170,3 +170,4 @@ export type { SelectProps, OptionType, OptionProps, CustomTagProps, TagProps, Di
 export type { RcFile, UploadFile, UploadProps, UploadChangeParam } from '@/types/upload';
 export { FormContext } from '@/components/Form/Form';
 export { clsx, createArray, parseValue } from '@/helpers';
+export { flattenChildren } from '@/helpers/flatten';

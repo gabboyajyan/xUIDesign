@@ -1297,6 +1297,10 @@ const ButtonComponent = ({
   block = false,
   children,
   href,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  __injected,
   ...restProps
 }) => {
   const [innerLoading, setInnerLoading] = React$1.useState(false);
@@ -3850,6 +3854,7 @@ exports.TrashIcon = TrashIcon;
 exports.Upload = Upload$2;
 exports.clsx = clsx;
 exports.createArray = createArray;
+exports.flattenChildren = flattenChildren;
 exports.parseValue = parseValue;
 exports.useForm = useForm;
 exports.useWatch = useWatch;

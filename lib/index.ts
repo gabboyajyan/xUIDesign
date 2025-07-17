@@ -131,3 +131,4 @@ export type {
 export { FormContext } from '@/components/Form/Form';
 
 export { clsx, createArray, parseValue } from '@/helpers'
+export { flattenChildren } from '@/helpers/flatten';
