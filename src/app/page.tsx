@@ -1888,6 +1888,12 @@ export default function Home() {
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select mode="multiple" placeholder="sdfdsfg" options={CountryCodes} />
+
+                            <button onClick={(e) => {
+                                e.preventDefault();
+
+                                form.setFieldsValue({ gender: '' }, null)
+                            }}>reset field</button>
                         </Item>
                     </div>
 

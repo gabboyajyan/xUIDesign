@@ -116,7 +116,10 @@ export interface FormInstance {
   setFieldValue: (name: string, value: RuleTypes) => void;
   getFieldValue: (name: string) => RuleTypes;
   validateFields: (nameList?: string[]) => Promise<boolean>;
-  setFieldsValue: (values: Partial<Record<string, RuleTypes>>) => void;
+  setFieldsValue: (
+    values: Partial<Record<string, RuleTypes>>,
+    reset?: boolean | null | undefined
+  ) => void;
   getFieldsValue: (nameList?: string[]) => Record<string, RuleTypes>;
   isFieldTouched: (name: string) => boolean;
   getFieldsError: () => Pick<FieldError, 'errors' | 'name'>[];

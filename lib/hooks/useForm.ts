@@ -112,9 +112,9 @@ const useForm = (
     }
   }
 
-  function setFieldsValue(values: Partial<Record<string, RuleTypes>>) {
+  function setFieldsValue(values: Partial<Record<string, RuleTypes>>, reset?: boolean | null | undefined) {
     Object.entries(values).forEach(([name, value]) =>
-      setFieldValue(name, value as RuleTypes)
+      setFieldValue(name, value as RuleTypes, undefined, reset)
     );
   }
 

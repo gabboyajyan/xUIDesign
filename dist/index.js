@@ -677,8 +677,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       });
     }
   }
-  function setFieldsValue(values) {
-    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value));
+  function setFieldsValue(values, reset) {
+    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value, undefined, reset));
   }
   function setFields(fields) {
     fields.forEach(({
