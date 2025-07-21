@@ -1,5 +1,5 @@
 import * as react from 'react';
-import { CSSProperties, ReactNode, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
+import { CSSProperties, ReactNode, MouseEvent } from 'react';
 import * as __types_select from '@/types/select';
 export { CustomTagProps, DisplayValueType, OptionProps, OptionType, SelectProps, TagProps } from '@/types/select';
 import * as __types_radio from '@/types/radio';
@@ -93,11 +93,7 @@ type EmptyContentProps = DefaultProps & {
 type SwitchProps = DefaultProps & {
     disabled?: boolean;
     onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
-    onClick?: MouseEventHandler<HTMLElement>;
-    onMouseEnter?: MouseEventHandler<HTMLElement>;
-    onMouseLeave?: MouseEventHandler<HTMLElement>;
-    onKeyPress?: KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: KeyboardEventHandler<HTMLElement>;
+    onClick?: (value: boolean) => void;
     value?: boolean;
     tabIndex?: number;
     name?: string;
