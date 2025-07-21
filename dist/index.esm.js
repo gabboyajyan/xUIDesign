@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React$1, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -41,7 +41,7 @@ function requireLoadableContext_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(React$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const LoadableContext = _react.default.createContext(null);
     if (process.env.NODE_ENV !== 'production') {
       LoadableContext.displayName = 'LoadableContext';
@@ -66,7 +66,7 @@ function requireLoadable_sharedRuntime() {
       }
     });
     const _interop_require_default = _interop_require_default$1;
-    const _react = /*#__PURE__*/_interop_require_default._(React$1);
+    const _react = /*#__PURE__*/_interop_require_default._(React);
     const _loadablecontextsharedruntime = requireLoadableContext_sharedRuntime();
     function resolve(obj) {
       return obj && obj.default ? obj.default : obj;
@@ -445,13 +445,13 @@ function styleInject(css, ref) {
 var css_248z$m = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color)}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
 styleInject(css_248z$m);
 
-const ClearIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const ClearIcon = () => /*#__PURE__*/React.createElement("svg", {
   width: "10",
   height: "10",
   viewBox: "0 0 14 14",
   fill: "none",
   xmlns: "http://www.w3.org/2000/svg"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M1 1L13 13M13 1L1 13",
   stroke: "currentColor",
   strokeWidth: "2",
@@ -459,13 +459,13 @@ const ClearIcon = () => /*#__PURE__*/React$1.createElement("svg", {
 }));
 const ArrowIcon = ({
   isOpen
-}) => /*#__PURE__*/React$1.createElement("svg", {
+}) => /*#__PURE__*/React.createElement("svg", {
   width: "18",
   height: "18",
   viewBox: "0 0 24 24",
   fill: "none",
   xmlns: "http://www.w3.org/2000/svg"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M7 10L12 15L17 10",
   stroke: "currentColor",
   strokeWidth: "2",
@@ -473,7 +473,7 @@ const ArrowIcon = ({
   strokeLinejoin: "round",
   transform: isOpen ? 'rotate(180, 12, 12)' : ''
 }));
-const LoadingIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const LoadingIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "0 0 1024 1024",
   focusable: "false",
   "data-icon": "loading",
@@ -481,10 +481,10 @@ const LoadingIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "12",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
-const CheckIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const CheckIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "check",
@@ -492,10 +492,10 @@ const CheckIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "12",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 00-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"
 }));
-const SearchIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const SearchIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "search",
@@ -503,10 +503,10 @@ const SearchIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M909.6 854.5L649.9 594.8C690.2 542.7 712 479 712 412c0-80.2-31.3-155.4-87.9-212.1-56.6-56.7-132-87.9-212.1-87.9s-155.5 31.3-212.1 87.9C143.2 256.5 112 331.8 112 412c0 80.1 31.3 155.5 87.9 212.1C256.5 680.8 331.8 712 412 712c67 0 130.6-21.8 182.7-62l259.7 259.6a8.2 8.2 0 0011.6 0l43.6-43.5a8.2 8.2 0 000-11.6zM570.4 570.4C528 612.7 471.8 636 412 636s-116-23.3-158.4-65.6C211.3 528 188 471.8 188 412s23.3-116.1 65.6-158.4C296 211.3 352.2 188 412 188s116.1 23.2 158.4 65.6S636 352.2 636 412s-23.3 116.1-65.6 158.4z"
 }));
-const CalendarIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const CalendarIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "calendar",
@@ -514,10 +514,10 @@ const CalendarIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M880 184H712v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H384v-64c0-4.4-3.6-8-8-8h-56c-4.4 0-8 3.6-8 8v64H144c-17.7 0-32 14.3-32 32v664c0 17.7 14.3 32 32 32h736c17.7 0 32-14.3 32-32V216c0-17.7-14.3-32-32-32zm-40 656H184V460h656v380zM184 392V256h128v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h256v48c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-48h128v136H184z"
 }));
-const SuccessIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const SuccessIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "check-circle",
@@ -525,10 +525,10 @@ const SuccessIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm193.5 301.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z"
 }));
-const ErrorIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const ErrorIcon = () => /*#__PURE__*/React.createElement("svg", {
   className: "error-svg-icon",
   viewBox: "64 64 896 896",
   focusable: "false",
@@ -537,10 +537,10 @@ const ErrorIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M512 64c247.4 0 448 200.6 448 448S759.4 960 512 960 64 759.4 64 512 264.6 64 512 64zm127.98 274.82h-.04l-.08.06L512 466.75 384.14 338.88c-.04-.05-.06-.06-.08-.06a.12.12 0 00-.07 0c-.03 0-.05.01-.09.05l-45.02 45.02a.2.2 0 00-.05.09.12.12 0 000 .07v.02a.27.27 0 00.06.06L466.75 512 338.88 639.86c-.05.04-.06.06-.06.08a.12.12 0 000 .07c0 .03.01.05.05.09l45.02 45.02a.2.2 0 00.09.05.12.12 0 00.07 0c.02 0 .04-.01.08-.05L512 557.25l127.86 127.87c.04.04.06.05.08.05a.12.12 0 00.07 0c.03 0 .05-.01.09-.05l45.02-45.02a.2.2 0 00.05-.09.12.12 0 000-.07v-.02a.27.27 0 00-.05-.06L557.25 512l127.87-127.86c.04-.04.05-.06.05-.08a.12.12 0 000-.07c0-.03-.01-.05-.05-.09l-45.02-45.02a.2.2 0 00-.09-.05.12.12 0 00-.07 0z"
 }));
-const DateDistanceIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const DateDistanceIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "0 0 1024 1024",
   focusable: "false",
   "data-icon": "swap-right",
@@ -548,10 +548,10 @@ const DateDistanceIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M873.1 596.2l-164-208A32 32 0 00684 376h-64.8c-6.7 0-10.4 7.7-6.3 13l144.3 183H152c-4.4 0-8 3.6-8 8v60c0 4.4 3.6 8 8 8h695.9c26.8 0 41.7-30.8 25.2-51.8z"
 }));
-const TimeIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const TimeIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "clock-circle",
@@ -559,12 +559,12 @@ const TimeIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm0 820c-205.4 0-372-166.6-372-372s166.6-372 372-372 372 166.6 372 372-166.6 372-372 372z"
-}), /*#__PURE__*/React$1.createElement("path", {
+}), /*#__PURE__*/React.createElement("path", {
   d: "M686.7 638.6L544.1 535.5V288c0-4.4-3.6-8-8-8H488c-4.4 0-8 3.6-8 8v275.4c0 2.6 1.2 5 3.3 6.5l165.4 120.6c3.6 2.6 8.6 1.8 11.2-1.7l28.6-39c2.6-3.7 1.8-8.7-1.8-11.2z"
 }));
-const StampleIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const StampleIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "paper-clip",
@@ -572,10 +572,10 @@ const StampleIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M779.3 196.6c-94.2-94.2-247.6-94.2-341.7 0l-261 260.8c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l261-260.8c32.4-32.4 75.5-50.2 121.3-50.2s88.9 17.8 121.2 50.2c32.4 32.4 50.2 75.5 50.2 121.2 0 45.8-17.8 88.8-50.2 121.2l-266 265.9-43.1 43.1c-40.3 40.3-105.8 40.3-146.1 0-19.5-19.5-30.2-45.4-30.2-73s10.7-53.5 30.2-73l263.9-263.8c6.7-6.6 15.5-10.3 24.9-10.3h.1c9.4 0 18.1 3.7 24.7 10.3 6.7 6.7 10.3 15.5 10.3 24.9 0 9.3-3.7 18.1-10.3 24.7L372.4 653c-1.7 1.7-2.6 4-2.6 6.4s.9 4.7 2.6 6.4l36.9 36.9a9 9 0 0012.7 0l215.6-215.6c19.9-19.9 30.8-46.3 30.8-74.4s-11-54.6-30.8-74.4c-41.1-41.1-107.9-41-149 0L463 364 224.8 602.1A172.22 172.22 0 00174 724.8c0 46.3 18.1 89.8 50.8 122.5 33.9 33.8 78.3 50.7 122.7 50.7 44.4 0 88.8-16.9 122.6-50.7l309.2-309C824.8 492.7 850 432 850 367.5c.1-64.6-25.1-125.3-70.7-170.9z"
 }));
-const TrashIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const TrashIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "64 64 896 896",
   focusable: "false",
   "data-icon": "delete",
@@ -583,10 +583,10 @@ const TrashIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M360 184h-8c4.4 0 8-3.6 8-8v8h304v-8c0 4.4 3.6 8 8 8h-8v72h72v-80c0-35.3-28.7-64-64-64H352c-35.3 0-64 28.7-64 64v80h72v-72zm504 72H160c-17.7 0-32 14.3-32 32v32c0 4.4 3.6 8 8 8h60.4l24.7 523c1.6 34.1 29.8 61 63.9 61h454c34.2 0 62.3-26.8 63.9-61l24.7-523H888c4.4 0 8-3.6 8-8v-32c0-17.7-14.3-32-32-32zM731.3 840H292.7l-24.2-512h487l-24.2 512z"
 }));
-const SpinerIcon = () => /*#__PURE__*/React$1.createElement("svg", {
+const SpinerIcon = () => /*#__PURE__*/React.createElement("svg", {
   viewBox: "0 0 1024 1024",
   focusable: "false",
   "data-icon": "loading",
@@ -594,7 +594,7 @@ const SpinerIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   height: "1em",
   fill: "currentColor",
   "aria-hidden": "true"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
@@ -986,17 +986,17 @@ const FormItem$1 = ({
   }, [errorRef.current]);
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
   const errorMessage = getFieldError(name)?.[0];
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     style: style,
     className: clsx([`${prefixCls}`, {
       [layout]: layout,
       [className]: className,
       noStyle: props.noStyle
     }])
-  }, !props.noStyle && (label || name) && /*#__PURE__*/React$1.createElement("label", {
+  }, !props.noStyle && (label || name) && /*#__PURE__*/React.createElement("label", {
     className: `${prefixCls}-label`,
     htmlFor: name
-  }, label || name, ":", isRequired && /*#__PURE__*/React$1.createElement("span", {
+  }, label || name, ":", isRequired && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child)) {
@@ -1008,7 +1008,7 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = getFieldValue(name) ?? initialValue;
-      return /*#__PURE__*/React$1.createElement(FormItemChildComponent, _extends({}, props, {
+      return /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
         key: `${key}_${isReseting}`,
         name: name,
         child: child,
@@ -1027,7 +1027,7 @@ const FormItem$1 = ({
       }));
     }
     return child;
-  }), !props.noStyle && errorMessage && /*#__PURE__*/React$1.createElement("span", {
+  }), !props.noStyle && errorMessage && /*#__PURE__*/React.createElement("span", {
     ref: errorRef,
     className: `${prefixCls}-error`
   }, errorMessage));
@@ -1077,12 +1077,12 @@ const FormItemChildComponent = ({
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/React$1.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
+      return /*#__PURE__*/React.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
     }
-    return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, child.props, {
+    return /*#__PURE__*/React.createElement(child.type, _extends({}, props, child.props, {
       name: name,
       child: child,
       onChange: handleChange,
@@ -1152,20 +1152,20 @@ const Form$1 = ({
     const childProps = child.props;
     const isWrapper = typeof child.type === 'string' && !('dangerouslySetInnerHTML' in childProps) && ['div', 'span', 'label'].includes(child.type);
     if (isWrapper) {
-      return /*#__PURE__*/React$1.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
+      return /*#__PURE__*/React.createElement(child.type, childProps, Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
     if (childProps?.__injected) {
       return child;
     }
-    return /*#__PURE__*/React$1.createElement(child.type, _extends({}, child.props, {
+    return /*#__PURE__*/React.createElement(child.type, _extends({}, child.props, {
       child: child,
       size: childProps.size || rest.size,
       layout: childProps.layout || layout
     }));
   };
-  return /*#__PURE__*/React$1.createElement(FormContext.Provider, {
+  return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
-  }, /*#__PURE__*/React$1.createElement("form", {
+  }, /*#__PURE__*/React.createElement("form", {
     style: style,
     ref: formRef,
     onSubmit: handleSubmit,
@@ -1325,27 +1325,27 @@ const ButtonComponent = ({
       [`${prefixCls}-disabled`]: disabled
     }, className])]);
   }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, rootClassName, shape, size, type, variant]);
-  const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React$1.createElement("span", {
+  const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-spinner`
   }) : icon;
-  const content = /*#__PURE__*/React$1.createElement(React$1.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React$1.createElement("span", {
+  const content = /*#__PURE__*/React.createElement(React.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
-  }, iconNode), /*#__PURE__*/React$1.createElement("span", {
+  }, iconNode), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-content`
-  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React$1.createElement("span", {
+  }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React.createElement("span", {
     className: clsx(`${prefixCls}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode));
   const mergedDisabled = disabled || innerLoading;
   if (href) {
-    return /*#__PURE__*/React$1.createElement("a", {
+    return /*#__PURE__*/React.createElement("a", {
       className: classes,
       href: mergedDisabled ? undefined : href,
       "aria-disabled": mergedDisabled
     }, content);
   }
-  return /*#__PURE__*/React$1.createElement("button", _extends({
+  return /*#__PURE__*/React.createElement("button", _extends({
     type: htmlType,
     className: classes,
     disabled: mergedDisabled
@@ -1400,9 +1400,9 @@ const Checkbox = /*#__PURE__*/forwardRef(({
       setInternalChecked(checked);
     }
   }, [checked]);
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     ref: ref,
     style: style,
     onClick: handleClick,
@@ -1411,7 +1411,7 @@ const Checkbox = /*#__PURE__*/forwardRef(({
       [`${prefixCls}-disabled`]: disabled,
       [`${prefixCls}-checked`]: internalChecked
     }])
-  }, /*#__PURE__*/React$1.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     id: id,
     type: type,
     name: name,
@@ -1423,14 +1423,14 @@ const Checkbox = /*#__PURE__*/forwardRef(({
     onKeyPress: onKeyPress,
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-box`
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-check`,
     style: {
       opacity: Number(internalChecked)
     }
-  }))), children && /*#__PURE__*/React$1.createElement("span", {
+  }))), children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
 });
@@ -1472,13 +1472,13 @@ const Switch = ({
       setInternalChecked(checked);
     }
   }, [checked]);
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
     style: style
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`,
     onClick: handleClick
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}__slider`
   })));
 };
@@ -1499,33 +1499,33 @@ const EmptyContent = ({
   title = 'No Data',
   description = 'No data',
   prefixCls = prefixClsEmpty
-}) => /*#__PURE__*/React$1.createElement("div", {
+}) => /*#__PURE__*/React.createElement("div", {
   style: style,
   className: `${prefixCls} ${prefixCls}-normal ${prefixCls}-small ${className}`
-}, /*#__PURE__*/React$1.createElement("div", {
+}, /*#__PURE__*/React.createElement("div", {
   className: `${prefixCls}-image`
-}, icon || /*#__PURE__*/React$1.createElement("svg", {
+}, icon || /*#__PURE__*/React.createElement("svg", {
   width: "64",
   height: "41",
   viewBox: "0 0 64 41",
   xmlns: "http://www.w3.org/2000/svg"
-}, /*#__PURE__*/React$1.createElement("title", null, title), /*#__PURE__*/React$1.createElement("g", {
+}, /*#__PURE__*/React.createElement("title", null, title), /*#__PURE__*/React.createElement("g", {
   transform: "translate(0 1)",
   fill: "none"
-}, /*#__PURE__*/React$1.createElement("ellipse", {
+}, /*#__PURE__*/React.createElement("ellipse", {
   fill: "#f5f5f5",
   cx: "32",
   cy: "33",
   rx: "32",
   ry: "7"
-}), /*#__PURE__*/React$1.createElement("g", {
+}), /*#__PURE__*/React.createElement("g", {
   stroke: "#d9d9d9"
-}, /*#__PURE__*/React$1.createElement("path", {
+}, /*#__PURE__*/React.createElement("path", {
   d: "M55 12.76L44.854 1.258C44.367.474 43.656 0 42.907 0H21.093c-.749 0-1.46.474-1.947 1.257L9 12.761V22h46v-9.24z"
-}), /*#__PURE__*/React$1.createElement("path", {
+}), /*#__PURE__*/React.createElement("path", {
   d: "M41.613 15.931c0-1.605.994-2.93 2.227-2.931H55v18.137C55 33.26 53.68 35 52.05 35h-40.1C10.32 35 9 33.259 9 31.137V13h11.16c1.233 0 2.227 1.323 2.227 2.928v.022c0 1.605 1.005 2.901 2.237 2.901h14.752c1.232 0 2.237-1.308 2.237-2.913v-.007z",
   fill: "#fafafa"
-}))))), /*#__PURE__*/React$1.createElement("div", {
+}))))), /*#__PURE__*/React.createElement("div", {
   className: `${prefixCls}-description`
 }, description));
 
@@ -1677,16 +1677,16 @@ const Upload = ({
       uploadRef.current.click();
     }
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-wrapper`, className, rootClassName, {
       noStyle: noStyle,
       [`${prefixCls}-disabled`]: disabled
     }]),
     style: style
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: clsx([`${prefixCls}`, `${prefixCls}-${listType}`]),
     onClick: handleClick
-  }, children, /*#__PURE__*/React$1.createElement("input", _extends({
+  }, children, /*#__PURE__*/React.createElement("input", _extends({
     type: "file",
     ref: uploadRef,
     accept: accept,
@@ -1697,35 +1697,35 @@ const Upload = ({
   }, directory ? {
     directory: true,
     webkitdirectory: true
-  } : {}))), showUploadList && fileList.length > 0 && /*#__PURE__*/React$1.createElement("ul", {
+  } : {}))), showUploadList && fileList.length > 0 && /*#__PURE__*/React.createElement("ul", {
     className: `${prefixCls}-list ${prefixCls}-list-${listType}`
-  }, fileList.map(file => /*#__PURE__*/React$1.createElement("li", {
+  }, fileList.map(file => /*#__PURE__*/React.createElement("li", {
     key: file.uid,
     className: `${prefixCls}-item ${prefixCls}-item-${file.status}`
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-remove`,
     onClick: () => handleRemove(file.uid)
   }, listType === 'picture' && (file.originFileObj || file.url) ?
   /*#__PURE__*/
   // eslint-disable-next-line @next/next/no-img-element
-  React$1.createElement("img", {
+  React.createElement("img", {
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
     alt: file.name,
     src: file.url || URL.createObjectURL(file.originFileObj),
     className: `${prefixCls}-item-thumbnail`
-  }) : /*#__PURE__*/React$1.createElement(StampleIcon, null)), /*#__PURE__*/React$1.createElement("div", {
+  }) : /*#__PURE__*/React.createElement(StampleIcon, null)), /*#__PURE__*/React.createElement("div", {
     style: {
       width: '100%'
     }
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-item-title`,
     style: {
       ...(file.status === 'uploading' ? {
         marginBottom: 12
       } : {})
     }
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-item-remove-icon`,
     onClick: () => handleRemove(file.uid),
     style: {
@@ -1734,9 +1734,9 @@ const Upload = ({
     },
     role: "button",
     "aria-label": "Remove file"
-  }, /*#__PURE__*/React$1.createElement(TrashIcon, null))), file.status === 'uploading' && /*#__PURE__*/React$1.createElement(React$1.Fragment, null, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement(TrashIcon, null))), file.status === 'uploading' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-item-progress-line`
-  }), /*#__PURE__*/React$1.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-item-progress-line-percent`,
     style: {
       width: `${file.percent}%`
@@ -1834,31 +1834,31 @@ const RangePicker = ({
   const renderMonthYearSelector = (monthOffset = 0, all) => {
     const baseYear = currentYear;
     const baseMonth = currentMonth + monthOffset;
-    return /*#__PURE__*/React$1.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-header`
-    }, all || !monthOffset ? /*#__PURE__*/React$1.createElement("div", {
+    }, all || !monthOffset ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-nav-buttons`
-    }, /*#__PURE__*/React$1.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       onClick: () => setCurrentYear(y => y - 1)
-    }, "\xAB"), /*#__PURE__*/React$1.createElement("button", {
+    }, "\xAB"), /*#__PURE__*/React.createElement("button", {
       onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
-    }, "\u2039")) : /*#__PURE__*/React$1.createElement("span", null), /*#__PURE__*/React$1.createElement("div", {
+    }, "\u2039")) : /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-dropdown-selects`
-    }, /*#__PURE__*/React$1.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
       onClick: () => setViewMode('year')
-    }, baseYear), /*#__PURE__*/React$1.createElement("button", {
+    }, baseYear), /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
       onClick: () => setViewMode('month')
-    }, localeMonths[baseMonth])), all || monthOffset ? /*#__PURE__*/React$1.createElement("div", {
+    }, localeMonths[baseMonth])), all || monthOffset ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-nav-buttons`
-    }, /*#__PURE__*/React$1.createElement("button", {
+    }, /*#__PURE__*/React.createElement("button", {
       onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
-    }, "\u203A"), /*#__PURE__*/React$1.createElement("button", {
+    }, "\u203A"), /*#__PURE__*/React.createElement("button", {
       onClick: () => setCurrentYear(y => y + 1)
-    }, "\xBB")) : /*#__PURE__*/React$1.createElement("span", null));
+    }, "\xBB")) : /*#__PURE__*/React.createElement("span", null));
   };
   const renderCalendar = (monthOffset = 0, all) => {
     const baseDate = new Date(currentYear, currentMonth + monthOffset, 1);
@@ -1882,20 +1882,20 @@ const RangePicker = ({
       length: remaining
     }, (_, i) => new Date(year, month + 1, i + 1));
     const days = [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
-    return /*#__PURE__*/React$1.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-calendar ${viewMode}`
-    }, /*#__PURE__*/React$1.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-calendar-header`
-    }, renderMonthYearSelector(monthOffset, all)), viewMode === 'day' && /*#__PURE__*/React$1.createElement("div", {
+    }, renderMonthYearSelector(monthOffset, all)), viewMode === 'day' && /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-days-grid day`
-    }, localeWeekdays.map((day, i) => /*#__PURE__*/React$1.createElement("div", {
+    }, localeWeekdays.map((day, i) => /*#__PURE__*/React.createElement("div", {
       key: i,
       className: `${prefixCls}-weekday`
     }, day)), days.map((day, i) => {
       const isSelected = day && selectedDates.some(d => d?.toDateString() === day.toDateString());
       const inRange = day && isInRange(day);
       const isSameMonth = day?.getMonth() === month;
-      return /*#__PURE__*/React$1.createElement("button", {
+      return /*#__PURE__*/React.createElement("button", {
         key: i,
         disabled: disabledDate?.(day, {
           from: undefined,
@@ -1910,9 +1910,9 @@ const RangePicker = ({
           [`${prefixCls}-other-month`]: !isSameMonth
         }])
       }, day?.getDate());
-    })), viewMode === 'month' && /*#__PURE__*/React$1.createElement("div", {
+    })), viewMode === 'month' && /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-grid`
-    }, localeMonths.map((m, i) => /*#__PURE__*/React$1.createElement("button", {
+    }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
       key: i,
       className: `${prefixCls}-month`,
       onClick: () => {
@@ -1920,13 +1920,13 @@ const RangePicker = ({
         setViewMode('day');
       },
       disabled: isMonthDisabled(i)
-    }, m))), viewMode === 'year' && /*#__PURE__*/React$1.createElement("div", {
+    }, m))), viewMode === 'year' && /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-grid`
     }, Array.from({
       length: 12
     }, (_, i) => {
       const year = currentYear - NUMBER_SIX + i;
-      return /*#__PURE__*/React$1.createElement("button", {
+      return /*#__PURE__*/React.createElement("button", {
         key: year,
         className: `${prefixCls}-year`,
         disabled: isYearDisabled(year),
@@ -1941,16 +1941,16 @@ const RangePicker = ({
     setSelectedDates([null, null]);
     onChange?.(null, ['', '']);
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: containerRef,
     style: style,
     className: clsx([`${prefixCls}-range-container`, {
       [`${prefixCls}-${size}`]: size,
       [className]: className
     }])
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-range-input-wrapper`
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
       noBordered: !bordered,
@@ -1959,26 +1959,26 @@ const RangePicker = ({
     }]),
     disabled: disabled,
     onClick: () => setIsOpen(!isOpen)
-  }, prefix, /*#__PURE__*/React$1.createElement("input", {
+  }, prefix, /*#__PURE__*/React.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[0],
     value: selectedDates[0] ? formatDate(selectedDates[0]) : ''
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-range-separator`
-  }, separator || /*#__PURE__*/React$1.createElement(DateDistanceIcon, null)), /*#__PURE__*/React$1.createElement("input", {
+  }, separator || /*#__PURE__*/React.createElement(DateDistanceIcon, null)), /*#__PURE__*/React.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[1],
     value: selectedDates[1] ? formatDate(selectedDates[1]) : ''
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`
-  }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React$1.createElement("span", {
+  }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, /*#__PURE__*/React$1.createElement(ClearIcon, null)) : /*#__PURE__*/React$1.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-wrapper show`
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-range`
   }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day'))));
 };
@@ -2160,15 +2160,15 @@ const DatePickerComponent = ({
     month: nextMonth,
     year: nextMonthYear
   }))];
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     ref: containerRef,
     className: clsx([`${prefixCls}-container`, {
       noStyle,
       [`${prefixCls}-${size}`]: size
     }])
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input-wrapper`
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
       noBordered: !bordered,
@@ -2178,7 +2178,7 @@ const DatePickerComponent = ({
     }]),
     disabled: disabled,
     onClick: () => setIsOpen(!isOpen)
-  }, prefix || null, /*#__PURE__*/React$1.createElement("input", {
+  }, prefix || null, /*#__PURE__*/React.createElement("input", {
     size: INPUT_SIZE$1,
     disabled: disabled,
     readOnly: inputReadOnly,
@@ -2188,48 +2188,48 @@ const DatePickerComponent = ({
       opacity: isOpen ? '0.6' : 1
     },
     defaultValue: selectedDatePlaceholder
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`
-  }, allowClear && selectedDate ? /*#__PURE__*/React$1.createElement("span", {
+  }, allowClear && selectedDate ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: clearSelection
-  }, typeof allowClear === 'object' && allowClear.clearIcon ? allowClear.clearIcon : /*#__PURE__*/React$1.createElement(ClearIcon, null)) : suffixIcon || /*#__PURE__*/React$1.createElement(CalendarIcon, null), error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null))), /*#__PURE__*/React$1.createElement("div", {
+  }, typeof allowClear === 'object' && allowClear.clearIcon ? allowClear.clearIcon : /*#__PURE__*/React.createElement(ClearIcon, null)) : suffixIcon || /*#__PURE__*/React.createElement(CalendarIcon, null), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null))), /*#__PURE__*/React.createElement("div", {
     style: popupContainerRef.current ? {
       position: 'absolute'
     } : {},
     className: clsx([placement, `${prefixCls}-dropdown-wrapper`, {
       show: isOpen
     }])
-  }, isOpen && /*#__PURE__*/React$1.createElement("div", {
+  }, isOpen && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown`,
     style: placementPossition
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-header`
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-nav-buttons`
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     onClick: () => setCurrentYear(y => y - 1)
-  }, "\xAB"), /*#__PURE__*/React$1.createElement("button", {
+  }, "\xAB"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
-  }, "\u2039")), /*#__PURE__*/React$1.createElement("div", {
+  }, "\u2039")), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-selects`
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
     onClick: () => setViewMode('year')
-  }, currentYear), /*#__PURE__*/React$1.createElement("button", {
+  }, currentYear), /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
     onClick: () => setViewMode('month')
-  }, localeMonths[currentMonth])), /*#__PURE__*/React$1.createElement("div", {
+  }, localeMonths[currentMonth])), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-nav-buttons`
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
-  }, "\u203A"), /*#__PURE__*/React$1.createElement("button", {
+  }, "\u203A"), /*#__PURE__*/React.createElement("button", {
     onClick: () => setCurrentYear(y => y + 1)
-  }, "\xBB"))), viewMode === 'day' && /*#__PURE__*/React$1.createElement("div", {
+  }, "\xBB"))), viewMode === 'day' && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-grid day`
-  }, localeWeekdays.map(day => /*#__PURE__*/React$1.createElement("div", {
+  }, localeWeekdays.map(day => /*#__PURE__*/React.createElement("div", {
     key: day,
     className: `${prefixCls}-day-header`
   }, day)), days.map(({
@@ -2239,7 +2239,7 @@ const DatePickerComponent = ({
     year
   }, idx) => {
     const isSelected = selectedDate && selectedDate.getDate() === day && selectedDate.getMonth() === month && selectedDate.getFullYear() === year;
-    return /*#__PURE__*/React$1.createElement("button", {
+    return /*#__PURE__*/React.createElement("button", {
       key: `${year}-${month}-${day}-${idx}`,
       className: clsx([`${prefixCls}-day`, {
         [`${prefixCls}-selected`]: isSelected,
@@ -2251,9 +2251,9 @@ const DatePickerComponent = ({
         to: undefined
       })
     }, day);
-  })), viewMode === 'month' && /*#__PURE__*/React$1.createElement("div", {
+  })), viewMode === 'month' && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-grid`
-  }, localeMonths.map((m, i) => /*#__PURE__*/React$1.createElement("button", {
+  }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
     key: i,
     className: `${prefixCls}-month`,
     onClick: () => {
@@ -2261,13 +2261,13 @@ const DatePickerComponent = ({
       setViewMode('day');
     },
     disabled: isMonthDisabled(i)
-  }, m))), viewMode === 'year' && /*#__PURE__*/React$1.createElement("div", {
+  }, m))), viewMode === 'year' && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-grid`
   }, Array.from({
     length: 12
   }, (_, i) => {
     const year = currentYear - NUMBER_SIX + i;
-    return /*#__PURE__*/React$1.createElement("button", {
+    return /*#__PURE__*/React.createElement("button", {
       key: year,
       className: `${prefixCls}-year`,
       disabled: isYearDisabled(year),
@@ -2276,12 +2276,12 @@ const DatePickerComponent = ({
         setViewMode('month');
       }
     }, year);
-  })), showToday && /*#__PURE__*/React$1.createElement("div", {
+  })), showToday && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-day-footer`,
     style: {
       gridColumn: 'span 7'
     }
-  }, /*#__PURE__*/React$1.createElement("button", {
+  }, /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-select`,
     disabled: disabledDate?.(new Date(DateNow.getDate(), DateNow.getMonth(), DateNow.getFullYear()), {
       from: undefined,
@@ -2326,8 +2326,8 @@ const TimePicker = ({
   onBlur,
   onSelect,
   showNow = true,
-  clearIcon = /*#__PURE__*/React$1.createElement(ClearIcon, null),
-  suffixIcon = /*#__PURE__*/React$1.createElement(TimeIcon, null),
+  clearIcon = /*#__PURE__*/React.createElement(ClearIcon, null),
+  suffixIcon = /*#__PURE__*/React.createElement(TimeIcon, null),
   placeholder = 'Select time'
 }) => {
   const [open, setOpen] = useState(false);
@@ -2510,12 +2510,12 @@ const TimePicker = ({
     } = getTimeParts(tempValue);
     const currentHour = selectedHour ?? 0;
     const currentMinute = selectedMinute ?? 0;
-    return /*#__PURE__*/React$1.createElement("div", null, /*#__PURE__*/React$1.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-panel`
-    }, /*#__PURE__*/React$1.createElement("div", {
+    }, /*#__PURE__*/React.createElement("div", {
       ref: hourRef,
       className: `${prefixCls}-column`
-    }, hours.map((h, index) => h === false ? /*#__PURE__*/React$1.createElement("div", {
+    }, hours.map((h, index) => h === false ? /*#__PURE__*/React.createElement("div", {
       key: `${h}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2523,17 +2523,17 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React$1.createElement("div", {
+    }, "0") : /*#__PURE__*/React.createElement("div", {
       key: h,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('hour').includes(h),
         [`${prefixCls}-cell-selected`]: selectedHour === h
       }]),
       onClick: () => !getDisabled('hour').includes(h) && onSelectHour(h)
-    }, pad(h)))), /*#__PURE__*/React$1.createElement("div", {
+    }, pad(h)))), /*#__PURE__*/React.createElement("div", {
       ref: minuteRef,
       className: `${prefixCls}-column`
-    }, minutesSeconds.map((m, index) => m === false ? /*#__PURE__*/React$1.createElement("div", {
+    }, minutesSeconds.map((m, index) => m === false ? /*#__PURE__*/React.createElement("div", {
       key: `${m}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2541,17 +2541,17 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React$1.createElement("div", {
+    }, "0") : /*#__PURE__*/React.createElement("div", {
       key: m,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('minute', currentHour).includes(m),
         [`${prefixCls}-cell-selected`]: selectedMinute === m
       }]),
       onClick: () => !getDisabled('minute', currentHour).includes(m) && onSelectMinute(m)
-    }, pad(m)))), /*#__PURE__*/React$1.createElement("div", {
+    }, pad(m)))), /*#__PURE__*/React.createElement("div", {
       ref: secondRef,
       className: `${prefixCls}-column`
-    }, minutesSeconds.map((s, index) => s === false ? /*#__PURE__*/React$1.createElement("div", {
+    }, minutesSeconds.map((s, index) => s === false ? /*#__PURE__*/React.createElement("div", {
       key: `${s}_${index}`,
       className: `${prefixCls}-cell`,
       style: {
@@ -2559,31 +2559,31 @@ const TimePicker = ({
         userSelect: 'none',
         cursor: 'inherit'
       }
-    }, "0") : /*#__PURE__*/React$1.createElement("div", {
+    }, "0") : /*#__PURE__*/React.createElement("div", {
       key: s,
       className: clsx([`${prefixCls}-cell`, {
         [`${prefixCls}-cell-disabled`]: getDisabled('second', currentHour, currentMinute).includes(s),
         [`${prefixCls}-cell-selected`]: selectedSecond === s
       }]),
       onClick: () => !getDisabled('second', currentHour, currentMinute).includes(s) && onSelectSecond(s)
-    }, pad(s))))), /*#__PURE__*/React$1.createElement("div", {
+    }, pad(s))))), /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-actions`
-    }, showNow ? /*#__PURE__*/React$1.createElement("div", {
+    }, showNow ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-now-btn`,
       onClick: handleShowNow
-    }, "Now") : /*#__PURE__*/React$1.createElement("span", null), /*#__PURE__*/React$1.createElement("button", {
+    }, "Now") : /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("button", {
       className: `${prefixCls}-ok-btn`,
       disabled: selectedHour === null || selectedMinute === null || selectedSecond === null,
       onClick: handleOkButton
     }, "OK")));
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-wrapper`, className]),
     style: style
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input-wrapper`,
     onClick: () => setOpen(true)
-  }, /*#__PURE__*/React$1.createElement("input", _extends({
+  }, /*#__PURE__*/React.createElement("input", _extends({
     ref: inputRef,
     size: INPUT_SIZE,
     placeholder: placeholder,
@@ -2598,18 +2598,18 @@ const TimePicker = ({
         source: 'input'
       });
     }
-  })), /*#__PURE__*/React$1.createElement("div", {
+  })), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-icons`
-  }, clearIcon && innerValue ? /*#__PURE__*/React$1.createElement("span", {
+  }, clearIcon && innerValue ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, clearIcon) : suffixIcon && /*#__PURE__*/React$1.createElement("span", {
+  }, clearIcon) : suffixIcon && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-suffix`,
     onClick: e => {
       e.stopPropagation();
       setOpen(true);
     }
-  }, suffixIcon))), open && /*#__PURE__*/React$1.createElement("div", {
+  }, suffixIcon))), open && /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-popup`
   }, renderOptions()));
@@ -2677,9 +2677,9 @@ const Textarea = /*#__PURE__*/forwardRef(({
       });
     }
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper ${rootClassName || ''}`
-  }, /*#__PURE__*/React$1.createElement("textarea", _extends({}, props, {
+  }, /*#__PURE__*/React.createElement("textarea", _extends({}, props, {
     ref: ref || textareaRef,
     value: inputValue,
     onChange: handleChange,
@@ -2693,7 +2693,7 @@ const Textarea = /*#__PURE__*/forwardRef(({
       [`${prefixCls}-success`]: status === 'success',
       [`${prefixCls}-error`]: status === 'error' || error
     }])
-  })), allowClear && inputValue && /*#__PURE__*/React$1.createElement("button", {
+  })), allowClear && inputValue && /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
   }, "\u2715"));
@@ -2839,7 +2839,7 @@ const InputComponent = /*#__PURE__*/forwardRef(({
       onPressEnter(e);
     }
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-container`, {
       [`${prefixCls}-error`]: error,
       [`${prefixCls}-disabled`]: disabled,
@@ -2847,13 +2847,13 @@ const InputComponent = /*#__PURE__*/forwardRef(({
       noStyle: noStyle
     }, className]),
     style: props.style
-  }, addonBefore && /*#__PURE__*/React$1.createElement("span", {
+  }, addonBefore && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-before`
-  }, addonBefore), /*#__PURE__*/React$1.createElement("div", {
+  }, addonBefore), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
-  }, prefix && /*#__PURE__*/React$1.createElement("span", {
+  }, prefix && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-prefix`
-  }, prefix), /*#__PURE__*/React$1.createElement("input", _extends({}, props, {
+  }, prefix), /*#__PURE__*/React.createElement("input", _extends({}, props, {
     ref: inputRef
   }, props.type === 'password' && iconRender ? {
     type: iconRenderVisible ? 'text' : 'password'
@@ -2863,14 +2863,14 @@ const InputComponent = /*#__PURE__*/forwardRef(({
     onChange: handleChange,
     onKeyDown: handleOnKeyDown,
     className: clsx([prefixCls, className])
-  })), /*#__PURE__*/React$1.createElement("span", {
+  })), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, allowClear && internalValue ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), (suffix || iconRender) && /*#__PURE__*/React$1.createElement("span", _extends({
+  }, allowClear && internalValue ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), (suffix || iconRender) && /*#__PURE__*/React.createElement("span", _extends({
     className: `${prefixCls}-suffix`
   }, iconRender !== undefined ? {
     onClick: () => setIconRenderVisible(icon => !icon)
-  } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React$1.createElement("span", {
+  } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-after`
   }, addonAfter) : null);
 });
@@ -2939,7 +2939,7 @@ const RadioGroup = ({
       return options.map((option, key) => {
         const optionValue = typeof option === 'object' ? option.value : option;
         const optionLabel = typeof option === 'object' ? option.label : option;
-        return /*#__PURE__*/React$1.createElement(Radio$1, _extends({
+        return /*#__PURE__*/React.createElement(Radio$1, _extends({
           value: optionValue,
           key: `${key}_${optionValue}`,
           checked: selectedValue === optionValue,
@@ -2954,7 +2954,7 @@ const RadioGroup = ({
         const {
           ...childProps
         } = child.props;
-        return /*#__PURE__*/React$1.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
+        return /*#__PURE__*/React.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
           size,
           buttonStyle
         } : {}, {
@@ -2967,7 +2967,7 @@ const RadioGroup = ({
       return child;
     });
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     id: id,
     style: style,
     className: clsx([`${prefixCls}-group`, {
@@ -3016,7 +3016,7 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
       onChange?.(parseValue(value));
     }
   }, [defaultChecked, checked]);
-  return /*#__PURE__*/React$1.createElement("label", {
+  return /*#__PURE__*/React.createElement("label", {
     ref: ref,
     title: title,
     onMouseEnter: onMouseEnter,
@@ -3026,7 +3026,7 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
       noStyle: noStyle,
       [className]: className
     }])
-  }, /*#__PURE__*/React$1.createElement("input", {
+  }, /*#__PURE__*/React.createElement("input", {
     name: name,
     type: "radio",
     onClick: onClick,
@@ -3035,9 +3035,9 @@ const RadioComponent = /*#__PURE__*/forwardRef(({
     onBlur: e => onBlur?.(e),
     onFocus: e => onFocus?.(e),
     defaultChecked: defaultChecked ?? checked
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: clsx([`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`])
-  }), /*#__PURE__*/React$1.createElement("span", {
+  }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-title`
   }, children ?? title ?? value));
 });
@@ -3074,7 +3074,7 @@ const Option = ({
     }
     onClick?.(e);
   };
-  return /*#__PURE__*/React$1.createElement("div", _extends({
+  return /*#__PURE__*/React.createElement("div", _extends({
     className: clsx([`${prefixCls}-option ${className} `, {
       selected: selected,
       disabled: disabled
@@ -3110,16 +3110,16 @@ const Tag = ({
     e.target.value = value;
     onClose(e);
   };
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     style: {
       ...style,
       backgroundColor: color
     },
     className: `${prefixCls}-tag`
-  }, /*#__PURE__*/React$1.createElement("span", null, label !== undefined ? label : value), closable && /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, label !== undefined ? label : value), closable && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-tag-close-icon`,
     onClick: handleOnClick
-  }, icon || /*#__PURE__*/React$1.createElement(React$1.Fragment, null, "\u2715")));
+  }, icon || /*#__PURE__*/React.createElement(React.Fragment, null, "\u2715")));
 };
 
 var Tag$1 = /*#__PURE__*/Object.freeze({
@@ -3138,7 +3138,7 @@ function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
     return node.toString();
   }
-  if (/*#__PURE__*/React$1.isValidElement(node)) {
+  if (/*#__PURE__*/React.isValidElement(node)) {
     const html = ReactDOMServer.renderToStaticMarkup(node);
     return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -3417,7 +3417,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (!showArrow) {
       return null;
     }
-    return showSearch && isOpen ? /*#__PURE__*/React$1.createElement(SearchIcon, null) : /*#__PURE__*/React$1.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React$1.createElement(ArrowIcon, {
+    return showSearch && isOpen ? /*#__PURE__*/React.createElement(SearchIcon, null) : /*#__PURE__*/React.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon]);
@@ -3491,7 +3491,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       ...props
     }, index) => {
       const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
-      return /*#__PURE__*/React$1.createElement(Option, _extends({
+      return /*#__PURE__*/React.createElement(Option, _extends({
         key: `${props.value}_${index}`
       }, props, {
         selected: isSelected,
@@ -3510,13 +3510,13 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
           });
         },
         "data-value": props.value
-      }), children || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React$1.createElement("span", {
+      }), children || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
         className: `${prefixCls}-selected-icon`
-      }, menuItemSelectedIcon === true ? /*#__PURE__*/React$1.createElement(CheckIcon, null) : menuItemSelectedIcon));
+      }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
     });
     return dropdownRender ? dropdownRender(options) : options;
   })();
-  const dropdownContent = !loading && isOpen && /*#__PURE__*/React$1.createElement("div", {
+  const dropdownContent = !loading && isOpen && /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-dropdown`, {
       [placement]: placement,
       [dropdownClassName]: dropdownClassName
@@ -3526,28 +3526,28 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       maxHeight: listHeight,
       opacity: Object.keys(dropdownPosition).length ? 1 : 0
     }
-  }, filterable && /*#__PURE__*/React$1.createElement("input", {
+  }, filterable && /*#__PURE__*/React.createElement("input", {
     type: "text",
     className: `${prefixCls}-search`,
     value: searchQuery,
     onChange: handleSearch,
     placeholder: "Search..."
-  }), !loading && /*#__PURE__*/React$1.createElement("div", {
+  }), !loading && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-options`,
     style: {
       maxHeight: listHeight,
       overflowY: 'auto',
       maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit'
     }
-  }, asTag && !!searchQuery && /*#__PURE__*/React$1.createElement(Option, {
+  }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
     value: searchQuery,
     className: `${prefixCls}-focused`,
     onClick: e => {
       handleSelect(e, searchQuery);
     },
     "data-value": searchQuery
-  }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React$1.createElement(EmptyContent, null) : null));
-  return /*#__PURE__*/React$1.createElement("div", {
+  }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null));
+  return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,
     style: style,
@@ -3560,12 +3560,12 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       [`${prefixCls}-multi`]: hasMode,
       [`${prefixCls}-disabled`]: disabled
     }])
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     onClick: handleTriggerClick,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
     className: `${prefixCls}-trigger`
-  }, showSearch || hasMode ? /*#__PURE__*/React$1.createElement("div", {
+  }, showSearch || hasMode ? /*#__PURE__*/React.createElement("div", {
     style: {
       ...style,
       ...(isOpen ? {
@@ -3574,26 +3574,26 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode ? /*#__PURE__*/React$1.createElement(React$1.Fragment, null, selected.length ? selected.map((tag, index) => tagRender ? /*#__PURE__*/React$1.createElement("div", {
+  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selected.length ? selected.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
     value: tag,
     onClose: handleRemoveTag,
     closable: true
-  })) : /*#__PURE__*/React$1.createElement(Tag, {
+  })) : /*#__PURE__*/React.createElement(Tag, {
     closable: true,
     value: tag,
     label: extractedOptions.find(e => e.value === tag)?.children || tag,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
-  })) : /*#__PURE__*/React$1.createElement("span", {
+  })) : /*#__PURE__*/React.createElement("span", {
     style: {
       opacity: 0.5
     }
-  }, placeholder)) : null, isOpen ? /*#__PURE__*/React$1.createElement("div", {
+  }, placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag`
-  }, /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", {
     onClick: e => {
       if (disabled) {
         e.preventDefault();
@@ -3610,12 +3610,12 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     contentEditable: "plaintext-only",
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
+  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React$1.createElement("div", {
+  }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || open),
     style: {
@@ -3624,16 +3624,16 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   }, selected === '' ? placeholder : (() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
     return option?.children || option?.value || option?.value || null;
-  })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React$1.createElement("button", {
+  })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-clear-btn`,
     onClick: handleClear
-  }, removeIcon || /*#__PURE__*/React$1.createElement(ClearIcon, null)) : /*#__PURE__*/React$1.createElement("span", {
+  }, removeIcon || /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-arrow`
-  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null) : /*#__PURE__*/React$1.createElement(React$1.Fragment, null, !loading && /*#__PURE__*/React$1.createElement("span", {
+  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null) : /*#__PURE__*/React.createElement(React.Fragment, null, !loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-arrow`
-  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React$1.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React$1.createElement("span", {
+  }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-loading`
-  }, /*#__PURE__*/React$1.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
+  }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
 });
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
@@ -3661,12 +3661,12 @@ const SkeletonButton = ({
   size = 'default',
   applyElementStyle = true
 }) => {
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}`, {
       [`${prefixCls}-element`]: applyElementStyle,
       [`${prefixCls}-active`]: active
     }, className])
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: clsx([`${prefixCls}-button `, BUTTON_SKELETON_SIZE[size], className]),
     style: style
   }));
@@ -3704,13 +3704,13 @@ const SkeletonAvatar = ({
   applyElementStyle = true,
   ...props
 }) => {
-  return /*#__PURE__*/React$1.createElement("div", _extends({
+  return /*#__PURE__*/React.createElement("div", _extends({
     className: clsx([`${prefixCls}`, {
       [`${prefixCls}-element`]: applyElementStyle,
       [`${prefixCls}-active`]: active
     }, className]),
     style: wrapperStyle
-  }, props), /*#__PURE__*/React$1.createElement("span", {
+  }, props), /*#__PURE__*/React.createElement("span", {
     className: clsx([`${prefixCls}-avatar ${prefixCls}-avatar-${shape}`]),
     style: {
       ...(size ? {
@@ -3740,10 +3740,10 @@ const SkeletonImage = ({
   className,
   style = {}
 }) => {
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-image ${className || ''}`,
     style: style
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`,
     style: {
       fontSize: `${style?.width || CUSTOm_ICON_SIZE}px`,
@@ -3755,13 +3755,13 @@ const SkeletonImage = ({
         backgroundColor: style?.backgroundColor
       } : {})
     }
-  }, /*#__PURE__*/React$1.createElement("svg", {
+  }, /*#__PURE__*/React.createElement("svg", {
     viewBox: "0 0 1098 1024",
     xmlns: "http://www.w3.org/2000/svg",
     width: "1em",
     height: "1em",
     fill: "currentColor"
-  }, /*#__PURE__*/React$1.createElement("path", {
+  }, /*#__PURE__*/React.createElement("path", {
     d: "M365.714286 329.142857q0 45.714286-32.036571 77.677714t-77.677714 32.036571-77.677714-32.036571-32.036571-77.677714 32.036571-77.677714 77.677714-32.036571 77.677714 32.036571 32.036571 77.677714zM950.857143 548.571429l0 256-804.571429 0 0-109.714286 182.857143-182.857143 91.428571 91.428571 292.571429-292.571429zM1005.714286 146.285714l-914.285714 0q-7.460571 0-12.873143 5.412571t-5.412571 12.873143l0 694.857143q0 7.460571 5.412571 12.873143t12.873143 5.412571l914.285714 0q7.460571 0 12.873143-5.412571t5.412571-12.873143l0-694.857143q0-7.460571-5.412571-12.873143t-12.873143-5.412571zM1097.142857 164.571429l0 694.857143q0 37.741714-26.843429 64.585143t-64.585143 26.843429l-914.285714 0q-37.741714 0-64.585143-26.843429t-26.843429-64.585143l0-694.857143q0-37.741714 26.843429-64.585143t64.585143-26.843429l914.285714 0q37.741714 0 64.585143 26.843429t26.843429 64.585143z",
     className: `${prefixCls}-image-path`
   }))));
@@ -3788,12 +3788,12 @@ const SkeletonInput = ({
   className,
   size = 'default'
 }) => {
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-element`, {
       [`${prefixCls}-active`]: active,
       [`${prefixCls}-block`]: block
     }, className])
-  }, /*#__PURE__*/React$1.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-input ${INPUT_SKELETON_SIZE[size]} ${className || ''}`,
     style: style
   }));
@@ -3829,28 +3829,28 @@ const SkeletonComponent = ({
   } : {};
   const PARAGRAPH_ROWS = avatar ? PARAGRAPH_AVATAR_ROWS : PARAGRAPH_DEFAULT_ROWS;
   const HAS_PHARAGRAPH = typeof paragraph === 'boolean' || !paragraph ? PARAGRAPH_ROWS : paragraph?.rows ?? PARAGRAPH_ROWS;
-  return /*#__PURE__*/React$1.createElement("div", {
+  return /*#__PURE__*/React.createElement("div", {
     className: clsx([prefixCls, {
       [`${prefixCls}__withAvatar`]: avatar,
       [`${prefixCls}-active`]: active,
       [`${prefixCls}-round`]: round
     }, className]),
     style: style
-  }, avatar && teamLogo && /*#__PURE__*/React$1.createElement("div", {
+  }, avatar && teamLogo && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}__header`
-  }, /*#__PURE__*/React$1.createElement(SkeletonAvatar, GET_AVATAR_SKELETON_PROPS(avatar))), /*#__PURE__*/React$1.createElement("div", {
+  }, /*#__PURE__*/React.createElement(SkeletonAvatar, GET_AVATAR_SKELETON_PROPS(avatar))), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-content`
-  }, /*#__PURE__*/React$1.createElement("h3", {
+  }, /*#__PURE__*/React.createElement("h3", {
     className: clsx([`${prefixCls}-title ${GET_TITLE_SKELETON_PROPS.className}`, {
       [`${prefixCls}-title-avatar`]: avatar
     }]),
     style: GET_TITLE_SKELETON_PROPS.style
-  }), paragraph !== false && /*#__PURE__*/React$1.createElement("ul", {
+  }), paragraph !== false && /*#__PURE__*/React.createElement("ul", {
     className: `${prefixCls}-paragraph`,
     style: {
       ...(typeof paragraph !== 'boolean' && paragraph ? paragraph.style : {})
     }
-  }, createArray(HAS_PHARAGRAPH).map(key => /*#__PURE__*/React$1.createElement("li", {
+  }, createArray(HAS_PHARAGRAPH).map(key => /*#__PURE__*/React.createElement("li", {
     key: key
   })))));
 };

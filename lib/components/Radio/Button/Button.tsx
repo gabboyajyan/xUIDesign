@@ -1,10 +1,11 @@
 'use client';
 
+import React from 'react';
 import { clsx } from '../../../helpers';
 import { RadioButtonProps } from '../../../types/radio';
 import { prefixClsRadio } from '../../../utils';
-import './style.css';
 import Radio from '../Radio';
+import './style.css';
 
 const RadioButton = ({
   prefixCls = prefixClsRadio,
