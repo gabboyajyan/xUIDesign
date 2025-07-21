@@ -444,8 +444,8 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z$l = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color)}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
-styleInject(css_248z$l);
+var css_248z$m = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color)}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
+styleInject(css_248z$m);
 
 const ClearIcon = () => /*#__PURE__*/React$1.createElement("svg", {
   width: "10",
@@ -859,6 +859,7 @@ const prefixClsEmpty = 'xUi-empty';
 const prefixClsInput = 'xUi-input';
 const prefixClsSelect = 'xUi-select';
 const prefixClsCheckbox = 'xUi-checkbox';
+const prefixClsSwitch = 'xUi-switch';
 const prefixClsRadio = 'xUi-radio';
 const prefixClsTextArea = 'xUi-textarea';
 const prefixClsUpload = 'xUi-upload';
@@ -921,8 +922,8 @@ function flattenChildren(children) {
   return result;
 }
 
-var css_248z$k = ".xUi-form-item{display:flex;margin-bottom:10px;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:-6px;color:var(--xui-error-color);font-size:var(--xui-font-size-xs);line-height:16px;position:absolute;right:0;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}";
-styleInject(css_248z$k);
+var css_248z$l = ".xUi-form-item{display:flex;margin-bottom:10px;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:-6px;color:var(--xui-error-color);font-size:var(--xui-font-size-xs);line-height:16px;position:absolute;right:0;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}";
+styleInject(css_248z$l);
 
 const REF_CLIENT_HEIGHT = 24;
 const FormItem$1 = ({
@@ -1212,6 +1213,9 @@ const Button$3 = dynamic$1(() => Promise.resolve().then(function () { return But
 const Checkbox$2 = dynamic$1(() => Promise.resolve().then(function () { return Checkbox$1; }), {
   ssr: false
 });
+const Switch$2 = dynamic$1(() => Promise.resolve().then(function () { return Switch$1; }), {
+  ssr: false
+});
 const Empty$1 = dynamic$1(() => Promise.resolve().then(function () { return Empty; }), {
   ssr: false
 });
@@ -1273,8 +1277,8 @@ const SkeletonInput$1 = dynamic$1(() => Promise.resolve().then(function () { ret
   ssr: false
 });
 
-var css_248z$j = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:40px;padding:8px 20px}.xUi-button-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-circle.xUi-button-size-large{height:40px;width:40px}.xUi-button-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-primary-color-light);border-color:var(--xui-primary-color-light);color:#fff}.xUi-button-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-outlined{color:#fff}.xUi-button-filled,.xUi-button-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
-styleInject(css_248z$j);
+var css_248z$k = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:40px;padding:8px 20px}.xUi-button-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-circle.xUi-button-size-large{height:40px;width:40px}.xUi-button-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-primary-color-light);border-color:var(--xui-primary-color-light);color:#fff}.xUi-button-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-outlined{color:#fff}.xUi-button-filled,.xUi-button-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
+styleInject(css_248z$k);
 
 const ButtonComponent = ({
   type = 'default',
@@ -1355,8 +1359,8 @@ var Button$2 = /*#__PURE__*/Object.freeze({
 	default: ButtonComponent
 });
 
-var css_248z$i = ".xUi-checkbox-wrapper{align-items:center;color:var(--xui-main-color);cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);margin:16px 0}.xUi-checkbox{background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:inline-block;height:14px;position:relative;transition:all .3s;width:14px}.xUi-checkbox.xUi-checkbox-checked{background-color:#f0f5ff;border-color:var(--xui-primary-color)}.xUi-checkbox input{cursor:pointer;inset:0;opacity:0;position:absolute}.xUi-checkbox-inner{border-left:0;border-top:0;border:2px solid var(--xui-background-color);height:6px;left:50%;position:absolute;top:50%;transform:rotate(45deg) scale(0);transition:transform .2s ease-in-out;width:10px}.xUi-checkbox-check{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);display:block;height:100%;position:relative;transition:.1s ease;width:100%}.xUi-checkbox-check:after{border:solid #fff;border-width:0 2px 2px 0;content:\"\";height:8px;left:3px;position:absolute;top:1px;transform:rotate(45deg);width:5px}.xUi-checkbox-disabled,.xUi-checkbox-disabled .xUi-checkbox-check{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-checkbox-label{font-size:14px;margin-left:8px;user-select:none}.xUi-checkbox:focus:not(.disabled),.xUi-checkbox:hover:not(.disabled){border-color:var(--xui-primary-color);cursor:pointer}.xUi-checkbox.disabled{cursor:not-allowed;opacity:.5}";
-styleInject(css_248z$i);
+var css_248z$j = ".xUi-checkbox-wrapper{align-items:center;color:var(--xui-main-color);cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);margin:16px 0}.xUi-checkbox{background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:inline-block;height:14px;position:relative;transition:all .3s;width:14px}.xUi-checkbox.xUi-checkbox-checked{background-color:#f0f5ff;border-color:var(--xui-primary-color)}.xUi-checkbox input{cursor:pointer;inset:0;opacity:0;position:absolute}.xUi-checkbox-inner{border-left:0;border-top:0;border:2px solid var(--xui-background-color);height:6px;left:50%;position:absolute;top:50%;transform:rotate(45deg) scale(0);transition:transform .2s ease-in-out;width:10px}.xUi-checkbox-check{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);display:block;height:100%;position:relative;transition:.1s ease;width:100%}.xUi-checkbox-check:after{border:solid #fff;border-width:0 2px 2px 0;content:\"\";height:8px;left:3px;position:absolute;top:1px;transform:rotate(45deg);width:5px}.xUi-checkbox-disabled,.xUi-checkbox-disabled .xUi-checkbox-check{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-checkbox-label{font-size:14px;margin-left:8px;user-select:none}.xUi-checkbox:focus:not(.disabled),.xUi-checkbox:hover:not(.disabled){border-color:var(--xui-primary-color);cursor:pointer}.xUi-checkbox.disabled{cursor:not-allowed;opacity:.5}";
+styleInject(css_248z$j);
 
 const Checkbox = /*#__PURE__*/React$1.forwardRef(({
   prefixCls = prefixClsCheckbox,
@@ -1437,6 +1441,54 @@ Checkbox.displayName = 'Checkbox';
 var Checkbox$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	default: Checkbox
+});
+
+var css_248z$i = ".xUi-switch{background-color:var(--xui-color-disabled);border:0;border-radius:100px;box-sizing:border-box;color:#000000d9;cursor:pointer;display:inline-block;font-size:14px;font-variant:tabular-nums;height:22px;list-style:none;margin:0;min-width:44px;padding:0;position:relative;transition:all .2s;user-select:none;vertical-align:middle}.xUi-switch.xUi-switch__disabled{opacity:.5;pointer-events:none}.xUi-switch .xUi-switch__slider{background-color:#fff;border-radius:50%;height:18px;left:2px;position:absolute;top:2px;transition:transform .3s;width:18px}.xUi-switch__checked .xUi-switch__slider{transform:translateX(21px)}.xUi-switch__checked{background-color:var(--xui-primary-color)}";
+styleInject(css_248z$i);
+
+const Switch = ({
+  prefixCls = prefixClsSwitch,
+  checked = false,
+  onChange,
+  onClick,
+  disabled = false,
+  className = '',
+  style = {},
+  defaultChecked,
+  value
+}) => {
+  const isChecked = checked !== undefined ? checked : defaultChecked || value;
+  const [internalChecked, setInternalChecked] = React$1.useState(isChecked);
+  const handleClick = e => {
+    e.stopPropagation();
+    if (disabled) {
+      return;
+    }
+    setInternalChecked(!internalChecked);
+    e.target.value = !internalChecked;
+    onClick?.(e);
+    onChange?.(e);
+  };
+  React$1.useEffect(() => {
+    if (checked !== undefined) {
+      setInternalChecked(checked);
+    }
+  }, [checked]);
+  return /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls} ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
+    style: style
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`,
+    onClick: handleClick
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls}__slider`
+  })));
+};
+Switch.displayName = 'Switch';
+
+var Switch$1 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	default: Switch
 });
 
 var css_248z$h = ".xUi-empty{align-items:center;display:grid;gap:4px;justify-content:center;padding:14px}.xUi-empty-description{color:var(--xui-text-color);font-size:var(--xui-font-size-md);text-align:center}";
@@ -3846,6 +3898,7 @@ exports.SkeletonInput = SkeletonInput$1;
 exports.SpinerIcon = SpinerIcon;
 exports.StampleIcon = StampleIcon;
 exports.SuccessIcon = SuccessIcon;
+exports.Switch = Switch$2;
 exports.Tag = Tag$2;
 exports.Textarea = Textarea$2;
 exports.TimeIcon = TimeIcon;

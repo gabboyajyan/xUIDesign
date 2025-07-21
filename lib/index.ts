@@ -4,6 +4,7 @@ import './styles/global.css';
 
 const Button = dynamic(() => import('@/components/Button/Button'), { ssr: false });
 const Checkbox = dynamic(() => import('@/components/Checkbox/Checkbox'), { ssr: false });
+const Switch = dynamic(() => import('@/components/Switch/Switch'), { ssr: false });
 const Empty = dynamic(() => import('@/components/Empty/Empty'), { ssr: false });
 const Upload = dynamic(() => import('@/components/Upload/Upload'), { ssr: false });
 
@@ -53,7 +54,8 @@ export {
   SkeletonButton,
   SkeletonImage,
   SkeletonInput,
-  Upload
+  Upload,
+  Switch
 };
 
 export {

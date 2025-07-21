@@ -7,6 +7,7 @@ import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
+import { Switch } from "../../lib/components/Switch";
 import { Suspense, useCallback } from "react";
 import { Button } from "../../lib/components/Button";
 import Option from "../../lib/components/Select/Option/Option";
@@ -1890,7 +1891,7 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select placeholder="sdfdsfg">{l.map(e =>
+                            <Select size="small" placeholder="sdfdsfg">{l.map(e =>
                                 <Option value={e.value} key={e.value}>{e.label}</Option>
                             )}</Select>
                         </Item>
@@ -1926,16 +1927,7 @@ export default function Home() {
                                 }
                             }]}
                         >
-                            <div>
-                                <Suspense fallback={null}>
-                                    <div className="checkbox" >
-                                        <Checkbox>sdvcdsv</Checkbox>
-                                        <div dangerouslySetInnerHTML={{
-                                            __html: `<i>okokok</i>`
-                                        }} />
-                                    </div>
-                                </Suspense>
-                            </div>
+                            <Switch />
                         </Item>
                     </div>
                     {/* <Item label={'dsfdsf'} name="sdfdsf">

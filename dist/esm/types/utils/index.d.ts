@@ -4,6 +4,7 @@ export declare const prefixClsEmpty = "xUi-empty";
 export declare const prefixClsInput = "xUi-input";
 export declare const prefixClsSelect = "xUi-select";
 export declare const prefixClsCheckbox = "xUi-checkbox";
+export declare const prefixClsSwitch = "xUi-switch";
 export declare const prefixClsRadio = "xUi-radio";
 export declare const prefixClsTextArea = "xUi-textarea";
 export declare const prefixClsUpload = "xUi-upload";

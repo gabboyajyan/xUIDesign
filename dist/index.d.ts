@@ -1,5 +1,5 @@
 import * as react from 'react';
-import { CSSProperties, ReactNode } from 'react';
+import { CSSProperties, ReactNode, MouseEvent, MouseEventHandler, KeyboardEventHandler } from 'react';
 import * as __types_select from '@/types/select';
 export { CustomTagProps, DisplayValueType, OptionProps, OptionType, SelectProps, TagProps } from '@/types/select';
 import * as __types_radio from '@/types/radio';
@@ -23,12 +23,18 @@ export { FormContext } from '@/components/Form/Form';
 export { clsx, createArray, parseValue } from '@/helpers';
 export { flattenChildren } from '@/helpers/flatten';
 
+type RuleType = any;
 interface DefaultProps {
     prefixCls?: string;
     className?: string;
     style?: CSSProperties;
     noStyle?: boolean;
 }
+type TargetProps = {
+    target: {
+        value: RuleType;
+    };
+};
 
 declare type widthUnit = number | string;
 interface SkeletonElementProps {
@@ -84,6 +90,27 @@ type EmptyContentProps = DefaultProps & {
     icon?: ReactNode;
 };
 
+type SwitchProps = DefaultProps & {
+    disabled?: boolean;
+    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
+    onClick?: MouseEventHandler<HTMLElement>;
+    onMouseEnter?: MouseEventHandler<HTMLElement>;
+    onMouseLeave?: MouseEventHandler<HTMLElement>;
+    onKeyPress?: KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: KeyboardEventHandler<HTMLElement>;
+    value?: boolean;
+    tabIndex?: number;
+    name?: string;
+    children?: ReactNode;
+    id?: string;
+    autoFocus?: boolean;
+    type?: string;
+    skipGroup?: boolean;
+    required?: boolean;
+    defaultChecked?: boolean;
+    checked?: boolean;
+};
+
 declare const Button: react.ComponentType<__types_button.ButtonProps>;
 declare const Checkbox: react.ComponentType<__types.DefaultProps & {
     disabled?: boolean;
@@ -105,6 +132,7 @@ declare const Checkbox: react.ComponentType<__types.DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
 } & react.RefAttributes<HTMLDivElement>>;
+declare const Switch: react.ComponentType<SwitchProps>;
 declare const Empty: react.ComponentType<EmptyContentProps>;
 declare const Upload: react.ComponentType<__types_upload.UploadProps>;
 declare const DatePicker: react.ComponentType<__types_datepicker.TDatePickerProps>;
@@ -241,4 +269,4 @@ declare const SkeletonButton: react.ComponentType<SkeletonButtonProps>;
 declare const SkeletonImage: react.ComponentType<SkeletonImageProps>;
 declare const SkeletonInput: react.ComponentType<SkeletonInputProps>;
 
-export { Button, Checkbox, DatePicker, Empty, Form, FormItem, Input, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Tag, Textarea, TimePicker, Upload };
+export { Button, Checkbox, DatePicker, Empty, Form, FormItem, Input, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };
