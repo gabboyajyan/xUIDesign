@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from 'react';
+import React, { MouseEvent, useEffect, useState } from 'react';
 import { SyntheticBaseEvent } from '../../types';
 import { SwitchProps } from '../../types/switch';
 import { prefixClsSwitch } from '@/utils';

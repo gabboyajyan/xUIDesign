@@ -1472,13 +1472,13 @@ const Switch = ({
       setInternalChecked(checked);
     }
   }, [checked]);
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls} ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
     style: style
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`,
     onClick: handleClick
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls}__slider`
   })));
 };
