@@ -1,12 +1,11 @@
 import {
-  MouseEvent,
   ReactNode
 } from 'react';
-import { DefaultProps, TargetProps } from '.';
+import { DefaultProps } from '.';
 
 export type SwitchProps = DefaultProps & {
   disabled?: boolean;
-  onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
+  onChange?:  (value: boolean) => void;
   onClick?: (value: boolean) => void;
   value?: boolean;
   tabIndex?: number;

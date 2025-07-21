@@ -1,5 +1,5 @@
 import * as react from 'react';
-import { CSSProperties, ReactNode, MouseEvent } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import * as __types_select from '@/types/select';
 export { CustomTagProps, DisplayValueType, OptionProps, OptionType, SelectProps, TagProps } from '@/types/select';
 import * as __types_radio from '@/types/radio';
@@ -23,18 +23,12 @@ export { FormContext } from '@/components/Form/Form';
 export { clsx, createArray, parseValue } from '@/helpers';
 export { flattenChildren } from '@/helpers/flatten';
 
-type RuleType = any;
 interface DefaultProps {
     prefixCls?: string;
     className?: string;
     style?: CSSProperties;
     noStyle?: boolean;
 }
-type TargetProps = {
-    target: {
-        value: RuleType;
-    };
-};
 
 declare type widthUnit = number | string;
 interface SkeletonElementProps {
@@ -92,7 +86,7 @@ type EmptyContentProps = DefaultProps & {
 
 type SwitchProps = DefaultProps & {
     disabled?: boolean;
-    onChange?: (e: MouseEvent<HTMLInputElement> & TargetProps) => void;
+    onChange?: (value: boolean) => void;
     onClick?: (value: boolean) => void;
     value?: boolean;
     tabIndex?: number;

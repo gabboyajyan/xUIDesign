@@ -1467,7 +1467,7 @@ const Switch = ({
     setInternalChecked(!internalChecked);
     e.target.value = !internalChecked;
     onClick?.(e.target.value);
-    onChange?.(e);
+    onChange?.(e.target.value);
   };
   React$1.useEffect(() => {
     if (checked !== undefined) {

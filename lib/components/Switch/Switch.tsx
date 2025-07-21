@@ -31,7 +31,7 @@ const Switch = ({
     e.target.value = !internalChecked;
 
     onClick?.(e.target.value);
-    onChange?.(e);
+    onChange?.(e.target.value);
   };
 
   useEffect(() => {
