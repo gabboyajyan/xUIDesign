@@ -1473,7 +1473,7 @@ const Switch = ({
     }
   }, [checked]);
   return /*#__PURE__*/React$1.createElement("div", {
-    className: `${prefixCls} ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
+    className: `${prefixCls}-wrapper ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
     style: style
   }, /*#__PURE__*/React$1.createElement("div", {
     className: `${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`,
