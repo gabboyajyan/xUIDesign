@@ -3141,7 +3141,7 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
-  const initialValue = React$1.useMemo(() => value || defaultValue || '', [value, defaultValue]);
+  const initialValue = React$1.useMemo(() => value ?? defaultValue ?? '', [value, defaultValue]);
   const checkModeInitialValue = React$1.useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
   const [isHover, setIsHover] = React$1.useState(false);
   const selectRef = React$1.useRef(null);
@@ -3572,8 +3572,8 @@ const SelectComponent = /*#__PURE__*/React$1.forwardRef(({
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
   }, selected === '' ? placeholder : (() => {
-    const option = extractedOptions.find(e => e.value === selected);
-    return option?.children || option?.value || null;
+    const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
+    return option?.children || option?.value || option?.value || null;
   })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React$1.createElement("button", {
     className: `${prefixCls}-clear-btn`,
     onClick: handleClear

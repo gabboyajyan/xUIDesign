@@ -107,7 +107,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const hasMode = asTag || asMultiple;
 
     const initialValue = useMemo(
-      () => value || defaultValue || '',
+      () => value ?? defaultValue ?? '',
       [value, defaultValue]
     );
 
@@ -776,10 +776,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 ? placeholder
                 : (() => {
                   const option = extractedOptions.find(
-                    e => e.value === selected
+                    e => e.value === selected || e.label === selected || e.children === selected
                   );
 
-                  return option?.children || option?.value || null;
+                  return option?.children || option?.value || option?.value || null;
                 })()}
             </div>
           ) : null}

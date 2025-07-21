@@ -9,6 +9,7 @@ import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 import { Suspense, useCallback } from "react";
 import { Button } from "../../lib/components/Button";
+import Option from "../../lib/components/Select/Option/Option";
 // import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
@@ -1858,6 +1859,8 @@ export const CountryCodes = [...new Set([
 //     3
 // ]
 
+const l = [{ value: 0, label: 'Zero' }]
+
 export default function Home() {
     const form = useForm();
 
@@ -1887,13 +1890,9 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select mode="multiple" placeholder="sdfdsfg" options={CountryCodes} />
-
-                            <button onClick={(e) => {
-                                e.preventDefault();
-
-                                form.setFieldsValue({ gender: '' }, null)
-                            }}>reset field</button>
+                            <Select placeholder="sdfdsfg">{l.map(e =>
+                                <Option value={e.value} key={e.value}>{e.label}</Option>
+                            )}</Select>
                         </Item>
                     </div>
 
