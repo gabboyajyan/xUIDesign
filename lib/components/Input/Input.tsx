@@ -171,9 +171,11 @@ const InputComponent = forwardRef(
             className={clsx([prefixCls, className])}
           />
 
-          <span className={`${prefixCls}-clear`} onClick={handleClear}>
-            {allowClear && internalValue ? <ErrorIcon /> : null}
-          </span>
+          {allowClear && internalValue ?
+            <span className={`${prefixCls}-clear`} onClick={handleClear}>
+              <ErrorIcon />
+            </span> : null
+          }
 
           {(suffix || iconRender) && (
             <span

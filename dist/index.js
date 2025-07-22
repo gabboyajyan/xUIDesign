@@ -2865,10 +2865,10 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
     onChange: handleChange,
     onKeyDown: handleOnKeyDown,
     className: clsx([prefixCls, className])
-  })), /*#__PURE__*/React.createElement("span", {
+  })), allowClear && internalValue ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, allowClear && internalValue ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), (suffix || iconRender) && /*#__PURE__*/React.createElement("span", _extends({
+  }, /*#__PURE__*/React.createElement(ErrorIcon, null)) : null, (suffix || iconRender) && /*#__PURE__*/React.createElement("span", _extends({
     className: `${prefixCls}-suffix`
   }, iconRender !== undefined ? {
     onClick: () => setIconRenderVisible(icon => !icon)
