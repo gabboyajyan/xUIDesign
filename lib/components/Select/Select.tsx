@@ -676,7 +676,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       );
 
       return option?.children || option?.label || option?.value || null;
-    })()
+    })() || selected || null
 
     return (
       <div

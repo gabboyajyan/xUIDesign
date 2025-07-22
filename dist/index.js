@@ -3555,7 +3555,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const selectedOption = (() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
     return option?.children || option?.label || option?.value || null;
-  })();
+  })() || selected || null;
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,

@@ -1896,10 +1896,10 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select showSearch options={DOCUMENT_TYPES} onChange={e => {
-                                // console.log(e);
-                                
-                            }} size="middle" placeholder="sdfdsfg" />
+                            <Select 
+                                showSearch 
+                                options={DOCUMENT_TYPES} 
+                                placeholder="sdfdsfg" />
                         </Item>
                     </div>
 
