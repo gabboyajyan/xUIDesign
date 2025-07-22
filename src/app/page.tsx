@@ -8,7 +8,7 @@ import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 import { Switch } from "../../lib/components/Switch";
-import { Suspense, useCallback } from "react";
+import { Suspense, useCallback, useState } from "react";
 import { Button } from "../../lib/components/Button";
 import Option from "../../lib/components/Select/Option/Option";
 // import Option from "../../lib/components/Select/Option/Option";
@@ -1872,6 +1872,8 @@ export default function Home() {
 
     const handle = useCallback((e) => console.log(e), [])
 
+    const [value, setValue] = useState('')
+
     return (
         <>
             {/* <div style={{ height: 1000 }} /> */}
@@ -1897,6 +1899,8 @@ export default function Home() {
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select 
+                                open={value.length > 2}
+                                onSearch={e => setValue(e)}
                                 showSearch 
                                 options={DOCUMENT_TYPES} 
                                 placeholder="sdfdsfg" />

@@ -638,7 +638,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           />
         )}
 
-        {!loading && (
+        {!loading && open && (
           <div
             className={`${prefixCls}-options`}
             style={{

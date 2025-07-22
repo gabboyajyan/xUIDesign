@@ -3535,7 +3535,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     value: searchQuery,
     onChange: handleSearch,
     placeholder: "Search..."
-  }), !loading && /*#__PURE__*/React.createElement("div", {
+  }), !loading && open && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-options`,
     style: {
       maxHeight: listHeight,
