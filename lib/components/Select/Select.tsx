@@ -705,7 +705,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             <div
               style={{
                 ...style,
-                ...(isOpen ? { maxWidth: `${searchInputWidth}px` } : {}),
+                ...(isOpen ? { opacity: hasMode ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
                 minWidth: `${searchInputWidth}px`
               }}
               className={`${prefixCls}-tag-container`}
@@ -776,7 +776,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               ) : !hasMode ? (
                 <div
                   className={`${prefixCls}-input globalEllipsis`}
-                  style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
+                  style={{ opacity: isOpen ? '0.6' : '1' }}
                 >
                   {selected === ''
                     ? placeholder
@@ -788,7 +788,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             <div
               className={`${prefixCls}-input globalEllipsis`}
               onClick={() => !disabled && setIsOpen(!isOpen || defaultOpen)}
-              style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
+              style={{ opacity: isOpen ? '0.6' : '1' }}
             >
               {selected === ''
                 ? placeholder

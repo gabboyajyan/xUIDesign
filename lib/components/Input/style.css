@@ -7,8 +7,8 @@
     border-radius: var(--xui-border-radius-sm);
 }
 
-.xUi-input-container:not(.xUi-input-error):has(.xUi-input):hover,
-.xUi-input-container:not(.xUi-input-error):has(.xUi-input:focus) {
+.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,
+.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus) {
     border: 1px solid var(--xui-primary-color);   
 }
 
@@ -97,7 +97,9 @@
     color: var(--xui-text-color);
 }
 
-.xUi-input-disabled {
+.xUi-input-disabled,
+.xUi-input-disabled .xUi-input,
+.xUi-input-disabled .xUi-input-suffix {
     background-color: var(--xui-color-disabled);
     cursor: not-allowed;
 }
