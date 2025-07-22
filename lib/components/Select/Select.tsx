@@ -248,7 +248,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
-      
+
       if (!isOpen) {
         setDropdownPosition({});
       }
@@ -670,6 +670,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       </div>
     );
 
+    const selectedOption = (() => {
+      const option = extractedOptions.find(
+        e => e.value === selected || e.label === selected || e.children === selected
+      );
+
+      return option?.children || option?.label || option?.value || null;
+    })()
+
     return (
       <div
         id={id}
@@ -721,7 +729,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       value={tag}
                       label={
                         extractedOptions.find(e => e.value === tag)
-                            ?.children || tag
+                          ?.children || tag
                       }
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
@@ -753,8 +761,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                   />
                   {!hasMode && !searchQuery.length ? (selected === ''
                     ? placeholder
-                    : extractedOptions.find(e => e.value === selected)
-                      ?.children || selected) : null}
+                    : selectedOption) : null}
                 </div>
               ) : !hasMode ? (
                 <div
@@ -763,8 +770,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 >
                   {selected === ''
                     ? placeholder
-                    : extractedOptions.find(e => e.value === selected)
-                      ?.children || selected}
+                    : selectedOption}
                 </div>
               ) : null}
             </div>
@@ -776,13 +782,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             >
               {selected === ''
                 ? placeholder
-                : (() => {
-                  const option = extractedOptions.find(
-                    e => e.value === selected || e.label === selected || e.children === selected
-                  );
-
-                  return option?.children || option?.value || option?.label || null;
-                })()}
+                : selectedOption}
             </div>
           ) : null}
 

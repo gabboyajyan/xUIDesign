@@ -3550,6 +3550,10 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     },
     "data-value": searchQuery
   }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null));
+  const selectedOption = (() => {
+    const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
+    return option?.children || option?.label || option?.value || null;
+  })();
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,
@@ -3613,21 +3617,18 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     contentEditable: "plaintext-only",
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : extractedOptions.find(e => e.value === selected)?.children || selected) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }, selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || open),
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : (() => {
-    const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
-    return option?.children || option?.value || option?.label || null;
-  })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
+  }, selected === '' ? placeholder : selectedOption) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-clear-btn`,
     onClick: handleClear
   }, removeIcon || /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement("span", {

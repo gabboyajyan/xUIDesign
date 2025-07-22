@@ -1897,7 +1897,7 @@ export default function Home() {
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select showSearch options={DOCUMENT_TYPES} onChange={e => {
-                                console.log(e);
+                                // console.log(e);
                                 
                             }} size="middle" placeholder="sdfdsfg" />
                         </Item>
