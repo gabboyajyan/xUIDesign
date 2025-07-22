@@ -705,7 +705,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
             <div
               style={{
                 ...style,
-                ...(isOpen ? { opacity: hasMode ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
+                ...(isOpen ? { opacity: hasMode || searchQuery.length ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
                 minWidth: `${searchInputWidth}px`
               }}
               className={`${prefixCls}-tag-container`}

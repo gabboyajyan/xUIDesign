@@ -3578,7 +3578,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     style: {
       ...style,
       ...(isOpen ? {
-        opacity: hasMode ? 1 : 0.5,
+        opacity: hasMode || searchQuery.length ? 1 : 0.5,
         maxWidth: `${searchInputWidth}px`
       } : {}),
       minWidth: `${searchInputWidth}px`
