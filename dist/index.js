@@ -3172,6 +3172,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   dropdownClassName = '',
   className = '',
   suffixIcon,
+  searchIcon,
   style,
   onSearch,
   onSelect,
@@ -3419,10 +3420,10 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     if (!showArrow) {
       return null;
     }
-    return showSearch && isOpen ? /*#__PURE__*/React.createElement(SearchIcon, null) : /*#__PURE__*/React.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
+    return showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : /*#__PURE__*/React.createElement("span", null, suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
       isOpen: isOpen
     }));
-  }, [showArrow, showSearch, isOpen, suffixIcon]);
+  }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
   const extractedOptions = children ? extractOptions(children) : options;
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);

@@ -243,6 +243,7 @@ declare const Select: react.ComponentType<__types.DefaultProps & {
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: react.ReactNode;
+    searchIcon?: react.ReactNode;
     open?: boolean;
     notFoundContent?: react.ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;

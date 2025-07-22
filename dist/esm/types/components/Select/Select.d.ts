@@ -38,6 +38,7 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: ReactNode;
+    searchIcon?: ReactNode;
     open?: boolean;
     notFoundContent?: ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;

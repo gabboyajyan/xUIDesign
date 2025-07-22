@@ -141,6 +141,7 @@ declare const Select: import("react").ComponentType<import("@/types").DefaultPro
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: import("react").ReactNode;
+    searchIcon?: import("react").ReactNode;
     open?: boolean;
     notFoundContent?: import("react").ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;

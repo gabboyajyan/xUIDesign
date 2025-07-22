@@ -82,6 +82,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       dropdownClassName = '',
       className = '',
       suffixIcon,
+      searchIcon,
       style,
       onSearch,
       onSelect,
@@ -453,13 +454,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       }
 
       return showSearch && isOpen ? (
-        <SearchIcon />
+        searchIcon || <SearchIcon />
       ) : (
         <span>
           {suffixIcon || (showArrow && <ArrowIcon isOpen={isOpen} />)}
         </span>
       );
-    }, [showArrow, showSearch, isOpen, suffixIcon]);
+    }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
     const extractedOptions = children
       ? extractOptions(children)

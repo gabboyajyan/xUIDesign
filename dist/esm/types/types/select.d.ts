@@ -37,6 +37,7 @@ export type SelectProps = DefaultProps & {
     onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
     showAction?: ('click' | 'focus')[] | undefined;
     suffixIcon?: ReactNode;
+    searchIcon?: ReactNode;
     open?: boolean;
     notFoundContent?: ReactNode;
     getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
