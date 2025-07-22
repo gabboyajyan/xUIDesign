@@ -3521,7 +3521,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     });
     return dropdownRender ? dropdownRender(options) : options;
   })();
-  const dropdownContent = !loading && isOpen && /*#__PURE__*/React.createElement("div", {
+  const dropdownContent = !loading && open && isOpen && /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-dropdown`, {
       [placement]: placement,
       [dropdownClassName]: dropdownClassName
@@ -3537,7 +3537,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     value: searchQuery,
     onChange: handleSearch,
     placeholder: "Search..."
-  }), !loading && open && /*#__PURE__*/React.createElement("div", {
+  }), !loading && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-options`,
     style: {
       maxHeight: listHeight,

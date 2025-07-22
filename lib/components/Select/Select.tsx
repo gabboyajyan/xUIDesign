@@ -613,7 +613,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return dropdownRender ? dropdownRender(options) : options;
     })();
 
-    const dropdownContent = !loading && isOpen && (
+    const dropdownContent = !loading && open && isOpen && (
       <div
         className={clsx([
           `${prefixCls}-dropdown`,
@@ -638,7 +638,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           />
         )}
 
-        {!loading && open && (
+        {!loading && (
           <div
             className={`${prefixCls}-options`}
             style={{
