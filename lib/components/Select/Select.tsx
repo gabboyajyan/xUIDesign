@@ -513,7 +513,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const valueToCheck =
         optionFilterProp && typeof optionFilterPropValue === 'string'
           ? String(optionFilterPropValue)
-          : getTextFromNode(option.children) || String(option.value);
+          : getTextFromNode(option.children) || String(option.label) || String(option.value);
 
       return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
@@ -594,7 +594,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               }}
               data-value={props.value}
             >
-              {children || props.value}
+              {children || props.label || props.value}
 
               {menuItemSelectedIcon && hasMode && isSelected && (
                 <span className={`${prefixCls}-selected-icon`}>
@@ -781,7 +781,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     e => e.value === selected || e.label === selected || e.children === selected
                   );
 
-                  return option?.children || option?.value || option?.value || null;
+                  return option?.children || option?.value || option?.label || null;
                 })()}
             </div>
           ) : null}

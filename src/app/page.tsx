@@ -1862,6 +1862,11 @@ export const CountryCodes = [...new Set([
 
 const l = [{ value: 0, label: 'Zero' }]
 
+const DOCUMENT_TYPES = [
+  { value: 0, label: 'account.idDocument' },
+  { value: 1, label: 'account.passportNum' }
+];
+
 export default function Home() {
     const form = useForm();
 
@@ -1891,12 +1896,10 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select onSearch={e => {
+                            <Select showSearch options={DOCUMENT_TYPES} onChange={e => {
                                 console.log(e);
                                 
-                            }} size="middle" placeholder="sdfdsfg">{l.map(e =>
-                                <Option value={e.value} key={e.value}>{e.label}</Option>
-                            )}</Select>
+                            }} size="middle" placeholder="sdfdsfg" />
                         </Item>
                     </div>
 

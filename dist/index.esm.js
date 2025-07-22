@@ -3458,7 +3458,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const optionFilterPropValue = option[optionFilterProp];
-    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : getTextFromNode(option.children) || String(option.value);
+    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : getTextFromNode(option.children) || String(option.label) || String(option.value);
     return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
   });
   const handleTriggerClick = () => {
@@ -3513,7 +3513,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
           });
         },
         "data-value": props.value
-      }), children || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
+      }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
         className: `${prefixCls}-selected-icon`
       }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
     });
@@ -3626,7 +3626,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     }
   }, selected === '' ? placeholder : (() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
-    return option?.children || option?.value || option?.value || null;
+    return option?.children || option?.value || option?.label || null;
   })()) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-clear-btn`,
     onClick: handleClear
