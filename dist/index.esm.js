@@ -3177,6 +3177,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   onDeselect,
   onClear,
   onChange,
+  onClose,
   showSearch = false,
   open = false,
   showArrow = true,
@@ -3239,6 +3240,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       if (!clickedInside) {
         setIsOpen(false);
         handleClearInputValue();
+        onClose?.();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

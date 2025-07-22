@@ -123,6 +123,7 @@ declare const Select: import("react").ComponentType<import("@/types").DefaultPro
     defaultValue?: import("@/types").RuleTypes;
     maxCount?: number;
     onChange?: (e: import("@/types").RuleTypes, option?: import("@/types/select").OptionType) => void;
+    onClose?: () => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;

@@ -89,6 +89,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       onDeselect,
       onClear,
       onChange,
+      onClose,
       showSearch = false,
       open = false,
       showArrow = true,
@@ -187,6 +188,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         if (!clickedInside) {
           setIsOpen(false);
           handleClearInputValue();
+          onClose?.();
         }
       };
 
@@ -528,7 +530,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       if (searchContent) {
         setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
       }
-
 
       const timeout = setTimeout(() => {
         // if (!hasMode) {

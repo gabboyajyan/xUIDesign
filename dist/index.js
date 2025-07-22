@@ -3179,6 +3179,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   onDeselect,
   onClear,
   onChange,
+  onClose,
   showSearch = false,
   open = false,
   showArrow = true,
@@ -3241,6 +3242,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       if (!clickedInside) {
         setIsOpen(false);
         handleClearInputValue();
+        onClose?.();
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

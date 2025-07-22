@@ -1891,7 +1891,10 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select size="small" placeholder="sdfdsfg">{l.map(e =>
+                            <Select onSearch={e => {
+                                console.log(e);
+                                
+                            }} size="middle" placeholder="sdfdsfg">{l.map(e =>
                                 <Option value={e.value} key={e.value}>{e.label}</Option>
                             )}</Select>
                         </Item>

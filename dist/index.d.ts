@@ -225,6 +225,7 @@ declare const Select: react.ComponentType<__types.DefaultProps & {
     defaultValue?: __types.RuleTypes;
     maxCount?: number;
     onChange?: (e: __types.RuleTypes, option?: __types_select.OptionType) => void;
+    onClose?: () => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;

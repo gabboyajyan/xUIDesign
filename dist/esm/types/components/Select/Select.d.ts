@@ -20,6 +20,7 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     defaultValue?: import("../../types").RuleTypes;
     maxCount?: number;
     onChange?: (e: import("../../types").RuleTypes, option?: OptionType) => void;
+    onClose?: () => void;
     disabled?: boolean;
     loading?: boolean;
     placeholder?: string;
