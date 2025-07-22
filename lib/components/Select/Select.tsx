@@ -91,7 +91,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       onChange,
       onClose,
       showSearch = false,
-      open = false,
+      open = true,
       showArrow = true,
       notFoundContent = false,
       tagRender,
@@ -124,7 +124,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const [isHover, setIsHover] = useState(false);
     const selectRef = useRef<HTMLDivElement>(null);
     const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
-    const [isOpen, setIsOpen] = useState(defaultOpen || open);
+    const [isOpen, setIsOpen] = useState(defaultOpen);
     const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
@@ -197,7 +197,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [handleClearInputValue, open, hasMode, prefixCls]);
+    }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
 
     const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
       if (!selectRef.current) {
@@ -308,7 +308,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       onSearch?.(e.target.value as string);
 
       if (!isOpen) {
-        setIsOpen(!isOpen || open);
+        setIsOpen(!isOpen || defaultOpen);
         handleClearInputValue();
       }
     };
@@ -372,7 +372,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           onSelect?.(optionValue, option);
         }
       } else {
-        setIsOpen(open);
+        setIsOpen(defaultOpen);
         setSelected(optionValue);
         onChange?.(optionValue, option);
         onSelect?.(optionValue, option);
@@ -716,8 +716,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     <div key={`${index}_${tag}`}>
                       {tagRender?.({
                         label:
-                          extractedOptions.find(e => e.value === tag)
-                            ?.children || tag,
+                          (() => {
+                            const option = extractedOptions.find(
+                              e => e.value === tag || e.label === tag || e.children === tag
+                            );
+
+                            return option?.children || option?.label || option?.value || null;
+                          })() || tag || null,
                         value: tag,
                         onClose: handleRemoveTag,
                         closable: true
@@ -728,8 +733,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       closable
                       value={tag}
                       label={
-                        extractedOptions.find(e => e.value === tag)
-                          ?.children || tag
+                        (() => {
+                          const option = extractedOptions.find(
+                            e => e.value === tag || e.label === tag || e.children === tag
+                          );
+
+                          return option?.children || option?.label || option?.value || null;
+                        })() || tag || null
                       }
                       onClose={handleRemoveTag}
                       key={`${index}_${tag}`}
@@ -777,7 +787,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           ) : !hasMode ? (
             <div
               className={`${prefixCls}-input globalEllipsis`}
-              onClick={() => !disabled && setIsOpen(!isOpen || open)}
+              onClick={() => !disabled && setIsOpen(!isOpen || defaultOpen)}
               style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
             >
               {selected === ''
