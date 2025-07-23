@@ -1880,39 +1880,12 @@ export default function Home() {
         return new Promise((resolve) => {
             setTimeout(() => {
                 return resolve([
-    {
-        "label": "BANCO SANTANDER, S.A.",
-        "value": "BSCHESMMXXX"
-    },
-    {
-        "label": "CAIXABANK, S.A.",
-        "value": "CAIXESBBXXX"
-    },
-    {
-        "label": "IBERCAJA BANCO, S.A.",
-        "value": "CAZRES2ZXXX"
-    },
-    {
-        "label": "DEUTSCHE BANK, S.A.E.",
-        "value": "DEUTESBBXXX"
-    },
-    {
-        "label": "ING BANK N.V. SUCURSAL EN ESPAÑA",
-        "value": "INGDESMMXXX"
-    },
-    {
-        "label": "N26 BANK GMBH, SUCURSA EN ESPANA",
-        "value": "NTSBESM1XXX"
-    },
-    {
-        "label": "PECUNIA CARDS E.D.E., S.L.",
-        "value": "PCRDESMMXXX"
-    },
-    {
-        "label": "REVOLUT BANK UAB",
-        "value": "REVOESM2XXX"
-    }
-])
+                    {
+                        "label": "BANCO SANTANDER, S.A.",
+                        "order": undefined,
+                        "value": "BSCHESMMXXX"
+                    }
+                ])
             }, 2000);
 
             return []
@@ -1943,24 +1916,20 @@ export default function Home() {
                 <div style={{ width: 500 }}></div>
 
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
-                    <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <div>
-                                <Select
-                                    showSearch
-                                    placeholder="Select...">
-                                    {(options || []).map((item: RuleType, index: number) => (
-                                        <Option
-                                            key={`${index}_${item.value}`}
-                                            value={item.value}
-                                        >
-                                            {`${item.label} (${item.value})`}
-                                        </Option>
-                                    ))}
-                                </Select>
-                            </div>
+                            <Select
+                                showSearch
+                                placeholder="Select...">
+                                {(options || []).map((item: RuleType, index: number) => (
+                                    <Option
+                                        key={`${index}_${item.value}`}
+                                        value={item.value}
+                                    >
+                                        {`${item.label} (${item.value})`}
+                                    </Option>
+                                ))}
+                            </Select>
                         </Item>
-                    </div>
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
