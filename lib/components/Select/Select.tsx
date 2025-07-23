@@ -466,11 +466,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
     const extractedOptions = children
-      ? Array.isArray(children) &&
-        !isValidElement(children[0]) &&
-        !(children[0]?.type === Fragment || children[0]?.type === Suspense) 
-          ? children
-          : extractOptions(children)
+      ? Array.isArray(children) && !isValidElement(children[0])
+        ? children
+        : extractOptions(children)
       : Array.isArray(options) ? options : [];
 
     const triggerNode = useMemo(() => {

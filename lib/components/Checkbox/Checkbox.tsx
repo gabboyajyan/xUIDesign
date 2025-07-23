@@ -47,9 +47,9 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
     const handleClick = (
       e: MouseEvent<HTMLInputElement> & SyntheticBaseEvent
     ) => {
-      e.stopPropagation();
-
       if (disabled) {
+        e.stopPropagation();
+
         return;
       }
 

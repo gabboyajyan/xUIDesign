@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, isValidElement, Fragment, Suspense, Children, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, isValidElement, Children, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -907,7 +907,7 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
-  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) && !(children[0]?.type === Fragment || children[0]?.type === Suspense)) {
+  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0])) {
     return children;
   }
   Children.forEach(children, child => {
@@ -1389,8 +1389,8 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
   const handleClick = e => {
-    e.stopPropagation();
     if (disabled) {
+      e.stopPropagation();
       return;
     }
     setInternalChecked(!internalChecked);
@@ -3427,7 +3427,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) && !(children[0]?.type === Fragment || children[0]?.type === Suspense) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);

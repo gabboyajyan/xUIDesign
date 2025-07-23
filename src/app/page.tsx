@@ -12,6 +12,7 @@ import { Suspense, useCallback, useState } from "react";
 import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 import Option from "../../lib/components/Select/Option/Option";
+import { RuleType } from "../../lib/types";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1878,7 +1879,40 @@ export default function Home() {
     const OPTIONS = () => {
         return new Promise((resolve) => {
             setTimeout(() => {
-                return resolve(DOCUMENT_TYPES)
+                return resolve([
+    {
+        "label": "BANCO SANTANDER, S.A.",
+        "value": "BSCHESMMXXX"
+    },
+    {
+        "label": "CAIXABANK, S.A.",
+        "value": "CAIXESBBXXX"
+    },
+    {
+        "label": "IBERCAJA BANCO, S.A.",
+        "value": "CAZRES2ZXXX"
+    },
+    {
+        "label": "DEUTSCHE BANK, S.A.E.",
+        "value": "DEUTESBBXXX"
+    },
+    {
+        "label": "ING BANK N.V. SUCURSAL EN ESPAÑA",
+        "value": "INGDESMMXXX"
+    },
+    {
+        "label": "N26 BANK GMBH, SUCURSA EN ESPANA",
+        "value": "NTSBESM1XXX"
+    },
+    {
+        "label": "PECUNIA CARDS E.D.E., S.L.",
+        "value": "PCRDESMMXXX"
+    },
+    {
+        "label": "REVOLUT BANK UAB",
+        "value": "REVOESM2XXX"
+    }
+])
             }, 2000);
 
             return []
@@ -1915,8 +1949,19 @@ export default function Home() {
                                 <Select
                                     onSearch={e => setValue(e)}
                                     showSearch
-                                    options={options}
-                                    placeholder="Select..." />
+                                    placeholder="Select...">
+                                    <>
+                                    {(options || []).map((item: RuleType, index: number) => (
+                                        <>
+                                        <Option
+                                            key={`${index}_${item.value}`}
+                                            value={item.value}
+                                        >
+                                            {`${item.label} (${item.value})`}
+                                        </Option></>
+                                    ))}
+                                    </>
+                                </Select>
                             </div>
                         </Item>
                     </div>

@@ -10,10 +10,7 @@ import {
 export function flattenChildren(children: ReactNode): ReactElement[] {
     const result: ReactElement[] = [];
 
-    if (Array.isArray(children) &&
-        !isValidElement(children[0]) &&
-        !(children[0]?.type === Fragment || children[0]?.type === Suspense)
-    ) {
+    if (Array.isArray(children) && !isValidElement(children[0])) {
         return children;
     }
 
