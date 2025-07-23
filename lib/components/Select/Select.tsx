@@ -466,7 +466,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     const extractedOptions = children
       ? extractOptions(children)
-      : options;
+      : Array.isArray(options) ? options : [];
 
     const triggerNode = useMemo(() => {
       return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
@@ -479,6 +479,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         Children.forEach(nodes, (child) => {
           if (!child) return;
 
+          console.info('child', child);
+          
           if (isValidElement(child)) {
             if (child.type === Fragment) {
               flatten((child.props as OptionType).children);

@@ -1863,8 +1863,8 @@ export const CountryCodes = [...new Set([
 const l = [{ value: 0, label: 'Zero' }]
 
 const DOCUMENT_TYPES = [
-  { value: 0, label: 'account.idDocument' },
-  { value: 1, label: 'account.passportNum' }
+    { value: 0, label: 'account.idDocument' },
+    { value: 1, label: 'account.passportNum' }
 ];
 
 export default function Home() {
@@ -1873,6 +1873,19 @@ export default function Home() {
     const handle = useCallback((e) => console.log(e), [])
 
     const [value, setValue] = useState('')
+    const [options, setOptions] = useState(null)
+
+    const OPTIONS = () => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                return resolve(DOCUMENT_TYPES)
+            }, 2000);
+
+            return []
+        })
+    }
+
+    OPTIONS().then(t => setOptions(t))
 
     return (
         <>
@@ -1898,20 +1911,18 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select 
-                                open={value.length > 2}
+                            <Select
                                 onSearch={e => setValue(e)}
-                                showSearch 
-                                options={DOCUMENT_TYPES} 
-                                placeholder="sdfdsfg" />
+                                showSearch
+                                options={options}
+                                placeholder="Select..." />
                         </Item>
                     </div>
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input
-                            // mask="___.___.___._"
-                            // maskChar="_"
-                            suffix={<button>ok</button>}
+                            mask="___.___.___._"
+                            maskChar="_"
                         />
                     </Item>
 

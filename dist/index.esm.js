@@ -3424,7 +3424,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? extractOptions(children) : options;
+  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
@@ -3433,6 +3433,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     const flatten = nodes => {
       Children.forEach(nodes, child => {
         if (!child) return;
+        console.info('child', child);
         if (/*#__PURE__*/isValidElement(child)) {
           if (child.type === Fragment) {
             flatten(child.props.children);
