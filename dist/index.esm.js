@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, isValidElement, Children, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -907,6 +907,9 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
+  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0])) {
+    return children;
+  }
   Children.forEach(children, child => {
     if (! /*#__PURE__*/isValidElement(child)) return;
     if (child.type === Fragment || child.type === Suspense) {
