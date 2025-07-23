@@ -167,7 +167,7 @@
 
 .xUi-select.large {
     font-size: var(--xui-font-size-lg);
-    min-height: 40px;
+    min-height: 44px;
     border-radius: var(--xui-border-radius-lg);
 }
 

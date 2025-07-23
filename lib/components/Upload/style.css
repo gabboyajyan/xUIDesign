@@ -131,8 +131,8 @@
 }
 
 .xUi-upload-item-thumbnail {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     object-fit: cover;
     border-radius: 4px;
 }

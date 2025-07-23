@@ -65,7 +65,7 @@
 .xUi-button-size-large {
     padding: 8px 20px;
     font-size: 16px;
-    height: 40px;
+    height: 44px;
 }
 
 .xUi-button-circle {
@@ -80,8 +80,8 @@
 }
 
 .xUi-button-circle.xUi-button-size-large {
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
 }
 
 .xUi-button-round {
