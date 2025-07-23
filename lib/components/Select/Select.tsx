@@ -10,6 +10,7 @@ import React, {
   KeyboardEvent,
   ReactElement,
   ReactNode,
+  Suspense,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -479,10 +480,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         Children.forEach(nodes, (child) => {
           if (!child) return;
 
-          console.info('child', child);
-          
           if (isValidElement(child)) {
-            if (child.type === Fragment) {
+            if (child.type === Fragment || child.type === Suspense) {
               flatten((child.props as OptionType).children);
             } else {
               result.push(child.props as OptionType);

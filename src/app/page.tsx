@@ -2,19 +2,28 @@
 
 import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
-import { Checkbox } from "../../lib/components/Checkbox";
+// import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
-import { Select } from "../../lib/components/Select";
+// import { Select } from "../../lib/components/Select";
 import { Switch } from "../../lib/components/Switch";
-import { Suspense, useCallback, useState } from "react";
+import { useCallback } from "react";
+// import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
-import Option from "../../lib/components/Select/Option/Option";
+// import Option from "../../lib/components/Select/Option/Option";
 // import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
+
+
+// const Option = lazy(
+//   () =>
+//     import(
+//       /* webpackChunkName: "option" */ '../../lib/components/Select/Option/Option'
+//     )
+// );
 
 export const CountryCodes = [...new Set([
     {
@@ -1860,32 +1869,32 @@ export const CountryCodes = [...new Set([
 //     3
 // ]
 
-const l = [{ value: 0, label: 'Zero' }]
+// const l = [{ value: 0, label: 'Zero' }]
 
-const DOCUMENT_TYPES = [
-    { value: 0, label: 'account.idDocument' },
-    { value: 1, label: 'account.passportNum' }
-];
+// const DOCUMENT_TYPES = [
+//     { value: 0, label: 'account.idDocument' },
+//     { value: 1, label: 'account.passportNum' }
+// ];
 
 export default function Home() {
     const form = useForm();
 
     const handle = useCallback((e) => console.log(e), [])
 
-    const [value, setValue] = useState('')
-    const [options, setOptions] = useState(null)
+    // const [value, setValue] = useState('')
+    // const [options, setOptions] = useState(null)
 
-    const OPTIONS = () => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                return resolve(DOCUMENT_TYPES)
-            }, 2000);
+    // const OPTIONS = () => {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             return resolve(DOCUMENT_TYPES)
+    //         }, 2000);
 
-            return []
-        })
-    }
+    //         return []
+    //     })
+    // }
 
-    OPTIONS().then(t => setOptions(t))
+    // OPTIONS().then(t => setOptions(t))
 
     return (
         <>
@@ -1911,11 +1920,22 @@ export default function Home() {
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
                     <div>
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select
-                                onSearch={e => setValue(e)}
-                                showSearch
-                                options={options}
-                                placeholder="Select..." />
+                            <div>
+                                {/* <Select
+                                    onSearch={e => setValue(e)}
+                                    showSearch
+                                    placeholder="Select...">
+                                    {(options || []).map(o => (
+                                        <Suspense key={o.value} fallback={null}>
+                                            <Option value={o.value}>
+                                            <div>
+                                                {o.label}
+                                            </div>
+                                        </Option>
+                                        </Suspense>
+                                    ))}
+                                </Select> */}
+                            </div>
                         </Item>
                     </div>
 

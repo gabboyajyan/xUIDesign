@@ -3433,9 +3433,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     const flatten = nodes => {
       Children.forEach(nodes, child => {
         if (!child) return;
-        console.info('child', child);
         if (/*#__PURE__*/isValidElement(child)) {
-          if (child.type === Fragment) {
+          if (child.type === Fragment || child.type === Suspense) {
             flatten(child.props.children);
           } else {
             result.push(child.props);

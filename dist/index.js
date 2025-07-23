@@ -3435,9 +3435,8 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     const flatten = nodes => {
       React.Children.forEach(nodes, child => {
         if (!child) return;
-        console.info('child', child);
         if (/*#__PURE__*/React.isValidElement(child)) {
-          if (child.type === React.Fragment) {
+          if (child.type === React.Fragment || child.type === React.Suspense) {
             flatten(child.props.children);
           } else {
             result.push(child.props);
