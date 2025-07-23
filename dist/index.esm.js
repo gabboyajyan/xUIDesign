@@ -3556,11 +3556,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     "data-value": searchQuery
   }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null));
   const selectedOption = (() => {
-    const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected);
-    console.log({
-      option,
-      selected
-    });
+    const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return option?.children || option?.label || option?.value || null;
   })() || selected || null;
   return /*#__PURE__*/React.createElement("div", {

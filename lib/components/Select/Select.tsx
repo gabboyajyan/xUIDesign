@@ -679,13 +679,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const selectedOption = (() => {
       const option = extractedOptions.find(
         e => e.value === selected || e.label === selected || e.children === selected
-      );
+      ) || selected;
 
-      console.log({
-        option,
-        selected
-      });
-      
       return option?.children || option?.label || option?.value || null;
     })() || selected || null
 
