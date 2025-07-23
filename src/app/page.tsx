@@ -1915,11 +1915,8 @@ export default function Home() {
                                 <Select
                                     onSearch={e => setValue(e)}
                                     showSearch
-                                    placeholder="Select...">
-                                        {(options || []).map(o => {
-                                            return <Option key={o.value} value={o.value}>{o.label}</Option>
-                                        })}
-                                </Select>
+                                    options={options}
+                                    placeholder="Select..." />
                             </div>
                         </Item>
                     </div>

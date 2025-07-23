@@ -909,7 +909,7 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
-  if (Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0])) {
+  if (Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0]) && !(children[0].type === React.Fragment || children[0].type === React.Suspense)) {
     return children;
   }
   React.Children.forEach(children, child => {
@@ -3429,7 +3429,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0]) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0]) && !(children[0]?.type === React.Fragment || children[0]?.type === React.Suspense) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
