@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, isValidElement, Children, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -907,9 +907,6 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
-  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0])) {
-    return children;
-  }
   Children.forEach(children, child => {
     if (! /*#__PURE__*/isValidElement(child)) return;
     if (child.type === Fragment || child.type === Suspense) {
@@ -3427,23 +3424,28 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
   function extractOptions(children, options) {
     const result = [];
     const flatten = nodes => {
-      Children.forEach(nodes, child => {
-        if (!child) return;
-        if (/*#__PURE__*/isValidElement(child)) {
-          if (child.type === Fragment || child.type === Suspense) {
-            flatten(child.props.children);
-          } else {
-            result.push(child.props);
+      try {
+        Children.forEach(nodes, child => {
+          if (!child) return;
+          if (/*#__PURE__*/isValidElement(child)) {
+            if (child.type === Fragment || child.type === Suspense) {
+              flatten(child.props.children);
+            } else {
+              result.push(child.props);
+            }
           }
-        }
-      });
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        Object.assign(result, nodes);
+      }
     };
     if (children) {
       flatten(children);

@@ -466,9 +466,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
     const extractedOptions = children
-      ? Array.isArray(children) && !isValidElement(children[0])
-        ? children
-        : extractOptions(children)
+      ? extractOptions(children)
       : Array.isArray(options) ? options : [];
 
     const triggerNode = useMemo(() => {
@@ -479,17 +477,22 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const result: OptionType[] = [];
 
       const flatten = (nodes: ReactNode): void => {
-        Children.forEach(nodes, (child) => {
-          if (!child) return;
+        try {
+          Children.forEach(nodes, (child) => {
+            if (!child) return;
 
-          if (isValidElement(child)) {
-            if (child.type === Fragment || child.type === Suspense) {
-              flatten((child.props as OptionType).children);
-            } else {
-              result.push(child.props as OptionType);
+            if (isValidElement(child)) {
+              if (child.type === Fragment || child.type === Suspense) {
+                flatten((child.props as OptionType).children);
+              } else {
+                result.push(child.props as OptionType);
+              }
             }
-          }
-        });
+          });
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        } catch (e) {
+          Object.assign(result, nodes)
+        }
       };
 
       if (children) {

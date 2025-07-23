@@ -909,9 +909,6 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
-  if (Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0])) {
-    return children;
-  }
   React.Children.forEach(children, child => {
     if (! /*#__PURE__*/React.isValidElement(child)) return;
     if (child.type === React.Fragment || child.type === React.Suspense) {
@@ -3429,23 +3426,28 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0]) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
   function extractOptions(children, options) {
     const result = [];
     const flatten = nodes => {
-      React.Children.forEach(nodes, child => {
-        if (!child) return;
-        if (/*#__PURE__*/React.isValidElement(child)) {
-          if (child.type === React.Fragment || child.type === React.Suspense) {
-            flatten(child.props.children);
-          } else {
-            result.push(child.props);
+      try {
+        React.Children.forEach(nodes, child => {
+          if (!child) return;
+          if (/*#__PURE__*/React.isValidElement(child)) {
+            if (child.type === React.Fragment || child.type === React.Suspense) {
+              flatten(child.props.children);
+            } else {
+              result.push(child.props);
+            }
           }
-        }
-      });
+        });
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      } catch (e) {
+        Object.assign(result, nodes);
+      }
     };
     if (children) {
       flatten(children);

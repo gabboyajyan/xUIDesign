@@ -1947,20 +1947,16 @@ export default function Home() {
                         <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <div>
                                 <Select
-                                    onSearch={e => setValue(e)}
                                     showSearch
                                     placeholder="Select...">
-                                    <>
                                     {(options || []).map((item: RuleType, index: number) => (
-                                        <>
                                         <Option
                                             key={`${index}_${item.value}`}
                                             value={item.value}
                                         >
                                             {`${item.label} (${item.value})`}
-                                        </Option></>
+                                        </Option>
                                     ))}
-                                    </>
                                 </Select>
                             </div>
                         </Item>
