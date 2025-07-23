@@ -11,19 +11,10 @@ import { Switch } from "../../lib/components/Switch";
 import { Suspense, useCallback, useState } from "react";
 import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
-// import Option from "../../lib/components/Select/Option/Option";
-// import Option from "../../lib/components/Select/Option/Option";
+import Option from "../../lib/components/Select/Option/Option";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
-
-
-const Option = lazy(
-  () =>
-    import(
-      /* webpackChunkName: "option" */ '../../lib/components/Select/Option/Option'
-    )
-);
 
 export const CountryCodes = [...new Set([
     {
@@ -1925,15 +1916,9 @@ export default function Home() {
                                     onSearch={e => setValue(e)}
                                     showSearch
                                     placeholder="Select...">
-                                    {(options || []).map(o => (
-                                        <Suspense key={o.value} fallback={null}>
-                                            <Option value={o.value}>
-                                            <div>
-                                                {o.label}
-                                            </div>
-                                        </Option>
-                                        </Suspense>
-                                    ))}
+                                        {(options || []).map(o => {
+                                            return <Option key={o.value} value={o.value}>{o.label}</Option>
+                                        })}
                                 </Select>
                             </div>
                         </Item>

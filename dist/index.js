@@ -3426,7 +3426,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = children ? Array.isArray(children) && ! /*#__PURE__*/React.isValidElement(children[0]) ? children : extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
