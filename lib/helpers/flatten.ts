@@ -12,7 +12,7 @@ export function flattenChildren(children: ReactNode): ReactElement[] {
 
     if (Array.isArray(children) &&
         !isValidElement(children[0]) &&
-        !(children[0].type === Fragment || children[0].type === Suspense)
+        !(children[0]?.type === Fragment || children[0]?.type === Suspense)
     ) {
         return children;
     }

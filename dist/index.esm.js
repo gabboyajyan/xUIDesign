@@ -907,7 +907,7 @@ function clsx(...args) {
 
 function flattenChildren(children) {
   const result = [];
-  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) && !(children[0].type === Fragment || children[0].type === Suspense)) {
+  if (Array.isArray(children) && ! /*#__PURE__*/isValidElement(children[0]) && !(children[0]?.type === Fragment || children[0]?.type === Suspense)) {
     return children;
   }
   Children.forEach(children, child => {
