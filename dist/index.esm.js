@@ -1431,7 +1431,7 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   }, /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-check`,
     style: {
-      opacity: Number(internalChecked)
+      opacity: internalChecked ? 1 : 0
     }
   }))), children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`

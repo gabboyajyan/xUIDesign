@@ -99,7 +99,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           <span className={`${prefixCls}-box`}>
             <span
               className={`${prefixCls}-check`}
-              style={{ opacity: Number(internalChecked) }}
+              style={{ opacity: internalChecked ? 1 : 0 }}
             />
           </span>
         </div>
