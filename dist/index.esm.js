@@ -640,12 +640,14 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       errors: err
     }));
   }
-  function setFieldValue(name, value, errors, reset = undefined) {
+  function setFieldValue(name, value, errors, reset = undefined, touch) {
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
       return;
     }
     formRef.current[name] = value;
-    touchedFieldsRef.current.add(name);
+    if (touch) {
+      touchedFieldsRef.current.add(name);
+    }
     if (reset === null) {
       setErrors({
         [name]: []
@@ -1070,7 +1072,7 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    setFieldValue(name, rawValue);
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
   const injectPropsIntoFinalLeaf = child => {

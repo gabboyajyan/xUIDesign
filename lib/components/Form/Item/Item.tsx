@@ -219,7 +219,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    setFieldValue(name, rawValue);
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
 

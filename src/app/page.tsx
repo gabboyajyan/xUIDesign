@@ -8,7 +8,7 @@ import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 // import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
-import { Suspense, useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1871,13 +1871,17 @@ export const CountryCodes = [...new Set([
 // ];
 
 export default function Home() {
-    const form = useForm();
+    const form = useForm(undefined, undefined, handleOnValueChnage);
 
-    const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
+    // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     const handle = useCallback((e) => console.log(e), [])
 
-    // // const [value, setValue] = useState('')
+    function handleOnValueChnage (e) {
+        console.log(e);
+    }
+
+    const [value] = useState('')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1897,6 +1901,16 @@ export default function Home() {
     // }
 
     // OPTIONS().then(t => setOptions(t))
+
+    useEffect(() => {
+        setTimeout(() => {
+            form.setFieldValue('username', 'Gabriel')
+        }, 2000);
+
+        setTimeout(() => {
+            console.log(form.isFieldTouched('username'));
+        }, 3000);
+    }, [])
 
     return (
         <>
@@ -1933,7 +1947,7 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
+                <Form form={form} onFinish={handle} onValuesChange={handleOnValueChnage} size="large" scrollToFirstError={true}>
                         {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select
                                 showSearch
@@ -1949,12 +1963,17 @@ export default function Home() {
                             </Select>
                         </Item> */}
 
-                    <Item extra={<>Gabriel</>} rules={[{ required: true }]} name="username" label="Username">
-                        <Input
-                            mask="___.___.___._"
-                            maskChar="_"
-                        />
+                    <Item rules={[{ required: true }]} name="username" label="Username">
+                        <Input value={value} />
                     </Item>
+
+                    <button type="submit">Submit</button>
+                    <button type="button" onClick={() => {
+                        form.resetFields(undefined, null)
+
+                        console.log(form.isFieldTouched('username'));
+                        
+                    }}>Reset</button>
 
                     {/* <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">

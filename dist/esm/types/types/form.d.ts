@@ -74,7 +74,7 @@ export interface FormItemChildComponentProps {
     error: boolean;
     fieldValue: RuleTypes;
     value: RuleType;
-    setFieldValue: (name: string, value: RuleType) => void;
+    setFieldValue: (name: string, value: RuleType, errors?: string[], reset?: boolean | null | undefined, touch?: boolean) => void;
     onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
     size?: SizeType;
     normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
@@ -87,7 +87,7 @@ export interface FormInstance {
     resetFields: (nameList?: string[], showError?: boolean | null) => void;
     getFieldError: (name: string) => string[];
     registerField: (name: string, rules?: RuleObject[]) => void;
-    setFieldValue: (name: string, value: RuleTypes) => void;
+    setFieldValue: (name: string, value: RuleTypes, errors?: string[], reset?: boolean | null | undefined, touch?: boolean) => void;
     getFieldValue: (name: string) => RuleTypes;
     validateFields: (nameList?: string[]) => Promise<boolean>;
     setFieldsValue: (values: Partial<Record<string, RuleTypes>>, reset?: boolean | null | undefined) => void;

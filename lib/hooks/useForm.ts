@@ -75,7 +75,8 @@ const useForm = (
     name: string,
     value: RuleTypes,
     errors?: string[],
-    reset: boolean | null | undefined = undefined
+    reset: boolean | null | undefined = undefined,
+    touch?: boolean
   ) {
     if (
       !reset && reset !== null &&
@@ -85,7 +86,10 @@ const useForm = (
     }
 
     formRef.current[name] = value;
-    touchedFieldsRef.current.add(name);
+
+    if (touch) {
+      touchedFieldsRef.current.add(name);
+    }
 
     if (reset === null) {
       setErrors({ [name]: [] });
