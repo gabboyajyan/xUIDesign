@@ -938,6 +938,7 @@ const FormItem$1 = ({
   dependencies = [],
   initialValue,
   feedbackIcons,
+  extra,
   ...props
 }) => {
   const formContext = React.useContext(FormContext);
@@ -1026,9 +1027,9 @@ const FormItem$1 = ({
         // @ts-expect-error
         ,
         size: childProps.size || props.size
-      })), props.extra ? /*#__PURE__*/React.createElement("div", {
+      })), extra ? /*#__PURE__*/React.createElement("div", {
         className: `${prefixCls}-extra`
-      }, props.extra) : null);
+      }, extra) : null);
     }
     return child;
   }), !props.noStyle && errorMessage && /*#__PURE__*/React.createElement("span", {

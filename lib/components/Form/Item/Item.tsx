@@ -36,6 +36,7 @@ const FormItem = ({
   dependencies = [],
   initialValue,
   feedbackIcons,
+  extra,
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
@@ -150,9 +151,9 @@ const FormItem = ({
               size={childProps.size || props.size}
             />
 
-            {props.extra
+            {extra
               ? <div className={`${prefixCls}-extra`}>
-                  {props.extra}
+                  {extra}
                 </div>
               : null}
           </div>
