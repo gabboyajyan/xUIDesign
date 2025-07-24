@@ -66,6 +66,7 @@ export type FormItemProps = DefaultProps & {
     dependencies?: string[];
     normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
     feedbackIcons?: boolean;
+    extra?: ReactNode;
 };
 export interface FormItemChildComponentProps {
     child: ReactElement;

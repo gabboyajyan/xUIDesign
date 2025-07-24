@@ -922,7 +922,7 @@ function flattenChildren(children) {
   return result;
 }
 
-var css_248z$l = ".xUi-form-item{display:flex;margin-bottom:10px;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:-6px;color:var(--xui-error-color);font-size:var(--xui-font-size-xs);line-height:16px;position:absolute;right:0;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}";
+var css_248z$l = ".xUi-form-item{display:flex;margin-bottom:10px;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:-6px;color:var(--xui-error-color);font-size:var(--xui-font-size-xs);line-height:16px;position:absolute;right:0;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}.xUi-form-item-extra{left:0;margin-top:6px;position:absolute;right:0}";
 styleInject(css_248z$l);
 
 const REF_CLIENT_HEIGHT = 24;
@@ -1010,7 +1010,7 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = getFieldValue(name) ?? initialValue;
-      return /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
+      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
         key: `${key}_${isReseting}`,
         name: name,
         child: child,
@@ -1026,7 +1026,9 @@ const FormItem$1 = ({
         // @ts-expect-error
         ,
         size: childProps.size || props.size
-      }));
+      })), props.extra ? /*#__PURE__*/React.createElement("div", {
+        className: `${prefixCls}-extra`
+      }, props.extra) : null);
     }
     return child;
   }), !props.noStyle && errorMessage && /*#__PURE__*/React.createElement("span", {
@@ -1243,7 +1245,7 @@ const Input$3 = dynamic$1(() => Promise.resolve().then(function () { return Inpu
 const Textarea$2 = dynamic$1(() => Promise.resolve().then(function () { return Textarea$1; }), {
   ssr: false
 });
-const Radio$3 = dynamic$1(() => Promise.resolve().then(function () { return Radio$2; }), {
+const Radio$2 = dynamic$1(() => Promise.resolve().then(function () { return Radio$1; }), {
   ssr: false
 });
 const RadioButton$1 = dynamic$1(() => Promise.resolve().then(function () { return Button$1; }), {
@@ -2885,111 +2887,10 @@ var Input$2 = /*#__PURE__*/Object.freeze({
 	default: Input$1
 });
 
-var css_248z$a = ".xUi-radio-button{align-items:center;background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);cursor:pointer;display:inline-flex;height:-webkit-fill-available;justify-content:center;margin:-1px;padding:8px 16px;transition:all .3s}.xUi-radio-button .xUi-radio{display:none}.xUi-radio-button.xUi-radio-button-middle{border-radius:var(--xui-border-radius-md)}.xUi-radio-button.xUi-radio-button-large{border-radius:var(--xui-border-radius-lg)}.xUi-radio-button-checked{background:var(--xui-primary-color);border-color:var(--xui-primary-color);color:var(--xui-background-color);z-index:1}.xUi-radio-button-content{font-size:14px}.xUi-radio-button.disabled{background:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-color-disabled);cursor:not-allowed}";
+var css_248z$a = ".xUi-radio-label{align-items:center;cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);line-height:1;margin:16px 0;position:relative}.xUi-radio-label input{display:none}.xUi-radio{border:1px solid var(--xui-border-color);border-radius:50%;height:16px;position:relative;transition:all .3s;width:16px}.xUi-radio-error:not(.xUi-radio-disabled){border:1px solid var(--xui-error-color)}.xUi-radio-label input:checked+.xUi-radio-error:not(.xUi-radio-disabled){background:var(--xui-error-color)}.xUi-radio-group{display:flex}.xUi-radio-label .xUi-radio-enabled:not(.xUi-radio-error):hover{border:1px solid var(--xui-primary-color-light)!important}.xUi-radio-disabled{background-color:var(--xui-color-disabled)}.xUi-radio-title{color:var(--xui-text-color);padding-inline-end:8px;padding-inline-start:8px}.xUi-radio-label input:checked+.xUi-radio{background:var(--xui-primary-color)}.xUi-radio-label input:checked+.xUi-radio:after{background-color:#fff;border-radius:50%;content:\"\";height:6px;left:50%;position:absolute;top:50%;transform:translate(-50%,-50%);width:6px}.xUi-radio-label.disabled{cursor:not-allowed;opacity:.5}";
 styleInject(css_248z$a);
 
-const RadioButton = ({
-  prefixCls = prefixClsRadio,
-  className = '',
-  checked,
-  disabled,
-  children,
-  size = 'large',
-  ...props
-}) => {
-  return /*#__PURE__*/React.createElement(Radio$1, _extends({}, props, {
-    checked: checked,
-    disabled: disabled,
-    className: clsx([`${prefixCls}-button`, {
-      disabled,
-      [className]: className,
-      [`${prefixCls}-button-${size}`]: size,
-      [`${prefixCls}-button-checked`]: checked
-    }])
-  }), /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-button-content`
-  }, children ?? props.value));
-};
-
-var Button$1 = /*#__PURE__*/Object.freeze({
-	__proto__: null,
-	default: RadioButton
-});
-
-var css_248z$9 = ".xUi-radio-group.xUi-radio-group-small{height:24px}.xUi-radio-group.xUi-radio-group-small .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-sm) 0 0 var(--xui-border-radius-sm)}.xUi-radio-group.xUi-radio-group-small .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-sm) var(--xui-border-radius-sm) 0}.xUi-radio-group.xUi-radio-group-middle{height:32px}.xUi-radio-group.xUi-radio-group-middle .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-md) 0 0 var(--xui-border-radius-md)}.xUi-radio-group.xUi-radio-group-middle .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-md) var(--xui-border-radius-md) 0}.xUi-radio-group.xUi-radio-group-large{height:44px}.xUi-radio-group.xUi-radio-group-large .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-lg) 0 0 var(--xui-border-radius-lg)}.xUi-radio-group.xUi-radio-group-large .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-lg) var(--xui-border-radius-lg) 0}.xUi-radio-group .xUi-radio-button:not(:first-child){border-radius:0}.xUi-radio-group.block{display:inline-flex;width:100%}.xUi-radio-group.block .xUi-radio-button{width:100%}.xUi-radio-group:not(.xUi-radio-group-solid) .xUi-radio-button-checked{background-color:var(--xui-background-color);color:var(--xui-primary-color)}";
-styleInject(css_248z$9);
-
-const RadioGroup = ({
-  defaultValue,
-  value,
-  size = 'large',
-  disabled,
-  name,
-  id,
-  style = {},
-  buttonStyle = 'outline',
-  block,
-  prefixCls = prefixClsRadio,
-  className = '',
-  options = [],
-  children,
-  ...props
-}) => {
-  const selectedValue = React.useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
-  const renderChildren = () => {
-    if (options.length > 0) {
-      return options.map((option, key) => {
-        const optionValue = typeof option === 'object' ? option.value : option;
-        const optionLabel = typeof option === 'object' ? option.label : option;
-        return /*#__PURE__*/React.createElement(Radio$1, _extends({
-          value: optionValue,
-          key: `${key}_${optionValue}`,
-          checked: selectedValue === optionValue,
-          disabled: disabled || typeof option === 'object' && option.disabled
-        }, props), optionLabel);
-      });
-    }
-    return React.Children.map(children, child => {
-      if (/*#__PURE__*/React.isValidElement(child) && (child.type === Radio$1 || child.type === RadioButton)) {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const {
-          ...childProps
-        } = child.props;
-        return /*#__PURE__*/React.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
-          size,
-          buttonStyle
-        } : {}, {
-          defaultValue: defaultValue,
-          disabled: disabled ?? child.props.disabled,
-          checked: selectedValue === child.props.value,
-          name: name ?? prefixClsRadio
-        }));
-      }
-      return child;
-    });
-  };
-  return /*#__PURE__*/React.createElement("div", {
-    id: id,
-    style: style,
-    className: clsx([`${prefixCls}-group`, {
-      block,
-      className,
-      [`${prefixCls}-group-${size}`]: size,
-      [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
-    }])
-  }, renderChildren());
-};
-
-var Group = /*#__PURE__*/Object.freeze({
-	__proto__: null,
-	default: RadioGroup
-});
-
-var css_248z$8 = ".xUi-radio-label{align-items:center;cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);line-height:1;margin:16px 0;position:relative}.xUi-radio-label input{display:none}.xUi-radio{border:1px solid var(--xui-border-color);border-radius:50%;height:16px;position:relative;transition:all .3s;width:16px}.xUi-radio-error:not(.xUi-radio-disabled){border:1px solid var(--xui-error-color)}.xUi-radio-label input:checked+.xUi-radio-error:not(.xUi-radio-disabled){background:var(--xui-error-color)}.xUi-radio-group{display:flex}.xUi-radio-label .xUi-radio-enabled:not(.xUi-radio-error):hover{border:1px solid var(--xui-primary-color-light)!important}.xUi-radio-disabled{background-color:var(--xui-color-disabled)}.xUi-radio-title{color:var(--xui-text-color);padding-inline-end:8px;padding-inline-start:8px}.xUi-radio-label input:checked+.xUi-radio{background:var(--xui-primary-color)}.xUi-radio-label input:checked+.xUi-radio:after{background-color:#fff;border-radius:50%;content:\"\";height:6px;left:50%;position:absolute;top:50%;transform:translate(-50%,-50%);width:6px}.xUi-radio-label.disabled{cursor:not-allowed;opacity:.5}";
-styleInject(css_248z$8);
-
-const RadioComponent = /*#__PURE__*/React.forwardRef(({
+const Radio = /*#__PURE__*/React.forwardRef(({
   prefixCls = prefixClsRadio,
   className = '',
   value,
@@ -3043,16 +2944,112 @@ const RadioComponent = /*#__PURE__*/React.forwardRef(({
     className: `${prefixCls}-title`
   }, children ?? title ?? value));
 });
-RadioComponent.displayName = 'Radio';
-const Radio = Object.assign(RadioComponent, {
-  Group: RadioGroup,
-  Button: RadioButton
-});
-var Radio$1 = Radio;
+Radio.displayName = 'Radio';
 
-var Radio$2 = /*#__PURE__*/Object.freeze({
+var Radio$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
-	default: Radio$1
+	default: Radio
+});
+
+var css_248z$9 = ".xUi-radio-button{align-items:center;background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);cursor:pointer;display:inline-flex;height:-webkit-fill-available;justify-content:center;margin:-1px;padding:8px 16px;transition:all .3s}.xUi-radio-button .xUi-radio{display:none}.xUi-radio-button.xUi-radio-button-middle{border-radius:var(--xui-border-radius-md)}.xUi-radio-button.xUi-radio-button-large{border-radius:var(--xui-border-radius-lg)}.xUi-radio-button-checked{background:var(--xui-primary-color);border-color:var(--xui-primary-color);color:var(--xui-background-color);z-index:1}.xUi-radio-button-content{font-size:14px}.xUi-radio-button.disabled{background:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-color-disabled);cursor:not-allowed}";
+styleInject(css_248z$9);
+
+const RadioButton = ({
+  prefixCls = prefixClsRadio,
+  className = '',
+  checked,
+  disabled,
+  children,
+  size = 'large',
+  ...props
+}) => {
+  return /*#__PURE__*/React.createElement(Radio, _extends({}, props, {
+    checked: checked,
+    disabled: disabled,
+    className: clsx([`${prefixCls}-button`, {
+      disabled,
+      [className]: className,
+      [`${prefixCls}-button-${size}`]: size,
+      [`${prefixCls}-button-checked`]: checked
+    }])
+  }), /*#__PURE__*/React.createElement("span", {
+    className: `${prefixCls}-button-content`
+  }, children ?? props.value));
+};
+
+var Button$1 = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	default: RadioButton
+});
+
+var css_248z$8 = ".xUi-radio-group.xUi-radio-group-small{height:24px}.xUi-radio-group.xUi-radio-group-small .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-sm) 0 0 var(--xui-border-radius-sm)}.xUi-radio-group.xUi-radio-group-small .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-sm) var(--xui-border-radius-sm) 0}.xUi-radio-group.xUi-radio-group-middle{height:32px}.xUi-radio-group.xUi-radio-group-middle .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-md) 0 0 var(--xui-border-radius-md)}.xUi-radio-group.xUi-radio-group-middle .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-md) var(--xui-border-radius-md) 0}.xUi-radio-group.xUi-radio-group-large{height:44px}.xUi-radio-group.xUi-radio-group-large .xUi-radio-button:first-child{border-radius:var(--xui-border-radius-lg) 0 0 var(--xui-border-radius-lg)}.xUi-radio-group.xUi-radio-group-large .xUi-radio-button:last-child{border-radius:0 var(--xui-border-radius-lg) var(--xui-border-radius-lg) 0}.xUi-radio-group .xUi-radio-button:not(:first-child){border-radius:0}.xUi-radio-group.block{display:inline-flex;width:100%}.xUi-radio-group.block .xUi-radio-button{width:100%}.xUi-radio-group:not(.xUi-radio-group-solid) .xUi-radio-button-checked{background-color:var(--xui-background-color);color:var(--xui-primary-color)}";
+styleInject(css_248z$8);
+
+const RadioGroup = ({
+  defaultValue,
+  value,
+  size = 'large',
+  disabled,
+  name,
+  id,
+  style = {},
+  buttonStyle = 'outline',
+  block,
+  prefixCls = prefixClsRadio,
+  className = '',
+  options = [],
+  children,
+  ...props
+}) => {
+  const selectedValue = React.useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
+  const renderChildren = () => {
+    if (options.length > 0) {
+      return options.map((option, key) => {
+        const optionValue = typeof option === 'object' ? option.value : option;
+        const optionLabel = typeof option === 'object' ? option.label : option;
+        return /*#__PURE__*/React.createElement(Radio, _extends({
+          value: optionValue,
+          key: `${key}_${optionValue}`,
+          checked: selectedValue === optionValue,
+          disabled: disabled || typeof option === 'object' && option.disabled
+        }, props), optionLabel);
+      });
+    }
+    return React.Children.map(children, child => {
+      if (/*#__PURE__*/React.isValidElement(child) && (child.type === Radio || child.type === RadioButton)) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const {
+          ...childProps
+        } = child.props;
+        return /*#__PURE__*/React.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
+          size,
+          buttonStyle
+        } : {}, {
+          defaultValue: defaultValue,
+          disabled: disabled ?? child.props.disabled,
+          checked: selectedValue === child.props.value,
+          name: name ?? prefixClsRadio
+        }));
+      }
+      return child;
+    });
+  };
+  return /*#__PURE__*/React.createElement("div", {
+    id: id,
+    style: style,
+    className: clsx([`${prefixCls}-group`, {
+      block,
+      className,
+      [`${prefixCls}-group-${size}`]: size,
+      [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
+    }])
+  }, renderChildren());
+};
+
+var Group = /*#__PURE__*/Object.freeze({
+	__proto__: null,
+	default: RadioGroup
 });
 
 var css_248z$7 = ".xUi-select-options{list-style:none;margin:0;padding:4px}.xUi-select-option,.xUi-select-options{border-radius:var(--xui-border-radius-sm)}.xUi-select-option{align-items:center;color:var(--xui-text-color);cursor:pointer;display:flex;font-size:var(--xui-font-size-md);margin-bottom:2px;padding:8px 16px}.xUi-select-option.xUi-select-focused,.xUi-select-option:hover{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.xUi-select-focused{align-items:center;display:flex;font-weight:600;justify-content:space-between}.xUi-select-option.xUi-select-disabled{color:rgba(0,0,0,.25);cursor:not-allowed}.xUi-select-option.selected{background-color:var(--xui-primary-color);color:var(--xui-background-color)}.xUi-select-option.selected:hover{background-color:var(--xui-primary-color-light)}";
@@ -3900,7 +3897,7 @@ exports.FormItem = FormItem;
 exports.Input = Input$3;
 exports.LoadingIcon = LoadingIcon;
 exports.Option = Option$2;
-exports.Radio = Radio$3;
+exports.Radio = Radio$2;
 exports.RadioButton = RadioButton$1;
 exports.RadioGroup = RadioGroup$1;
 exports.RangePicker = RangePicker$2;

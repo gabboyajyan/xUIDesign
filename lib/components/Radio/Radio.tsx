@@ -4,11 +4,9 @@ import React, { ForwardedRef, forwardRef, useEffect } from 'react';
 import { clsx, parseValue } from '../../helpers';
 import { RadioProps } from '../../types/radio';
 import { prefixClsRadio } from '../../utils';
-import RadioButton from './Button/Button';
-import RadioGroup from './Group/Group';
 import './style.css';
 
-const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
+const Radio = forwardRef<HTMLLabelElement, RadioProps>(
   (
     {
       prefixCls = prefixClsRadio,
@@ -81,10 +79,6 @@ const RadioComponent = forwardRef<HTMLLabelElement, RadioProps>(
   }
 );
 
-RadioComponent.displayName = 'Radio';
-const Radio = Object.assign(RadioComponent, {
-  Group: RadioGroup,
-  Button: RadioButton
-});
+Radio.displayName = 'Radio';
 
 export default Radio;

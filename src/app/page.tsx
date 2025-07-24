@@ -1,18 +1,20 @@
 'use client'
 
 import { Form } from "../../lib/components/Form";
-import { Radio } from "../../lib/components/Radio";
+// import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
-import { Select } from "../../lib/components/Select";
-import { Switch } from "../../lib/components/Switch";
+// import { Select } from "../../lib/components/Select";
+// import { Switch } from "../../lib/components/Switch";
 import { Suspense, useCallback, useState } from "react";
-import { lazy } from '../../lib/utils/lazy'
+// import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
-import Option from "../../lib/components/Select/Option/Option";
-import { RuleType } from "../../lib/types";
+// import { RadioGroup } from "../../lib/components/Radio/Group";
+// import { RadioButton } from "../../lib/components/Radio/Button";
+// import Option from "../../lib/components/Select/Option/Option";
+// import { RuleType } from "../../lib/types";
 
 // import { Form as AntForm, Select as AntSelect } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1861,38 +1863,40 @@ export const CountryCodes = [...new Set([
 //     3
 // ]
 
-const l = [{ value: 0, label: 'Zero' }]
+// const l = [{ value: 0, label: 'Zero' }]
 
-const DOCUMENT_TYPES = [
-    { value: 0, label: 'account.idDocument' },
-    { value: 1, label: 'account.passportNum' }
-];
+// const DOCUMENT_TYPES = [
+//     { value: 0, label: 'account.idDocument' },
+//     { value: 1, label: 'account.passportNum' }
+// ];
 
 export default function Home() {
     const form = useForm();
 
+    const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
+
     const handle = useCallback((e) => console.log(e), [])
 
-    // const [value, setValue] = useState('')
-    const [options, setOptions] = useState(null)
+    // // const [value, setValue] = useState('')
+    // const [options, setOptions] = useState(null)
 
-    const OPTIONS = () => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                return resolve([
-                    {
-                        "label": "BANCO SANTANDER, S.A.",
-                        "order": undefined,
-                        "value": "BSCHESMMXXX"
-                    }
-                ])
-            }, 2000);
+    // const OPTIONS = () => {
+    //     return new Promise((resolve) => {
+    //         setTimeout(() => {
+    //             return resolve([
+    //                 {
+    //                     "label": "BANCO SANTANDER, S.A.",
+    //                     "order": undefined,
+    //                     "value": "BSCHESMMXXX"
+    //                 }
+    //             ])
+    //         }, 2000);
 
-            return []
-        })
-    }
+    //         return []
+    //     })
+    // }
 
-    OPTIONS().then(t => setOptions(t))
+    // OPTIONS().then(t => setOptions(t))
 
     return (
         <>
@@ -1915,8 +1919,22 @@ export default function Home() {
 
                 <div style={{ width: 500 }}></div>
 
+                {/* <RadioGroup
+                    value={activeTab}
+                    buttonStyle="solid"
+                    style={{ width: '100%', marginBottom: '24px' }}
+                    //   disabled={cashoutButtonLoading}
+                >
+                    <RadioButton onClick={e => setActiveTab(e)} value="manual">
+                        {'account.manualMode'}
+                    </RadioButton>
+                    <RadioButton onClick={e => setActiveTab(e)} value="auto">
+                        {'account.autoMode'}
+                    </RadioButton>
+                </RadioGroup> */}
+
                 <Form form={form} onFinish={handle} size="large" scrollToFirstError={true}>
-                        <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Select
                                 showSearch
                                 placeholder="Select...">
@@ -1929,16 +1947,16 @@ export default function Home() {
                                     </Option>
                                 ))}
                             </Select>
-                        </Item>
+                        </Item> */}
 
-                    <Item rules={[{ required: true }]} name="username" label="Username">
+                    <Item extra={<>Gabriel</>} rules={[{ required: true }]} name="username" label="Username">
                         <Input
                             mask="___.___.___._"
                             maskChar="_"
                         />
                     </Item>
 
-                    <div>
+                    {/* <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>
                                 <Radio name="sdfdsf" value={'dsfdsf'}>Male</Radio>
@@ -1964,29 +1982,8 @@ export default function Home() {
                             <Switch />
                         </Item>
                     </div>
-                    {/* <Item label={'dsfdsf'} name="sdfdsf">
-                        <Select
-                            style={{ width: 200 }}
-                            // mode="tags"
-                            showSearch
-                            // getPopupContainer={() => document.body}
-                            defaultValue={'Live'}
-                            menuItemSelectedIcon={<>ok</>}
-                            onSelect={(e) => { console.log(e) }}
-                            onChange={(e) => { console.log(e) }}
-                        >
-                            {statusOption.map(item => (
-                                <Option
-                                    key={item.label}
-                                    value={item.label}
-                                >
-                                    {item.label}
-                                </Option>
-                            ))}
-                        </Select>
-                    </Item> */}
                     <button type="submit">Submit</button>
-                    <button onClick={() => form.resetFields()}>Reset</button>
+                    <button onClick={() => form.resetFields()}>Reset</button> */}
                 </Form>
 
                 {/* <AntForm>

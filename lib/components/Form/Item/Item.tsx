@@ -131,23 +131,31 @@ const FormItem = ({
           const { onChange, value, ...childProps } = child.props;
           const fieldValue = getFieldValue(name) ?? initialValue;
 
-          return <FormItemChildComponent
-            {...props}
-            key={`${key}_${isReseting}`}
-            name={name}
-            child={child}
-            value={value}
-            error={!!errorMessage}
-            fieldValue={fieldValue}
-            setFieldValue={setFieldValue}
-            feedbackIcons={feedbackIcons}
-            onChange={onChange}
-            noStyle={props.noStyle}
-            normalize={props.normalize}
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-expect-error
-            size={childProps.size || props.size}
-          />
+          return <div>
+            <FormItemChildComponent
+              {...props}
+              key={`${key}_${isReseting}`}
+              name={name}
+              child={child}
+              value={value}
+              error={!!errorMessage}
+              fieldValue={fieldValue}
+              setFieldValue={setFieldValue}
+              feedbackIcons={feedbackIcons}
+              onChange={onChange}
+              noStyle={props.noStyle}
+              normalize={props.normalize}
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              size={childProps.size || props.size}
+            />
+
+            {props.extra
+              ? <div className={`${prefixCls}-extra`}>
+                  {props.extra}
+                </div>
+              : null}
+          </div>
         }
 
         return child;

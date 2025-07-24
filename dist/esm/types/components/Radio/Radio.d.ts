@@ -24,8 +24,5 @@ declare const Radio: React.ForwardRefExoticComponent<import("../..").DefaultProp
     required?: boolean;
     button?: boolean;
     error?: boolean;
-} & React.RefAttributes<HTMLLabelElement>> & {
-    Group: ({ defaultValue, value, size, disabled, name, id, style, buttonStyle, block, prefixCls, className, options, children, ...props }: import("../../types/radio").RadioGroupProps) => React.JSX.Element;
-    Button: ({ prefixCls, className, checked, disabled, children, size, ...props }: import("../../types/radio").RadioButtonProps) => React.JSX.Element;
-};
+} & React.RefAttributes<HTMLLabelElement>>;
 export default Radio;

@@ -64,3 +64,10 @@
 .xUi-form-item .xUi-select {
     margin-bottom: 15px;
 }
+
+.xUi-form-item-extra {
+    right: 0;
+    margin-top: 6px;
+    position: absolute;
+    left: 0;
+}
