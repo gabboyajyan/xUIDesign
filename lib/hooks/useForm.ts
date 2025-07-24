@@ -24,6 +24,16 @@ const useForm = (
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
   const _scrollToFirstError = useRef<boolean>(scrollToFirstError);
+  const onChangeRef = useRef<{
+    onFieldsChange?: (changedFields: FieldData[]) => void;
+    onValuesChange?: (
+      changedValues: Record<string, RuleTypes>,
+      allValues: Record<string, RuleTypes>
+    ) => void
+  }>({
+    onFieldsChange,
+    onValuesChange
+  })
 
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
@@ -103,12 +113,12 @@ const useForm = (
         fieldSubscribers.current[name]?.forEach(callback => callback(value));
         formSubscribers.current.forEach(callback => callback(allValues));
 
-        if (onValuesChange) {
-          onValuesChange({ [name]: value }, allValues);
+        if (onChangeRef.current.onValuesChange) {
+          onChangeRef.current.onValuesChange({ [name]: value }, allValues);
         }
 
-        if (onFieldsChange) {
-          onFieldsChange([{ name, value }]);
+        if (onChangeRef.current.onFieldsChange) {
+          onChangeRef.current.onFieldsChange([{ name, value }]);
         }
       });
     } else {
@@ -335,6 +345,18 @@ const useForm = (
     _scrollToFirstError.current = value;
   }
 
+  function setOnFieldsChange(
+    onFieldsChange?: (changedFields: FieldData[]) => void
+  ) {
+    onChangeRef.current.onFieldsChange = onFieldsChange
+  }
+
+  function setOnValuesChange(
+    onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void
+  ) {
+    onChangeRef.current.onValuesChange = onValuesChange
+  }
+
   const formInstance: FormInstance = {
     submit,
     setFields,
@@ -360,6 +382,8 @@ const useForm = (
     setScrollToFirstError,
     scrollToFirstError,
     isReseting,
+    setOnFieldsChange,
+    setOnValuesChange
   };
 
   return formInstance;

@@ -13,20 +13,20 @@ export type RuleRender = (form: FormInstance) => RuleObject;
 export type RuleObject =
   | RuleRender
   | {
-      required?: boolean;
-      message?: string;
-      pattern?: RegExp;
-      min?: number;
-      max?: number;
-      validateBooleanFalse?: boolean;
-      warningPattern?: RegExp;
-      warningMessage?: string;
-      validator?: (
-        rule: RuleObject,
-        value: RuleTypes,
-        callback: (error?: string) => void
-      ) => Promise<void> | void;
-    };
+    required?: boolean;
+    message?: string;
+    pattern?: RegExp;
+    min?: number;
+    max?: number;
+    validateBooleanFalse?: boolean;
+    warningPattern?: RegExp;
+    warningMessage?: string;
+    validator?: (
+      rule: RuleObject,
+      value: RuleTypes,
+      callback: (error?: string) => void
+    ) => Promise<void> | void;
+  };
 
 export interface FieldData {
   name: string | string[];
@@ -77,8 +77,8 @@ export type FormItemProps = DefaultProps & {
   rules?: RuleObject[];
   initialValue?: RuleType;
   children:
-    | (ReactElement & { props: { value: RuleTypes } })
-    | (ReactElement & { props: { value: RuleTypes } })[];
+  | (ReactElement & { props: { value: RuleTypes } })
+  | (ReactElement & { props: { value: RuleTypes } })[];
   layout?: FormLayoutTypes;
   dependencies?: string[];
   normalize?: (
@@ -97,8 +97,8 @@ export interface FormItemChildComponentProps {
   fieldValue: RuleTypes;
   value: RuleType;
   setFieldValue: (
-    name: string, 
-    value: RuleType, 
+    name: string,
+    value: RuleType,
     errors?: string[],
     reset?: boolean | null | undefined,
     touch?: boolean) => void;
@@ -154,4 +154,13 @@ export interface FormInstance {
   setScrollToFirstError: (value: boolean) => void;
   scrollToFirstError?: boolean;
   isReseting: boolean;
+  setOnFieldsChange?: (
+    onFieldsChange?: (changedFields: FieldData[]) => void
+  ) => void;
+  setOnValuesChange?: (
+    onValuesChange?: (
+      changedValues: Record<string, RuleTypes>,
+      allValues: Record<string, RuleTypes>
+    ) => void
+  ) => void;
 }

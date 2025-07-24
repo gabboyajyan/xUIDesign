@@ -106,4 +106,6 @@ export interface FormInstance {
     setScrollToFirstError: (value: boolean) => void;
     scrollToFirstError?: boolean;
     isReseting: boolean;
+    setOnFieldsChange?: (onFieldsChange?: (changedFields: FieldData[]) => void) => void;
+    setOnValuesChange?: (onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => void;
 }

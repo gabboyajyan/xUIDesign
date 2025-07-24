@@ -605,6 +605,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const rulesRef = React.useRef({});
   const warningsRef = React.useRef({});
   const _scrollToFirstError = React.useRef(scrollToFirstError);
+  const onChangeRef = React.useRef({
+    onFieldsChange,
+    onValuesChange
+  });
   const formRef = React.useRef({
     ...initialValues
   });
@@ -661,13 +665,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         const allValues = getFieldsValue();
         fieldSubscribers.current[name]?.forEach(callback => callback(value));
         formSubscribers.current.forEach(callback => callback(allValues));
-        if (onValuesChange) {
-          onValuesChange({
+        if (onChangeRef.current.onValuesChange) {
+          onChangeRef.current.onValuesChange({
             [name]: value
           }, allValues);
         }
-        if (onFieldsChange) {
-          onFieldsChange([{
+        if (onChangeRef.current.onFieldsChange) {
+          onChangeRef.current.onFieldsChange([{
             name,
             value
           }]);
@@ -816,6 +820,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function setScrollToFirstError(value) {
     _scrollToFirstError.current = value;
   }
+  function setOnFieldsChange(onFieldsChange) {
+    onChangeRef.current.onFieldsChange = onFieldsChange;
+  }
+  function setOnValuesChange(onValuesChange) {
+    onChangeRef.current.onValuesChange = onValuesChange;
+  }
   const formInstance = {
     submit,
     setFields,
@@ -840,7 +850,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     subscribeToFields,
     setScrollToFirstError,
     scrollToFirstError,
-    isReseting
+    isReseting,
+    setOnFieldsChange,
+    setOnValuesChange
   };
   return formInstance;
 };
@@ -1146,10 +1158,10 @@ const Form$1 = ({
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
   React.useEffect(() => {
     if (onFieldsChange) {
-      formInstance.onFieldsChange = onFieldsChange;
+      formInstance.setOnFieldsChange?.(onFieldsChange);
     }
     if (onValuesChange) {
-      formInstance.onValuesChange = onValuesChange;
+      formInstance.setOnValuesChange?.(onValuesChange);
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
   const injectPropsIntoFinalLeaf = child => {

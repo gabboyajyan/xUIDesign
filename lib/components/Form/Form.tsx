@@ -36,6 +36,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
+    
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formInstance = form || internalForm;
   const formRef = useRef<HTMLFormElement>(null);
@@ -57,11 +58,11 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
   useEffect(() => {
     if (onFieldsChange) {
-      formInstance.onFieldsChange = onFieldsChange;
+      formInstance.setOnFieldsChange?.(onFieldsChange);
     }
 
     if (onValuesChange) {
-      formInstance.onValuesChange = onValuesChange;
+      formInstance.setOnValuesChange?.(onValuesChange);
     }
   }, [formInstance, onFieldsChange, onValuesChange]);
 
