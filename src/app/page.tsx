@@ -8,15 +8,15 @@ import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 // import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
-// import { RuleType } from "../../lib/types";
+import { SyntheticBaseEvent } from "../../lib/types";
 
-// import { Form as AntForm, Select as AntSelect } from 'antd'
+// import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
 
 export const CountryCodes = [...new Set([
@@ -1871,17 +1871,22 @@ export const CountryCodes = [...new Set([
 // ];
 
 export default function Home() {
-    const form = useForm();
+    const form = useForm({
+        username: "Gabriel"
+    });
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
-    const handle = useCallback((e) => console.log(e), [])
+    // const [statusValue, setStatusValue] = useState([0]);
 
-    function handleOnValueChnage (e) {
-        console.log(0, e);
-    }
 
-    const [value] = useState('')
+    // const handle = useCallback((e) => console.log(e), [])
+
+    // function handleOnValueChnage(e) {
+    //     console.log(0, e);
+    // }
+
+    const [value, setValue] = useState('')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1902,15 +1907,38 @@ export default function Home() {
 
     // OPTIONS().then(t => setOptions(t))
 
-    useEffect(() => {
-        setTimeout(() => {
-            form.setFieldValue('username', 'Gabriel')
-        }, 2000);
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         form.setFieldValue('username', 'Gabriel')
+    //     }, 2000);
 
-        setTimeout(() => {
-            console.log(form.isFieldTouched('username'));
-        }, 3000);
-    }, [])
+    //     setTimeout(() => {
+    //         console.log(form.isFieldTouched('username'));
+    //     }, 3000);
+    // }, [])
+
+    const handleChange = (event: SyntheticBaseEvent) => {
+        const getValue = () => {
+            const { value } = event.target;
+
+            if (value === '.') {
+                return '0.';
+            }
+
+            // @Todo need to handle with separator
+            return value
+                .replace(/[^0-9.]/g, '')
+                .replace(/(\..*?)\..*/g, '$1')
+                .trim();
+        };
+
+        const stake = getValue();
+
+        // event.target.value = stake;
+        console.log({ stake });
+
+        setValue(stake);
+    };
 
     return (
         <>
@@ -1931,6 +1959,11 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <Button>Button</Button>
 
+                <Input placeholder="1" onChange={() => {
+                    console.log(1);
+                    
+                }} />
+
                 <div style={{ width: 500 }}></div>
 
                 {/* <RadioGroup
@@ -1947,32 +1980,65 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} onFinish={handle} onValuesChange={handleOnValueChnage} size="large" scrollToFirstError={true}>
-                        {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Select
-                                showSearch
-                                placeholder="Select...">
-                                {(options || []).map((item: RuleType, index: number) => (
-                                    <Option
-                                        key={`${index}_${item.value}`}
-                                        value={item.value}
+                <Form form={form} size="large" scrollToFirstError={true}>
+                    {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Select
+                            mode="multiple"
+                            showSearch
+                            value={statusValue}
+                            style={{ width: 400 }}
+                            placeholder="Select...">
+                            {(statusOption || []).map((item: RuleType, index: number) => {
+                                const isSelected = statusValue.includes(item.value);
+
+                                return <Option
+                                    key={`${index}_${item.value}`}
+                                    value={item.value}
+                                >
+                                    {item.label}
+
+                                    <div
+                                        className={clsx([
+                                            'xUi-select__overridden__options__iconWrapper',
+                                            { active: isSelected }
+                                        ])}
                                     >
-                                        {`${item.label} (${item.value})`}
-                                    </Option>
-                                ))}
-                            </Select>
-                        </Item> */}
+                                        <Checkbox
+                                            checked={isSelected}
+                                            onClick={() => {
+                                                const _statusValue = [...statusValue];
+
+                                                if (isSelected) {
+                                                    statusChangeHandler(
+                                                        _statusValue.filter(e => e !== item.value)
+                                                    );
+                                                } else {
+                                                    _statusValue.push(item.value);
+
+                                                    statusChangeHandler(_statusValue);
+                                                }
+                                            }}
+                                        />
+                                    </div>
+                                </Option>
+                            })}
+                        </Select>
+                    </Item> */}
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
-                        <Input value={value} />
+                        <Input value={value} placeholder="2" onChange={handleChange} />
                     </Item>
+
+                    {/* <Item rules={[{ required: true }]} name="name" label="name">
+                        <AntInput value={value} onChange={(e) => handleChange(e)} />
+                    </Item> */}
 
                     <button type="submit">Submit</button>
                     <button type="button" onClick={() => {
                         form.resetFields(undefined, null)
 
                         console.log(form.isFieldTouched('username'));
-                        
+
                     }}>Reset</button>
 
                     {/* <div>

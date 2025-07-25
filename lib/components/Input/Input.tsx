@@ -5,7 +5,7 @@ import React, {
   forwardRef,
   KeyboardEvent,
   MouseEvent,
-  useEffect,
+  // useEffect,
   useImperativeHandle,
   useRef,
   useState
@@ -54,11 +54,10 @@ const InputComponent = forwardRef(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const lastKeyPressed = useRef<string | null>(null);
-    const [internalValue, setInternalValue] = useState(() =>
+    const internalValue =
       mask
         ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar)
-        : value ?? ''
-    );
+        : value ?? '';
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -75,9 +74,9 @@ const InputComponent = forwardRef(
       }
     }));
 
-    useEffect(() => {
-      setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
-    }, [value, mask, maskChar]);
+    // useEffect(() => {
+    //   setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
+    // }, [value, mask, maskChar]);
 
     const handleChange = (e: SyntheticBaseEvent) => {
       const inputEl = inputRef.current;
@@ -89,7 +88,7 @@ const InputComponent = forwardRef(
       const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
       const masked = mask ? applyMask(raw, mask, maskChar) : rawInput;
 
-      setInternalValue(masked);
+      // setInternalValue(masked);
 
       if (mask) {
         requestAnimationFrame(() => {
@@ -122,7 +121,7 @@ const InputComponent = forwardRef(
     };
 
     const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
-      setInternalValue('');
+      // setInternalValue('');
       e.target.value = '';
       props.onChange?.(e);
     };

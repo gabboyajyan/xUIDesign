@@ -130,7 +130,7 @@ const FormItem = ({
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           const { onChange, value, ...childProps } = child.props;
-          const fieldValue = getFieldValue(name) ?? initialValue;
+          const fieldValue = value ?? getFieldValue(name) ?? initialValue;
 
           return <div>
             <FormItemChildComponent

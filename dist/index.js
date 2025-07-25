@@ -1024,7 +1024,7 @@ const FormItem$1 = ({
         value,
         ...childProps
       } = child.props;
-      const fieldValue = getFieldValue(name) ?? initialValue;
+      const fieldValue = value ?? getFieldValue(name) ?? initialValue;
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
         key: `${key}_${isReseting}`,
         name: name,
@@ -2797,7 +2797,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
 }, ref) => {
   const inputRef = React.useRef(null);
   const lastKeyPressed = React.useRef(null);
-  const [internalValue, setInternalValue] = React.useState(() => mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : value ?? '');
+  const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : value ?? '';
   const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
   React.useImperativeHandle(ref, () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -2812,9 +2812,9 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
       }
     }
   }));
-  React.useEffect(() => {
-    setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
-  }, [value, mask, maskChar]);
+  // useEffect(() => {
+  //   setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
+  // }, [value, mask, maskChar]);
   const handleChange = e => {
     const inputEl = inputRef.current;
     if (!inputEl) return;
@@ -2822,7 +2822,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
     let nextCaret = inputEl.selectionStart ?? rawInput.length;
     const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
     const masked = mask ? applyMask(raw, mask, maskChar) : rawInput;
-    setInternalValue(masked);
+    // setInternalValue(masked);
     if (mask) {
       requestAnimationFrame(() => {
         if (!inputEl) return;
@@ -2848,7 +2848,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
     props.onChange?.(eventWithMaskedValue);
   };
   const handleClear = e => {
-    setInternalValue('');
+    // setInternalValue('');
     e.target.value = '';
     props.onChange?.(e);
   };

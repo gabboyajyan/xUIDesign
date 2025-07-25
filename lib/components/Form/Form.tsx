@@ -36,7 +36,6 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-    
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formInstance = form || internalForm;
   const formRef = useRef<HTMLFormElement>(null);
