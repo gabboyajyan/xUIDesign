@@ -1873,7 +1873,7 @@ export const CountryCodes = [...new Set([
 
 export default function Home() {
     const form = useForm({
-        username: "Gabriel"
+        // username: "Gabriel"
     });
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
@@ -1958,7 +1958,7 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
-            <div style={{ display: 'flex' }}>
+            <div style={{ display: 'flex', width: 400 }}>
                 <Button>Button</Button>
 
                 {/* <Input placeholder="1" onChange={() => {
@@ -2034,8 +2034,8 @@ export default function Home() {
                         </Select>
                     </Item>
                     
-                    <Item rules={[{ required: true }]} name="username" label="Username">
-                        <Input value={value} placeholder="2" onChange={handleChange} />
+                    <Item rules={[{ required: true, message: 'sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf' }]} name="username" label="Username">
+                        <Input placeholder="2" onChange={handleChange} />
                     </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">

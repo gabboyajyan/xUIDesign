@@ -1,6 +1,5 @@
 .xUi-form-item {
     display: flex;
-    margin-bottom: 10px;
     position: relative;
 }
 
@@ -21,9 +20,11 @@
 
 .xUi-form-item-error {
     right: 0;
-    bottom: -6px;
+    bottom: 10px;
+    display: block;
+    min-height: 16px;
     font-size: var(--xui-font-size-xs);
-    position: absolute;
+    position: relative;
     color: var(--xui-error-color);
     user-select: none;
     line-height: 16px;

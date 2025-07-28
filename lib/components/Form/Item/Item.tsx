@@ -22,7 +22,7 @@ import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
 
-const REF_CLIENT_HEIGHT = 24;
+// const REF_CLIENT_HEIGHT = 24;
 
 const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -87,16 +87,16 @@ const FormItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
 
-  useEffect(() => {
-    if (
-      errorRef.current &&
-      errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT
-    ) {
-      errorRef.current.style.position = 'relative';
-      errorRef.current.style.marginTop = '-16px';
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [errorRef.current]);
+  // useEffect(() => {
+  //   if (
+  //     errorRef.current &&
+  //     errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT
+  //   ) {
+  //     errorRef.current.style.position = 'relative';
+  //     errorRef.current.style.marginTop = '-16px';
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [errorRef.current]);
 
   const isRequired = useMemo(
     () => rules.some((rule: RuleType) => rule.required),
@@ -153,20 +153,20 @@ const FormItem = ({
 
             {extra
               ? <div className={`${prefixCls}-extra`}>
-                  {extra}
-                </div>
+                {extra}
+              </div>
               : null}
+
+            {!props.noStyle && (
+              <span ref={errorRef} className={`${prefixCls}-error`}>
+                {errorMessage || ''}
+              </span>
+            )}
           </div>
         }
 
         return child;
       })}
-
-      {!props.noStyle && errorMessage && (
-        <span ref={errorRef} className={`${prefixCls}-error`}>
-          {errorMessage}
-        </span>
-      )}
     </div>
   );
 };
