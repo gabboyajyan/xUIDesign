@@ -38,7 +38,7 @@
     width: 100%;
     border: none;
     outline: none;
-    padding: 0 7px;
+    padding: .1px 7px;
     color: var(--xui-text-color);
     height: -webkit-fill-available;
     background-color: transparent;

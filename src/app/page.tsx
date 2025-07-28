@@ -5,7 +5,7 @@ import { Form } from "../../lib/components/Form";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
-// import { Input } from "../../lib/components/Input";
+import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 import { useState } from "react";
@@ -1888,7 +1888,7 @@ export default function Home() {
     //     console.log(0, e);
     // }
 
-    // const [value, setValue] = useState('')
+    const [value, setValue] = useState('')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1919,28 +1919,28 @@ export default function Home() {
     //     }, 3000);
     // }, [])
 
-    // const handleChange = (event: SyntheticBaseEvent) => {
-    //     const getValue = () => {
-    //         const { value } = event.target;
+    const handleChange = (event: SyntheticBaseEvent) => {
+        const getValue = () => {
+            const { value } = event.target;
 
-    //         if (value === '.') {
-    //             return '0.';
-    //         }
+            if (value === '.') {
+                return '0.';
+            }
 
-    //         // @Todo need to handle with separator
-    //         return value
-    //             .replace(/[^0-9.]/g, '')
-    //             .replace(/(\..*?)\..*/g, '$1')
-    //             .trim();
-    //     };
+            // @Todo need to handle with separator
+            return value
+                .replace(/[^0-9.]/g, '')
+                .replace(/(\..*?)\..*/g, '$1')
+                .trim();
+        };
 
-    //     const stake = getValue();
+        const stake = getValue();
 
-    //     // event.target.value = stake;
-    //     console.log({ stake });
+        // event.target.value = stake;
+        console.log({ stake });
 
-    //     setValue(stake);
-    // };
+        setValue(stake);
+    };
 
     return (
         <>
@@ -2033,10 +2033,10 @@ export default function Home() {
                             })}
                         </Select>
                     </Item>
-                    {/* 
+                    
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input value={value} placeholder="2" onChange={handleChange} />
-                    </Item> */}
+                    </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
