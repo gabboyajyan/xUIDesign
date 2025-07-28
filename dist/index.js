@@ -3219,6 +3219,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const selectRef = React.useRef(null);
   const [searchInputWidth, setSearchInputWidth] = React.useState(0);
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
+  const [searchFocused, setSearchFocused] = React.useState(false);
   const [isOpenChecker, setIsOpenChecker] = React.useState(isOpen);
   const [searchQuery, setSearchQuery] = React.useState(searchValue || '');
   const [dropdownPosition, setDropdownPosition] = React.useState({});
@@ -3306,8 +3307,10 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     setIsOpenChecker(isOpen);
     if (!isOpen) {
       setDropdownPosition({});
+      setSearchFocused(false);
     }
   }, [isOpen]);
+  React.useEffect(() => {}, []);
   React.useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();
@@ -3495,19 +3498,10 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
     const timeout = setTimeout(() => {
-      // if (!hasMode) {
-      //   const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
-      //   if (selectedOption) {
-      //     const selectedOptionTop: number = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
-      //     selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
-      //       top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
-      //       behavior: 'smooth'
-      //     })
-      //   }
-      // }
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
       if (searchInput) {
         searchInput?.focus();
+        setSearchFocused(true);
       }
       clearTimeout(timeout);
     }, 0);
@@ -3639,9 +3633,9 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     style: {
       opacity: 0.5
     }
-  }, placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
+  }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag`
-  }, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("div", _extends({
     onClick: e => {
       if (disabled) {
         e.preventDefault();
@@ -3651,14 +3645,16 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     },
     onKeyDown: handleOnKeyDown,
     style: {
-      width: showSearch && !searchQuery.length ? 0 : 'auto',
+      width: showSearch && !searchQuery.length ? 1 : 'auto',
       display: 'ruby',
       textAlign: 'center'
-    },
-    contentEditable: "plaintext-only",
+    }
+  }, showSearch ? {
+    contentEditable: 'plaintext-only'
+  } : {}, {
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  }), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen ? '0.6' : '1'

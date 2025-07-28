@@ -127,6 +127,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const selectRef = useRef<HTMLDivElement>(null);
     const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const [searchFocused, setSearchFocused] = useState(false);
     const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
@@ -253,8 +254,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       if (!isOpen) {
         setDropdownPosition({});
+        setSearchFocused(false);
       }
-    }, [isOpen])
+    }, [isOpen]);
+
+    useEffect(() => {
+
+    }, [])
 
     useEffect(() => {
       if (!isOpen) return;
@@ -539,25 +545,14 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       }
 
       const timeout = setTimeout(() => {
-        // if (!hasMode) {
-        //   const selectedOption = selectRef.current?.getElementsByClassName('selected')[0];
-
-        //   if (selectedOption) {
-        //     const selectedOptionTop: number = selectRef.current?.getElementsByClassName('selected')[0].getBoundingClientRect()?.top || 0;
-
-        //     selectRef.current?.getElementsByClassName(`${prefixCls}-options`)[0]?.scrollTo({
-        //       top: selectedOptionTop - selectedOption.clientHeight - PADDING_PLACEMENT - PADDING_TAG_INPUT,
-        //       behavior: 'smooth'
-        //     })
-        //   }
-        // }
-
         const searchInput = document.getElementById(
           `${prefixCls}-search-tag-input`
         );
 
         if (searchInput) {
           searchInput?.focus();
+
+          setSearchFocused(true);
         }
 
         clearTimeout(timeout);
@@ -758,7 +753,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       key={`${index}_${tag}`}
                     />
                   )
-                ) : <span style={{ opacity: 0.5 }}>{placeholder}</span>}
+                ) : <span style={{ opacity: 0.5 }}>{searchFocused ? '' : placeholder}</span>}
               </> : null}
 
               {isOpen ? (
@@ -774,11 +769,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     onKeyDown={handleOnKeyDown}
                     style={{
-                      width: showSearch && !searchQuery.length ? 0 : 'auto',
+                      width: showSearch && !searchQuery.length ? 1 : 'auto',
                       display: 'ruby',
                       textAlign: 'center'
                     }}
-                    contentEditable="plaintext-only"
+                    {...showSearch ? {
+                      contentEditable: 'plaintext-only'
+                    }: {}}
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />
