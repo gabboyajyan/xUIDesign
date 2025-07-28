@@ -5,16 +5,17 @@ import { Form } from "../../lib/components/Form";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
-import { Input } from "../../lib/components/Input";
-// import { Select } from "../../lib/components/Select";
+// import { Input } from "../../lib/components/Input";
+import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { RadioButton } from "../../lib/components/Radio/Button";
-// import Option from "../../lib/components/Select/Option/Option";
-import { SyntheticBaseEvent } from "../../lib/types";
+import Option from "../../lib/components/Select/Option/Option";
+import { RuleType, SyntheticBaseEvent } from "../../lib/types";
+import { clsx } from "../../lib/helpers";
 
 // import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1878,6 +1879,7 @@ export default function Home() {
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     // const [statusValue, setStatusValue] = useState([0]);
+    const [country, setCountry] = useState('AF');
 
 
     // const handle = useCallback((e) => console.log(e), [])
@@ -1886,7 +1888,7 @@ export default function Home() {
     //     console.log(0, e);
     // }
 
-    const [value, setValue] = useState('')
+    // const [value, setValue] = useState('')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1917,28 +1919,28 @@ export default function Home() {
     //     }, 3000);
     // }, [])
 
-    const handleChange = (event: SyntheticBaseEvent) => {
-        const getValue = () => {
-            const { value } = event.target;
+    // const handleChange = (event: SyntheticBaseEvent) => {
+    //     const getValue = () => {
+    //         const { value } = event.target;
 
-            if (value === '.') {
-                return '0.';
-            }
+    //         if (value === '.') {
+    //             return '0.';
+    //         }
 
-            // @Todo need to handle with separator
-            return value
-                .replace(/[^0-9.]/g, '')
-                .replace(/(\..*?)\..*/g, '$1')
-                .trim();
-        };
+    //         // @Todo need to handle with separator
+    //         return value
+    //             .replace(/[^0-9.]/g, '')
+    //             .replace(/(\..*?)\..*/g, '$1')
+    //             .trim();
+    //     };
 
-        const stake = getValue();
+    //     const stake = getValue();
 
-        // event.target.value = stake;
-        console.log({ stake });
+    //     // event.target.value = stake;
+    //     console.log({ stake });
 
-        setValue(stake);
-    };
+    //     setValue(stake);
+    // };
 
     return (
         <>
@@ -1959,10 +1961,10 @@ export default function Home() {
             <div style={{ display: 'flex' }}>
                 <Button>Button</Button>
 
-                <Input placeholder="1" onChange={() => {
+                {/* <Input placeholder="1" onChange={() => {
                     console.log(1);
                     
-                }} />
+                }} /> */}
 
                 <div style={{ width: 500 }}></div>
 
@@ -1981,15 +1983,38 @@ export default function Home() {
                 </RadioGroup> */}
 
                 <Form form={form} size="large" scrollToFirstError={true}>
-                    {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
                             showSearch
-                            value={statusValue}
                             style={{ width: 400 }}
+                            dropdownRender={(item: RuleType) => {
+                                return <div
+                                    onMouseDown={e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                }}
+                                >
+                                    {item}
+                                    <div style={{ display: 'flex', gap: 10, width: '100%', justifyContent: 'space-around' }}>
+                                        <Button
+                                            type="primary"
+                                            className="xUi-select__overridden"
+                                        >
+                                            Reset
+                                        </Button>
+                                        <Button
+                                            type="primary"
+                                            className="xUi-select__overridden"
+                                        >
+                                            Apply
+                                        </Button>
+                                    </div>
+                                </div>
+                            }}
                             placeholder="Select...">
-                            {(statusOption || []).map((item: RuleType, index: number) => {
-                                const isSelected = statusValue.includes(item.value);
+                            {(CountryCodes || []).map((item: RuleType, index: number) => {
+                                const isSelected = country.includes(item.value);
 
                                 return <Option
                                     key={`${index}_${item.value}`}
@@ -2003,31 +2028,15 @@ export default function Home() {
                                             { active: isSelected }
                                         ])}
                                     >
-                                        <Checkbox
-                                            checked={isSelected}
-                                            onClick={() => {
-                                                const _statusValue = [...statusValue];
-
-                                                if (isSelected) {
-                                                    statusChangeHandler(
-                                                        _statusValue.filter(e => e !== item.value)
-                                                    );
-                                                } else {
-                                                    _statusValue.push(item.value);
-
-                                                    statusChangeHandler(_statusValue);
-                                                }
-                                            }}
-                                        />
                                     </div>
                                 </Option>
                             })}
                         </Select>
-                    </Item> */}
-
+                    </Item>
+                    {/* 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input value={value} placeholder="2" onChange={handleChange} />
-                    </Item>
+                    </Item> */}
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />

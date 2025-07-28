@@ -35,6 +35,7 @@ import { prefixClsForm, prefixClsSelect } from '../../utils';
 import Option from './Option/Option';
 import Tag from './Tag/Tag';
 import { Empty } from '../Empty';
+import { ConditionalWrapper } from '../ConditionalWrapper';
 import './style.css';
 
 const LIST_HEIGHT = 200;
@@ -616,7 +617,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         }
       );
 
-      return dropdownRender ? dropdownRender(options) : options;
+      return options;
     })();
 
     const dropdownContent = !loading && open && isOpen && (
@@ -630,7 +631,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         ])}
         style={{
           ...dropdownPosition,
-          maxHeight: listHeight,
+          maxHeight: dropdownRender ? 'unset' : listHeight,
           opacity: Object.keys(dropdownPosition).length ? 1 : 0
         }}
       >
@@ -645,33 +646,39 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         )}
 
         {!loading && (
-          <div
-            className={`${prefixCls}-options`}
-            style={{
-              maxHeight: listHeight,
-              overflowY: 'auto',
-              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit',
-            }}
-          >
-            {asTag && !!searchQuery && (
-              <Option
-                value={searchQuery}
-                className={`${prefixCls}-focused`}
-                onClick={e => {
-                  handleSelect(e as MouseEventHandlerSelect, searchQuery);
-                }}
-                data-value={searchQuery}
-              >
-                {searchQuery}
-              </Option>
-            )}
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          <ConditionalWrapper wrapper={(element) => {
+            return dropdownRender?.(element || <> </>) || <> </>
+          }} condition={!!dropdownRender}>
+            <div
+              className={`${prefixCls}-options`}
+              style={{
+                maxHeight: listHeight,
+                overflowY: 'auto',
+                maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit',
+              }}
+            >
+              {asTag && !!searchQuery && (
+                <Option
+                  value={searchQuery}
+                  className={`${prefixCls}-focused`}
+                  onClick={e => {
+                    handleSelect(e as MouseEventHandlerSelect, searchQuery);
+                  }}
+                  data-value={searchQuery}
+                >
+                  {searchQuery}
+                </Option>
+              )}
 
-            {filteredOptions.length
-              ? dataRender
-              : !asTag
-                ? notFoundContent || <Empty />
-                : null}
-          </div>
+              {filteredOptions.length
+                ? dataRender
+                : !asTag
+                  ? notFoundContent || <Empty />
+                  : null}
+            </div>
+          </ConditionalWrapper>
         )}
       </div>
     );
