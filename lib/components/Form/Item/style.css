@@ -20,7 +20,8 @@
 
 .xUi-form-item-error {
     right: 0;
-    margin-bottom: 12px;
+    margin-top: 4px;
+    margin-bottom: 8px;
     display: block;
     min-height: 16px;
     font-size: var(--xui-font-size-xs);

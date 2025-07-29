@@ -45,3 +45,5 @@ yarn.lock
 packages/node_modules
 ./package-lock.json
 .rollup.cache
+
+.idea
