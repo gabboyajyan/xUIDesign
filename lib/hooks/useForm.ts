@@ -18,21 +18,24 @@ const useForm = (
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
   ) => void,
-  scrollToFirstError?: boolean
+  scrollToFirstError?: boolean,
+  onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
   const _scrollToFirstError = useRef<boolean>(scrollToFirstError);
-  const onChangeRef = useRef<{
-    onFieldsChange?: (changedFields: FieldData[]) => void;
+  const formHandlersRef = useRef<{
+    onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
     onValuesChange?: (
       changedValues: Record<string, RuleTypes>,
       allValues: Record<string, RuleTypes>
     ) => void
+    onFieldsChange?: (changedFields: FieldData[]) => void;
   }>({
-    onFieldsChange,
-    onValuesChange
+    onFinish,
+    onValuesChange,
+    onFieldsChange
   })
 
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
@@ -113,12 +116,12 @@ const useForm = (
         fieldSubscribers.current[name]?.forEach(callback => callback(value));
         formSubscribers.current.forEach(callback => callback(allValues));
 
-        if (onChangeRef.current.onValuesChange) {
-          onChangeRef.current.onValuesChange({ [name]: value }, allValues);
+        if (formHandlersRef.current.onValuesChange) {
+          formHandlersRef.current.onValuesChange({ [name]: value }, allValues);
         }
 
-        if (onChangeRef.current.onFieldsChange) {
-          onChangeRef.current.onFieldsChange([{ name, value }]);
+        if (formHandlersRef.current.onFieldsChange) {
+          formHandlersRef.current.onFieldsChange([{ name, value }]);
         }
       });
     } else {
@@ -293,7 +296,11 @@ const useForm = (
   async function submit() {
     setScrollToFirstError(true);
 
-    return (await validateFields()) ? formRef.current : undefined;
+    return (await validateFields()) ? (() => {
+      formHandlersRef.current.onFinish?.(formRef.current)
+
+      return formRef.current
+    })() : undefined;
   }
 
   function subscribeToField(
@@ -348,13 +355,19 @@ const useForm = (
   function setOnFieldsChange(
     onFieldsChange?: (changedFields: FieldData[]) => void
   ) {
-    onChangeRef.current.onFieldsChange = onFieldsChange
+    formHandlersRef.current.onFieldsChange = onFieldsChange
   }
 
   function setOnValuesChange(
     onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void
   ) {
-    onChangeRef.current.onValuesChange = onValuesChange
+    formHandlersRef.current.onValuesChange = onValuesChange
+  }
+
+  function setOnFinish(
+    onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined
+  ) {
+    formHandlersRef.current.onFinish = onFinish;
   }
 
   const formInstance: FormInstance = {
@@ -382,6 +395,7 @@ const useForm = (
     setScrollToFirstError,
     scrollToFirstError,
     isReseting,
+    setOnFinish,
     setOnFieldsChange,
     setOnValuesChange
   };

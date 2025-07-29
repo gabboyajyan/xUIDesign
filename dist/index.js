@@ -600,14 +600,15 @@ const SpinerIcon = () => /*#__PURE__*/React.createElement("svg", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
-const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError) => {
+const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError, onFinish) => {
   const touchedFieldsRef = React.useRef(new Set());
   const rulesRef = React.useRef({});
   const warningsRef = React.useRef({});
   const _scrollToFirstError = React.useRef(scrollToFirstError);
-  const onChangeRef = React.useRef({
-    onFieldsChange,
-    onValuesChange
+  const formHandlersRef = React.useRef({
+    onFinish,
+    onValuesChange,
+    onFieldsChange
   });
   const formRef = React.useRef({
     ...initialValues
@@ -665,13 +666,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         const allValues = getFieldsValue();
         fieldSubscribers.current[name]?.forEach(callback => callback(value));
         formSubscribers.current.forEach(callback => callback(allValues));
-        if (onChangeRef.current.onValuesChange) {
-          onChangeRef.current.onValuesChange({
+        if (formHandlersRef.current.onValuesChange) {
+          formHandlersRef.current.onValuesChange({
             [name]: value
           }, allValues);
         }
-        if (onChangeRef.current.onFieldsChange) {
-          onChangeRef.current.onFieldsChange([{
+        if (formHandlersRef.current.onFieldsChange) {
+          formHandlersRef.current.onFieldsChange([{
             name,
             value
           }]);
@@ -791,7 +792,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   async function submit() {
     setScrollToFirstError(true);
-    return (await validateFields()) ? formRef.current : undefined;
+    return (await validateFields()) ? (() => {
+      formHandlersRef.current.onFinish?.(formRef.current);
+      return formRef.current;
+    })() : undefined;
   }
   function subscribeToField(name, callback) {
     if (!fieldSubscribers.current[name]) {
@@ -821,10 +825,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     _scrollToFirstError.current = value;
   }
   function setOnFieldsChange(onFieldsChange) {
-    onChangeRef.current.onFieldsChange = onFieldsChange;
+    formHandlersRef.current.onFieldsChange = onFieldsChange;
   }
   function setOnValuesChange(onValuesChange) {
-    onChangeRef.current.onValuesChange = onValuesChange;
+    formHandlersRef.current.onValuesChange = onValuesChange;
+  }
+  function setOnFinish(onFinish) {
+    formHandlersRef.current.onFinish = onFinish;
   }
   const formInstance = {
     submit,
@@ -851,6 +858,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setScrollToFirstError,
     scrollToFirstError,
     isReseting,
+    setOnFinish,
     setOnFieldsChange,
     setOnValuesChange
   };
@@ -1166,7 +1174,10 @@ const Form$1 = ({
     if (onValuesChange) {
       formInstance.setOnValuesChange?.(onValuesChange);
     }
-  }, [formInstance, onFieldsChange, onValuesChange]);
+    if (onFinish) {
+      formInstance.setOnFinish?.(onFinish);
+    }
+  }, [formInstance, onFieldsChange, onValuesChange, onFinish]);
   const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/React.isValidElement(child)) {
       return child;

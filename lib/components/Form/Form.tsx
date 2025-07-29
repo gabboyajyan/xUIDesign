@@ -63,7 +63,11 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     if (onValuesChange) {
       formInstance.setOnValuesChange?.(onValuesChange);
     }
-  }, [formInstance, onFieldsChange, onValuesChange]);
+
+    if (onFinish) {
+      formInstance.setOnFinish?.(onFinish);
+    }
+  }, [formInstance, onFieldsChange, onValuesChange, onFinish]);
 
   const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {

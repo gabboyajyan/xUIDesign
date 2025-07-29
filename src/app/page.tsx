@@ -1959,7 +1959,7 @@ export default function Home() {
             /> */}
 
             <div style={{ display: 'flex', width: 400 }}>
-                <Button>Button</Button>
+                <Button onClick={() => form.submit()}>Button</Button>
 
                 {/* <Input placeholder="1" onChange={() => {
                     console.log(1);
@@ -1982,7 +1982,7 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} size="large" scrollToFirstError={true}>
+                <Form form={form} onFinish={(e) => console.log(e)} size="large" scrollToFirstError={true}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
@@ -2034,7 +2034,9 @@ export default function Home() {
                         </Select>
                     </Item>
                     
-                    <Item rules={[{ required: true, message: 'sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf' }]} name="username" label="Username">
+                    <Item extra={
+                        <>asljdnsa sdknsdkfjn sdfmdsfn </>
+                    } rules={[{ required: true, message: 'sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf' }]} name="username" label="Username">
                         <Input placeholder="2" onChange={handleChange} />
                     </Item>
 
