@@ -944,7 +944,7 @@ function flattenChildren(children) {
   return result;
 }
 
-var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{bottom:10px;color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{margin-bottom:12px!important;width:-webkit-fill-available}.xUi-form-item .xUi-datepicker-container{margin-bottom:10px}.xUi-form-item .xUi-select{margin-bottom:15px}.xUi-form-item-extra{left:0;margin-top:6px;position:absolute;right:0}";
+var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:12px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
 // const REF_CLIENT_HEIGHT = 24;
@@ -961,6 +961,7 @@ const FormItem$1 = ({
   initialValue,
   feedbackIcons,
   extra,
+  removeErrorMessageHeight = false,
   ...props
 }) => {
   const formContext = React.useContext(FormContext);
@@ -1002,16 +1003,6 @@ const FormItem$1 = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
-  // useEffect(() => {
-  //   if (
-  //     errorRef.current &&
-  //     errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT
-  //   ) {
-  //     errorRef.current.style.position = 'relative';
-  //     errorRef.current.style.marginTop = '-16px';
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [errorRef.current]);
   const isRequired = React.useMemo(() => rules.some(rule => rule.required), [rules]);
   const errorMessage = getFieldError(name)?.[0];
   return /*#__PURE__*/React.createElement("div", {
@@ -1056,7 +1047,12 @@ const FormItem$1 = ({
         className: `${prefixCls}-extra`
       }, extra) : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
-        className: `${prefixCls}-error`
+        className: `${prefixCls}-error`,
+        style: {
+          ...(removeErrorMessageHeight ? {
+            minHeight: 0
+          } : {})
+        }
       }, errorMessage || ''));
     }
     return child;

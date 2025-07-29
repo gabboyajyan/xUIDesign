@@ -88,6 +88,7 @@ export type FormItemProps = DefaultProps & {
   ) => RuleType;
   feedbackIcons?: boolean;
   extra?: ReactNode;
+  removeErrorMessageHeight?: boolean;
 };
 
 export interface FormItemChildComponentProps {

@@ -37,6 +37,7 @@ const FormItem = ({
   initialValue,
   feedbackIcons,
   extra,
+  removeErrorMessageHeight = false,
   ...props
 }: FormItemProps) => {
   const formContext = useContext(FormContext);
@@ -86,17 +87,6 @@ const FormItem = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
-
-  // useEffect(() => {
-  //   if (
-  //     errorRef.current &&
-  //     errorRef.current?.clientHeight >= REF_CLIENT_HEIGHT
-  //   ) {
-  //     errorRef.current.style.position = 'relative';
-  //     errorRef.current.style.marginTop = '-16px';
-  //   }
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [errorRef.current]);
 
   const isRequired = useMemo(
     () => rules.some((rule: RuleType) => rule.required),
@@ -158,7 +148,11 @@ const FormItem = ({
               : null}
 
             {!props.noStyle && (
-              <span ref={errorRef} className={`${prefixCls}-error`}>
+              <span 
+                ref={errorRef} 
+                className={`${prefixCls}-error`}
+                style={{ ...removeErrorMessageHeight ? { minHeight: 0 } : {}}} 
+              >
                 {errorMessage || ''}
               </span>
             )}

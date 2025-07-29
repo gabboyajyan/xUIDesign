@@ -2034,7 +2034,7 @@ export default function Home() {
                         </Select>
                     </Item>
                     
-                    <Item extra={
+                    <Item removeErrorMessageHeight extra={
                         <>asljdnsa sdknsdkfjn sdfmdsfn </>
                     } rules={[{ required: true, message: 'sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf' }]} name="username" label="Username">
                         <Input placeholder="2" onChange={handleChange} />
