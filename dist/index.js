@@ -1051,6 +1051,9 @@ const FormItem$1 = ({
         style: {
           ...(removeErrorMessageHeight ? {
             minHeight: 0
+          } : {}),
+          ...(extra ? {
+            marginBottom: 0
           } : {})
         }
       }, errorMessage || ''));
