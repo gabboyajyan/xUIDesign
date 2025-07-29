@@ -28,6 +28,7 @@
     color: var(--xui-error-color);
     user-select: none;
     line-height: 16px;
+    text-align: end;
 }
 
 .xUi-form-item-required {
