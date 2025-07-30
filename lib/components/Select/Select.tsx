@@ -440,7 +440,15 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         if (e.key === 'Backspace') {
           if (hasMode && !e.target.value.trim().length) {
-            handleRemoveTag({ target: { value: selected[selected.length - 1] } } as SyntheticBaseEvent)
+            const updatedSelected = hasMode
+              ? (selected as string[]).filter(
+                item => item !== selected[selected.length - 1]
+              )
+              : e.target.value.trim();
+
+            onDeselect?.(e.target.value);
+            onChange?.(updatedSelected);
+            setSelected(updatedSelected);
           }
         }
 
