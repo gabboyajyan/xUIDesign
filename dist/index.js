@@ -3327,7 +3327,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       setDropdownPosition({});
       setSearchFocused(false);
     }
-  }, [isOpen, onDropdownVisibleChange]);
+  }, [isOpen]);
   React.useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();
@@ -3447,8 +3447,8 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       if (e.key === 'Backspace') {
         if (hasMode && !e.target.value.trim().length) {
           const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : e.target.value.trim();
-          onDeselect?.(e.target.value);
           onChange?.(updatedSelected);
+          onSelect?.(updatedSelected);
           setSelected(updatedSelected);
         }
       }

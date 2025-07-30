@@ -259,7 +259,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         setDropdownPosition({});
         setSearchFocused(false);
       }
-    }, [isOpen, onDropdownVisibleChange]);
+    }, [isOpen]);
 
     useEffect(() => {
       if (!isOpen) return;
@@ -446,8 +446,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               )
               : e.target.value.trim();
 
-            onDeselect?.(e.target.value);
             onChange?.(updatedSelected);
+            onSelect?.(updatedSelected);
             setSelected(updatedSelected);
           }
         }
