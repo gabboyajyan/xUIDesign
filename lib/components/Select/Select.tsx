@@ -374,7 +374,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         setSelected(newSelection);
         onChange?.(newSelection, option);
-        onSelect?.(newSelection, option);
+        // onSelect?.(newSelection, option);
 
         if (selected.includes(optionValue)) {
           onDeselect?.(optionValue, option);
