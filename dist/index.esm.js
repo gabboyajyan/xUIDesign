@@ -3264,26 +3264,25 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleClickOutside = event => {
-    if (!selectRef.current) return;
-    const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-    const clickedInside = event?.target && (selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target));
-    if (!clickedInside) {
-      setIsOpen(false);
-      handleClearInputValue();
-      onClose?.();
-    }
-  };
   useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   useEffect(() => {
+    const handleClickOutside = event => {
+      if (!selectRef.current) return;
+      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+      const clickedInside = selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target);
+      if (!clickedInside) {
+        setIsOpen(false);
+        handleClearInputValue();
+        onClose?.();
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [handleClickOutside]);
+  }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
   const updateDropdownPosition = useCallback(searchQueryUpdated => {
     if (!selectRef.current) {
       return;
@@ -3397,6 +3396,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       const newSelection = selected.includes(optionValue) ? selected.filter(item => item !== optionValue) : [...selected, optionValue];
       setSelected(newSelection);
       onChange?.(newSelection, option);
+      // onSelect?.(newSelection, option);
       if (selected.includes(optionValue)) {
         onDeselect?.(optionValue, option);
       } else {

@@ -176,33 +176,32 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       }
     }, [autoClearSearchValue, prefixCls]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleClickOutside = (event?: MouseEvent): void => {
-      if (!selectRef.current) return;
-
-      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-      const clickedInside = event?.target &&
-        (selectRef.current.contains(event.target as Node) ||
-        (dropdown && dropdown.contains(event.target as Node)));
-
-      if (!clickedInside) {
-        setIsOpen(false);
-        handleClearInputValue();
-        onClose?.();
-      }
-    };
-
     useEffect(() => {
       setSelected(hasMode ? checkModeInitialValue : initialValue)
-    }, [checkModeInitialValue, hasMode, initialValue]);
+    }, [checkModeInitialValue, hasMode, initialValue])
 
     useEffect(() => {
+      const handleClickOutside = (event: MouseEvent): void => {
+        if (!selectRef.current) return;
+
+        const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+        const clickedInside =
+          selectRef.current.contains(event.target as Node) ||
+          (dropdown && dropdown.contains(event.target as Node));
+
+        if (!clickedInside) {
+          setIsOpen(false);
+          handleClearInputValue();
+          onClose?.();
+        }
+      };
+
       document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [handleClickOutside]);
+    }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
 
     const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
       if (!selectRef.current) {
@@ -371,6 +370,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         setSelected(newSelection);
         onChange?.(newSelection, option);
+        // onSelect?.(newSelection, option);
 
         if (selected.includes(optionValue)) {
           onDeselect?.(optionValue, option);
@@ -773,7 +773,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     {...showSearch ? {
                       contentEditable: 'plaintext-only'
-                    } : {}}
+                    }: {}}
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />
