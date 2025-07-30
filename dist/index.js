@@ -1335,6 +1335,8 @@ const ButtonComponent = ({
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  child,
   ...restProps
 }) => {
   const [innerLoading, setInnerLoading] = React.useState(false);
@@ -3205,23 +3207,24 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   suffixIcon,
   searchIcon,
   style,
+  showSearch = false,
+  open = true,
+  showArrow = true,
+  notFoundContent = false,
+  noStyle,
+  feedbackIcons,
+  placement = 'bottomLeft',
+  removeIcon,
   onSearch,
   onSelect,
   onDeselect,
   onClear,
   onChange,
   onClose,
-  showSearch = false,
-  open = true,
-  showArrow = true,
-  notFoundContent = false,
   tagRender,
   getPopupContainer,
   dropdownRender,
-  noStyle,
-  feedbackIcons,
-  placement = 'bottomLeft',
-  removeIcon
+  onDropdownVisibleChange
 }, ref) => {
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
@@ -3318,6 +3321,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
   React.useEffect(() => {
     setIsOpenChecker(isOpen);
+    onDropdownVisibleChange?.(isOpen);
     if (!isOpen) {
       setDropdownPosition({});
       setSearchFocused(false);

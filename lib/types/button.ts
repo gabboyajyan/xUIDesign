@@ -71,6 +71,7 @@ export interface BaseButtonProps {
   styles?: {
     icon?: CSSProperties;
   };
+  child?: ReactNode
 }
 
 export interface ButtonProps

@@ -86,23 +86,24 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       suffixIcon,
       searchIcon,
       style,
+      showSearch = false,
+      open = true,
+      showArrow = true,
+      notFoundContent = false,
+      noStyle,
+      feedbackIcons,
+      placement = 'bottomLeft',
+      removeIcon,
       onSearch,
       onSelect,
       onDeselect,
       onClear,
       onChange,
       onClose,
-      showSearch = false,
-      open = true,
-      showArrow = true,
-      notFoundContent = false,
       tagRender,
       getPopupContainer,
       dropdownRender,
-      noStyle,
-      feedbackIcons,
-      placement = 'bottomLeft',
-      removeIcon
+      onDropdownVisibleChange
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
@@ -251,6 +252,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
+      onDropdownVisibleChange?.(isOpen)
 
       if (!isOpen) {
         setDropdownPosition({});

@@ -29,6 +29,8 @@ const ButtonComponent = ({
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  child,
   ...restProps
 }: ButtonProps): ReactElement => {
   const [innerLoading, setInnerLoading] = useState(false);

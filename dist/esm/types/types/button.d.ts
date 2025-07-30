@@ -35,6 +35,7 @@ export interface BaseButtonProps {
     styles?: {
         icon?: CSSProperties;
     };
+    child?: ReactNode;
 }
 export interface ButtonProps extends BaseButtonProps, Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'type'> {
     href?: string;

@@ -2012,7 +2012,8 @@ export default function Home() {
                                     </div>
                                 </div>
                             }}
-                            placeholder="Select...">
+                            placeholder="Select..."
+                            onDropdownVisibleChange={(e) => console.log(e)}>
                             {(CountryCodes || []).map((item: RuleType, index: number) => {
                                 const isSelected = country.includes(item.value);
 
