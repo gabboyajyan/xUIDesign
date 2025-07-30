@@ -193,6 +193,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           setIsOpen(false);
           handleClearInputValue();
           onClose?.();
+          onDropdownVisibleChange?.(false)
         }
       };
 
@@ -252,7 +253,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     useEffect(() => {
       setIsOpenChecker(isOpen);
-      onDropdownVisibleChange?.(isOpen)
 
       if (!isOpen) {
         setDropdownPosition({});

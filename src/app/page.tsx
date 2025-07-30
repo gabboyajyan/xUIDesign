@@ -1991,6 +1991,7 @@ export default function Home() {
                             showSearch
                             value={[CountryCodes[0].value]}
                             style={{ width: 400 }}
+                            onDropdownVisibleChange={(e) => console.log(e)}
                             dropdownRender={(item: RuleType) => {
                                 return <div
                                     onMouseDown={e => {

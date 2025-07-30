@@ -3278,6 +3278,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
         setIsOpen(false);
         handleClearInputValue();
         onClose?.();
+        onDropdownVisibleChange?.(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -3321,7 +3322,6 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
   React.useEffect(() => {
     setIsOpenChecker(isOpen);
-    onDropdownVisibleChange?.(isOpen);
     if (!isOpen) {
       setDropdownPosition({});
       setSearchFocused(false);
