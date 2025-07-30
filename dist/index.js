@@ -3266,25 +3266,26 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleClickOutside = event => {
+    if (!selectRef.current) return;
+    const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+    const clickedInside = event?.target && (selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target));
+    if (!clickedInside) {
+      setIsOpen(false);
+      handleClearInputValue();
+      onClose?.();
+    }
+  };
   React.useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   React.useEffect(() => {
-    const handleClickOutside = event => {
-      if (!selectRef.current) return;
-      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-      const clickedInside = selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target);
-      if (!clickedInside) {
-        setIsOpen(false);
-        handleClearInputValue();
-        onClose?.();
-      }
-    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
+  }, [handleClickOutside]);
   const updateDropdownPosition = React.useCallback(searchQueryUpdated => {
     if (!selectRef.current) {
       return;
@@ -3326,8 +3327,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       setDropdownPosition({});
       setSearchFocused(false);
     }
-  }, [isOpen]);
-  React.useEffect(() => {}, []);
+  }, [isOpen, onDropdownVisibleChange]);
   React.useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();
@@ -3399,7 +3399,6 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       const newSelection = selected.includes(optionValue) ? selected.filter(item => item !== optionValue) : [...selected, optionValue];
       setSelected(newSelection);
       onChange?.(newSelection, option);
-      // onSelect?.(newSelection, option);
       if (selected.includes(optionValue)) {
         onDeselect?.(optionValue, option);
       } else {
@@ -3447,10 +3446,11 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       }
       if (e.key === 'Backspace') {
         if (hasMode && !e.target.value.trim().length) {
-          const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : e.target.value.trim();
-          onChange?.(updatedSelected);
-          onSelect?.(updatedSelected);
-          setSelected(updatedSelected);
+          handleRemoveTag({
+            target: {
+              value: selected[selected.length - 1]
+            }
+          });
         }
       }
       clearTimeout(timeout);

@@ -1919,6 +1919,8 @@ export default function Home() {
     //     }, 3000);
     // }, [])
 
+    const [open, setOpen] = useState(true);
+
     const handleChange = (event: SyntheticBaseEvent) => {
         const getValue = () => {
             const { value } = event.target;
@@ -2005,6 +2007,7 @@ export default function Home() {
                                         </Button>
                                         <Button
                                             type="primary"
+                                            onClick={() => setOpen(false)}
                                             className="xUi-select__overridden"
                                         >
                                             Apply
@@ -2012,8 +2015,7 @@ export default function Home() {
                                     </div>
                                 </div>
                             }}
-                            placeholder="Select..."
-                            onDropdownVisibleChange={(e) => console.log(e)}>
+                            placeholder="Select...">
                             {(CountryCodes || []).map((item: RuleType, index: number) => {
                                 const isSelected = country.includes(item.value);
 

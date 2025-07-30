@@ -176,32 +176,33 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       }
     }, [autoClearSearchValue, prefixCls]);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleClickOutside = (event?: MouseEvent): void => {
+      if (!selectRef.current) return;
+
+      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+      const clickedInside = event?.target &&
+        (selectRef.current.contains(event.target as Node) ||
+        (dropdown && dropdown.contains(event.target as Node)));
+
+      if (!clickedInside) {
+        setIsOpen(false);
+        handleClearInputValue();
+        onClose?.();
+      }
+    };
+
     useEffect(() => {
       setSelected(hasMode ? checkModeInitialValue : initialValue)
-    }, [checkModeInitialValue, hasMode, initialValue])
+    }, [checkModeInitialValue, hasMode, initialValue]);
 
     useEffect(() => {
-      const handleClickOutside = (event: MouseEvent): void => {
-        if (!selectRef.current) return;
-
-        const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-        const clickedInside =
-          selectRef.current.contains(event.target as Node) ||
-          (dropdown && dropdown.contains(event.target as Node));
-
-        if (!clickedInside) {
-          setIsOpen(false);
-          handleClearInputValue();
-          onClose?.();
-        }
-      };
-
       document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
+    }, [handleClickOutside]);
 
     const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
       if (!selectRef.current) {
@@ -258,11 +259,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         setDropdownPosition({});
         setSearchFocused(false);
       }
-    }, [isOpen]);
-
-    useEffect(() => {
-
-    }, [])
+    }, [isOpen, onDropdownVisibleChange]);
 
     useEffect(() => {
       if (!isOpen) return;
@@ -374,7 +371,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         setSelected(newSelection);
         onChange?.(newSelection, option);
-        // onSelect?.(newSelection, option);
 
         if (selected.includes(optionValue)) {
           onDeselect?.(optionValue, option);
@@ -444,15 +440,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         if (e.key === 'Backspace') {
           if (hasMode && !e.target.value.trim().length) {
-            const updatedSelected = hasMode
-              ? (selected as string[]).filter(
-                item => item !== selected[selected.length - 1]
-              )
-              : e.target.value.trim();
-
-            onChange?.(updatedSelected);
-            onSelect?.(updatedSelected);
-            setSelected(updatedSelected);
+            handleRemoveTag({ target: { value: selected[selected.length - 1] } } as SyntheticBaseEvent)
           }
         }
 
@@ -777,7 +765,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     {...showSearch ? {
                       contentEditable: 'plaintext-only'
-                    }: {}}
+                    } : {}}
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />
