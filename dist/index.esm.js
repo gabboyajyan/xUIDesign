@@ -3396,7 +3396,6 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       const newSelection = selected.includes(optionValue) ? selected.filter(item => item !== optionValue) : [...selected, optionValue];
       setSelected(newSelection);
       onChange?.(newSelection, option);
-      // onSelect?.(newSelection, option);
       if (selected.includes(optionValue)) {
         onDeselect?.(optionValue, option);
       } else {

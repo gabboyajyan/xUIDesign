@@ -1989,6 +1989,7 @@ export default function Home() {
                         <Select
                             mode="multiple"
                             showSearch
+                            value={[CountryCodes[0].value]}
                             style={{ width: 400 }}
                             dropdownRender={(item: RuleType) => {
                                 return <div
