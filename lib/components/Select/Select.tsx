@@ -446,7 +446,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               : e.target.value.trim();
 
             onChange?.(updatedSelected);
-            onSelect?.(updatedSelected);
+
+            if (selected[selected.length - 1]) {
+              onDeselect?.(selected[selected.length - 1]);
+            } else {
+              onSelect?.(updatedSelected);
+            }
             setSelected(updatedSelected);
           }
         }

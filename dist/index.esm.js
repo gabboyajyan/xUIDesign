@@ -3445,7 +3445,11 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
         if (hasMode && !e.target.value.trim().length) {
           const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : e.target.value.trim();
           onChange?.(updatedSelected);
-          onSelect?.(updatedSelected);
+          if (selected[selected.length - 1]) {
+            onDeselect?.(selected[selected.length - 1]);
+          } else {
+            onSelect?.(updatedSelected);
+          }
           setSelected(updatedSelected);
         }
       }
