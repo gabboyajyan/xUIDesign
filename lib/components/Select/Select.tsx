@@ -180,8 +180,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       setSelected(hasMode ? checkModeInitialValue : initialValue)
     }, [checkModeInitialValue, hasMode, initialValue])
 
-    useEffect(() => {
-      const handleClickOutside = (event: MouseEvent): void => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const handleClickOutside = (event: MouseEvent): void => {
         if (!selectRef.current) return;
 
         const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
@@ -197,12 +197,13 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         }
       };
 
+    useEffect(() => {
       document.addEventListener('mousedown', handleClickOutside);
 
       return () => {
         document.removeEventListener('mousedown', handleClickOutside);
       };
-    }, [handleClearInputValue, defaultOpen, hasMode, prefixCls]);
+    }, [handleClickOutside]);
 
     const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
       if (!selectRef.current) {
