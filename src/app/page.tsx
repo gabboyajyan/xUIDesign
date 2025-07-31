@@ -1989,7 +1989,7 @@ export default function Home() {
                         <Select
                             mode="multiple"
                             showSearch
-                            value={[CountryCodes[0].value]}
+                            defaultValue={[CountryCodes[0].value]}
                             style={{ width: 400 }}
                             onDropdownVisibleChange={(e) => console.log(e)}
                             dropdownRender={(item: RuleType) => {
