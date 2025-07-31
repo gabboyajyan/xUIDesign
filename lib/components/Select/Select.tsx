@@ -193,7 +193,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           setIsOpen(false);
           handleClearInputValue();
           onClose?.();
-          onDropdownVisibleChange?.(false)
+          onDropdownVisibleChange?.(false, selected)
         }
       };
 

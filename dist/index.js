@@ -3278,7 +3278,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
         setIsOpen(false);
         handleClearInputValue();
         onClose?.();
-        onDropdownVisibleChange?.(false);
+        onDropdownVisibleChange?.(false, selected);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

@@ -139,7 +139,7 @@ declare const Select: import("react").ComponentType<import("@/types").DefaultPro
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: import("react").FocusEventHandler<HTMLElement> | undefined;
-    onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
+    onDropdownVisibleChange?: ((open: boolean, selected: import("@/types").RuleType) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: import("react").ReactNode;
     searchIcon?: import("react").ReactNode;

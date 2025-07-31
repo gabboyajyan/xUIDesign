@@ -35,7 +35,7 @@ export type SelectProps = DefaultProps & {
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: FocusEventHandler<HTMLElement> | undefined;
-    onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
+    onDropdownVisibleChange?: ((open: boolean, selected: RuleType) => void) | undefined;
     showAction?: ('click' | 'focus')[] | undefined;
     suffixIcon?: ReactNode;
     searchIcon?: ReactNode;

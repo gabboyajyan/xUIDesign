@@ -36,7 +36,7 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: React.FocusEventHandler<HTMLElement> | undefined;
-    onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
+    onDropdownVisibleChange?: ((open: boolean, selected: import("../../types").RuleType) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: ReactNode;
     searchIcon?: ReactNode;

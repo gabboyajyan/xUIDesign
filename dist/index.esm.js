@@ -3276,7 +3276,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
         setIsOpen(false);
         handleClearInputValue();
         onClose?.();
-        onDropdownVisibleChange?.(false);
+        onDropdownVisibleChange?.(false, selected);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);

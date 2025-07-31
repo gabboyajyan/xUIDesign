@@ -241,7 +241,7 @@ declare const Select: react.ComponentType<__types.DefaultProps & {
     dropdownClassName?: string;
     showArrow?: boolean;
     onBlur?: react.FocusEventHandler<HTMLElement> | undefined;
-    onDropdownVisibleChange?: ((open: boolean) => void) | undefined;
+    onDropdownVisibleChange?: ((open: boolean, selected: __types.RuleType) => void) | undefined;
     showAction?: ("click" | "focus")[] | undefined;
     suffixIcon?: react.ReactNode;
     searchIcon?: react.ReactNode;
