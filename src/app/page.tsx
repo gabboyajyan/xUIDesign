@@ -16,6 +16,7 @@ import { Button } from "../../lib/components/Button";
 import Option from "../../lib/components/Select/Option/Option";
 import { RuleType, SyntheticBaseEvent } from "../../lib/types";
 import { clsx } from "../../lib/helpers";
+import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
 // import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1989,6 +1990,7 @@ export default function Home() {
                         <Select
                             mode="multiple"
                             showSearch
+                            searchIcon={<ArrowIcon isOpen={open} />}
                             defaultValue={[CountryCodes[0].value]}
                             style={{ width: 400 }}
                             onDropdownVisibleChange={(e) => console.log(e)}
