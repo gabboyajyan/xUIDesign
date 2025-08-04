@@ -6,17 +6,17 @@ import { Form } from "../../lib/components/Form";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
-import { Select } from "../../lib/components/Select";
+// import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
-import { useState } from "react";
+// import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { RadioButton } from "../../lib/components/Radio/Button";
-import Option from "../../lib/components/Select/Option/Option";
-import { RuleType, SyntheticBaseEvent } from "../../lib/types";
-import { clsx } from "../../lib/helpers";
-import { ArrowIcon } from "../../lib/components/Icons/Icons";
+// import Option from "../../lib/components/Select/Option/Option";
+// import { RuleType, SyntheticBaseEvent } from "../../lib/types";
+// import { clsx } from "../../lib/helpers";
+// import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
 // import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1880,7 +1880,7 @@ export default function Home() {
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     // const [statusValue, setStatusValue] = useState([0]);
-    const [country, setCountry] = useState('AF');
+    // const [country, setCountry] = useState('AF');
 
 
     // const handle = useCallback((e) => console.log(e), [])
@@ -1889,7 +1889,7 @@ export default function Home() {
     //     console.log(0, e);
     // }
 
-    const [value, setValue] = useState('')
+    // const [value, setValue] = useState('1234')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1920,30 +1920,30 @@ export default function Home() {
     //     }, 3000);
     // }, [])
 
-    const [open, setOpen] = useState(true);
+    // const [open, setOpen] = useState(true);
 
-    const handleChange = (event: SyntheticBaseEvent) => {
-        const getValue = () => {
-            const { value } = event.target;
+    // const handleChange = (event: SyntheticBaseEvent) => {
+    //     const getValue = () => {
+    //         const { value } = event.target;
 
-            if (value === '.') {
-                return '0.';
-            }
+    //         if (value === '.') {
+    //             return '0.';
+    //         }
 
-            // @Todo need to handle with separator
-            return value
-                .replace(/[^0-9.]/g, '')
-                .replace(/(\..*?)\..*/g, '$1')
-                .trim();
-        };
+    //         // @Todo need to handle with separator
+    //         return value
+    //             .replace(/[^0-9.]/g, '')
+    //             .replace(/(\..*?)\..*/g, '$1')
+    //             .trim();
+    //     };
 
-        const stake = getValue();
+    //     const stake = getValue();
 
-        // event.target.value = stake;
-        console.log({ stake });
+    //     // event.target.value = stake;
+    //     console.log({ stake });
 
-        setValue(stake);
-    };
+    //     setValue(stake);
+    // };
 
     return (
         <>
@@ -1961,7 +1961,16 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
-            <div style={{ display: 'flex', width: 400 }}>
+            {/* <Input placeholder="2" mask="___.___.___._" value={value} onChange={(e) => {
+                setValue(e.target.value)
+
+            }} />
+            <Input placeholder="2" value={value} onChange={(e) => {
+                setValue(e.target.value)
+
+            }} /> */}
+
+            <div>
                 <Button onClick={() => form.submit()}>Button</Button>
 
                 {/* <Input placeholder="1" onChange={() => {
@@ -1985,8 +1994,8 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} onFinish={(e) => console.log(e)} size="large" scrollToFirstError={true}>
-                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                <Form form={form} size="large" scrollToFirstError={true}>
+                    {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
                             showSearch
@@ -2039,12 +2048,10 @@ export default function Home() {
                                 </Option>
                             })}
                         </Select>
-                    </Item>
-                    
-                    <Item removeErrorMessageHeight extra={
-                        <>asljdnsa sdknsdkfjn sdfmdsfn </>
-                    } rules={[{ required: true, message: 'sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf sdf sdfdsg sdfsdf sdfsdf sdfds f sdf dsg sfgs gfdg dfgf gf' }]} name="username" label="Username">
-                        <Input placeholder="2" onChange={handleChange} />
+                    </Item> */}
+
+                    <Item name="username" label="Username">
+                        <Input placeholder="2" mask="___.___.___._" />
                     </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">

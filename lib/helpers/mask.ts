@@ -23,7 +23,10 @@ export function stripMask(value: string, mask: string, maskChar: string = MASK_C
     return stripped.join('');
 }
 
-export function applyMask(raw: string, mask: string, maskChar: string = MASK_CHAR): string {
+export function applyMask(raw: string, mask: string, maskChar: string = MASK_CHAR): {
+    masked: string,
+    rawIndex: number
+} {
     let masked = '';
     let rawIndex = 0;
 
@@ -42,5 +45,8 @@ export function applyMask(raw: string, mask: string, maskChar: string = MASK_CHA
         }
     }
 
-    return masked;
+    return {
+        masked,
+        rawIndex
+    };
 }

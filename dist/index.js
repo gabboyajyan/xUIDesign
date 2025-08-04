@@ -2775,7 +2775,10 @@ function applyMask(raw, mask, maskChar = MASK_CHAR) {
       masked += mChar;
     }
   }
-  return masked;
+  return {
+    masked,
+    rawIndex
+  };
 }
 
 var css_248z$b = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;margin:-1px;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:.1px 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 5px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled,.xUi-input-disabled .xUi-input,.xUi-input-disabled .xUi-input-suffix{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:44px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
@@ -2812,8 +2815,10 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
 }, ref) => {
   const inputRef = React.useRef(null);
   const lastKeyPressed = React.useRef(null);
-  const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : value ?? '';
+  const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
+  const [maskValue, setMaskValue] = React.useState(internalValue);
   const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
+  const animationRef = React.useRef(null);
   React.useImperativeHandle(ref, () => ({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
@@ -2827,43 +2832,55 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
       }
     }
   }));
-  // useEffect(() => {
-  //   setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
-  // }, [value, mask, maskChar]);
-  const handleChange = e => {
-    const inputEl = inputRef.current;
-    if (!inputEl) return;
-    const rawInput = e.target.value;
-    let nextCaret = inputEl.selectionStart ?? rawInput.length;
-    const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
-    const masked = mask ? applyMask(raw, mask, maskChar) : rawInput;
-    // setInternalValue(masked);
+  React.useEffect(() => {
     if (mask) {
-      requestAnimationFrame(() => {
-        if (!inputEl) return;
-        const isBackspace = lastKeyPressed.current === 'Backspace';
-        const isDelete = lastKeyPressed.current === 'Delete';
-        while (mask.includes(masked[nextCaret - 1])) {
-          if (isBackspace || isDelete) {
+      setMaskValue(applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked);
+    }
+  }, [value, mask, maskChar]);
+  const handleChange = e => {
+    if (!inputRef.current) return;
+    let rawInput = e.target.value;
+    const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
+    if (mask) {
+      if (!inputRef.current) return;
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      const {
+        masked,
+        rawIndex
+      } = applyMask(raw, mask, maskChar);
+      rawInput = masked;
+      animationRef.current = requestAnimationFrame(() => {
+        const isRemove = lastKeyPressed.current === 'Delete' || lastKeyPressed.current === 'Backspace';
+        let nextCaret = !isRemove ? rawIndex : inputRef.current?.selectionStart ?? 0;
+        while (isRemove ? mask.includes(rawInput[nextCaret - 1]) : maskChar !== rawInput[nextCaret]) {
+          if (!isRemove && !rawInput[nextCaret]) {
+            break;
+          }
+          if (isRemove) {
             nextCaret--;
           } else {
             nextCaret++;
           }
         }
-        inputEl.setSelectionRange(nextCaret, nextCaret);
+        inputRef.current?.setSelectionRange(nextCaret, nextCaret);
       });
     }
+    setMaskValue(rawInput);
     const eventWithMaskedValue = {
       ...e,
       target: {
         ...e.target,
-        value: masked
+        value: rawInput
       }
     };
     props.onChange?.(eventWithMaskedValue);
   };
   const handleClear = e => {
-    // setInternalValue('');
+    if (mask) {
+      setMaskValue('');
+    }
     e.target.value = '';
     props.onChange?.(e);
   };
@@ -2893,7 +2910,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
     type: iconRenderVisible ? 'text' : 'password'
   } : {}, {
     disabled: disabled,
-    value: internalValue,
+    value: maskValue,
     onChange: handleChange,
     onKeyDown: handleOnKeyDown,
     className: clsx([prefixCls, className])

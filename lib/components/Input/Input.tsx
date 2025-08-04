@@ -5,7 +5,7 @@ import React, {
   forwardRef,
   KeyboardEvent,
   MouseEvent,
-  // useEffect,
+  useEffect,
   useImperativeHandle,
   useRef,
   useState
@@ -54,11 +54,10 @@ const InputComponent = forwardRef(
   ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const lastKeyPressed = useRef<string | null>(null);
-    const internalValue =
-      mask
-        ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar)
-        : value ?? '';
+    const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
+    const [maskValue, setMaskValue] = useState(internalValue)
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
+    const animationRef = useRef<number | null>(null);
 
     useImperativeHandle(ref, () => ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -74,46 +73,56 @@ const InputComponent = forwardRef(
       }
     }));
 
-    // useEffect(() => {
-    //   setInternalValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar) : `${value ?? ''}`);
-    // }, [value, mask, maskChar]);
+    useEffect(() => {
+      if (mask) {
+        setMaskValue(applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked);
+      }
+    }, [value, mask, maskChar]);
 
     const handleChange = (e: SyntheticBaseEvent) => {
-      const inputEl = inputRef.current;
-      if (!inputEl) return;
+      if (!inputRef.current) return;
 
-      const rawInput = e.target.value as string;
-      let nextCaret = inputEl.selectionStart ?? rawInput.length;
-
+      let rawInput = e.target.value as string;
       const raw = mask ? rawInput.replace(maskRegex, '') : rawInput;
-      const masked = mask ? applyMask(raw, mask, maskChar) : rawInput;
-
-      // setInternalValue(masked);
-
+      
       if (mask) {
-        requestAnimationFrame(() => {
-          if (!inputEl) return;
+        if (!inputRef.current) return;
+        
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+        
+        const { masked, rawIndex } = applyMask(raw, mask, maskChar);
+        rawInput = masked;
 
-          const isBackspace = lastKeyPressed.current === 'Backspace';
-          const isDelete = lastKeyPressed.current === 'Delete';
+        animationRef.current = requestAnimationFrame(() => {
+          const isRemove = lastKeyPressed.current === 'Delete' || lastKeyPressed.current === 'Backspace';
+  
+          let nextCaret = !isRemove ? rawIndex : inputRef.current?.selectionStart ?? 0;
+  
+          while (isRemove ? mask.includes(rawInput[nextCaret - 1]) : maskChar !== rawInput[nextCaret]) {
+            if (!isRemove && !rawInput[nextCaret]) {
+              break;
+            }
 
-          while (mask.includes(masked[nextCaret - 1])) {
-            if (isBackspace || isDelete) {
+            if (isRemove) {
               nextCaret--;
             } else {
               nextCaret++;
             }
           }
 
-          inputEl.setSelectionRange(nextCaret, nextCaret);
-        });
-      }
+          inputRef.current?.setSelectionRange(nextCaret, nextCaret);
+        })
+      };
+
+      setMaskValue(rawInput);
 
       const eventWithMaskedValue = {
         ...e,
         target: {
           ...e.target,
-          value: masked
+          value: rawInput
         }
       };
 
@@ -121,7 +130,10 @@ const InputComponent = forwardRef(
     };
 
     const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
-      // setInternalValue('');
+      if (mask) {
+        setMaskValue('')
+      }
+
       e.target.value = '';
       props.onChange?.(e);
     };
@@ -164,7 +176,7 @@ const InputComponent = forwardRef(
               ? { type: iconRenderVisible ? 'text' : 'password' }
               : {})}
             disabled={disabled}
-            value={internalValue}
+            value={maskValue}
             onChange={handleChange}
             onKeyDown={handleOnKeyDown}
             className={clsx([prefixCls, className])}
