@@ -109,7 +109,7 @@ const FormItem = ({
     >
       {!props.noStyle && (label || name) && (
         <label className={`${prefixCls}-label`} htmlFor={name}>
-          {label || name}:
+          {label || name}
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}
           {/* @Todo need to add Tooltip like Ant design */}
         </label>

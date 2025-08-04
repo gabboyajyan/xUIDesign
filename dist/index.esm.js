@@ -1013,7 +1013,7 @@ const FormItem$1 = ({
   }, !props.noStyle && (label || name) && /*#__PURE__*/React.createElement("label", {
     className: `${prefixCls}-label`,
     htmlFor: name
-  }, label || name, ":", isRequired && /*#__PURE__*/React.createElement("span", {
+  }, label || name, isRequired && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-required`
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child)) {

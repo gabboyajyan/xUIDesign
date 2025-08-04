@@ -2051,7 +2051,7 @@ export default function Home() {
                     </Item> */}
 
                     <Item name="username" label="Username">
-                        <Input placeholder="2" mask="___.___.___._" />
+                        <Input placeholder="2" mask="___.___.___-__" />
                     </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
