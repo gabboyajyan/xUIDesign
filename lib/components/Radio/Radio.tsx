@@ -64,7 +64,7 @@ const Radio = forwardRef<HTMLLabelElement, RadioProps>(
           onChange={handleChange}
           onBlur={e => onBlur?.(e)}
           onFocus={e => onFocus?.(e)}
-          checked={checked ?? defaultChecked}
+          defaultChecked={checked ?? defaultChecked}
         />
         <span
           className={clsx([

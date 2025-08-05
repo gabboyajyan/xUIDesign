@@ -2050,7 +2050,7 @@ export default function Home() {
                         </Select>
                     </Item> */}
 
-                    <Item name="username" label="Username">
+                    <Item name="username" label="Username" rules={[{ required: true }]}>
                         <Input placeholder="2" mask="___.___.___-__" />
                     </Item>
 
@@ -2058,14 +2058,8 @@ export default function Home() {
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
                     </Item> */}
 
-                    <button type="submit">Submit</button>
-                    <button type="button" onClick={() => {
-                        form.resetFields(undefined, null)
-
-                        console.log(form.isFieldTouched('username'));
-
-                    }}>Reset</button>
-
+                    <Button>Previous</Button>
+                    <Button htmlType="submit">Submit</Button>
                     {/* <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>
