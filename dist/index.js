@@ -2984,7 +2984,7 @@ const Radio = /*#__PURE__*/React.forwardRef(({
     onChange: handleChange,
     onBlur: e => onBlur?.(e),
     onFocus: e => onFocus?.(e),
-    defaultChecked: checked ?? defaultChecked
+    checked: checked ?? defaultChecked
   }), /*#__PURE__*/React.createElement("span", {
     className: clsx([`${prefixCls} ${prefixCls}-${disabled ? 'disabled' : 'enabled'}`])
   }), /*#__PURE__*/React.createElement("span", {
