@@ -65,12 +65,6 @@ const RadioGroup = ({
           // @ts-expect-error
           const { ...childProps } = child.props;
 
-          console.log({
-            selectedValue,
-            value: (child.props as { value: RuleType }).value
-          });
-          
-
           return (
             <child.type
               {...props}
