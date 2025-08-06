@@ -3069,6 +3069,10 @@ const RadioGroup = ({
         const {
           ...childProps
         } = child.props;
+        console.log({
+          selectedValue,
+          value: child.props.value
+        });
         return /*#__PURE__*/React.createElement(child.type, _extends({}, props, childProps, child.type === RadioButton ? {
           size,
           buttonStyle

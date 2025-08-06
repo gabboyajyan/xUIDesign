@@ -1,7 +1,7 @@
 'use client'
 
 import { Form } from "../../lib/components/Form";
-// import { Radio } from "../../lib/components/Radio";
+import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
@@ -11,7 +11,7 @@ import { Input } from "../../lib/components/Input";
 // import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
-// import { RadioGroup } from "../../lib/components/Radio/Group";
+import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
 // import { RuleType, SyntheticBaseEvent } from "../../lib/types";
@@ -1971,7 +1971,7 @@ export default function Home() {
             }} /> */}
 
             <div>
-                <Button onClick={() => form.submit()}>Button</Button>
+                <Button onClick={() => form.setFieldValue('username', 'dsfdsf')}>Button</Button>
 
                 {/* <Input placeholder="1" onChange={() => {
                     console.log(1);
@@ -2051,7 +2051,11 @@ export default function Home() {
                     </Item> */}
 
                     <Item name="username" label="Username" rules={[{ required: true }]}>
-                        <Input placeholder="2" mask="___.___.___-__" />
+                        {/* <Input placeholder="2" mask="___.___.___-__" /> */}
+                        <RadioGroup onChange={(e) => console.log(e)}>
+                                <Radio name="sdfdsf" value={'dsfdsf'} checked={form.getFieldValue('username') === 'dsfdsf'}>Male</Radio>
+                                <Radio name="Female" value={'fesdfdsfmale'}>Female</Radio>
+                            </RadioGroup>
                     </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
