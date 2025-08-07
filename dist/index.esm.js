@@ -705,9 +705,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return !!name;
   }
   function registerField(name, rules = [], remove = false) {
-    if (remove) {
-      delete formRef.current[name];
-    } else {
+    if (remove) ; else {
       if (!(name in formRef.current)) {
         formRef.current[name] = initialValues?.[name];
       }

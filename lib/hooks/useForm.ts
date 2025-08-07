@@ -161,7 +161,7 @@ const useForm = (
 
   function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
     if (remove) {
-      delete formRef.current[name]
+      // 
     } else {
       if (!(name in formRef.current)) {
         formRef.current[name] = initialValues?.[name];
