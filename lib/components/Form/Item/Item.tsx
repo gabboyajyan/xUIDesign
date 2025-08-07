@@ -69,6 +69,14 @@ const FormItem = ({
   }, [name, rules]);
 
   useEffect(() => {
+    console.log(0);
+
+    return () => {
+      console.log(1);
+    }
+  }, [name])
+
+  useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);
     }
@@ -122,44 +130,46 @@ const FormItem = ({
           const { onChange, value, ...childProps } = child.props;
           const fieldValue = value ?? getFieldValue(name) ?? initialValue;
 
-          return <div>
-            <FormItemChildComponent
-              {...props}
-              key={`${key}_${isReseting}`}
-              name={name}
-              child={child}
-              value={value}
-              error={!!errorMessage}
-              fieldValue={fieldValue}
-              setFieldValue={setFieldValue}
-              feedbackIcons={feedbackIcons}
-              onChange={onChange}
-              noStyle={props.noStyle}
-              normalize={props.normalize}
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-expect-error
-              size={childProps.size || props.size}
-            />
+          return (
+            <div>
+              <FormItemChildComponent
+                {...props}
+                key={`${key}_${isReseting}`}
+                name={name}
+                child={child}
+                value={value}
+                error={!!errorMessage}
+                fieldValue={fieldValue}
+                setFieldValue={setFieldValue}
+                feedbackIcons={feedbackIcons}
+                onChange={onChange}
+                noStyle={props.noStyle}
+                normalize={props.normalize}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                size={childProps.size || props.size}
+              />
 
-            {extra
-              ? <div className={`${prefixCls}-extra`}>
-                {extra}
-              </div>
-              : null}
+              {extra
+                ? <div className={`${prefixCls}-extra`}>
+                  {extra}
+                </div>
+                : null}
 
-            {!props.noStyle && (
-              <span 
-                ref={errorRef} 
-                className={`${prefixCls}-error`}
-                style={{ 
-                  ...removeErrorMessageHeight ? { minHeight: 0 } : {},
-                  ...extra ? { marginBottom: 0 } : {}
-                }}
-              >
-                {errorMessage || ''}
-              </span>
-            )}
-          </div>
+              {!props.noStyle && (
+                <span
+                  ref={errorRef}
+                  className={`${prefixCls}-error`}
+                  style={{
+                    ...removeErrorMessageHeight ? { minHeight: 0 } : {},
+                    ...extra ? { marginBottom: 0 } : {}
+                  }}
+                >
+                  {errorMessage || ''}
+                </span>
+              )}
+            </div>
+          )
         }
 
         return child;

@@ -613,6 +613,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const formRef = React.useRef({
     ...initialValues
   });
+  React.useRef({});
   const fieldInstancesRef = React.useRef({});
   const [isReseting, setIsReseting] = React.useState(false);
   const [errors, setErrors] = React.useState({});
@@ -706,11 +707,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function isFieldValidating(name) {
     return !!name;
   }
-  function registerField(name, rules = []) {
-    if (!(name in formRef.current)) {
-      formRef.current[name] = initialValues?.[name];
+  function registerField(name, rules = [], remove = false) {
+    if (remove) ; else {
+      if (!(name in formRef.current)) {
+        formRef.current[name] = initialValues?.[name];
+      }
+      rulesRef.current[name] = rules;
     }
-    rulesRef.current[name] = rules;
   }
   async function validateField(name) {
     const value = formRef.current[name];
@@ -728,7 +731,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       if ((typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) && rule.max !== undefined && String(value).length > rule.max) {
         fieldErrors.push(rule.message || `Must be at most ${rule.max} characters`);
       }
-      if (rule.pattern && !rule.pattern.test(String(value))) {
+      if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
         fieldErrors.push(rule.message || 'Invalid format');
       }
       if (rule.warningPattern && !rule.warningPattern.test(String(value))) {
@@ -986,6 +989,12 @@ const FormItem$1 = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
+  React.useEffect(() => {
+    console.log(0);
+    return () => {
+      console.log(1);
+    };
+  }, [name]);
   React.useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);

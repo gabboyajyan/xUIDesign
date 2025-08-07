@@ -12,6 +12,7 @@ import { Input } from "../../lib/components/Input";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 import { RadioGroup } from "../../lib/components/Radio/Group";
+import { useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
 // import { RuleType, SyntheticBaseEvent } from "../../lib/types";
@@ -1877,6 +1878,8 @@ export default function Home() {
         // username: "Gabriel"
     });
 
+    const [step, setStep] = useState(false)
+
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     // const [statusValue, setStatusValue] = useState([0]);
@@ -1971,7 +1974,7 @@ export default function Home() {
             }} /> */}
 
             <div>
-                <Button onClick={() => form.setFieldValue('username', 'dsfdsf')}>Button</Button>
+                <Button onClick={() => setStep(!step)}>Button</Button>
 
                 {/* <Input placeholder="1" onChange={() => {
                     console.log(1);
@@ -1994,7 +1997,7 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} size="large" scrollToFirstError={true}>
+                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log(values)}>
                     {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
@@ -2050,19 +2053,21 @@ export default function Home() {
                         </Select>
                     </Item> */}
 
-                    <Item name="username" label="Username" rules={[{ required: true }]}>
+                    {step ? <Item name="username" label="Username">
                         {/* <Input placeholder="2" mask="___.___.___-__" /> */}
                         <RadioGroup onChange={(e) => console.log(e)}>
-                                <Radio name="sdfdsf" value={'dsfdsf'} checked={form.getFieldValue('username') === 'dsfdsf'}>Male</Radio>
-                                <Radio name="Female" value={'fesdfdsfmale'}>Female</Radio>
-                            </RadioGroup>
-                    </Item>
+                            <Radio name="male" value={'male'}>Male</Radio>
+                            <Radio name="Female" value={'female'}>Female</Radio>
+                        </RadioGroup>
+                    </Item> : <Item name="name" label="Name">
+                        <Input placeholder="2" mask="___.___.___-__" />
+                    </Item>}
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
                     </Item> */}
 
-                    <Button>Previous</Button>
+                    <Button onClick={() => console.log(form.getFieldsValue())}>Previous</Button>
                     <Button htmlType="submit">Submit</Button>
                     {/* <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">

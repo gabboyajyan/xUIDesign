@@ -39,6 +39,7 @@ const useForm = (
   })
 
   const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
+  const formCatchRef = useRef<Record<string, RuleTypes>>({});
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
   const [isReseting, setIsReseting] = useState(false);
@@ -159,12 +160,16 @@ const useForm = (
     return !!name;
   }
 
-  function registerField(name: string, rules: RuleObject[] = []) {
-    if (!(name in formRef.current)) {
-      formRef.current[name] = initialValues?.[name];
+  function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
+    if (remove) {
+      // 
+    } else {
+      if (!(name in formRef.current)) {
+        formRef.current[name] = initialValues?.[name];
+      }
+  
+      rulesRef.current[name] = rules;
     }
-
-    rulesRef.current[name] = rules;
   }
 
   async function validateField(name: string) {
@@ -212,7 +217,7 @@ const useForm = (
           );
         }
 
-        if (rule.pattern && !rule.pattern.test(String(value))) {
+        if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
           fieldErrors.push(rule.message || 'Invalid format');
         }
 
