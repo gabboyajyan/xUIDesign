@@ -1878,7 +1878,7 @@ export default function Home() {
         // username: "Gabriel"
     });
 
-    const [step, setStep] = useState(false)
+    const [step, setStep] = useState(0)
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
@@ -1964,18 +1964,16 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
-            {/* <Input placeholder="2" mask="___.___.___._" value={value} onChange={(e) => {
+            {/* <Input mask="___.___.___._" value={value} onChange={(e) => {
                 setValue(e.target.value)
 
             }} />
-            <Input placeholder="2" value={value} onChange={(e) => {
+            <Input value={value} onChange={(e) => {
                 setValue(e.target.value)
 
             }} /> */}
 
             <div>
-                <Button onClick={() => setStep(!step)}>Button</Button>
-
                 {/* <Input placeholder="1" onChange={() => {
                     console.log(1);
                     
@@ -1997,7 +1995,7 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log(123, values)}>
+                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
                     {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
@@ -2053,22 +2051,32 @@ export default function Home() {
                         </Select>
                     </Item> */}
 
-                    {step ? <Item name="username" label="Username">
-                        {/* <Input placeholder="2" mask="___.___.___-__" /> */}
-                        <RadioGroup onChange={(e) => console.log(e)}>
+                    {step === 0 ? <Item name="username" label="Username" rules={[{ required: true }]}>
+                        {/* <Input mask="___.___.___-__" /> */}
+                        <RadioGroup>
                             <Radio name="male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
                         </RadioGroup>
-                    </Item> : <Item name="name" label="Name">
-                        <Input placeholder="2" mask="___.___.___-__" />
+                    </Item> : step === 1 ? <Item name="name" label="Name" rules={[{ required: true }]}>
+                        <Input mask="___.___.___-__" />
+                    </Item> : <Item name="email" label="Email" rules={[{ required: true }]}>
+                        <Input />
                     </Item>}
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
                     </Item> */}
 
-                    <Button onClick={() => console.log(form.getFieldsValue())}>Previous</Button>
-                    <Button htmlType="submit">Submit</Button>
+                    {step !== 0 && <Button size="middle" onClick={() => setStep(step - 1)}>Previous</Button>}
+                    <Button type="primary" size="middle" htmlType="button" onClick={async () => {
+                        if (await form.validateFields()) {
+                            if (step === 2) {
+                                form.submit();
+                            } else {
+                                setStep(step + 1);
+                            }
+                        }
+                    }}>Submit</Button>
                     {/* <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>

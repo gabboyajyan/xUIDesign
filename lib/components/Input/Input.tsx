@@ -116,6 +116,10 @@ const InputComponent = forwardRef(
         })
       };
 
+      if (rawInput === mask) {
+        rawInput = '';
+      }
+
       setMaskValue(rawInput);
 
       const eventWithMaskedValue = {
