@@ -611,7 +611,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const formRef = useRef({
     ...initialValues
   });
-  useRef({});
+  const formCatchRef = useRef({});
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -621,16 +621,17 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldInstancesRef.current[name] || null;
   }
   function getFieldValue(name) {
-    return formRef.current[name];
+    return formRef.current[name] ?? formCatchRef.current[name];
   }
   function getFieldsValue(nameList) {
     if (!nameList) {
       return {
-        ...formRef.current
+        ...formRef.current,
+        ...formCatchRef.current
       };
     }
     return nameList.reduce((acc, key) => {
-      acc[key] = formRef.current[key];
+      acc[key] = formRef.current[key] ?? formCatchRef.current[key];
       return acc;
     }, {});
   }
@@ -647,10 +648,14 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     }));
   }
   function setFieldValue(name, value, errors, reset = undefined, touch) {
-    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value)) {
+    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[name] === value || formCatchRef.current[name] === value)) {
       return;
     }
-    formRef.current[name] = value;
+    if (formCatchRef.current[name]) {
+      formCatchRef.current[name] = value;
+    } else {
+      formRef.current[name] = value;
+    }
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
@@ -706,15 +711,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return !!name;
   }
   function registerField(name, rules = [], remove = false) {
-    if (remove) ; else {
+    if (remove) {
+      formCatchRef.current[name] = formRef.current[name];
+      delete formRef.current[name];
+    } else {
       if (!(name in formRef.current)) {
-        formRef.current[name] = initialValues?.[name];
+        formRef.current[name] = formCatchRef.current[name] ?? initialValues?.[name];
+        delete formCatchRef.current[name];
       }
       rulesRef.current[name] = rules;
     }
   }
   async function validateField(name) {
-    const value = formRef.current[name];
+    const value = formRef.current[name] ?? formCatchRef.current[name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
     const fieldWarnings = [];
@@ -751,7 +760,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
-    const fieldsToValidate = nameList || Object.keys(formRef.current);
+    const fieldsToValidate = nameList || Object.keys({
+      ...formRef.current,
+      ...formCatchRef.current
+    });
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
@@ -773,6 +785,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     if (nameList?.length) {
       nameList.forEach(name => {
         formRef.current[name] = initialValues[name];
+        formCatchRef.current = {};
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
         setErrors(prev => ({
@@ -784,7 +797,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     } else {
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
-      Object.keys(formRef.current).forEach(name => {
+      Object.keys({
+        ...formRef.current,
+        ...formCatchRef.current
+      }).forEach(name => {
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
@@ -794,8 +810,14 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   async function submit() {
     setScrollToFirstError(true);
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(formRef.current);
-      return formRef.current;
+      formHandlersRef.current.onFinish?.({
+        ...formRef.current,
+        ...formCatchRef.current
+      });
+      return {
+        ...formRef.current,
+        ...formCatchRef.current
+      };
     })() : undefined;
   }
   function subscribeToField(name, callback) {
@@ -987,12 +1009,8 @@ const FormItem$1 = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
-  useEffect(() => {
-    console.log(0);
-    return () => {
-      console.log(1);
-    };
-  }, [name]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => registerField(name, undefined, true), [name]);
   useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);

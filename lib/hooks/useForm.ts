@@ -58,16 +58,16 @@ const useForm = (
   }
 
   function getFieldValue(name: string) {
-    return formRef.current[name];
+    return formRef.current[name] ?? formCatchRef.current[name];
   }
 
   function getFieldsValue(nameList?: string[]) {
     if (!nameList) {
-      return { ...formRef.current };
+      return { ...formRef.current, ...formCatchRef.current };
     }
 
     return nameList.reduce((acc, key) => {
-      acc[key] = formRef.current[key];
+      acc[key] = formRef.current[key] ?? formCatchRef.current[key];
 
       return acc;
     }, {} as Record<string, RuleTypes>);
@@ -94,12 +94,16 @@ const useForm = (
   ) {
     if (
       !reset && reset !== null &&
-      ([undefined, null].includes(value) || formRef.current[name] === value)
+      ([undefined, null].includes(value) || formRef.current[name] === value || formCatchRef.current[name] === value)
     ) {
       return;
     }
 
-    formRef.current[name] = value;
+    if (formCatchRef.current[name]) {
+      formCatchRef.current[name] = value;
+    } else {
+      formRef.current[name] = value;
+    }
 
     if (touch) {
       touchedFieldsRef.current.add(name);
@@ -162,10 +166,12 @@ const useForm = (
 
   function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
     if (remove) {
-      // 
+      formCatchRef.current[name] = formRef.current[name];
+      delete formRef.current[name];
     } else {
       if (!(name in formRef.current)) {
-        formRef.current[name] = initialValues?.[name];
+        formRef.current[name] = formCatchRef.current[name] ?? initialValues?.[name];
+        delete formCatchRef.current[name];
       }
   
       rulesRef.current[name] = rules;
@@ -173,7 +179,7 @@ const useForm = (
   }
 
   async function validateField(name: string) {
-    const value = formRef.current[name];
+    const value = formRef.current[name] ?? formCatchRef.current[name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
@@ -248,7 +254,7 @@ const useForm = (
   }
 
   async function validateFields(nameList?: string[]) {
-    const fieldsToValidate = nameList || Object.keys(formRef.current);
+    const fieldsToValidate = nameList || Object.keys({ ...formRef.current, ...formCatchRef.current });
 
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))
@@ -279,6 +285,8 @@ const useForm = (
     if (nameList?.length) {
       nameList.forEach((name: string) => {
         formRef.current[name] = initialValues[name];
+        formCatchRef.current = {};
+
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
 
@@ -289,7 +297,7 @@ const useForm = (
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
 
-      Object.keys(formRef.current).forEach(name => {
+      Object.keys({ ...formRef.current, ...formCatchRef.current }).forEach(name => {
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
@@ -302,9 +310,9 @@ const useForm = (
     setScrollToFirstError(true);
 
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(formRef.current)
+      formHandlersRef.current.onFinish?.({ ...formRef.current, ...formCatchRef.current })
 
-      return formRef.current
+      return {...formRef.current, ...formCatchRef.current }
     })() : undefined;
   }
 

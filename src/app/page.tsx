@@ -1997,7 +1997,7 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log(values)}>
+                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log(123, values)}>
                     {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"

@@ -68,13 +68,8 @@ const FormItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
 
-  useEffect(() => {
-    console.log(0);
-
-    return () => {
-      console.log(1);
-    }
-  }, [name])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => registerField(name, undefined, true), [name])
 
   useEffect(() => {
     if (initialValue) {
