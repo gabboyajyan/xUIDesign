@@ -62,16 +62,20 @@ const useForm = (
   }
 
   function getFieldValue(name: string) {
-    return formRef.current[stepRef.current][name]
+    const formData = getFormFields();
+
+    return formData[name]
   }
 
   function getFieldsValue(nameList?: string[]) {
+    const formData = getFormFields();
+
     if (!nameList) {
-      return formRef.current[stepRef.current];
+      return formData;
     }
 
     return nameList.reduce((acc, key) => {
-      acc[key] = formRef.current[stepRef.current][key];
+      acc[key] = formData[key];
 
       return acc;
     }, {} as Record<string, RuleTypes>);

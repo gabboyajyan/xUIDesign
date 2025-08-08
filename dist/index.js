@@ -628,14 +628,16 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldInstancesRef.current[name] || null;
   }
   function getFieldValue(name) {
-    return formRef.current[stepRef.current][name];
+    const formData = getFormFields();
+    return formData[name];
   }
   function getFieldsValue(nameList) {
+    const formData = getFormFields();
     if (!nameList) {
-      return formRef.current[stepRef.current];
+      return formData;
     }
     return nameList.reduce((acc, key) => {
-      acc[key] = formRef.current[stepRef.current][key];
+      acc[key] = formData[key];
       return acc;
     }, {});
   }
@@ -1502,7 +1504,7 @@ styleInject(css_248z$i);
 
 const Switch = ({
   prefixCls = prefixClsSwitch,
-  checked = false,
+  checked,
   onChange,
   onClick,
   disabled = false,

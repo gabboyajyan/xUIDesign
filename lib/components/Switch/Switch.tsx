@@ -6,7 +6,7 @@ import './index.css';
 
 const Switch = ({
   prefixCls = prefixClsSwitch,
-  checked = false,
+  checked,
   onChange,
   onClick,
   disabled = false,
