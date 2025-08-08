@@ -1948,7 +1948,7 @@ const RangePicker = ({
       key: i,
       className: `${prefixCls}-weekday`
     }, day)), days.map((day, i) => {
-      const isSelected = day && selectedDates.some(d => d?.toDateString() === day.toDateString());
+      const isSelected = day && selectedDates.some(d => d?.toDateString() === day?.toDateString());
       const inRange = day && isInRange(day);
       const isSameMonth = day?.getMonth() === month;
       return /*#__PURE__*/React.createElement("button", {
@@ -1962,7 +1962,7 @@ const RangePicker = ({
         className: clsx([`${prefixCls}-day`, {
           [`${prefixCls}-selected`]: isSelected,
           [`${prefixCls}-in-range`]: inRange,
-          [`${prefixCls}-hover-end`]: hoveredDate && selectedDates[0] && !selectedDates[1] && hoveredDate > selectedDates[0] && hoveredDate.toDateString() === day?.toDateString(),
+          [`${prefixCls}-hover-end`]: hoveredDate && selectedDates[0] && !selectedDates[1] && hoveredDate > selectedDates[0] && hoveredDate?.toDateString() === day?.toDateString(),
           [`${prefixCls}-other-month`]: !isSameMonth
         }])
       }, day?.getDate());

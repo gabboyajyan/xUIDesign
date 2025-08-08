@@ -236,7 +236,7 @@ const RangePicker = ({
               const isSelected =
                 day &&
                 selectedDates.some(
-                  d => d?.toDateString() === day.toDateString()
+                  d => d?.toDateString() === day?.toDateString()
                 );
 
               const inRange = day && isInRange(day);
@@ -261,7 +261,7 @@ const RangePicker = ({
                         selectedDates[0] &&
                         !selectedDates[1] &&
                         hoveredDate > selectedDates[0] &&
-                        hoveredDate.toDateString() === day?.toDateString(),
+                        hoveredDate?.toDateString() === day?.toDateString(),
                       [`${prefixCls}-other-month`]: !isSameMonth
                     }
                   ])}
