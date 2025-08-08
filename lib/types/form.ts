@@ -165,4 +165,5 @@ export interface FormInstance {
       allValues: Record<string, RuleTypes>
     ) => void
   ) => void;
+  changeStep: (step: number) => void;
 }

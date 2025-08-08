@@ -1878,6 +1878,8 @@ export default function Home() {
         // username: "Gabriel"
     });
 
+    const [hide, setHide] = useState(true);
+
     const [step, setStep] = useState(0)
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
@@ -1964,6 +1966,7 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
+                <Button onClick={() => setHide(!hide)}>toggle hide</Button>
             {/* <Input mask="___.___.___._" value={value} onChange={(e) => {
                 setValue(e.target.value)
 
@@ -2050,14 +2053,19 @@ export default function Home() {
                             })}
                         </Select>
                     </Item> */}
-
-                    {step === 0 ? <Item name="username" label="Username" rules={[{ required: true }]}>
+                
+                    {step === 0 ? <>
+                    <Item name="username" label="Username" rules={[{ required: true }]}>
                         {/* <Input mask="___.___.___-__" /> */}
                         <RadioGroup>
                             <Radio name="male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
                         </RadioGroup>
-                    </Item> : step === 1 ? <Item name="name" label="Name" rules={[{ required: true }]}>
+                    </Item>
+                    {hide ? null : <Item name="age" label="age" rules={[{ required: true }]}>
+                        <Input type="number" />
+                    </Item>}
+                    </> : step === 1 ? <Item name="name" label="Name" rules={[{ required: true }]}>
                         <Input mask="___.___.___-__" />
                     </Item> : <Item name="email" label="Email" rules={[{ required: true }]}>
                         <Input />
@@ -2067,13 +2075,17 @@ export default function Home() {
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
                     </Item> */}
 
-                    {step !== 0 && <Button size="middle" onClick={() => setStep(step - 1)}>Previous</Button>}
+                    {step !== 0 && <Button size="middle" onClick={() => {
+                        form.changeStep(step - 1)
+                        setStep(step - 1)
+                    }}>Previous</Button>}
                     <Button type="primary" size="middle" htmlType="button" onClick={async () => {
                         if (await form.validateFields()) {
                             if (step === 2) {
                                 form.submit();
                             } else {
-                                setStep(step + 1);
+                                form.changeStep(step + 1)
+                                setStep(step + 1)
                             }
                         }
                     }}>Submit</Button>

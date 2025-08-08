@@ -25,6 +25,7 @@ const useForm = (
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
   const warningsRef = useRef<Record<string, string[]>>({});
   const _scrollToFirstError = useRef<boolean>(scrollToFirstError);
+  const stepRef = useRef<number>(0);
   const formHandlersRef = useRef<{
     onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
     onValuesChange?: (
@@ -38,8 +39,7 @@ const useForm = (
     onFieldsChange
   })
 
-  const formRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
-  const formCatchRef = useRef<Record<string, RuleTypes>>({});
+  const formRef = useRef<Record<number, Record<string, RuleTypes>>>({ [stepRef.current]: { ...initialValues } });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
 
   const [isReseting, setIsReseting] = useState(false);
@@ -53,21 +53,25 @@ const useForm = (
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
 
+  function getFormFields() {
+    return Object.assign({}, ...Object.values(formRef.current));
+  }
+
   function getFieldInstance(name: string): FieldInstancesRef {
     return fieldInstancesRef.current[name] || null;
   }
 
   function getFieldValue(name: string) {
-    return formRef.current[name] ?? formCatchRef.current[name];
+    return formRef.current[stepRef.current][name]
   }
 
   function getFieldsValue(nameList?: string[]) {
     if (!nameList) {
-      return { ...formRef.current, ...formCatchRef.current };
+      return formRef.current[stepRef.current];
     }
 
     return nameList.reduce((acc, key) => {
-      acc[key] = formRef.current[key] ?? formCatchRef.current[key];
+      acc[key] = formRef.current[stepRef.current][key];
 
       return acc;
     }, {} as Record<string, RuleTypes>);
@@ -94,12 +98,12 @@ const useForm = (
   ) {
     if (
       !reset && reset !== null &&
-      ([undefined, null].includes(value) || formRef.current[name] === value || formCatchRef.current[name] === value)
+      ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)
     ) {
       return;
     }
 
-    formRef.current[name] = value;
+    formRef.current[stepRef.current][name] = value;
 
     if (touch) {
       touchedFieldsRef.current.add(name);
@@ -162,12 +166,11 @@ const useForm = (
 
   function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
     if (remove) {
-      formCatchRef.current[name] = formRef.current[name];
-      delete formRef.current[name];
+      delete formRef.current[stepRef.current]?.[name];
+      delete rulesRef.current[name];
     } else {
-      if (!(name in formRef.current)) {
-        formRef.current[name] = formCatchRef.current[name] ?? initialValues?.[name];
-        delete formCatchRef.current[name];
+      if (!(name in formRef.current[stepRef.current])) {
+        formRef.current[stepRef.current][name] = initialValues?.[name];
       }
 
       rulesRef.current[name] = rules;
@@ -175,7 +178,7 @@ const useForm = (
   }
 
   async function validateField(name: string) {
-    const value = formRef.current[name];
+    const value = formRef.current[stepRef.current][name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
@@ -250,7 +253,7 @@ const useForm = (
   }
 
   async function validateFields(nameList?: string[]) {
-    const fieldsToValidate = nameList || Object.keys(formRef.current);
+    const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
 
     const results = await Promise.all(
       fieldsToValidate.map(name => validateField(name))
@@ -278,10 +281,11 @@ const useForm = (
   }
 
   function resetFields(nameList?: string[], showError: boolean | null = true) {
+    const formData = getFormFields();
+
     if (nameList?.length) {
       nameList.forEach((name: string) => {
-        formRef.current[name] = initialValues[name];
-        formCatchRef.current = {};
+        formData[name] = initialValues[name];
 
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
@@ -293,7 +297,9 @@ const useForm = (
       touchedFieldsRef.current.clear();
       warningsRef.current = {};
 
-      Object.keys({...formRef.current, ...formCatchRef.current }).forEach(name => {
+      Object.keys({
+        ...formData,
+      }).forEach(name => {
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     }
@@ -305,10 +311,12 @@ const useForm = (
   async function submit() {
     setScrollToFirstError(true);
 
-    return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.({...formRef.current, ...formCatchRef.current })
+    const formData = getFormFields();
 
-      return {...formRef.current, ...formCatchRef.current }
+    return (await validateFields()) ? (() => {
+      formHandlersRef.current.onFinish?.(formData)
+
+      return formData
     })() : undefined;
   }
 
@@ -379,6 +387,14 @@ const useForm = (
     formHandlersRef.current.onFinish = onFinish;
   }
 
+  function changeStep(step: number) {
+    stepRef.current = step ?? 0;
+
+    if (!formRef.current[stepRef.current]) {
+      formRef.current[stepRef.current] = {};
+    }
+  }
+
   const formInstance: FormInstance = {
     submit,
     setFields,
@@ -406,7 +422,8 @@ const useForm = (
     isReseting,
     setOnFinish,
     setOnFieldsChange,
-    setOnValuesChange
+    setOnValuesChange,
+    changeStep,
   };
 
   return formInstance;
