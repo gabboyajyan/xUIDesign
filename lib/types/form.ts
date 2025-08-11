@@ -34,7 +34,10 @@ export interface FieldData {
   errors?: string[];
 }
 
-export type FieldInstancesRef = HTMLDivElement | null;
+export type FieldInstancesInputRef = HTMLInputElement | null;
+export type FieldInstancesRef = {
+  input?: FieldInstancesInputRef;
+};
 
 export interface FieldError {
   name: string;
@@ -109,6 +112,7 @@ export interface FormItemChildComponentProps {
   ) => RuleType;
   noStyle?: boolean;
   feedbackIcons?: boolean;
+  ref?: FieldInstancesRef | null
 }
 
 export interface FormInstance {
@@ -148,7 +152,8 @@ export interface FormInstance {
     changedValues: Record<string, RuleTypes>,
     allValues: Record<string, RuleTypes>
   ) => void;
-  getFieldInstance: (fieldName: string) => FieldInstancesRef;
+  getFieldInstance: (fieldName?: string) => FieldInstancesRef | null;
+  setFieldInstance: (fieldName: string, fieldRef: FieldInstancesRef | null) => void; 
   setScrollToFirstError: (value: boolean) => void;
   scrollToFirstError?: boolean;
   isReseting: boolean;

@@ -40,7 +40,7 @@ const useForm = (
   })
 
   const formRef = useRef<Record<number, Record<string, RuleTypes>>>({ [stepRef.current]: { ...initialValues } });
-  const fieldInstancesRef = useRef<Record<string, FieldInstancesRef>>({});
+  const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
@@ -57,8 +57,8 @@ const useForm = (
     return Object.assign({}, ...Object.values(formRef.current));
   }
 
-  function getFieldInstance(name: string): FieldInstancesRef {
-    return fieldInstancesRef.current[name];
+  function getFieldInstance(name?: string) {
+    return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
 
   function getFieldValue(name: string) {
@@ -150,6 +150,10 @@ const useForm = (
     );
   }
 
+  function setFieldInstance(fieldName: string, fieldRef: FieldInstancesRef | null) {
+    return fieldInstancesRef.current[fieldName] = fieldRef;
+  }
+
   function isFieldTouched(name: string) {
     return touchedFieldsRef.current.has(name);
   }
@@ -172,17 +176,12 @@ const useForm = (
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
-      delete fieldInstancesRef.current[name];
     } else {
       if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
 
       rulesRef.current[name] = rules;
-
-      if (!fieldInstancesRef.current[name]) {
-        fieldInstancesRef.current[name] = document.querySelector(`[data-instance="${name}"]`) || null;
-      }
     }
   }
 
@@ -191,7 +190,7 @@ const useForm = (
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
-
+    
     await Promise.all(
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
@@ -425,6 +424,7 @@ const useForm = (
     onFieldsChange,
     onValuesChange,
     getFieldInstance,
+    setFieldInstance,
     subscribeToFields,
     setScrollToFirstError,
     scrollToFirstError,

@@ -14,6 +14,7 @@ import { clsx } from '../../../helpers';
 import { RuleType, SyntheticBaseEvent } from '../../../types';
 import { flattenChildren } from '../../../helpers/flatten';
 import {
+  FieldInstancesRef,
   FormItemChildComponentProps,
   FormItemProps
 } from '../../../types/form';
@@ -43,6 +44,7 @@ const FormItem = ({
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
+  const fieldRef = useRef<FieldInstancesRef | null>(null);
 
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
@@ -55,6 +57,7 @@ const FormItem = ({
     getFieldValue,
     setFieldValue,
     getFieldInstance,
+    setFieldInstance,
     subscribeToFields,
     validateFields
   } = formContext;
@@ -64,6 +67,8 @@ const FormItem = ({
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
+
+      setFieldInstance(name, fieldRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
@@ -131,6 +136,9 @@ const FormItem = ({
               <FormItemChildComponent
                 {...props}
                 key={`${key}_${isReseting}`}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                ref={fieldRef}
                 name={name}
                 child={child}
                 value={value}
@@ -186,13 +194,14 @@ const FormItemChildComponent = ({
   noStyle,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   feedbackIcons,
+  ref,
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
 
   const [wasNormalize, setWasNormalize] = useState(false);
 
-  const { getFieldsValue } = formContext || {};
+  const { getFieldsValue, setFieldInstance } = formContext || {};
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -255,6 +264,7 @@ const FormItemChildComponent = ({
 
     return <child.type
       {...props}
+      ref={ref}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       {...child.props}
