@@ -176,6 +176,7 @@ const useForm = (
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
+      delete fieldInstancesRef.current[name];
     } else {
       if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
@@ -187,6 +188,8 @@ const useForm = (
 
   async function validateField(name: string) {
     const value = formRef.current[stepRef.current][name];
+    console.log(formRef.current);
+    
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
