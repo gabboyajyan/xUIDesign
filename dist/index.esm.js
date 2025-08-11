@@ -727,7 +727,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   async function validateField(name) {
     const value = formRef.current[stepRef.current][name];
-    console.log(formRef.current);
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
     const fieldWarnings = [];
