@@ -67,14 +67,18 @@ const FormItem = ({
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
-
-      setFieldInstance(name, fieldRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => registerField(name, undefined, true), [name])
+
+  useEffect(() => {
+    if (!getFieldInstance(name)) {
+      setFieldInstance(name, fieldRef.current);
+    }
+  }, [name, fieldRef.current])
 
   useEffect(() => {
     if (initialValue) {
