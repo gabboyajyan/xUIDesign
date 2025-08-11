@@ -58,7 +58,7 @@ const useForm = (
   }
 
   function getFieldInstance(name: string): FieldInstancesRef {
-    return fieldInstancesRef.current[name] || null;
+    return fieldInstancesRef.current[name];
   }
 
   function getFieldValue(name: string) {
@@ -168,14 +168,11 @@ const useForm = (
     return !!name;
   }
 
-  function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false, fieldRef?: FieldInstancesRef | null) {
+  function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
-
-      if (fieldInstancesRef.current[name]) {
-        delete fieldInstancesRef.current[name];
-      }
+      delete fieldInstancesRef.current[name];
     } else {
       if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
@@ -183,8 +180,8 @@ const useForm = (
 
       rulesRef.current[name] = rules;
 
-      if (fieldRef) {
-        fieldInstancesRef.current[name] = fieldRef;
+      if (!fieldInstancesRef.current[name]) {
+        fieldInstancesRef.current[name] = document.querySelector(`[data-instance="${name}"]`) || null;
       }
     }
   }

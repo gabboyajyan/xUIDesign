@@ -34,10 +34,7 @@ export interface FieldData {
   errors?: string[];
 }
 
-export type FieldInstancesInputRef = HTMLInputElement | HTMLDivElement | null;
-export type FieldInstancesRef = {
-  input?: FieldInstancesInputRef;
-};
+export type FieldInstancesRef = HTMLDivElement | null;
 
 export interface FieldError {
   name: string;
@@ -119,7 +116,7 @@ export interface FormInstance {
   setFields: (fields: FieldData[]) => void;
   resetFields: (nameList?: string[], showError?: boolean | null) => void;
   getFieldError: (name: string) => string[];
-  registerField: (name: string, rules?: RuleObject[], remove?: boolean, fieldRef?: FieldInstancesRef | null) => void;
+  registerField: (name: string, rules?: RuleObject[], remove?: boolean) => void;
   setFieldValue: (name: string, value: RuleTypes, errors?: string[],
     reset?: boolean | null | undefined,
     touch?: boolean) => void;
