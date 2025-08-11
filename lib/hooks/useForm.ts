@@ -151,7 +151,7 @@ const useForm = (
   }
 
   function setFieldInstance(fieldName: string, fieldRef: FieldInstancesRef | null) {
-    return fieldInstancesRef.current[fieldName] = fieldRef;
+    fieldInstancesRef.current[fieldName] = fieldRef;
   }
 
   function isFieldTouched(name: string) {

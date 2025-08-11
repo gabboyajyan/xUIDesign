@@ -699,7 +699,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
   }
   function setFieldInstance(fieldName, fieldRef) {
-    return fieldInstancesRef.current[fieldName] = fieldRef;
+    fieldInstancesRef.current[fieldName] = fieldRef;
   }
   function isFieldTouched(name) {
     return touchedFieldsRef.current.has(name);
@@ -1009,16 +1009,12 @@ const FormItem$1 = ({
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => () => registerField(name, undefined, true), [name]);
-  useEffect(() => {
-    if (!getFieldInstance(name)) {
       setFieldInstance(name, fieldRef.current);
     }
-  }, [name, fieldRef.current]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name, rules, fieldRef.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => () => registerField(name, undefined, true), [name]);
   useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);
