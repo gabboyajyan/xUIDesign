@@ -2080,6 +2080,8 @@ export default function Home() {
                         setStep(step - 1)
                     }}>Previous</Button>}
                     <Button type="primary" size="middle" htmlType="button" onClick={async () => {
+                        console.log(form.getFieldInstance('username'));
+                        
                         if (await form.validateFields()) {
                             if (step === 2) {
                                 form.submit();

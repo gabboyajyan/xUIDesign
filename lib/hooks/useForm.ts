@@ -168,16 +168,24 @@ const useForm = (
     return !!name;
   }
 
-  function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false) {
+  function registerField(name: string, rules: RuleObject[] = [], remove: boolean = false, fieldRef?: FieldInstancesRef | null) {
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
+
+      if (fieldInstancesRef.current[name]) {
+        delete fieldInstancesRef.current[name];
+      }
     } else {
       if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
 
       rulesRef.current[name] = rules;
+
+      if (fieldRef) {
+        fieldInstancesRef.current[name] = fieldRef;
+      }
     }
   }
 

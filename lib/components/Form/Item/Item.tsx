@@ -14,6 +14,8 @@ import { clsx } from '../../../helpers';
 import { RuleType, SyntheticBaseEvent } from '../../../types';
 import { flattenChildren } from '../../../helpers/flatten';
 import {
+  FieldInstancesInputRef,
+  FieldInstancesRef,
   FormItemChildComponentProps,
   FormItemProps
 } from '../../../types/form';
@@ -43,6 +45,7 @@ const FormItem = ({
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
+  const fieldRef = useRef(null);
 
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
@@ -63,10 +66,10 @@ const FormItem = ({
 
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+      registerField(name, rules, false, fieldRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules]);
+  }, [name, rules, fieldRef.current]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => registerField(name, undefined, true), [name])
@@ -101,6 +104,7 @@ const FormItem = ({
   return (
     <div
       style={style}
+      ref={fieldRef}
       className={clsx([
         `${prefixCls}`,
         {
@@ -126,7 +130,9 @@ const FormItem = ({
           const fieldValue = value ?? getFieldValue(name) ?? initialValue;
 
           return (
-            <div>
+            <div
+              
+            >
               <FormItemChildComponent
                 {...props}
                 key={`${key}_${isReseting}`}

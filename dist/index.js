@@ -712,15 +712,21 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function isFieldValidating(name) {
     return !!name;
   }
-  function registerField(name, rules = [], remove = false) {
+  function registerField(name, rules = [], remove = false, fieldRef) {
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
+      if (fieldInstancesRef.current[name]) {
+        delete fieldInstancesRef.current[name];
+      }
     } else {
       if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
       rulesRef.current[name] = rules;
+      if (fieldRef) {
+        fieldInstancesRef.current[name] = fieldRef;
+      }
     }
   }
   async function validateField(name) {
@@ -988,6 +994,7 @@ const FormItem$1 = ({
 }) => {
   const formContext = React.useContext(FormContext);
   const errorRef = React.useRef(null);
+  const fieldRef = React.useRef(null);
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
   }
@@ -1004,10 +1011,10 @@ const FormItem$1 = ({
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
   React.useEffect(() => {
     if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+      registerField(name, rules, false, fieldRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules]);
+  }, [name, rules, fieldRef.current]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => () => registerField(name, undefined, true), [name]);
   React.useEffect(() => {
@@ -1031,6 +1038,7 @@ const FormItem$1 = ({
   const errorMessage = getFieldError(name)?.[0];
   return /*#__PURE__*/React.createElement("div", {
     style: style,
+    ref: fieldRef,
     className: clsx([`${prefixCls}`, {
       [layout]: layout,
       [className]: className,
