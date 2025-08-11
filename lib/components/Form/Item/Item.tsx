@@ -67,11 +67,9 @@ const FormItem = ({
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
-
-      setFieldInstance(name, fieldRef.current);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules, fieldRef.current]);
+  }, [name, rules]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => registerField(name, undefined, true), [name])
@@ -100,6 +98,16 @@ const FormItem = ({
     () => rules.some((rule: RuleType) => rule.required),
     [rules]
   );
+
+
+  useEffect(() => {
+    console.log({
+      name, 
+      fieldRef: fieldRef.current
+    });
+
+    setFieldInstance(name, fieldRef.current);
+  }, [name])
 
   const errorMessage = getFieldError(name)?.[0];
 
