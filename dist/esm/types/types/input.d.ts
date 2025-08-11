@@ -1,4 +1,4 @@
-import { CSSProperties, InputHTMLAttributes, KeyboardEvent, KeyboardEventHandler, MouseEventHandler, ReactElement, ReactNode, TextareaHTMLAttributes } from 'react';
+import { CSSProperties, ForwardedRef, InputHTMLAttributes, KeyboardEvent, KeyboardEventHandler, MouseEventHandler, ReactElement, ReactNode, TextareaHTMLAttributes } from 'react';
 import { DefaultProps, SizeType, SyntheticBaseEvent } from '.';
 export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> & DefaultProps & {
     addonBefore?: ReactNode;
@@ -23,6 +23,7 @@ export type InputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'size' | 'p
     mask?: string;
     maskChar?: string;
     maskRegex?: RegExp;
+    ref?: ForwardedRef<HTMLInputElement>;
 };
 export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'onResize'> & DefaultProps & {
     value?: string;
@@ -48,4 +49,5 @@ export type TextareaProps = Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'o
     variant?: 'outlined' | 'borderless' | 'filled' | 'underlined';
     error?: boolean;
     allowClear?: boolean;
+    ref?: ForwardedRef<HTMLTextAreaElement>;
 };

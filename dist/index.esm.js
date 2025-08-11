@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -1435,7 +1435,7 @@ var Button$2 = /*#__PURE__*/Object.freeze({
 var css_248z$j = ".xUi-checkbox-wrapper{align-items:center;color:var(--xui-main-color);cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);margin:16px 0}.xUi-checkbox{background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:inline-block;height:14px;position:relative;transition:all .3s;width:14px}.xUi-checkbox.xUi-checkbox-checked{background-color:#f0f5ff;border-color:var(--xui-primary-color)}.xUi-checkbox input{cursor:pointer;inset:0;opacity:0;position:absolute}.xUi-checkbox-inner{border-left:0;border-top:0;border:2px solid var(--xui-background-color);height:6px;left:50%;position:absolute;top:50%;transform:rotate(45deg) scale(0);transition:transform .2s ease-in-out;width:10px}.xUi-checkbox-check{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);display:block;height:100%;position:relative;transition:.1s ease;width:100%}.xUi-checkbox-check:after{border:solid #fff;border-width:0 2px 2px 0;content:\"\";height:8px;left:3px;position:absolute;top:1px;transform:rotate(45deg);width:5px}.xUi-checkbox-disabled,.xUi-checkbox-disabled .xUi-checkbox-check{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-checkbox-label{font-size:14px;margin-left:8px;user-select:none}.xUi-checkbox:focus:not(.disabled),.xUi-checkbox:hover:not(.disabled){border-color:var(--xui-primary-color);cursor:pointer}.xUi-checkbox.disabled{cursor:not-allowed;opacity:.5}";
 styleInject(css_248z$j);
 
-const Checkbox = /*#__PURE__*/forwardRef(({
+const Checkbox = ({
   prefixCls = prefixClsCheckbox,
   className = '',
   defaultChecked = false,
@@ -1456,8 +1456,9 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   type = 'checkbox',
   value = false,
   required = false,
-  noStyle
-}, ref) => {
+  noStyle,
+  ref
+}) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
   const handleClick = e => {
@@ -1508,7 +1509,7 @@ const Checkbox = /*#__PURE__*/forwardRef(({
   }))), children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
-});
+};
 Checkbox.displayName = 'Checkbox';
 
 var Checkbox$1 = /*#__PURE__*/Object.freeze({
@@ -2698,7 +2699,7 @@ var TimePicker$1 = /*#__PURE__*/Object.freeze({
 var css_248z$c = ".xUi-textarea-wrapper{margin-bottom:10px;position:relative;width:100%}.xUi-textarea{border:none;border-radius:6px;box-shadow:none;color:var(--xui-text-color);font-size:14px;min-height:14px;outline:none;padding:8px 12px;resize:vertical;transition:all .3s ease;width:100%}.xUi-textarea:placeholder-shown{font-size:14px;text-overflow:ellipsis}.xUi-textarea::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-textarea-small{font-size:12px;padding:6px 10px}.xUi-textarea-middle{font-size:14px;padding:8px 12px}.xUi-textarea-large{padding:10px}.xUi-textarea-outlined{background:transparent;border:1px solid var(--xui-border-color)}.xUi-textarea-outlined:focus{border-color:var(--xui-primary-color)}.xUi-textarea-borderless{background:transparent;border:none}.xUi-textarea-filled{background:var(--xui-primary-color);border:1px solid var(--xui-border-color)}.xUi-textarea-filled:focus{background:var(--xui-background-color);border-color:var(--xui-primary-color)}.xUi-textarea-underlined{background:transparent;border:none;border-bottom:1px solid var(--xui-border-color)}.xUi-textarea-underlined:focus{border-bottom-color:var(--xui-primary-color)}.xUi-textarea-container:has(.xUi-textarea-bordered){border:1px solid var(--xui-border-color)}.xUi-textarea-container:has(.xUi-textarea-success){border-color:var(--xui-success-color)}.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea,.xUi-textarea-wrapper:has(.xUi-textarea-error) textarea:focus{border:1px solid var(--xui-error-color)}.xUi-textarea-clear{background:transparent;border:none;color:#999;cursor:pointer;position:absolute;right:0;top:15px;transform:translateY(-50%)}.xUi-textarea-clear:hover{color:#333}";
 styleInject(css_248z$c);
 
-const Textarea = /*#__PURE__*/forwardRef(({
+const Textarea = ({
   prefixCls = prefixClsTextArea,
   value,
   className = '',
@@ -2714,8 +2715,9 @@ const Textarea = /*#__PURE__*/forwardRef(({
   variant = 'outlined',
   error,
   allowClear = false,
+  ref,
   ...props
-}, ref) => {
+}) => {
   const [inputValue, setInputValue] = useState(value?.toString() || '');
   const textareaRef = useRef(null);
   useEffect(() => {
@@ -2772,7 +2774,7 @@ const Textarea = /*#__PURE__*/forwardRef(({
     className: `${prefixCls}-clear`,
     onClick: handleClear
   }, "\u2715"));
-});
+};
 Textarea.displayName = 'Textarea';
 
 var Textarea$1 = /*#__PURE__*/Object.freeze({
@@ -2825,7 +2827,7 @@ function applyMask(raw, mask, maskChar = MASK_CHAR) {
 var css_248z$b = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;margin:-1px;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:.1px 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 5px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled,.xUi-input-disabled .xUi-input,.xUi-input-disabled .xUi-input-suffix{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:44px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
 styleInject(css_248z$b);
 
-const InputComponent = /*#__PURE__*/forwardRef(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -2852,8 +2854,9 @@ const InputComponent = /*#__PURE__*/forwardRef(({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}, ref) => {
+}) => {
   const inputRef = useRef(null);
   const lastKeyPressed = useRef(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -2968,7 +2971,7 @@ const InputComponent = /*#__PURE__*/forwardRef(({
   } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-after`
   }, addonAfter) : null);
-});
+};
 InputComponent.displayName = 'Input';
 const Input$1 = InputComponent;
 Input$1.TextArea = Textarea;
@@ -2981,7 +2984,7 @@ var Input$2 = /*#__PURE__*/Object.freeze({
 var css_248z$a = ".xUi-radio-label{align-items:center;cursor:pointer;display:inline-flex;font-size:var(--xui-font-size-md);line-height:1;margin:16px 0;position:relative}.xUi-radio-label input{display:none}.xUi-radio{border:1px solid var(--xui-border-color);border-radius:50%;height:16px;position:relative;transition:all .3s;width:16px}.xUi-radio-error:not(.xUi-radio-disabled){border:1px solid var(--xui-error-color)}.xUi-radio-label input:checked+.xUi-radio-error:not(.xUi-radio-disabled){background:var(--xui-error-color)}.xUi-radio-group{display:flex}.xUi-radio-label .xUi-radio-enabled:not(.xUi-radio-error):hover{border:1px solid var(--xui-primary-color-light)!important}.xUi-radio-disabled{background-color:var(--xui-color-disabled)}.xUi-radio-title{color:var(--xui-text-color);padding-inline-end:8px;padding-inline-start:8px}.xUi-radio-label input:checked+.xUi-radio{background:var(--xui-primary-color)}.xUi-radio-label input:checked+.xUi-radio:after{background-color:#fff;border-radius:50%;content:\"\";height:6px;left:50%;position:absolute;top:50%;transform:translate(-50%,-50%);width:6px}.xUi-radio-label.disabled{cursor:not-allowed;opacity:.5}";
 styleInject(css_248z$a);
 
-const Radio = /*#__PURE__*/forwardRef(({
+const Radio = ({
   prefixCls = prefixClsRadio,
   className = '',
   value,
@@ -2997,8 +3000,9 @@ const Radio = /*#__PURE__*/forwardRef(({
   onFocus,
   onMouseEnter,
   onMouseLeave,
-  noStyle
-}, ref) => {
+  noStyle,
+  ref
+}) => {
   const handleChange = () => {
     if (!disabled) {
       onClick?.(parseValue(title ?? value));
@@ -3034,7 +3038,7 @@ const Radio = /*#__PURE__*/forwardRef(({
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-title`
   }, children ?? title ?? value));
-});
+};
 Radio.displayName = 'Radio';
 
 var Radio$1 = /*#__PURE__*/Object.freeze({
@@ -3240,7 +3244,7 @@ function getTextFromNode(node) {
   }
   return '';
 }
-const SelectComponent = /*#__PURE__*/forwardRef(({
+const SelectComponent = ({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -3285,8 +3289,9 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   tagRender,
   getPopupContainer,
   dropdownRender,
-  onDropdownVisibleChange
-}, ref) => {
+  onDropdownVisibleChange,
+  ref
+}) => {
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
@@ -3754,7 +3759,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-loading`
   }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
-});
+};
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
   Option
