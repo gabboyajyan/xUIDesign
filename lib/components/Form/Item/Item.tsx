@@ -14,6 +14,7 @@ import { clsx } from '../../../helpers';
 import { RuleType, SyntheticBaseEvent } from '../../../types';
 import { flattenChildren } from '../../../helpers/flatten';
 import {
+  FieldInstancesRef,
   FormItemChildComponentProps,
   FormItemProps
 } from '../../../types/form';
@@ -43,6 +44,7 @@ const FormItem = ({
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
+  const fieldRef = useRef<FieldInstancesRef>(null);
 
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
@@ -63,10 +65,10 @@ const FormItem = ({
 
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+      registerField(name, rules, false, fieldRef.current ?? undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules]);
+  }, [name, rules, fieldRef.current]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => registerField(name, undefined, true), [name])
@@ -98,6 +100,19 @@ const FormItem = ({
 
   const errorMessage = getFieldError(name)?.[0];
 
+  const mergeRefs = (elementRef: (el: FieldInstancesRef) => void) => {
+    return (el: FieldInstancesRef) => {
+      fieldRef.current = el;
+
+      if (typeof elementRef === 'function') {
+        elementRef(el);
+      } else if (elementRef && typeof elementRef === 'object') {
+        // @ts-ignore
+        elementRef.current = el;
+      }
+    };
+  };
+
   return (
     <div
       style={style}
@@ -126,7 +141,11 @@ const FormItem = ({
           const fieldValue = value ?? getFieldValue(name) ?? initialValue;
 
           return (
-            <div>
+            <div
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              ref={mergeRefs(child.ref)}
+            >
               <FormItemChildComponent
                 {...props}
                 key={`${key}_${isReseting}`}

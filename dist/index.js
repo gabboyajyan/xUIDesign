@@ -712,7 +712,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function isFieldValidating(name) {
     return !!name;
   }
-  function registerField(name, rules = [], remove = false) {
+  function registerField(name, rules = [], remove = false, fieldRef) {
     if (remove) {
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
@@ -721,6 +721,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
       rulesRef.current[name] = rules;
+      if (fieldRef) {
+        fieldInstancesRef.current[name] = fieldRef;
+      }
     }
   }
   async function validateField(name) {
@@ -988,6 +991,7 @@ const FormItem$1 = ({
 }) => {
   const formContext = React.useContext(FormContext);
   const errorRef = React.useRef(null);
+  const fieldRef = React.useRef(null);
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
   }
@@ -1004,10 +1008,10 @@ const FormItem$1 = ({
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
   React.useEffect(() => {
     if (name && !getFieldInstance(name)) {
-      registerField(name, rules);
+      registerField(name, rules, false, fieldRef.current ?? undefined);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [name, rules]);
+  }, [name, rules, fieldRef.current]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   React.useEffect(() => () => registerField(name, undefined, true), [name]);
   React.useEffect(() => {
@@ -1029,6 +1033,17 @@ const FormItem$1 = ({
   }, [dependencies, name]);
   const isRequired = React.useMemo(() => rules.some(rule => rule.required), [rules]);
   const errorMessage = getFieldError(name)?.[0];
+  const mergeRefs = elementRef => {
+    return el => {
+      fieldRef.current = el;
+      if (typeof elementRef === 'function') {
+        elementRef(el);
+      } else if (elementRef && typeof elementRef === 'object') {
+        // @ts-ignore
+        elementRef.current = el;
+      }
+    };
+  };
   return /*#__PURE__*/React.createElement("div", {
     style: style,
     className: clsx([`${prefixCls}`, {
@@ -1051,7 +1066,11 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = value ?? getFieldValue(name) ?? initialValue;
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
+      return /*#__PURE__*/React.createElement("div", {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        ref: mergeRefs(child.ref)
+      }, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
         key: `${key}_${isReseting}`,
         name: name,
         child: child,
