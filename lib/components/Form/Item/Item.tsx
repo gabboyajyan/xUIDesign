@@ -2,6 +2,8 @@
 
 import React, {
   Children,
+  ForwardedRef,
+  forwardRef,
   isValidElement,
   ReactElement,
   useContext,
@@ -187,107 +189,110 @@ const FormItem = ({
   );
 };
 
-const FormItemChildComponent = ({
-  child,
-  name,
-  error,
-  fieldValue,
-  setFieldValue,
-  onChange,
-  normalize,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  noStyle,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  feedbackIcons,
-  ref,
-  ...props
-}: FormItemChildComponentProps) => {
-  const formContext = useContext(FormContext);
+const FormItemChildComponent = forwardRef(
+  (
+    {
+      child,
+      name,
+      error,
+      fieldValue,
+      setFieldValue,
+      onChange,
+      normalize,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      noStyle,
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      feedbackIcons,
+      ...props
+    }: FormItemChildComponentProps,
+    ref: ForwardedRef<HTMLElement>) => {
+    const formContext = useContext(FormContext);
 
-  const [wasNormalize, setWasNormalize] = useState(false);
+    const [wasNormalize, setWasNormalize] = useState(false);
 
-  const { getFieldsValue, setFieldInstance } = formContext || {};
+    const { getFieldsValue } = formContext || {};
 
-  const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
-    let rawValue: RuleType | SyntheticBaseEvent = e?.target
-      ? e.target.value
-      : e;
+    const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
+      let rawValue: RuleType | SyntheticBaseEvent = e?.target
+        ? e.target.value
+        : e;
 
-    if (normalize) {
-      const prevValue = fieldValue ?? props.value;
-      const allValues = getFieldsValue?.();
+      if (normalize) {
+        const prevValue = fieldValue ?? props.value;
+        const allValues = getFieldsValue?.();
 
-      rawValue = normalize(rawValue, prevValue, allValues);
+        rawValue = normalize(rawValue, prevValue, allValues);
 
-      if (rawValue === prevValue) {
-        e.target.value = rawValue;
+        if (rawValue === prevValue) {
+          e.target.value = rawValue;
 
-        setWasNormalize(prev => !prev);
+          setWasNormalize(prev => !prev);
 
-        const timeout = setTimeout(() => {
-          (
-            document.querySelector(`[name='${name}']`) as HTMLInputElement
-          )?.focus();
+          const timeout = setTimeout(() => {
+            (
+              document.querySelector(`[name='${name}']`) as HTMLInputElement
+            )?.focus();
 
-          clearTimeout(timeout);
-        }, 0);
+            clearTimeout(timeout);
+          }, 0);
 
-        return;
+          return;
+        }
       }
-    }
 
-    setFieldValue(name, rawValue, undefined, undefined, true);
-    onChange?.(e, option);
-  };
+      setFieldValue(name, rawValue, undefined, undefined, true);
+      onChange?.(e, option);
+    };
 
-  const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
-    if (!isValidElement(child)) {
-      return child;
-    }
-
-    const childProps = child.props as ReactElement & {
-      children: ReactElement[],
-      __injected: boolean
-    }
-
-    const isWrapper =
-      typeof child.type === 'string' &&
-      !('dangerouslySetInnerHTML' in childProps) &&
-      ['div', 'span', 'label'].includes(child.type);
-
-    if (isWrapper) {
-      return (
-        <child.type {...childProps}>
-          {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
-        </child.type>
-      )
-    }
-
-    if (childProps?.__injected) {
-      return child;
-    }
-
-    return <child.type
-      {...props}
-      ref={ref}
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      {...child.props}
-      name={name}
-      child={child}
-      onChange={handleChange}
-      key={`${name}_${wasNormalize}`}
-      value={fieldValue ?? props.value}
-      {...('dangerouslySetInnerHTML' in childProps ? {} : {
-        __injected: true,
-        ...(error ? { error } : {}),
-      })
+    const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
+      if (!isValidElement(child)) {
+        return child;
       }
-    />
-  };
 
-  return injectPropsIntoFinalLeaf(child)
-};
+      const childProps = child.props as ReactElement & {
+        children: ReactElement[],
+        __injected: boolean
+      }
+
+      const isWrapper =
+        typeof child.type === 'string' &&
+        !('dangerouslySetInnerHTML' in childProps) &&
+        ['div', 'span', 'label'].includes(child.type);
+
+      if (isWrapper) {
+        return (
+          <child.type {...childProps}>
+            {Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)}
+          </child.type>
+        )
+      }
+
+      if (childProps?.__injected) {
+        return child;
+      }
+
+      return <child.type
+        {...props}
+        ref={ref}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        {...child.props}
+        name={name}
+        child={child}
+        onChange={handleChange}
+        key={`${name}_${wasNormalize}`}
+        value={fieldValue ?? props.value}
+        {...('dangerouslySetInnerHTML' in childProps ? {} : {
+          __injected: true,
+          ...(error ? { error } : {}),
+        })
+        }
+      />
+    };
+
+    return injectPropsIntoFinalLeaf(child)
+  }
+);
 
 FormItem.displayName = 'FormItem';
 

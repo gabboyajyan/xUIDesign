@@ -1095,7 +1095,7 @@ const FormItem$1 = ({
     return child;
   }));
 };
-const FormItemChildComponent = ({
+const FormItemChildComponent = /*#__PURE__*/React.forwardRef(({
   child,
   name,
   error,
@@ -1107,14 +1107,12 @@ const FormItemChildComponent = ({
   noStyle,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   feedbackIcons,
-  ref,
   ...props
-}) => {
+}, ref) => {
   const formContext = React.useContext(FormContext);
   const [wasNormalize, setWasNormalize] = React.useState(false);
   const {
-    getFieldsValue,
-    setFieldInstance
+    getFieldsValue
   } = formContext || {};
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
@@ -1165,7 +1163,7 @@ const FormItemChildComponent = ({
     }));
   };
   return injectPropsIntoFinalLeaf(child);
-};
+});
 FormItem$1.displayName = 'FormItem';
 
 var Item = /*#__PURE__*/Object.freeze({

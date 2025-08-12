@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, forwardRef, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, forwardRef, createContext, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -1093,7 +1093,7 @@ const FormItem$1 = ({
     return child;
   }));
 };
-const FormItemChildComponent = ({
+const FormItemChildComponent = /*#__PURE__*/forwardRef(({
   child,
   name,
   error,
@@ -1105,14 +1105,12 @@ const FormItemChildComponent = ({
   noStyle,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   feedbackIcons,
-  ref,
   ...props
-}) => {
+}, ref) => {
   const formContext = useContext(FormContext);
   const [wasNormalize, setWasNormalize] = useState(false);
   const {
-    getFieldsValue,
-    setFieldInstance
+    getFieldsValue
   } = formContext || {};
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
@@ -1163,7 +1161,7 @@ const FormItemChildComponent = ({
     }));
   };
   return injectPropsIntoFinalLeaf(child);
-};
+});
 FormItem$1.displayName = 'FormItem';
 
 var Item = /*#__PURE__*/Object.freeze({
