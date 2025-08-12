@@ -1,8 +1,28 @@
 import React from 'react';
-import { TextareaProps } from '../../../types/input';
 import './style.css';
-declare const Textarea: {
-    ({ prefixCls, value, className, style, autoSize, onPressEnter, onResize, styles, bordered, size, status, rootClassName, variant, error, allowClear, ref, ...props }: TextareaProps): React.JSX.Element;
-    displayName: string;
-};
+declare const Textarea: React.ForwardRefExoticComponent<Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "onResize"> & import("../../..").DefaultProps & {
+    value?: string;
+    className?: string;
+    style?: React.CSSProperties;
+    autoSize?: boolean | {
+        minRows?: number;
+        maxRows?: number;
+    };
+    onPressEnter?: React.KeyboardEventHandler<HTMLTextAreaElement>;
+    onResize?: (size: {
+        width: number;
+        height: number;
+    }) => void;
+    styles?: {
+        textarea?: React.CSSProperties;
+        count?: React.CSSProperties;
+    };
+    bordered?: boolean;
+    size?: import("../../../types").SizeType;
+    status?: "success" | "error";
+    rootClassName?: string;
+    variant?: "outlined" | "borderless" | "filled" | "underlined";
+    error?: boolean;
+    allowClear?: boolean;
+} & React.RefAttributes<HTMLTextAreaElement>>;
 export default Textarea;

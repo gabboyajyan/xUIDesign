@@ -1,4 +1,4 @@
-import { ChangeEventHandler, CSSProperties, FocusEventHandler, ForwardedRef, Key, KeyboardEventHandler, MouseEvent, MouseEventHandler, ReactElement, ReactEventHandler, ReactNode } from 'react';
+import { ChangeEventHandler, CSSProperties, FocusEventHandler, Key, KeyboardEventHandler, MouseEvent, MouseEventHandler, ReactElement, ReactEventHandler, ReactNode } from 'react';
 import { DefaultProps, RuleType, RuleTypes, TargetProps } from '.';
 export type SelectProps = DefaultProps & {
     id?: string;
@@ -46,7 +46,6 @@ export type SelectProps = DefaultProps & {
     feedbackIcons?: boolean;
     placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
     removeIcon?: ReactNode;
-    ref?: ForwardedRef<HTMLDivElement>;
 };
 export interface OptionType {
     value: RuleType;

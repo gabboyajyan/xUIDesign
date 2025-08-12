@@ -1,8 +1,28 @@
 import React from 'react';
-import { RadioProps } from '../../types/radio';
 import './style.css';
-declare const Radio: {
-    ({ prefixCls, className, value, onChange, onClick, disabled, children, name, title, defaultChecked, checked, onBlur, onFocus, onMouseEnter, onMouseLeave, noStyle, ref }: RadioProps): React.JSX.Element;
-    displayName: string;
-};
+declare const Radio: React.ForwardRefExoticComponent<import("../..").DefaultProps & {
+    defaultChecked?: boolean;
+    checked?: boolean;
+    disabled?: boolean;
+    title?: string;
+    onChange?: (e: import("../..").SyntheticBaseEvent) => void;
+    onClick?: React.MouseEventHandler<HTMLElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
+    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
+    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
+    onFocus?: React.FocusEventHandler<HTMLInputElement>;
+    onBlur?: React.FocusEventHandler<HTMLInputElement>;
+    value?: import("../..").RuleType;
+    tabIndex?: number;
+    name?: string;
+    children?: React.ReactNode;
+    id?: string;
+    autoFocus?: boolean;
+    type?: string;
+    skipGroup?: boolean;
+    required?: boolean;
+    button?: boolean;
+    error?: boolean;
+} & React.RefAttributes<HTMLLabelElement>>;
 export default Radio;

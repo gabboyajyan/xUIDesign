@@ -1,7 +1,6 @@
 import {
   CSSProperties,
   FocusEventHandler,
-  ForwardedRef,
   KeyboardEventHandler,
   MouseEventHandler,
   ReactNode
@@ -59,7 +58,6 @@ export type RadioProps = DefaultProps & {
   required?: boolean;
   button?: boolean;
   error?: boolean;
-  ref?: ForwardedRef<HTMLLabelElement>
 };
 
 export type RadioButtonProps = RadioProps & {

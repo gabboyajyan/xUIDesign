@@ -2,7 +2,6 @@ import {
   ChangeEventHandler,
   CSSProperties,
   FocusEventHandler,
-  ForwardedRef,
   Key,
   KeyboardEventHandler,
   MouseEvent,
@@ -61,7 +60,6 @@ export type SelectProps = DefaultProps & {
   feedbackIcons?: boolean;
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
   removeIcon?: ReactNode;
-  ref?: ForwardedRef<HTMLDivElement>
 };
 
 export interface OptionType {
