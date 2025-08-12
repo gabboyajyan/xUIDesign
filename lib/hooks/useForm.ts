@@ -11,6 +11,14 @@ import type {
   RuleRender
 } from '../types/form';
 
+function findFormItem(item: Element | undefined | null): Element | undefined {
+  if (item?.parentElement?.tagName !== 'FORM') {
+    findFormItem(item?.parentElement)
+  } else {
+    return item;
+  }
+}
+
 const useForm = (
   initialValues: Record<string, RuleTypes> = {},
   onFieldsChange?: (changedFields: FieldData[]) => void,
@@ -272,15 +280,7 @@ const useForm = (
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
 
       if (firstErrorContent) {
-        function findFormItem(item: Element | undefined | null): void {
-          if (item?.parentElement?.tagName !== 'FORM') {
-            findFormItem(item?.parentElement)
-          } else {
-            item.scrollIntoView()
-          }
-        }
-
-        findFormItem(firstErrorContent.closest('.xUi-form-item'))
+        findFormItem(firstErrorContent.closest('.xUi-form-item'))?.scrollIntoView();
 
         setScrollToFirstError(false);
       }
