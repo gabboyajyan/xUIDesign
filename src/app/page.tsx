@@ -1998,7 +1998,7 @@ export default function Home() {
                 </RadioGroup> */}
 
                 <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
-                    <Item rules={[{ required: false }]} name="gender" label="Gender">
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
                             showSearch

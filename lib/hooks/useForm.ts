@@ -279,12 +279,10 @@ const useForm = (
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
-      console.log('firstErrorContent', firstErrorContent);
-      
       if (firstErrorContent) {
-        console.log(findFormItem(firstErrorContent.closest('.xUi-form-item')));
-        
-        findFormItem(firstErrorContent.closest('.xUi-form-item'))?.scrollIntoView();
+        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
+          behavior: 'smooth'
+        });
       }
     }
 
