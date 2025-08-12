@@ -165,7 +165,10 @@ const FormItem = ({
               {!props.noStyle && (
                 <span
                   ref={errorRef}
-                  className={`${prefixCls}-error`}
+                  className={clsx([
+                    `${prefixCls}-error`,
+                    { [`${prefixCls}-has-error`]: errorMessage?.length }
+                  ])}
                   style={{
                     ...removeErrorMessageHeight ? { minHeight: 0 } : {},
                     ...extra ? { marginBottom: 0 } : {}

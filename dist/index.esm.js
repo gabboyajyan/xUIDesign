@@ -773,10 +773,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
-      const firstErrorContent = document.querySelectorAll('.xUi-input-error')?.[0];
+      const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
+      console.log('firstErrorContent', firstErrorContent);
       if (firstErrorContent) {
+        console.log(findFormItem(firstErrorContent.closest('.xUi-form-item')));
         findFormItem(firstErrorContent.closest('.xUi-form-item'))?.scrollIntoView();
-        setScrollToFirstError(false);
       }
     }
     return results.every(valid => valid);
@@ -807,7 +808,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setIsReseting(prev => !prev);
   }
   async function submit() {
-    setScrollToFirstError(true);
     const formData = getFormFields();
     return (await validateFields()) ? (() => {
       formHandlersRef.current.onFinish?.(formData);
@@ -1084,7 +1084,9 @@ const FormItem$1 = ({
         className: `${prefixCls}-extra`
       }, extra) : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
-        className: `${prefixCls}-error`,
+        className: clsx([`${prefixCls}-error`, {
+          [`${prefixCls}-has-error`]: errorMessage?.length
+        }]),
         style: {
           ...(removeErrorMessageHeight ? {
             minHeight: 0
