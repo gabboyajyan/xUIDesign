@@ -774,9 +774,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
+    console.log('_scrollToFirstError', _scrollToFirstError.current);
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-error')?.[0];
+      console.log('firstErrorContent', firstErrorContent);
       if (firstErrorContent) {
+        console.log(0, findFormItem(firstErrorContent.closest('.xUi-form-item')));
         findFormItem(firstErrorContent.closest('.xUi-form-item'))?.scrollIntoView();
         setScrollToFirstError(false);
       }
