@@ -43,8 +43,6 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    formInstance.setScrollToFirstError(scrollToFirstError);
-
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
@@ -67,7 +65,11 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     if (onFinish) {
       formInstance.setOnFinish?.(onFinish);
     }
-  }, [formInstance, onFieldsChange, onValuesChange, onFinish]);
+
+    if (scrollToFirstError) {
+      formInstance.setScrollToFirstError(scrollToFirstError);
+    }
+  }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
 
   const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {

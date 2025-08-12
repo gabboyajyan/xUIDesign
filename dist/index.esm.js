@@ -1197,7 +1197,6 @@ const Form$1 = ({
   const formRef = useRef(null);
   const handleSubmit = async e => {
     e.preventDefault();
-    formInstance.setScrollToFirstError(scrollToFirstError);
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
@@ -1219,7 +1218,10 @@ const Form$1 = ({
     if (onFinish) {
       formInstance.setOnFinish?.(onFinish);
     }
-  }, [formInstance, onFieldsChange, onValuesChange, onFinish]);
+    if (scrollToFirstError) {
+      formInstance.setScrollToFirstError(scrollToFirstError);
+    }
+  }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
   const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/isValidElement(child)) {
       return child;
