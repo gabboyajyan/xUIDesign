@@ -719,9 +719,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
-      if (!(name in {
-        ...formRef.current[stepRef.current]
-      })) {
+      if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
       rulesRef.current[name] = rules;
@@ -765,6 +763,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
+    console.log({
+      0: formRef.current[stepRef.current],
+      1: JSON.parse(JSON.stringify(formRef.current)),
+      2: stepRef.current
+    });
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {

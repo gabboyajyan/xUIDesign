@@ -186,7 +186,7 @@ const useForm = (
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
-      if (!(name in { ...formRef.current[stepRef.current] })) {
+      if (!(name in formRef.current[stepRef.current])) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
 
@@ -270,6 +270,12 @@ const useForm = (
   }
 
   async function validateFields(nameList?: string[]) {
+    console.log({
+      0: formRef.current[stepRef.current],
+      1: JSON.parse(JSON.stringify(formRef.current)),
+      2: stepRef.current
+    });
+    
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
 
     const results = await Promise.all(
