@@ -239,6 +239,8 @@ const useForm = (
           );
         }
 
+        debugger;
+
         if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
           fieldErrors.push(rule.message || 'Invalid format');
         }
@@ -262,8 +264,6 @@ const useForm = (
         }
       })
     );
-
-    console.log(fieldErrors);
     
     setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;

@@ -741,6 +741,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       if ((typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) && rule.max !== undefined && String(value).length > rule.max) {
         fieldErrors.push(rule.message || `Must be at most ${rule.max} characters`);
       }
+      debugger;
       if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
         fieldErrors.push(rule.message || 'Invalid format');
       }
@@ -755,7 +756,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       }
     }));
-    console.log(fieldErrors);
     setErrors(prev => ({
       ...prev,
       [name]: fieldErrors
