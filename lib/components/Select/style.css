@@ -133,6 +133,7 @@
 .xUi-select .xUi-select-input {
     width: 100%;
     padding: 0;
+    height: auto;
     height: -webkit-fit-content;
     border: none;
     outline: none;
@@ -141,7 +142,6 @@
     color: var(--xui-text-color);
     user-select: none;
     cursor: pointer;
-    height: -webkit-fill-available;
     display: inline-flex;
     align-items: center;
 }

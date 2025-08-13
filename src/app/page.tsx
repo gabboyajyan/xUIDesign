@@ -6,7 +6,7 @@ import { Radio } from "../../lib/components/Radio";
 import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
-// import { Select } from "../../lib/components/Select";
+import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 // import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
@@ -14,10 +14,10 @@ import { Button } from "../../lib/components/Button";
 import { RadioGroup } from "../../lib/components/Radio/Group";
 import { useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
-// import Option from "../../lib/components/Select/Option/Option";
-// import { RuleType, SyntheticBaseEvent } from "../../lib/types";
-// import { clsx } from "../../lib/helpers";
-// import { ArrowIcon } from "../../lib/components/Icons/Icons";
+import Option from "../../lib/components/Select/Option/Option";
+import { RuleType, SyntheticBaseEvent } from "../../lib/types";
+import { clsx } from "../../lib/helpers";
+import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
 // import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1881,11 +1881,12 @@ export default function Home() {
     const [hide, setHide] = useState(true);
 
     const [step, setStep] = useState(0)
+    const [open, setOpen] = useState(false)
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     // const [statusValue, setStatusValue] = useState([0]);
-    // const [country, setCountry] = useState('AF');
+    const [country, setCountry] = useState('AF');
 
 
     // const handle = useCallback((e) => console.log(e), [])
@@ -1999,7 +2000,7 @@ export default function Home() {
                 </RadioGroup> */}
 
                 <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
-                    {/* <Item rules={[{ required: true }]} name="gender" label="Gender">
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             mode="multiple"
                             showSearch
@@ -2052,7 +2053,7 @@ export default function Home() {
                                 </Option>
                             })}
                         </Select>
-                    </Item> */}
+                    </Item> 
                 
                     {step === 0 ? <>
                     <Item name="username" label="Username" rules={[{ required: true }]}>
