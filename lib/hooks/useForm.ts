@@ -200,6 +200,13 @@ const useForm = (
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
 
+    console.log({
+      name,
+      value,
+      stepRef: stepRef.current,
+      formRef: JSON.parse(JSON.stringify(formRef.current))
+    });
+
     await Promise.all(
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
@@ -270,12 +277,6 @@ const useForm = (
   }
 
   async function validateFields(nameList?: string[]) {
-    console.log({
-      0: formRef.current[stepRef.current],
-      1: JSON.parse(JSON.stringify(formRef.current)),
-      2: stepRef.current
-    });
-    
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
 
     const results = await Promise.all(
