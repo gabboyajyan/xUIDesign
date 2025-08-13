@@ -619,12 +619,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = React.useRef({});
   const [isReseting, setIsReseting] = React.useState(false);
   const [errors, setErrors] = React.useState({});
-  React.useEffect(() => {
-    console.log({
-      formRef: formRef.current,
-      stepRef: stepRef.current
-    });
-  }, [formRef.current, stepRef.current]);
   const fieldSubscribers = React.useRef({});
   const formSubscribers = React.useRef([]);
   function getFormFields() {
@@ -727,7 +721,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
-      if (!(name in formRef.current[stepRef.current])) {
+      if (!(name in {
+        ...formRef.current[stepRef.current]
+      })) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
       rulesRef.current[name] = rules;

@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, useEffect, Children, isValidElement, Fragment, Suspense, useContext, useMemo, forwardRef, createContext, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, forwardRef, createContext, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -617,12 +617,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
-  useEffect(() => {
-    console.log({
-      formRef: formRef.current,
-      stepRef: stepRef.current
-    });
-  }, [formRef.current, stepRef.current]);
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
   function getFormFields() {
@@ -725,7 +719,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
-      if (!(name in formRef.current[stepRef.current])) {
+      if (!(name in {
+        ...formRef.current[stepRef.current]
+      })) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
       rulesRef.current[name] = rules;

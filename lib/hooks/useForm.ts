@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { RuleTypes } from '../types';
 import type {
   FieldData,
@@ -52,13 +52,6 @@ const useForm = (
 
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
-
-  useEffect(() => {
-    console.log({
-      formRef: formRef.current,
-      stepRef: stepRef.current
-    });
-  }, [formRef.current, stepRef.current])
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -193,7 +186,7 @@ const useForm = (
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
-      if (!(name in formRef.current[stepRef.current])) {
+      if (!(name in { ...formRef.current[stepRef.current] })) {
         formRef.current[stepRef.current][name] = initialValues?.[name];
       }
 
