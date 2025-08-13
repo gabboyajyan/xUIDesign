@@ -203,7 +203,7 @@ const useForm = (
     console.log({
       name,
       value,
-      stepRef: stepRef.current,
+      stepRef: JSON.parse(JSON.stringify(stepRef.current)),
       formRef: JSON.parse(JSON.stringify(formRef.current))
     });
 

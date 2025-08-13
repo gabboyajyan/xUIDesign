@@ -735,7 +735,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     console.log({
       name,
       value,
-      stepRef: stepRef.current,
+      stepRef: JSON.parse(JSON.stringify(stepRef.current)),
       formRef: JSON.parse(JSON.stringify(formRef.current))
     });
     await Promise.all([rules].flat(1).map(async rule => {
