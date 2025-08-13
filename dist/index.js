@@ -732,12 +732,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
     const fieldWarnings = [];
-    console.log({
-      name,
-      value,
-      stepRef: JSON.parse(JSON.stringify(stepRef.current)),
-      formRef: JSON.parse(JSON.stringify(formRef.current))
-    });
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
       if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
@@ -763,6 +757,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       }
     }));
+    console.log(fieldErrors);
     setErrors(prev => ({
       ...prev,
       [name]: fieldErrors

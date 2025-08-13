@@ -200,13 +200,6 @@ const useForm = (
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
 
-    console.log({
-      name,
-      value,
-      stepRef: JSON.parse(JSON.stringify(stepRef.current)),
-      formRef: JSON.parse(JSON.stringify(formRef.current))
-    });
-
     await Promise.all(
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
@@ -270,6 +263,8 @@ const useForm = (
       })
     );
 
+    console.log(fieldErrors);
+    
     setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
 
