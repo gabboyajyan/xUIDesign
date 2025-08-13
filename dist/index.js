@@ -735,6 +735,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
       console.log({
+        name,
         rule: JSON.parse(JSON.stringify(rule)),
         value
       });

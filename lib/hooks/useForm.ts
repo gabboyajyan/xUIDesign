@@ -205,6 +205,7 @@ const useForm = (
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
         console.log({
+          name,
           rule: JSON.parse(JSON.stringify(rule)),
           value
         });
