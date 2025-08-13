@@ -204,12 +204,6 @@ const useForm = (
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
-        console.log({
-          name,
-          rule: JSON.parse(JSON.stringify(rule)),
-          value
-        });
-
         if (
           rule.required &&
           ((rule.validateBooleanFalse && !value) ||
