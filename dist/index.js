@@ -619,6 +619,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = React.useRef({});
   const [isReseting, setIsReseting] = React.useState(false);
   const [errors, setErrors] = React.useState({});
+  React.useEffect(() => {
+    console.log({
+      formRef: formRef.current,
+      stepRef: stepRef.current
+    });
+  }, [formRef.current, stepRef.current]);
   const fieldSubscribers = React.useRef({});
   const formSubscribers = React.useRef([]);
   function getFormFields() {
@@ -3570,6 +3576,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
+      onDropdownVisibleChange?.(!isOpen, selected);
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {

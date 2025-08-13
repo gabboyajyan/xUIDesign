@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RuleTypes } from '../types';
 import type {
   FieldData,
@@ -52,6 +52,13 @@ const useForm = (
 
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+
+  useEffect(() => {
+    console.log({
+      formRef: formRef.current,
+      stepRef: stepRef.current
+    });
+  }, [formRef.current, stepRef.current])
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -199,7 +206,7 @@ const useForm = (
     const rules = rulesRef.current[name] || [];
     const fieldErrors: string[] = [];
     const fieldWarnings: string[] = [];
-    
+
     await Promise.all(
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;

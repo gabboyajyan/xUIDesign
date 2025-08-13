@@ -535,6 +535,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const handleTriggerClick = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
+        onDropdownVisibleChange?.(!isOpen, selected)
       }
 
       const searchContent = selectRef.current?.getElementsByClassName(

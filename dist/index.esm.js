@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, forwardRef, createContext, useImperativeHandle, useCallback } from 'react';
+import React, { useRef, useState, useEffect, Children, isValidElement, Fragment, Suspense, useContext, useMemo, forwardRef, createContext, useImperativeHandle, useCallback } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -617,6 +617,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    console.log({
+      formRef: formRef.current,
+      stepRef: stepRef.current
+    });
+  }, [formRef.current, stepRef.current]);
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
   function getFormFields() {
@@ -3568,6 +3574,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
+      onDropdownVisibleChange?.(!isOpen, selected);
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {
