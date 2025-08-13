@@ -734,6 +734,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     const fieldWarnings = [];
     await Promise.all([rules].flat(1).map(async rule => {
       rule = typeof rule === 'function' ? rule(formInstance) : rule;
+      console.log({
+        rule: JSON.parse(JSON.stringify(rule)),
+        value
+      });
       if (rule.required && (rule.validateBooleanFalse && !value || value === undefined || value === null || value === '' || Array.isArray(value) && !value.length)) {
         fieldErrors.push(rule.message || 'This field is required');
       }
@@ -743,7 +747,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       if ((typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) && rule.max !== undefined && String(value).length > rule.max) {
         fieldErrors.push(rule.message || `Must be at most ${rule.max} characters`);
       }
-      debugger;
       if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
         fieldErrors.push(rule.message || 'Invalid format');
       }

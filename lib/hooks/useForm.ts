@@ -204,6 +204,11 @@ const useForm = (
       [rules].flat(1).map(async (rule: RuleTypes) => {
         rule = typeof rule === 'function' ? rule(formInstance) : rule;
 
+        console.log({
+          rule: JSON.parse(JSON.stringify(rule)),
+          value
+        });
+
         if (
           rule.required &&
           ((rule.validateBooleanFalse && !value) ||
@@ -238,8 +243,6 @@ const useForm = (
             rule.message || `Must be at most ${rule.max} characters`
           );
         }
-
-        debugger;
 
         if (value !== undefined && rule.pattern && !rule.pattern.test(String(value))) {
           fieldErrors.push(rule.message || 'Invalid format');
