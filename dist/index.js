@@ -1077,7 +1077,7 @@ const FormItem$1 = ({
         size: childProps.size || props.size
       })), extra ? /*#__PURE__*/React.createElement("div", {
         className: `${prefixCls}-extra`
-      }, extra) : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
+      }, extra || '') : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
         className: clsx([`${prefixCls}-error`, {
           [`${prefixCls}-has-error`]: errorMessage?.length

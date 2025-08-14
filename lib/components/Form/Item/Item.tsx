@@ -160,7 +160,7 @@ const FormItem = ({
 
               {extra
                 ? <div className={`${prefixCls}-extra`}>
-                  {extra}
+                  {extra || ''}
                 </div>
                 : null}
 
