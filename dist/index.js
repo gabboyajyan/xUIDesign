@@ -2873,9 +2873,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
     }
   }));
   React.useEffect(() => {
-    if (mask) {
-      setMaskValue(applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked);
-    }
+    setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');
   }, [value, mask, maskChar]);
   const handleChange = e => {
     if (!inputRef.current) return;

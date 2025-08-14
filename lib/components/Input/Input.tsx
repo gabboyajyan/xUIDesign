@@ -58,7 +58,7 @@ const InputComponent = forwardRef(
     const [maskValue, setMaskValue] = useState(internalValue)
     const [iconRenderVisible, setIconRenderVisible] = useState(false);
     const animationRef = useRef<number | null>(null);
-
+    
     useImperativeHandle(ref, () => ({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
@@ -74,9 +74,7 @@ const InputComponent = forwardRef(
     }));
 
     useEffect(() => {
-      if (mask) {
-        setMaskValue(applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked);
-      }
+      setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
     }, [value, mask, maskChar]);
 
     const handleChange = (e: SyntheticBaseEvent) => {

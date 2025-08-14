@@ -1967,7 +1967,7 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
-                <Button onClick={() => setHide(!hide)}>toggle hide</Button>
+                <Button onClick={() => form.setFieldsValue({ username: 'male', age: 12, gender: 'M', email: 'asdfdf@sadfa.sdf' })}>toggle hide</Button>
             {/* <Input mask="___.___.___._" value={value} onChange={(e) => {
                 setValue(e.target.value)
 
@@ -2002,39 +2002,11 @@ export default function Home() {
                 <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
-                            mode="multiple"
                             showSearch
                             searchIcon={<ArrowIcon isOpen={open} />}
-                            defaultValue={[CountryCodes[0].value]}
                             style={{ width: 400 }}
-                            onDropdownVisibleChange={(e) => console.log(e)}
-                            dropdownRender={(item: RuleType) => {
-                                return <div
-                                    onMouseDown={e => {
-                                        e.preventDefault();
-                                        e.stopPropagation();
-                                }}
-                                >
-                                    {item}
-                                    <div style={{ display: 'flex', gap: 10, width: '100%', justifyContent: 'space-around' }}>
-                                        <Button
-                                            type="primary"
-                                            className="xUi-select__overridden"
-                                        >
-                                            Reset
-                                        </Button>
-                                        <Button
-                                            type="primary"
-                                            onClick={() => setOpen(false)}
-                                            className="xUi-select__overridden"
-                                        >
-                                            Apply
-                                        </Button>
-                                    </div>
-                                </div>
-                            }}
                             placeholder="Select...">
-                            {(CountryCodes || []).map((item: RuleType, index: number) => {
+                            {([{ value: 'F', label: 'Female' }, { value: 'M', label: 'Male' }]).map((item: RuleType, index: number) => {
                                 const isSelected = country.includes(item.value);
 
                                 return <Option
@@ -2071,6 +2043,10 @@ export default function Home() {
                     </Item> : <Item name="email" label="Email" rules={[{ required: true }]}>
                         <Input />
                     </Item>}
+
+                    <Item name="email" label="Email" rules={[{ required: true }]}>
+                        <Input />
+                    </Item>
 
                     {/* <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
