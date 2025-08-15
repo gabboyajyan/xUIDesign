@@ -3331,7 +3331,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const handleClickOutside = event => {
     if (!selectRef.current) return;
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-    const clickedInside = selectRef.current.contains(event.target) || dropdown && dropdown.contains(event.target);
+    const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
     if (!clickedInside) {
       setIsOpen(false);
       handleClearInputValue();
@@ -3478,12 +3478,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     onClear?.();
     handleClearInputValue();
   };
-  const handleRemoveTag = e => {
-    const updatedSelected = hasMode ? selected.filter(item => item !== e.target.value) : e.target.value;
-    onChange?.(updatedSelected);
-    onSelect?.(updatedSelected);
-    setSelected(updatedSelected);
-  };
+  const handleRemoveTag = e => handleSelect(e, e.target.value);
   const handleOnKeyDown = e => {
     if (!isOpen) {
       return;
@@ -3568,7 +3563,9 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
-      onDropdownVisibleChange?.(!isOpen, selected);
+      if (isOpen) {
+        onDropdownVisibleChange?.(!isOpen, selected);
+      }
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {

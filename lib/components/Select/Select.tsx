@@ -186,8 +186,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
         const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
         const clickedInside =
-          selectRef.current.contains(event.target as Node) ||
-          (dropdown && dropdown.contains(event.target as Node));
+          selectRef.current.contains(event?.target as Node) ||
+          (dropdown && dropdown.contains(event?.target as Node));
 
         if (!clickedInside) {
           setIsOpen(false);
@@ -398,15 +398,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       handleClearInputValue();
     };
 
-    const handleRemoveTag = (e: SyntheticBaseEvent) => {
-      const updatedSelected = hasMode
-        ? (selected as string[]).filter(item => item !== e.target.value)
-        : e.target.value;
-
-      onChange?.(updatedSelected);
-      onSelect?.(updatedSelected);
-      setSelected(updatedSelected);
-    };
+    const handleRemoveTag = (e: SyntheticBaseEvent) => handleSelect(e, e.target.value);
 
     const handleOnKeyDown = (
       e: KeyboardEvent<HTMLInputElement> & {
@@ -535,7 +527,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const handleTriggerClick = () => {
       if (!disabled) {
         setIsOpen(!isOpen);
-        onDropdownVisibleChange?.(!isOpen, selected)
+        
+        if (isOpen) {
+          onDropdownVisibleChange?.(!isOpen, selected)
+        }
       }
 
       const searchContent = selectRef.current?.getElementsByClassName(

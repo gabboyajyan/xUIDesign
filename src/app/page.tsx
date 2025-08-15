@@ -17,7 +17,7 @@ import { useState } from "react";
 import Option from "../../lib/components/Select/Option/Option";
 import { RuleType, SyntheticBaseEvent } from "../../lib/types";
 import { clsx } from "../../lib/helpers";
-import { ArrowIcon } from "../../lib/components/Icons/Icons";
+// import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
 // import { Input as AntInput } from 'antd'
 // import FormItem from "antd/es/form/FormItem";
@@ -1885,7 +1885,7 @@ export default function Home() {
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
-    // const [statusValue, setStatusValue] = useState([0]);
+    const [statusValue, setStatusValue] = useState('');
     const [country, setCountry] = useState('AF');
 
 
@@ -1967,7 +1967,15 @@ export default function Home() {
                 onChange={e => setEye(e.target.value)}
             /> */}
 
-                <Button onClick={() => form.setFieldsValue({ username: 'male', age: 12, gender: 'M', email: 'asdfdf@sadfa.sdf' })}>toggle hide</Button>
+            {/* <Input value={statusValue} onChange={(value) => {
+                            console.log(value);
+                            
+                        }} />
+
+                <Button onClick={() =>{
+                     form.setFieldsValue({ username: 'male', age: 12, gender: 'M', email: 'asdfdf@sadfa.sdf' })
+                     setStatusValue('sdfsf')
+                }}>toggle hide</Button> */}
             {/* <Input mask="___.___.___._" value={value} onChange={(e) => {
                 setValue(e.target.value)
 
@@ -1999,7 +2007,41 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+                <Select
+                            showSearch
+                            // searchIcon={<ArrowIcon isOpen={open} />}
+                            onDropdownVisibleChange={(open, selected) => {
+                                console.log({
+                                    open, selected
+                                });
+                            }}
+                            onChange={(e) => {
+                                console.log(e);
+                            }}
+                            style={{ width: 400 }}
+                            // mode="tags"
+                            placeholder="Select...">
+                            {CountryCodes.map((item: RuleType, index: number) => {
+                                const isSelected = country.includes(item.value);
+
+                                return <Option
+                                    key={`${index}_${item.value}`}
+                                    value={item.value}
+                                >
+                                    {item.label}
+
+                                    <div
+                                        className={clsx([
+                                            'xUi-select__overridden__options__iconWrapper',
+                                            { active: isSelected }
+                                        ])}
+                                    >
+                                    </div>
+                                </Option>
+                            })}
+                        </Select>
+
+                {/* <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Select
                             showSearch
@@ -2029,7 +2071,7 @@ export default function Home() {
                 
                     {step === 0 ? <>
                     <Item name="username" label="Username" rules={[{ required: true }]}>
-                        {/* <Input mask="___.___.___-__" /> */}
+                        <Input mask="___.___.___-__" />
                         <RadioGroup>
                             <Radio name="male" value={'male'}>Male</Radio>
                             <Radio name="Female" value={'female'}>Female</Radio>
@@ -2041,16 +2083,16 @@ export default function Home() {
                     </> : step === 1 ? <Item name="name" label="Name" rules={[{ required: true }]}>
                         <Input mask="___.___.___-__" />
                     </Item> : <Item name="email" label="Email" rules={[{ required: true }]}>
-                        <Input />
+                        <Input value={statusValue} />
                     </Item>}
 
                     <Item name="email" label="Email" rules={[{ required: true }]}>
-                        <Input />
+                        <Input value={statusValue} />
                     </Item>
 
-                    {/* <Item rules={[{ required: true }]} name="name" label="name">
+                    <Item rules={[{ required: true }]} name="name" label="name">
                         <AntInput value={value} onChange={(e) => handleChange(e)} />
-                    </Item> */}
+                    </Item>
 
                     {step !== 0 && <Button size="middle" onClick={() => {
                         form.changeStep(step - 1)
@@ -2066,7 +2108,7 @@ export default function Home() {
                             }
                         }
                     }}>Submit</Button>
-                    {/* <div>
+                    <div>
                         <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
                             <Radio.Group onChange={(e) => console.log(e)}>
                                 <Radio name="sdfdsf" value={'dsfdsf'}>Male</Radio>
@@ -2093,8 +2135,8 @@ export default function Home() {
                         </Item>
                     </div>
                     <button type="submit">Submit</button>
-                    <button onClick={() => form.resetFields()}>Reset</button> */}
-                </Form>
+                    <button onClick={() => form.resetFields()}>Reset</button>
+                </Form> */}
 
                 {/* <AntForm>
                     <AntForm.Item label={'dsfdsf'} name="sdfdsf">
