@@ -3561,9 +3561,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
-      if (isOpen) {
-        onDropdownVisibleChange?.(!isOpen, selected);
-      }
+      onDropdownVisibleChange?.(!isOpen, selected);
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
     if (searchContent) {
