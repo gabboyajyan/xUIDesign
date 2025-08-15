@@ -338,8 +338,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
       const updatedSelected = [...selected, newOptionValue];
 
-      onChange?.(updatedSelected);
       onSelect?.(updatedSelected);
+      onChange?.(updatedSelected);
 
       const input = selectRef.current?.querySelector('input');
 
@@ -380,8 +380,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       } else {
         setIsOpen(defaultOpen);
         setSelected(optionValue);
-        onChange?.(optionValue, option);
         onSelect?.(optionValue, option);
+        onChange?.(optionValue, option);
       }
 
       handleClearInputValue();
@@ -391,8 +391,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const value = hasMode ? [] : '';
 
       setSelected(value);
-      onChange?.('');
       onSelect?.('');
+      onChange?.('');
       onClear?.();
 
       handleClearInputValue();

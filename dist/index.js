@@ -3441,8 +3441,8 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       return;
     }
     const updatedSelected = [...selected, newOptionValue];
-    onChange?.(updatedSelected);
     onSelect?.(updatedSelected);
+    onChange?.(updatedSelected);
     const input = selectRef.current?.querySelector('input');
     if (input) {
       input.value = '';
@@ -3466,16 +3466,16 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     } else {
       setIsOpen(defaultOpen);
       setSelected(optionValue);
-      onChange?.(optionValue, option);
       onSelect?.(optionValue, option);
+      onChange?.(optionValue, option);
     }
     handleClearInputValue();
   };
   const handleClear = () => {
     const value = hasMode ? [] : '';
     setSelected(value);
-    onChange?.('');
     onSelect?.('');
+    onChange?.('');
     onClear?.();
     handleClearInputValue();
   };
