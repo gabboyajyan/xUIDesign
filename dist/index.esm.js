@@ -3439,8 +3439,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       return;
     }
     const updatedSelected = [...selected, newOptionValue];
-    onSelect?.(updatedSelected);
     onChange?.(updatedSelected);
+    onSelect?.(updatedSelected);
     const input = selectRef.current?.querySelector('input');
     if (input) {
       input.value = '';
@@ -3464,16 +3464,16 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     } else {
       setIsOpen(defaultOpen);
       setSelected(optionValue);
-      onSelect?.(optionValue, option);
       onChange?.(optionValue, option);
+      onSelect?.(optionValue, option);
     }
     handleClearInputValue();
   };
   const handleClear = () => {
     const value = hasMode ? [] : '';
     setSelected(value);
-    onSelect?.('');
     onChange?.('');
+    onSelect?.('');
     onClear?.();
     handleClearInputValue();
   };
