@@ -40,6 +40,7 @@ const FormItem = ({
   initialValue,
   feedbackIcons,
   extra,
+  hideLabel = false,
   removeErrorMessageHeight = false,
   ...props
 }: FormItemProps) => {
@@ -120,7 +121,7 @@ const FormItem = ({
         }
       ])}
     >
-      {!props.noStyle && (label || name) && (
+      {!props.noStyle && (label || name) && !hideLabel && (
         <label className={`${prefixCls}-label`} htmlFor={name}>
           {label || name}
           {isRequired && <span className={`${prefixCls}-required`}>*</span>}

@@ -2007,19 +2007,19 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
+                    <button onClick={() => setOpen(false)}>dfdsf</button>
                 <Select
                             showSearch
                             // searchIcon={<ArrowIcon isOpen={open} />}
-                            onDropdownVisibleChange={(open, selected) => {
-                                console.log({
-                                    open, selected
-                                });
+                            onDropdownVisibleChange={(open) => {
+                                setOpen(open)
                             }}
                             onChange={(e) => {
                                 console.log(e);
                             }}
+                            open={open}
                             style={{ width: 400 }}
-                            // mode="tags"
+                            mode="tags"
                             placeholder="Select...">
                             {CountryCodes.map((item: RuleType, index: number) => {
                                 const isSelected = country.includes(item.value);

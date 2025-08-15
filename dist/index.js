@@ -981,6 +981,7 @@ const FormItem$1 = ({
   initialValue,
   feedbackIcons,
   extra,
+  hideLabel = false,
   removeErrorMessageHeight = false,
   ...props
 }) => {
@@ -1040,7 +1041,7 @@ const FormItem$1 = ({
       [className]: className,
       noStyle: props.noStyle
     }])
-  }, !props.noStyle && (label || name) && /*#__PURE__*/React.createElement("label", {
+  }, !props.noStyle && (label || name) && !hideLabel && /*#__PURE__*/React.createElement("label", {
     className: `${prefixCls}-label`,
     htmlFor: name
   }, label || name, isRequired && /*#__PURE__*/React.createElement("span", {
