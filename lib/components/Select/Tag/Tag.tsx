@@ -20,7 +20,7 @@ const Tag: FC<CustomTagProps> = ({
 
     e.target.value = value;
 
-    onClose(e);
+    onClose?.(e);
   };
 
   return (

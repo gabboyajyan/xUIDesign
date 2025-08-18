@@ -252,6 +252,7 @@ declare const Select: react.ComponentType<__types.DefaultProps & {
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
     removeIcon?: react.ReactNode;
+    maxTagCount?: number | "responsive";
 } & react.RefAttributes<HTMLDivElement>>;
 declare const Option: react.ComponentType<__types_select.OptionProps>;
 declare const Tag: react.ComponentType<__types_select.CustomTagProps>;

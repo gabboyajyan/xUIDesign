@@ -3196,7 +3196,7 @@ const Tag = ({
     e.preventDefault();
     e.stopPropagation();
     e.target.value = value;
-    onClose(e);
+    onClose?.(e);
   };
   return /*#__PURE__*/React.createElement("div", {
     style: {
@@ -3274,6 +3274,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   feedbackIcons,
   placement = 'bottomLeft',
   removeIcon,
+  maxTagCount,
   onSearch,
   onSelect,
   onDeselect,
@@ -3298,6 +3299,9 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const [isOpenChecker, setIsOpenChecker] = React.useState(isOpen);
   const [searchQuery, setSearchQuery] = React.useState(searchValue || '');
   const [dropdownPosition, setDropdownPosition] = React.useState({});
+  const tagContainerRef = React.useRef(null);
+  const searchInputRef = React.useRef(null);
+  const [responsiveTagCount, setResponsiveTagCount] = React.useState(null);
   const [selected, setSelected] = React.useState(hasMode ? checkModeInitialValue : initialValue);
   React.useImperativeHandle(ref, () => ({
     focus: () => selectRef.current?.focus(),
@@ -3655,6 +3659,40 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return option?.children || option?.label || option?.value || null;
   })() || selected || null;
+  const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
+  const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
+  const selectedTags = hasMode ? selected : [];
+  const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
+  const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
+  React.useEffect(() => {
+    if (maxTagCount === 'responsive' && tagContainerRef.current) {
+      const calculateTagsToDisplay = () => {
+        const container = tagContainerRef.current;
+        const tags = Array.from(container?.querySelectorAll('.select-tag') || []);
+        const containerWidth = container?.clientWidth || 0;
+        let currentWidth = 0;
+        let count = 0;
+        for (let i = 0; i < tags.length; i++) {
+          const tag = tags[i];
+          currentWidth += tag.offsetWidth + 4; // 4px is the margin-right
+          if (currentWidth < containerWidth) {
+            count++;
+          } else {
+            break;
+          }
+        }
+        setResponsiveTagCount(count);
+      };
+      const observer = new ResizeObserver(() => {
+        calculateTagsToDisplay();
+      });
+      observer.observe(tagContainerRef.current);
+      calculateTagsToDisplay();
+      return () => {
+        observer.disconnect();
+      };
+    }
+  }, [maxTagCount, selected, tagContainerRef]);
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,
@@ -3674,6 +3712,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     onMouseLeave: handleMouseLeave,
     className: `${prefixCls}-trigger`
   }, showSearch || hasMode ? /*#__PURE__*/React.createElement("div", {
+    ref: tagContainerRef,
     style: {
       ...style,
       ...(isOpen ? {
@@ -3683,7 +3722,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selected.length ? selected.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
+  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: (() => {
@@ -3702,6 +3741,9 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     })() || tag || null,
     onClose: handleRemoveTag,
     key: `${index}_${tag}`
+  })), overflowCount > 0 && /*#__PURE__*/React.createElement(Tag, {
+    label: `+${overflowCount}`,
+    className: `${prefixCls}-tag-overflow`
   })) : /*#__PURE__*/React.createElement("span", {
     style: {
       opacity: 0.5
@@ -3709,6 +3751,8 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag`
   }, /*#__PURE__*/React.createElement("div", _extends({
+    ref: searchInputRef // Ref to the search input
+    ,
     onClick: e => {
       if (disabled) {
         e.preventDefault();

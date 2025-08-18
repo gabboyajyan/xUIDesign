@@ -94,6 +94,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       feedbackIcons,
       placement = 'bottomLeft',
       removeIcon,
+      maxTagCount,
       onSearch,
       onSelect,
       onDeselect,
@@ -132,7 +133,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
-
+    
+    const tagContainerRef = useRef<HTMLDivElement>(null);
+    const searchInputRef = useRef<HTMLDivElement>(null);
+    const [responsiveTagCount, setResponsiveTagCount] = useState<number | null>(null);
+   
     const [selected, setSelected] = useState(
       hasMode ? checkModeInitialValue : initialValue
     );
@@ -680,6 +685,47 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       return option?.children || option?.label || option?.value || null;
     })() || selected || null
 
+    const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
+    const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
+    const selectedTags = hasMode ? (selected as string[]) : [];
+    const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
+    const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
+
+    useEffect(() => {
+      if (maxTagCount === 'responsive' && tagContainerRef.current) {
+        const calculateTagsToDisplay = () => {
+          const container = tagContainerRef.current;
+          const tags = Array.from(container?.querySelectorAll('.select-tag') || []);
+          const containerWidth = container?.clientWidth || 0;
+          let currentWidth = 0;
+          let count = 0;
+
+          for (let i = 0; i < tags.length; i++) {
+            const tag = tags[i] as HTMLElement;
+            currentWidth += tag.offsetWidth + 4; // 4px is the margin-right
+            if (currentWidth < containerWidth) {
+              count++;
+            } else {
+              break;
+            }
+          }
+          setResponsiveTagCount(count);
+        };
+
+        const observer = new ResizeObserver(() => {
+          calculateTagsToDisplay();
+        });
+
+        observer.observe(tagContainerRef.current);
+
+        calculateTagsToDisplay();
+
+        return () => {
+          observer.disconnect();
+        };
+      }
+    }, [maxTagCount, selected, tagContainerRef]);
+
     return (
       <div
         id={id}
@@ -705,6 +751,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         >
           {(showSearch || hasMode) ? (
             <div
+              ref={tagContainerRef}
               style={{
                 ...style,
                 ...(isOpen ? { opacity: hasMode || searchQuery.length ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
@@ -713,46 +760,59 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               className={`${prefixCls}-tag-container`}
             >
               {hasMode ? <>
-                {(selected as string[]).length ? (selected as string[]).map((tag, index) =>
-                  tagRender ? (
-                    <div key={`${index}_${tag}`}>
-                      {tagRender?.({
-                        label:
-                          (() => {
-                            const option = extractedOptions.find(
-                              e => e.value === tag || e.label === tag || e.children === tag
-                            );
+                {selectedTags.length ? (
+                  <>
+                    {tagsToDisplay.map((tag, index) =>
+                      tagRender ? (
+                        <div key={`${index}_${tag}`}>
+                          {tagRender?.({
+                            label:
+                              (() => {
+                                const option = extractedOptions.find(
+                                  e => e.value === tag || e.label === tag || e.children === tag
+                                );
 
-                            return option?.children || option?.label || option?.value || null;
-                          })() || tag || null,
-                        value: tag,
-                        onClose: handleRemoveTag,
-                        closable: true
-                      })}
-                    </div>
-                  ) : (
-                    <Tag
-                      closable
-                      value={tag}
-                      label={
-                        (() => {
-                          const option = extractedOptions.find(
-                            e => e.value === tag || e.label === tag || e.children === tag
-                          );
+                                return option?.children || option?.label || option?.value || null;
+                              })() || tag || null,
+                            value: tag,
+                            onClose: handleRemoveTag,
+                            closable: true
+                          })}
+                        </div>
+                      ) : (
+                        <Tag
+                          closable
+                          value={tag}
+                          label={
+                            (() => {
+                              const option = extractedOptions.find(
+                                e => e.value === tag || e.label === tag || e.children === tag
+                              );
 
-                          return option?.children || option?.label || option?.value || null;
-                        })() || tag || null
-                      }
-                      onClose={handleRemoveTag}
-                      key={`${index}_${tag}`}
-                    />
-                  )
-                ) : <span style={{ opacity: 0.5 }}>{searchFocused ? '' : placeholder}</span>}
+                              return option?.children || option?.label || option?.value || null;
+                            })() || tag || null
+                          }
+                          onClose={handleRemoveTag}
+                          key={`${index}_${tag}`}
+                        />
+                      )
+                    )}
+                    {overflowCount > 0 && (
+                      <Tag 
+                        label={`+${overflowCount}`} 
+                        className={`${prefixCls}-tag-overflow`} 
+                      />
+                    )}
+                  </>
+                ) : (
+                  <span style={{ opacity: 0.5 }}>{searchFocused ? '' : placeholder}</span>
+                )}
               </> : null}
 
               {isOpen ? (
                 <div className={`${prefixCls}-tag`}>
                   <div
+                    ref={searchInputRef} // Ref to the search input
                     onClick={e => {
                       if (disabled) {
                         e.preventDefault();

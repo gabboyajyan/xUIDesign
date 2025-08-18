@@ -47,6 +47,7 @@ declare const Select: React.ForwardRefExoticComponent<import("../../types").Defa
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
     removeIcon?: ReactNode;
+    maxTagCount?: number | "responsive";
 } & React.RefAttributes<HTMLDivElement>> & {
     Option: React.FC<import("../../types/select").OptionProps>;
 };

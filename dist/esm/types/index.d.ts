@@ -150,6 +150,7 @@ declare const Select: import("react").ComponentType<import("@/types").DefaultPro
     feedbackIcons?: boolean;
     placement?: "bottomLeft" | "bottomRight" | "topLeft" | "topRight";
     removeIcon?: import("react").ReactNode;
+    maxTagCount?: number | "responsive";
 } & import("react").RefAttributes<HTMLDivElement>>;
 declare const Option: import("react").ComponentType<import("@/types/select").OptionProps>;
 declare const Tag: import("react").ComponentType<import("@/types/select").CustomTagProps>;

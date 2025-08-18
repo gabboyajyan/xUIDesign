@@ -1991,7 +1991,40 @@ export default function Home() {
                     
                 }} /> */}
 
-                <div style={{ width: 500 }}></div>
+                <div style={{ width: 500 }}>
+                    <Select
+                        showSearch
+                        // searchIcon={<ArrowIcon isOpen={open} />}
+                        onDropdownVisibleChange={(open) => {
+                            setOpen(open)
+                        }}
+                        onChange={(e) => {
+                            console.log(e);
+                        }}
+                        open={open}
+                        style={{ width: 400 }}
+                        mode="tags"
+                        placeholder="Select...">
+                        {CountryCodes.map((item: RuleType, index: number) => {
+                            const isSelected = country.includes(item.value);
+
+                            return <Option
+                                key={`${index}_${item.value}`}
+                                value={item.value}
+                            >
+                                {item.label}
+
+                                <div
+                                    className={clsx([
+                                        'xUi-select__overridden__options__iconWrapper',
+                                        { active: isSelected }
+                                    ])}
+                                >
+                                </div>
+                            </Option>
+                        })}
+                    </Select>
+                </div>
 
                 {/* <RadioGroup
                     value={activeTab}
@@ -2007,39 +2040,8 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                    <button onClick={() => setOpen(false)}>dfdsf</button>
-                <Select
-                            showSearch
-                            // searchIcon={<ArrowIcon isOpen={open} />}
-                            onDropdownVisibleChange={(open) => {
-                                setOpen(open)
-                            }}
-                            onChange={(e) => {
-                                console.log(e);
-                            }}
-                            open={open}
-                            style={{ width: 400 }}
-                            mode="tags"
-                            placeholder="Select...">
-                            {CountryCodes.map((item: RuleType, index: number) => {
-                                const isSelected = country.includes(item.value);
+                <button onClick={() => setOpen(false)}>dfdsf</button>
 
-                                return <Option
-                                    key={`${index}_${item.value}`}
-                                    value={item.value}
-                                >
-                                    {item.label}
-
-                                    <div
-                                        className={clsx([
-                                            'xUi-select__overridden__options__iconWrapper',
-                                            { active: isSelected }
-                                        ])}
-                                    >
-                                    </div>
-                                </Option>
-                            })}
-                        </Select>
 
                 {/* <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
                     <Item rules={[{ required: true }]} name="gender" label="Gender">

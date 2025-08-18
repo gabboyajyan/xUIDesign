@@ -60,6 +60,7 @@ export type SelectProps = DefaultProps & {
   feedbackIcons?: boolean;
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
   removeIcon?: ReactNode;
+  maxTagCount?: number | 'responsive'
 };
 
 export interface OptionType {
@@ -76,8 +77,8 @@ export interface OptionType {
 
 export type CustomTagProps = DefaultProps & {
   label?: ReactNode;
-  value: string;
-  onClose: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void;
+  value?: string;
+  onClose?: (e: MouseEvent<HTMLSpanElement> & TargetProps) => void;
   onMouseDown?: MouseEventHandler | undefined;
   onLoadCapture?: ReactEventHandler | undefined;
   closable?: boolean;
