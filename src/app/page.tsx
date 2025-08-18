@@ -1991,7 +1991,7 @@ export default function Home() {
                     
                 }} /> */}
 
-                <div style={{ width: 500 }}>
+                <div style={{ width: 600 }}>
                     <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
@@ -2001,6 +2001,7 @@ export default function Home() {
                         onChange={(e) => {
                             console.log(e);
                         }}
+                        maxTagCount="responsive"
                         open={open}
                         style={{ width: 400 }}
                         mode="tags"

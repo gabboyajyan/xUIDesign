@@ -695,20 +695,24 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       if (maxTagCount === 'responsive' && tagContainerRef.current) {
         const calculateTagsToDisplay = () => {
           const container = tagContainerRef.current;
-          const tags = Array.from(container?.querySelectorAll('.select-tag') || []);
+          const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag`) || []);
           const containerWidth = container?.clientWidth || 0;
+
           let currentWidth = 0;
           let count = 0;
 
           for (let i = 0; i < tags.length; i++) {
             const tag = tags[i] as HTMLElement;
-            currentWidth += tag.offsetWidth + 4; // 4px is the margin-right
+
+            currentWidth += tag.offsetWidth + 32;
+
             if (currentWidth < containerWidth) {
               count++;
             } else {
               break;
             }
           }
+
           setResponsiveTagCount(count);
         };
 
@@ -812,7 +816,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               {isOpen ? (
                 <div className={`${prefixCls}-tag`}>
                   <div
-                    ref={searchInputRef} // Ref to the search input
+                    ref={searchInputRef}
                     onClick={e => {
                       if (disabled) {
                         e.preventDefault();
