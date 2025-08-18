@@ -3666,7 +3666,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (maxTagCount === 'responsive' && tagContainerRef.current) {
       const calculateTagsToDisplay = () => {
         const container = tagContainerRef.current;
-        const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag`) || []);
+        const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
         const containerWidth = container?.clientWidth || 0;
         let currentWidth = 0;
         let count = 0;
@@ -3747,7 +3747,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       opacity: 0.5
     }
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-tag`
+    className: `${prefixCls}-tag contentEditable`
   }, /*#__PURE__*/React.createElement("div", _extends({
     ref: searchInputRef,
     onClick: e => {

@@ -695,9 +695,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       if (maxTagCount === 'responsive' && tagContainerRef.current) {
         const calculateTagsToDisplay = () => {
           const container = tagContainerRef.current;
-          const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag`) || []);
+          const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
           const containerWidth = container?.clientWidth || 0;
-
           let currentWidth = 0;
           let count = 0;
 
@@ -814,7 +813,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               </> : null}
 
               {isOpen ? (
-                <div className={`${prefixCls}-tag`}>
+                <div className={`${prefixCls}-tag contentEditable`}>
                   <div
                     ref={searchInputRef}
                     onClick={e => {

@@ -1991,7 +1991,7 @@ export default function Home() {
                     
                 }} /> */}
 
-                <div style={{ width: 600 }}>
+                <div style={{ width: 500 }}>
                     <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
