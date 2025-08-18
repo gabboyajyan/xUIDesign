@@ -3723,7 +3723,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, console.log(tagsToDisplay), tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
+  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: (() => {

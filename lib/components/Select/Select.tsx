@@ -769,8 +769,6 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               {hasMode ? <>
                 {selectedTags.length ? (
                   <>
-                    {console.log(tagsToDisplay)
-                    }
                     {tagsToDisplay.map((tag, index) =>
                       tagRender ? (
                         <div key={`${index}_${tag}`}>
