@@ -3487,8 +3487,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (!isOpen) {
       return;
     }
+    e.target.value = e.target.innerText.trim().replace('\n', '');
     const timeout = setTimeout(() => {
-      e.target.value = e.target.innerText.trim().replace('\n', '');
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
       if (e.key === 'Enter' && searchQuery.trim() !== '') {
@@ -3659,11 +3659,11 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     return option?.children || option?.label || option?.value || null;
   })() || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
+  const container = tagContainerRef.current;
   const selectedTags = hasMode ? selected : [];
   const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
   const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
   const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
-  const container = tagContainerRef.current;
   const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
   useLayoutEffect(() => {
     if (maxTagCount === 'responsive' && container) {
@@ -3693,7 +3693,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
         observer.disconnect();
       };
     }
-  }, [maxTagCount, selected]);
+  }, [maxTagCount, selected, container]);
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,
@@ -3723,7 +3723,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       minWidth: `${searchInputWidth}px`
     },
     className: `${prefixCls}-tag-container`
-  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
+  }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, console.log(tagsToDisplay), tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({
     label: (() => {
@@ -3762,7 +3762,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     },
     onKeyDown: handleOnKeyDown,
     style: {
-      width: showSearch && !searchQuery.length ? 1 : 'auto',
+      minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
       display: 'ruby',
       textAlign: 'center'
     }

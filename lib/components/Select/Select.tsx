@@ -415,9 +415,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return;
       }
 
-      const timeout = setTimeout(() => {
-        e.target.value = e.target.innerText.trim().replace('\n', '');
+      e.target.value = e.target.innerText.trim().replace('\n', '');
 
+      const timeout = setTimeout(() => {
         setSearchQuery(e.target.value);
         onSearch?.(e.target.value);
 
@@ -687,23 +687,21 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     })() || selected || null
 
     const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
+    const container = tagContainerRef.current;
     const selectedTags = hasMode ? (selected as string[]) : [];
 
     const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
     const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
     const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
-
-    const container = tagContainerRef.current;
     const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
     
     useLayoutEffect(() => {
       if (maxTagCount === 'responsive' && container) {
         const calculateTagsToDisplay = () => {
-          
           const containerWidth = container?.clientWidth || 0;
           let currentWidth = 0;
           let count = 0;
-          
+
           for (let i = 0; i < tags.length; i++) {
             const tag = tags[i] as HTMLElement;
 
@@ -733,7 +731,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           observer.disconnect();
         };
       }
-    }, [maxTagCount, selected]);
+    }, [maxTagCount, selected, container]);
 
     return (
       <div
@@ -771,6 +769,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
               {hasMode ? <>
                 {selectedTags.length ? (
                   <>
+                    {console.log(tagsToDisplay)
+                    }
                     {tagsToDisplay.map((tag, index) =>
                       tagRender ? (
                         <div key={`${index}_${tag}`}>
@@ -832,7 +832,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     onKeyDown={handleOnKeyDown}
                     style={{
-                      width: showSearch && !searchQuery.length ? 1 : 'auto',
+                      minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
                       display: 'ruby',
                       textAlign: 'center'
                     }}

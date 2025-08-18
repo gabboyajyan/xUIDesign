@@ -2003,6 +2003,7 @@ export default function Home() {
                         }}
                         maxTagCount="responsive"
                         open={open}
+                        value={['AX', 'AL', 'AS', 'DZ', 'AF']}
                         style={{ width: 500 }}
                         mode="tags"
                         placeholder="Select...">
