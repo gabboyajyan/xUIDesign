@@ -2003,7 +2003,7 @@ export default function Home() {
                         }}
                         maxTagCount="responsive"
                         open={open}
-                        style={{ width: 400 }}
+                        style={{ width: 500 }}
                         mode="tags"
                         placeholder="Select...">
                         {CountryCodes.map((item: RuleType, index: number) => {

@@ -14,6 +14,7 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState
@@ -133,11 +134,11 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
-    
+
     const tagContainerRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLDivElement>(null);
     const [responsiveTagCount, setResponsiveTagCount] = useState<number | null>(null);
-   
+
     const [selected, setSelected] = useState(
       hasMode ? checkModeInitialValue : initialValue
     );
@@ -187,20 +188,20 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleClickOutside = (event: MouseEvent): void => {
-        if (!selectRef.current) return;
+      if (!selectRef.current) return;
 
-        const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
-        const clickedInside =
-          selectRef.current.contains(event?.target as Node) ||
-          (dropdown && dropdown.contains(event?.target as Node));
+      const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+      const clickedInside =
+        selectRef.current.contains(event?.target as Node) ||
+        (dropdown && dropdown.contains(event?.target as Node));
 
-        if (!clickedInside) {
-          setIsOpen(false);
-          handleClearInputValue();
-          onClose?.();
-          onDropdownVisibleChange?.(false, selected)
-        }
-      };
+      if (!clickedInside) {
+        setIsOpen(false);
+        handleClearInputValue();
+        onClose?.();
+        onDropdownVisibleChange?.(false, selected)
+      }
+    };
 
     useEffect(() => {
       document.addEventListener('mousedown', handleClickOutside);
@@ -686,40 +687,45 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     })() || selected || null
 
     const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
-    const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
     const selectedTags = hasMode ? (selected as string[]) : [];
+
+    const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
     const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
     const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
 
-    useEffect(() => {
-      if (maxTagCount === 'responsive' && tagContainerRef.current) {
+    const container = tagContainerRef.current;
+    const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
+    
+    useLayoutEffect(() => {
+      if (maxTagCount === 'responsive' && container) {
         const calculateTagsToDisplay = () => {
-          const container = tagContainerRef.current;
-          const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
+          
           const containerWidth = container?.clientWidth || 0;
           let currentWidth = 0;
           let count = 0;
-
+          
           for (let i = 0; i < tags.length; i++) {
             const tag = tags[i] as HTMLElement;
 
-            currentWidth += tag.offsetWidth + 32;
+            currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
 
-            if (currentWidth < containerWidth) {
+            if (currentWidth + 40 < containerWidth) {
               count++;
             } else {
               break;
             }
           }
 
-          setResponsiveTagCount(count);
+          if (currentWidth >= containerWidth) {
+            setResponsiveTagCount(count);
+          }
         };
 
         const observer = new ResizeObserver(() => {
           calculateTagsToDisplay();
         });
 
-        observer.observe(tagContainerRef.current);
+        observer.observe(container);
 
         calculateTagsToDisplay();
 
@@ -727,7 +733,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
           observer.disconnect();
         };
       }
-    }, [maxTagCount, selected, tagContainerRef]);
+    }, [maxTagCount, selected]);
 
     return (
       <div
@@ -801,9 +807,9 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                       )
                     )}
                     {overflowCount > 0 && (
-                      <Tag 
-                        label={`+${overflowCount}`} 
-                        className={`${prefixCls}-tag-overflow`} 
+                      <Tag
+                        label={`+${overflowCount}`}
+                        className={`${prefixCls}-tag-overflow`}
                       />
                     )}
                   </>
@@ -832,7 +838,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                     }}
                     {...showSearch ? {
                       contentEditable: 'plaintext-only'
-                    }: {}}
+                    } : {}}
                     id={`${prefixCls}-search-tag-input`}
                     className={`${prefixCls}-tag-input`}
                   />

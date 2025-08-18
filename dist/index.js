@@ -3190,7 +3190,8 @@ const Tag = ({
   label,
   closable,
   color,
-  icon
+  icon,
+  className = ''
 }) => {
   const handleOnClick = e => {
     e.preventDefault();
@@ -3203,7 +3204,7 @@ const Tag = ({
       ...style,
       backgroundColor: color
     },
-    className: `${prefixCls}-tag`
+    className: `${prefixCls}-tag ${className}`
   }, /*#__PURE__*/React.createElement("span", null, label !== undefined ? label : value), closable && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-tag-close-icon`,
     onClick: handleOnClick
@@ -3660,39 +3661,41 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     return option?.children || option?.label || option?.value || null;
   })() || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
-  const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
   const selectedTags = hasMode ? selected : [];
+  const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
   const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
   const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
-  React.useEffect(() => {
-    if (maxTagCount === 'responsive' && tagContainerRef.current) {
+  const container = tagContainerRef.current;
+  const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
+  React.useLayoutEffect(() => {
+    if (maxTagCount === 'responsive' && container) {
       const calculateTagsToDisplay = () => {
-        const container = tagContainerRef.current;
-        const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
         const containerWidth = container?.clientWidth || 0;
         let currentWidth = 0;
         let count = 0;
         for (let i = 0; i < tags.length; i++) {
           const tag = tags[i];
-          currentWidth += tag.offsetWidth + 32;
-          if (currentWidth < containerWidth) {
+          currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
+          if (currentWidth + 40 < containerWidth) {
             count++;
           } else {
             break;
           }
         }
-        setResponsiveTagCount(count);
+        if (currentWidth >= containerWidth) {
+          setResponsiveTagCount(count);
+        }
       };
       const observer = new ResizeObserver(() => {
         calculateTagsToDisplay();
       });
-      observer.observe(tagContainerRef.current);
+      observer.observe(container);
       calculateTagsToDisplay();
       return () => {
         observer.disconnect();
       };
     }
-  }, [maxTagCount, selected, tagContainerRef]);
+  }, [maxTagCount, selected]);
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,

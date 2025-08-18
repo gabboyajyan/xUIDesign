@@ -12,7 +12,8 @@ const Tag: FC<CustomTagProps> = ({
   label,
   closable,
   color,
-  icon
+  icon,
+  className = ''
 }) => {
   const handleOnClick = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
     e.preventDefault();
@@ -26,7 +27,7 @@ const Tag: FC<CustomTagProps> = ({
   return (
     <div
       style={{ ...style, backgroundColor: color }}
-      className={`${prefixCls}-tag`}
+      className={`${prefixCls}-tag ${className}`}
     >
       <span>{label !== undefined ? label : value}</span>
 
