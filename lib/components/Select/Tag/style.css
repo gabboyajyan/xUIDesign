@@ -7,6 +7,11 @@
     position: relative;
 }
 
+.xUi-select .xUi-select-tag-container-fixHeight {
+    height: 32px;
+    overflow: hidden;
+}
+
 .xUi-select.middle .xUi-select-tag-container,
 .xUi-select.large .xUi-select-tag-container {
     line-height: 22px;

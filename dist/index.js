@@ -3179,7 +3179,7 @@ var Option$1 = /*#__PURE__*/Object.freeze({
 	default: Option
 });
 
-var css_248z$6 = ".xUi-select .xUi-select-tag-container{display:flex;flex:auto;flex-wrap:wrap;gap:4px;line-height:12px;position:relative}.xUi-select.large .xUi-select-tag-container,.xUi-select.middle .xUi-select-tag-container{line-height:22px}.xUi-select .xUi-select-tag{align-items:center;align-self:center;background:rgba(0,0,0,.06);border:1px solid transparent;border-radius:var(--xui-border-radius-sm);box-sizing:border-box;cursor:default;display:flex;flex:none;height:100%;max-width:100%;overflow:hidden;padding:2px;text-overflow:ellipsis;transition:font-size .3s,line-height .3s,height .3s;white-space:nowrap}.xUi-select.middle .xUi-select-tag{padding:4px 8px}.xUi-select.large .xUi-select-tag{font-size:var(--xui-font-size-lg);padding:4px 8px}.xUi-select .xUi-select-tag span{font-size:var(--xui-font-size-sm);margin:0 2px}.xUi-select .xUi-select-tag .xUi-select-tag-close-icon{color:rgba(0,0,0,.5);cursor:pointer;font-size:var(--xui-font-size-xs)}.xUi-select .xUi-select-tag .xUi-select-tag-close-icon:hover{color:var(--xui-text-color)}.xUi-select .xUi-select-tag:has([class=xUi-select-tag-input]){background:transparent;border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-md);outline:none;padding:0}.xUi-select .xUi-select-tag:has([class=xUi-select-tag-input]) input{background-color:transparent;border:none;font-size:var(--xui-font-size-md);height:-webkit-fill-available;padding:0}.xUi-select .xUi-select-tag-input:focus{border:none;box-shadow:none;outline:none}";
+var css_248z$6 = ".xUi-select .xUi-select-tag-container{display:flex;flex:auto;flex-wrap:wrap;gap:4px;line-height:12px;position:relative}.xUi-select .xUi-select-tag-container-fixHeight{height:32px;overflow:hidden}.xUi-select.large .xUi-select-tag-container,.xUi-select.middle .xUi-select-tag-container{line-height:22px}.xUi-select .xUi-select-tag{align-items:center;align-self:center;background:rgba(0,0,0,.06);border:1px solid transparent;border-radius:var(--xui-border-radius-sm);box-sizing:border-box;cursor:default;display:flex;flex:none;height:100%;max-width:100%;overflow:hidden;padding:2px;text-overflow:ellipsis;transition:font-size .3s,line-height .3s,height .3s;white-space:nowrap}.xUi-select.middle .xUi-select-tag{padding:4px 8px}.xUi-select.large .xUi-select-tag{font-size:var(--xui-font-size-lg);padding:4px 8px}.xUi-select .xUi-select-tag span{font-size:var(--xui-font-size-sm);margin:0 2px}.xUi-select .xUi-select-tag .xUi-select-tag-close-icon{color:rgba(0,0,0,.5);cursor:pointer;font-size:var(--xui-font-size-xs)}.xUi-select .xUi-select-tag .xUi-select-tag-close-icon:hover{color:var(--xui-text-color)}.xUi-select .xUi-select-tag:has([class=xUi-select-tag-input]){background:transparent;border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-md);outline:none;padding:0}.xUi-select .xUi-select-tag:has([class=xUi-select-tag-input]) input{background-color:transparent;border:none;font-size:var(--xui-font-size-md);height:-webkit-fill-available;padding:0}.xUi-select .xUi-select-tag-input:focus{border:none;box-shadow:none;outline:none}";
 styleInject(css_248z$6);
 
 const Tag = ({
@@ -3300,6 +3300,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const [isOpenChecker, setIsOpenChecker] = React.useState(isOpen);
   const [searchQuery, setSearchQuery] = React.useState(searchValue || '');
   const [dropdownPosition, setDropdownPosition] = React.useState({});
+  const [lastTagWidth, setLastTagWidth] = React.useState(0);
   const tagContainerRef = React.useRef(null);
   const searchInputRef = React.useRef(null);
   const [responsiveTagCount, setResponsiveTagCount] = React.useState(null);
@@ -3666,36 +3667,32 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
   const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
   const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
   const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
-  const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
+  const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable):not(.${prefixCls}-tag-overflow)`) || []);
   React.useLayoutEffect(() => {
     if (maxTagCount === 'responsive' && container) {
-      const calculateTagsToDisplay = () => {
-        const containerWidth = container?.clientWidth || 0;
-        let currentWidth = 0;
-        let count = 0;
-        for (let i = 0; i < tags.length; i++) {
-          const tag = tags[i];
-          currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
-          if (currentWidth + 40 < containerWidth) {
-            count++;
-          } else {
-            break;
-          }
+      const containerWidth = container?.clientWidth || 0;
+      let currentWidth = 0;
+      let count = 0;
+      for (let i = 0; i < tags.length; i++) {
+        const tag = tags[i];
+        if (tags.length - 1 === i && overflowCount) {
+          setLastTagWidth(tag.offsetWidth);
         }
-        if (currentWidth >= containerWidth) {
-          setResponsiveTagCount(count);
+        currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
+        if (currentWidth + 40 < containerWidth) {
+          count++;
+        } else {
+          break;
         }
-      };
-      const observer = new ResizeObserver(() => {
-        calculateTagsToDisplay();
-      });
-      observer.observe(container);
-      calculateTagsToDisplay();
-      return () => {
-        observer.disconnect();
-      };
+      }
+      if (overflowCount === 1 && lastTagWidth) {
+        setResponsiveTagCount(0);
+      }
+      if (currentWidth >= containerWidth) {
+        setResponsiveTagCount(count);
+      }
     }
-  }, [maxTagCount, selected, container]);
+  }, [maxTagCount, container, tags, overflowCount]);
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     ref: selectRef,
@@ -3724,7 +3721,9 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
       } : {}),
       minWidth: `${searchInputWidth}px`
     },
-    className: `${prefixCls}-tag-container`
+    className: clsx([`${prefixCls}-tag-container`, {
+      [`${prefixCls}-tag-container-fixHeight`]: !tagContainerRef.current
+    }])
   }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
   }, tagRender?.({

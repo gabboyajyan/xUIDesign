@@ -134,6 +134,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const [isOpenChecker, setIsOpenChecker] = useState(isOpen);
     const [searchQuery, setSearchQuery] = useState(searchValue || '');
     const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
+    const [lastTagWidth, setLastTagWidth] = useState(0);
 
     const tagContainerRef = useRef<HTMLDivElement>(null);
     const searchInputRef = useRef<HTMLDivElement>(null);
@@ -693,45 +694,39 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
     const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
     const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
     const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
-    const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable)`) || []);
-    
+    const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable):not(.${prefixCls}-tag-overflow)`) || []);
+
     useLayoutEffect(() => {
       if (maxTagCount === 'responsive' && container) {
-        const calculateTagsToDisplay = () => {
-          const containerWidth = container?.clientWidth || 0;
-          let currentWidth = 0;
-          let count = 0;
+        const containerWidth = container?.clientWidth || 0;
+        let currentWidth = 0;
+        let count = 0;
 
-          for (let i = 0; i < tags.length; i++) {
-            const tag = tags[i] as HTMLElement;
+        for (let i = 0; i < tags.length; i++) {
+          const tag = tags[i] as HTMLElement;
 
-            currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
-
-            if (currentWidth + 40 < containerWidth) {
-              count++;
-            } else {
-              break;
-            }
+          if (tags.length - 1 === i && overflowCount) {
+            setLastTagWidth(tag.offsetWidth);
           }
 
-          if (currentWidth >= containerWidth) {
-            setResponsiveTagCount(count);
+          currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
+
+          if (currentWidth + 40 < containerWidth) {
+            count++;
+          } else {
+            break;
           }
-        };
+        }
 
-        const observer = new ResizeObserver(() => {
-          calculateTagsToDisplay();
-        });
-
-        observer.observe(container);
-
-        calculateTagsToDisplay();
-
-        return () => {
-          observer.disconnect();
-        };
+        if (overflowCount === 1 && lastTagWidth) {
+          setResponsiveTagCount(0);
+        }
+        
+        if (currentWidth >= containerWidth) {
+          setResponsiveTagCount(count);
+        }
       }
-    }, [maxTagCount, selected, container]);
+    }, [maxTagCount, container, tags, overflowCount]);
 
     return (
       <div
@@ -764,7 +759,12 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
                 ...(isOpen ? { opacity: hasMode || searchQuery.length ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
                 minWidth: `${searchInputWidth}px`
               }}
-              className={`${prefixCls}-tag-container`}
+              className={clsx([
+                `${prefixCls}-tag-container`,
+                {
+                  [`${prefixCls}-tag-container-fixHeight`]: !tagContainerRef.current
+                }
+              ])}
             >
               {hasMode ? <>
                 {selectedTags.length ? (

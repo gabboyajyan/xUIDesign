@@ -1998,9 +1998,6 @@ export default function Home() {
                         onDropdownVisibleChange={(open) => {
                             setOpen(open)
                         }}
-                        onChange={(e) => {
-                            console.log(e);
-                        }}
                         maxTagCount="responsive"
                         open={open}
                         value={['AX', 'AL', 'AS', 'DZ', 'AF']}
