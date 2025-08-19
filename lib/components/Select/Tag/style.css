@@ -8,7 +8,7 @@
 }
 
 .xUi-select .xUi-select-tag-container-fixHeight {
-    height: 32px;
+    max-height: 32px !important;
     overflow: hidden;
 }
 
