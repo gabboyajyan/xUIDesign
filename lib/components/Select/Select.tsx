@@ -711,7 +711,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
 
           currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
 
-          if (currentWidth + 40 < containerWidth) {
+          if (currentWidth < containerWidth) {
             count++;
           } else {
             break;

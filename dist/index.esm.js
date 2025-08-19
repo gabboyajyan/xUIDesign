@@ -3677,7 +3677,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
           setLastTagWidth(tag.offsetWidth);
         }
         currentWidth += tag.offsetWidth + PADDING_PLACEMENT;
-        if (currentWidth + 40 < containerWidth) {
+        if (currentWidth < containerWidth) {
           count++;
         } else {
           break;
