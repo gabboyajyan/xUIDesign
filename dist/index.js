@@ -2872,7 +2872,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
         inputRef.current.setSelectionRange(start, end);
       }
     }
-  }));
+  }), [ref]);
   React.useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');
   }, [value, mask, maskChar]);
@@ -3315,7 +3315,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     // @ts-expect-error
     selectRef.current?.scrollTo(...args),
     nativeElement: selectRef.current
-  }));
+  }), [ref]);
   const handleMouseEnter = () => !disabled && selected?.length && setIsHover(true);
   const handleMouseLeave = () => !disabled && setIsHover(false);
   const handleClearInputValue = React.useCallback(() => {

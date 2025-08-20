@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 import { RadioGroup } from "../../lib/components/Radio/Group";
-import { useState } from "react";
+import { useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 import Option from "../../lib/components/Select/Option/Option";
 import { RuleType, SyntheticBaseEvent } from "../../lib/types";
@@ -1878,6 +1878,8 @@ export default function Home() {
         // username: "Gabriel"
     });
 
+    const ref = useRef(null)
+
     const [hide, setHide] = useState(true);
 
     const [step, setStep] = useState(0)
@@ -1992,7 +1994,7 @@ export default function Home() {
                 }} /> */}
 
                 <div style={{ width: 500 }}>
-                    <Select
+                    {/* <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
                         onDropdownVisibleChange={(open) => {
@@ -2022,7 +2024,8 @@ export default function Home() {
                                 </div>
                             </Option>
                         })}
-                    </Select>
+                    </Select> */}
+                    <Input ref={ref} />
                 </div>
 
                 {/* <RadioGroup

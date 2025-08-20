@@ -154,7 +154,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         // @ts-expect-error
         (selectRef.current as HTMLDivElement)?.scrollTo(...args),
       nativeElement: selectRef.current
-    }));
+    }), [ref]);
 
     const handleMouseEnter = () =>
       !disabled && selected?.length && setIsHover(true);
