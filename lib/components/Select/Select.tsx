@@ -49,7 +49,7 @@ function getTextFromNode(node: ReactNode): string {
     return node.toString();
   }
 
-  if (React.isValidElement(node)) {
+  if (isValidElement(node)) {
     const html = ReactDOMServer.renderToStaticMarkup(node);
     return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -167,6 +167,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       }
 
       setSearchQuery('');
+      onSearch?.('');
 
       let inputContainer = selectRef.current?.querySelector(
         `[id='${prefixCls}-search-tag-input']`
@@ -416,9 +417,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return;
       }
 
-      e.target.value = e.target.innerText.trim().replace('\n', '');
-
+      
       const timeout = setTimeout(() => {
+        e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');;
+
         setSearchQuery(e.target.value);
         onSearch?.(e.target.value);
 
@@ -526,8 +528,10 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
       const valueToCheck =
         optionFilterProp && typeof optionFilterPropValue === 'string'
           ? String(optionFilterPropValue)
-          : getTextFromNode(option.children) || String(option.label) || String(option.value);
-
+          : Array.isArray(option.children) && typeof option.children[0] === 'string' 
+            ? option.children[0]
+            : getTextFromNode(option.children) || String(option.label) || String(option.value);
+          
       return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
 

@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 import { RadioGroup } from "../../lib/components/Radio/Group";
-import { useRef, useState } from "react";
+import { useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 import Option from "../../lib/components/Select/Option/Option";
 import { RuleType, SyntheticBaseEvent } from "../../lib/types";
@@ -1878,8 +1878,6 @@ export default function Home() {
         // username: "Gabriel"
     });
 
-    const ref = useRef(null)
-
     const [hide, setHide] = useState(true);
 
     const [step, setStep] = useState(0)
@@ -1994,17 +1992,17 @@ export default function Home() {
                 }} /> */}
 
                 <div style={{ width: 500 }}>
-                    {/* <Select
+                    <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
                         onDropdownVisibleChange={(open) => {
                             setOpen(open)
                         }}
-                        maxTagCount="responsive"
+                        // maxTagCount="responsive"
                         open={open}
-                        value={['AX', 'AL', 'AS', 'DZ', 'AF']}
+                        // value={['AX', 'AL', 'AS', 'DZ', 'AF']}
                         style={{ width: 500 }}
-                        mode="tags"
+                        // mode="tags"
                         placeholder="Select...">
                         {CountryCodes.map((item: RuleType, index: number) => {
                             const isSelected = country.includes(item.value);
@@ -2024,8 +2022,7 @@ export default function Home() {
                                 </div>
                             </Option>
                         })}
-                    </Select> */}
-                    <Input ref={ref} />
+                    </Select>
                 </div>
 
                 {/* <RadioGroup

@@ -3231,7 +3231,7 @@ function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
     return node.toString();
   }
-  if (/*#__PURE__*/React.isValidElement(node)) {
+  if (/*#__PURE__*/isValidElement(node)) {
     const html = ReactDOMServer.renderToStaticMarkup(node);
     return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -3321,6 +3321,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
       return;
     }
     setSearchQuery('');
+    onSearch?.('');
     let inputContainer = selectRef.current?.querySelector(`[id='${prefixCls}-search-tag-input']`);
     if (!inputContainer) {
       inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
@@ -3488,8 +3489,8 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     if (!isOpen) {
       return;
     }
-    e.target.value = e.target.innerText.trim().replace('\n', '');
     const timeout = setTimeout(() => {
+      e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
       if (e.key === 'Enter' && searchQuery.trim() !== '') {
@@ -3562,7 +3563,7 @@ const SelectComponent = /*#__PURE__*/forwardRef(({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     const optionFilterPropValue = option[optionFilterProp];
-    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : getTextFromNode(option.children) || String(option.label) || String(option.value);
+    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
     return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
   });
   const handleTriggerClick = () => {
