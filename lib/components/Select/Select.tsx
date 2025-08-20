@@ -638,6 +638,7 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         {filterable && (
           <input
             type="text"
+            inputMode="text"
             className={`${prefixCls}-search`}
             value={searchQuery}
             onChange={handleSearch}

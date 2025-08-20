@@ -3633,6 +3633,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     }
   }, filterable && /*#__PURE__*/React.createElement("input", {
     type: "text",
+    inputMode: "text",
     className: `${prefixCls}-search`,
     value: searchQuery,
     onChange: handleSearch,
