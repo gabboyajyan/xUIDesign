@@ -106,8 +106,8 @@
 }
 
 .xUi-button-primary:hover {
-    background-color: var(--xui-primary-color-light);
-    border-color: var(--xui-primary-color-light);
+    background-color: var(--xui-color-hover);
+    border-color: var(--xui-color-hover);
     color: #fff;
 }
 
