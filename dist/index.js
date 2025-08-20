@@ -3494,6 +3494,7 @@ const SelectComponent = /*#__PURE__*/React.forwardRef(({
     if (!isOpen) {
       return;
     }
+    searchInputRef.current?.focus();
     const timeout = setTimeout(() => {
       e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
       setSearchQuery(e.target.value);

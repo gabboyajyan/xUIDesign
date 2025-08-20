@@ -417,7 +417,8 @@ const SelectComponent = forwardRef<HTMLDivElement, SelectProps>(
         return;
       }
 
-      
+      searchInputRef.current?.focus();
+
       const timeout = setTimeout(() => {
         e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');;
 
