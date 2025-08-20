@@ -121,6 +121,7 @@ declare const Checkbox: react.ComponentType<__types.DefaultProps & {
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
+    titleClick?: boolean;
 } & react.RefAttributes<HTMLDivElement>>;
 declare const Switch: react.ComponentType<SwitchProps>;
 declare const Empty: react.ComponentType<EmptyContentProps>;

@@ -1456,7 +1456,8 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
   type = 'checkbox',
   value = false,
   required = false,
-  noStyle
+  noStyle,
+  titleClick
 }, ref) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = React.useState(isChecked);
@@ -1505,7 +1506,9 @@ const Checkbox = /*#__PURE__*/React.forwardRef(({
     style: {
       opacity: internalChecked ? 1 : 0
     }
-  }))), children && /*#__PURE__*/React.createElement("span", {
+  }))), titleClick ? /*#__PURE__*/React.createElement("div", {
+    onClick: handleClick
+  }, children) : children && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-label`
   }, children));
 });

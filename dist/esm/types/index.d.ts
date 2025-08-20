@@ -19,6 +19,7 @@ declare const Checkbox: import("react").ComponentType<import("@/types").DefaultP
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
+    titleClick?: boolean;
 } & import("react").RefAttributes<HTMLDivElement>>;
 declare const Switch: import("react").ComponentType<import("./types/switch").SwitchProps>;
 declare const Empty: import("react").ComponentType<import("./types/empty").EmptyContentProps>;

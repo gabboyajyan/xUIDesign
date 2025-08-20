@@ -37,7 +37,8 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
       type = 'checkbox',
       value = false,
       required = false,
-      noStyle
+      noStyle,
+      titleClick
     },
     ref: ForwardedRef<HTMLDivElement>
   ): ReactElement => {
@@ -104,7 +105,10 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(
           </span>
         </div>
 
-        {children && <span className={`${prefixCls}-label`}>{children}</span>}
+        {titleClick 
+          ? <div onClick={handleClick}>{children}</div> 
+          : children && <span className={`${prefixCls}-label`}>{children}</span>
+        }
       </div>
     );
   }

@@ -25,4 +25,5 @@ export type CheckboxProps = DefaultProps & {
   required?: boolean;
   defaultChecked?: boolean;
   checked?: boolean;
+  titleClick?: boolean;
 };

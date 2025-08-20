@@ -19,5 +19,6 @@ declare const Checkbox: React.ForwardRefExoticComponent<import("../../types").De
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
+    titleClick?: boolean;
 } & React.RefAttributes<HTMLDivElement>>;
 export default Checkbox;
