@@ -71,7 +71,7 @@ const InputComponent = forwardRef(
           inputRef.current.setSelectionRange(start, end);
         }
       }
-    }), [ref]);
+    }), [ref, inputRef.current]);
 
     useEffect(() => {
       setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
