@@ -3581,7 +3581,6 @@ const SelectComponent = ({
       onDropdownVisibleChange?.(!isOpen, selected);
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
-    console.log(searchContent);
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }

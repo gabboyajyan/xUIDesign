@@ -539,8 +539,6 @@ const SelectComponent = ({
     const searchContent = selectRef.current?.getElementsByClassName(
       `${prefixCls}-tag-container`
     )?.[0] as HTMLDivElement;
-
-    console.log(searchContent);
     
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
