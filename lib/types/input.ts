@@ -1,5 +1,6 @@
 import {
     CSSProperties,
+    ForwardedRef,
     InputHTMLAttributes,
     KeyboardEvent,
     KeyboardEventHandler,
@@ -37,6 +38,7 @@ export type InputProps = Omit<
         mask?: string;
         maskChar?: string;
         maskRegex?: RegExp;
+        ref?: ForwardedRef<HTMLInputElement>,
     };
 
 export type TextareaProps = Omit<
@@ -66,4 +68,5 @@ export type TextareaProps = Omit<
         variant?: 'outlined' | 'borderless' | 'filled' | 'underlined';
         error?: boolean;
         allowClear?: boolean;
+        ref?: ForwardedRef<HTMLTextAreaElement>
     };

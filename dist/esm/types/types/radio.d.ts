@@ -1,4 +1,4 @@
-import { CSSProperties, FocusEventHandler, KeyboardEventHandler, MouseEventHandler, ReactNode } from 'react';
+import { CSSProperties, FocusEventHandler, ForwardedRef, KeyboardEventHandler, MouseEventHandler, ReactNode } from 'react';
 import { DefaultProps, RuleType, SizeType, SyntheticBaseEvent } from '.';
 export type RadioValueType = string | number | readonly string[] | undefined;
 export interface RadioGroupProps {
@@ -50,6 +50,7 @@ export type RadioProps = DefaultProps & {
     required?: boolean;
     button?: boolean;
     error?: boolean;
+    ref?: ForwardedRef<HTMLLabelElement>;
 };
 export type RadioButtonProps = RadioProps & {
     children?: ReactNode;

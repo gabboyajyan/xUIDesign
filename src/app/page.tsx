@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 import { Button } from "../../lib/components/Button";
 import { RadioGroup } from "../../lib/components/Radio/Group";
-import { useState } from "react";
+import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 import Option from "../../lib/components/Select/Option/Option";
 import { RuleType, SyntheticBaseEvent } from "../../lib/types";
@@ -1883,6 +1883,12 @@ export default function Home() {
     const [step, setStep] = useState(0)
     const [open, setOpen] = useState(false)
 
+    const ref = useRef<ForwardedRef<HTMLInputElement> | null>(null)
+
+    useEffect(() => {
+        console.log(ref.current);
+    }, [ref])
+
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
     const [statusValue, setStatusValue] = useState('');
@@ -1986,10 +1992,6 @@ export default function Home() {
             }} /> */}
 
             <div>
-                {/* <Input placeholder="1" onChange={() => {
-                    console.log(1);
-                    
-                }} /> */}
 
                 <div style={{ width: 500 }}>
                     <Select
@@ -1998,6 +2000,7 @@ export default function Home() {
                         onDropdownVisibleChange={(open) => {
                             setOpen(open)
                         }}
+                        ref={ref}
                         // maxTagCount="responsive"
                         open={open}
                         // value={['AX', 'AL', 'AS', 'DZ', 'AF']}

@@ -1,4 +1,4 @@
-import { KeyboardEventHandler, MouseEvent, MouseEventHandler, ReactNode } from 'react';
+import { ForwardedRef, KeyboardEventHandler, MouseEvent, MouseEventHandler, ReactNode } from 'react';
 import { DefaultProps, TargetProps } from '.';
 export type CheckboxProps = DefaultProps & {
     disabled?: boolean;
@@ -20,4 +20,5 @@ export type CheckboxProps = DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     titleClick?: boolean;
+    ref?: ForwardedRef<HTMLDivElement>;
 };

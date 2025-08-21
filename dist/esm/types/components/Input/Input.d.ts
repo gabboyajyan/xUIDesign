@@ -1,31 +1,11 @@
-import React, { KeyboardEvent } from 'react';
-import { SyntheticBaseEvent } from '../../types';
+import React from 'react';
+import { InputProps } from '../../types/input';
 import Textarea from './Textarea/Textarea';
 import './style.css';
-declare const InputComponent: React.ForwardRefExoticComponent<Omit<React.InputHTMLAttributes<HTMLInputElement>, "size" | "prefix"> & import("../../types").DefaultProps & {
-    addonBefore?: React.ReactNode;
-    addonAfter?: React.ReactNode;
-    size?: import("../../types").SizeType;
-    prefix?: React.ReactNode;
-    suffix?: React.ReactNode;
-    disabled?: boolean;
-    allowClear?: boolean;
-    error?: boolean;
-    bordered?: boolean;
-    iconRender?: (visible: boolean) => React.ReactElement;
-    onChange?: (event: SyntheticBaseEvent) => void;
-    onClick?: React.MouseEventHandler<HTMLElement>;
-    onMouseEnter?: React.MouseEventHandler<HTMLElement>;
-    onMouseLeave?: React.MouseEventHandler<HTMLElement>;
-    onKeyPress?: React.KeyboardEventHandler<HTMLElement>;
-    onKeyDown?: React.KeyboardEventHandler<HTMLElement>;
-    onPressEnter?: (event: KeyboardEvent<HTMLInputElement>) => void;
-    feedbackIcons?: boolean;
-    child?: React.ReactNode;
-    mask?: string;
-    maskChar?: string;
-    maskRegex?: RegExp;
-} & React.RefAttributes<HTMLInputElement>>;
+declare const InputComponent: {
+    ({ size, error, suffix, prefix, addonAfter, addonBefore, onPressEnter, disabled, allowClear, prefixCls, className, value, iconRender, noStyle, feedbackIcons, mask, maskChar, maskRegex, __injected, defaultValue, child, ref, ...props }: InputProps): React.JSX.Element;
+    displayName: string;
+};
 declare const Input: typeof InputComponent & {
     TextArea: typeof Textarea;
 };

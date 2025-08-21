@@ -1,4 +1,5 @@
 import {
+  ForwardedRef,
   KeyboardEventHandler,
   MouseEvent,
   MouseEventHandler,
@@ -26,4 +27,5 @@ export type CheckboxProps = DefaultProps & {
   defaultChecked?: boolean;
   checked?: boolean;
   titleClick?: boolean;
+  ref?: ForwardedRef<HTMLDivElement>
 };
