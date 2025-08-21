@@ -3781,8 +3781,7 @@ const SelectComponent = ({
     style: {
       minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
       display: 'ruby',
-      textAlign: 'center',
-      userSelect: showSearch ? 'text' : 'auto'
+      textAlign: 'center'
     }
   }, showSearch ? {
     contentEditable: 'plaintext-only'
