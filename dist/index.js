@@ -3501,7 +3501,6 @@ const SelectComponent = ({
       return;
     }
     const timeout = setTimeout(() => {
-      console.log(searchInputRef.current);
       e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
@@ -3590,9 +3589,9 @@ const SelectComponent = ({
     }
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
-      console.log(searchInput);
       if (searchInput) {
         searchInput?.focus();
+        searchInputRef?.current?.focus();
         setSearchFocused(true);
       }
       clearTimeout(timeout);
