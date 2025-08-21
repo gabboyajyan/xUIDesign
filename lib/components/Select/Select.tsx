@@ -163,7 +163,6 @@ const SelectComponent = ({
     }
 
     setSearchQuery('');
-    onSearch?.('');
 
     let inputContainer = selectRef.current?.querySelector(
       `[id='${prefixCls}-search-tag-input']`

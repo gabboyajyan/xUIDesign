@@ -3332,7 +3332,6 @@ const SelectComponent = ({
       return;
     }
     setSearchQuery('');
-    onSearch?.('');
     let inputContainer = selectRef.current?.querySelector(`[id='${prefixCls}-search-tag-input']`);
     if (!inputContainer) {
       inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
