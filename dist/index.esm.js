@@ -3342,7 +3342,6 @@ const SelectComponent = ({
   useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleClickOutside = event => {
     if (!selectRef.current) return;
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
@@ -3401,6 +3400,11 @@ const SelectComponent = ({
       setSearchFocused(false);
     }
   }, [isOpen]);
+  useEffect(() => {
+    if (!open && isOpen) {
+      handleClickOutside();
+    }
+  }, [open, isOpen]);
   useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();

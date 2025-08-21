@@ -1878,16 +1878,15 @@ export default function Home() {
         // username: "Gabriel"
     });
 
-    const [hide, setHide] = useState(true);
-
-    const [step, setStep] = useState(0)
+    // const [hide, setHide] = useState(true);
+    // const [step, setStep] = useState(0)
     const [open, setOpen] = useState(false)
 
-    const ref = useRef(null)
+    // const ref = useRef(null)
 
-    useEffect(() => {
-        console.log(ref.current);
-    }, [ref])
+    // useEffect(() => {
+    //     console.log(ref.current);
+    // }, [ref])
 
     // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
 
@@ -1992,13 +1991,13 @@ export default function Home() {
             }} /> */}
 
             <div>
-                <Input ref={ref} placeholder="1" onChange={() => {
+                {/* <Input ref={ref} placeholder="1" onChange={() => {
                     console.log(1);
                     
-                }} />
+                }} /> */}
 
                 <div style={{ width: 500 }}>
-                    {/* <Select
+                    <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
                         onDropdownVisibleChange={(open) => {
@@ -2008,8 +2007,15 @@ export default function Home() {
                         open={open}
                         // value={['AX', 'AL', 'AS', 'DZ', 'AF']}
                         style={{ width: 500 }}
-                        // mode="tags"
-                        placeholder="Select...">
+                        mode="tags"
+                        placeholder="Select..."
+                        dropdownRender={(menu) => {
+                            return <div>
+                                {menu}
+
+                                <button onClick={() => setOpen(false)}>Submit</button>
+                            </div>
+                        }}>
                         {CountryCodes.map((item: RuleType, index: number) => {
                             const isSelected = country.includes(item.value);
 
@@ -2028,7 +2034,7 @@ export default function Home() {
                                 </div>
                             </Option>
                         })}
-                    </Select> */}
+                    </Select>
                 </div>
 
                 {/* <RadioGroup
