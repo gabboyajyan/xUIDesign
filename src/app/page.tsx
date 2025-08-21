@@ -2008,14 +2008,7 @@ export default function Home() {
                         // value={['AX', 'AL', 'AS', 'DZ', 'AF']}
                         style={{ width: 500 }}
                         mode="tags"
-                        placeholder="Select..."
-                        dropdownRender={(menu) => {
-                            return <div>
-                                {menu}
-
-                                <button onClick={() => setOpen(false)}>Submit</button>
-                            </div>
-                        }}>
+                        placeholder="Select...">
                         {CountryCodes.map((item: RuleType, index: number) => {
                             const isSelected = country.includes(item.value);
 
