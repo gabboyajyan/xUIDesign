@@ -3498,8 +3498,8 @@ const SelectComponent = ({
     if (!isOpen) {
       return;
     }
-    searchInputRef.current?.focus();
     const timeout = setTimeout(() => {
+      console.log(searchInputRef.current);
       e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
@@ -3582,11 +3582,13 @@ const SelectComponent = ({
       onDropdownVisibleChange?.(!isOpen, selected);
     }
     const searchContent = selectRef.current?.getElementsByClassName(`${prefixCls}-tag-container`)?.[0];
+    console.log(searchContent);
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
+      console.log(searchInput);
       if (searchInput) {
         searchInput?.focus();
         setSearchFocused(true);

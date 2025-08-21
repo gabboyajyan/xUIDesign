@@ -413,9 +413,9 @@ const SelectComponent = ({
       return;
     }
 
-    searchInputRef.current?.focus();
-
     const timeout = setTimeout(() => {
+      console.log(searchInputRef.current);
+      
       e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');;
 
       setSearchQuery(e.target.value);
@@ -542,6 +542,8 @@ const SelectComponent = ({
       `${prefixCls}-tag-container`
     )?.[0] as HTMLDivElement;
 
+    console.log(searchContent);
+    
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
@@ -550,6 +552,8 @@ const SelectComponent = ({
       const searchInput = document.getElementById(
         `${prefixCls}-search-tag-input`
       );
+
+      console.log(searchInput);
 
       if (searchInput) {
         searchInput?.focus();

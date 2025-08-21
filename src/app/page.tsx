@@ -1883,7 +1883,7 @@ export default function Home() {
     const [step, setStep] = useState(0)
     const [open, setOpen] = useState(false)
 
-    const ref = useRef<ForwardedRef<HTMLInputElement> | null>(null)
+    const ref = useRef(null)
 
     useEffect(() => {
         console.log(ref.current);
@@ -1992,15 +1992,18 @@ export default function Home() {
             }} /> */}
 
             <div>
+                <Input ref={ref} placeholder="1" onChange={() => {
+                    console.log(1);
+                    
+                }} />
 
                 <div style={{ width: 500 }}>
-                    <Select
+                    {/* <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
                         onDropdownVisibleChange={(open) => {
                             setOpen(open)
                         }}
-                        ref={ref}
                         // maxTagCount="responsive"
                         open={open}
                         // value={['AX', 'AL', 'AS', 'DZ', 'AF']}
@@ -2025,7 +2028,7 @@ export default function Home() {
                                 </div>
                             </Option>
                         })}
-                    </Select>
+                    </Select> */}
                 </div>
 
                 {/* <RadioGroup
