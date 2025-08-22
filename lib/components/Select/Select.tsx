@@ -838,11 +838,10 @@ const SelectComponent = ({
                   style={{
                     minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
                     display: 'ruby',
-                    textAlign: 'center',
-                    userSelect: showSearch ? 'text' : 'unset'
+                    textAlign: 'center'
                   }}
                   {...showSearch ? {
-                    contentEditable: 'plaintext-only'
+                    contentEditable: true
                   } : {}}
                   id={`${prefixCls}-search-tag-input`}
                   className={`${prefixCls}-tag-input`}
