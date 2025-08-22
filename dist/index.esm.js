@@ -3511,7 +3511,8 @@ const SelectComponent = ({
       return;
     }
     const timeout = setTimeout(() => {
-      e.target.value = searchInputRef.current?.innerText || e.target.innerText;
+      setSearchFocused(true);
+      e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
       if (e.key === 'Enter' && searchQuery.trim() !== '') {
@@ -3532,6 +3533,7 @@ const SelectComponent = ({
           }
           onChange?.(updatedSelected);
           setSelected(updatedSelected);
+          setSearchFocused(false);
         }
       }
       clearTimeout(timeout);
@@ -3660,6 +3662,7 @@ const SelectComponent = ({
     style: {
       maxHeight: listHeight,
       overflowY: 'auto',
+      // display: !filteredOptions.length && asTag ? 'none' : 'block',
       maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit'
     }
   }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
