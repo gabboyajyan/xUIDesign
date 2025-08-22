@@ -18,7 +18,6 @@ import React, {
   useState
 } from 'react';
 import { createPortal } from 'react-dom';
-import { isMacOs, isIOS } from 'react-device-detect';
 import ReactDOMServer from 'react-dom/server';
 import {
   ArrowIcon,
@@ -42,8 +41,6 @@ const LIST_HEIGHT = 200;
 const PADDING_PLACEMENT = 16;
 const PADDING_TAG_INPUT = 4;
 const FORM_MARGIN_BOTTOM = 20;
-
-const isAppleDevice = isMacOs || isIOS;
 
 function getTextFromNode(node: ReactNode): string {
   if (typeof node === 'string' || typeof node === 'number') {
@@ -557,9 +554,10 @@ const SelectComponent = ({
         `${prefixCls}-search-tag-input`
       );
 
+      console.log({ searchInput, searchInputRef: searchInputRef?.current });
+
       if (searchInput) {
         searchInput?.focus();
-        searchInputRef?.current?.focus();
 
         setSearchFocused(true);
       }
@@ -826,9 +824,7 @@ const SelectComponent = ({
             </> : null}
 
             {isOpen ? (
-              <div 
-                className={`${prefixCls}-tag contentEditable`} 
-                contentEditable={isAppleDevice && showSearch}>
+              <div className={`${prefixCls}-tag contentEditable`}>
                 <div
                   ref={searchInputRef}
                   onClick={e => {
