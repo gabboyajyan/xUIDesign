@@ -554,8 +554,6 @@ const SelectComponent = ({
         `${prefixCls}-search-tag-input`
       );
 
-      console.log({ searchInput, searchInputRef: searchInputRef?.current });
-
       if (searchInput) {
         searchInput?.focus();
 
@@ -855,6 +853,9 @@ const SelectComponent = ({
               <div
                 className={`${prefixCls}-input globalEllipsis`}
                 style={{ opacity: isOpen ? '0.6' : '1' }}
+                {...showSearch ? {
+                    contentEditable: true
+                  } : {}}
               >
                 {selected === ''
                   ? placeholder

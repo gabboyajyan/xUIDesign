@@ -3590,10 +3590,6 @@ const SelectComponent = ({
     }
     const timeout = setTimeout(() => {
       const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
-      console.log({
-        searchInput,
-        searchInputRef: searchInputRef?.current
-      });
       if (searchInput) {
         searchInput?.focus();
         setSearchFocused(true);
@@ -3789,12 +3785,14 @@ const SelectComponent = ({
   } : {}, {
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", _extends({
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }, showSearch ? {
+    contentEditable: true
+  } : {}), selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || defaultOpen),
     style: {
