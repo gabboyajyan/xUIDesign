@@ -263,7 +263,7 @@ const SelectComponent = ({
       setSearchFocused(false);
     }
   }, [isOpen]);
-  
+
   useEffect(() => {
     if (!open && isOpen && closeFromParent) {
       handleClickOutside();
@@ -303,7 +303,7 @@ const SelectComponent = ({
 
   useEffect(() => {
     updateDropdownPosition(true);
-  }, [searchQuery.length])
+  }, [searchQuery.length]);
 
   const getScrollParents = (element: HTMLElement): HTMLElement[] => {
     const parents: HTMLElement[] = [];
@@ -838,7 +838,9 @@ const SelectComponent = ({
                   style={{
                     minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
                     display: 'ruby',
-                    textAlign: 'center'
+                    textAlign: 'center',
+                    userSelect: 'text',
+                    WebkitUserSelect: 'text',
                   }}
                   {...showSearch ? {
                     contentEditable: true
