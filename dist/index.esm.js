@@ -3347,6 +3347,7 @@ const SelectComponent = ({
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
     const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
     if (!clickedInside) {
+      setSearchFocused(false);
       setIsOpen(false);
       handleClearInputValue();
       onClose?.();
@@ -3398,8 +3399,13 @@ const SelectComponent = ({
     if (!isOpen) {
       setDropdownPosition({});
       setSearchFocused(false);
+    } else {
+      if (showSearch) {
+        setSearchFocused(true);
+        searchInputRef.current?.focus();
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, showSearch]);
   useEffect(() => {
     if (!open && isOpen && closeFromParent) {
       handleClickOutside();
@@ -3499,11 +3505,13 @@ const SelectComponent = ({
   };
   const handleRemoveTag = e => handleSelect(e, e.target.value);
   const handleOnKeyDown = e => {
-    if (!isOpen) {
+    if (!isOpen || e.which === 13) {
+      e.stopPropagation();
+      e.preventDefault();
       return;
     }
     const timeout = setTimeout(() => {
-      e.target.value = (searchInputRef.current?.innerText || e.target.innerText).replace('\n', '');
+      e.target.value = searchInputRef.current?.innerText || e.target.innerText;
       setSearchQuery(e.target.value);
       onSearch?.(e.target.value);
       if (e.key === 'Enter' && searchQuery.trim() !== '') {
@@ -3588,14 +3596,6 @@ const SelectComponent = ({
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
-    const timeout = setTimeout(() => {
-      const searchInput = document.getElementById(`${prefixCls}-search-tag-input`);
-      if (searchInput) {
-        searchInput?.focus();
-        setSearchFocused(true);
-      }
-      clearTimeout(timeout);
-    }, 0);
   };
   const dataRender = (() => {
     const options = filteredOptions.map(({
@@ -3778,21 +3778,20 @@ const SelectComponent = ({
     style: {
       minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
       display: 'ruby',
-      textAlign: 'center'
+      textAlign: 'center',
+      opacity: searchFocused ? 1 : 0
     }
   }, showSearch ? {
     contentEditable: true
   } : {}, {
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", _extends({
+  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     style: {
       opacity: isOpen ? '0.6' : '1'
     }
-  }, showSearch ? {
-    contentEditable: true
-  } : {}), selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }, selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || defaultOpen),
     style: {
