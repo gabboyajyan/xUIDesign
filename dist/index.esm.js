@@ -3275,6 +3275,7 @@ const SelectComponent = ({
   style,
   showSearch = false,
   open = true,
+  closeFromParent = false,
   showArrow = true,
   notFoundContent = false,
   noStyle,
@@ -3400,10 +3401,10 @@ const SelectComponent = ({
     }
   }, [isOpen]);
   useEffect(() => {
-    if (!open && isOpen) {
+    if (!open && isOpen && closeFromParent) {
       handleClickOutside();
     }
-  }, [open, isOpen]);
+  }, [open, isOpen, closeFromParent]);
   useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();
@@ -3778,7 +3779,8 @@ const SelectComponent = ({
     style: {
       minWidth: showSearch && !searchQuery.length ? 1 : 'auto',
       display: 'ruby',
-      textAlign: 'center'
+      textAlign: 'center',
+      userSelect: showSearch ? 'text' : 'unset'
     }
   }, showSearch ? {
     contentEditable: 'plaintext-only'

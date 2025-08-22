@@ -62,7 +62,8 @@ export type SelectProps = DefaultProps & {
   placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
   removeIcon?: ReactNode;
   maxTagCount?: number | 'responsive',
-  ref?: ForwardedRef<HTMLDivElement>
+  ref?: ForwardedRef<HTMLDivElement>,
+  closeFromParent?: boolean
 };
 
 export interface OptionType {
