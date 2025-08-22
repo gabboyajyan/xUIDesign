@@ -34,6 +34,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.0",
     "postcss": "^8.5.3",
+    "react-device-detect": "^2.2.3",
     "rollup": "^3.0.0",
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-peer-deps-external": "^2.2.4",
