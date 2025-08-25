@@ -1900,7 +1900,7 @@ export default function Home() {
     //     console.log(0, e);
     // }
 
-    // const [value, setValue] = useState('1234')
+    const [value, setValue] = useState()
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1991,10 +1991,7 @@ export default function Home() {
             }} /> */}
 
             <div>
-                {/* <Input ref={ref} placeholder="1" onChange={() => {
-                    console.log(1);
-                    
-                }} /> */}
+                <Input />
 
                 <div style={{ width: 500 }}>
                     <Select
