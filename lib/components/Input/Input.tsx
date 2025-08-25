@@ -107,13 +107,9 @@ const InputComponent = ({
 
         inputRef.current?.setSelectionRange(nextCaret, nextCaret);
       })
-
-      if (rawInput === mask) {
-        rawInput = '';
-      }
-  
-      setMaskValue(rawInput);
     };
+
+    setMaskValue(rawInput);
 
     const eventWithMaskedValue = {
       ...e,
@@ -173,7 +169,7 @@ const InputComponent = ({
             ? { type: iconRenderVisible ? 'text' : 'password' }
             : {})}
           disabled={disabled}
-          value={maskValue ?? value}
+          value={maskValue}
           onChange={handleChange}
           onKeyDown={handleOnKeyDown}
           className={clsx([prefixCls, className])}

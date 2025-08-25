@@ -1900,7 +1900,7 @@ export default function Home() {
     //     console.log(0, e);
     // }
 
-    const [value, setValue] = useState()
+    const [value, setValue] = useState('')
     // const [options, setOptions] = useState(null)
 
     // const OPTIONS = () => {
@@ -1991,7 +1991,17 @@ export default function Home() {
             }} /> */}
 
             <div>
-                <Input />
+                <Input
+                    onChange={(e) => {
+                        console.log(e.target.value);
+                        setValue(e.target.value.replace(/[0-9]+/g, ''))
+                    }}
+                    // mask="___.___.___" 
+                    value={value}
+                    onInput={(e) => {
+                        e.target.value = e.target.value.replace(/[0-9]+/g, '');
+                    }}
+                     />
 
                 <div style={{ width: 500 }}>
                     <Select

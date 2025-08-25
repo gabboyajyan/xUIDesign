@@ -9,7 +9,7 @@
 
 .xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,
 .xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus) {
-    border: 1px solid var(--xui-primary-color);   
+    border: 1px solid var(--xui-primary-color); 
 }
 
 .xUi-input-container.xUi-input-error {
