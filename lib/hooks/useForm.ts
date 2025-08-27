@@ -11,14 +11,6 @@ import type {
   RuleRender
 } from '../types/form';
 
-function findFormItem(item: Element | undefined | null): Element | undefined {
-  if (item?.parentElement?.tagName !== 'FORM') {
-    findFormItem(item?.parentElement)
-  } else {
-    return item;
-  }
-}
-
 const useForm = (
   initialValues: Record<string, RuleTypes> = {},
   onFieldsChange?: (changedFields: FieldData[]) => void,

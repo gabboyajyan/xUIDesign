@@ -1,21 +1,22 @@
 'use client'
 
-import { Form } from "../../lib/components/Form";
-import { Radio } from "../../lib/components/Radio";
+// import { Form } from "../../lib/components/Form";
+// import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
-import { Item } from "../../lib/components/Form/Item";
+// import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
-import { Input } from "../../lib/components/Input";
+// import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
-// import { useState } from "react";
+import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
-import { Button } from "../../lib/components/Button";
-import { RadioGroup } from "../../lib/components/Radio/Group";
-import { ForwardedRef, useEffect, useRef, useState } from "react";
+// import { Upload } from '../../lib/components/Upload'
+// import { Button } from "../../lib/components/Button";
+// import { RadioGroup } from "../../lib/components/Radio/Group";
+// import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 import Option from "../../lib/components/Select/Option/Option";
-import { RuleType, SyntheticBaseEvent } from "../../lib/types";
+import { RuleType } from "../../lib/types";
 import { clsx } from "../../lib/helpers";
 // import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
@@ -1991,7 +1992,7 @@ export default function Home() {
             }} /> */}
 
             <div>
-                <Input
+                {/* <Input
                     onChange={(e) => {
                         console.log(e.target.value);
                         setValue(e.target.value.replace(/[0-9]+/g, ''))
@@ -2002,6 +2003,8 @@ export default function Home() {
                         e.target.value = e.target.value.replace(/[0-9]+/g, '');
                     }}
                      />
+
+                <Upload /> */}
 
                 <div style={{ width: 500 }}>
                     <Select
