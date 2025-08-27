@@ -1,11 +1,11 @@
 'use client'
 
-// import { Form } from "../../lib/components/Form";
+import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
-// import { Item } from "../../lib/components/Form/Item";
+import { Item } from "../../lib/components/Form/Item";
 import { useForm } from "../../lib/hooks/useForm";
-// import { Input } from "../../lib/components/Input";
+import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 import { useState } from "react";
@@ -1963,15 +1963,16 @@ export default function Home() {
 
             {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
 
-            {/* <Input
-                value={eye}
-                suffix={
-                    <span onClick={() => {
-                        setEye('')
-                    }}>Clear</span>
-                }
-                onChange={e => setEye(e.target.value)}
-            /> */}
+            <Input
+                // mask="___.___.___.__"
+                // value={eye}
+                // suffix={
+                //     <span onClick={() => {
+                //         setEye('')
+                //     }}>Clear</span>
+                // }
+                // onChange={e => setEye(e.target.value)}
+            />
 
             {/* <Input value={statusValue} onChange={(value) => {
                             console.log(value);
@@ -2006,7 +2007,7 @@ export default function Home() {
 
                 <Upload /> */}
 
-                <div style={{ width: 500 }}>
+                {/* <div style={{ width: 500 }}>
                     <Select
                         showSearch
                         // searchIcon={<ArrowIcon isOpen={open} />}
@@ -2038,7 +2039,7 @@ export default function Home() {
                             </Option>
                         })}
                     </Select>
-                </div>
+                </div> */}
 
                 {/* <RadioGroup
                     value={activeTab}
@@ -2054,14 +2055,14 @@ export default function Home() {
                     </RadioButton>
                 </RadioGroup> */}
 
-                <button onClick={() => setOpen(false)}>dfdsf</button>
+                {/* <button onClick={() => setOpen(false)}>dfdsf</button> */}
 
 
-                {/* <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
-                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+                    <Item rules={[{ required: true }]} name="genderrrrr" label="Gender">
                         <Select
                             showSearch
-                            searchIcon={<ArrowIcon isOpen={open} />}
+                            // searchIcon={<ArrowIcon isOpen={open} />}
                             style={{ width: 400 }}
                             placeholder="Select...">
                             {([{ value: 'F', label: 'Female' }, { value: 'M', label: 'Male' }]).map((item: RuleType, index: number) => {
@@ -2085,7 +2086,7 @@ export default function Home() {
                         </Select>
                     </Item> 
                 
-                    {step === 0 ? <>
+                    {/* {step === 0 ? <>
                     <Item name="username" label="Username" rules={[{ required: true }]}>
                         <Input mask="___.___.___-__" />
                         <RadioGroup>
@@ -2149,10 +2150,31 @@ export default function Home() {
                         >
                             <Switch />
                         </Item>
-                    </div>
+                    </div> */}
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Input mask="___.___.___-__"
+                            value={value}
+                            // onInput={(event) => {
+                            //     const target = event.target as HTMLInputElement;
+                            //     const regex = /[^0-9]/g;
+
+                            //     target.value = target.value.replace(regex, '');
+                            // }}
+                            // onChange={(e) => setValue(e.target.value)}
+                            // suffix={
+                            //     <span onClick={() => {
+                            //         setEye('')
+                            //     }}>Clear</span>
+                            // }
+                            // onChange={e => setEye(e.target.value)}
+                        />
+                    </Item>
+                    <Item rules={[{ required: true }]} name="genderr" label="Genderr">
+                        <Input />
+                    </Item>
                     <button type="submit">Submit</button>
                     <button onClick={() => form.resetFields()}>Reset</button>
-                </Form> */}
+                </Form>
 
                 {/* <AntForm>
                     <AntForm.Item label={'dsfdsf'} name="sdfdsf">
