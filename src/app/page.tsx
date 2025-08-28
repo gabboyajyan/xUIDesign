@@ -8,20 +8,20 @@ import { useForm } from "../../lib/hooks/useForm";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
-import { useState } from "react";
+// import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
-// import { Button } from "../../lib/components/Button";
+import { Button } from "../../lib/components/Button";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
-import Option from "../../lib/components/Select/Option/Option";
-import { RuleType } from "../../lib/types";
-import { clsx } from "../../lib/helpers";
+// import Option from "../../lib/components/Select/Option/Option";
+// import { RuleType } from "../../lib/types";
+// import { clsx } from "../../lib/helpers";
 // import { ArrowIcon } from "../../lib/components/Icons/Icons";
-
-// import { Input as AntInput } from 'antd'
+// import { Input as AntInput, Select as AntSelect, Form as AntForm  } from 'antd';
 // import FormItem from "antd/es/form/FormItem";
+// import { useForm } from "antd/es/form/Form";
 
 export const CountryCodes = [...new Set([
     {
@@ -1839,371 +1839,26 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-// const statusOption = [
-//     {
-//         "label": "All",
-//         "value": 0
-//     },
-//     {
-//         "label": "Canceled",
-//         "value": -1
-//     },
-//     {
-//         "label": "Finished",
-//         "value": 1
-//     },
-//     {
-//         "label": "Live",
-//         "value": 2
-//     },
-//     {
-//         "label": "Upcoming",
-//         "value": 3
-//     }
-// ]
-
-// const statusValue = [
-//     2,
-//     3
-// ]
-
-// const l = [{ value: 0, label: 'Zero' }]
-
-// const DOCUMENT_TYPES = [
-//     { value: 0, label: 'account.idDocument' },
-//     { value: 1, label: 'account.passportNum' }
-// ];
-
 export default function Home() {
-    const form = useForm({
-        // username: "Gabriel"
-    });
-
-    // const [hide, setHide] = useState(true);
-    // const [step, setStep] = useState(0)
-    const [open, setOpen] = useState(false)
-
-    // const ref = useRef(null)
-
-    // useEffect(() => {
-    //     console.log(ref.current);
-    // }, [ref])
-
-    // const [activeTab, setActiveTab] = useState<'manual' | 'auto'>('manual')
-
-    const [statusValue, setStatusValue] = useState('');
-    const [country, setCountry] = useState('AF');
-
-
-    // const handle = useCallback((e) => console.log(e), [])
-
-    // function handleOnValueChnage(e) {
-    //     console.log(0, e);
-    // }
-
-    const [value, setValue] = useState('')
-    // const [options, setOptions] = useState(null)
-
-    // const OPTIONS = () => {
-    //     return new Promise((resolve) => {
-    //         setTimeout(() => {
-    //             return resolve([
-    //                 {
-    //                     "label": "BANCO SANTANDER, S.A.",
-    //                     "order": undefined,
-    //                     "value": "BSCHESMMXXX"
-    //                 }
-    //             ])
-    //         }, 2000);
-
-    //         return []
-    //     })
-    // }
-
-    // OPTIONS().then(t => setOptions(t))
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         form.setFieldValue('username', 'Gabriel')
-    //     }, 2000);
-
-    //     setTimeout(() => {
-    //         console.log(form.isFieldTouched('username'));
-    //     }, 3000);
-    // }, [])
-
-    // const [open, setOpen] = useState(true);
-
-    // const handleChange = (event: SyntheticBaseEvent) => {
-    //     const getValue = () => {
-    //         const { value } = event.target;
-
-    //         if (value === '.') {
-    //             return '0.';
-    //         }
-
-    //         // @Todo need to handle with separator
-    //         return value
-    //             .replace(/[^0-9.]/g, '')
-    //             .replace(/(\..*?)\..*/g, '$1')
-    //             .trim();
-    //     };
-
-    //     const stake = getValue();
-
-    //     // event.target.value = stake;
-    //     console.log({ stake });
-
-    //     setValue(stake);
-    // };
-
     return (
-        <>
-            {/* <div style={{ height: 1000 }} /> */}
+        <Form size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+            <Item rules={[{ required: true }]} name="country" label="Country">
+                <Select
+                    showSearch
+                    style={{ width: 400 }}
+                    placeholder="Select..."
+                    options={CountryCodes}/>
+            </Item>
 
-            {/* <Select options={CountryCodes} getPopupContainer={() => document.body} /> */}
+            <Item rules={[{ required: true }]} name="gender" label="Gender">
+                <Input mask="___.___.___.__" placeholder="Gender" />
+            </Item>
 
-            <Input
-                // mask="___.___.___.__"
-                // value={eye}
-                // suffix={
-                //     <span onClick={() => {
-                //         setEye('')
-                //     }}>Clear</span>
-                // }
-                // onChange={e => setEye(e.target.value)}
-            />
+            <Item rules={[{ required: true }]} name="username" label="Username">
+                <Input placeholder="Username" />
+            </Item>
 
-            {/* <Input value={statusValue} onChange={(value) => {
-                            console.log(value);
-                            
-                        }} />
-
-                <Button onClick={() =>{
-                     form.setFieldsValue({ username: 'male', age: 12, gender: 'M', email: 'asdfdf@sadfa.sdf' })
-                     setStatusValue('sdfsf')
-                }}>toggle hide</Button> */}
-            {/* <Input mask="___.___.___._" value={value} onChange={(e) => {
-                setValue(e.target.value)
-
-            }} />
-            <Input value={value} onChange={(e) => {
-                setValue(e.target.value)
-
-            }} /> */}
-
-            <div>
-                {/* <Input
-                    onChange={(e) => {
-                        console.log(e.target.value);
-                        setValue(e.target.value.replace(/[0-9]+/g, ''))
-                    }}
-                    // mask="___.___.___" 
-                    value={value}
-                    onInput={(e) => {
-                        e.target.value = e.target.value.replace(/[0-9]+/g, '');
-                    }}
-                     />
-
-                <Upload /> */}
-
-                {/* <div style={{ width: 500 }}>
-                    <Select
-                        showSearch
-                        // searchIcon={<ArrowIcon isOpen={open} />}
-                        onDropdownVisibleChange={(open) => {
-                            setOpen(open)
-                        }}
-                        // maxTagCount="responsive"
-                        open={open}
-                        // value={['AX', 'AL', 'AS', 'DZ', 'AF']}
-                        style={{ width: 500 }}
-                        mode="tags"
-                        placeholder="Select...">
-                        {CountryCodes.map((item: RuleType, index: number) => {
-                            const isSelected = country.includes(item.value);
-
-                            return <Option
-                                key={`${index}_${item.value}`}
-                                value={item.value}
-                            >
-                                {item.label}
-
-                                <div
-                                    className={clsx([
-                                        'xUi-select__overridden__options__iconWrapper',
-                                        { active: isSelected }
-                                    ])}
-                                >
-                                </div>
-                            </Option>
-                        })}
-                    </Select>
-                </div> */}
-
-                {/* <RadioGroup
-                    value={activeTab}
-                    buttonStyle="solid"
-                    style={{ width: '100%', marginBottom: '24px' }}
-                    //   disabled={cashoutButtonLoading}
-                >
-                    <RadioButton onClick={e => setActiveTab(e)} value="manual">
-                        {'account.manualMode'}
-                    </RadioButton>
-                    <RadioButton onClick={e => setActiveTab(e)} value="auto">
-                        {'account.autoMode'}
-                    </RadioButton>
-                </RadioGroup> */}
-
-                {/* <button onClick={() => setOpen(false)}>dfdsf</button> */}
-
-
-                <Form form={form} size="large" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
-                    <Item rules={[{ required: true }]} name="genderrrrr" label="Gender">
-                        <Select
-                            showSearch
-                            // searchIcon={<ArrowIcon isOpen={open} />}
-                            style={{ width: 400 }}
-                            placeholder="Select...">
-                            {([{ value: 'F', label: 'Female' }, { value: 'M', label: 'Male' }]).map((item: RuleType, index: number) => {
-                                const isSelected = country.includes(item.value);
-
-                                return <Option
-                                    key={`${index}_${item.value}`}
-                                    value={item.value}
-                                >
-                                    {item.label}
-
-                                    <div
-                                        className={clsx([
-                                            'xUi-select__overridden__options__iconWrapper',
-                                            { active: isSelected }
-                                        ])}
-                                    >
-                                    </div>
-                                </Option>
-                            })}
-                        </Select>
-                    </Item> 
-                
-                    {/* {step === 0 ? <>
-                    <Item name="username" label="Username" rules={[{ required: true }]}>
-                        <Input mask="___.___.___-__" />
-                        <RadioGroup>
-                            <Radio name="male" value={'male'}>Male</Radio>
-                            <Radio name="Female" value={'female'}>Female</Radio>
-                        </RadioGroup>
-                    </Item>
-                    {hide ? null : <Item name="age" label="age" rules={[{ required: true }]}>
-                        <Input type="number" />
-                    </Item>}
-                    </> : step === 1 ? <Item name="name" label="Name" rules={[{ required: true }]}>
-                        <Input mask="___.___.___-__" />
-                    </Item> : <Item name="email" label="Email" rules={[{ required: true }]}>
-                        <Input value={statusValue} />
-                    </Item>}
-
-                    <Item name="email" label="Email" rules={[{ required: true }]}>
-                        <Input value={statusValue} />
-                    </Item>
-
-                    <Item rules={[{ required: true }]} name="name" label="name">
-                        <AntInput value={value} onChange={(e) => handleChange(e)} />
-                    </Item>
-
-                    {step !== 0 && <Button size="middle" onClick={() => {
-                        form.changeStep(step - 1)
-                        setStep(step - 1)
-                    }}>Previous</Button>}
-                    <Button type="primary" size="middle" htmlType="button" onClick={async () => {
-                        if (await form.validateFields()) {
-                            if (step === 2) {
-                                form.submit();
-                            } else {
-                                form.changeStep(step + 1)
-                                setStep(step + 1)
-                            }
-                        }
-                    }}>Submit</Button>
-                    <div>
-                        <Item rules={[{ required: true }]} name="dfdsf" label="dzfdsf">
-                            <Radio.Group onChange={(e) => console.log(e)}>
-                                <Radio name="sdfdsf" value={'dsfdsf'}>Male</Radio>
-                                <Radio name="Female" value={'fesdfdsfmale'}>Female</Radio>
-                            </Radio.Group>
-                        </Item>
-
-                        <Item
-                            name="agree"
-                            label="Agree"
-                            rules={[{
-                                // required: true,
-                                validateBooleanFalse: true,
-                                validator: async (_, checked) => {
-                                    if (!checked) {
-                                        return Promise.reject('account.acceptAgreement');
-                                    } else {
-                                        Promise.resolve();
-                                    }
-                                }
-                            }]}
-                        >
-                            <Switch />
-                        </Item>
-                    </div> */}
-                    <Item rules={[{ required: true }]} name="gender" label="Gender">
-                        <Input mask="___.___.___-__"
-                            value={value}
-                            // onInput={(event) => {
-                            //     const target = event.target as HTMLInputElement;
-                            //     const regex = /[^0-9]/g;
-
-                            //     target.value = target.value.replace(regex, '');
-                            // }}
-                            // onChange={(e) => setValue(e.target.value)}
-                            // suffix={
-                            //     <span onClick={() => {
-                            //         setEye('')
-                            //     }}>Clear</span>
-                            // }
-                            // onChange={e => setEye(e.target.value)}
-                        />
-                    </Item>
-                    <Item rules={[{ required: true }]} name="genderr" label="Genderr">
-                        <Input />
-                    </Item>
-                    <button type="submit">Submit</button>
-                    <button onClick={() => form.resetFields()}>Reset</button>
-                </Form>
-
-                {/* <AntForm>
-                    <AntForm.Item label={'dsfdsf'} name="sdfdsf">
-                        <AntSelect
-                            style={{ width: 200 }}
-                            showSearch
-                            // mode="tags"
-                            getPopupContainer={() => document.body}
-                            defaultValue={'Live'}
-                        >
-                            {statusOption.map(item => (
-                                <AntSelect.Option
-                                    key={item.label}
-                                    value={item.label}
-                                >
-                                    {item.label}
-                                </AntSelect.Option>
-                            ))}
-                        </AntSelect>
-                    </AntForm.Item>
-
-                    <FormItem label="Male">
-                        <Radio name="gender" />
-                        <Radio name="gender" />
-                    </FormItem>
-                </AntForm> */}
-            </div>
-
-            {/* <div style={{ height: 1000 }} /> */}
-        </>
+            <Button htmlType="submit">Submit</Button>
+        </Form>
     )
 }

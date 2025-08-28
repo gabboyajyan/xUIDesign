@@ -23,7 +23,19 @@ import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
 
-// const REF_CLIENT_HEIGHT = 24;
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: any[]) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
 const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -209,6 +221,12 @@ const FormItemChildComponent = ({
 
   const { getFieldsValue } = formContext || {};
 
+  const debouncedSetFieldValue = useRef(
+    debounce((name: string, value: any) => {
+      setFieldValue(name, value, undefined, undefined, true);
+    }, 100)
+  ).current;
+
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
@@ -237,7 +255,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    setFieldValue(name, rawValue, undefined, undefined, true);
+    debouncedSetFieldValue(name, rawValue);
     onChange?.(e, option);
   };
 

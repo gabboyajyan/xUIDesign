@@ -852,7 +852,7 @@ const SelectComponent = ({
             ) : !hasMode ? (
               <div
                 className={`${prefixCls}-input globalEllipsis`}
-                style={{ opacity: isOpen ? '0.6' : '1' }}
+                style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
               >
                 {selected === ''
                   ? placeholder
@@ -864,7 +864,7 @@ const SelectComponent = ({
           <div
             className={`${prefixCls}-input globalEllipsis`}
             onClick={() => !disabled && setIsOpen(!isOpen || defaultOpen)}
-            style={{ opacity: isOpen ? '0.6' : '1' }}
+            style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
           >
             {selected === ''
               ? placeholder
