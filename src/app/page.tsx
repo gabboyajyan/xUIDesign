@@ -1844,10 +1844,11 @@ export default function Home() {
         <Form size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
             <Item rules={[{ required: true }]} name="country" label="Country">
                 <Select
-                    showSearch
+                    // showSearch
                     style={{ width: 400 }}
                     placeholder="Select..."
-                    options={CountryCodes}/>
+                    options={CountryCodes}
+                />
             </Item>
 
             <Item rules={[{ required: true }]} name="gender" label="Gender">

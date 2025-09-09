@@ -460,9 +460,9 @@ const ClearIcon = () => /*#__PURE__*/React.createElement("svg", {
 const ArrowIcon = ({
   isOpen
 }) => /*#__PURE__*/React.createElement("svg", {
-  width: "20",
-  height: "20",
-  viewBox: "0 0 24 24",
+  width: "16",
+  height: "16",
+  viewBox: "0 0 18 22",
   fill: "none",
   xmlns: "http://www.w3.org/2000/svg"
 }, /*#__PURE__*/React.createElement("path", {
