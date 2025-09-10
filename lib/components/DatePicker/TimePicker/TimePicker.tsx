@@ -15,8 +15,8 @@ import { clsx } from '../../../helpers';
 import { RuleType } from '../../../types';
 import { TimePickerProps } from '../../../types/datepicker';
 import { prefixClsTimePicker } from '../../../utils';
-import './style.css';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
+import './style.css';
 
 const HOURS = 24;
 const INPUT_SIZE = 13;
