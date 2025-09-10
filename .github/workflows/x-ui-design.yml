@@ -4,14 +4,11 @@ on: push
 
 jobs:
   super-lint:
-    name: Lint code base
+    name: X UI Design
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v0.5.68
-
       - name: Run xUIDesign
-        uses: gabboyajyan/xUIDesign@v0.5.68
+        uses: gabboyajyan/xUIDesign@main
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
