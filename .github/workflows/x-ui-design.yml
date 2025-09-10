@@ -8,10 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v0.5.68
 
       - name: Run xUIDesign
-        uses: gabboyajyan/xUIDesign@v2
+        uses: gabboyajyan/xUIDesign@v0.5.68
         env:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
