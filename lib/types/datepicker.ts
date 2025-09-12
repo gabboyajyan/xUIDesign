@@ -1,4 +1,4 @@
-import { FocusEvent, ForwardedRef, ReactNode } from 'react';
+import { FocusEvent, ReactNode } from 'react';
 import { DefaultProps, RuleType, SizeType } from '.';
 
 export interface BaseInfo {
@@ -74,7 +74,6 @@ export type TRangePickerProps = Omit<
   value?: Date[];
   defaultValue?: Date[];
   separator?: ReactNode;
-  ref?: ForwardedRef<HTMLDivElement> | undefined
 };
 
 export type Locale = {
