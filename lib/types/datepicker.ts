@@ -58,6 +58,7 @@ export type TDatePickerProps = DefaultProps & {
     dateString: string | string[],
     info: BaseInfo
   ) => void;
+  onOpenChange?: (open: boolean) => void;
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   showToday?: boolean;
   inputReadOnly?: boolean;

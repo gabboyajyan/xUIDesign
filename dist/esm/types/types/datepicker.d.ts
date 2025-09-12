@@ -33,6 +33,7 @@ export type TDatePickerProps = DefaultProps & {
     };
     onChange?: (date: RuleType | RuleType[], dateString: string | string[]) => void;
     onCalendarChange?: (date: RuleType | RuleType[], dateString: string | string[], info: BaseInfo) => void;
+    onOpenChange?: (open: boolean) => void;
     getPopupContainer?: (node: HTMLElement) => HTMLElement;
     showToday?: boolean;
     inputReadOnly?: boolean;

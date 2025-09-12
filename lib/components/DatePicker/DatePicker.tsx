@@ -203,19 +203,19 @@ const DatePicker = ({
     setPlacementPossition(
       ['topLeft', 'topRight'].includes(placement)
         ? {
-            position: 'absolute',
-            top:
-              datePickerPossitionFromTop - datePickerContainerPopupHeight < 0
-                ? datePickerContainerHeight
-                : -datePickerContainerPopupHeight
-          }
+          position: 'absolute',
+          top:
+            datePickerPossitionFromTop - datePickerContainerPopupHeight < 0
+              ? datePickerContainerHeight
+              : -datePickerContainerPopupHeight
+        }
         : {
-            position: 'absolute',
-            top:
-              datePickerPossitionFromBottom > datePickerContainerPopupHeight
-                ? 0
-                : -(datePickerContainerPopupHeight + datePickerContainerHeight)
-          }
+          position: 'absolute',
+          top:
+            datePickerPossitionFromBottom > datePickerContainerPopupHeight
+              ? 0
+              : -(datePickerContainerPopupHeight + datePickerContainerHeight)
+        }
     );
   }
 
@@ -276,7 +276,11 @@ const DatePicker = ({
             }
           ])}
           disabled={disabled}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsOpen(!isOpen)
+          }}
         >
           {prefix || null}
           <input
@@ -319,17 +323,25 @@ const DatePicker = ({
           <div className={`${prefixCls}-dropdown`} style={placementPossition}>
             <div className={`${prefixCls}-header`}>
               <div className={`${prefixCls}-nav-buttons`}>
-                <button onClick={() => setCurrentYear((y: number) => y - 1)}>
+                <button onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  setCurrentYear((y: number) => y - 1)
+                }}>
                   &laquo;
                 </button>
                 <button
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     setCurrentMonth((m: number) =>
                       m === 0
                         ? (setCurrentYear((y: number) => y - 1), MONTH_LENGTH)
                         : m - 1
                     )
-                  }
+                  }}
                 >
                   &lsaquo;
                 </button>
@@ -338,31 +350,49 @@ const DatePicker = ({
                 <button
                   type="button"
                   className={`${prefixCls}-select`}
-                  onClick={() => setViewMode('year')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    setViewMode('year')
+                  }}
                 >
                   {currentYear}
                 </button>
                 <button
                   type="button"
                   className={`${prefixCls}-select`}
-                  onClick={() => setViewMode('month')}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    setViewMode('month')
+                  }}
                 >
                   {localeMonths[currentMonth]}
                 </button>
               </div>
               <div className={`${prefixCls}-nav-buttons`}>
                 <button
-                  onClick={() =>
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     setCurrentMonth((m: number) =>
                       m === MONTH_LENGTH
                         ? (setCurrentYear((y: number) => y + 1), 0)
                         : m + 1
                     )
-                  }
+                  }}
                 >
                   &rsaquo;
                 </button>
-                <button onClick={() => setCurrentYear((y: number) => y + 1)}>
+                <button onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  setCurrentYear((y: number) => y + 1)
+                }}>
                   &raquo;
                 </button>
               </div>
@@ -392,7 +422,12 @@ const DatePicker = ({
                           [`${prefixCls}-other-month`]: !current
                         }
                       ])}
-                      onClick={() => handleSelect(day, month, year)}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        handleSelect(day, month, year)
+                      }}
                       disabled={disabledDate?.(new Date(year, month, day), {
                         from: undefined,
                         to: undefined
@@ -411,7 +446,10 @@ const DatePicker = ({
                   <button
                     key={i}
                     className={`${prefixCls}-month`}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
                       setCurrentMonth(i);
                       setViewMode('day');
                     }}
@@ -433,7 +471,10 @@ const DatePicker = ({
                       key={year}
                       className={`${prefixCls}-year`}
                       disabled={isYearDisabled(year)}
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
                         setCurrentYear(year);
                         setViewMode('month');
                       }}
@@ -460,7 +501,10 @@ const DatePicker = ({
                     ),
                     { from: undefined, to: undefined }
                   )}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     handleSelect(
                       DateNow.getDate(),
                       DateNow.getMonth(),

@@ -23,6 +23,7 @@ const RangePicker = ({
   picker = 'date',
   locale,
   disabledDate,
+  onOpenChange,
   onCalendarChange,
   style = {},
   className = '',
@@ -71,6 +72,7 @@ const RangePicker = ({
         !containerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
+        onOpenChange?.(false);
       }
     };
 
@@ -97,6 +99,7 @@ const RangePicker = ({
         [formatDate(begin), formatDate(end)], {}
       );
       setIsOpen(false);
+      onOpenChange?.(false);
     }
   };
 
@@ -137,16 +140,26 @@ const RangePicker = ({
       <div className={`${prefixCls}-header`}>
         {all || !monthOffset ? (
           <div className={`${prefixCls}-nav-buttons`}>
-            <button onClick={() => setCurrentYear((y: number) => y - 1)}>
+            <button onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setCurrentYear((y: number) => y - 1)
+            }}
+            >
               &laquo;
             </button>
             <button
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 setCurrentMonth((m: number) =>
                   m === 0
                     ? (setCurrentYear((y: number) => y - 1), MONTH_LENGTH)
                     : m - 1
                 )
+              }
               }
             >
               &lsaquo;
@@ -159,14 +172,24 @@ const RangePicker = ({
           <button
             type="button"
             className={`${prefixCls}-select`}
-            onClick={() => setViewMode('year')}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setViewMode('year')
+            }}
           >
             {baseYear}
           </button>
           <button
             type="button"
             className={`${prefixCls}-select`}
-            onClick={() => setViewMode('month')}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setViewMode('month')
+            }}
           >
             {localeMonths[baseMonth]}
           </button>
@@ -174,17 +197,26 @@ const RangePicker = ({
         {all || monthOffset ? (
           <div className={`${prefixCls}-nav-buttons`}>
             <button
-              onClick={() =>
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
                 setCurrentMonth((m: number) =>
                   m === MONTH_LENGTH
                     ? (setCurrentYear((y: number) => y + 1), 0)
                     : m + 1
                 )
               }
+              }
             >
               &rsaquo;
             </button>
-            <button onClick={() => setCurrentYear((y: number) => y + 1)}>
+            <button onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              setCurrentYear((y: number) => y + 1)
+            }}>
               &raquo;
             </button>
           </div>
@@ -255,8 +287,18 @@ const RangePicker = ({
                     from: undefined,
                     to: undefined
                   })}
-                  onClick={() => day && handleSelect(day)}
-                  onMouseEnter={() => day && setHoveredDate(day)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    day && handleSelect(day)
+                  }}
+                  onMouseEnter={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();;
+
+                    day && setHoveredDate(day);
+                  }}
                   className={clsx([
                     `${prefixCls}-day`,
                     {
@@ -285,7 +327,10 @@ const RangePicker = ({
               <button
                 key={i}
                 className={`${prefixCls}-month`}
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
                   setCurrentMonth(i);
                   setViewMode('day');
                 }}
@@ -307,7 +352,10 @@ const RangePicker = ({
                   key={year}
                   className={`${prefixCls}-year`}
                   disabled={isYearDisabled(year)}
-                  onClick={() => {
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
                     setCurrentYear(year);
                     setViewMode('month');
                   }}
@@ -351,14 +399,22 @@ const RangePicker = ({
             }
           ])}
           disabled={disabled}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            setIsOpen(!isOpen);
+            onOpenChange?.(!isOpen);
+          }}
         >
           {prefix}
           <input
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[0]}
-            value={selectedDates[0] ? formatDate(selectedDates[0]) : ''}
+            {...({
+              [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
+            })}
           />
           <span className={`${prefixCls}-range-separator`}>
             {separator || <DateDistanceIcon />}
@@ -367,7 +423,9 @@ const RangePicker = ({
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[1]}
-            value={selectedDates[1] ? formatDate(selectedDates[1]) : ''}
+            {...({
+              [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
+            })}
           />
           <span className={`${prefixCls}-icon`}>
             {allowClear && (selectedDates[0] || selectedDates[1]) ? (

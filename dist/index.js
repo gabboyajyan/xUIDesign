@@ -2031,7 +2031,11 @@ const DatePicker = ({
       [`${prefixCls}-disabled`]: disabled
     }]),
     disabled: disabled,
-    onClick: () => setIsOpen(!isOpen)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsOpen(!isOpen);
+    }
   }, prefix || null, /*#__PURE__*/React.createElement("input", {
     size: INPUT_SIZE$1,
     disabled: disabled,
@@ -2062,25 +2066,49 @@ const DatePicker = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-nav-buttons`
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => setCurrentYear(y => y - 1)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setCurrentYear(y => y - 1);
+    }
   }, "\xAB"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1);
+    }
   }, "\u2039")), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-selects`
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
-    onClick: () => setViewMode('year')
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setViewMode('year');
+    }
   }, currentYear), /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: `${prefixCls}-select`,
-    onClick: () => setViewMode('month')
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setViewMode('month');
+    }
   }, localeMonths[currentMonth])), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-nav-buttons`
   }, /*#__PURE__*/React.createElement("button", {
-    onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1);
+    }
   }, "\u203A"), /*#__PURE__*/React.createElement("button", {
-    onClick: () => setCurrentYear(y => y + 1)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setCurrentYear(y => y + 1);
+    }
   }, "\xBB"))), viewMode === 'day' && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-grid day`
   }, localeWeekdays.map(day => /*#__PURE__*/React.createElement("div", {
@@ -2099,7 +2127,11 @@ const DatePicker = ({
         [`${prefixCls}-selected`]: isSelected,
         [`${prefixCls}-other-month`]: !current
       }]),
-      onClick: () => handleSelect(day, month, year),
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleSelect(day, month, year);
+      },
       disabled: disabledDate?.(new Date(year, month, day), {
         from: undefined,
         to: undefined
@@ -2110,7 +2142,9 @@ const DatePicker = ({
   }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
     key: i,
     className: `${prefixCls}-month`,
-    onClick: () => {
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
       setCurrentMonth(i);
       setViewMode('day');
     },
@@ -2125,7 +2159,9 @@ const DatePicker = ({
       key: year,
       className: `${prefixCls}-year`,
       disabled: isYearDisabled(year),
-      onClick: () => {
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
         setCurrentYear(year);
         setViewMode('month');
       }
@@ -2141,7 +2177,9 @@ const DatePicker = ({
       from: undefined,
       to: undefined
     }),
-    onClick: () => {
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
       handleSelect(DateNow.getDate(), DateNow.getMonth(), DateNow.getFullYear());
     }
   }, locale?.today || 'Today')))));
@@ -2173,6 +2211,7 @@ const RangePicker = ({
   picker = 'date',
   locale,
   disabledDate,
+  onOpenChange,
   onCalendarChange,
   style = {},
   className = '',
@@ -2197,6 +2236,7 @@ const RangePicker = ({
     const handleClickOutside = event => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         setIsOpen(false);
+        onOpenChange?.(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -2214,6 +2254,7 @@ const RangePicker = ({
       onChange?.([begin.toUTCString(), end.toUTCString()], [formatDate(begin), formatDate(end)]);
       onCalendarChange?.([begin.toUTCString(), end.toUTCString()], [formatDate(begin), formatDate(end)], {});
       setIsOpen(false);
+      onOpenChange?.(false);
     }
   };
   const isMonthDisabled = month => {
@@ -2248,25 +2289,49 @@ const RangePicker = ({
     }, all || !monthOffset ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-nav-buttons`
     }, /*#__PURE__*/React.createElement("button", {
-      onClick: () => setCurrentYear(y => y - 1)
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCurrentYear(y => y - 1);
+      }
     }, "\xAB"), /*#__PURE__*/React.createElement("button", {
-      onClick: () => setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1)
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCurrentMonth(m => m === 0 ? (setCurrentYear(y => y - 1), MONTH_LENGTH) : m - 1);
+      }
     }, "\u2039")) : /*#__PURE__*/React.createElement("span", null), /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-dropdown-selects`
     }, /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
-      onClick: () => setViewMode('year')
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setViewMode('year');
+      }
     }, baseYear), /*#__PURE__*/React.createElement("button", {
       type: "button",
       className: `${prefixCls}-select`,
-      onClick: () => setViewMode('month')
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setViewMode('month');
+      }
     }, localeMonths[baseMonth])), all || monthOffset ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-nav-buttons`
     }, /*#__PURE__*/React.createElement("button", {
-      onClick: () => setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1)
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCurrentMonth(m => m === MONTH_LENGTH ? (setCurrentYear(y => y + 1), 0) : m + 1);
+      }
     }, "\u203A"), /*#__PURE__*/React.createElement("button", {
-      onClick: () => setCurrentYear(y => y + 1)
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCurrentYear(y => y + 1);
+      }
     }, "\xBB")) : /*#__PURE__*/React.createElement("span", null));
   };
   const renderCalendar = (monthOffset = 0, all) => {
@@ -2310,8 +2375,16 @@ const RangePicker = ({
           from: undefined,
           to: undefined
         }),
-        onClick: () => day && handleSelect(day),
-        onMouseEnter: () => day && setHoveredDate(day),
+        onClick: e => {
+          e.preventDefault();
+          e.stopPropagation();
+          day && handleSelect(day);
+        },
+        onMouseEnter: e => {
+          e.preventDefault();
+          e.stopPropagation();
+          day && setHoveredDate(day);
+        },
         className: clsx([`${prefixCls}-day`, {
           [`${prefixCls}-selected`]: isSelected,
           [`${prefixCls}-in-range`]: inRange,
@@ -2324,7 +2397,9 @@ const RangePicker = ({
     }, localeMonths.map((m, i) => /*#__PURE__*/React.createElement("button", {
       key: i,
       className: `${prefixCls}-month`,
-      onClick: () => {
+      onClick: e => {
+        e.preventDefault();
+        e.stopPropagation();
         setCurrentMonth(i);
         setViewMode('day');
       },
@@ -2339,7 +2414,9 @@ const RangePicker = ({
         key: year,
         className: `${prefixCls}-year`,
         disabled: isYearDisabled(year),
-        onClick: () => {
+        onClick: e => {
+          e.preventDefault();
+          e.stopPropagation();
           setCurrentYear(year);
           setViewMode('month');
         }
@@ -2367,19 +2444,24 @@ const RangePicker = ({
       [`${prefixCls}-disabled`]: disabled
     }]),
     disabled: disabled,
-    onClick: () => setIsOpen(!isOpen)
+    onClick: e => {
+      e.preventDefault();
+      e.stopPropagation();
+      setIsOpen(!isOpen);
+      onOpenChange?.(!isOpen);
+    }
   }, prefix, /*#__PURE__*/React.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[0],
-    value: selectedDates[0] ? formatDate(selectedDates[0]) : ''
+    [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-range-separator`
   }, separator || /*#__PURE__*/React.createElement(DateDistanceIcon, null)), /*#__PURE__*/React.createElement("input", {
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[1],
-    value: selectedDates[1] ? formatDate(selectedDates[1]) : ''
+    [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`
   }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React.createElement("span", {

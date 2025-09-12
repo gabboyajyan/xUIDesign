@@ -12,6 +12,8 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 import { Button } from "../../lib/components/Button";
+import { useCallback, useState } from "react";
+import dayjs from 'dayjs';
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
@@ -1839,12 +1841,54 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
+const period: {
+    value: number;
+    unit: "day" | "month" | "year";
+} = {
+    value: 2,
+    unit: "day"
+}
+
 export default function Home() {
+    const [dates, setDates] = useState<Date[] | any[] | null>([]);
+
+    const disableDate = useCallback(
+    (date: any) => {
+      date = dayjs(date);
+
+      if (date > dayjs().endOf('day')) {
+        return true;
+      }
+
+      if (!period || !dates || dates.length === 0) {
+        return false;
+      }
+
+      const tooLate =
+        dates[0] &&
+        date.add(-1, 'd').diff(dates[0], period.unit) >=
+        period.value;
+
+      const tooEarly =
+        dates[0] &&
+        date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
+
+      return tooLate || tooEarly;
+    },
+    [dates, period]
+  );
+
+    const onOpenChange = useCallback((open: boolean) => {
+        if (open) {
+            setDates([]);
+        }
+    }, []);
+
     return (
         <Form size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
             <Item rules={[{ required: true }]} name="country" label="Country">
                 <Select
-                    // showSearch
+                    showSearch
                     style={{ width: 400 }}
                     placeholder="Select..."
                     options={CountryCodes}
@@ -1860,10 +1904,11 @@ export default function Home() {
             </Item>
 
             <Item rules={[{ required: true }]} name="date" label="Date">
-                <RangePicker onCalendarChange={(...argument) => {
-                    console.log(argument);
-                    
-                }} />
+                <RangePicker
+                    disabledDate={disableDate}
+                    onCalendarChange={setDates}
+                    onOpenChange={onOpenChange}
+                />
             </Item>
 
             <Button htmlType="submit">Submit</Button>
