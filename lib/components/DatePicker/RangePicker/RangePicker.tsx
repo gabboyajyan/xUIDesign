@@ -23,6 +23,7 @@ const RangePicker = ({
   picker = 'date',
   locale,
   disabledDate,
+  onCalendarChange,
   style = {},
   className = '',
   separator,
@@ -81,6 +82,7 @@ const RangePicker = ({
   const handleSelect = (date: Date) => {
     if (!selectedDates[0] || (selectedDates[0] && selectedDates[1])) {
       setSelectedDates([date, null]);
+      onCalendarChange?.(date.toUTCString(), formatDate(date), {});
     } else {
       const start = selectedDates[0];
       const end = date < start ? start : date;

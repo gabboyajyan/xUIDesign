@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-import { useForm } from "../../lib/hooks/useForm";
+import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -1857,6 +1857,13 @@ export default function Home() {
 
             <Item rules={[{ required: true }]} name="username" label="Username">
                 <Input placeholder="Username" />
+            </Item>
+
+            <Item rules={[{ required: true }]} name="date" label="Date">
+                <RangePicker onCalendarChange={(...argument) => {
+                    console.log(argument);
+                    
+                }} />
             </Item>
 
             <Button htmlType="submit">Submit</Button>

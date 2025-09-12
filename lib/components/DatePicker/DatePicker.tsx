@@ -4,7 +4,6 @@ import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import { clsx } from '../../helpers';
 import { TDatePickerProps } from '../../types/datepicker';
 import { prefixClsDatePicker } from '../../utils';
-import RangePicker from './RangePicker/RangePicker';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
 import './style.css';
 
@@ -14,7 +13,7 @@ export const NUMBER_SIX = 6;
 export const MONTH_LENGTH = 11;
 export const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 35;
 
-const DatePickerComponent = ({
+const DatePicker = ({
   value,
   onChange,
   onCalendarChange,
@@ -479,9 +478,5 @@ const DatePickerComponent = ({
     </div>
   );
 };
-
-const DatePicker = Object.assign(DatePickerComponent, {
-  RangePicker
-});
 
 export default DatePicker;
