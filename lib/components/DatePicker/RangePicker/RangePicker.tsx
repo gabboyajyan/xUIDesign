@@ -82,7 +82,7 @@ const RangePicker = ({
   const handleSelect = (date: Date) => {
     if (!selectedDates[0] || (selectedDates[0] && selectedDates[1])) {
       setSelectedDates([date, null]);
-      onCalendarChange?.(date.toUTCString(), formatDate(date), {});
+      onCalendarChange?.([date.toUTCString(), undefined], [formatDate(date)], {});
     } else {
       const start = selectedDates[0];
       const end = date < start ? start : date;
@@ -91,6 +91,10 @@ const RangePicker = ({
       onChange?.(
         [begin.toUTCString(), end.toUTCString()],
         [formatDate(begin), formatDate(end)]
+      );
+      onCalendarChange?.(
+        [begin.toUTCString(), end.toUTCString()],
+        [formatDate(begin), formatDate(end)], {}
       );
       setIsOpen(false);
     }
