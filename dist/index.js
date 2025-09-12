@@ -2217,7 +2217,8 @@ const RangePicker = ({
   className = '',
   separator,
   defaultValue,
-  bordered = true
+  bordered = true,
+  ref
 }) => {
   const containerRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState(false);
@@ -2232,6 +2233,14 @@ const RangePicker = ({
     month: 'short'
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  React.useImperativeHandle(ref, () => ({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    focus: containerRef.current?.focus,
+    input: containerRef.current,
+    blur: containerRef.current.blur,
+    nativeElement: containerRef.current
+  }));
   React.useEffect(() => {
     const handleClickOutside = event => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {

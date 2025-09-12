@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
 import { clsx } from '../../../helpers';
 import { TRangePickerProps } from '../../../types/datepicker';
 import { prefixClsRangePicker } from '../../../utils';
@@ -29,7 +29,8 @@ const RangePicker = ({
   className = '',
   separator,
   defaultValue,
-  bordered = true
+  bordered = true,
+  ref,
 }: TRangePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -64,6 +65,15 @@ const RangePicker = ({
     'Fr',
     'Sa'
   ];
+
+  useImperativeHandle(ref, () => ({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      focus: containerRef.current?.focus,
+      input: containerRef.current,
+      blur: (containerRef.current as HTMLInputElement).blur,
+      nativeElement: containerRef.current
+    }));
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
