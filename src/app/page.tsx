@@ -14,6 +14,7 @@ import { Select } from "../../lib/components/Select";
 import { Button } from "../../lib/components/Button";
 import { useCallback, useState } from "react";
 import dayjs from 'dayjs';
+import { useForm } from "../../lib/hooks/useForm";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
@@ -1850,33 +1851,36 @@ const period: {
 }
 
 export default function Home() {
+    const form = useForm();
+
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
+    const [current, setCurrent] = useState(0);
 
     const disableDate = useCallback(
-    (date: any) => {
-      date = dayjs(date);
+        (date: any) => {
+            date = dayjs(date);
 
-      if (date > dayjs().endOf('day')) {
-        return true;
-      }
+            if (date > dayjs().endOf('day')) {
+                return true;
+            }
 
-      if (!period || !dates || dates.length === 0) {
-        return false;
-      }
+            if (!period || !dates || dates.length === 0) {
+                return false;
+            }
 
-      const tooLate =
-        dates[0] &&
-        date.add(-1, 'd').diff(dates[0], period.unit) >=
-        period.value;
+            const tooLate =
+                dates[0] &&
+                date.add(-1, 'd').diff(dates[0], period.unit) >=
+                period.value;
 
-      const tooEarly =
-        dates[0] &&
-        date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
+            const tooEarly =
+                dates[0] &&
+                date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
 
-      return tooLate || tooEarly;
-    },
-    [dates, period]
-  );
+            return tooLate || tooEarly;
+        },
+        [dates, period]
+    );
 
     const onOpenChange = useCallback((open: boolean) => {
         if (open) {
@@ -1885,33 +1889,53 @@ export default function Home() {
     }, []);
 
     return (
-        <Form size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
-            <Item rules={[{ required: true }]} name="country" label="Country">
-                <Select
-                    showSearch
-                    style={{ width: 400 }}
-                    placeholder="Select..."
-                    options={CountryCodes}
-                />
-            </Item>
+        <Form form={form} size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+            {current === 0
+                ? <Item rules={[{ required: true }]} name="email" label="Email">
+                    <Input placeholder="Email" />
+                </Item>
+                :
+                <>
+                    <Item rules={[{ required: true }]} name="country" label="Country">
+                        <Select
+                            showSearch
+                            style={{ width: 400 }}
+                            placeholder="Select..."
+                            options={CountryCodes}
+                        />
+                    </Item>
 
-            <Item rules={[{ required: true }]} name="gender" label="Gender">
-                <Input mask="___.___.___.__" placeholder="Gender" />
-            </Item>
+                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        <Input mask="___.___.___.__" placeholder="Gender" />
+                    </Item>
 
-            <Item rules={[{ required: true }]} name="username" label="Username">
-                <Input placeholder="Username" />
-            </Item>
+                    <Item rules={[{ required: true }]} name="username" label="Username">
+                        <Input placeholder="Username" />
+                    </Item>
 
-            <Item rules={[{ required: true }]} name="date" label="Date">
-                <RangePicker
-                    disabledDate={disableDate}
-                    onCalendarChange={setDates}
-                    onOpenChange={onOpenChange}
-                />
-            </Item>
+                    <Item rules={[{ required: true }]} name="date" label="Date">
+                        <RangePicker
+                            disabledDate={disableDate}
+                            onCalendarChange={setDates}
+                            onOpenChange={onOpenChange}
+                        />
+                    </Item>
+                </>}
 
-            <Button htmlType="submit">Submit</Button>
+            {current > 0 ? <Button htmlType="button" onClick={() => {
+                setCurrent(current - 1);
+                form.changeStep(current - 1);
+            }}>Previous</Button> : <> </>}
+            <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
+                if (current === 1) {
+                    await form.submit()
+                } else {
+                    if (await form.validateFields()) {
+                        setCurrent(current + 1)
+                        form.changeStep(current + 1);
+                    }
+                }
+            }}>{current === 1 ? 'Submit' : 'Next'}</Button>
         </Form>
     )
 }

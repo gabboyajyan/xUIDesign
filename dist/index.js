@@ -765,6 +765,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
+    console.info({
+      form: formRef.current,
+      stepRef: stepRef.current
+    });
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
