@@ -1855,6 +1855,7 @@ export default function Home() {
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
+    const [hide, setHide] = useState(false);
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1889,6 +1890,9 @@ export default function Home() {
     }, []);
 
     return (
+        <>
+        <Button onClick={() => setHide(!hide)}>Hide</Button>
+
         <Form form={form} size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
             {current === 0
                 ? <Item rules={[{ required: true }]} name="email" label="Email">
@@ -1905,37 +1909,38 @@ export default function Home() {
                         />
                     </Item>
 
-                    <Item rules={[{ required: true }]} name="gender" label="Gender">
+                    {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Input mask="___.___.___.__" placeholder="Gender" />
-                    </Item>
+                    </Item> : <> </>}
 
                     <Item rules={[{ required: true }]} name="username" label="Username">
                         <Input placeholder="Username" />
                     </Item>
 
-                    <Item rules={[{ required: true }]} name="date" label="Date">
+                    {/* <Item rules={[{ required: true }]} name="date" label="Date">
                         <RangePicker
                             disabledDate={disableDate}
                             onCalendarChange={setDates}
                             onOpenChange={onOpenChange}
                         />
-                    </Item>
+                    </Item> */}
                 </>}
 
             {current > 0 ? <Button htmlType="button" onClick={() => {
-                setCurrent(current - 1);
                 form.changeStep(current - 1);
+                setCurrent(current - 1);
             }}>Previous</Button> : <> </>}
             <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
                 if (current === 1) {
                     await form.submit()
                 } else {
                     if (await form.validateFields()) {
-                        setCurrent(current + 1)
                         form.changeStep(current + 1);
+                        setCurrent(current + 1)
                     }
                 }
             }}>{current === 1 ? 'Submit' : 'Next'}</Button>
         </Form>
+        </>
     )
 }

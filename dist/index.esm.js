@@ -614,6 +614,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       ...initialValues
     }
   });
+  const trashFormRef = useRef({
+    ...initialValues
+  });
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
@@ -715,12 +718,18 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function registerField(name, rules = [], remove = false) {
     if (remove) {
+      trashFormRef.current[name] = formRef.current[stepRef.current]?.[name];
       delete formRef.current[stepRef.current]?.[name];
       delete rulesRef.current[name];
       delete fieldInstancesRef.current[name];
     } else {
       if (!(name in formRef.current[stepRef.current])) {
-        formRef.current[stepRef.current][name] = initialValues?.[name];
+        if (trashFormRef.current.hasOwnProperty(name)) {
+          formRef.current[stepRef.current][name] = trashFormRef.current[name];
+          delete trashFormRef.current[name];
+        } else {
+          formRef.current[stepRef.current][name] = initialValues?.[name];
+        }
       }
       rulesRef.current[name] = rules;
     }
@@ -763,10 +772,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
-    console.info({
-      form: formRef.current,
-      stepRef: stepRef.current
-    });
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
