@@ -110,14 +110,6 @@ const useForm = (
 
     formRef.current[stepRef.current][name] = value;
 
-    console.log({
-      name,
-      value,
-      errors,
-      reset,
-      touch
-    });
-    
     if (touch) {
       touchedFieldsRef.current.add(name);
     }

@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 import { Button } from "../../lib/components/Button";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
 import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1857,6 +1857,10 @@ export default function Home() {
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
     const [type, setType] = useState('full');
+
+    useEffect(() => {
+        form.setFieldsValue([{ type: 'partial' }])
+    }, [])
 
     const disableDate = useCallback(
         (date: any) => {

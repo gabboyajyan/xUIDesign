@@ -661,13 +661,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       return;
     }
     formRef.current[stepRef.current][name] = value;
-    console.log({
-      name,
-      value,
-      errors,
-      reset,
-      touch
-    });
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
