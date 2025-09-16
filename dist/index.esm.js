@@ -709,6 +709,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function isFieldsTouched(nameList, allFieldsTouched = false) {
     if (!nameList) {
+      console.info(touchedFieldsRef.current);
       return touchedFieldsRef.current.size > 0;
     }
     return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));

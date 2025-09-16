@@ -161,6 +161,8 @@ const useForm = (
 
   function isFieldsTouched(nameList?: string[], allFieldsTouched = false) {
     if (!nameList) {
+      console.info(touchedFieldsRef.current);
+
       return touchedFieldsRef.current.size > 0;
     }
 

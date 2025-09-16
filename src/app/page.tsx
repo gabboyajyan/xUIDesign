@@ -1891,22 +1891,30 @@ export default function Home() {
     }, []);
 
     return (
-        <Form style={{ width: 400 }} form={form} size="middle" layout="vertical" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+        <Form
+            form={form}
+            size="middle"
+            layout="vertical"
+            style={{ width: 400 }}
+            scrollToFirstError={true}
+            onValuesChange={(values) => {
+                console.log(values, form.isFieldsTouched());
+            }}
+            onFinish={(values) => console.log('onFinish', values)}
+        >
             {current === 0
                 ? <>
                     <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                        <Input placeholder="Email" />
+                        <Input placeholder="Email"/>
                     </Item>
 
-                    <Item rules={[{ required: true }]} name="type" label="Type">
-                        <RadioGroup value={type}>
-                            <Radio name="type" value='full' />
-                            <Radio name="type" value='partial' />
+                    <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
+                        <RadioGroup>
+                            <Radio checked={type === 'full'}  name="type" value='full' onClick={() => setType('full')} />
+                            <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
                         </RadioGroup>
                     </Item>
-                </>
-                :
-                <>
+
                     <Item rules={[{ required: true }]} name="country" label="Country">
                         <Select
                             showSearch
@@ -1915,7 +1923,9 @@ export default function Home() {
                             options={CountryCodes}
                         />
                     </Item>
-
+                </>
+                :
+                <>
                     {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
                         <Input mask="___.___.___.__" placeholder="Gender" />
                     </Item> : <> </>}
@@ -1946,7 +1956,7 @@ export default function Home() {
                         setCurrent(current + 1)
                     }
                 }
-            }}>{current === 1 ? 'Submit' : 'Next'}</Button>
+            }} disabled={!form.isFieldsTouched()}>{current === 1 ? 'Submit' : 'Next'}</Button>
 
             <Button onClick={() => setHide(!hide)}>Hide</Button>
         </Form>
