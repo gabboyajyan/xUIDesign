@@ -1,7 +1,7 @@
 'use client'
 
 import { Form } from "../../lib/components/Form";
-// import { Radio } from "../../lib/components/Radio";
+import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
 import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
@@ -15,7 +15,7 @@ import { Button } from "../../lib/components/Button";
 import { useCallback, useState } from "react";
 import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
-// import { RadioGroup } from "../../lib/components/Radio/Group";
+import { RadioGroup } from "../../lib/components/Radio/Group";
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
@@ -1856,6 +1856,7 @@ export default function Home() {
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
+    const [type, setType] = useState('full');
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1890,14 +1891,20 @@ export default function Home() {
     }, []);
 
     return (
-        <>
-        <Button onClick={() => setHide(!hide)}>Hide</Button>
-
-        <Form form={form} size="middle" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
+        <Form style={{ width: 400 }} form={form} size="middle" layout="vertical" scrollToFirstError={true} onFinish={(values) => console.log('onFinish', values)}>
             {current === 0
-                ? <Item rules={[{ required: true }]} name="email" label="Email">
-                    <Input placeholder="Email" />
-                </Item>
+                ? <>
+                    <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
+                        <Input placeholder="Email" />
+                    </Item>
+
+                    <Item rules={[{ required: true }]} name="type" label="Type">
+                        <RadioGroup value={type}>
+                            <Radio name="type" value='full' />
+                            <Radio name="type" value='partial' />
+                        </RadioGroup>
+                    </Item>
+                </>
                 :
                 <>
                     <Item rules={[{ required: true }]} name="country" label="Country">
@@ -1940,7 +1947,8 @@ export default function Home() {
                     }
                 }
             }}>{current === 1 ? 'Submit' : 'Next'}</Button>
+
+            <Button onClick={() => setHide(!hide)}>Hide</Button>
         </Form>
-        </>
     )
 }
