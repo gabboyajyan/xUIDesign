@@ -110,6 +110,14 @@ const useForm = (
 
     formRef.current[stepRef.current][name] = value;
 
+    console.log({
+      name,
+      value,
+      errors,
+      reset,
+      touch
+    });
+    
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
@@ -161,8 +169,6 @@ const useForm = (
 
   function isFieldsTouched(nameList?: string[], allFieldsTouched = false) {
     if (!nameList) {
-      console.info(touchedFieldsRef.current);
-
       return touchedFieldsRef.current.size > 0;
     }
 

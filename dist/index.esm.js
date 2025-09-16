@@ -659,6 +659,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       return;
     }
     formRef.current[stepRef.current][name] = value;
+    console.log({
+      name,
+      value,
+      errors,
+      reset,
+      touch
+    });
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
@@ -709,7 +716,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function isFieldsTouched(nameList, allFieldsTouched = false) {
     if (!nameList) {
-      console.info(touchedFieldsRef.current);
       return touchedFieldsRef.current.size > 0;
     }
     return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));
@@ -1136,7 +1142,7 @@ const FormItemChildComponent = ({
   } = formContext || {};
   const debouncedSetFieldValue = useRef(debounce((name, value) => {
     setFieldValue(name, value, undefined, undefined, true);
-  }, 10)).current;
+  }, 20)).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
