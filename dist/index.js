@@ -976,17 +976,6 @@ function flattenChildren(children) {
 var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
-const debounce = (func, delay) => {
-  let timeoutId = null;
-  return (...args) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
 const FormItem$1 = ({
   prefixCls = prefixClsFormItem,
   name,
@@ -1135,9 +1124,11 @@ const FormItemChildComponent = ({
   const {
     getFieldsValue
   } = formContext || {};
-  const debouncedSetFieldValue = React.useRef(debounce((name, value) => {
-    setFieldValue(name, value, undefined, undefined, true);
-  }, 20)).current;
+  // const debouncedSetFieldValue = useRef(
+  //   debounce((name: string, value: any) => {
+  //     setFieldValue(name, value, undefined, undefined, true);
+  //   }, 20)
+  // ).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
@@ -1154,7 +1145,8 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    debouncedSetFieldValue(name, rawValue);
+    // debouncedSetFieldValue(name, rawValue);
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
   const injectPropsIntoFinalLeaf = child => {
