@@ -221,11 +221,11 @@ const FormItemChildComponent = ({
 
   const { getFieldsValue } = formContext || {};
 
-  // const debouncedSetFieldValue = useRef(
-  //   debounce((name: string, value: any) => {
-  //     setFieldValue(name, value, undefined, undefined, true);
-  //   }, 20)
-  // ).current;
+  const debouncedSetFieldValue = useRef(
+    debounce((name: string, value: any) => {
+      setFieldValue(name, value, undefined, undefined, true);
+    }, 150)
+  ).current;
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -255,8 +255,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    // debouncedSetFieldValue(name, rawValue);
-    setFieldValue(name, rawValue, undefined, undefined, true);
+    debouncedSetFieldValue(name, rawValue);
     onChange?.(e, option);
   };
 
