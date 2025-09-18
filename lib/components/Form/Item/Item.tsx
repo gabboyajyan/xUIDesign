@@ -229,14 +229,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-
-    animationRef.current = requestAnimationFrame(() => {
-      setFieldValue(name, rawValue, undefined, undefined, true);
-    });
-
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   }, [fieldValue, props.value, name]);
 

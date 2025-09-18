@@ -1137,12 +1137,7 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    animationRef.current = requestAnimationFrame(() => {
-      setFieldValue(name, rawValue, undefined, undefined, true);
-    });
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   }, [fieldValue, props.value, name]);
   const injectPropsIntoFinalLeaf = child => {
@@ -3013,7 +3008,12 @@ const InputComponent = ({
         value: rawInput
       }
     };
-    props.onChange?.(eventWithMaskedValue);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    animationRef.current = requestAnimationFrame(() => {
+      props.onChange?.(eventWithMaskedValue);
+    });
   };
   const handleClear = e => {
     if (mask) {
