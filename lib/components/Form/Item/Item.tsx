@@ -32,8 +32,6 @@ const FormItem = ({
   className = '',
   layout = 'vertical',
   style = {},
-  dependencies = [],
-  feedbackIcons,
   extra,
   hideLabel = false,
   removeErrorMessageHeight = false,
@@ -54,9 +52,6 @@ const FormItem = ({
     registerField,
     getFieldInstance,
     setFieldInstance,
-    subscribeToFields,
-    validateFields,
-    subscribeToErrors
   } = formContext;
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
@@ -72,26 +67,6 @@ const FormItem = ({
   }, [name, fieldRef.current])
 
   useEffect(() => () => registerField(name, undefined, true), [name])
-
-  useEffect(() => {
-    if (name && dependencies.length > 0) {
-      const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([name]);
-      });
-
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [dependencies, name]);
-
-  useEffect(() => {
-    const unsubscribe = subscribeToErrors?.((errors) => {
-      setErrorMessage(errors.find(error => error.name === name)?.errors?.[0] || '')
-    });
-
-    return () => unsubscribe?.();
-  }, []);
 
   const isRequired = useMemo(
     () => rules.some((rule: RuleType) => rule.required),
@@ -172,15 +147,21 @@ const FormItemChildComponent = ({
   initialValue,
   normalize,
   noStyle,
-  feedbackIcons,
   ref,
+  dependencies = [],
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
   
   const [wasNormalize, setWasNormalize] = useState(false);
   
-  const { getFieldsValue, getFieldValue, setFieldValue  } = formContext || {};
+  const {
+    getFieldsValue,
+    getFieldValue,
+    setFieldValue,
+    subscribeToFields,
+    validateFields
+  } = formContext || {};
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
@@ -192,6 +173,18 @@ const FormItemChildComponent = ({
       setFieldValue?.(name, initialValue);
     }
   }, []);
+
+  useEffect(() => {
+    if (name && dependencies.length > 0) {
+      const unsubscribe = subscribeToFields?.(dependencies, () => {
+        validateFields?.([name]);
+      });
+
+      return () => {
+        unsubscribe?.();
+      };
+    }
+  }, [dependencies, name]);
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target

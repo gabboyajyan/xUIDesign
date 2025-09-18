@@ -1897,7 +1897,6 @@ export default function Home() {
 
     return (
         <>
-            <Input placeholder="Email" />
             <Form
                 form={form}
                 size="large"
@@ -1905,14 +1904,14 @@ export default function Home() {
                 style={{ width: 400 }}
                 scrollToFirstError={true}
                 onValuesChange={(values) => {
-                    console.log(values, form.isFieldsTouched());
+                    // console.log(values, form.isFieldsTouched());
                 }}
                 onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
-                        <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                            <Input size="middle" placeholder="Email" />
+                        <Item rules={[{ required: true }]} name="email" label="Email">
+                            <Input placeholder="Email" />
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>

@@ -620,7 +620,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const errorsRef = useRef({});
-  const errorSubscribers = useRef([]);
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
   function getFormFields() {
@@ -766,8 +765,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       [name]: fieldErrors
     };
     warningsRef.current[name] = fieldWarnings;
-    const currentErrors = getFieldsError();
-    errorSubscribers.current.forEach(callback => callback(currentErrors));
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
@@ -775,6 +772,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
+      console.log(firstErrorContent);
       if (firstErrorContent) {
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
@@ -806,8 +804,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
-    const currentErrors = getFieldsError();
-    errorSubscribers.current.forEach(callback => callback(currentErrors));
     setIsReseting(prev => !prev);
   }
   async function submit() {
@@ -839,12 +835,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     }));
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
-    };
-  }
-  function subscribeToErrors(callback) {
-    errorSubscribers.current.push(callback);
-    return () => {
-      errorSubscribers.current = errorSubscribers.current.filter(cb => cb !== callback);
     };
   }
   function setScrollToFirstError(value) {
@@ -894,8 +884,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
-    changeStep,
-    subscribeToErrors
+    changeStep
   };
   return formInstance;
 };
@@ -991,8 +980,6 @@ const FormItem$1 = ({
   className = '',
   layout = 'vertical',
   style = {},
-  dependencies = [],
-  feedbackIcons,
   extra,
   hideLabel = false,
   removeErrorMessageHeight = false,
@@ -1009,10 +996,7 @@ const FormItem$1 = ({
     isReseting,
     registerField,
     getFieldInstance,
-    setFieldInstance,
-    subscribeToFields,
-    validateFields,
-    subscribeToErrors
+    setFieldInstance
   } = formContext;
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
@@ -1024,22 +1008,6 @@ const FormItem$1 = ({
     setFieldInstance(name, fieldRef.current);
   }, [name, fieldRef.current]);
   useEffect(() => () => registerField(name, undefined, true), [name]);
-  useEffect(() => {
-    if (name && dependencies.length > 0) {
-      const unsubscribe = subscribeToFields(dependencies, () => {
-        validateFields([name]);
-      });
-      return () => {
-        unsubscribe();
-      };
-    }
-  }, [dependencies, name]);
-  useEffect(() => {
-    const unsubscribe = subscribeToErrors?.(errors => {
-      setErrorMessage(errors.find(error => error.name === name)?.errors?.[0] || '');
-    });
-    return () => unsubscribe?.();
-  }, []);
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
   return /*#__PURE__*/React.createElement("div", {
     style: style,
@@ -1092,8 +1060,8 @@ const FormItemChildComponent = ({
   initialValue,
   normalize,
   noStyle,
-  feedbackIcons,
   ref,
+  dependencies = [],
   ...props
 }) => {
   const formContext = useContext(FormContext);
@@ -1101,7 +1069,9 @@ const FormItemChildComponent = ({
   const {
     getFieldsValue,
     getFieldValue,
-    setFieldValue
+    setFieldValue,
+    subscribeToFields,
+    validateFields
   } = formContext || {};
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
@@ -1115,6 +1085,16 @@ const FormItemChildComponent = ({
       setFieldValue?.(name, initialValue);
     }
   }, []);
+  useEffect(() => {
+    if (name && dependencies.length > 0) {
+      const unsubscribe = subscribeToFields?.(dependencies, () => {
+        validateFields?.([name]);
+      });
+      return () => {
+        unsubscribe?.();
+      };
+    }
+  }, [dependencies, name]);
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
@@ -3036,6 +3016,7 @@ const InputComponent = ({
   }, prefix && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-prefix`
   }, prefix), /*#__PURE__*/React.createElement("input", _extends({}, props, {
+    suppressHydrationWarning: true,
     ref: inputRef
   }, props.type === 'password' && iconRender ? {
     type: iconRenderVisible ? 'text' : 'password'

@@ -106,7 +106,8 @@ export interface FormItemChildComponentProps {
   ) => RuleType;
   noStyle?: boolean;
   feedbackIcons?: boolean;
-  ref?: FieldInstancesRef | null
+  ref?: FieldInstancesRef | null;
+  dependencies?: string[];
 }
 
 export interface FormInstance {
@@ -162,5 +163,4 @@ export interface FormInstance {
     ) => void
   ) => void;
   changeStep: (step: number) => void;
-  subscribeToErrors?: (callback: (errors: FieldError[]) => void) => () => void;
 }

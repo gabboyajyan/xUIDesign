@@ -46,7 +46,6 @@ const useForm = (
   const [isReseting, setIsReseting] = useState(false);
 
   const errorsRef = useRef<Record<string, string[]>>({});
-  const errorSubscribers = useRef<((errors: FieldError[]) => void)[]>([]);
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -269,9 +268,6 @@ const useForm = (
     errorsRef.current = { ...errorsRef.current, [name]: fieldErrors };
     warningsRef.current[name] = fieldWarnings;
 
-    const currentErrors = getFieldsError();
-    errorSubscribers.current.forEach(callback => callback(currentErrors));
-
     return fieldErrors.length === 0;
   }
 
@@ -282,8 +278,10 @@ const useForm = (
       fieldsToValidate.map(name => validateField(name))
     );
 
-    if (_scrollToFirstError.current) {
+    if (_scrollToFirstError.current) {      
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
+
+      console.log(firstErrorContent);
 
       if (firstErrorContent) {
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
@@ -320,9 +318,6 @@ const useForm = (
     }
 
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
-
-    const currentErrors = getFieldsError();
-    errorSubscribers.current.forEach(callback => callback(currentErrors));
 
     setIsReseting(prev => !prev);
   }
@@ -379,16 +374,6 @@ const useForm = (
 
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
-    };
-  }
-
-  function subscribeToErrors(callback: (errors: FieldError[]) => void) {
-    errorSubscribers.current.push(callback);
-
-    return () => {
-      errorSubscribers.current = errorSubscribers.current.filter(
-        cb => cb !== callback
-      );
     };
   }
 
@@ -451,8 +436,7 @@ const useForm = (
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
-    changeStep,
-    subscribeToErrors
+    changeStep
   };
 
   return formInstance;

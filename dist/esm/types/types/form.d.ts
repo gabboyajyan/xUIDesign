@@ -81,6 +81,7 @@ export interface FormItemChildComponentProps {
     noStyle?: boolean;
     feedbackIcons?: boolean;
     ref?: FieldInstancesRef | null;
+    dependencies?: string[];
 }
 export interface FormInstance {
     submit: () => Promise<Record<string, RuleTypes> | undefined>;
@@ -112,5 +113,4 @@ export interface FormInstance {
     setOnFinish?: (onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined) => void;
     setOnValuesChange?: (onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => void;
     changeStep: (step: number) => void;
-    subscribeToErrors?: (callback: (errors: FieldError[]) => void) => () => void;
 }
