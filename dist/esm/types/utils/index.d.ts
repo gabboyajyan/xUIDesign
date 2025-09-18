@@ -1,0 +1,15 @@
+export declare const prefixClsForm = "xUi-form";
+export declare const prefixClsFormItem = "xUi-form-item";
+export declare const prefixClsEmpty = "xUi-empty";
+export declare const prefixClsInput = "xUi-input";
+export declare const prefixClsSelect = "xUi-select";
+export declare const prefixClsCheckbox = "xUi-checkbox";
+export declare const prefixClsSwitch = "xUi-switch";
+export declare const prefixClsRadio = "xUi-radio";
+export declare const prefixClsTextArea = "xUi-textarea";
+export declare const prefixClsUpload = "xUi-upload";
+export declare const prefixClsDatePicker = "xUi-datepicker";
+export declare const prefixClsRangePicker = "xUi-rangepicker";
+export declare const prefixClsTimePicker = "xUi-timepicker";
+export declare const prefixClsButton = "xUi-button";
+export declare const prefixClsSkeleton = "xUi-skeleton";
