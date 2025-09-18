@@ -1133,9 +1133,9 @@ const FormItemChildComponent = ({
       }, delay);
     };
   }, []);
-  const debouncedSetFieldValue = useRef(debounce((name, value) => {
+  useRef(debounce((name, value) => {
     setFieldValue(name, value, undefined, undefined, true);
-  }, 150)).current;
+  }, 0)).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
@@ -1152,7 +1152,10 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    debouncedSetFieldValue(name, rawValue);
+    // debouncedSetFieldValue(name, rawValue);
+    debounce((name, rawValue) => {
+      setFieldValue(name, rawValue, undefined, undefined, true);
+    }, 10);
     onChange?.(e, option);
   };
   const injectPropsIntoFinalLeaf = child => {
