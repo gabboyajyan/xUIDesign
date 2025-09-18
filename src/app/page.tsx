@@ -1895,74 +1895,77 @@ export default function Home() {
     }, []);
 
     return (
-        <Form
-            form={form}
-            size="middle"
-            layout="vertical"
-            style={{ width: 400 }}
-            scrollToFirstError={true}
-            onValuesChange={(values) => {
-                console.log(values, form.isFieldsTouched());
-            }}
-            onFinish={(values) => console.log('onFinish', values)}
-        >
-            {current === 0
-                ? <>
-                    <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                        <Input placeholder="Email"/>
-                    </Item>
+        <>
+            <Input placeholder="Email" />
+            <Form
+                form={form}
+                size="middle"
+                layout="vertical"
+                style={{ width: 400 }}
+                scrollToFirstError={true}
+                onValuesChange={(values) => {
+                    console.log(values, form.isFieldsTouched());
+                }}
+                onFinish={(values) => console.log('onFinish', values)}
+            >
+                {current === 0
+                    ? <>
+                        <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
+                            <Input placeholder="Email" />
+                        </Item>
 
-                    <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
-                        <RadioGroup>
-                            <Radio checked={type === 'full'}  name="type" value='full' onClick={() => setType('full')} />
-                            <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
-                        </RadioGroup>
-                    </Item>
+                        <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
+                            <RadioGroup>
+                                <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
+                                <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
+                            </RadioGroup>
+                        </Item>
 
-                    <Item rules={[{ required: true }]} name="country" label="Country">
-                        <Select
-                            showSearch
-                            style={{ width: 400 }}
-                            placeholder="Select..."
-                            options={CountryCodes}
-                        />
-                    </Item>
-                </>
-                :
-                <>
-                    {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
-                        <Input mask="___.___.___.__" placeholder="Gender" />
-                    </Item> : <> </>}
+                        <Item rules={[{ required: true }]} name="country" label="Country">
+                            <Select
+                                showSearch
+                                style={{ width: 400 }}
+                                placeholder="Select..."
+                                options={CountryCodes}
+                            />
+                        </Item>
+                    </>
+                    :
+                    <>
+                        {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
+                            <Input mask="___.___.___.__" placeholder="Gender" />
+                        </Item> : <> </>}
 
-                    <Item rules={[{ required: true }]} name="username" label="Username">
-                        <Input placeholder="Username" />
-                    </Item>
+                        <Item rules={[{ required: true }]} name="username" label="Username">
+                            <Input placeholder="Username" />
+                        </Item>
 
-                    {/* <Item rules={[{ required: true }]} name="date" label="Date">
+                        {/* <Item rules={[{ required: true }]} name="date" label="Date">
                         <RangePicker
                             disabledDate={disableDate}
                             onCalendarChange={setDates}
                             onOpenChange={onOpenChange}
                         />
                     </Item> */}
-                </>}
+                    </>}
 
-            {current > 0 ? <Button htmlType="button" onClick={() => {
-                form.changeStep(current - 1);
-                setCurrent(current - 1);
-            }}>Previous</Button> : <> </>}
-            <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
-                if (current === 1) {
-                    await form.submit()
-                } else {
-                    if (await form.validateFields()) {
-                        form.changeStep(current + 1);
-                        setCurrent(current + 1)
+                {current > 0 ? <Button htmlType="button" onClick={() => {
+                    form.changeStep(current - 1);
+                    setCurrent(current - 1);
+                }}>Previous</Button> : <> </>}
+                <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
+                    if (current === 1) {
+                        await form.submit()
+                    } else {
+                        if (await form.validateFields()) {
+                            form.changeStep(current + 1);
+                            setCurrent(current + 1)
+                        }
                     }
-                }
-            }} disabled={!form.isFieldsTouched()}>{current === 1 ? 'Submit' : 'Next'}</Button>
+                }} disabled={!form.isFieldsTouched()}>{current === 1 ? 'Submit' : 'Next'}</Button>
 
-            <Button onClick={() => setHide(!hide)}>Hide</Button>
-        </Form>
+                <Button onClick={() => setHide(!hide)}>Hide</Button>
+            </Form>
+        </>
     )
 }
