@@ -198,59 +198,47 @@ const FormItemChildComponent = ({
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
 
+  const animationRef = useRef<number | null>(null);
   const [wasNormalize, setWasNormalize] = useState(false);
 
   const { getFieldsValue } = formContext || {};
 
-  const [localValue, setLocalValue] = useState(fieldValue);
-
-  useEffect(() => {
-    setLocalValue(fieldValue);
-  }, [fieldValue]);
-
-  const debounce = useCallback((func: (...args: any[]) => void, delay = 300) => {
-    let timer: ReturnType<typeof setTimeout>;
-    return (...args: any[]) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func(...args), delay);
-    };
-  }, []);
-
-  const debouncedSetFieldValue = useMemo(() => debounce(setFieldValue, 300), [setFieldValue, debounce]);
-
-  const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
+  const handleChange = useCallback((e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
       : e;
 
     if (normalize) {
-      const prevValue = localValue;
+      const prevValue = fieldValue ?? props.value;
       const allValues = getFieldsValue?.();
 
       rawValue = normalize(rawValue, prevValue, allValues);
 
       if (rawValue === prevValue) {
         e.target.value = rawValue;
-
         setWasNormalize(prev => !prev);
 
-        const timeout = setTimeout(() => {
-          (
-            document.querySelector(`[name='${name}']`) as HTMLInputElement
-          )?.focus();
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
 
-          clearTimeout(timeout);
-        }, 0);
-
+        animationRef.current = requestAnimationFrame(() => {
+          (document.querySelector(`[name='${name}']`) as HTMLInputElement)?.focus();
+        });
         return;
       }
     }
 
-    setLocalValue(rawValue);
-    debouncedSetFieldValue(name, rawValue, undefined, undefined, true);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+
+    animationRef.current = requestAnimationFrame(() => {
+      setFieldValue(name, rawValue, undefined, undefined, true);
+    });
 
     onChange?.(e, option);
-  };
+  }, [fieldValue, props.value, name]);
 
   const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
     if (!isValidElement(child)) {
@@ -289,7 +277,7 @@ const FormItemChildComponent = ({
       child={child}
       onChange={handleChange}
       key={`${name}_${wasNormalize}`}
-      value={localValue}
+      value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {
         __injected: true,
         ...(error ? { error } : {}),

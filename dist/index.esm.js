@@ -1112,42 +1112,37 @@ const FormItemChildComponent = ({
   ...props
 }) => {
   const formContext = useContext(FormContext);
+  const animationRef = useRef(null);
   const [wasNormalize, setWasNormalize] = useState(false);
   const {
     getFieldsValue
   } = formContext || {};
-  const [localValue, setLocalValue] = useState(fieldValue);
-  useEffect(() => {
-    setLocalValue(fieldValue);
-  }, [fieldValue]);
-  const debounce = useCallback((func, delay = 300) => {
-    let timer;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => func(...args), delay);
-    };
-  }, []);
-  const debouncedSetFieldValue = useMemo(() => debounce(setFieldValue, 300), [setFieldValue, debounce]);
-  const handleChange = (e, option) => {
+  const handleChange = useCallback((e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
-      const prevValue = localValue;
+      const prevValue = fieldValue ?? props.value;
       const allValues = getFieldsValue?.();
       rawValue = normalize(rawValue, prevValue, allValues);
       if (rawValue === prevValue) {
         e.target.value = rawValue;
         setWasNormalize(prev => !prev);
-        const timeout = setTimeout(() => {
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+        animationRef.current = requestAnimationFrame(() => {
           document.querySelector(`[name='${name}']`)?.focus();
-          clearTimeout(timeout);
-        }, 0);
+        });
         return;
       }
     }
-    setLocalValue(rawValue);
-    debouncedSetFieldValue(name, rawValue, undefined, undefined, true);
+    if (animationRef.current) {
+      cancelAnimationFrame(animationRef.current);
+    }
+    animationRef.current = requestAnimationFrame(() => {
+      setFieldValue(name, rawValue, undefined, undefined, true);
+    });
     onChange?.(e, option);
-  };
+  }, [fieldValue, props.value, name]);
   const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/isValidElement(child)) {
       return child;
@@ -1169,7 +1164,7 @@ const FormItemChildComponent = ({
       child: child,
       onChange: handleChange,
       key: `${name}_${wasNormalize}`,
-      value: localValue
+      value: fieldValue ?? props.value
     }, 'dangerouslySetInnerHTML' in childProps ? {} : {
       __injected: true,
       ...(error ? {
