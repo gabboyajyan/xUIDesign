@@ -1,6 +1,8 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef
+  // useState
+ } from 'react';
 import { RuleTypes } from '../types';
 import type {
   FieldData,
@@ -43,7 +45,7 @@ const useForm = (
   const trashFormRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
-  const [isReseting, setIsReseting] = useState(false);
+  // const [isReseting, setIsReseting] = useState(false);
 
   const errorsRef = useRef<Record<string, string[]>>({});
 
@@ -319,7 +321,7 @@ const useForm = (
 
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
 
-    setIsReseting(prev => !prev);
+    // setIsReseting(prev => !prev);
   }
 
   async function submit() {
@@ -431,7 +433,7 @@ const useForm = (
     subscribeToFields,
     setScrollToFirstError,
     scrollToFirstError,
-    isReseting,
+    // isReseting,
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,

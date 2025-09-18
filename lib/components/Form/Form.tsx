@@ -143,4 +143,4 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
 Form.Item = FormItem;
 
-export default memo(Form);
+export default Form;
