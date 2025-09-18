@@ -222,12 +222,6 @@ const FormItemChildComponent = ({
     };
   }, []);
 
-  const debouncedSetFieldValue = useRef(
-    debounce((name: string, value: any) => {
-      setFieldValue(name, value, undefined, undefined, true);
-    }, 0)
-  ).current;
-
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
@@ -256,10 +250,11 @@ const FormItemChildComponent = ({
       }
     }
 
-    // debouncedSetFieldValue(name, rawValue);
-    debounce((name: string, rawValue: any) => {
+    const _debounce = debounce((name: string, rawValue: any) => {
       setFieldValue(name, rawValue, undefined, undefined, true);
     }, 10)
+
+    _debounce(name, rawValue);
     onChange?.(e, option);
   };
 
