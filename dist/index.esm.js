@@ -1135,7 +1135,7 @@ const FormItemChildComponent = ({
   }, []);
   const debouncedSetFieldValue = useRef(debounce((name, value) => {
     setFieldValue(name, value, undefined, undefined, true);
-  }, 70)).current;
+  }, 150)).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {

@@ -225,7 +225,7 @@ const FormItemChildComponent = ({
   const debouncedSetFieldValue = useRef(
     debounce((name: string, value: any) => {
       setFieldValue(name, value, undefined, undefined, true);
-    }, 70)
+    }, 150)
   ).current;
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
