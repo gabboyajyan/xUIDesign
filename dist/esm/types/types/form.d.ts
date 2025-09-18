@@ -74,9 +74,7 @@ export interface FormItemChildComponentProps {
     child: ReactElement;
     name: string;
     error: boolean;
-    fieldValue: RuleTypes;
-    value: RuleType;
-    setFieldValue: (name: string, value: RuleType, errors?: string[], reset?: boolean | null | undefined, touch?: boolean) => void;
+    initialValue: RuleTypes;
     onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
     size?: SizeType;
     normalize?: (value: RuleType, prevValue: RuleType, allValues: RuleType) => RuleType;
@@ -114,4 +112,5 @@ export interface FormInstance {
     setOnFinish?: (onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined) => void;
     setOnValuesChange?: (onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => void;
     changeStep: (step: number) => void;
+    subscribeToErrors?: (callback: (errors: FieldError[]) => void) => () => void;
 }

@@ -44,7 +44,9 @@ const useForm = (
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+
+  const errorsRef = useRef<Record<string, string[]>>({});
+  const errorSubscribers = useRef<((errors: FieldError[]) => void)[]>([]);
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -83,7 +85,7 @@ const useForm = (
   }
 
   function getFieldError(name: string) {
-    return errors[name] || [];
+    return errorsRef.current[name] || [];
   }
 
   function getFieldWarning(name: string): string[] {
@@ -91,7 +93,7 @@ const useForm = (
   }
 
   function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
-    return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
+    return Object.entries(errorsRef.current).map(([name, err]) => ({ name, errors: err }));
   }
 
   function setFieldValue(
@@ -115,12 +117,12 @@ const useForm = (
     }
 
     if (reset === null) {
-      setErrors({ [name]: [] });
+      errorsRef.current[name] = []
 
       return
     }
 
-    if (!errors?.length) {
+    if (!errorsRef.current?.length) {
       validateField(name).then(() => {
         const allValues = getFieldsValue();
         fieldSubscribers.current[name]?.forEach(callback => callback(value));
@@ -135,7 +137,7 @@ const useForm = (
         }
       });
     } else {
-      setErrors({ [name]: errors });
+      errorsRef.current[name] = errors || []
     }
   }
 
@@ -263,9 +265,12 @@ const useForm = (
         }
       })
     );
-    
-    setErrors(prev => ({ ...prev, [name]: fieldErrors }));
+  
+    errorsRef.current = { ...errorsRef.current, [name]: fieldErrors };
     warningsRef.current[name] = fieldWarnings;
+
+    const currentErrors = getFieldsError();
+    errorSubscribers.current.forEach(callback => callback(currentErrors));
 
     return fieldErrors.length === 0;
   }
@@ -300,7 +305,7 @@ const useForm = (
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
 
-        setErrors(prev => ({ ...prev, [name]: [] }));
+        errorsRef.current = { ...errorsRef.current, [name]: [] }
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
@@ -315,6 +320,10 @@ const useForm = (
     }
 
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
+
+    const currentErrors = getFieldsError();
+    errorSubscribers.current.forEach(callback => callback(currentErrors));
+
     setIsReseting(prev => !prev);
   }
 
@@ -370,6 +379,16 @@ const useForm = (
 
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
+    };
+  }
+
+  function subscribeToErrors(callback: (errors: FieldError[]) => void) {
+    errorSubscribers.current.push(callback);
+
+    return () => {
+      errorSubscribers.current = errorSubscribers.current.filter(
+        cb => cb !== callback
+      );
     };
   }
 
@@ -433,6 +452,7 @@ const useForm = (
     setOnFieldsChange,
     setOnValuesChange,
     changeStep,
+    subscribeToErrors
   };
 
   return formInstance;

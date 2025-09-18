@@ -1852,7 +1852,6 @@ const period: {
 
 export default function Home() {
     const form = useForm({
-        // email: "sdffd"
     });
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
@@ -1861,7 +1860,7 @@ export default function Home() {
     const [type, setType] = useState('full');
 
     useEffect(() => {
-        form.setFieldsValue([{ type: 'partial' }])
+        form.setFieldsValue({ type: 'partial' })
     }, [])
 
     const disableDate = useCallback(
@@ -1901,7 +1900,7 @@ export default function Home() {
             <Input placeholder="Email" />
             <Form
                 form={form}
-                size="middle"
+                size="large"
                 layout="vertical"
                 style={{ width: 400 }}
                 scrollToFirstError={true}
@@ -1913,7 +1912,7 @@ export default function Home() {
                 {current === 0
                     ? <>
                         <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                            <Input placeholder="Email" />
+                            <Input size="middle" placeholder="Email" />
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
@@ -1964,7 +1963,7 @@ export default function Home() {
                             setCurrent(current + 1)
                         }
                     }
-                }} disabled={!form.isFieldsTouched()}>{current === 1 ? 'Submit' : 'Next'}</Button>
+                }}>{current === 1 ? 'Submit' : 'Next'}</Button>
 
                 <Button onClick={() => setHide(!hide)}>Hide</Button>
             </Form>

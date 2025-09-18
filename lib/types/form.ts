@@ -96,14 +96,7 @@ export interface FormItemChildComponentProps {
   child: ReactElement;
   name: string;
   error: boolean;
-  fieldValue: RuleTypes;
-  value: RuleType;
-  setFieldValue: (
-    name: string,
-    value: RuleType,
-    errors?: string[],
-    reset?: boolean | null | undefined,
-    touch?: boolean) => void;
+  initialValue: RuleTypes;
   onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void;
   size?: SizeType;
   normalize?: (
@@ -169,4 +162,5 @@ export interface FormInstance {
     ) => void
   ) => void;
   changeStep: (step: number) => void;
+  subscribeToErrors?: (callback: (errors: FieldError[]) => void) => () => void;
 }

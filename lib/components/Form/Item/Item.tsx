@@ -23,20 +23,6 @@ import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
 
-const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-  return (...args: any[]) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
-
 const FormItem = ({
   prefixCls = prefixClsFormItem,
   name,
@@ -47,7 +33,6 @@ const FormItem = ({
   layout = 'vertical',
   style = {},
   dependencies = [],
-  initialValue,
   feedbackIcons,
   extra,
   hideLabel = false,
@@ -57,6 +42,7 @@ const FormItem = ({
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const fieldRef = useRef<FieldInstancesRef | null>(null);
 
   if (!formContext) {
@@ -66,13 +52,11 @@ const FormItem = ({
   const {
     isReseting,
     registerField,
-    getFieldError,
-    getFieldValue,
-    setFieldValue,
     getFieldInstance,
     setFieldInstance,
     subscribeToFields,
-    validateFields
+    validateFields,
+    subscribeToErrors
   } = formContext;
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
@@ -90,12 +74,6 @@ const FormItem = ({
   useEffect(() => () => registerField(name, undefined, true), [name])
 
   useEffect(() => {
-    if (initialValue) {
-      setFieldValue(name, initialValue);
-    }
-  }, []);
-
-  useEffect(() => {
     if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
         validateFields([name]);
@@ -107,12 +85,18 @@ const FormItem = ({
     }
   }, [dependencies, name]);
 
+  useEffect(() => {
+    const unsubscribe = subscribeToErrors?.((errors) => {
+      setErrorMessage(errors.find(error => error.name === name)?.errors?.[0] || '')
+    });
+
+    return () => unsubscribe?.();
+  }, []);
+
   const isRequired = useMemo(
     () => rules.some((rule: RuleType) => rule.required),
     [rules]
   );
-
-  const errorMessage = getFieldError(name)?.[0];
 
   return (
     <div
@@ -137,11 +121,6 @@ const FormItem = ({
 
       {Children.map(childrenList, (child, key) => {
         if (isValidElement(child)) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-expect-error
-          const { onChange, value, ...childProps } = child.props;
-          const fieldValue = value ?? getFieldValue(name) ?? initialValue;
-
           return (
             <div>
               <FormItemChildComponent
@@ -152,17 +131,7 @@ const FormItem = ({
                 ref={fieldRef}
                 name={name}
                 child={child}
-                value={value}
                 error={!!errorMessage}
-                fieldValue={fieldValue}
-                setFieldValue={setFieldValue}
-                feedbackIcons={feedbackIcons}
-                onChange={onChange}
-                noStyle={props.noStyle}
-                normalize={props.normalize}
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                size={childProps.size || props.size}
               />
 
               {extra
@@ -200,9 +169,7 @@ const FormItemChildComponent = ({
   child,
   name,
   error,
-  fieldValue,
-  setFieldValue,
-  onChange,
+  initialValue,
   normalize,
   noStyle,
   feedbackIcons,
@@ -210,16 +177,21 @@ const FormItemChildComponent = ({
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
-
+  
   const [wasNormalize, setWasNormalize] = useState(false);
+  
+  const { getFieldsValue, getFieldValue, setFieldValue  } = formContext || {};
 
-  const { getFieldsValue } = formContext || {};
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  const { onChange, value } = child.props;
+  const fieldValue = value ?? getFieldValue?.(name) ?? initialValue;
 
-  const debouncedSetFieldValue = useRef(
-    debounce((name: string, value: any) => {
-      setFieldValue(name, value, undefined, undefined, true);
-    }, 200)
-  ).current;
+  useEffect(() => {
+    if (initialValue) {
+      setFieldValue?.(name, initialValue);
+    }
+  }, []);
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -227,7 +199,7 @@ const FormItemChildComponent = ({
       : e;
 
     if (normalize) {
-      const prevValue = fieldValue ?? props.value;
+      const prevValue = fieldValue;
       const allValues = getFieldsValue?.();
 
       rawValue = normalize(rawValue, prevValue, allValues);
@@ -248,7 +220,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    debouncedSetFieldValue(name, rawValue);
+    setFieldValue?.(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
 
@@ -286,10 +258,13 @@ const FormItemChildComponent = ({
       // @ts-expect-error
       {...child.props}
       name={name}
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      size={childProps.size || props.size}
       child={child}
+      value={fieldValue}
       onChange={handleChange}
       key={`${name}_${wasNormalize}`}
-      value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {
         __injected: true,
         ...(error ? { error } : {}),
