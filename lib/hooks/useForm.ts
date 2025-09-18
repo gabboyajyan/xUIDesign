@@ -367,8 +367,7 @@ const useForm = (
   ) {
     const fieldCallbacks = names.map(name =>
       subscribeToField(name, () => {
-        const updatedValues = getFieldsValue(names);
-        callback(updatedValues);
+        callback(getFieldsValue(names));
       })
     );
 

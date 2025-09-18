@@ -832,8 +832,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function subscribeToFields(names, callback) {
     const fieldCallbacks = names.map(name => subscribeToField(name, () => {
-      const updatedValues = getFieldsValue(names);
-      callback(updatedValues);
+      callback(getFieldsValue(names));
     }));
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
@@ -1072,6 +1071,7 @@ const FormItemChildComponent = /*#__PURE__*/React.memo(({
     getFieldsValue,
     getFieldValue,
     setFieldValue,
+    subscribeToField,
     subscribeToFields,
     validateFields
   } = formContext || {};
@@ -1081,11 +1081,17 @@ const FormItemChildComponent = /*#__PURE__*/React.memo(({
     onChange,
     value
   } = child.props;
-  const fieldValue = value ?? getFieldValue?.(name) ?? initialValue;
+  const [fieldValue, _setFieldValue] = React.useState(value ?? getFieldValue?.(name) ?? initialValue);
   React.useEffect(() => {
     if (initialValue) {
       setFieldValue?.(name, initialValue);
     }
+    const unsubscribe = subscribeToField?.(name, value => {
+      _setFieldValue(value);
+    });
+    return () => {
+      unsubscribe?.();
+    };
   }, []);
   React.useEffect(() => {
     if (name && dependencies.length > 0) {
@@ -1189,6 +1195,7 @@ const Form$1 = ({
     }
   };
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
+  const formClassName = React.useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
   React.useEffect(() => {
     if (onFieldsChange) {
       formInstance.setOnFieldsChange?.(onFieldsChange);
@@ -1220,15 +1227,25 @@ const Form$1 = ({
       size: childProps.size || rest.size,
       layout: childProps.layout || layout
     }));
-  }, [rest.size, layout, flattenChildren]);
-  console.info(1);
+  }, [rest.size, layout]);
+  console.info({
+    children,
+    form,
+    style,
+    prefixCls,
+    className,
+    initialValues,
+    layout,
+    scrollToFirstError,
+    ...rest
+  });
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
   }, /*#__PURE__*/React.createElement("form", {
     style: style,
     ref: formRef,
     onSubmit: handleSubmit,
-    className: `${prefixCls} ${className}`
+    className: formClassName
   }, React.Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
 };
 Form$1.Item = FormItem$1;

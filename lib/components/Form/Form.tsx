@@ -38,7 +38,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange); 
   const formInstance = form || internalForm;
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -54,6 +54,8 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   };
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
+
+  const formClassName = useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
 
   useEffect(() => {
     if (onFieldsChange) {
@@ -110,16 +112,27 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       size={childProps.size || rest.size}
       layout={childProps.layout || layout}
     />
-  }, [rest.size, layout, flattenChildren]);
+  }, [rest.size, layout]);
 
-  console.info(1)
+  console.info({
+  children,
+  form,
+  style,
+  prefixCls,
+  className,
+  initialValues,
+  layout,
+  scrollToFirstError,
+  ...rest
+});
+
   return (
     <FormContext.Provider value={formInstance}>
       <form
         style={style}
         ref={formRef}
         onSubmit={handleSubmit}
-        className={`${prefixCls} ${className}`}
+        className={formClassName}
       >
         {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
       </form>

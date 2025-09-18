@@ -160,6 +160,7 @@ const FormItemChildComponent = memo(({
     getFieldsValue,
     getFieldValue,
     setFieldValue,
+    subscribeToField,
     subscribeToFields,
     validateFields
   } = formContext || {};
@@ -167,11 +168,19 @@ const FormItemChildComponent = memo(({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const { onChange, value } = child.props;
-  const fieldValue = value ?? getFieldValue?.(name) ?? initialValue;
+  const [fieldValue, _setFieldValue] = useState(value ?? getFieldValue?.(name) ?? initialValue);
 
   useEffect(() => {
     if (initialValue) {
       setFieldValue?.(name, initialValue);
+    }
+
+    const unsubscribe = subscribeToField?.(name, (value) => {
+      _setFieldValue(value);
+    })
+
+    return () => {
+      unsubscribe?.();
     }
   }, []);
 
