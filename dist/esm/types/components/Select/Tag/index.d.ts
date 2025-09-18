@@ -1,0 +1,1 @@
+export { default as Tag } from '../../Select/Tag/Tag';

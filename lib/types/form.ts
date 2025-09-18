@@ -151,7 +151,7 @@ export interface FormInstance {
   setFieldInstance: (fieldName: string, fieldRef: FieldInstancesRef | null) => void; 
   setScrollToFirstError: (value: boolean) => void;
   scrollToFirstError?: boolean;
-  isReseting: boolean;
+  // isReseting: boolean;
   setOnFieldsChange?: (
     onFieldsChange?: (changedFields: FieldData[]) => void
   ) => void;

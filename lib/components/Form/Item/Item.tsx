@@ -49,7 +49,7 @@ const FormItem = memo(({
   }
 
   const {
-    isReseting,
+    // isReseting,
     registerField,
     getFieldInstance,
     setFieldInstance,
@@ -101,7 +101,7 @@ const FormItem = memo(({
             <div>
               <FormItemChildComponent
                 {...props}
-                key={`${key}_${isReseting}`}
+                // key={`${key}_${isReseting}`}
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 ref={fieldRef}
