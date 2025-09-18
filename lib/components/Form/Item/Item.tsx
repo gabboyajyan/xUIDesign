@@ -3,6 +3,7 @@
 import React, {
   Children,
   isValidElement,
+  memo,
   ReactElement,
   useContext,
   useEffect,
@@ -23,21 +24,7 @@ import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
 
-const debounce = (func: (...args: any[]) => void, delay: number) => {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-  return (...args: any[]) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
-
-const FormItem = ({
+const FormItem = memo(({
   prefixCls = prefixClsFormItem,
   name,
   label,
@@ -152,9 +139,9 @@ const FormItem = ({
       })}
     </div>
   );
-};
+});
 
-const FormItemChildComponent = ({
+const FormItemChildComponent = memo(({
   child,
   name,
   error,
@@ -200,12 +187,6 @@ const FormItemChildComponent = ({
     }
   }, [dependencies, name]);
 
-  const debouncedSetFieldValue = useRef(
-    debounce((name: string, value: any) => {
-      setFieldValue?.(name, value, undefined, undefined, true);
-    }, 10)
-  ).current;
-
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
@@ -233,7 +214,7 @@ const FormItemChildComponent = ({
       }
     }
 
-    debouncedSetFieldValue(name, rawValue);
+    setFieldValue?.(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
 
@@ -267,10 +248,10 @@ const FormItemChildComponent = ({
     return <child.type
       {...props}
       ref={ref}
+      name={name}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       {...child.props}
-      name={name}
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       size={childProps.size || props.size}
@@ -287,7 +268,7 @@ const FormItemChildComponent = ({
   };
 
   return injectPropsIntoFinalLeaf(child)
-};
+});
 
 FormItem.displayName = 'FormItem';
 

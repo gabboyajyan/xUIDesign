@@ -1897,6 +1897,8 @@ export default function Home() {
 
     return (
         <>
+      {console.log(0)}
+
             <Form
                 form={form}
                 size="large"
