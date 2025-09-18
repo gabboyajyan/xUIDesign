@@ -4,6 +4,7 @@ import React, {
   Children,
   isValidElement,
   ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -22,40 +23,6 @@ import { OptionProps } from '../../../types/select';
 import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
-
-const debounce = <T extends (...args: any[]) => void>(
-  func: T,
-  wait: number
-) => {
-  let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-  const debounced = (...args: Parameters<T>) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, wait);
-  };
-
-  debounced.cancel = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-    }
-  };
-
-  debounced.flush = (...args: Parameters<T>) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-      func(...args);
-    }
-  };
-
-  return debounced;
-};
 
 const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -241,21 +208,25 @@ const FormItemChildComponent = ({
 
   const { getFieldsValue } = formContext || {};
 
-  const debouncedSetFieldValue = useRef(
-    debounce((name: string, value: any) => {
-      setFieldValue(name, value, undefined, undefined, true);
-    }, 50)
-  ).current;
+  const debounce = useCallback((func: (...args: any[]) => void, delay: number) => {
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-  useEffect(() => {
-    return () => {
-      debouncedSetFieldValue.cancel?.();
+    return (...args: any[]) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
     };
   }, []);
 
-  const handleBlur = () => {
-    debouncedSetFieldValue.flush?.(name, fieldValue);
-  };
+  const debouncedSetFieldValue = useRef(
+    debounce((name: string, value: any) => {
+      setFieldValue(name, value, undefined, undefined, true);
+    }, 70)
+  ).current;
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -325,7 +296,6 @@ const FormItemChildComponent = ({
       name={name}
       child={child}
       onChange={handleChange}
-      onBlur={handleBlur}
       key={`${name}_${wasNormalize}`}
       value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {

@@ -976,31 +976,6 @@ function flattenChildren(children) {
 var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
-const debounce = (func, wait) => {
-  let timeoutId = null;
-  const debounced = (...args) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, wait);
-  };
-  debounced.cancel = () => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-    }
-  };
-  debounced.flush = (...args) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-      timeoutId = null;
-      func(...args);
-    }
-  };
-  return debounced;
-};
 const FormItem$1 = ({
   prefixCls = prefixClsFormItem,
   name,
@@ -1149,17 +1124,20 @@ const FormItemChildComponent = ({
   const {
     getFieldsValue
   } = formContext || {};
-  const debouncedSetFieldValue = React.useRef(debounce((name, value) => {
-    setFieldValue(name, value, undefined, undefined, true);
-  }, 50)).current;
-  React.useEffect(() => {
-    return () => {
-      debouncedSetFieldValue.cancel?.();
+  const debounce = React.useCallback((func, delay) => {
+    let timeoutId = null;
+    return (...args) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      timeoutId = setTimeout(() => {
+        func(...args);
+      }, delay);
     };
   }, []);
-  const handleBlur = () => {
-    debouncedSetFieldValue.flush?.(name, fieldValue);
-  };
+  const debouncedSetFieldValue = React.useRef(debounce((name, value) => {
+    setFieldValue(name, value, undefined, undefined, true);
+  }, 70)).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
@@ -1199,7 +1177,6 @@ const FormItemChildComponent = ({
       name: name,
       child: child,
       onChange: handleChange,
-      onBlur: handleBlur,
       key: `${name}_${wasNormalize}`,
       value: fieldValue ?? props.value
     }, 'dangerouslySetInnerHTML' in childProps ? {} : {
