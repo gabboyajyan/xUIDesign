@@ -1851,7 +1851,9 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm();
+    const form = useForm({
+        email: "sdffd"
+    });
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);

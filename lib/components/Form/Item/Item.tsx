@@ -68,21 +68,18 @@ const FormItem = ({
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, rules]);
 
   useEffect(() => {
     setFieldInstance(name, fieldRef.current);
   }, [name, fieldRef.current])
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => () => registerField(name, undefined, true), [name])
 
   useEffect(() => {
     if (initialValue) {
       setFieldValue(name, initialValue);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -95,7 +92,6 @@ const FormItem = ({
         unsubscribe();
       };
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dependencies, name]);
 
   const isRequired = useMemo(
@@ -195,9 +191,7 @@ const FormItemChildComponent = ({
   setFieldValue,
   onChange,
   normalize,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   noStyle,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   feedbackIcons,
   ref,
   ...props
@@ -208,19 +202,21 @@ const FormItemChildComponent = ({
 
   const { getFieldsValue } = formContext || {};
 
-  const debounce = useCallback((func: (...args: any[]) => void, delay: number) => {
-    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+  const [localValue, setLocalValue] = useState(fieldValue);
 
+  useEffect(() => {
+    setLocalValue(fieldValue);
+  }, [fieldValue]);
+
+  const debounce = useCallback((func: (...args: any[]) => void, delay = 300) => {
+    let timer: ReturnType<typeof setTimeout>;
     return (...args: any[]) => {
-      if (timeoutId) {
-        clearTimeout(timeoutId);
-      }
-
-      timeoutId = setTimeout(() => {
-        func(...args);
-      }, delay);
+      clearTimeout(timer);
+      timer = setTimeout(() => func(...args), delay);
     };
   }, []);
+
+  const debouncedSetFieldValue = useMemo(() => debounce(setFieldValue, 300), [setFieldValue, debounce]);
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -228,7 +224,7 @@ const FormItemChildComponent = ({
       : e;
 
     if (normalize) {
-      const prevValue = fieldValue ?? props.value;
+      const prevValue = localValue;
       const allValues = getFieldsValue?.();
 
       rawValue = normalize(rawValue, prevValue, allValues);
@@ -250,11 +246,9 @@ const FormItemChildComponent = ({
       }
     }
 
-    const _debounce = debounce((name: string, rawValue: any) => {
-      setFieldValue(name, rawValue, undefined, undefined, true);
-    }, 10)
+    setLocalValue(rawValue);
+    debouncedSetFieldValue(name, rawValue, undefined, undefined, true);
 
-    _debounce(name, rawValue);
     onChange?.(e, option);
   };
 
@@ -295,7 +289,7 @@ const FormItemChildComponent = ({
       child={child}
       onChange={handleChange}
       key={`${name}_${wasNormalize}`}
-      value={fieldValue ?? props.value}
+      value={localValue}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {
         __injected: true,
         ...(error ? { error } : {}),
