@@ -39,8 +39,9 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   ...rest
 }) => {
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange); 
-  const formInstance = form || internalForm;
   const formRef = useRef<HTMLFormElement>(null);
+  
+  const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();

@@ -1860,9 +1860,9 @@ export default function Home() {
     const [type, setType] = useState('full');
 
     useEffect(() => {
-        setInterval(() => {
-            form.setFieldsValue({ email: Date.now().toString() })
-        }, 1000);
+        // setInterval(() => {
+        //     form.setFieldsValue({ email: Date.now().toString() })
+        // }, 1000);
     }, [])
 
     const disableDate = useCallback(

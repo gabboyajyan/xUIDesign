@@ -1178,8 +1178,8 @@ const Form$1 = ({
   ...rest
 }) => {
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
-  const formInstance = form || internalForm;
   const formRef = useRef(null);
+  const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
   const handleSubmit = async e => {
     e.preventDefault();
     if (await formInstance.validateFields()) {
