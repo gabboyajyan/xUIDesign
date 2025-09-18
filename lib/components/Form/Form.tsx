@@ -112,7 +112,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
   return (
     <FormContext.Provider value={formInstance}>
-      {console.log(1)}
+      {console.info(1)}
       <form
         style={style}
         ref={formRef}
