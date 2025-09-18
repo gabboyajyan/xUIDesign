@@ -620,119 +620,40 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = React.useRef({});
-  // const [isReseting, setIsReseting] = useState(false);
   const errorsRef = React.useRef({});
   const fieldSubscribers = React.useRef({});
   const formSubscribers = React.useRef([]);
-  function getFormFields() {
+  const getFormFields = React.useCallback(() => {
     return Object.assign({}, ...Object.values(formRef.current));
-  }
-  function getFieldInstance(name) {
+  }, []);
+  const getFieldInstance = React.useCallback(name => {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
-  }
-  function getFieldValue(name) {
+  }, []);
+  const getFieldValue = React.useCallback(name => {
     const formData = getFormFields();
     return formData[name];
-  }
-  function getFieldsValue(nameList) {
+  }, [getFormFields]);
+  const getFieldsValue = React.useCallback(nameList => {
     const formData = getFormFields();
-    if (!nameList) {
-      return formData;
-    }
+    if (!nameList) return formData;
     return nameList.reduce((acc, key) => {
       acc[key] = formData[key];
       return acc;
     }, {});
-  }
-  function getFieldError(name) {
+  }, [getFormFields]);
+  const getFieldError = React.useCallback(name => {
     return errorsRef.current[name] || [];
-  }
-  function getFieldWarning(name) {
+  }, []);
+  const getFieldWarning = React.useCallback(name => {
     return warningsRef.current[name] || [];
-  }
-  function getFieldsError() {
+  }, []);
+  const getFieldsError = React.useCallback(() => {
     return Object.entries(errorsRef.current).map(([name, err]) => ({
       name,
       errors: err
     }));
-  }
-  function setFieldValue(name, value, errors, reset = undefined, touch) {
-    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
-      return;
-    }
-    formRef.current[stepRef.current][name] = value;
-    if (touch) {
-      touchedFieldsRef.current.add(name);
-    }
-    if (reset === null) {
-      errorsRef.current[name] = [];
-      return;
-    }
-    if (!errorsRef.current?.length) {
-      validateField(name).then(() => {
-        const allValues = getFieldsValue();
-        fieldSubscribers.current[name]?.forEach(callback => callback(value));
-        formSubscribers.current.forEach(callback => callback(allValues));
-        if (formHandlersRef.current.onValuesChange) {
-          formHandlersRef.current.onValuesChange({
-            [name]: value
-          }, allValues);
-        }
-        if (formHandlersRef.current.onFieldsChange) {
-          formHandlersRef.current.onFieldsChange([{
-            name,
-            value
-          }]);
-        }
-      });
-    } else {
-      errorsRef.current[name] = errors || [];
-    }
-  }
-  function setFieldsValue(values, reset) {
-    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value, undefined, reset));
-  }
-  function setFields(fields) {
-    fields.forEach(({
-      name,
-      value,
-      errors
-    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
-  }
-  function setFieldInstance(fieldName, fieldRef) {
-    fieldInstancesRef.current[fieldName] = fieldRef;
-  }
-  function isFieldTouched(name) {
-    return touchedFieldsRef.current.has(name);
-  }
-  function isFieldsTouched(nameList, allFieldsTouched = false) {
-    if (!nameList) {
-      return touchedFieldsRef.current.size > 0;
-    }
-    return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));
-  }
-  function isFieldValidating(name) {
-    return !!name;
-  }
-  function registerField(name, rules = [], remove = false) {
-    if (remove) {
-      trashFormRef.current[name] = formRef.current[stepRef.current]?.[name];
-      delete formRef.current[stepRef.current]?.[name];
-      delete rulesRef.current[name];
-      delete fieldInstancesRef.current[name];
-    } else {
-      if (!(name in formRef.current[stepRef.current])) {
-        if (trashFormRef.current.hasOwnProperty(name)) {
-          formRef.current[stepRef.current][name] = trashFormRef.current[name];
-          delete trashFormRef.current[name];
-        } else {
-          formRef.current[stepRef.current][name] = initialValues?.[name];
-        }
-      }
-      rulesRef.current[name] = rules;
-    }
-  }
-  async function validateField(name) {
+  }, []);
+  const validateField = React.useCallback(async name => {
     const value = formRef.current[stepRef.current][name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
@@ -768,13 +689,88 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     };
     warningsRef.current[name] = fieldWarnings;
     return fieldErrors.length === 0;
-  }
-  async function validateFields(nameList) {
+  }, []);
+  const setFieldValue = React.useCallback((name, value, errors, reset = undefined, touch) => {
+    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
+      return;
+    }
+    formRef.current[stepRef.current][name] = value;
+    if (touch) {
+      touchedFieldsRef.current.add(name);
+    }
+    if (reset === null) {
+      errorsRef.current[name] = [];
+      return;
+    }
+    if (!errorsRef.current?.length) {
+      validateField(name).then(() => {
+        const allValues = getFieldsValue();
+        fieldSubscribers.current[name]?.forEach(callback => callback(value));
+        formSubscribers.current.forEach(callback => callback(allValues));
+        if (formHandlersRef.current.onValuesChange) {
+          formHandlersRef.current.onValuesChange({
+            [name]: value
+          }, allValues);
+        }
+        if (formHandlersRef.current.onFieldsChange) {
+          formHandlersRef.current.onFieldsChange([{
+            name,
+            value
+          }]);
+        }
+      });
+    } else {
+      errorsRef.current[name] = errors || [];
+    }
+  }, [getFieldsValue, validateField]);
+  const setFieldsValue = React.useCallback((values, reset) => {
+    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value, undefined, reset));
+  }, [setFieldValue]);
+  const setFields = React.useCallback(fields => {
+    fields.forEach(({
+      name,
+      value,
+      errors
+    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
+  }, [setFieldValue]);
+  const setFieldInstance = React.useCallback((fieldName, fieldRef) => {
+    fieldInstancesRef.current[fieldName] = fieldRef;
+  }, []);
+  const isFieldTouched = React.useCallback(name => {
+    return touchedFieldsRef.current.has(name);
+  }, []);
+  const isFieldsTouched = React.useCallback((nameList, allFieldsTouched = false) => {
+    if (!nameList) {
+      return touchedFieldsRef.current.size > 0;
+    }
+    return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));
+  }, []);
+  const isFieldValidating = React.useCallback(name => {
+    return !!name;
+  }, []);
+  const registerField = React.useCallback((name, rules = [], remove = false) => {
+    if (remove) {
+      trashFormRef.current[name] = formRef.current[stepRef.current]?.[name];
+      delete formRef.current[stepRef.current]?.[name];
+      delete rulesRef.current[name];
+      delete fieldInstancesRef.current[name];
+    } else {
+      if (!(name in formRef.current[stepRef.current])) {
+        if (trashFormRef.current.hasOwnProperty(name)) {
+          formRef.current[stepRef.current][name] = trashFormRef.current[name];
+          delete trashFormRef.current[name];
+        } else {
+          formRef.current[stepRef.current][name] = initialValues?.[name];
+        }
+      }
+      rulesRef.current[name] = rules;
+    }
+  }, [initialValues]);
+  const validateFields = React.useCallback(async nameList => {
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
-      console.log('firstErrorContent', firstErrorContent);
       if (firstErrorContent) {
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
@@ -782,8 +778,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       }
     }
     return results.every(valid => valid);
-  }
-  function resetFields(nameList, showError = true) {
+  }, [validateField]);
+  const resetFields = React.useCallback((nameList, showError = true) => {
     const formData = getFormFields();
     if (nameList?.length) {
       nameList.forEach(name => {
@@ -806,16 +802,15 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
-    // setIsReseting(prev => !prev);
-  }
-  async function submit() {
+  }, [getFormFields, getFieldsValue, initialValues, setFieldValue]);
+  const submit = React.useCallback(async () => {
     const formData = getFormFields();
     return (await validateFields()) ? (() => {
       formHandlersRef.current.onFinish?.(formData);
       return formData;
     })() : undefined;
-  }
-  function subscribeToField(name, callback) {
+  }, [getFormFields, validateFields]);
+  const subscribeToField = React.useCallback((name, callback) => {
     if (!fieldSubscribers.current[name]) {
       fieldSubscribers.current[name] = [];
     }
@@ -823,40 +818,40 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return () => {
       fieldSubscribers.current[name] = fieldSubscribers.current[name].filter(cb => cb !== callback);
     };
-  }
-  function subscribeToForm(callback) {
+  }, []);
+  const subscribeToForm = React.useCallback(callback => {
     formSubscribers.current.push(callback);
     return () => {
       formSubscribers.current = formSubscribers.current.filter(cb => cb !== callback);
     };
-  }
-  function subscribeToFields(names, callback) {
+  }, []);
+  const subscribeToFields = React.useCallback((names, callback) => {
     const fieldCallbacks = names.map(name => subscribeToField(name, () => {
       callback(getFieldsValue(names));
     }));
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
     };
-  }
-  function setScrollToFirstError(value) {
+  }, [getFieldsValue, subscribeToField]);
+  const setScrollToFirstError = React.useCallback(value => {
     _scrollToFirstError.current = value;
-  }
-  function setOnFieldsChange(onFieldsChange) {
-    formHandlersRef.current.onFieldsChange = onFieldsChange;
-  }
-  function setOnValuesChange(onValuesChange) {
-    formHandlersRef.current.onValuesChange = onValuesChange;
-  }
-  function setOnFinish(onFinish) {
-    formHandlersRef.current.onFinish = onFinish;
-  }
-  function changeStep(step) {
+  }, []);
+  const setOnFieldsChange = React.useCallback(cb => {
+    formHandlersRef.current.onFieldsChange = cb;
+  }, []);
+  const setOnValuesChange = React.useCallback(cb => {
+    formHandlersRef.current.onValuesChange = cb;
+  }, []);
+  const setOnFinish = React.useCallback(cb => {
+    formHandlersRef.current.onFinish = cb;
+  }, []);
+  const changeStep = React.useCallback(step => {
     stepRef.current = step ?? 0;
     if (!formRef.current[stepRef.current]) {
       formRef.current[stepRef.current] = {};
     }
-  }
-  const formInstance = {
+  }, []);
+  const formInstance = React.useMemo(() => ({
     submit,
     setFields,
     resetFields,
@@ -880,13 +875,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setFieldInstance,
     subscribeToFields,
     setScrollToFirstError,
-    scrollToFirstError,
-    // isReseting,
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
     changeStep
-  };
+  }), [submit, setFields, resetFields, getFieldError, registerField, setFieldValue, getFieldValue, validateFields, setFieldsValue, getFieldsValue, isFieldTouched, getFieldsError, isFieldsTouched, getFieldWarning, isFieldValidating, subscribeToField, subscribeToForm, getFieldInstance, setFieldInstance, subscribeToFields, setScrollToFirstError, setOnFinish, setOnFieldsChange, setOnValuesChange, changeStep, onFieldsChange, onValuesChange]);
   return formInstance;
 };
 
