@@ -4,7 +4,6 @@ import React, {
   Children,
   isValidElement,
   ReactElement,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -23,6 +22,20 @@ import { OptionProps } from '../../../types/select';
 import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
+
+const debounce = (func: (...args: any[]) => void, delay: number) => {
+  let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+  return (...args: any[]) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
+    timeoutId = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+};
 
 const FormItem = ({
   prefixCls = prefixClsFormItem,
@@ -198,12 +211,17 @@ const FormItemChildComponent = ({
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
 
-  const animationRef = useRef<number | null>(null);
   const [wasNormalize, setWasNormalize] = useState(false);
 
   const { getFieldsValue } = formContext || {};
 
-  const handleChange = useCallback((e: SyntheticBaseEvent, option?: OptionProps) => {
+  const debouncedSetFieldValue = useRef(
+    debounce((name: string, value: any) => {
+      setFieldValue(name, value, undefined, undefined, true);
+    }, 200)
+  ).current;
+
+  const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
       : e;
@@ -218,20 +236,21 @@ const FormItemChildComponent = ({
         e.target.value = rawValue;
         setWasNormalize(prev => !prev);
 
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
+        const timeout = setTimeout(() => {
+          (
+            document.querySelector(`[name='${name}']`) as HTMLInputElement
+          )?.focus();
 
-        animationRef.current = requestAnimationFrame(() => {
-          (document.querySelector(`[name='${name}']`) as HTMLInputElement)?.focus();
-        });
+          clearTimeout(timeout);
+        }, 0);
+
         return;
       }
     }
 
-    setFieldValue(name, rawValue, undefined, undefined, true);
+    debouncedSetFieldValue(name, rawValue);
     onChange?.(e, option);
-  }, [fieldValue, props.value, name]);
+  };
 
   const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
     if (!isValidElement(child)) {
@@ -259,7 +278,7 @@ const FormItemChildComponent = ({
     if (childProps?.__injected) {
       return child;
     }
-
+    
     return <child.type
       {...props}
       ref={ref}

@@ -119,13 +119,7 @@ const InputComponent = ({
       }
     };
 
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current)
-    }
-
-    animationRef.current = requestAnimationFrame(() => {
-      props.onChange?.(eventWithMaskedValue as RuleType);
-    })
+    props.onChange?.(eventWithMaskedValue as RuleType);
   };
 
   const handleClear = (e: MouseEvent<HTMLSpanElement> & TargetProps) => {
