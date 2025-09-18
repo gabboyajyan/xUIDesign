@@ -23,18 +23,38 @@ import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
 
-const debounce = (func: (...args: any[]) => void, delay: number) => {
+const debounce = <T extends (...args: any[]) => void>(
+  func: T,
+  wait: number
+) => {
   let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-  return (...args: any[]) => {
+  const debounced = (...args: Parameters<T>) => {
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
 
     timeoutId = setTimeout(() => {
       func(...args);
-    }, delay);
+    }, wait);
   };
+
+  debounced.cancel = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+  };
+
+  debounced.flush = (...args: Parameters<T>) => {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+      func(...args);
+    }
+  };
+
+  return debounced;
 };
 
 const FormItem = ({
@@ -224,8 +244,18 @@ const FormItemChildComponent = ({
   const debouncedSetFieldValue = useRef(
     debounce((name: string, value: any) => {
       setFieldValue(name, value, undefined, undefined, true);
-    }, 500)
+    }, 50)
   ).current;
+
+  useEffect(() => {
+    return () => {
+      debouncedSetFieldValue.cancel?.();
+    };
+  }, []);
+
+  const handleBlur = () => {
+    debouncedSetFieldValue.flush?.(name, fieldValue);
+  };
 
   const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
@@ -295,6 +325,7 @@ const FormItemChildComponent = ({
       name={name}
       child={child}
       onChange={handleChange}
+      onBlur={handleBlur}
       key={`${name}_${wasNormalize}`}
       value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {
