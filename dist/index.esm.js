@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, memo, useContext, useMemo, useEffect, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, memo, useContext, useMemo, useEffect, createContext, useCallback, useImperativeHandle, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -1201,7 +1201,7 @@ const Form$1 = ({
       formInstance.setScrollToFirstError(scrollToFirstError);
     }
   }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
-  const injectPropsIntoFinalLeaf = child => {
+  const injectPropsIntoFinalLeaf = useCallback(child => {
     if (! /*#__PURE__*/isValidElement(child)) {
       return child;
     }
@@ -1218,7 +1218,7 @@ const Form$1 = ({
       size: childProps.size || rest.size,
       layout: childProps.layout || layout
     }));
-  };
+  }, [rest.size, layout, flattenChildren]);
   console.info(1);
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
@@ -1230,11 +1230,12 @@ const Form$1 = ({
   }, Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
 };
 Form$1.Item = FormItem$1;
+var Form$2 = /*#__PURE__*/memo(Form$1);
 
-var Form$2 = /*#__PURE__*/Object.freeze({
+var Form$3 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	FormContext: FormContext,
-	default: Form$1
+	default: Form$2
 });
 
 const useWatch = ({
@@ -1286,7 +1287,7 @@ const RangePicker$2 = dynamic$1(() => Promise.resolve().then(function () { retur
 const TimePicker$2 = dynamic$1(() => Promise.resolve().then(function () { return TimePicker$1; }), {
   ssr: false
 });
-const Form = dynamic$1(() => Promise.resolve().then(function () { return Form$2; }), {
+const Form = dynamic$1(() => Promise.resolve().then(function () { return Form$3; }), {
   ssr: false
 });
 const FormItem = dynamic$1(() => Promise.resolve().then(function () { return Item; }), {

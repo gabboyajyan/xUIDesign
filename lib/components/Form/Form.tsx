@@ -5,9 +5,11 @@ import React, {
   createContext,
   FC,
   isValidElement,
+  memo,
   ReactElement,
   ReactNode,
   SyntheticEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef
@@ -71,7 +73,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     }
   }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
 
-  const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
+  const injectPropsIntoFinalLeaf = useCallback((child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {
       return child;
     }
@@ -108,7 +110,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       size={childProps.size || rest.size}
       layout={childProps.layout || layout}
     />
-  };
+  }, [rest.size, layout, flattenChildren]);
 
   console.info(1)
   return (
@@ -127,4 +129,4 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
 Form.Item = FormItem;
 
-export default Form;
+export default memo(Form);
