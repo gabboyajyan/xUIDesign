@@ -288,9 +288,22 @@ const useForm = (
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
       if (firstErrorContent) {
+        let toggleDisplay = false;
+        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item') as HTMLDivElement;
+
+        if (_firstErrorContent.style.display === 'none') {
+          toggleDisplay = true;
+          _firstErrorContent.style.display = 'block'
+        }
+
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
         });
+
+        if (toggleDisplay) {
+          toggleDisplay = false;
+          _firstErrorContent.style.display = 'none'
+        }
       }
     }
 

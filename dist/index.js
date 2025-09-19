@@ -777,9 +777,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
       if (firstErrorContent) {
+        let toggleDisplay = false;
+        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item');
+        if (_firstErrorContent.style.display === 'none') {
+          toggleDisplay = true;
+          _firstErrorContent.style.display = 'block';
+        }
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
         });
+        if (toggleDisplay) {
+          toggleDisplay = false;
+          _firstErrorContent.style.display = 'none';
+        }
       }
     }
     return results.every(valid => valid);

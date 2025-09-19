@@ -1912,13 +1912,45 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        <Item rules={[{ required: true }]} name="email" label="Email">
+                        <Item 
+                            style={{ display: type === 'full' ? 'block' : 'none' }} 
+                            rules={[{ required: true }]} 
+                            name="email" 
+                            label="Email"
+                        >
                             <Input 
-                                value={value} 
+                                // value={value} 
+                                // onChange={(e) => setValue(e.target.value)} 
                                 placeholder="Email" 
-                                onChange={(e) => setValue(e.target.value)} 
                             />
                         </Item>
+
+                        <Item 
+                            style={{ display: type === 'partial' ? 'block' : 'none' }} 
+                            rules={[{ required: true }]} 
+                            name="gmail" 
+                            label="Gmail"
+                        >
+                            <Input 
+                                // value={value} 
+                                // onChange={(e) => setValue(e.target.value)} 
+                                placeholder="Gmail" 
+                            />
+                        </Item>
+
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, key) => {
+                            return <Item 
+                                key={key}
+                                style={{ display: type !== 'partial' ? 'block' : 'none' }} 
+                                name={`gmail_${key}`} label={`Gmail_${key}`}
+                        >
+                            <Input 
+                                // value={value} 
+                                // onChange={(e) => setValue(e.target.value)} 
+                                placeholder={`Gmail_${key}`}
+                            />
+                        </Item>
+                        })}
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
@@ -1927,14 +1959,14 @@ export default function Home() {
                             </RadioGroup>
                         </Item>
 
-                        <Item rules={[{ required: true }]} name="country" label="Country">
+                        {/* <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
-                        </Item>
+                        </Item> */}
                     </>
                     :
                     <>
@@ -1971,7 +2003,7 @@ export default function Home() {
                 <Button
                     type="primary"
                     size="middle"
-                    htmlType={current === 1 ? 'submit' : 'button'}
+                    htmlType="button"
                     onClick={async () => {
                         if (current === 1) {
                             await form.submit()
