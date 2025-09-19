@@ -826,7 +826,7 @@ const useForm = ({
       formHandlersRef.current.onFinish?.(formData);
       return formData;
     })() : (() => {
-      const errorFields = formInstance.getFieldsError();
+      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
       formHandlersRef.current.onFinishFailed?.({
         values: formInstance.getFieldsValue(),
         errorFields
@@ -1231,7 +1231,7 @@ const Form$1 = ({
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
-      const errorFields = formInstance.getFieldsError();
+      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
       onFinishFailed({
         values: formInstance.getFieldsValue(),
         errorFields

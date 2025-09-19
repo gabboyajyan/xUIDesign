@@ -18,9 +18,8 @@ const useForm = ({
   scrollToFirstError,
   onFinish,
   onFinishFailed
-}:
-  {
-    initialValues: Record<string, RuleTypes>
+}: {
+    initialValues?: Record<string, RuleTypes>
     onFieldsChange?: (changedFields: FieldData[]) => void,
     onValuesChange?: (
       changedValues: Record<string, RuleTypes>,
@@ -358,9 +357,9 @@ const useForm = ({
 
       return formData
     })() : (() => {
-      const errorFields = formInstance.getFieldsError();
+      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
       formHandlersRef.current.onFinishFailed?.({ values: formInstance.getFieldsValue(), errorFields })
-      
+
       return undefined
     })();
   }

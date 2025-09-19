@@ -49,7 +49,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
-      const errorFields = formInstance.getFieldsError();
+      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
       onFinishFailed({ values: formInstance.getFieldsValue(), errorFields });
     }
   }, [formInstance, onFinish, onFinishFailed]);
