@@ -1851,7 +1851,7 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm({});
+    const form = useForm({ initialValues: {} });
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
@@ -1902,6 +1902,10 @@ export default function Home() {
             <Form
                 form={form}
                 size="large"
+                onFinishFailed={(e) => {
+                    console.log(e);
+                    
+                }}
                 layout="vertical"
                 style={{ width: 400 }}
                 scrollToFirstError={true}
@@ -2005,14 +2009,14 @@ export default function Home() {
                     size="middle"
                     htmlType="button"
                     onClick={async () => {
-                        if (current === 1) {
+                        // if (current === 1) {
                             await form.submit()
-                        } else {
-                            if (await form.validateFields()) {
-                                form.changeStep(current + 1);
-                                setCurrent(current + 1)
-                            }
-                        }
+                        // } else {
+                        //     if (await form.validateFields()) {
+                        //         form.changeStep(current + 1);
+                        //         setCurrent(current + 1)
+                        //     }
+                        // }
                     }}>
                     {current === 1 ? 'Submit' : 'Next'}
                 </Button>

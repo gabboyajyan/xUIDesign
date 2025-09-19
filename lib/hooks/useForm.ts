@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { RuleTypes } from '../types';
+import { RuleType, RuleTypes } from '../types';
 import type {
   FieldData,
   FieldError,
@@ -11,15 +11,28 @@ import type {
   RuleRender
 } from '../types/form';
 
-const useForm = (
-  initialValues: Record<string, RuleTypes> = {},
-  onFieldsChange?: (changedFields: FieldData[]) => void,
-  onValuesChange?: (
-    changedValues: Record<string, RuleTypes>,
-    allValues: Record<string, RuleTypes>
-  ) => void,
-  scrollToFirstError?: boolean,
-  onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined
+const useForm = ({
+  initialValues = {},
+  onFieldsChange,
+  onValuesChange,
+  scrollToFirstError,
+  onFinish,
+  onFinishFailed
+}:
+  {
+    initialValues: Record<string, RuleTypes>
+    onFieldsChange?: (changedFields: FieldData[]) => void,
+    onValuesChange?: (
+      changedValues: Record<string, RuleTypes>,
+      allValues: Record<string, RuleTypes>
+    ) => void,
+    scrollToFirstError?: boolean,
+    onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void;
+  }
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
@@ -33,10 +46,15 @@ const useForm = (
       allValues: Record<string, RuleTypes>
     ) => void
     onFieldsChange?: (changedFields: FieldData[]) => void;
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void;
   }>({
     onFinish,
     onValuesChange,
-    onFieldsChange
+    onFieldsChange,
+    onFinishFailed
   })
 
   const formRef = useRef<Record<number, Record<string, RuleTypes>>>({ [stepRef.current]: { ...initialValues } });
@@ -268,7 +286,7 @@ const useForm = (
         }
       })
     );
-  
+
     errorsRef.current = { ...errorsRef.current, [name]: fieldErrors };
     warningsRef.current[name] = fieldWarnings;
 
@@ -284,26 +302,15 @@ const useForm = (
       fieldsToValidate.map(name => validateField(name))
     );
 
-    if (_scrollToFirstError.current) {      
+    if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
       if (firstErrorContent) {
-        let toggleDisplay = false;
         const _firstErrorContent = firstErrorContent.closest('.xUi-form-item') as HTMLDivElement;
 
-        if (_firstErrorContent.style.display === 'none') {
-          toggleDisplay = true;
-          _firstErrorContent.style.display = 'block'
-        }
-
-        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
+        _firstErrorContent?.scrollIntoView({
           behavior: 'smooth'
         });
-
-        if (toggleDisplay) {
-          toggleDisplay = false;
-          _firstErrorContent.style.display = 'none'
-        }
       }
     }
 
@@ -350,7 +357,12 @@ const useForm = (
       formHandlersRef.current.onFinish?.(formData)
 
       return formData
-    })() : undefined;
+    })() : (() => {
+      const errorFields = formInstance.getFieldsError();
+      formHandlersRef.current.onFinishFailed?.({ values: formInstance.getFieldsValue(), errorFields })
+      
+      return undefined
+    })();
   }
 
   function subscribeToField(
@@ -432,6 +444,15 @@ const useForm = (
     formHandlersRef.current.onValuesChange = onValuesChange
   }
 
+  function setOnFinishFailed(
+    onFinishFailed?: ((errorInfo: {
+      values: Record<string, RuleType>;
+      errorFields: Pick<FieldError, "errors" | "name">[];
+    }) => void) | undefined
+  ) {
+    formHandlersRef.current.onFinishFailed = onFinishFailed
+  }
+
   function setOnFinish(
     onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined
   ) {
@@ -476,6 +497,7 @@ const useForm = (
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
+    setOnFinishFailed,
     changeStep
   };
 

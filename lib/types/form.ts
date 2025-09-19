@@ -110,7 +110,7 @@ export interface FormItemChildComponentProps {
   dependencies?: string[];
 }
 
-export interface FormInstance {
+export type FormInstance = {
   submit: () => Promise<Record<string, RuleTypes> | undefined>;
   setFields: (fields: FieldData[]) => void;
   resetFields: (nameList?: string[], showError?: boolean | null) => void;
@@ -149,7 +149,7 @@ export interface FormInstance {
     allValues: Record<string, RuleTypes>
   ) => void;
   getFieldInstance: (fieldName?: string) => FieldInstancesRef | null;
-  setFieldInstance: (fieldName: string, fieldRef: FieldInstancesRef | null) => void; 
+  setFieldInstance: (fieldName: string, fieldRef: FieldInstancesRef | null) => void;
   setScrollToFirstError: (value: boolean) => void;
   scrollToFirstError?: boolean;
   isReseting: boolean;
@@ -162,6 +162,12 @@ export interface FormInstance {
       changedValues: Record<string, RuleTypes>,
       allValues: Record<string, RuleTypes>
     ) => void
+  ) => void;
+  setOnFinishFailed?: (
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void
   ) => void;
   changeStep: (step: number) => void;
 }

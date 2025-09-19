@@ -38,7 +38,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
+  const internalForm = useForm({ initialValues, onFieldsChange, onValuesChange, onFinishFailed });
   const formRef = useRef<HTMLFormElement>(null);
 
   const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
@@ -58,22 +58,13 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   const formClassName = useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
 
   useEffect(() => {
-    if (onFieldsChange) {
-      formInstance.setOnFieldsChange?.(onFieldsChange);
-    }
+    if (onFinish) { formInstance.setOnFinish?.(onFinish) }
+    if (onFieldsChange) { formInstance.setOnFieldsChange?.(onFieldsChange) }
+    if (onValuesChange) { formInstance.setOnValuesChange?.(onValuesChange) }
+    if (onFinishFailed) { formInstance.setOnFinishFailed?.(onFinishFailed) }
 
-    if (onValuesChange) {
-      formInstance.setOnValuesChange?.(onValuesChange);
-    }
-
-    if (onFinish) {
-      formInstance.setOnFinish?.(onFinish);
-    }
-
-    if (scrollToFirstError) {
-      formInstance.setScrollToFirstError(scrollToFirstError);
-    }
-  }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
+    if (scrollToFirstError) { formInstance.setScrollToFirstError(scrollToFirstError) }
+  }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
 
   const injectPropsIntoFinalLeaf = useCallback((child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {

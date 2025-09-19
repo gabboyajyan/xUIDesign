@@ -600,7 +600,14 @@ const SpinerIcon = () => /*#__PURE__*/React.createElement("svg", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
-const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError, onFinish) => {
+const useForm = ({
+  initialValues = {},
+  onFieldsChange,
+  onValuesChange,
+  scrollToFirstError,
+  onFinish,
+  onFinishFailed
+}) => {
   const touchedFieldsRef = React.useRef(new Set());
   const rulesRef = React.useRef({});
   const warningsRef = React.useRef({});
@@ -609,7 +616,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const formHandlersRef = React.useRef({
     onFinish,
     onValuesChange,
-    onFieldsChange
+    onFieldsChange,
+    onFinishFailed
   });
   const formRef = React.useRef({
     [stepRef.current]: {
@@ -777,19 +785,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
       if (firstErrorContent) {
-        let toggleDisplay = false;
         const _firstErrorContent = firstErrorContent.closest('.xUi-form-item');
-        if (_firstErrorContent.style.display === 'none') {
-          toggleDisplay = true;
-          _firstErrorContent.style.display = 'block';
-        }
-        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
+        _firstErrorContent?.scrollIntoView({
           behavior: 'smooth'
         });
-        if (toggleDisplay) {
-          toggleDisplay = false;
-          _firstErrorContent.style.display = 'none';
-        }
       }
     }
     return results.every(valid => valid);
@@ -826,7 +825,14 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return (await validateFields()) ? (() => {
       formHandlersRef.current.onFinish?.(formData);
       return formData;
-    })() : undefined;
+    })() : (() => {
+      const errorFields = formInstance.getFieldsError();
+      formHandlersRef.current.onFinishFailed?.({
+        values: formInstance.getFieldsValue(),
+        errorFields
+      });
+      return undefined;
+    })();
   }
   function subscribeToField(name, callback) {
     if (!fieldSubscribers.current[name]) {
@@ -870,6 +876,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function setOnValuesChange(onValuesChange) {
     formHandlersRef.current.onValuesChange = onValuesChange;
   }
+  function setOnFinishFailed(onFinishFailed) {
+    formHandlersRef.current.onFinishFailed = onFinishFailed;
+  }
   function setOnFinish(onFinish) {
     formHandlersRef.current.onFinish = onFinish;
   }
@@ -909,6 +918,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
+    setOnFinishFailed,
     changeStep
   };
   return formInstance;
@@ -1208,7 +1218,12 @@ const Form$1 = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
+  const internalForm = useForm({
+    initialValues,
+    onFieldsChange,
+    onValuesChange,
+    onFinishFailed
+  });
   const formRef = React.useRef(null);
   const formInstance = React.useMemo(() => form || internalForm, [form, internalForm]);
   const handleSubmit = React.useCallback(async e => {
@@ -1226,19 +1241,22 @@ const Form$1 = ({
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
   const formClassName = React.useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
   React.useEffect(() => {
+    if (onFinish) {
+      formInstance.setOnFinish?.(onFinish);
+    }
     if (onFieldsChange) {
       formInstance.setOnFieldsChange?.(onFieldsChange);
     }
     if (onValuesChange) {
       formInstance.setOnValuesChange?.(onValuesChange);
     }
-    if (onFinish) {
-      formInstance.setOnFinish?.(onFinish);
+    if (onFinishFailed) {
+      formInstance.setOnFinishFailed?.(onFinishFailed);
     }
     if (scrollToFirstError) {
       formInstance.setScrollToFirstError(scrollToFirstError);
     }
-  }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
+  }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
   const injectPropsIntoFinalLeaf = React.useCallback(child => {
     if (! /*#__PURE__*/React.isValidElement(child)) {
       return child;
