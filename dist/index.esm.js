@@ -774,7 +774,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
-      console.log('firstErrorContent', firstErrorContent);
       if (firstErrorContent) {
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
@@ -3580,11 +3579,13 @@ const SelectComponent = /*#__PURE__*/memo(({
       } else {
         onSelect?.(optionValue, option);
       }
+      onDropdownVisibleChange?.(defaultOpen, newSelection);
     } else {
       setIsOpen(defaultOpen);
       setSelected(optionValue);
       onChange?.(optionValue, option);
       onSelect?.(optionValue, option);
+      onDropdownVisibleChange?.(defaultOpen, optionValue);
     }
     handleClearInputValue();
   };

@@ -1913,7 +1913,11 @@ export default function Home() {
                 {current === 0
                     ? <>
                         <Item rules={[{ required: true }]} name="email" label="Email">
-                            <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
+                            <Input 
+                                value={value} 
+                                placeholder="Email" 
+                                onChange={(e) => setValue(e.target.value)} 
+                            />
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
