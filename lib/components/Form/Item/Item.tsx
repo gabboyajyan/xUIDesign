@@ -5,6 +5,8 @@ import React, {
   isValidElement,
   memo,
   ReactElement,
+  ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -23,6 +25,7 @@ import { OptionProps } from '../../../types/select';
 import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
 import './style.css';
+import { useWatch } from '@/hooks/useWatch';
 
 const FormItem = memo(({
   prefixCls = prefixClsFormItem,
@@ -41,7 +44,6 @@ const FormItem = memo(({
   const formContext = useContext(FormContext);
 
   const errorRef = useRef<HTMLSpanElement>(null);
-  const [errorMessage, setErrorMessage] = useState('');
   const fieldRef = useRef<FieldInstancesRef | null>(null);
 
   if (!formContext) {
@@ -49,11 +51,15 @@ const FormItem = memo(({
   }
 
   const {
-    // isReseting,
+    isReseting,
     registerField,
     getFieldInstance,
     setFieldInstance,
+    getFieldError,
+    subscribeToFieldError
   } = formContext;
+
+  const [errors, setErrors] = useState(getFieldError(name)?.[0]);
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
 
@@ -68,6 +74,16 @@ const FormItem = memo(({
   }, [name, fieldRef.current])
 
   useEffect(() => () => registerField(name, undefined, true), [name])
+
+  useEffect(() => {
+    const unsubscribe = subscribeToFieldError(name, (errors) => {
+      setErrors(errors?.[0]);
+    })
+
+    return () => {
+      unsubscribe?.()
+    }
+  }, [name]);
 
   const isRequired = useMemo(
     () => rules.some((rule: RuleType) => rule.required),
@@ -101,13 +117,13 @@ const FormItem = memo(({
             <div>
               <FormItemChildComponent
                 {...props}
-                // key={`${key}_${isReseting}`}
+                key={`${key}_${name}_${isReseting}`}
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 ref={fieldRef}
                 name={name}
                 child={child}
-                error={!!errorMessage}
+                error={!!errors}
               />
 
               {extra
@@ -121,14 +137,14 @@ const FormItem = memo(({
                   ref={errorRef}
                   className={clsx([
                     `${prefixCls}-error`,
-                    { [`${prefixCls}-has-error`]: errorMessage?.length }
+                    { [`${prefixCls}-has-error`]: errors?.length }
                   ])}
                   style={{
                     ...removeErrorMessageHeight ? { minHeight: 0 } : {},
                     ...extra ? { marginBottom: 0 } : {}
                   }}
                 >
-                  {errorMessage || ''}
+                  {errors || ''}
                 </span>
               )}
             </div>
@@ -153,14 +169,13 @@ const FormItemChildComponent = memo(({
   ...props
 }: FormItemChildComponentProps) => {
   const formContext = useContext(FormContext);
-  
+  const _formFieldValue = useWatch({ name })
+
   const [wasNormalize, setWasNormalize] = useState(false);
-  
+
   const {
     getFieldsValue,
-    getFieldValue,
     setFieldValue,
-    subscribeToField,
     subscribeToFields,
     validateFields
   } = formContext || {};
@@ -168,21 +183,16 @@ const FormItemChildComponent = memo(({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const { onChange, value } = child.props;
-  const [fieldValue, _setFieldValue] = useState(value ?? getFieldValue?.(name) ?? initialValue);
+  const fieldValue = useMemo(
+    () => value ?? _formFieldValue ?? initialValue,
+    [value, _formFieldValue, initialValue]
+  );
 
   useEffect(() => {
     if (initialValue) {
       setFieldValue?.(name, initialValue);
     }
-
-    const unsubscribe = subscribeToField?.(name, (value) => {
-      _setFieldValue(value);
-    })
-
-    return () => {
-      unsubscribe?.();
-    }
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     if (name && dependencies.length > 0) {
@@ -227,7 +237,7 @@ const FormItemChildComponent = memo(({
     onChange?.(e, option);
   };
 
-  const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
+  const injectPropsIntoFinalLeaf = useCallback((child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {
       return child;
     }
@@ -253,7 +263,7 @@ const FormItemChildComponent = memo(({
     if (childProps?.__injected) {
       return child;
     }
-    
+
     return <child.type
       {...props}
       ref={ref}
@@ -274,7 +284,15 @@ const FormItemChildComponent = memo(({
       })
       }
     />
-  };
+  }, [
+    name,
+    fieldValue,
+    wasNormalize,
+    error,
+    handleChange,
+    props,
+    ref
+  ]);
 
   return injectPropsIntoFinalLeaf(child)
 });

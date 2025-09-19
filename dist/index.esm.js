@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useCallback, useMemo, Children, isValidElement, Fragment, Suspense, memo, useContext, useState, useEffect, createContext, useImperativeHandle, useLayoutEffect } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, memo, useContext, useMemo, useEffect, useCallback, createContext, useImperativeHandle, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -618,40 +618,120 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = useRef({});
+  const [isReseting, setIsReseting] = useState(false);
   const errorsRef = useRef({});
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
-  const getFormFields = useCallback(() => {
+  const errorSubscribers = useRef({});
+  function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
-  }, []);
-  const getFieldInstance = useCallback(name => {
+  }
+  function getFieldInstance(name) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
-  }, []);
-  const getFieldValue = useCallback(name => {
+  }
+  function getFieldValue(name) {
     const formData = getFormFields();
     return formData[name];
-  }, [getFormFields]);
-  const getFieldsValue = useCallback(nameList => {
+  }
+  function getFieldsValue(nameList) {
     const formData = getFormFields();
-    if (!nameList) return formData;
+    if (!nameList) {
+      return formData;
+    }
     return nameList.reduce((acc, key) => {
       acc[key] = formData[key];
       return acc;
     }, {});
-  }, [getFormFields]);
-  const getFieldError = useCallback(name => {
+  }
+  function getFieldError(name) {
     return errorsRef.current[name] || [];
-  }, []);
-  const getFieldWarning = useCallback(name => {
+  }
+  function getFieldWarning(name) {
     return warningsRef.current[name] || [];
-  }, []);
-  const getFieldsError = useCallback(() => {
+  }
+  function getFieldsError() {
     return Object.entries(errorsRef.current).map(([name, err]) => ({
       name,
       errors: err
     }));
-  }, []);
-  const validateField = useCallback(async name => {
+  }
+  function setFieldValue(name, value, errors, reset = undefined, touch) {
+    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
+      return;
+    }
+    formRef.current[stepRef.current][name] = value;
+    if (touch) {
+      touchedFieldsRef.current.add(name);
+    }
+    if (reset === null) {
+      errorsRef.current[name] = [];
+      return;
+    }
+    if (!errorsRef.current?.length) {
+      validateField(name).then(() => {
+        const allValues = getFieldsValue();
+        fieldSubscribers.current[name]?.forEach(callback => callback(value));
+        formSubscribers.current.forEach(callback => callback(allValues));
+        if (formHandlersRef.current.onValuesChange) {
+          formHandlersRef.current.onValuesChange({
+            [name]: value
+          }, allValues);
+        }
+        if (formHandlersRef.current.onFieldsChange) {
+          formHandlersRef.current.onFieldsChange([{
+            name,
+            value
+          }]);
+        }
+      });
+    } else {
+      errorsRef.current[name] = errors || [];
+    }
+  }
+  function setFieldsValue(values, reset) {
+    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value, undefined, reset));
+  }
+  function setFields(fields) {
+    fields.forEach(({
+      name,
+      value,
+      errors
+    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
+  }
+  function setFieldInstance(fieldName, fieldRef) {
+    fieldInstancesRef.current[fieldName] = fieldRef;
+  }
+  function isFieldTouched(name) {
+    return touchedFieldsRef.current.has(name);
+  }
+  function isFieldsTouched(nameList, allFieldsTouched = false) {
+    if (!nameList) {
+      return touchedFieldsRef.current.size > 0;
+    }
+    return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));
+  }
+  function isFieldValidating(name) {
+    return !!name;
+  }
+  function registerField(name, rules = [], remove = false) {
+    if (remove) {
+      trashFormRef.current[name] = formRef.current[stepRef.current]?.[name];
+      delete formRef.current[stepRef.current]?.[name];
+      delete rulesRef.current[name];
+      delete fieldInstancesRef.current[name];
+    } else {
+      if (!(name in formRef.current[stepRef.current])) {
+        if (trashFormRef.current.hasOwnProperty(name)) {
+          formRef.current[stepRef.current][name] = trashFormRef.current[name];
+          delete trashFormRef.current[name];
+        } else {
+          formRef.current[stepRef.current][name] = initialValues?.[name];
+        }
+      }
+      rulesRef.current[name] = rules;
+    }
+  }
+  async function validateField(name) {
     const value = formRef.current[stepRef.current][name];
     const rules = rulesRef.current[name] || [];
     const fieldErrors = [];
@@ -686,89 +766,15 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       [name]: fieldErrors
     };
     warningsRef.current[name] = fieldWarnings;
+    errorSubscribers.current[name]?.forEach(callback => callback(fieldErrors));
     return fieldErrors.length === 0;
-  }, []);
-  const setFieldValue = useCallback((name, value, errors, reset = undefined, touch) => {
-    if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
-      return;
-    }
-    formRef.current[stepRef.current][name] = value;
-    if (touch) {
-      touchedFieldsRef.current.add(name);
-    }
-    if (reset === null) {
-      errorsRef.current[name] = [];
-      return;
-    }
-    if (!errorsRef.current?.length) {
-      validateField(name).then(() => {
-        const allValues = getFieldsValue();
-        fieldSubscribers.current[name]?.forEach(callback => callback(value));
-        formSubscribers.current.forEach(callback => callback(allValues));
-        if (formHandlersRef.current.onValuesChange) {
-          formHandlersRef.current.onValuesChange({
-            [name]: value
-          }, allValues);
-        }
-        if (formHandlersRef.current.onFieldsChange) {
-          formHandlersRef.current.onFieldsChange([{
-            name,
-            value
-          }]);
-        }
-      });
-    } else {
-      errorsRef.current[name] = errors || [];
-    }
-  }, [getFieldsValue, validateField]);
-  const setFieldsValue = useCallback((values, reset) => {
-    Object.entries(values).forEach(([name, value]) => setFieldValue(name, value, undefined, reset));
-  }, [setFieldValue]);
-  const setFields = useCallback(fields => {
-    fields.forEach(({
-      name,
-      value,
-      errors
-    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
-  }, [setFieldValue]);
-  const setFieldInstance = useCallback((fieldName, fieldRef) => {
-    fieldInstancesRef.current[fieldName] = fieldRef;
-  }, []);
-  const isFieldTouched = useCallback(name => {
-    return touchedFieldsRef.current.has(name);
-  }, []);
-  const isFieldsTouched = useCallback((nameList, allFieldsTouched = false) => {
-    if (!nameList) {
-      return touchedFieldsRef.current.size > 0;
-    }
-    return allFieldsTouched ? nameList.every(name => touchedFieldsRef.current.has(name)) : nameList.some(name => touchedFieldsRef.current.has(name));
-  }, []);
-  const isFieldValidating = useCallback(name => {
-    return !!name;
-  }, []);
-  const registerField = useCallback((name, rules = [], remove = false) => {
-    if (remove) {
-      trashFormRef.current[name] = formRef.current[stepRef.current]?.[name];
-      delete formRef.current[stepRef.current]?.[name];
-      delete rulesRef.current[name];
-      delete fieldInstancesRef.current[name];
-    } else {
-      if (!(name in formRef.current[stepRef.current])) {
-        if (trashFormRef.current.hasOwnProperty(name)) {
-          formRef.current[stepRef.current][name] = trashFormRef.current[name];
-          delete trashFormRef.current[name];
-        } else {
-          formRef.current[stepRef.current][name] = initialValues?.[name];
-        }
-      }
-      rulesRef.current[name] = rules;
-    }
-  }, [initialValues]);
-  const validateFields = useCallback(async nameList => {
+  }
+  async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
+      console.log('firstErrorContent', firstErrorContent);
       if (firstErrorContent) {
         firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
@@ -776,8 +782,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       }
     }
     return results.every(valid => valid);
-  }, [validateField]);
-  const resetFields = useCallback((nameList, showError = true) => {
+  }
+  function resetFields(nameList, showError = true) {
     const formData = getFormFields();
     if (nameList?.length) {
       nameList.forEach(name => {
@@ -789,6 +795,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
           [name]: []
         };
         setFieldValue(name, initialValues[name], undefined, showError);
+        errorSubscribers.current[name]?.forEach(callback => callback([]));
       });
     } else {
       touchedFieldsRef.current.clear();
@@ -797,18 +804,20 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         ...formData
       }).forEach(name => {
         setFieldValue(name, initialValues[name], undefined, showError);
+        errorSubscribers.current[name]?.forEach(callback => callback([]));
       });
     }
     formSubscribers.current.forEach(callback => callback(getFieldsValue()));
-  }, [getFormFields, getFieldsValue, initialValues, setFieldValue]);
-  const submit = useCallback(async () => {
+    setIsReseting(prev => !prev);
+  }
+  async function submit() {
     const formData = getFormFields();
     return (await validateFields()) ? (() => {
       formHandlersRef.current.onFinish?.(formData);
       return formData;
     })() : undefined;
-  }, [getFormFields, validateFields]);
-  const subscribeToField = useCallback((name, callback) => {
+  }
+  function subscribeToField(name, callback) {
     if (!fieldSubscribers.current[name]) {
       fieldSubscribers.current[name] = [];
     }
@@ -816,40 +825,50 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return () => {
       fieldSubscribers.current[name] = fieldSubscribers.current[name].filter(cb => cb !== callback);
     };
-  }, []);
-  const subscribeToForm = useCallback(callback => {
+  }
+  function subscribeToForm(callback) {
     formSubscribers.current.push(callback);
     return () => {
       formSubscribers.current = formSubscribers.current.filter(cb => cb !== callback);
     };
-  }, []);
-  const subscribeToFields = useCallback((names, callback) => {
+  }
+  function subscribeToFields(names, callback) {
     const fieldCallbacks = names.map(name => subscribeToField(name, () => {
       callback(getFieldsValue(names));
     }));
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
     };
-  }, [getFieldsValue, subscribeToField]);
-  const setScrollToFirstError = useCallback(value => {
+  }
+  function subscribeToFieldError(name, callback) {
+    if (!errorSubscribers.current[name]) {
+      errorSubscribers.current[name] = [];
+    }
+    errorSubscribers.current[name].push(callback);
+    callback(errorsRef.current[name] || []);
+    return () => {
+      errorSubscribers.current[name] = errorSubscribers.current[name].filter(cb => cb !== callback);
+    };
+  }
+  function setScrollToFirstError(value) {
     _scrollToFirstError.current = value;
-  }, []);
-  const setOnFieldsChange = useCallback(cb => {
-    formHandlersRef.current.onFieldsChange = cb;
-  }, []);
-  const setOnValuesChange = useCallback(cb => {
-    formHandlersRef.current.onValuesChange = cb;
-  }, []);
-  const setOnFinish = useCallback(cb => {
-    formHandlersRef.current.onFinish = cb;
-  }, []);
-  const changeStep = useCallback(step => {
+  }
+  function setOnFieldsChange(onFieldsChange) {
+    formHandlersRef.current.onFieldsChange = onFieldsChange;
+  }
+  function setOnValuesChange(onValuesChange) {
+    formHandlersRef.current.onValuesChange = onValuesChange;
+  }
+  function setOnFinish(onFinish) {
+    formHandlersRef.current.onFinish = onFinish;
+  }
+  function changeStep(step) {
     stepRef.current = step ?? 0;
     if (!formRef.current[stepRef.current]) {
       formRef.current[stepRef.current] = {};
     }
-  }, []);
-  const formInstance = useMemo(() => ({
+  }
+  const formInstance = {
     submit,
     setFields,
     resetFields,
@@ -867,17 +886,20 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     isFieldValidating,
     subscribeToField,
     subscribeToForm,
+    subscribeToFieldError,
     onFieldsChange,
     onValuesChange,
     getFieldInstance,
     setFieldInstance,
     subscribeToFields,
     setScrollToFirstError,
+    scrollToFirstError,
+    isReseting,
     setOnFinish,
     setOnFieldsChange,
     setOnValuesChange,
     changeStep
-  }), [submit, setFields, resetFields, getFieldError, registerField, setFieldValue, getFieldValue, validateFields, setFieldsValue, getFieldsValue, isFieldTouched, getFieldsError, isFieldsTouched, getFieldWarning, isFieldValidating, subscribeToField, subscribeToForm, getFieldInstance, setFieldInstance, subscribeToFields, setScrollToFirstError, setOnFinish, setOnFieldsChange, setOnValuesChange, changeStep, onFieldsChange, onValuesChange]);
+  };
   return formInstance;
 };
 
@@ -979,17 +1001,19 @@ const FormItem$1 = /*#__PURE__*/memo(({
 }) => {
   const formContext = useContext(FormContext);
   const errorRef = useRef(null);
-  const [errorMessage, setErrorMessage] = useState('');
   const fieldRef = useRef(null);
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
   }
   const {
-    // isReseting,
+    isReseting,
     registerField,
     getFieldInstance,
-    setFieldInstance
+    setFieldInstance,
+    getFieldError,
+    subscribeToFieldError
   } = formContext;
+  const [errors, setErrors] = useState(getFieldError(name)?.[0]);
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
     if (name && !getFieldInstance(name)) {
@@ -1000,6 +1024,14 @@ const FormItem$1 = /*#__PURE__*/memo(({
     setFieldInstance(name, fieldRef.current);
   }, [name, fieldRef.current]);
   useEffect(() => () => registerField(name, undefined, true), [name]);
+  useEffect(() => {
+    const unsubscribe = subscribeToFieldError(name, errors => {
+      setErrors(errors?.[0]);
+    });
+    return () => {
+      unsubscribe?.();
+    };
+  }, [name]);
   const isRequired = useMemo(() => rules.some(rule => rule.required), [rules]);
   return /*#__PURE__*/React.createElement("div", {
     style: style,
@@ -1017,19 +1049,20 @@ const FormItem$1 = /*#__PURE__*/memo(({
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child)) {
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
-        // key={`${key}_${isReseting}`}
+        key: `${key}_${name}_${isReseting}`
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
+        ,
         ref: fieldRef,
         name: name,
         child: child,
-        error: !!errorMessage
+        error: !!errors
       })), extra ? /*#__PURE__*/React.createElement("div", {
         className: `${prefixCls}-extra`
       }, extra || '') : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
         className: clsx([`${prefixCls}-error`, {
-          [`${prefixCls}-has-error`]: errorMessage?.length
+          [`${prefixCls}-has-error`]: errors?.length
         }]),
         style: {
           ...(removeErrorMessageHeight ? {
@@ -1039,7 +1072,7 @@ const FormItem$1 = /*#__PURE__*/memo(({
             marginBottom: 0
           } : {})
         }
-      }, errorMessage || ''));
+      }, errors || ''));
     }
     return child;
   }));
@@ -1056,12 +1089,13 @@ const FormItemChildComponent = /*#__PURE__*/memo(({
   ...props
 }) => {
   const formContext = useContext(FormContext);
+  const _formFieldValue = useWatch({
+    name
+  });
   const [wasNormalize, setWasNormalize] = useState(false);
   const {
     getFieldsValue,
-    getFieldValue,
     setFieldValue,
-    subscribeToField,
     subscribeToFields,
     validateFields
   } = formContext || {};
@@ -1071,18 +1105,12 @@ const FormItemChildComponent = /*#__PURE__*/memo(({
     onChange,
     value
   } = child.props;
-  const [fieldValue, _setFieldValue] = useState(value ?? getFieldValue?.(name) ?? initialValue);
+  const fieldValue = useMemo(() => value ?? _formFieldValue ?? initialValue, [value, _formFieldValue, initialValue]);
   useEffect(() => {
     if (initialValue) {
       setFieldValue?.(name, initialValue);
     }
-    const unsubscribe = subscribeToField?.(name, value => {
-      _setFieldValue(value);
-    });
-    return () => {
-      unsubscribe?.();
-    };
-  }, []);
+  }, [name]);
   useEffect(() => {
     if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields?.(dependencies, () => {
@@ -1112,7 +1140,7 @@ const FormItemChildComponent = /*#__PURE__*/memo(({
     setFieldValue?.(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
-  const injectPropsIntoFinalLeaf = child => {
+  const injectPropsIntoFinalLeaf = useCallback(child => {
     if (! /*#__PURE__*/isValidElement(child)) {
       return child;
     }
@@ -1143,7 +1171,7 @@ const FormItemChildComponent = /*#__PURE__*/memo(({
         error
       } : {})
     }));
-  };
+  }, [name, fieldValue, wasNormalize, error, handleChange, props, ref]);
   return injectPropsIntoFinalLeaf(child);
 });
 FormItem$1.displayName = 'FormItem';
@@ -1172,7 +1200,7 @@ const Form$1 = ({
   const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formRef = useRef(null);
   const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
-  const handleSubmit = async e => {
+  const handleSubmit = useCallback(async e => {
     e.preventDefault();
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
@@ -1183,7 +1211,7 @@ const Form$1 = ({
         errorFields
       });
     }
-  };
+  }, [formInstance, onFinish, onFinishFailed]);
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   const formClassName = useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
   useEffect(() => {
@@ -1218,17 +1246,7 @@ const Form$1 = ({
       layout: childProps.layout || layout
     }));
   }, [rest.size, layout]);
-  console.info({
-    children,
-    form,
-    style,
-    prefixCls,
-    className,
-    initialValues,
-    layout,
-    scrollToFirstError,
-    ...rest
-  });
+  const injectedChildren = useMemo(() => Children.map(childrenList, child => injectPropsIntoFinalLeaf(child)), [childrenList, injectPropsIntoFinalLeaf]);
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
   }, /*#__PURE__*/React.createElement("form", {
@@ -1236,14 +1254,15 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: formClassName
-  }, Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
+  }, injectedChildren));
 };
-Form$1.Item = FormItem$1;
+Form$1.Item = /*#__PURE__*/memo(FormItem$1);
+var Form$2 = /*#__PURE__*/memo(Form$1);
 
-var Form$2 = /*#__PURE__*/Object.freeze({
+var Form$3 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	FormContext: FormContext,
-	default: Form$1
+	default: Form$2
 });
 
 const useWatch = ({
@@ -1295,7 +1314,7 @@ const RangePicker$2 = dynamic$1(() => Promise.resolve().then(function () { retur
 const TimePicker$2 = dynamic$1(() => Promise.resolve().then(function () { return TimePicker$1; }), {
   ssr: false
 });
-const Form = dynamic$1(() => Promise.resolve().then(function () { return Form$2; }), {
+const Form = dynamic$1(() => Promise.resolve().then(function () { return Form$3; }), {
   ssr: false
 });
 const FormItem = dynamic$1(() => Promise.resolve().then(function () { return Item; }), {
@@ -1341,7 +1360,7 @@ const SkeletonInput$1 = dynamic$1(() => Promise.resolve().then(function () { ret
   ssr: false
 });
 
-var css_248z$k = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:44px;padding:8px 20px}.xUi-button-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-circle.xUi-button-size-large{height:44px;width:44px}.xUi-button-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-color-hover);border-color:var(--xui-color-hover);color:#fff}.xUi-button-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-outlined{color:#fff}.xUi-button-filled,.xUi-button-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
+var css_248z$k = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:44px;padding:8px 20px}.xUi-button-shape-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-shape-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-shape-circle.xUi-button-size-large{height:44px;width:44px}.xUi-button-shape-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-primary-color-hover);border-color:var(--xui-primary-color-hover);color:#fff}.xUi-button-variant-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-variant-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-variant-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-variant-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-variant-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-variant-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-variant-outlined{color:#fff}.xUi-button-variant-filled,.xUi-button-variant-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-variant-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
 styleInject(css_248z$k);
 
 const ButtonComponent = ({
@@ -1385,7 +1404,7 @@ const ButtonComponent = ({
     }
   }, [loading]);
   const classes = useMemo(() => {
-    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-${variant}`, `${prefixCls}-${color}`, `${prefixCls}-${shape}`, `${prefixCls}-size-${size}`, {
+    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-variant-${variant}`, `${prefixCls}-color-${color}`, `${prefixCls}-shape-${shape}`, `${prefixCls}-size-${size}`, {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
@@ -3319,7 +3338,7 @@ function getTextFromNode(node) {
   }
   return '';
 }
-const SelectComponent = ({
+const SelectComponent = /*#__PURE__*/memo(({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -3621,11 +3640,7 @@ const SelectComponent = ({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
-  const triggerNode = useMemo(() => {
-    return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
-  }, [prefixCls]);
-  function extractOptions(children, options) {
+  const extractOptions = useCallback((children, options) => {
     const result = [];
     const flatten = nodes => {
       try {
@@ -3649,7 +3664,13 @@ const SelectComponent = ({
       return result;
     }
     return options || [];
-  }
+  }, []);
+  const extractedOptions = useMemo(() => {
+    return children ? extractOptions(children) : Array.isArray(options) ? options : [];
+  }, [children, options]);
+  const triggerNode = useMemo(() => {
+    return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+  }, [prefixCls]);
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);
@@ -3884,7 +3905,7 @@ const SelectComponent = ({
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-loading`
   }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
-};
+});
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
   Option

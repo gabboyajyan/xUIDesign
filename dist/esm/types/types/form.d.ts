@@ -101,6 +101,7 @@ export interface FormInstance {
     subscribeToField: (name: string, callback: (value: RuleTypes) => void) => () => void;
     subscribeToForm: (callback: (values: Record<string, RuleTypes>) => void) => () => void;
     subscribeToFields: (names: string[], callback: (values: Record<string, RuleTypes>) => void) => () => void;
+    subscribeToFieldError: (name: string, callback: (errors: string[]) => void) => () => void;
     isFieldValidating: (name: string) => boolean;
     onFieldsChange?: (changedFields: FieldData[]) => void;
     onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void;
@@ -108,6 +109,7 @@ export interface FormInstance {
     setFieldInstance: (fieldName: string, fieldRef: FieldInstancesRef | null) => void;
     setScrollToFirstError: (value: boolean) => void;
     scrollToFirstError?: boolean;
+    isReseting: boolean;
     setOnFieldsChange?: (onFieldsChange?: (changedFields: FieldData[]) => void) => void;
     setOnFinish?: (onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined) => void;
     setOnValuesChange?: (onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => void;

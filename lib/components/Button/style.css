@@ -68,23 +68,23 @@
     height: 44px;
 }
 
-.xUi-button-circle {
+.xUi-button-shape-circle {
     padding: 0;
     border-radius: 50%;
     justify-content: center;
 }
 
-.xUi-button-circle.xUi-button-size-small {
+.xUi-button-shape-circle.xUi-button-size-small {
     width: 24px;
     height: 24px;
 }
 
-.xUi-button-circle.xUi-button-size-large {
+.xUi-button-shape-circle.xUi-button-size-large {
     width: 44px;
     height: 44px;
 }
 
-.xUi-button-round {
+.xUi-button-shape-round {
     border-radius: 9999px;
 }
 
@@ -106,53 +106,53 @@
 }
 
 .xUi-button-primary:hover {
-    background-color: var(--xui-color-hover);
-    border-color: var(--xui-color-hover);
+    background-color: var(--xui-primary-color-hover);
+    border-color: var(--xui-primary-color-hover);
     color: #fff;
 }
 
-.xUi-button-dashed {
+.xUi-button-variant-dashed {
     border-style: dashed;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.85);
     border-color: var(--xui-border-color);
 }
 
-.xUi-button-dashed:hover {
+.xUi-button-variant-dashed:hover {
     border-color: var(--xui-primary-color);
     color: var(--xui-primary-color);
 }
 
-.xUi-button-text {
+.xUi-button-variant-text {
     background-color: transparent;
     border-color: transparent !important;
     color: rgba(0, 0, 0, 0.88);
 }
 
-.xUi-button-text:hover {
+.xUi-button-variant-text:hover {
     color: rgba(0, 0, 0, 0.88);
     border-color: transparent;
     background-color: rgba(0, 0, 0, 0.04);
 }
 
-.xUi-button-link {
+.xUi-button-variant-link {
     background-color: transparent;
     border-color: transparent !important;
     color: var(--xui-primary-color);
 }
 
-.xUi-button-link:hover {
+.xUi-button-variant-link:hover {
     border-color: transparent;
     color: var(--xui-primary-color-light);
 }
 
-.xUi-button-outlined {
+.xUi-button-variant-outlined {
     background-color: transparent;
     border-color: var(--xui-border-color);
     color: #fff;
 }
 
-.xUi-button-filled {
+.xUi-button-variant-filled {
     background-color: transparent;
     color: var(--xui-text-color);
     border-color: var(--xui-border-color);

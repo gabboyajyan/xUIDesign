@@ -38,12 +38,12 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange); 
+  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
   const formRef = useRef<HTMLFormElement>(null);
-  
+
   const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleSubmit = useCallback(async (e: SyntheticEvent) => {
     e.preventDefault();
 
     if (await formInstance.validateFields()) {
@@ -52,10 +52,9 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       const errorFields = formInstance.getFieldsError();
       onFinishFailed({ values: formInstance.getFieldsValue(), errorFields });
     }
-  };
+  }, [formInstance, onFinish, onFinishFailed]);
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
-
   const formClassName = useMemo(() => `${prefixCls} ${className}`.trim(), [prefixCls, className]);
 
   useEffect(() => {
@@ -115,17 +114,10 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     />
   }, [rest.size, layout]);
 
-  console.info({
-  children,
-  form,
-  style,
-  prefixCls,
-  className,
-  initialValues,
-  layout,
-  scrollToFirstError,
-  ...rest
-});
+  const injectedChildren = useMemo(
+    () => Children.map(childrenList, child => injectPropsIntoFinalLeaf(child)),
+    [childrenList, injectPropsIntoFinalLeaf]
+  );
 
   return (
     <FormContext.Provider value={formInstance}>
@@ -135,12 +127,12 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={formClassName}
       >
-        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
+        {injectedChildren}
       </form>
     </FormContext.Provider>
   );
 };
 
-Form.Item = FormItem;
+Form.Item = memo(FormItem);
 
-export default Form;
+export default memo(Form);

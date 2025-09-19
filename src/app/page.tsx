@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+// import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -1851,13 +1851,13 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm({
-    });
+    const form = useForm({});
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
     const [type, setType] = useState('full');
+    const [value, setValue] = useState();
 
     useEffect(() => {
         // setInterval(() => {
@@ -1899,8 +1899,6 @@ export default function Home() {
 
     return (
         <>
-      {console.log(0)}
-
             <Form
                 form={form}
                 size="large"
@@ -1915,7 +1913,7 @@ export default function Home() {
                 {current === 0
                     ? <>
                         <Item rules={[{ required: true }]} name="email" label="Email">
-                            <Input placeholder="Email" />
+                            <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
@@ -1953,22 +1951,39 @@ export default function Home() {
                     </Item> */}
                     </>}
 
-                {current > 0 ? <Button htmlType="button" onClick={() => {
-                    form.changeStep(current - 1);
-                    setCurrent(current - 1);
-                }}>Previous</Button> : <> </>}
-                <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
-                    if (current === 1) {
-                        await form.submit()
-                    } else {
-                        if (await form.validateFields()) {
-                            form.changeStep(current + 1);
-                            setCurrent(current + 1)
-                        }
-                    }
-                }}>{current === 1 ? 'Submit' : 'Next'}</Button>
+                <div style={{ gap: 4, display: 'flex' }}>
+                    {current > 0 ?
+                    <Button
+                        htmlType="button"
+                        type="primary"
+                        size="middle"
+                        onClick={() => {
+                            form.changeStep(current - 1);
+                            setCurrent(current - 1);
+                        }}>
+                        Previous
+                    </Button> : <> </>}
 
-                <Button onClick={() => setHide(!hide)}>Hide</Button>
+                <Button
+                    type="primary"
+                    size="middle"
+                    htmlType={current === 1 ? 'submit' : 'button'}
+                    onClick={async () => {
+                        if (current === 1) {
+                            await form.submit()
+                        } else {
+                            if (await form.validateFields()) {
+                                form.changeStep(current + 1);
+                                setCurrent(current + 1)
+                            }
+                        }
+                    }}>
+                    {current === 1 ? 'Submit' : 'Next'}
+                </Button>
+
+                <Button type="primary" size="middle" onClick={() => setHide(!hide)}>Hide</Button>
+                <Button type="primary" size="middle" onClick={() => form.resetFields()}>Reset</Button>
+                </div>
             </Form>
         </>
     )

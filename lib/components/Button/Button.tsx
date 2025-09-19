@@ -52,9 +52,9 @@ const ButtonComponent = ({
       prefixCls,
       rootClassName,
       `${prefixCls}-${type}`,
-      `${prefixCls}-${variant}`,
-      `${prefixCls}-${color}`,
-      `${prefixCls}-${shape}`,
+      `${prefixCls}-variant-${variant}`,
+      `${prefixCls}-color-${color}`,
+      `${prefixCls}-shape-${shape}`,
       `${prefixCls}-size-${size}`,
       {
         [`${prefixCls}-block`]: block,
