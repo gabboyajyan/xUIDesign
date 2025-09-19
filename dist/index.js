@@ -782,6 +782,13 @@ const useForm = ({
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
+    const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
+    if (errorFields.length) {
+      formHandlersRef.current.onFinishFailed?.({
+        values: formInstance.getFieldsValue(),
+        errorFields
+      });
+    }
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
       if (firstErrorContent) {
@@ -825,14 +832,7 @@ const useForm = ({
     return (await validateFields()) ? (() => {
       formHandlersRef.current.onFinish?.(formData);
       return formData;
-    })() : (() => {
-      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
-      formHandlersRef.current.onFinishFailed?.({
-        values: formInstance.getFieldsValue(),
-        errorFields
-      });
-      return undefined;
-    })();
+    })() : undefined;
   }
   function subscribeToField(name, callback) {
     if (!fieldSubscribers.current[name]) {

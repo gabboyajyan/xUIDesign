@@ -301,6 +301,12 @@ const useForm = ({
       fieldsToValidate.map(name => validateField(name))
     );
 
+    const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
+
+    if (errorFields.length) {
+      formHandlersRef.current.onFinishFailed?.({ values: formInstance.getFieldsValue(), errorFields })
+    }
+
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
@@ -356,12 +362,7 @@ const useForm = ({
       formHandlersRef.current.onFinish?.(formData)
 
       return formData
-    })() : (() => {
-      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
-      formHandlersRef.current.onFinishFailed?.({ values: formInstance.getFieldsValue(), errorFields })
-
-      return undefined
-    })();
+    })() : undefined;
   }
 
   function subscribeToField(

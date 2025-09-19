@@ -2009,14 +2009,14 @@ export default function Home() {
                     size="middle"
                     htmlType="button"
                     onClick={async () => {
-                        // if (current === 1) {
+                        if (current === 1) {
                             await form.submit()
-                        // } else {
-                        //     if (await form.validateFields()) {
-                        //         form.changeStep(current + 1);
-                        //         setCurrent(current + 1)
-                        //     }
-                        // }
+                        } else {
+                            if (await form.validateFields()) {
+                                form.changeStep(current + 1);
+                                setCurrent(current + 1)
+                            }
+                        }
                     }}>
                     {current === 1 ? 'Submit' : 'Next'}
                 </Button>
