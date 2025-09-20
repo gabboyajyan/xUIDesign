@@ -3367,7 +3367,7 @@ function getTextFromNode(node) {
   }
   return '';
 }
-const SelectComponent = /*#__PURE__*/React.memo(({
+const SelectComponent = ({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -3696,9 +3696,7 @@ const SelectComponent = /*#__PURE__*/React.memo(({
     }
     return options || [];
   }, []);
-  const extractedOptions = React.useMemo(() => {
-    return children ? extractOptions(children) : Array.isArray(options) ? options : [];
-  }, [children, options]);
+  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
@@ -3936,7 +3934,7 @@ const SelectComponent = /*#__PURE__*/React.memo(({
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-loading`
   }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
-});
+};
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
   Option

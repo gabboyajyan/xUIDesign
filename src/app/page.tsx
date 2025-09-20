@@ -1942,20 +1942,6 @@ export default function Home() {
                             />
                         </Item>
 
-                        {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((_, key) => {
-                            return <Item 
-                                key={key}
-                                style={{ display: type !== 'partial' ? 'block' : 'none' }} 
-                                name={`gmail_${key}`} label={`Gmail_${key}`}
-                        >
-                            <Input 
-                                // value={value} 
-                                // onChange={(e) => setValue(e.target.value)} 
-                                placeholder={`Gmail_${key}`}
-                            />
-                        </Item>
-                        })}
-
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
                                 <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
@@ -1963,14 +1949,14 @@ export default function Home() {
                             </RadioGroup>
                         </Item>
 
-                        {/* <Item rules={[{ required: true }]} name="country" label="Country">
+                        <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
-                        </Item> */}
+                        </Item>
                     </>
                     :
                     <>

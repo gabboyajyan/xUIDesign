@@ -56,7 +56,7 @@ function getTextFromNode(node: ReactNode): string {
   return '';
 }
 
-const SelectComponent = memo(({
+const SelectComponent = ({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -520,11 +520,9 @@ const SelectComponent = memo(({
     return options || [];
   }, []);
 
-  const extractedOptions = useMemo(() => {
-    return children
-      ? extractOptions(children)
-      : Array.isArray(options) ? options : []
-  }, [children, options]);
+  const extractedOptions = children
+    ? extractOptions(children)
+    : Array.isArray(options) ? options : [];
 
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
@@ -915,7 +913,7 @@ const SelectComponent = memo(({
         : dropdownContent}
     </div>
   );
-});
+};
 
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, { Option });
