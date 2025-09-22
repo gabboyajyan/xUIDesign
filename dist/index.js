@@ -1342,7 +1342,7 @@ const RadioButton$1 = dynamic$1(() => Promise.resolve().then(function () { retur
 const RadioGroup$1 = dynamic$1(() => Promise.resolve().then(function () { return Group; }), {
   ssr: false
 });
-const Select$2 = dynamic$1(() => Promise.resolve().then(function () { return Select$1; }), {
+const Select$3 = dynamic$1(() => Promise.resolve().then(function () { return Select$2; }), {
   ssr: false
 });
 const Option$2 = dynamic$1(() => Promise.resolve().then(function () { return Option$1; }), {
@@ -3655,7 +3655,7 @@ const SelectComponent = ({
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  function extractOptions(children, options) {
+  const extractOptions = React.useCallback((children, options) => {
     const result = [];
     const flatten = nodes => {
       try {
@@ -3679,7 +3679,7 @@ const SelectComponent = ({
       return result;
     }
     return options || [];
-  }
+  }, []);
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);
@@ -3917,10 +3917,11 @@ SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
   Option
 });
+var Select$1 = /*#__PURE__*/React.memo(Select);
 
-var Select$1 = /*#__PURE__*/Object.freeze({
+var Select$2 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
-	default: Select
+	default: Select$1
 });
 
 var css_248z$4 = "@keyframes xUi-skeleton-loading{0%{background-position:100% 50%}to{background-position:0 50%}}.xUi-skeleton-element{display:inline-block!important;width:auto!important}.xUi-skeleton-button{background:hsla(0,0%,75%,.2);border-radius:4px;display:inline-block;height:32px;line-height:32px;min-width:64px;vertical-align:top;width:64px}.xUi-skeleton-button-sm{height:24px;line-height:24px;min-width:48px;width:48px}.xUi-skeleton-button-lg{height:44px;line-height:44px;min-width:80px;width:80px}.xUi-skeleton-active .xUi-skeleton-button{animation:xUi-skeleton-loading 1.4s ease infinite;background:linear-gradient(90deg,hsla(0,0%,75%,.2) 25%,hsla(0,0%,51%,.24) 37%,hsla(0,0%,75%,.2) 63%);background-size:400% 100%}";
@@ -4165,7 +4166,7 @@ exports.RadioButton = RadioButton$1;
 exports.RadioGroup = RadioGroup$1;
 exports.RangePicker = RangePicker$2;
 exports.SearchIcon = SearchIcon;
-exports.Select = Select$2;
+exports.Select = Select$3;
 exports.Skeleton = Skeleton$2;
 exports.SkeletonAvatar = SkeletonAvatar$1;
 exports.SkeletonButton = SkeletonButton$1;

@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, useImperativeHandle, memo, useCallback, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -1340,7 +1340,7 @@ const RadioButton$1 = dynamic$1(() => Promise.resolve().then(function () { retur
 const RadioGroup$1 = dynamic$1(() => Promise.resolve().then(function () { return Group; }), {
   ssr: false
 });
-const Select$2 = dynamic$1(() => Promise.resolve().then(function () { return Select$1; }), {
+const Select$3 = dynamic$1(() => Promise.resolve().then(function () { return Select$2; }), {
   ssr: false
 });
 const Option$2 = dynamic$1(() => Promise.resolve().then(function () { return Option$1; }), {
@@ -3653,7 +3653,7 @@ const SelectComponent = ({
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  function extractOptions(children, options) {
+  const extractOptions = useCallback((children, options) => {
     const result = [];
     const flatten = nodes => {
       try {
@@ -3677,7 +3677,7 @@ const SelectComponent = ({
       return result;
     }
     return options || [];
-  }
+  }, []);
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);
@@ -3915,10 +3915,11 @@ SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {
   Option
 });
+var Select$1 = /*#__PURE__*/memo(Select);
 
-var Select$1 = /*#__PURE__*/Object.freeze({
+var Select$2 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
-	default: Select
+	default: Select$1
 });
 
 var css_248z$4 = "@keyframes xUi-skeleton-loading{0%{background-position:100% 50%}to{background-position:0 50%}}.xUi-skeleton-element{display:inline-block!important;width:auto!important}.xUi-skeleton-button{background:hsla(0,0%,75%,.2);border-radius:4px;display:inline-block;height:32px;line-height:32px;min-width:64px;vertical-align:top;width:64px}.xUi-skeleton-button-sm{height:24px;line-height:24px;min-width:48px;width:48px}.xUi-skeleton-button-lg{height:44px;line-height:44px;min-width:80px;width:80px}.xUi-skeleton-active .xUi-skeleton-button{animation:xUi-skeleton-loading 1.4s ease infinite;background:linear-gradient(90deg,hsla(0,0%,75%,.2) 25%,hsla(0,0%,51%,.24) 37%,hsla(0,0%,75%,.2) 63%);background-size:400% 100%}";
@@ -4142,5 +4143,5 @@ var Skeleton$1 = /*#__PURE__*/Object.freeze({
 	default: Skeleton
 });
 
-export { ArrowIcon, Button$3 as Button, CalendarIcon, CheckIcon, Checkbox$2 as Checkbox, ClearIcon, DateDistanceIcon, DatePicker$2 as DatePicker, Empty$1 as Empty, ErrorIcon, Form, FormContext, FormItem, Input$3 as Input, LoadingIcon, Option$2 as Option, Radio$2 as Radio, RadioButton$1 as RadioButton, RadioGroup$1 as RadioGroup, RangePicker$2 as RangePicker, SearchIcon, Select$2 as Select, Skeleton$2 as Skeleton, SkeletonAvatar$1 as SkeletonAvatar, SkeletonButton$1 as SkeletonButton, SkeletonImage$1 as SkeletonImage, SkeletonInput$1 as SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Switch$2 as Switch, Tag$2 as Tag, Textarea$2 as Textarea, TimeIcon, TimePicker$2 as TimePicker, TrashIcon, Upload$2 as Upload, clsx, createArray, flattenChildren, parseValue, useForm, useWatch };
+export { ArrowIcon, Button$3 as Button, CalendarIcon, CheckIcon, Checkbox$2 as Checkbox, ClearIcon, DateDistanceIcon, DatePicker$2 as DatePicker, Empty$1 as Empty, ErrorIcon, Form, FormContext, FormItem, Input$3 as Input, LoadingIcon, Option$2 as Option, Radio$2 as Radio, RadioButton$1 as RadioButton, RadioGroup$1 as RadioGroup, RangePicker$2 as RangePicker, SearchIcon, Select$3 as Select, Skeleton$2 as Skeleton, SkeletonAvatar$1 as SkeletonAvatar, SkeletonButton$1 as SkeletonButton, SkeletonImage$1 as SkeletonImage, SkeletonInput$1 as SkeletonInput, SpinerIcon, StampleIcon, SuccessIcon, Switch$2 as Switch, Tag$2 as Tag, Textarea$2 as Textarea, TimeIcon, TimePicker$2 as TimePicker, TrashIcon, Upload$2 as Upload, clsx, createArray, flattenChildren, parseValue, useForm, useWatch };
 //# sourceMappingURL=index.esm.js.map

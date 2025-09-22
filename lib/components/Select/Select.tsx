@@ -6,6 +6,7 @@ import React, {
   Fragment,
   isValidElement,
   KeyboardEvent,
+  memo,
   ReactElement,
   ReactNode,
   Suspense,
@@ -499,7 +500,7 @@ const SelectComponent = ({
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
   }, [prefixCls]);
 
-  function extractOptions(children: ReactNode, options?: OptionType[]) {
+  const extractOptions = useCallback((children: ReactNode, options?: OptionType[]) => {
     const result: OptionType[] = [];
 
     const flatten = (nodes: ReactNode): void => {
@@ -523,11 +524,12 @@ const SelectComponent = ({
 
     if (children) {
       flatten(children);
+
       return result;
     }
 
     return options || [];
-  }
+  }, [])
 
   const filteredOptions = extractedOptions.filter((option: OptionType) => {
     if (typeof filterOption === 'function') {
@@ -913,4 +915,4 @@ const SelectComponent = ({
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, { Option });
 
-export default Select;
+export default memo(Select);
