@@ -51,7 +51,6 @@ const useForm = (
   const formRef = useRef<Record<number, Record<string, RuleTypes>>>({ [stepRef.current]: { ...initialValues } });
   const trashFormRef = useRef<Record<string, RuleTypes>>({ ...initialValues });
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
-  const [formValues, setFormValues] = useState<Record<string, RuleTypes>>({ ...initialValues });
 
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState<Record<string, string[]>>({});
@@ -73,16 +72,20 @@ const useForm = (
   }
 
   function getFieldValue(name: string) {
-    return formValues[name]
+    const formData = getFormFields();
+
+    return formData[name]
   }
 
   function getFieldsValue(nameList?: string[]) {
+    const formData = getFormFields();
+
     if (!nameList) {
-      return formValues;
+      return formData;
     }
 
     return nameList.reduce((acc, key) => {
-      acc[key] = formValues[key];
+      acc[key] = formData[key];
 
       return acc;
     }, {} as Record<string, RuleTypes>);
@@ -115,8 +118,6 @@ const useForm = (
     }
 
     formRef.current[stepRef.current][name] = value;
-
-    setFormValues(prev => ({ ...prev, [name]: value }));
 
     if (touch) {
       touchedFieldsRef.current.add(name);

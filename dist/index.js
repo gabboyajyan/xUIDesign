@@ -621,9 +621,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = React.useRef({});
-  const [formValues, setFormValues] = React.useState({
-    ...initialValues
-  });
   const [isReseting, setIsReseting] = React.useState(false);
   const [errors, setErrors] = React.useState({});
   const fieldSubscribers = React.useRef({});
@@ -635,14 +632,16 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
   function getFieldValue(name) {
-    return formValues[name];
+    const formData = getFormFields();
+    return formData[name];
   }
   function getFieldsValue(nameList) {
+    const formData = getFormFields();
     if (!nameList) {
-      return formValues;
+      return formData;
     }
     return nameList.reduce((acc, key) => {
-      acc[key] = formValues[key];
+      acc[key] = formData[key];
       return acc;
     }, {});
   }
@@ -663,10 +662,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       return;
     }
     formRef.current[stepRef.current][name] = value;
-    setFormValues(prev => ({
-      ...prev,
-      [name]: value
-    }));
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
