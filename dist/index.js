@@ -3649,7 +3649,9 @@ const SelectComponent = ({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = children ? extractOptions(children) : Array.isArray(options) ? options : [];
+  const extractedOptions = React.useMemo(() => {
+    return children ? extractOptions(children) : Array.isArray(options) ? options : [];
+  }, [children, children]);
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
@@ -3701,76 +3703,6 @@ const SelectComponent = ({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-  const dropdownContent = !loading && open && isOpen && /*#__PURE__*/React.createElement("div", {
-    className: clsx([`${prefixCls}-dropdown`, {
-      [placement]: placement,
-      [dropdownClassName]: dropdownClassName
-    }]),
-    style: {
-      ...dropdownPosition,
-      maxHeight: dropdownRender ? 'unset' : listHeight,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
-    }
-  }, filterable && /*#__PURE__*/React.createElement("input", {
-    type: "text",
-    inputMode: "text",
-    className: `${prefixCls}-search`,
-    value: searchQuery,
-    onChange: handleSearch,
-    placeholder: "Search..."
-  }), !loading &&
-  /*#__PURE__*/
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  React.createElement(ConditionalWrapper, {
-    wrapper: element => {
-      return dropdownRender?.(element || /*#__PURE__*/React.createElement(React.Fragment, null, " ")) || /*#__PURE__*/React.createElement(React.Fragment, null, " ");
-    },
-    condition: !!dropdownRender
-  }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-options`,
-    style: {
-      maxHeight: listHeight,
-      overflowY: 'auto',
-      // display: !filteredOptions.length && asTag ? 'none' : 'block',
-      maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit'
-    }
-  }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
-    value: searchQuery,
-    className: `${prefixCls}-focused`,
-    onClick: e => {
-      handleSelect(e, searchQuery);
-    },
-    "data-value": searchQuery
-  }, searchQuery), filteredOptions.length ? filteredOptions.map(({
-    children,
-    className = '',
-    ...props
-  }, index) => {
-    const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
-    return /*#__PURE__*/React.createElement(Option, _extends({
-      key: `${props.value}_${index}`
-    }, props, {
-      selected: isSelected,
-      className: clsx([className, {
-        [`${prefixCls}-focused`]: hasMode ? isSelected : props.value === selected,
-        [`${prefixCls}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
-      }]),
-      onClick: e => {
-        if (props.disabled) {
-          return;
-        }
-        handleSelect(e, props.value, {
-          children,
-          className,
-          ...props
-        });
-      },
-      "data-value": props.value
-    }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
-      className: `${prefixCls}-selected-icon`
-    }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
-  }) : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)));
   const selectedOption = (() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return option?.children || option?.label || option?.value || null;
@@ -3907,7 +3839,79 @@ const SelectComponent = ({
     className: `${prefixCls}-arrow`
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-loading`
-  }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), getPopupContainer?.(triggerNode) ? /*#__PURE__*/reactDom.createPortal(dropdownContent, getPopupContainer(triggerNode)) : dropdownContent);
+  }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), /*#__PURE__*/React.createElement(ConditionalWrapper, {
+    condition: getPopupContainer !== undefined,
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerNode)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+  }, !loading && open && isOpen && /*#__PURE__*/React.createElement("div", {
+    className: clsx([`${prefixCls}-dropdown`, {
+      [placement]: placement,
+      [dropdownClassName]: dropdownClassName
+    }]),
+    style: {
+      ...dropdownPosition,
+      maxHeight: dropdownRender ? 'unset' : listHeight,
+      opacity: Object.keys(dropdownPosition).length ? 1 : 0
+    }
+  }, filterable && /*#__PURE__*/React.createElement("input", {
+    type: "text",
+    inputMode: "text",
+    className: `${prefixCls}-search`,
+    value: searchQuery,
+    onChange: handleSearch,
+    placeholder: "Search..."
+  }), !loading &&
+  /*#__PURE__*/
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  React.createElement(ConditionalWrapper, {
+    wrapper: element => {
+      return dropdownRender?.(element || /*#__PURE__*/React.createElement(React.Fragment, null, " ")) || /*#__PURE__*/React.createElement(React.Fragment, null, " ");
+    },
+    condition: !!dropdownRender
+  }, /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls}-options`,
+    style: {
+      maxHeight: listHeight,
+      overflowY: 'auto',
+      // display: !filteredOptions.length && asTag ? 'none' : 'block',
+      maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit'
+    }
+  }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
+    value: searchQuery,
+    className: `${prefixCls}-focused`,
+    onClick: e => {
+      handleSelect(e, searchQuery);
+    },
+    "data-value": searchQuery
+  }, searchQuery), filteredOptions.length ? filteredOptions.map(({
+    children,
+    className = '',
+    ...props
+  }, index) => {
+    const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
+    return /*#__PURE__*/React.createElement(Option, _extends({
+      key: `${props.value}_${index}`
+    }, props, {
+      selected: isSelected,
+      className: clsx([className, {
+        [`${prefixCls}-focused`]: hasMode ? isSelected : props.value === selected,
+        [`${prefixCls}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
+      }]),
+      onClick: e => {
+        if (props.disabled) {
+          return;
+        }
+        handleSelect(e, props.value, {
+          children,
+          className,
+          ...props
+        });
+      },
+      "data-value": props.value
+    }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
+      className: `${prefixCls}-selected-icon`
+    }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
+  }) : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)))));
 };
 SelectComponent.displayName = 'Select';
 const Select = Object.assign(SelectComponent, {

@@ -1920,9 +1920,9 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        {country === '' ? <Item rules={[{ required: true }]} name="email" label="Email">
+                        {country === 'BR' ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
-                                <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
+                                <Input placeholder="Email" />
                             </div>
                         </Item>: <></>}
 
@@ -1939,6 +1939,7 @@ export default function Home() {
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
+                                getPopupContainer={() => document.body}
                                 onChange={(e) => {
                                     setCountry(e)
                                 }}

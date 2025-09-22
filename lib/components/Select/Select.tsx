@@ -489,9 +489,11 @@ const SelectComponent = ({
     );
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
-  const extractedOptions = children
-    ? extractOptions(children)
-    : Array.isArray(options) ? options : [];
+  const extractedOptions = useMemo(() => {
+    return children
+      ? extractOptions(children)
+      : Array.isArray(options) ? options : []
+  }, [children, children]);
 
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
@@ -564,120 +566,6 @@ const SelectComponent = ({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-
-  const dropdownContent = !loading && open && isOpen && (
-    <div
-      className={clsx([
-        `${prefixCls}-dropdown`,
-        {
-          [placement]: placement,
-          [dropdownClassName]: dropdownClassName
-        }
-      ])}
-      style={{
-        ...dropdownPosition,
-        maxHeight: dropdownRender ? 'unset' : listHeight,
-        opacity: Object.keys(dropdownPosition).length ? 1 : 0
-      }}
-    >
-      {filterable && (
-        <input
-          type="text"
-          inputMode="text"
-          className={`${prefixCls}-search`}
-          value={searchQuery}
-          onChange={handleSearch}
-          placeholder="Search..."
-        />
-      )}
-
-      {!loading && (
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        <ConditionalWrapper wrapper={(element) => {
-          return dropdownRender?.(element || <> </>) || <> </>
-        }} condition={!!dropdownRender}>
-          <div
-            className={`${prefixCls}-options`}
-            style={{
-              maxHeight: listHeight,
-              overflowY: 'auto',
-              // display: !filteredOptions.length && asTag ? 'none' : 'block',
-              maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit',
-            }}
-          >
-            {asTag && !!searchQuery && (
-              <Option
-                value={searchQuery}
-                className={`${prefixCls}-focused`}
-                onClick={e => {
-                  handleSelect(e as MouseEventHandlerSelect, searchQuery);
-                }}
-                data-value={searchQuery}
-              >
-                {searchQuery}
-              </Option>
-            )}
-
-            {filteredOptions.length
-              ? filteredOptions.map(
-                ({ children, className = '', ...props }, index) => {
-                  const isSelected = hasMode
-                    ? selected.includes(props.value as string)
-                    : props.value === selected;
-
-                  return (
-                    <Option
-                      key={`${props.value}_${index}`}
-                      {...props}
-                      selected={isSelected}
-                      className={clsx([
-                        className,
-                        {
-                          [`${prefixCls}-focused`]: hasMode
-                            ? isSelected
-                            : props.value === selected,
-                          [`${prefixCls}-disabled`]:
-                            maxCount && hasMode && !isSelected
-                              ? selected.length >= maxCount
-                              : false
-                        }
-                      ])}
-                      onClick={e => {
-                        if (props.disabled) {
-                          return;
-                        }
-
-                        handleSelect(
-                          e as MouseEventHandlerSelect,
-                          props.value as string,
-                          { children, className, ...props } as OptionType
-                        );
-                      }}
-                      data-value={props.value}
-                    >
-                      {children || props.label || props.value}
-
-                      {menuItemSelectedIcon && hasMode && isSelected && (
-                        <span className={`${prefixCls}-selected-icon`}>
-                          {menuItemSelectedIcon === true ? (
-                            <CheckIcon />
-                          ) : (
-                            menuItemSelectedIcon
-                          )}
-                        </span>
-                      )}
-                    </Option>
-                  );
-                }
-              ) : !asTag
-                ? notFoundContent || <Empty />
-                : null}
-          </div>
-        </ConditionalWrapper>
-      )}
-    </div>
-  );
 
   const selectedOption = (() => {
     const option = extractedOptions.find(
@@ -900,9 +788,124 @@ const SelectComponent = ({
         )}
       </div>
 
-      {getPopupContainer?.(triggerNode)
-        ? createPortal(dropdownContent, getPopupContainer(triggerNode))
-        : dropdownContent}
+      <ConditionalWrapper
+        condition={getPopupContainer !== undefined}
+        wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(triggerNode)) : <>{element}</>}
+      >
+        {!loading && open && isOpen && (
+          <div
+            className={clsx([
+              `${prefixCls}-dropdown`,
+              {
+                [placement]: placement,
+                [dropdownClassName]: dropdownClassName
+              }
+            ])}
+            style={{
+              ...dropdownPosition,
+              maxHeight: dropdownRender ? 'unset' : listHeight,
+              opacity: Object.keys(dropdownPosition).length ? 1 : 0
+            }}
+          >
+            {filterable && (
+              <input
+                type="text"
+                inputMode="text"
+                className={`${prefixCls}-search`}
+                value={searchQuery}
+                onChange={handleSearch}
+                placeholder="Search..."
+              />
+            )}
+
+            {!loading && (
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-expect-error
+              <ConditionalWrapper wrapper={(element) => {
+                return dropdownRender?.(element || <> </>) || <> </>
+              }} condition={!!dropdownRender}>
+                <div
+                  className={`${prefixCls}-options`}
+                  style={{
+                    maxHeight: listHeight,
+                    overflowY: 'auto',
+                    // display: !filteredOptions.length && asTag ? 'none' : 'block',
+                    maxWidth: selectRef.current ? `${selectRef.current.getBoundingClientRect().width}px` : 'inherit',
+                  }}
+                >
+                  {asTag && !!searchQuery && (
+                    <Option
+                      value={searchQuery}
+                      className={`${prefixCls}-focused`}
+                      onClick={e => {
+                        handleSelect(e as MouseEventHandlerSelect, searchQuery);
+                      }}
+                      data-value={searchQuery}
+                    >
+                      {searchQuery}
+                    </Option>
+                  )}
+
+                  {filteredOptions.length
+                    ? filteredOptions.map(
+                      ({ children, className = '', ...props }, index) => {
+                        const isSelected = hasMode
+                          ? selected.includes(props.value as string)
+                          : props.value === selected;
+
+                        return (
+                          <Option
+                            key={`${props.value}_${index}`}
+                            {...props}
+                            selected={isSelected}
+                            className={clsx([
+                              className,
+                              {
+                                [`${prefixCls}-focused`]: hasMode
+                                  ? isSelected
+                                  : props.value === selected,
+                                [`${prefixCls}-disabled`]:
+                                  maxCount && hasMode && !isSelected
+                                    ? selected.length >= maxCount
+                                    : false
+                              }
+                            ])}
+                            onClick={e => {
+                              if (props.disabled) {
+                                return;
+                              }
+
+                              handleSelect(
+                                e as MouseEventHandlerSelect,
+                                props.value as string,
+                                { children, className, ...props } as OptionType
+                              );
+                            }}
+                            data-value={props.value}
+                          >
+                            {children || props.label || props.value}
+
+                            {menuItemSelectedIcon && hasMode && isSelected && (
+                              <span className={`${prefixCls}-selected-icon`}>
+                                {menuItemSelectedIcon === true ? (
+                                  <CheckIcon />
+                                ) : (
+                                  menuItemSelectedIcon
+                                )}
+                              </span>
+                            )}
+                          </Option>
+                        );
+                      }
+                    ) : !asTag
+                      ? notFoundContent || <Empty />
+                      : null}
+                </div>
+              </ConditionalWrapper>
+            )}
+          </div>
+        )}
+      </ConditionalWrapper>
     </div>
   );
 };
