@@ -3699,38 +3699,6 @@ const SelectComponent = ({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-  const dataRender = (() => {
-    const options = filteredOptions.map(({
-      children,
-      className = '',
-      ...props
-    }, index) => {
-      const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
-      return /*#__PURE__*/React.createElement(Option, _extends({
-        key: `${props.value}_${index}`
-      }, props, {
-        selected: isSelected,
-        className: clsx([className, {
-          [`${prefixCls}-focused`]: hasMode ? isSelected : props.value === selected,
-          [`${prefixCls}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
-        }]),
-        onClick: e => {
-          if (props.disabled) {
-            return;
-          }
-          handleSelect(e, props.value, {
-            children,
-            className,
-            ...props
-          });
-        },
-        "data-value": props.value
-      }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
-        className: `${prefixCls}-selected-icon`
-      }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
-    });
-    return options;
-  })();
   const dropdownContent = !loading && open && isOpen && /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-dropdown`, {
       [placement]: placement,
@@ -3772,7 +3740,35 @@ const SelectComponent = ({
       handleSelect(e, searchQuery);
     },
     "data-value": searchQuery
-  }, searchQuery), filteredOptions.length ? dataRender : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)));
+  }, searchQuery), filteredOptions.length ? filteredOptions.map(({
+    children,
+    className = '',
+    ...props
+  }, index) => {
+    const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
+    return /*#__PURE__*/React.createElement(Option, _extends({
+      key: `${props.value}_${index}`
+    }, props, {
+      selected: isSelected,
+      className: clsx([className, {
+        [`${prefixCls}-focused`]: hasMode ? isSelected : props.value === selected,
+        [`${prefixCls}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
+      }]),
+      onClick: e => {
+        if (props.disabled) {
+          return;
+        }
+        handleSelect(e, props.value, {
+          children,
+          className,
+          ...props
+        });
+      },
+      "data-value": props.value
+    }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
+      className: `${prefixCls}-selected-icon`
+    }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
+  }) : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)));
   const selectedOption = (() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return option?.children || option?.label || option?.value || null;

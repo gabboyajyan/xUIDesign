@@ -1858,6 +1858,7 @@ export default function Home() {
     const [hide, setHide] = useState(false);
     const [type, setType] = useState('full');
     const [value, setValue] = useState('');
+    const [country, setCountry] = useState('')
 
     const fields = form.getFieldsValue();
 
@@ -1919,11 +1920,11 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        <Item rules={[{ required: true }]} name="email" label="Email">
+                        {country === '' ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
-                                <Input placeholder="Email" />
+                                <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
                             </div>
-                        </Item>
+                        </Item>: <></>}
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
@@ -1938,6 +1939,9 @@ export default function Home() {
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
+                                onChange={(e) => {
+                                    setCountry(e)
+                                }}
                             />
                         </Item>
                     </>

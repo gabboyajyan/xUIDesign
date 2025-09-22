@@ -559,67 +559,11 @@ const SelectComponent = ({
     const searchContent = selectRef.current?.getElementsByClassName(
       `${prefixCls}-tag-container`
     )?.[0] as HTMLDivElement;
-    
+
     if (searchContent) {
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-
-  const dataRender = (() => {
-    const options = filteredOptions.map(
-      ({ children, className = '', ...props }, index) => {
-        const isSelected = hasMode
-          ? selected.includes(props.value as string)
-          : props.value === selected;
-
-        return (
-          <Option
-            key={`${props.value}_${index}`}
-            {...props}
-            selected={isSelected}
-            className={clsx([
-              className,
-              {
-                [`${prefixCls}-focused`]: hasMode
-                  ? isSelected
-                  : props.value === selected,
-                [`${prefixCls}-disabled`]:
-                  maxCount && hasMode && !isSelected
-                    ? selected.length >= maxCount
-                    : false
-              }
-            ])}
-            onClick={e => {
-              if (props.disabled) {
-                return;
-              }
-
-              handleSelect(
-                e as MouseEventHandlerSelect,
-                props.value as string,
-                { children, className, ...props } as OptionType
-              );
-            }}
-            data-value={props.value}
-          >
-            {children || props.label || props.value}
-
-            {menuItemSelectedIcon && hasMode && isSelected && (
-              <span className={`${prefixCls}-selected-icon`}>
-                {menuItemSelectedIcon === true ? (
-                  <CheckIcon />
-                ) : (
-                  menuItemSelectedIcon
-                )}
-              </span>
-            )}
-          </Option>
-        );
-      }
-    );
-
-    return options;
-  })();
 
   const dropdownContent = !loading && open && isOpen && (
     <div
@@ -676,8 +620,57 @@ const SelectComponent = ({
             )}
 
             {filteredOptions.length
-              ? dataRender
-              : !asTag
+              ? filteredOptions.map(
+                ({ children, className = '', ...props }, index) => {
+                  const isSelected = hasMode
+                    ? selected.includes(props.value as string)
+                    : props.value === selected;
+
+                  return (
+                    <Option
+                      key={`${props.value}_${index}`}
+                      {...props}
+                      selected={isSelected}
+                      className={clsx([
+                        className,
+                        {
+                          [`${prefixCls}-focused`]: hasMode
+                            ? isSelected
+                            : props.value === selected,
+                          [`${prefixCls}-disabled`]:
+                            maxCount && hasMode && !isSelected
+                              ? selected.length >= maxCount
+                              : false
+                        }
+                      ])}
+                      onClick={e => {
+                        if (props.disabled) {
+                          return;
+                        }
+
+                        handleSelect(
+                          e as MouseEventHandlerSelect,
+                          props.value as string,
+                          { children, className, ...props } as OptionType
+                        );
+                      }}
+                      data-value={props.value}
+                    >
+                      {children || props.label || props.value}
+
+                      {menuItemSelectedIcon && hasMode && isSelected && (
+                        <span className={`${prefixCls}-selected-icon`}>
+                          {menuItemSelectedIcon === true ? (
+                            <CheckIcon />
+                          ) : (
+                            menuItemSelectedIcon
+                          )}
+                        </span>
+                      )}
+                    </Option>
+                  );
+                }
+              ) : !asTag
                 ? notFoundContent || <Empty />
                 : null}
           </div>
