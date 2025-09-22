@@ -132,7 +132,7 @@ const FormItem = ({
             <div>
               <FormItemChildComponent
                 {...props}
-                key={`${key}_${isReseting}`}
+                key={`${key}_${name}_${isReseting}`}
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 ref={fieldRef}
@@ -201,7 +201,7 @@ const FormItemChildComponent = ({
 
   const { getFieldsValue } = formContext || {};
 
-  const handleChange = (e: SyntheticBaseEvent, option?: OptionProps) => {
+  const handleChange = (e: SyntheticBaseEvent) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
       : e;
@@ -229,7 +229,6 @@ const FormItemChildComponent = ({
     }
 
     setFieldValue(name, rawValue, undefined, undefined, true);
-    onChange?.(e, option);
   };
 
   const injectPropsIntoFinalLeaf = (child: ReactElement): ReactElement => {
@@ -239,7 +238,8 @@ const FormItemChildComponent = ({
 
     const childProps = child.props as ReactElement & {
       children: ReactElement[],
-      __injected: boolean
+      __injected: boolean,
+      onChange?: (e: SyntheticBaseEvent, option?: OptionProps) => void
     }
 
     const isWrapper =
@@ -267,7 +267,11 @@ const FormItemChildComponent = ({
       {...child.props}
       name={name}
       child={child}
-      onChange={handleChange}
+      onChange={(e: SyntheticBaseEvent, option?: OptionProps) => {
+        handleChange(e);
+
+        childProps?.onChange?.(e, option)
+      }}
       key={`${name}_${wasNormalize}`}
       value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {

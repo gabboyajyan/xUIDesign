@@ -1085,7 +1085,7 @@ const FormItem$1 = ({
       } = child.props;
       const fieldValue = value ?? getFieldValue(name) ?? initialValue;
       return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
-        key: `${key}_${isReseting}`
+        key: `${key}_${name}_${isReseting}`
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         ,
@@ -1142,7 +1142,7 @@ const FormItemChildComponent = ({
   const {
     getFieldsValue
   } = formContext || {};
-  const handleChange = (e, option) => {
+  const handleChange = e => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
       const prevValue = fieldValue ?? props.value;
@@ -1159,7 +1159,6 @@ const FormItemChildComponent = ({
       }
     }
     setFieldValue(name, rawValue, undefined, undefined, true);
-    onChange?.(e, option);
   };
   const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/React.isValidElement(child)) {
@@ -1180,7 +1179,10 @@ const FormItemChildComponent = ({
     }, child.props, {
       name: name,
       child: child,
-      onChange: handleChange,
+      onChange: (e, option) => {
+        handleChange(e);
+        childProps?.onChange?.(e, option);
+      },
       key: `${name}_${wasNormalize}`,
       value: fieldValue ?? props.value
     }, 'dangerouslySetInnerHTML' in childProps ? {} : {

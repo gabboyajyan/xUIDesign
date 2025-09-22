@@ -1904,18 +1904,24 @@ export default function Home() {
                 layout="vertical"
                 style={{ width: 400 }}
                 scrollToFirstError={true}
-                onValuesChange={(values) => {
-                    console.log(values, form.isFieldsTouched());
-                }}
-                onFinishFailed={(errors) => {
-                    console.log(errors);
-                }}
+                // onValuesChange={(values) => {
+                //     console.log(values, form.isFieldsTouched());
+                // }}
+                // onFinishFailed={(errors) => {
+                //     console.log(errors);
+                // }}
                 onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
-                        <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                            <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
+                        <Item rules={[{ required: true }]} name="email" label="Email">
+                            <div>
+                                <Input placeholder="Email" value={value} onChange={(e) => {
+                                console.log(e.target.value);
+
+                                setValue(e.target.value)
+                            }} />
+                            </div>
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
@@ -1953,7 +1959,8 @@ export default function Home() {
                     </Item> */}
                     </>}
 
-                {current > 0
+                <div style={{ display: 'flex', gap: 8 }}>
+                    {current > 0
                     ? <Button
                         type="primary"
                         htmlType="button"
@@ -1981,6 +1988,7 @@ export default function Home() {
                 </Button>
 
                 <Button type="primary" onClick={() => form.resetFields()}>Reset</Button>
+                </div>
             </Form>
         </>
     )
