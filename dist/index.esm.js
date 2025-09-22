@@ -3647,12 +3647,6 @@ const SelectComponent = ({
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractedOptions = useMemo(() => {
-    return children ? extractOptions(children) : Array.isArray(options) ? options : [];
-  }, [children, children]);
-  const triggerNode = useMemo(() => {
-    return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
-  }, [prefixCls]);
   const extractOptions = useCallback((children, options) => {
     const result = [];
     const flatten = nodes => {
@@ -3678,6 +3672,12 @@ const SelectComponent = ({
     }
     return options || [];
   }, []);
+  const extractedOptions = useMemo(() => {
+    return children ? extractOptions(children) : Array.isArray(options) ? options : [];
+  }, [children, children]);
+  const triggerNode = useMemo(() => {
+    return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+  }, [prefixCls]);
   const filteredOptions = extractedOptions.filter(option => {
     if (typeof filterOption === 'function') {
       return filterOption(searchQuery, option);

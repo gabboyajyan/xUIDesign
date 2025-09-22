@@ -490,16 +490,6 @@ const SelectComponent = ({
     );
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
-  const extractedOptions = useMemo(() => {
-    return children
-      ? extractOptions(children)
-      : Array.isArray(options) ? options : []
-  }, [children, children]);
-
-  const triggerNode = useMemo(() => {
-    return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
-  }, [prefixCls]);
-
   const extractOptions = useCallback((children: ReactNode, options?: OptionType[]) => {
     const result: OptionType[] = [];
 
@@ -530,6 +520,16 @@ const SelectComponent = ({
 
     return options || [];
   }, [])
+
+  const extractedOptions = useMemo(() => {
+    return children
+      ? extractOptions(children)
+      : Array.isArray(options) ? options : []
+  }, [children, children]);
+
+  const triggerNode = useMemo(() => {
+    return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
+  }, [prefixCls]);
 
   const filteredOptions = extractedOptions.filter((option: OptionType) => {
     if (typeof filterOption === 'function') {
