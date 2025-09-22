@@ -1859,10 +1859,11 @@ export default function Home() {
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
     const [type, setType] = useState('full');
+    const [value, setValue] = useState('');
 
-    useEffect(() => {
-        form.setFieldsValue([{ type: 'partial' }])
-    }, [])
+    // useEffect(() => {
+    //     form.setFieldsValue([{ type: 'partial' }])
+    // }, [])
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1898,22 +1899,23 @@ export default function Home() {
 
     return (
         <>
-            <Input placeholder="Email" />
             <Form
                 form={form}
-                size="middle"
                 layout="vertical"
                 style={{ width: 400 }}
                 scrollToFirstError={true}
                 onValuesChange={(values) => {
                     console.log(values, form.isFieldsTouched());
                 }}
+                onFinishFailed={(errors) => {
+                    console.log(errors);
+                }}
                 onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
                         <Item removeErrorMessageHeight rules={[{ required: true }]} name="email" label="Email">
-                            <Input placeholder="Email" />
+                            <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
                         </Item>
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
@@ -1923,14 +1925,14 @@ export default function Home() {
                             </RadioGroup>
                         </Item>
 
-                        <Item rules={[{ required: true }]} name="country" label="Country">
+                        {/* <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
-                        </Item>
+                        </Item> */}
                     </>
                     :
                     <>
@@ -1951,22 +1953,34 @@ export default function Home() {
                     </Item> */}
                     </>}
 
-                {current > 0 ? <Button htmlType="button" onClick={() => {
-                    form.changeStep(current - 1);
-                    setCurrent(current - 1);
-                }}>Previous</Button> : <> </>}
-                <Button htmlType={current === 1 ? 'submit' : 'button'} onClick={async () => {
-                    if (current === 1) {
-                        await form.submit()
-                    } else {
-                        if (await form.validateFields()) {
-                            form.changeStep(current + 1);
-                            setCurrent(current + 1)
-                        }
-                    }
-                }} disabled={!form.isFieldsTouched()}>{current === 1 ? 'Submit' : 'Next'}</Button>
+                {current > 0
+                    ? <Button
+                        type="primary"
+                        htmlType="button"
+                        onClick={() => {
+                            form.changeStep(current - 1);
+                            setCurrent(current - 1);
+                        }}>Previous</Button>
+                    : <> </>
+                }
 
-                <Button onClick={() => setHide(!hide)}>Hide</Button>
+                <Button
+                    type="primary"
+                    htmlType={current === 1 ? 'submit' : 'button'}
+                    onClick={async () => {
+                        if (current === 1) {
+                            await form.submit()
+                        } else {
+                            if (await form.validateFields()) {
+                                form.changeStep(current + 1);
+                                setCurrent(current + 1)
+                            }
+                        }
+                    }}>
+                    {current === 1 ? 'Submit' : 'Next'}
+                </Button>
+
+                <Button type="primary" onClick={() => form.resetFields()}>Reset</Button>
             </Form>
         </>
     )

@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useState } from 'react';
-import { RuleTypes } from '../types';
+import { useEffect, useRef, useState } from 'react';
+import { RuleType, RuleTypes } from '../types';
 import type {
   FieldData,
   FieldError,
@@ -11,15 +11,28 @@ import type {
   RuleRender
 } from '../types/form';
 
-const useForm = (
-  initialValues: Record<string, RuleTypes> = {},
-  onFieldsChange?: (changedFields: FieldData[]) => void,
-  onValuesChange?: (
-    changedValues: Record<string, RuleTypes>,
-    allValues: Record<string, RuleTypes>
-  ) => void,
-  scrollToFirstError?: boolean,
-  onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined
+const useForm = ({
+  initialValues = {},
+  onFieldsChange,
+  onValuesChange,
+  scrollToFirstError,
+  onFinish,
+  onFinishFailed
+}:
+  {
+    initialValues?: Record<string, RuleTypes>,
+    onFieldsChange?: (changedFields: FieldData[]) => void,
+    onValuesChange?: (
+      changedValues: Record<string, RuleTypes>,
+      allValues: Record<string, RuleTypes>
+    ) => void,
+    scrollToFirstError?: boolean,
+    onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void;
+  }
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
@@ -33,10 +46,15 @@ const useForm = (
       allValues: Record<string, RuleTypes>
     ) => void
     onFieldsChange?: (changedFields: FieldData[]) => void;
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void;
   }>({
     onFinish,
     onValuesChange,
-    onFieldsChange
+    onFieldsChange,
+    onFinishFailed
   })
 
   const formRef = useRef<Record<number, Record<string, RuleTypes>>>({ [stepRef.current]: { ...initialValues } });
@@ -44,7 +62,9 @@ const useForm = (
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
+
   const [errors, setErrors] = useState<Record<string, string[]>>({});
+  const errorsRef = useRef(errors);
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -53,6 +73,10 @@ const useForm = (
   const formSubscribers = useRef<
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
+
+  useEffect(() => {
+    errorsRef.current = errors;
+  }, [errors])
 
   function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
@@ -83,7 +107,7 @@ const useForm = (
   }
 
   function getFieldError(name: string) {
-    return errors[name] || [];
+    return errorsRef.current[name] || [];
   }
 
   function getFieldWarning(name: string): string[] {
@@ -91,7 +115,7 @@ const useForm = (
   }
 
   function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
-    return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
+    return Object.entries(errorsRef.current).map(([name, err]) => ({ name, errors: err }));
   }
 
   function setFieldValue(
@@ -277,11 +301,19 @@ const useForm = (
       fieldsToValidate.map(name => validateField(name))
     );
 
+    const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
+
+    if (errorFields.length) {
+      formHandlersRef.current.onFinishFailed?.({ values: formInstance.getFieldsValue(), errorFields })
+    }
+
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
       if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
+        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item') as HTMLDivElement;
+
+        _firstErrorContent?.scrollIntoView({
           behavior: 'smooth'
         });
       }
@@ -395,6 +427,15 @@ const useForm = (
     formHandlersRef.current.onFinish = onFinish;
   }
 
+  function setOnFinishFailed(
+    onFinishFailed?: ((errorInfo: {
+      values: Record<string, RuleType>;
+      errorFields: Pick<FieldError, "errors" | "name">[];
+    }) => void) | undefined
+  ) {
+    formHandlersRef.current.onFinishFailed = onFinishFailed
+  }
+
   function changeStep(step: number) {
     stepRef.current = step ?? 0;
 
@@ -416,6 +457,7 @@ const useForm = (
     getFieldsValue,
     isFieldTouched,
     getFieldsError,
+    setOnFinishFailed,
     isFieldsTouched,
     getFieldWarning,
     isFieldValidating,

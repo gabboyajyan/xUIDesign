@@ -165,6 +165,7 @@ const InputComponent = ({
         <input
           {...props}
           ref={inputRef}
+          suppressHydrationWarning
           {...(props.type === 'password' && iconRender
             ? { type: iconRenderVisible ? 'text' : 'password' }
             : {})}

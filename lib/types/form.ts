@@ -168,5 +168,11 @@ export interface FormInstance {
       allValues: Record<string, RuleTypes>
     ) => void
   ) => void;
+  setOnFinishFailed?: (
+    onFinishFailed?: (errorInfo: {
+      values: Record<string, RuleTypes>;
+      errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void
+  ) => void;
   changeStep: (step: number) => void;
 }
