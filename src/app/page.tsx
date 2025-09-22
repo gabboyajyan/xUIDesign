@@ -1869,7 +1869,6 @@ export default function Home() {
     useEffect(() => {
         console.log(fields);
     }, [fields])
-   
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1920,7 +1919,7 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        {country === 'BR' ? <Item rules={[{ required: true }]} name="email" label="Email">
+                        {true ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
                                 <Input placeholder="Email" />
                             </div>

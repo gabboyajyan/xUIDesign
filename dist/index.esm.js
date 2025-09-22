@@ -619,8 +619,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     ...initialValues
   });
   const fieldInstancesRef = useRef({});
+  const [formValues, setFormValues] = useState({
+    ...initialValues
+  });
   const [isReseting, setIsReseting] = useState(false);
-  const errorsRef = useRef({});
+  const [errors, setErrors] = useState({});
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
   function getFormFields() {
@@ -630,27 +633,25 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
   function getFieldValue(name) {
-    const formData = getFormFields();
-    return formData[name];
+    return formValues[name];
   }
   function getFieldsValue(nameList) {
-    const formData = getFormFields();
     if (!nameList) {
-      return formData;
+      return formValues;
     }
     return nameList.reduce((acc, key) => {
-      acc[key] = formData[key];
+      acc[key] = formValues[key];
       return acc;
     }, {});
   }
   function getFieldError(name) {
-    return errorsRef.current[name] || [];
+    return errors[name] || [];
   }
   function getFieldWarning(name) {
     return warningsRef.current[name] || [];
   }
   function getFieldsError() {
-    return Object.entries(errorsRef.current).map(([name, err]) => ({
+    return Object.entries(errors).map(([name, err]) => ({
       name,
       errors: err
     }));
@@ -660,12 +661,17 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       return;
     }
     formRef.current[stepRef.current][name] = value;
+    setFormValues(prev => ({
+      ...prev,
+      [name]: value
+    }));
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
     if (reset === null) {
-      errorsRef.current[name] = [];
-      // setErrors({ [name]: [] });
+      setErrors({
+        [name]: []
+      });
       return;
     }
     if (!errors?.length) {
@@ -686,8 +692,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       });
     } else {
-      errorsRef.current[name] = errors;
-      // setErrors({ [name]: errors });
+      setErrors({
+        [name]: errors
+      });
     }
   }
   function setFieldsValue(values, reset) {
@@ -763,8 +770,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       }
     }));
-    errorsRef.current[name] = fieldErrors;
-    // setErrors(prev => ({ ...prev, [name]: fieldErrors }));
+    setErrors(prev => ({
+      ...prev,
+      [name]: fieldErrors
+    }));
     warningsRef.current[name] = fieldWarnings;
     return fieldErrors.length === 0;
   }
@@ -795,8 +804,10 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         formData[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
-        errorsRef.current[name] = [];
-        // setErrors(prev => ({ ...prev, [name]: [] }));
+        setErrors(prev => ({
+          ...prev,
+          [name]: []
+        }));
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
@@ -3678,19 +3689,21 @@ const SelectComponent = ({
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  const filteredOptions = extractedOptions.filter(option => {
-    if (typeof filterOption === 'function') {
-      return filterOption(searchQuery, option);
-    }
-    if (filterOption === false) {
-      return true;
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const optionFilterPropValue = option[optionFilterProp];
-    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
-    return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+  const filteredOptions = useMemo(() => {
+    return extractedOptions.filter(option => {
+      if (typeof filterOption === 'function') {
+        return filterOption(searchQuery, option);
+      }
+      if (filterOption === false) {
+        return true;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const optionFilterPropValue = option[optionFilterProp];
+      const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
+      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+  }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
@@ -3701,10 +3714,10 @@ const SelectComponent = ({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-  const selectedOption = (() => {
+  const selectedOption = useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return option?.children || option?.label || option?.value || null;
-  })() || selected || null;
+  }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagContainerRef.current;
   const selectedTags = hasMode ? selected : [];
