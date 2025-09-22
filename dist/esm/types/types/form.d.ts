@@ -113,5 +113,9 @@ export interface FormInstance {
     setOnFieldsChange?: (onFieldsChange?: (changedFields: FieldData[]) => void) => void;
     setOnFinish?: (onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined) => void;
     setOnValuesChange?: (onValuesChange?: (changedValues: Record<string, RuleTypes>, allValues: Record<string, RuleTypes>) => void) => void;
+    setOnFinishFailed?: (onFinishFailed?: (errorInfo: {
+        values: Record<string, RuleTypes>;
+        errorFields: Pick<FieldError, 'errors' | 'name'>[];
+    }) => void) => void;
     changeStep: (step: number) => void;
 }

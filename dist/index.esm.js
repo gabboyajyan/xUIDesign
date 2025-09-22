@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useState, useEffect, Children, isValidElement, Fragment, Suspense, useContext, useMemo, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -598,7 +598,14 @@ const SpinerIcon = () => /*#__PURE__*/React.createElement("svg", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
-const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError, onFinish) => {
+const useForm = ({
+  initialValues = {},
+  onFieldsChange,
+  onValuesChange,
+  scrollToFirstError,
+  onFinish,
+  onFinishFailed
+}) => {
   const touchedFieldsRef = useRef(new Set());
   const rulesRef = useRef({});
   const warningsRef = useRef({});
@@ -607,7 +614,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const formHandlersRef = useRef({
     onFinish,
     onValuesChange,
-    onFieldsChange
+    onFieldsChange,
+    onFinishFailed
   });
   const formRef = useRef({
     [stepRef.current]: {
@@ -620,8 +628,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
   const [errors, setErrors] = useState({});
+  const errorsRef = useRef(errors);
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
+  useEffect(() => {
+    errorsRef.current = errors;
+  }, [errors]);
   function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
   }
@@ -643,13 +655,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     }, {});
   }
   function getFieldError(name) {
-    return errors[name] || [];
+    return errorsRef.current[name] || [];
   }
   function getFieldWarning(name) {
     return warningsRef.current[name] || [];
   }
   function getFieldsError() {
-    return Object.entries(errors).map(([name, err]) => ({
+    return Object.entries(errorsRef.current).map(([name, err]) => ({
       name,
       errors: err
     }));
@@ -774,10 +786,18 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   async function validateFields(nameList) {
     const fieldsToValidate = nameList || Object.keys(formRef.current[stepRef.current]);
     const results = await Promise.all(fieldsToValidate.map(name => validateField(name)));
+    const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
+    if (errorFields.length) {
+      formHandlersRef.current.onFinishFailed?.({
+        values: formInstance.getFieldsValue(),
+        errorFields
+      });
+    }
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
       if (firstErrorContent) {
-        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
+        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item');
+        _firstErrorContent?.scrollIntoView({
           behavior: 'smooth'
         });
       }
@@ -852,6 +872,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   function setOnFinish(onFinish) {
     formHandlersRef.current.onFinish = onFinish;
   }
+  function setOnFinishFailed(onFinishFailed) {
+    formHandlersRef.current.onFinishFailed = onFinishFailed;
+  }
   function changeStep(step) {
     stepRef.current = step ?? 0;
     if (!formRef.current[stepRef.current]) {
@@ -871,6 +894,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     getFieldsValue,
     isFieldTouched,
     getFieldsError,
+    setOnFinishFailed,
     isFieldsTouched,
     getFieldWarning,
     isFieldValidating,
@@ -974,17 +998,6 @@ function flattenChildren(children) {
 var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
-const debounce = (func, delay) => {
-  let timeoutId = null;
-  return (...args) => {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-    timeoutId = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-};
 const FormItem$1 = ({
   prefixCls = prefixClsFormItem,
   name,
@@ -1127,9 +1140,6 @@ const FormItemChildComponent = ({
   const {
     getFieldsValue
   } = formContext || {};
-  const debouncedSetFieldValue = useRef(debounce((name, value) => {
-    setFieldValue(name, value, undefined, undefined, true);
-  }, 200)).current;
   const handleChange = (e, option) => {
     let rawValue = e?.target ? e.target.value : e;
     if (normalize) {
@@ -1146,7 +1156,7 @@ const FormItemChildComponent = ({
         return;
       }
     }
-    debouncedSetFieldValue(name, rawValue);
+    setFieldValue(name, rawValue, undefined, undefined, true);
     onChange?.(e, option);
   };
   const injectPropsIntoFinalLeaf = child => {
@@ -1203,15 +1213,20 @@ const Form$1 = ({
   scrollToFirstError = false,
   ...rest
 }) => {
-  const internalForm = useForm(initialValues, onFieldsChange, onValuesChange);
-  const formInstance = form || internalForm;
+  const internalForm = useForm({
+    initialValues,
+    onFieldsChange,
+    onValuesChange,
+    onFinishFailed
+  });
   const formRef = useRef(null);
+  const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
   const handleSubmit = async e => {
     e.preventDefault();
     if (await formInstance.validateFields()) {
       onFinish?.(formInstance.getFieldsValue());
     } else if (onFinishFailed) {
-      const errorFields = formInstance.getFieldsError();
+      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
       onFinishFailed({
         values: formInstance.getFieldsValue(),
         errorFields
@@ -1220,19 +1235,22 @@ const Form$1 = ({
   };
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
+    if (onFinish) {
+      formInstance.setOnFinish?.(onFinish);
+    }
     if (onFieldsChange) {
       formInstance.setOnFieldsChange?.(onFieldsChange);
     }
     if (onValuesChange) {
       formInstance.setOnValuesChange?.(onValuesChange);
     }
-    if (onFinish) {
-      formInstance.setOnFinish?.(onFinish);
+    if (onFinishFailed) {
+      formInstance.setOnFinishFailed?.(onFinishFailed);
     }
     if (scrollToFirstError) {
       formInstance.setScrollToFirstError(scrollToFirstError);
     }
-  }, [formInstance, onFieldsChange, onValuesChange, onFinish, scrollToFirstError]);
+  }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
   const injectPropsIntoFinalLeaf = child => {
     if (! /*#__PURE__*/isValidElement(child)) {
       return child;
@@ -1363,7 +1381,7 @@ const SkeletonInput$1 = dynamic$1(() => Promise.resolve().then(function () { ret
   ssr: false
 });
 
-var css_248z$k = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:44px;padding:8px 20px}.xUi-button-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-circle.xUi-button-size-large{height:44px;width:44px}.xUi-button-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-color-hover);border-color:var(--xui-color-hover);color:#fff}.xUi-button-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-outlined{color:#fff}.xUi-button-filled,.xUi-button-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
+var css_248z$k = ".xUi-button{border:1px solid transparent;border-radius:6px;cursor:pointer;font-weight:400;line-height:1.5715;transition:all .3s ease;user-select:none;vertical-align:middle;white-space:nowrap}.xUi-button,.xUi-button-content,.xUi-button-icon{align-items:center;display:inline-flex;justify-content:center}.xUi-button-icon{line-height:0;margin-right:.5em}.xUi-button-icon:last-child{margin-left:.5em;margin-right:0}.xUi-button-spinner{animation:xUi-spin 1s linear infinite;border:1px solid transparent;border-radius:50%;border-top:1px solid var(--xui-text-color);height:1em;width:1em}@keyframes xUi-spin{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.xUi-button-size-small{font-size:12px;height:24px;padding:4px 12px}.xUi-button-size-middle{font-size:14px;height:32px;padding:0 16px}.xUi-button-size-large{font-size:16px;height:44px;padding:8px 20px}.xUi-button-shape-circle{border-radius:50%;justify-content:center;padding:0}.xUi-button-shape-circle.xUi-button-size-small{height:24px;width:24px}.xUi-button-shape-circle.xUi-button-size-large{height:44px;width:44px}.xUi-button-shape-round{border-radius:9999px}.xUi-button-default{background-color:#fff;border-color:var(--xui-border-color);color:rgba(0,0,0,.85)}.xUi-button-default:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-primary{background-color:var(--xui-primary-color);border-color:var(--xui-primary-color);color:#fff}.xUi-button-primary:hover{background-color:var(--xui-primary-color-hover);border-color:var(--xui-primary-color-hover);color:#fff}.xUi-button-variant-dashed{background-color:#fff;border-color:var(--xui-border-color);border-style:dashed;color:rgba(0,0,0,.85)}.xUi-button-variant-dashed:hover{border-color:var(--xui-primary-color);color:var(--xui-primary-color)}.xUi-button-variant-text{background-color:transparent;border-color:transparent!important;color:rgba(0,0,0,.88)}.xUi-button-variant-text:hover{background-color:rgba(0,0,0,.04);border-color:transparent;color:rgba(0,0,0,.88)}.xUi-button-variant-link{background-color:transparent;border-color:transparent!important;color:var(--xui-primary-color)}.xUi-button-variant-link:hover{border-color:transparent;color:var(--xui-primary-color-light)}.xUi-button-variant-outlined{color:#fff}.xUi-button-variant-filled,.xUi-button-variant-outlined{background-color:transparent;border-color:var(--xui-border-color)}.xUi-button-variant-filled{color:var(--xui-text-color)}.xUi-button-danger{background-color:transparent;border-color:var(--xui-error-color);color:var(--xui-error-color)}.xUi-button-danger:hover{border-color:var(--xui-error-color-light);color:var(--xui-error-color-light)}.xUi-button-ghost{opacity:0}.xUi-button-ghost:hover{opacity:1}.xUi-button-block{display:flex;width:100%}.xUi-button-disabled,.xUi-button-loading{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color);color:var(--xui-text-color);cursor:not-allowed;opacity:.5;pointer-events:none}.xUi-button-loading{background-color:transparent}";
 styleInject(css_248z$k);
 
 const ButtonComponent = ({
@@ -1407,7 +1425,7 @@ const ButtonComponent = ({
     }
   }, [loading]);
   const classes = useMemo(() => {
-    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-${variant}`, `${prefixCls}-${color}`, `${prefixCls}-${shape}`, `${prefixCls}-size-${size}`, {
+    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-variant-${variant}`, `${prefixCls}-color-${color}`, `${prefixCls}-shape-${shape}`, `${prefixCls}-size-${size}`, {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
@@ -3047,7 +3065,8 @@ const InputComponent = ({
   }, prefix && /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-prefix`
   }, prefix), /*#__PURE__*/React.createElement("input", _extends({}, props, {
-    ref: inputRef
+    ref: inputRef,
+    suppressHydrationWarning: true
   }, props.type === 'password' && iconRender ? {
     type: iconRenderVisible ? 'text' : 'password'
   } : {}, {
@@ -3582,11 +3601,13 @@ const SelectComponent = ({
       } else {
         onSelect?.(optionValue, option);
       }
+      onDropdownVisibleChange?.(defaultOpen, newSelection);
     } else {
       setIsOpen(defaultOpen);
       setSelected(optionValue);
       onChange?.(optionValue, option);
       onSelect?.(optionValue, option);
+      onDropdownVisibleChange?.(defaultOpen, option);
     }
     handleClearInputValue();
   };
