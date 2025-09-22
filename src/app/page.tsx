@@ -1851,9 +1851,7 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm({
-        // email: "sdffd"
-    });
+    const form = useForm({});
 
     const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
@@ -1861,9 +1859,16 @@ export default function Home() {
     const [type, setType] = useState('full');
     const [value, setValue] = useState('');
 
+    const fields = form.getFieldsValue();
+
     // useEffect(() => {
     //     form.setFieldsValue([{ type: 'partial' }])
     // }, [])
+
+    useEffect(() => {
+        console.log(fields);
+    }, [fields])
+   
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1907,20 +1912,16 @@ export default function Home() {
                 // onValuesChange={(values) => {
                 //     console.log(values, form.isFieldsTouched());
                 // }}
-                // onFinishFailed={(errors) => {
-                //     console.log(errors);
-                // }}
+                onFinishFailed={(errors) => {
+                    console.log('errors', errors);
+                }}
                 onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
                         <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
-                                <Input placeholder="Email" value={value} onChange={(e) => {
-                                console.log(e.target.value);
-
-                                setValue(e.target.value)
-                            }} />
+                                <Input placeholder="Email" />
                             </div>
                         </Item>
 
@@ -1931,14 +1932,14 @@ export default function Home() {
                             </RadioGroup>
                         </Item>
 
-                        {/* <Item rules={[{ required: true }]} name="country" label="Country">
+                        <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
-                        </Item> */}
+                        </Item>
                     </>
                     :
                     <>

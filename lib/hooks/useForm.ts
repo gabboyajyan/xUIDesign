@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { RuleType, RuleTypes } from '../types';
 import type {
   FieldData,
@@ -11,28 +11,19 @@ import type {
   RuleRender
 } from '../types/form';
 
-const useForm = ({
-  initialValues = {},
-  onFieldsChange,
-  onValuesChange,
-  scrollToFirstError,
-  onFinish,
-  onFinishFailed
-}:
-  {
-    initialValues?: Record<string, RuleTypes>,
-    onFieldsChange?: (changedFields: FieldData[]) => void,
-    onValuesChange?: (
-      changedValues: Record<string, RuleTypes>,
-      allValues: Record<string, RuleTypes>
-    ) => void,
-    scrollToFirstError?: boolean,
-    onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
-    onFinishFailed?: (errorInfo: {
+const useForm = (
+  initialValues: Record<string, RuleTypes> = {},
+  onFieldsChange?: (changedFields: FieldData[]) => void,
+  onValuesChange?: (
+    changedValues: Record<string, RuleTypes>,
+    allValues: Record<string, RuleTypes>
+  ) => void,
+  scrollToFirstError?: boolean,
+  onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
+  onFinishFailed?: (errorInfo: {
       values: Record<string, RuleTypes>;
       errorFields: Pick<FieldError, 'errors' | 'name'>[];
-    }) => void;
-  }
+    }) => void
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
@@ -62,9 +53,7 @@ const useForm = ({
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
-
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
-  const errorsRef = useRef(errors);
+  const errorsRef = useRef<Record<string, string[]>>({});
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -73,10 +62,6 @@ const useForm = ({
   const formSubscribers = useRef<
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
-
-  useEffect(() => {
-    errorsRef.current = errors;
-  }, [errors])
 
   function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
@@ -139,7 +124,8 @@ const useForm = ({
     }
 
     if (reset === null) {
-      setErrors({ [name]: [] });
+      errorsRef.current[name] = []
+      // setErrors({ [name]: [] });
 
       return
     }
@@ -159,7 +145,8 @@ const useForm = ({
         }
       });
     } else {
-      setErrors({ [name]: errors });
+      errorsRef.current[name] = errors;
+      // setErrors({ [name]: errors });
     }
   }
 
@@ -288,7 +275,8 @@ const useForm = ({
       })
     );
     
-    setErrors(prev => ({ ...prev, [name]: fieldErrors }));
+    errorsRef.current[name] = fieldErrors
+    // setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
 
     return fieldErrors.length === 0;
@@ -311,9 +299,7 @@ const useForm = ({
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
 
       if (firstErrorContent) {
-        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item') as HTMLDivElement;
-
-        _firstErrorContent?.scrollIntoView({
+        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
         });
       }
@@ -332,7 +318,8 @@ const useForm = ({
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
 
-        setErrors(prev => ({ ...prev, [name]: [] }));
+        errorsRef.current[name] = []
+        // setErrors(prev => ({ ...prev, [name]: [] }));
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {

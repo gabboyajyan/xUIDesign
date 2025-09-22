@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, useEffect, Children, isValidElement, Fragment, Suspense, useContext, useMemo, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useContext, useMemo, useEffect, createContext, useImperativeHandle, useCallback, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -598,14 +598,7 @@ const SpinerIcon = () => /*#__PURE__*/React.createElement("svg", {
   d: "M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"
 }));
 
-const useForm = ({
-  initialValues = {},
-  onFieldsChange,
-  onValuesChange,
-  scrollToFirstError,
-  onFinish,
-  onFinishFailed
-}) => {
+const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError, onFinish, onFinishFailed) => {
   const touchedFieldsRef = useRef(new Set());
   const rulesRef = useRef({});
   const warningsRef = useRef({});
@@ -627,13 +620,9 @@ const useForm = ({
   });
   const fieldInstancesRef = useRef({});
   const [isReseting, setIsReseting] = useState(false);
-  const [errors, setErrors] = useState({});
-  const errorsRef = useRef(errors);
+  const errorsRef = useRef({});
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
-  useEffect(() => {
-    errorsRef.current = errors;
-  }, [errors]);
   function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
   }
@@ -675,9 +664,8 @@ const useForm = ({
       touchedFieldsRef.current.add(name);
     }
     if (reset === null) {
-      setErrors({
-        [name]: []
-      });
+      errorsRef.current[name] = [];
+      // setErrors({ [name]: [] });
       return;
     }
     if (!errors?.length) {
@@ -698,9 +686,8 @@ const useForm = ({
         }
       });
     } else {
-      setErrors({
-        [name]: errors
-      });
+      errorsRef.current[name] = errors;
+      // setErrors({ [name]: errors });
     }
   }
   function setFieldsValue(values, reset) {
@@ -776,10 +763,8 @@ const useForm = ({
         }
       }
     }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: fieldErrors
-    }));
+    errorsRef.current[name] = fieldErrors;
+    // setErrors(prev => ({ ...prev, [name]: fieldErrors }));
     warningsRef.current[name] = fieldWarnings;
     return fieldErrors.length === 0;
   }
@@ -796,8 +781,7 @@ const useForm = ({
     if (_scrollToFirstError.current) {
       const firstErrorContent = document.querySelectorAll('.xUi-form-item-has-error')?.[0];
       if (firstErrorContent) {
-        const _firstErrorContent = firstErrorContent.closest('.xUi-form-item');
-        _firstErrorContent?.scrollIntoView({
+        firstErrorContent.closest('.xUi-form-item')?.scrollIntoView({
           behavior: 'smooth'
         });
       }
@@ -811,10 +795,8 @@ const useForm = ({
         formData[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
-        setErrors(prev => ({
-          ...prev,
-          [name]: []
-        }));
+        errorsRef.current[name] = [];
+        // setErrors(prev => ({ ...prev, [name]: [] }));
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
