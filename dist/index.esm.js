@@ -1213,15 +1213,8 @@ const Form$1 = ({
   const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
   const handleSubmit = async e => {
     e.preventDefault();
-    if (await formInstance.validateFields()) {
-      onFinish?.(formInstance.getFieldsValue());
-    } else if (onFinishFailed) {
-      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
-      onFinishFailed({
-        values: formInstance.getFieldsValue(),
-        errorFields
-      });
-    }
+    e.stopPropagation();
+    await formInstance.submit();
   };
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   useEffect(() => {
@@ -3684,21 +3677,19 @@ const SelectComponent = ({
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  const filteredOptions = useMemo(() => {
-    return extractedOptions.filter(option => {
-      if (typeof filterOption === 'function') {
-        return filterOption(searchQuery, option);
-      }
-      if (filterOption === false) {
-        return true;
-      }
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-expect-error
-      const optionFilterPropValue = option[optionFilterProp];
-      const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
-      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-    });
-  }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
+  const filteredOptions = extractedOptions.filter(option => {
+    if (typeof filterOption === 'function') {
+      return filterOption(searchQuery, option);
+    }
+    if (filterOption === false) {
+      return true;
+    }
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const optionFilterPropValue = option[optionFilterProp];
+    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
+    return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+  });
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);

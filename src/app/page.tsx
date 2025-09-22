@@ -16,6 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
 import { RadioGroup } from "../../lib/components/Radio/Group";
+import { useWatch } from '../../lib/hooks/useWatch';
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
@@ -1860,15 +1861,15 @@ export default function Home() {
     const [value, setValue] = useState('');
     const [country, setCountry] = useState('')
 
-    const fields = form.getFieldsValue();
+    const fields = useWatch({ form });
 
     // useEffect(() => {
     //     form.setFieldsValue([{ type: 'partial' }])
     // }, [])
 
-    useEffect(() => {
-        console.log(fields);
-    }, [fields])
+    // useEffect(() => {
+    //     console.log(fields);
+    // }, [fields])
 
     const disableDate = useCallback(
         (date: any) => {
@@ -1919,9 +1920,9 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        {true ? <Item rules={[{ required: true }]} name="email" label="Email">
+                        {fields.country === 'BR' ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
-                                <Input placeholder="Email" />
+                                <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
                             </div>
                         </Item>: <></>}
 
@@ -1938,10 +1939,6 @@ export default function Home() {
                                 style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
-                                getPopupContainer={() => document.body}
-                                onChange={(e) => {
-                                    setCountry(e)
-                                }}
                             />
                         </Item>
                     </>
@@ -1978,7 +1975,7 @@ export default function Home() {
 
                 <Button
                     type="primary"
-                    htmlType={current === 1 ? 'submit' : 'button'}
+                    htmlType="button"
                     onClick={async () => {
                         if (current === 1) {
                             await form.submit()

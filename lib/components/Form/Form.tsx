@@ -43,13 +43,9 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
 
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    e.stopPropagation();
 
-    if (await formInstance.validateFields()) {
-      onFinish?.(formInstance.getFieldsValue());
-    } else if (onFinishFailed) {
-      const errorFields = formInstance.getFieldsError().filter(e => e.errors.length);
-      onFinishFailed({ values: formInstance.getFieldsValue(), errorFields });
-    }
+    await formInstance.submit();
   };
 
   const childrenList = useMemo(() => flattenChildren(children), [children]);
