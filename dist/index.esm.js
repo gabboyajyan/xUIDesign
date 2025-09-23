@@ -636,10 +636,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function getFieldsValue(nameList) {
     const formData = getFormFields();
-    console.info({
-      stepRef: stepRef.current,
-      formRef: formRef.current
-    });
     if (!nameList) {
       return formData;
     }

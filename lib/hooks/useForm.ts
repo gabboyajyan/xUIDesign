@@ -84,11 +84,6 @@ const useForm = (
   function getFieldsValue(nameList?: string[]) {
     const formData = getFormFields();
     
-    console.info({
-      stepRef: stepRef.current, 
-      formRef: formRef.current
-    });
-    
     if (!nameList) {
       return formData;
     }
