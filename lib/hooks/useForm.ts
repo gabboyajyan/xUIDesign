@@ -67,23 +67,23 @@ const useForm = (
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
 
-  function getFormFields() {
-    return formRef.current[stepRef.current]
-    // return Object.assign({}, ...Object.values());
-  }
+  // function getFormFields() {
+  //   return formRef.current[stepRef.current]
+  //   // return Object.assign({}, ...Object.values());
+  // }
 
   function getFieldInstance(name?: string) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
 
   function getFieldValue(name: string) {
-    const formData = getFormFields();
+    const formData = formRef.current[stepRef.current];
 
     return formData[name]
   }
 
   function getFieldsValue(nameList?: string[]) {
-    const formData = getFormFields();
+    const formData = formRef.current[stepRef.current];
     
     console.info({
       stepRef: stepRef.current, 
@@ -127,7 +127,13 @@ const useForm = (
       return;
     }
 
-    formRef.current[stepRef.current][name] = value;
+    if (reset === true) {
+      Object.entries(formRef.current).forEach(([key]) => {
+        formRef.current[+key][name] = value
+      })
+    } else {
+      formRef.current[stepRef.current][name] = value;
+    }
 
     if (touch) {
       touchedFieldsRef.current.add(name);
@@ -321,11 +327,12 @@ const useForm = (
   }
 
   function resetFields(nameList?: string[], showError: boolean | null = true) {
-    const formData = getFormFields();
+    const formData = Object.assign({}, ...Object.values(formRef.current));
 
     if (nameList?.length) {
       nameList.forEach((name: string) => {
         formData[name] = initialValues[name];
+        trashFormRef.current[name] = initialValues[name]
 
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
@@ -351,10 +358,10 @@ const useForm = (
   }
 
   async function submit() {
-    const formData = getFormFields();
+    const formData = Object.assign({}, ...Object.values(formRef.current));
 
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(formData)
+      formHandlersRef.current.onFinish?.(Object.assign({}, ...Object.values(formRef.current)))
 
       return formData
     })() : undefined;
@@ -458,8 +465,6 @@ const useForm = (
   function changeStep(step: number) {
     stepRef.current = step ?? 0;
 
-    console.info('stepRef', stepRef.current);
-    
     if (!formRef.current[stepRef.current]) {
       formRef.current[stepRef.current] = {};
     }

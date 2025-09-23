@@ -626,19 +626,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const errorSubscribers = React.useRef({});
   const fieldSubscribers = React.useRef({});
   const formSubscribers = React.useRef([]);
-  function getFormFields() {
-    return formRef.current[stepRef.current];
-    // return Object.assign({}, ...Object.values());
-  }
+  // function getFormFields() {
+  //   return formRef.current[stepRef.current]
+  //   // return Object.assign({}, ...Object.values());
+  // }
   function getFieldInstance(name) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
   function getFieldValue(name) {
-    const formData = getFormFields();
+    const formData = formRef.current[stepRef.current];
     return formData[name];
   }
   function getFieldsValue(nameList) {
-    const formData = getFormFields();
+    const formData = formRef.current[stepRef.current];
     console.info({
       stepRef: stepRef.current,
       formRef: formRef.current
@@ -667,7 +667,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
       return;
     }
-    formRef.current[stepRef.current][name] = value;
+    if (reset === true) {
+      Object.entries(formRef.current).forEach(([key]) => {
+        formRef.current[+key][name] = value;
+      });
+    } else {
+      formRef.current[stepRef.current][name] = value;
+    }
     if (touch) {
       touchedFieldsRef.current.add(name);
     }
@@ -797,10 +803,11 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return results.every(valid => valid);
   }
   function resetFields(nameList, showError = true) {
-    const formData = getFormFields();
+    const formData = Object.assign({}, ...Object.values(formRef.current));
     if (nameList?.length) {
       nameList.forEach(name => {
         formData[name] = initialValues[name];
+        trashFormRef.current[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
         errorsRef.current[name] = [];
@@ -820,9 +827,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setIsReseting(prev => !prev);
   }
   async function submit() {
-    const formData = getFormFields();
+    const formData = Object.assign({}, ...Object.values(formRef.current));
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(formData);
+      formHandlersRef.current.onFinish?.(Object.assign({}, ...Object.values(formRef.current)));
       return formData;
     })() : undefined;
   }
@@ -880,7 +887,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function changeStep(step) {
     stepRef.current = step ?? 0;
-    console.info('stepRef', stepRef.current);
     if (!formRef.current[stepRef.current]) {
       formRef.current[stepRef.current] = {};
     }
