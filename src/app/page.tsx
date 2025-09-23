@@ -1863,6 +1863,8 @@ export default function Home() {
 
     const fields = useWatch({ form });
 
+    console.log(fields);
+    
     // const disableDate = useCallback(
     //     (date: any) => {
     //         date = dayjs(date);
@@ -1889,18 +1891,18 @@ export default function Home() {
     //     [dates, period]
     // );
 
-    const onOpenChange = useCallback((open: boolean) => {
-        if (open) {
-            setDates([]);
-        }
-    }, []);
+    // const onOpenChange = useCallback((open: boolean) => {
+    //     if (open) {
+    //         setDates([]);
+    //     }
+    // }, []);
 
     return (
         <>
             <Form
                 form={form}
                 layout="vertical"
-                style={{ width: 400 }}
+                // style={{ width: 400 }}
                 scrollToFirstError={true}
                 // onValuesChange={(values) => {
                 //     console.log(values, form.isFieldsTouched());
@@ -1912,7 +1914,7 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        {fields.country === 'BR' ? <Item rules={[{ required: true }]} name="email" label="Email">
+                        {true ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
                                 <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
                             </div>
@@ -1920,26 +1922,18 @@ export default function Home() {
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
-                                <Radio checked={type === 'full'} name="type" value='full' />
-                                <Radio checked={type === 'partial'} name="type" value='partial' />
+                                <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
+                                <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
                             </RadioGroup>
                         </Item>
 
                         <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
-                                style={{ width: 400 }}
+                                // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
-                        </Item>
-
-                        <Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Input mask="___.___.___.__" placeholder="Gender" />
-                        </Item>
-
-                        <Item rules={[{ required: true }]} name="username" label="Username">
-                            <Input placeholder="Username" />
                         </Item>
                     </>
                     :

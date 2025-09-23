@@ -1,1 +1,0 @@
-export { default as SkeletonImage } from './Image';

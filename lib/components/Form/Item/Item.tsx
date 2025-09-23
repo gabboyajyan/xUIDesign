@@ -101,9 +101,6 @@ const FormItem = ({
     [rules]
   );
 
-  console.log(name);
-  
-
   return (
     <div
       style={style}
