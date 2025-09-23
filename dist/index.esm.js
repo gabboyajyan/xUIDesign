@@ -624,10 +624,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const errorSubscribers = useRef({});
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
-  // function getFormFields() {
-  //   return formRef.current[stepRef.current]
-  //   // return Object.assign({}, ...Object.values());
-  // }
   function getFieldInstance(name) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
@@ -637,10 +633,6 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   }
   function getFieldsValue(nameList) {
     const formData = formRef.current[stepRef.current];
-    console.info({
-      stepRef: stepRef.current,
-      formRef: formRef.current
-    });
     if (!nameList) {
       return formData;
     }

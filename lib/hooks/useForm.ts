@@ -67,11 +67,6 @@ const useForm = (
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
 
-  // function getFormFields() {
-  //   return formRef.current[stepRef.current]
-  //   // return Object.assign({}, ...Object.values());
-  // }
-
   function getFieldInstance(name?: string) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
@@ -84,11 +79,6 @@ const useForm = (
 
   function getFieldsValue(nameList?: string[]) {
     const formData = formRef.current[stepRef.current];
-    
-    console.info({
-      stepRef: stepRef.current, 
-      formRef: formRef.current
-    });
     
     if (!nameList) {
       return formData;
