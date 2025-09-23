@@ -879,6 +879,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       formRef.current[stepRef.current] = {};
     }
   }
+  const formInstanceRef = React.useRef(null);
   const formInstance = {
     submit,
     setFields,
@@ -912,7 +913,12 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setOnValuesChange,
     changeStep
   };
-  return formInstance;
+  if (formInstanceRef.current) {
+    return formInstanceRef.current;
+  } else {
+    formInstanceRef.current = formInstance;
+    return formInstanceRef.current;
+  }
 };
 
 function _extends() {
@@ -1071,6 +1077,7 @@ const FormItem$1 = ({
     }
   }, [dependencies, name]);
   const isRequired = React.useMemo(() => rules.some(rule => rule.required), [rules]);
+  console.log(name);
   return /*#__PURE__*/React.createElement("div", {
     style: style,
     "data-instance": name,
@@ -1179,6 +1186,10 @@ const FormItemChildComponent = ({
     if (isWrapper) {
       return /*#__PURE__*/React.createElement(child.type, childProps, React.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf));
     }
+    const _onChange = React.useCallback((e, option) => {
+      handleChange(e);
+      childProps?.onChange?.(e, option);
+    }, [handleChange, childProps?.onChange]);
     if (childProps?.__injected) {
       return child;
     }
@@ -1189,10 +1200,7 @@ const FormItemChildComponent = ({
     }, child.props, {
       name: name,
       child: child,
-      onChange: (e, option) => {
-        handleChange(e);
-        childProps?.onChange?.(e, option);
-      },
+      onChange: _onChange,
       key: `${name}_${wasNormalize}`,
       value: fieldValue ?? props.value
     }, 'dangerouslySetInnerHTML' in childProps ? {} : {
@@ -1235,12 +1243,12 @@ const Form$1 = ({
   });
   const formRef = React.useRef(null);
   const formInstance = React.useMemo(() => form || internalForm, [form, internalForm]);
-  const handleSubmit = async e => {
+  const childrenList = React.useMemo(() => flattenChildren(children), [children]);
+  const handleSubmit = React.useCallback(async e => {
     e.preventDefault();
     e.stopPropagation();
     await formInstance.submit();
-  };
-  const childrenList = React.useMemo(() => flattenChildren(children), [children]);
+  }, []);
   React.useEffect(() => {
     if (onFinish) {
       formInstance.setOnFinish?.(onFinish);
@@ -1258,7 +1266,7 @@ const Form$1 = ({
       formInstance.setScrollToFirstError(scrollToFirstError);
     }
   }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
-  const injectPropsIntoFinalLeaf = child => {
+  const injectPropsIntoFinalLeaf = React.useCallback(child => {
     if (! /*#__PURE__*/React.isValidElement(child)) {
       return child;
     }
@@ -1275,7 +1283,7 @@ const Form$1 = ({
       size: childProps.size || rest.size,
       layout: childProps.layout || layout
     }));
-  };
+  }, [rest.size, layout]);
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
   }, /*#__PURE__*/React.createElement("form", {
@@ -1283,7 +1291,7 @@ const Form$1 = ({
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${className}`
-  }, React.Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))));
+  }, React.Children.map(childrenList, injectPropsIntoFinalLeaf)));
 };
 Form$1.Item = FormItem$1;
 
@@ -1363,7 +1371,7 @@ const RadioButton$1 = dynamic$1(() => Promise.resolve().then(function () { retur
 const RadioGroup$1 = dynamic$1(() => Promise.resolve().then(function () { return Group; }), {
   ssr: false
 });
-const Select$3 = dynamic$1(() => Promise.resolve().then(function () { return Select$2; }), {
+const Select$2 = dynamic$1(() => Promise.resolve().then(function () { return Select$1; }), {
   ssr: false
 });
 const Option$2 = dynamic$1(() => Promise.resolve().then(function () { return Option$1; }), {
@@ -3366,7 +3374,7 @@ function getTextFromNode(node) {
   }
   return '';
 }
-const SelectComponent = ({
+const Select = ({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -3445,8 +3453,8 @@ const SelectComponent = ({
     selectRef.current?.scrollTo(...args),
     nativeElement: selectRef.current
   }), []);
-  const handleMouseEnter = () => !disabled && selected?.length && setIsHover(true);
-  const handleMouseLeave = () => !disabled && setIsHover(false);
+  const handleMouseEnter = React.useCallback(() => !disabled && selected?.length && setIsHover(true), [disabled, selected?.length]);
+  const handleMouseLeave = React.useCallback(() => !disabled && setIsHover(false), [disabled]);
   const handleClearInputValue = React.useCallback(() => {
     if (!autoClearSearchValue) {
       return;
@@ -3463,7 +3471,7 @@ const SelectComponent = ({
   React.useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
-  const handleClickOutside = event => {
+  const handleClickOutside = React.useCallback(event => {
     if (!selectRef.current) return;
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
     const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
@@ -3474,7 +3482,7 @@ const SelectComponent = ({
       onClose?.();
       onDropdownVisibleChange?.(false, selected);
     }
-  };
+  }, [selectRef.current, prefixCls, selected]);
   React.useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -3558,7 +3566,7 @@ const SelectComponent = ({
   React.useEffect(() => {
     updateDropdownPosition(true);
   }, [searchQuery.length]);
-  const getScrollParents = element => {
+  const getScrollParents = React.useCallback(element => {
     const parents = [];
     let current = element.parentElement;
     while (current) {
@@ -3568,7 +3576,7 @@ const SelectComponent = ({
       current = current.parentElement;
     }
     return parents;
-  };
+  }, []);
   const handleSearch = e => {
     setSearchQuery(e.target.value);
     onSearch?.(e.target.value);
@@ -3697,7 +3705,7 @@ const SelectComponent = ({
   }, []);
   const extractedOptions = React.useMemo(() => {
     return children ? extractOptions(children) : Array.isArray(options) ? options : [];
-  }, [children, children]);
+  }, [children, options]);
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
@@ -3936,15 +3944,11 @@ const SelectComponent = ({
     }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
   }) : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)))));
 };
-SelectComponent.displayName = 'Select';
-const Select = Object.assign(SelectComponent, {
-  Option
-});
-var Select$1 = /*#__PURE__*/React.memo(Select);
+Select.displayName = 'Select';
 
-var Select$2 = /*#__PURE__*/Object.freeze({
+var Select$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
-	default: Select$1
+	default: Select
 });
 
 var css_248z$4 = "@keyframes xUi-skeleton-loading{0%{background-position:100% 50%}to{background-position:0 50%}}.xUi-skeleton-element{display:inline-block!important;width:auto!important}.xUi-skeleton-button{background:hsla(0,0%,75%,.2);border-radius:4px;display:inline-block;height:32px;line-height:32px;min-width:64px;vertical-align:top;width:64px}.xUi-skeleton-button-sm{height:24px;line-height:24px;min-width:48px;width:48px}.xUi-skeleton-button-lg{height:44px;line-height:44px;min-width:80px;width:80px}.xUi-skeleton-active .xUi-skeleton-button{animation:xUi-skeleton-loading 1.4s ease infinite;background:linear-gradient(90deg,hsla(0,0%,75%,.2) 25%,hsla(0,0%,51%,.24) 37%,hsla(0,0%,75%,.2) 63%);background-size:400% 100%}";
@@ -4189,7 +4193,7 @@ exports.RadioButton = RadioButton$1;
 exports.RadioGroup = RadioGroup$1;
 exports.RangePicker = RangePicker$2;
 exports.SearchIcon = SearchIcon;
-exports.Select = Select$3;
+exports.Select = Select$2;
 exports.Skeleton = Skeleton$2;
 exports.SkeletonAvatar = SkeletonAvatar$1;
 exports.SkeletonButton = SkeletonButton$1;

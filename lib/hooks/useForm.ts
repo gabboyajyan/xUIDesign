@@ -457,6 +457,7 @@ const useForm = (
     }
   }
 
+  const formInstanceRef = useRef<FormInstance>(null);
   const formInstance: FormInstance = {
     submit,
     setFields,
@@ -491,7 +492,13 @@ const useForm = (
     changeStep,
   };
 
-  return formInstance;
+  if (formInstanceRef.current) {
+    return formInstanceRef.current
+  } else {
+    formInstanceRef.current = formInstance;
+
+    return formInstanceRef.current
+  }
 };
 
 export { useForm };

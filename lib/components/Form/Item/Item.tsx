@@ -4,6 +4,7 @@ import React, {
   Children,
   isValidElement,
   ReactElement,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
@@ -99,6 +100,9 @@ const FormItem = ({
     () => rules.some((rule: RuleType) => rule.required),
     [rules]
   );
+
+  console.log(name);
+  
 
   return (
     <div
@@ -200,7 +204,7 @@ const FormItemChildComponent = ({
   const [wasNormalize, setWasNormalize] = useState(false);
 
   const { getFieldsValue } = formContext || {};
-
+  
   const handleChange = (e: SyntheticBaseEvent) => {
     let rawValue: RuleType | SyntheticBaseEvent = e?.target
       ? e.target.value
@@ -255,10 +259,16 @@ const FormItemChildComponent = ({
       )
     }
 
+    const _onChange = useCallback((e: SyntheticBaseEvent, option?: OptionProps) => {
+      handleChange(e);
+
+      childProps?.onChange?.(e, option)
+    }, [handleChange, childProps?.onChange])
+
     if (childProps?.__injected) {
       return child;
     }
-    
+
     return <child.type
       {...props}
       ref={ref}
@@ -267,11 +277,7 @@ const FormItemChildComponent = ({
       {...child.props}
       name={name}
       child={child}
-      onChange={(e: SyntheticBaseEvent, option?: OptionProps) => {
-        handleChange(e);
-
-        childProps?.onChange?.(e, option)
-      }}
+      onChange={_onChange}
       key={`${name}_${wasNormalize}`}
       value={fieldValue ?? props.value}
       {...('dangerouslySetInnerHTML' in childProps ? {} : {

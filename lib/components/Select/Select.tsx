@@ -56,7 +56,7 @@ function getTextFromNode(node: ReactNode): string {
   return '';
 }
 
-const SelectComponent = ({
+const Select = ({
   prefixCls = prefixClsSelect,
   id,
   searchValue = '',
@@ -154,10 +154,10 @@ const SelectComponent = ({
     nativeElement: selectRef.current
   }), []);
 
-  const handleMouseEnter = () =>
-    !disabled && selected?.length && setIsHover(true);
+  const handleMouseEnter = useCallback(() =>
+    !disabled && selected?.length && setIsHover(true), [disabled, selected?.length]);
 
-  const handleMouseLeave = () => !disabled && setIsHover(false);
+  const handleMouseLeave = useCallback(() => !disabled && setIsHover(false), [disabled]);
 
   const handleClearInputValue = useCallback(() => {
     if (!autoClearSearchValue) {
@@ -185,7 +185,7 @@ const SelectComponent = ({
     setSelected(hasMode ? checkModeInitialValue : initialValue)
   }, [checkModeInitialValue, hasMode, initialValue])
 
-  const handleClickOutside = (event?: MouseEvent): void => {
+  const handleClickOutside = useCallback((event?: MouseEvent): void => {
     if (!selectRef.current) return;
 
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
@@ -200,7 +200,7 @@ const SelectComponent = ({
       onClose?.();
       onDropdownVisibleChange?.(false, selected)
     }
-  };
+  }, [selectRef.current, prefixCls, selected]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -312,7 +312,7 @@ const SelectComponent = ({
     updateDropdownPosition(true);
   }, [searchQuery.length]);
 
-  const getScrollParents = (element: HTMLElement): HTMLElement[] => {
+  const getScrollParents = useCallback((element: HTMLElement): HTMLElement[] => {
     const parents: HTMLElement[] = [];
     let current = element.parentElement;
 
@@ -324,7 +324,7 @@ const SelectComponent = ({
     }
 
     return parents;
-  };
+  }, []);
 
   const handleSearch = (e: SyntheticBaseEvent) => {
     setSearchQuery(e.target.value as string);
@@ -525,7 +525,7 @@ const SelectComponent = ({
     return children
       ? extractOptions(children)
       : Array.isArray(options) ? options : []
-  }, [children, children]);
+  }, [children, options]);
 
   const triggerNode = useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
@@ -915,7 +915,6 @@ const SelectComponent = ({
   );
 };
 
-SelectComponent.displayName = 'Select';
-const Select = Object.assign(SelectComponent, { Option });
+Select.displayName = 'Select';
 
-export default memo(Select);
+export default Select;

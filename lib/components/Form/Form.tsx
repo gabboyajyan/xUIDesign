@@ -8,6 +8,7 @@ import React, {
   ReactElement,
   ReactNode,
   SyntheticEvent,
+  useCallback,
   useEffect,
   useMemo,
   useRef
@@ -40,15 +41,14 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   const formRef = useRef<HTMLFormElement>(null);
 
   const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
+  const childrenList = useMemo(() => flattenChildren(children), [children])
 
-  const handleSubmit = async (e: SyntheticEvent) => {
+  const handleSubmit = useCallback(async (e: SyntheticEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
     await formInstance.submit();
-  };
-
-  const childrenList = useMemo(() => flattenChildren(children), [children]);
+  }, []);
 
   useEffect(() => {
     if (onFinish) { formInstance.setOnFinish?.(onFinish) }
@@ -59,7 +59,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
     if (scrollToFirstError) { formInstance.setScrollToFirstError(scrollToFirstError) }
   }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
 
-  const injectPropsIntoFinalLeaf = (child: ReactNode): ReactNode => {
+  const injectPropsIntoFinalLeaf = useCallback((child: ReactNode): ReactNode => {
     if (!isValidElement(child)) {
       return child;
     }
@@ -96,7 +96,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
       size={childProps.size || rest.size}
       layout={childProps.layout || layout}
     />
-  };
+  }, [rest.size, layout]);
 
   return (
     <FormContext.Provider value={formInstance}>
@@ -106,7 +106,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         onSubmit={handleSubmit}
         className={`${prefixCls} ${className}`}
       >
-        {Children.map(childrenList, child => injectPropsIntoFinalLeaf(child))}
+        {Children.map(childrenList, injectPropsIntoFinalLeaf)}
       </form>
     </FormContext.Provider>
   );

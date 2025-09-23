@@ -13,7 +13,7 @@ import { Select } from "../../lib/components/Select";
 // import { Upload } from '../../lib/components/Upload'
 import { Button } from "../../lib/components/Button";
 import { useCallback, useEffect, useState } from "react";
-import dayjs from 'dayjs';
+// import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
 import { RadioGroup } from "../../lib/components/Radio/Group";
 import { useWatch } from '../../lib/hooks/useWatch';
@@ -1863,31 +1863,31 @@ export default function Home() {
 
     const fields = useWatch({ form });
 
-    const disableDate = useCallback(
-        (date: any) => {
-            date = dayjs(date);
+    // const disableDate = useCallback(
+    //     (date: any) => {
+    //         date = dayjs(date);
 
-            if (date > dayjs().endOf('day')) {
-                return true;
-            }
+    //         if (date > dayjs().endOf('day')) {
+    //             return true;
+    //         }
 
-            if (!period || !dates || dates.length === 0) {
-                return false;
-            }
+    //         if (!period || !dates || dates.length === 0) {
+    //             return false;
+    //         }
 
-            const tooLate =
-                dates[0] &&
-                date.add(-1, 'd').diff(dates[0], period.unit) >=
-                period.value;
+    //         const tooLate =
+    //             dates[0] &&
+    //             date.add(-1, 'd').diff(dates[0], period.unit) >=
+    //             period.value;
 
-            const tooEarly =
-                dates[0] &&
-                date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
+    //         const tooEarly =
+    //             dates[0] &&
+    //             date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
 
-            return tooLate || tooEarly;
-        },
-        [dates, period]
-    );
+    //         return tooLate || tooEarly;
+    //     },
+    //     [dates, period]
+    // );
 
     const onOpenChange = useCallback((open: boolean) => {
         if (open) {
@@ -1905,10 +1905,10 @@ export default function Home() {
                 // onValuesChange={(values) => {
                 //     console.log(values, form.isFieldsTouched());
                 // }}
-                onFinishFailed={(errors) => {
-                    console.log('errors', errors);
-                }}
-                onFinish={(values) => console.log('onFinish', values)}
+                // onFinishFailed={(errors) => {
+                //     console.log('errors', errors);
+                // }}
+                // onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
@@ -1920,8 +1920,8 @@ export default function Home() {
 
                         <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
-                                <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
-                                <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
+                                <Radio checked={type === 'full'} name="type" value='full' />
+                                <Radio checked={type === 'partial'} name="type" value='partial' />
                             </RadioGroup>
                         </Item>
 
@@ -1932,6 +1932,14 @@ export default function Home() {
                                 placeholder="Select..."
                                 options={CountryCodes}
                             />
+                        </Item>
+
+                        <Item rules={[{ required: true }]} name="gender" label="Gender">
+                            <Input mask="___.___.___.__" placeholder="Gender" />
+                        </Item>
+
+                        <Item rules={[{ required: true }]} name="username" label="Username">
+                            <Input placeholder="Username" />
                         </Item>
                     </>
                     :

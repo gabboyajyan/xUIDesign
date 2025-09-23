@@ -1,10 +1,8 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { SelectProps } from '../../types/select';
 import './style.css';
-declare const _default: React.MemoExoticComponent<{
+declare const Select: {
     ({ prefixCls, id, searchValue, autoClearSearchValue, filterOption, optionFilterProp, children, options, listHeight, menuItemSelectedIcon, mode, value, defaultValue, maxCount, disabled, loading, placeholder, allowClear, filterable, defaultOpen, size, error, dropdownClassName, className, suffixIcon, searchIcon, style, showSearch, open, closeFromParent, showArrow, notFoundContent, noStyle, feedbackIcons, placement, removeIcon, maxTagCount, onSearch, onSelect, onDeselect, onClear, onChange, onClose, tagRender, getPopupContainer, dropdownRender, onDropdownVisibleChange, ref }: SelectProps): ReactElement;
     displayName: string;
-} & {
-    Option: React.FC<import("../../types/select").OptionProps>;
-}>;
-export default _default;
+};
+export default Select;
