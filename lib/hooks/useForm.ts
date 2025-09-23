@@ -68,7 +68,8 @@ const useForm = (
   >([]);
 
   function getFormFields() {
-    return Object.assign({}, ...Object.values(formRef.current));
+    return formRef.current[stepRef.current]
+    // return Object.assign({}, ...Object.values());
   }
 
   function getFieldInstance(name?: string) {

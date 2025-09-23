@@ -1908,7 +1908,7 @@ export default function Home() {
                 // onFinishFailed={(errors) => {
                 //     console.log('errors', errors);
                 // }}
-                // onFinish={(values) => console.log('onFinish', values)}
+                onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
@@ -1934,15 +1934,13 @@ export default function Home() {
                             />
                         </Item>
                     </>
-                    :
+                    : current === 1 ?
                     <>
                         {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Input mask="___.___.___.__" placeholder="Gender" />
                         </Item> : <> </>}
 
-                        <Item rules={[{ required: true }]} name="username" label="Username">
-                            <Input placeholder="Username" />
-                        </Item>
+                        
 
                         {/* <Item rules={[{ required: true }]} name="date" label="Date">
                         <RangePicker
@@ -1951,7 +1949,9 @@ export default function Home() {
                             onOpenChange={onOpenChange}
                         />
                     </Item> */}
-                    </>}
+                    </> : <Item rules={[{ required: true }]} name="username" label="Username">
+                            <Input placeholder="Username" />
+                        </Item>}
 
                 <div style={{ display: 'flex', gap: 8 }}>
                     {current > 0
@@ -1969,7 +1969,7 @@ export default function Home() {
                     type="primary"
                     htmlType="button"
                     onClick={async () => {
-                        if (current === 1) {
+                        if (current === 2) {
                             await form.submit()
                         } else {
                             if (await form.validateFields()) {
