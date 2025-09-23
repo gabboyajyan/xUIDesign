@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-// import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 import { Button } from "../../lib/components/Button";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 // import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
 import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1854,12 +1854,14 @@ const period: {
 export default function Home() {
     const form = useForm({});
 
-    const [dates, setDates] = useState<Date[] | any[] | null>([]);
+    // const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
-    const [type, setType] = useState('full');
+    // const [type, setType] = useState('full');
     const [value, setValue] = useState('');
-    const [country, setCountry] = useState('')
+    // const [country, setCountry] = useState('')
+
+    // const fields = useWatch({ form });
 
     // const disableDate = useCallback(
     //     (date: any) => {
@@ -1912,16 +1914,16 @@ export default function Home() {
                     ? <>
                         {true ? <Item rules={[{ required: true }]} name="email" label="Email">
                             <div>
-                                <Input placeholder="Email" value={value} onChange={(e) => setValue(e.target.value)} />
+                                <Input placeholder="Email" />
                             </div>
                         </Item>: <></>}
 
-                        <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
+                        {/* <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
                                 <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
                                 <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
                             </RadioGroup>
-                        </Item>
+                        </Item> */}
 
                         <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
