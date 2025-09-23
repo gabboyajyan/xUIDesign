@@ -21,6 +21,7 @@ import {
 import { OptionProps } from '../../../types/select';
 import { prefixClsFormItem } from '../../../utils';
 import { FormContext } from '../Form';
+import { useWatchError } from '@/hooks/useWatchError';
 import './style.css';
 
 const FormItem = ({
@@ -49,10 +50,11 @@ const FormItem = ({
     throw new Error('FormItem must be used within a Form');
   }
 
+  const errors = useWatchError(formContext, name)?.[0];
+
   const {
     isReseting,
     registerField,
-    getFieldError,
     getFieldValue,
     setFieldValue,
     getFieldInstance,
@@ -98,8 +100,6 @@ const FormItem = ({
     [rules]
   );
 
-  const errorMessage = getFieldError(name)?.[0];
-
   return (
     <div
       style={style}
@@ -139,7 +139,7 @@ const FormItem = ({
                 name={name}
                 child={child}
                 value={value}
-                error={!!errorMessage}
+                error={!!errors}
                 fieldValue={fieldValue}
                 setFieldValue={setFieldValue}
                 feedbackIcons={feedbackIcons}
@@ -162,14 +162,14 @@ const FormItem = ({
                   ref={errorRef}
                   className={clsx([
                     `${prefixCls}-error`,
-                    { [`${prefixCls}-has-error`]: errorMessage?.length }
+                    { [`${prefixCls}-has-error`]: errors?.length }
                   ])}
                   style={{
                     ...removeErrorMessageHeight ? { minHeight: 0 } : {},
                     ...extra ? { marginBottom: 0 } : {}
                   }}
                 >
-                  {errorMessage || ''}
+                  {errors || ''}
                 </span>
               )}
             </div>

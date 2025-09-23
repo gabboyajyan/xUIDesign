@@ -1863,14 +1863,6 @@ export default function Home() {
 
     const fields = useWatch({ form });
 
-    // useEffect(() => {
-    //     form.setFieldsValue([{ type: 'partial' }])
-    // }, [])
-
-    // useEffect(() => {
-    //     console.log(fields);
-    // }, [fields])
-
     const disableDate = useCallback(
         (date: any) => {
             date = dayjs(date);

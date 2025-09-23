@@ -531,28 +531,30 @@ const SelectComponent = ({
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement
   }, [prefixCls]);
 
-  const filteredOptions = extractedOptions.filter((option: OptionType) => {
-    if (typeof filterOption === 'function') {
-      return filterOption(searchQuery, option);
-    }
+  const filteredOptions = useMemo(() => {
+    return extractedOptions.filter((option: OptionType) => {
+      if (typeof filterOption === 'function') {
+        return filterOption(searchQuery, option);
+      }
 
-    if (filterOption === false) {
-      return true;
-    }
+      if (filterOption === false) {
+        return true;
+      }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const optionFilterPropValue = option[optionFilterProp]
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const optionFilterPropValue = option[optionFilterProp];
 
-    const valueToCheck =
-      optionFilterProp && typeof optionFilterPropValue === 'string'
-        ? String(optionFilterPropValue)
-        : Array.isArray(option.children) && typeof option.children[0] === 'string'
-          ? option.children[0]
-          : getTextFromNode(option.children) || String(option.label) || String(option.value);
+      const valueToCheck =
+        optionFilterProp && typeof optionFilterPropValue === 'string'
+          ? String(optionFilterPropValue)
+          : Array.isArray(option.children) && typeof option.children[0] === 'string'
+            ? option.children[0]
+            : getTextFromNode(option.children) || String(option.label) || String(option.value);
 
-    return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+  }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
 
   const handleTriggerClick = () => {
     if (!disabled) {

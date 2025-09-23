@@ -53,7 +53,11 @@ const useForm = (
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
+  
+  const errorsRef = useRef<Record<string, string[]>>({});
+  const errorSubscribers = useRef<
+    Record<string, ((errors: string[]) => void)[]>
+  >({});
 
   const fieldSubscribers = useRef<
     Record<string, ((value: RuleTypes) => void)[]>
@@ -92,7 +96,7 @@ const useForm = (
   }
 
   function getFieldError(name: string) {
-    return errors[name] || [];
+    return errorsRef.current[name] || [];
   }
 
   function getFieldWarning(name: string): string[] {
@@ -100,7 +104,7 @@ const useForm = (
   }
 
   function getFieldsError(): Pick<FieldError, 'errors' | 'name'>[] {
-    return Object.entries(errors).map(([name, err]) => ({ name, errors: err }));
+    return Object.entries(errorsRef.current).map(([name, err]) => ({ name, errors: err }));
   }
 
   function setFieldValue(
@@ -124,7 +128,8 @@ const useForm = (
     }
 
     if (reset === null) {
-      setErrors({ [name]: [] });
+      errorsRef.current[name] = []
+      notifyErrorSubscribers(name);
 
       return
     }
@@ -144,7 +149,7 @@ const useForm = (
         }
       });
     } else {
-      setErrors({ [name]: errors });
+      errorsRef.current[name] = errors;
     }
   }
 
@@ -273,8 +278,10 @@ const useForm = (
       })
     );
     
-    setErrors(prev => ({ ...prev, [name]: fieldErrors }));
+    errorsRef.current[name] = fieldErrors
     warningsRef.current[name] = fieldWarnings;
+
+    notifyErrorSubscribers(name);
 
     return fieldErrors.length === 0;
   }
@@ -302,6 +309,8 @@ const useForm = (
       }
     }
 
+    fieldsToValidate.forEach(name => notifyErrorSubscribers(name));
+
     return results.every(valid => valid);
   }
 
@@ -315,7 +324,9 @@ const useForm = (
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
 
-        setErrors(prev => ({ ...prev, [name]: [] }));
+        errorsRef.current[name] = [];
+        notifyErrorSubscribers(name);
+
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
@@ -388,6 +399,25 @@ const useForm = (
     };
   }
 
+  function subscribeToError(name: string, callback: (errors: string[]) => void) {
+    if (!errorSubscribers.current[name]) {
+      errorSubscribers.current[name] = [];
+    }
+
+    errorSubscribers.current[name].push(callback);
+
+    return () => {
+      errorSubscribers.current[name] = errorSubscribers.current[name].filter(
+        cb => cb !== callback
+      );
+    };
+  }
+
+  function notifyErrorSubscribers(name: string) {
+    const errors = getFieldError(name);
+    errorSubscribers.current[name]?.forEach(cb => cb(errors));
+  }
+
   function setScrollToFirstError(value: boolean) {
     _scrollToFirstError.current = value;
   }
@@ -452,6 +482,7 @@ const useForm = (
     setFieldInstance,
     subscribeToFields,
     setScrollToFirstError,
+    subscribeToError,
     scrollToFirstError,
     isReseting,
     setOnFinish,

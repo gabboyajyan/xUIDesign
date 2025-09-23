@@ -147,6 +147,7 @@ export interface FormInstance {
     names: string[],
     callback: (values: Record<string, RuleTypes>) => void
   ) => () => void;
+  subscribeToError?: (name: string, callback: (errors?: string[]) => void) => void;
   isFieldValidating: (name: string) => boolean;
   onFieldsChange?: (changedFields: FieldData[]) => void;
   onValuesChange?: (

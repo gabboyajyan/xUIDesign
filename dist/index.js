@@ -622,7 +622,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   });
   const fieldInstancesRef = React.useRef({});
   const [isReseting, setIsReseting] = React.useState(false);
-  const [errors, setErrors] = React.useState({});
+  const errorsRef = React.useRef({});
+  const errorSubscribers = React.useRef({});
   const fieldSubscribers = React.useRef({});
   const formSubscribers = React.useRef([]);
   function getFormFields() {
@@ -646,13 +647,13 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     }, {});
   }
   function getFieldError(name) {
-    return errors[name] || [];
+    return errorsRef.current[name] || [];
   }
   function getFieldWarning(name) {
     return warningsRef.current[name] || [];
   }
   function getFieldsError() {
-    return Object.entries(errors).map(([name, err]) => ({
+    return Object.entries(errorsRef.current).map(([name, err]) => ({
       name,
       errors: err
     }));
@@ -666,9 +667,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       touchedFieldsRef.current.add(name);
     }
     if (reset === null) {
-      setErrors({
-        [name]: []
-      });
+      errorsRef.current[name] = [];
+      notifyErrorSubscribers(name);
       return;
     }
     if (!errors?.length) {
@@ -689,9 +689,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       });
     } else {
-      setErrors({
-        [name]: errors
-      });
+      errorsRef.current[name] = errors;
     }
   }
   function setFieldsValue(values, reset) {
@@ -767,11 +765,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       }
     }));
-    setErrors(prev => ({
-      ...prev,
-      [name]: fieldErrors
-    }));
+    errorsRef.current[name] = fieldErrors;
     warningsRef.current[name] = fieldWarnings;
+    notifyErrorSubscribers(name);
     return fieldErrors.length === 0;
   }
   async function validateFields(nameList) {
@@ -792,6 +788,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         });
       }
     }
+    fieldsToValidate.forEach(name => notifyErrorSubscribers(name));
     return results.every(valid => valid);
   }
   function resetFields(nameList, showError = true) {
@@ -801,10 +798,8 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         formData[name] = initialValues[name];
         touchedFieldsRef.current.delete(name);
         delete warningsRef.current[name];
-        setErrors(prev => ({
-          ...prev,
-          [name]: []
-        }));
+        errorsRef.current[name] = [];
+        notifyErrorSubscribers(name);
         setFieldValue(name, initialValues[name], undefined, showError);
       });
     } else {
@@ -849,6 +844,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return () => {
       fieldCallbacks.forEach(unsubscribe => unsubscribe());
     };
+  }
+  function subscribeToError(name, callback) {
+    if (!errorSubscribers.current[name]) {
+      errorSubscribers.current[name] = [];
+    }
+    errorSubscribers.current[name].push(callback);
+    return () => {
+      errorSubscribers.current[name] = errorSubscribers.current[name].filter(cb => cb !== callback);
+    };
+  }
+  function notifyErrorSubscribers(name) {
+    const errors = getFieldError(name);
+    errorSubscribers.current[name]?.forEach(cb => cb(errors));
   }
   function setScrollToFirstError(value) {
     _scrollToFirstError.current = value;
@@ -896,6 +904,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setFieldInstance,
     subscribeToFields,
     setScrollToFirstError,
+    subscribeToError,
     scrollToFirstError,
     isReseting,
     setOnFinish,
@@ -985,6 +994,20 @@ function flattenChildren(children) {
   return result;
 }
 
+function useWatchError(form, name) {
+  const [errors, setErrors] = React.useState(form.getFieldError(name));
+  React.useEffect(() => {
+    // Subscribe directly to error changes
+    const unsubscribe = form.subscribeToError?.(name, newErrors => {
+      setErrors(newErrors);
+    });
+    // Initialize on mount
+    setErrors(form.getFieldError(name));
+    return unsubscribe;
+  }, [form, name]);
+  return errors;
+}
+
 var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
@@ -1011,10 +1034,10 @@ const FormItem$1 = ({
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
   }
+  const errors = useWatchError(formContext, name)?.[0];
   const {
     isReseting,
     registerField,
-    getFieldError,
     getFieldValue,
     setFieldValue,
     getFieldInstance,
@@ -1048,7 +1071,6 @@ const FormItem$1 = ({
     }
   }, [dependencies, name]);
   const isRequired = React.useMemo(() => rules.some(rule => rule.required), [rules]);
-  const errorMessage = getFieldError(name)?.[0];
   return /*#__PURE__*/React.createElement("div", {
     style: style,
     "data-instance": name,
@@ -1081,7 +1103,7 @@ const FormItem$1 = ({
         name: name,
         child: child,
         value: value,
-        error: !!errorMessage,
+        error: !!errors,
         fieldValue: fieldValue,
         setFieldValue: setFieldValue,
         feedbackIcons: feedbackIcons,
@@ -1097,7 +1119,7 @@ const FormItem$1 = ({
       }, extra || '') : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
         className: clsx([`${prefixCls}-error`, {
-          [`${prefixCls}-has-error`]: errorMessage?.length
+          [`${prefixCls}-has-error`]: errors?.length
         }]),
         style: {
           ...(removeErrorMessageHeight ? {
@@ -1107,7 +1129,7 @@ const FormItem$1 = ({
             marginBottom: 0
           } : {})
         }
-      }, errorMessage || ''));
+      }, errors || ''));
     }
     return child;
   }));
@@ -3679,19 +3701,21 @@ const SelectComponent = ({
   const triggerNode = React.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  const filteredOptions = extractedOptions.filter(option => {
-    if (typeof filterOption === 'function') {
-      return filterOption(searchQuery, option);
-    }
-    if (filterOption === false) {
-      return true;
-    }
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    const optionFilterPropValue = option[optionFilterProp];
-    const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
-    return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
-  });
+  const filteredOptions = React.useMemo(() => {
+    return extractedOptions.filter(option => {
+      if (typeof filterOption === 'function') {
+        return filterOption(searchQuery, option);
+      }
+      if (filterOption === false) {
+        return true;
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
+      const optionFilterPropValue = option[optionFilterProp];
+      const valueToCheck = optionFilterProp && typeof optionFilterPropValue === 'string' ? String(optionFilterPropValue) : Array.isArray(option.children) && typeof option.children[0] === 'string' ? option.children[0] : getTextFromNode(option.children) || String(option.label) || String(option.value);
+      return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
+    });
+  }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
   const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
