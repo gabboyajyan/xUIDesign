@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+// import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -12,7 +12,7 @@ import { Select } from "../../lib/components/Select";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 import { Button } from "../../lib/components/Button";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 // import dayjs from 'dayjs';
 import { useForm } from "../../lib/hooks/useForm";
 import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1861,10 +1861,6 @@ export default function Home() {
     const [value, setValue] = useState('');
     const [country, setCountry] = useState('')
 
-    const fields = useWatch({ form });
-
-    console.log(fields);
-    
     // const disableDate = useCallback(
     //     (date: any) => {
     //         date = dayjs(date);
