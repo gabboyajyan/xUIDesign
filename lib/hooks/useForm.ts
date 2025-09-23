@@ -67,18 +67,27 @@ const useForm = (
     ((values: Record<string, RuleTypes>) => void)[]
   >([]);
 
+  function getFormFields() {
+    return Object.assign({}, ...Object.values(formRef.current));
+  }
+
   function getFieldInstance(name?: string) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
 
   function getFieldValue(name: string) {
-    const formData = formRef.current[stepRef.current];
+    const formData = getFormFields();
 
     return formData[name]
   }
 
   function getFieldsValue(nameList?: string[]) {
-    const formData = formRef.current[stepRef.current];
+    const formData = getFormFields();
+    
+    console.info({
+      stepRef: stepRef.current, 
+      formRef: formRef.current
+    });
     
     if (!nameList) {
       return formData;
@@ -117,11 +126,19 @@ const useForm = (
       return;
     }
 
-    if (reset === true) {
-      Object.entries(formRef.current).forEach(([key]) => {
-        formRef.current[+key][name] = value
-      })
-    } else {
+    let isFieldExist = false;
+
+    Object.values(formRef.current).forEach((_, step) => {
+      if (formRef.current[step].hasOwnProperty(name)) {
+        formRef.current[step][name] = value;
+
+        isFieldExist = true;
+
+        return;
+      }
+    })
+ 
+    if (!isFieldExist) {
       formRef.current[stepRef.current][name] = value;
     }
 
@@ -203,7 +220,23 @@ const useForm = (
 
           delete trashFormRef.current[name];
         } else {
+          const existFields: Record<string, RuleType> = {};
+
+          Object.values(formRef.current).forEach((_, step) => {
+            if (formRef.current[step][name]) {
+              existFields[name] = formRef.current[step][name]
+
+              delete formRef.current[step][name];
+            }
+          })
+          
           formRef.current[stepRef.current][name] = initialValues?.[name];
+
+          if (Object.keys(existFields).length) {
+            Object.entries(existFields).forEach(([_key, _value]) => {
+              formRef.current[stepRef.current][_key] = _value
+            })
+          }
         }
       }
 
@@ -317,7 +350,7 @@ const useForm = (
   }
 
   function resetFields(nameList?: string[], showError: boolean | null = true) {
-    const formData = Object.assign({}, ...Object.values(formRef.current));
+    const formData = getFormFields();
 
     if (nameList?.length) {
       nameList.forEach((name: string) => {
@@ -348,10 +381,10 @@ const useForm = (
   }
 
   async function submit() {
-    const formData = Object.assign({}, ...Object.values(formRef.current));
+    const formData = getFormFields();
 
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(Object.assign({}, ...Object.values(formRef.current)))
+      formHandlersRef.current.onFinish?.(formData)
 
       return formData
     })() : undefined;

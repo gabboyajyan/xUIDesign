@@ -1857,7 +1857,7 @@ export default function Home() {
     // const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
-    // const [type, setType] = useState('full');
+    const [type, setType] = useState('full');
     const [value, setValue] = useState('');
     // const [country, setCountry] = useState('')
 
@@ -1897,6 +1897,10 @@ export default function Home() {
 
     return (
         <>
+        <button onClick={() => {
+            form.setFieldValue('username', 'Gabriel')
+            setHide(!hide)
+        }}>dfgdsg</button>
             <Form
                 form={form}
                 layout="vertical"
@@ -1918,12 +1922,12 @@ export default function Home() {
                             </div>
                         </Item>: <></>}
 
-                        {/* <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
+                        {!hide && <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
                             <RadioGroup>
                                 <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
                                 <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
                             </RadioGroup>
-                        </Item> */}
+                        </Item>}
 
                         <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
@@ -1936,9 +1940,9 @@ export default function Home() {
                     </>
                     : current === 1 ?
                     <>
-                        {!hide ? <Item rules={[{ required: true }]} name="gender" label="Gender">
+                        {<Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Input mask="___.___.___.__" placeholder="Gender" />
-                        </Item> : <> </>}
+                        </Item>}
 
                         
 
@@ -1978,7 +1982,7 @@ export default function Home() {
                             }
                         }
                     }}>
-                    {current === 1 ? 'Submit' : 'Next'}
+                    {current === 2 ? 'Submit' : 'Next'}
                 </Button>
 
                 <Button type="primary" onClick={() => form.resetFields()}>Reset</Button>

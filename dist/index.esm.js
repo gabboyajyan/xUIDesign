@@ -624,15 +624,22 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
   const errorSubscribers = useRef({});
   const fieldSubscribers = useRef({});
   const formSubscribers = useRef([]);
+  function getFormFields() {
+    return Object.assign({}, ...Object.values(formRef.current));
+  }
   function getFieldInstance(name) {
     return name ? fieldInstancesRef.current[name] : fieldInstancesRef.current;
   }
   function getFieldValue(name) {
-    const formData = formRef.current[stepRef.current];
+    const formData = getFormFields();
     return formData[name];
   }
   function getFieldsValue(nameList) {
-    const formData = formRef.current[stepRef.current];
+    const formData = getFormFields();
+    console.info({
+      stepRef: stepRef.current,
+      formRef: formRef.current
+    });
     if (!nameList) {
       return formData;
     }
@@ -657,11 +664,15 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     if (!reset && reset !== null && ([undefined, null].includes(value) || formRef.current[stepRef.current][name] === value)) {
       return;
     }
-    if (reset === true) {
-      Object.entries(formRef.current).forEach(([key]) => {
-        formRef.current[+key][name] = value;
-      });
-    } else {
+    let isFieldExist = false;
+    Object.values(formRef.current).forEach((_, step) => {
+      if (formRef.current[step].hasOwnProperty(name)) {
+        formRef.current[step][name] = value;
+        isFieldExist = true;
+        return;
+      }
+    });
+    if (!isFieldExist) {
       formRef.current[stepRef.current][name] = value;
     }
     if (touch) {
@@ -730,7 +741,19 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
           formRef.current[stepRef.current][name] = trashFormRef.current[name];
           delete trashFormRef.current[name];
         } else {
+          const existFields = {};
+          Object.values(formRef.current).forEach((_, step) => {
+            if (formRef.current[step][name]) {
+              existFields[name] = formRef.current[step][name];
+              delete formRef.current[step][name];
+            }
+          });
           formRef.current[stepRef.current][name] = initialValues?.[name];
+          if (Object.keys(existFields).length) {
+            Object.entries(existFields).forEach(([_key, _value]) => {
+              formRef.current[stepRef.current][_key] = _value;
+            });
+          }
         }
       }
       rulesRef.current[name] = rules;
@@ -793,7 +816,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     return results.every(valid => valid);
   }
   function resetFields(nameList, showError = true) {
-    const formData = Object.assign({}, ...Object.values(formRef.current));
+    const formData = getFormFields();
     if (nameList?.length) {
       nameList.forEach(name => {
         formData[name] = initialValues[name];
@@ -817,9 +840,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
     setIsReseting(prev => !prev);
   }
   async function submit() {
-    const formData = Object.assign({}, ...Object.values(formRef.current));
+    const formData = getFormFields();
     return (await validateFields()) ? (() => {
-      formHandlersRef.current.onFinish?.(Object.assign({}, ...Object.values(formRef.current)));
+      formHandlersRef.current.onFinish?.(formData);
       return formData;
     })() : undefined;
   }
