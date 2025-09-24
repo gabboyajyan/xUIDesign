@@ -218,7 +218,7 @@ const useForm = (
           const existFields: Record<string, RuleType> = {};
 
           Object.values(formRef.current).forEach((_, step) => {
-            if (formRef.current[step][name]) {
+            if (formRef.current[step].hasOwnProperty(name)) {
               existFields[name] = formRef.current[step][name]
 
               delete formRef.current[step][name];
