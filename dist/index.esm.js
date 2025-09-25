@@ -3636,13 +3636,11 @@ const Select = ({
       } else {
         onSelect?.(optionValue, option);
       }
-      onDropdownVisibleChange?.(defaultOpen, newSelection);
     } else {
       setIsOpen(defaultOpen);
       setSelected(optionValue);
       onChange?.(optionValue, option);
       onSelect?.(optionValue, option);
-      onDropdownVisibleChange?.(defaultOpen, option);
     }
     handleClearInputValue();
   };
