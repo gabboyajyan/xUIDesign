@@ -339,9 +339,6 @@ const Select = ({
   }, []);
 
   const handleSearch = (e: RuleType) => {
-    e.preventDefault();
-    e.stopPropagation();
-
     setSearchQuery(e.target.value as string);
     onSearch?.(e.target.value as string);
 
@@ -439,9 +436,6 @@ const Select = ({
       target: { value: string; innerText: string };
     }
   ) => {
-    e.preventDefault();
-    e.stopPropagation();
-
     if (!isOpen || e.which === 13) {
       e.stopPropagation();
       e.preventDefault();

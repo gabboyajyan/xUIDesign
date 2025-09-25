@@ -3634,8 +3634,6 @@ const Select = ({
     return parents;
   }, []);
   const handleSearch = e => {
-    e.preventDefault();
-    e.stopPropagation();
     setSearchQuery(e.target.value);
     onSearch?.(e.target.value);
     if (!isOpen) {
@@ -3694,8 +3692,6 @@ const Select = ({
   };
   const handleRemoveTag = e => handleSelect(e, e.target.value);
   const handleOnKeyDown = e => {
-    e.preventDefault();
-    e.stopPropagation();
     if (!isOpen || e.which === 13) {
       e.stopPropagation();
       e.preventDefault();
