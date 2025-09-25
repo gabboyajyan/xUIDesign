@@ -29,7 +29,7 @@ import {
   SearchIcon
 } from '../Icons/Icons';
 import { clsx } from '../../helpers';
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
+import { MouseEventHandlerSelect, RuleType, SyntheticBaseEvent } from '../../types';
 import { OptionType, SelectProps } from '../../types/select';
 import { prefixClsForm, prefixClsSelect, prefixClsSelectV3 } from '../../utils';
 import Option from './Option/Option';
@@ -192,7 +192,10 @@ const Select = ({
     setSelected(hasMode ? checkModeInitialValue : initialValue)
   }, [checkModeInitialValue, hasMode, initialValue])
 
-  const handleClickOutside = useCallback((event?: MouseEvent): void => {
+  const handleClickOutside = useCallback((event?: RuleType): void => {
+    event.preventDefault();
+    event.stopPropagation();
+
     if (!selectRef.current) return;
 
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
@@ -335,7 +338,10 @@ const Select = ({
     return parents;
   }, []);
 
-  const handleSearch = (e: SyntheticBaseEvent) => {
+  const handleSearch = (e: RuleType) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     setSearchQuery(e.target.value as string);
     onSearch?.(e.target.value as string);
 
@@ -377,10 +383,13 @@ const Select = ({
   };
 
   const handleSelect = (
-    e: SyntheticBaseEvent,
+    e: RuleType,
     optionValue: string,
     option?: OptionType
   ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (hasMode) {
       if (
         maxCount &&
@@ -430,6 +439,9 @@ const Select = ({
       target: { value: string; innerText: string };
     }
   ) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!isOpen || e.which === 13) {
       e.stopPropagation();
       e.preventDefault();
@@ -562,7 +574,10 @@ const Select = ({
     });
   }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
 
-  const handleTriggerClick = () => {
+  const handleTriggerClick = (e: RuleType) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (!disabled) {
       setIsOpen(!isOpen);
       onDropdownVisibleChange?.(!isOpen, selected)

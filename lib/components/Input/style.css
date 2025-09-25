@@ -27,7 +27,7 @@
     position: relative;
     height: -webkit-fill-available;
     flex-grow: 1;
-    margin: -1px;
+    /* margin: -1px; */
     transition: border 0.3s;
     background-color: transparent;
 }
