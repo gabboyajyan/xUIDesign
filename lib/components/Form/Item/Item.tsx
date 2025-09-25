@@ -20,13 +20,14 @@ import {
   FormItemProps
 } from '../../../types/form';
 import { OptionProps } from '../../../types/select';
-import { prefixClsFormItem } from '../../../utils';
+import { prefixClsFormItem, prefixClsFormItemV3 } from '../../../utils';
 import { FormContext } from '../Form';
 import { useWatchError } from '@/hooks/useWatchError';
 import './style.css';
 
 const FormItem = ({
   prefixCls = prefixClsFormItem,
+  prefixClsV3 = prefixClsFormItemV3,
   name,
   label,
   rules = [],
@@ -106,7 +107,7 @@ const FormItem = ({
       style={style}
       data-instance={name}
       className={clsx([
-        `${prefixCls}`,
+        `${prefixCls} ${prefixClsV3}`,
         {
           [layout]: layout,
           [className]: className,
@@ -115,9 +116,9 @@ const FormItem = ({
       ])}
     >
       {!props.noStyle && (label || name) && !hideLabel && (
-        <label className={`${prefixCls}-label`} htmlFor={name}>
+        <label className={`${prefixCls}-label ${prefixClsV3}-label`} htmlFor={name}>
           {label || name}
-          {isRequired && <span className={`${prefixCls}-required`}>*</span>}
+          {isRequired && <span className={`${prefixCls}-required ${prefixClsV3}-required`}>*</span>}
           {/* @Todo need to add Tooltip like Ant design */}
         </label>
       )}
@@ -153,7 +154,7 @@ const FormItem = ({
               />
 
               {extra
-                ? <div className={`${prefixCls}-extra`}>
+                ? <div className={`${prefixCls}-extra ${prefixClsV3}-extra`}>
                   {extra || ''}
                 </div>
                 : null}
@@ -162,8 +163,8 @@ const FormItem = ({
                 <span
                   ref={errorRef}
                   className={clsx([
-                    `${prefixCls}-error`,
-                    { [`${prefixCls}-has-error`]: errors?.length }
+                    `${prefixCls}-error ${prefixClsV3}-error`,
+                    { [`${prefixCls}-has-error ${prefixClsV3}-has-error`]: errors?.length }
                   ])}
                   style={{
                     ...removeErrorMessageHeight ? { minHeight: 0 } : {},

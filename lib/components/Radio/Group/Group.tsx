@@ -8,7 +8,7 @@ import React, {
 import { clsx } from '../../../helpers';
 import { RuleType } from '../../../types';
 import { RadioGroupProps } from '../../../types/radio';
-import { prefixClsRadio } from '../../../utils';
+import { prefixClsRadio, prefixClsRadioV3 } from '../../../utils';
 import Radio from '../Radio';
 import RadioButton from '../Button/Button';
 import './style.css';
@@ -24,6 +24,7 @@ const RadioGroup = ({
   buttonStyle = 'outline',
   block,
   prefixCls = prefixClsRadio,
+  prefixClsV3 = prefixClsRadioV3,
   className = '',
   options = [],
   children,
@@ -87,12 +88,12 @@ const RadioGroup = ({
       id={id}
       style={style}
       className={clsx([
-        `${prefixCls}-group`,
+        `${prefixCls}-group ${prefixClsV3}-group`,
         {
           block,
           className,
-          [`${prefixCls}-group-${size}`]: size,
-          [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
+          [`${prefixCls}-group-${size} ${prefixClsV3}-group-${size}`]: size,
+          [`${prefixCls}-group-solid ${prefixClsV3}-group-solid`]: buttonStyle === 'solid'
         }
       ])}
     >

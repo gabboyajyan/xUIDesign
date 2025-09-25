@@ -15,6 +15,7 @@ import './style.css';
 
 const Textarea = ({
   prefixCls = prefixClsTextArea,
+  prefixClsV3 = prefixClsTextArea,
   value,
   className = '',
   style,
@@ -77,7 +78,7 @@ const Textarea = ({
   };
 
   return (
-    <div className={`${prefixCls}-wrapper ${rootClassName || ''}`}>
+    <div className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper ${rootClassName || ''}`}>
       <textarea
         {...props}
         ref={ref || textareaRef}
@@ -86,17 +87,17 @@ const Textarea = ({
         onKeyDown={handleKeyDown}
         style={{ ...styles?.textarea, ...style }}
         className={clsx([
-          `${prefixCls} ${prefixCls}-${size} ${prefixCls}-${variant} ${className}`,
+          `${prefixCls} ${prefixClsV3} ${prefixCls}-${size} ${prefixClsV3}-${size} ${prefixClsV3}-${variant} ${prefixCls}-${variant} ${prefixClsV3}-${variant} ${className}`,
           {
-            [`${prefixCls}-bordered`]: bordered,
-            [`${prefixCls}-success`]: status === 'success',
-            [`${prefixCls}-error`]: status === 'error' || error
+            [`${prefixCls}-bordered ${prefixClsV3}-bordered`]: bordered,
+            [`${prefixCls}-success ${prefixClsV3}-success`]: status === 'success',
+            [`${prefixCls}-error ${prefixClsV3}-error`]: status === 'error' || error
           }
         ])}
       />
 
       {allowClear && inputValue && (
-        <button className={`${prefixCls}-clear`} onClick={handleClear}>
+        <button className={`${prefixCls}-clear ${prefixClsV3}-clear`} onClick={handleClear}>
           &#x2715;
         </button>
       )}

@@ -9,11 +9,12 @@ import React, {
 import { clsx } from '../../../lib/helpers';
 import { SyntheticBaseEvent } from '../../types';
 import { CheckboxProps } from '../../types/checkbox';
-import { prefixClsCheckbox } from '../../../lib/utils';
+import { prefixClsCheckbox, prefixClsCheckboxV3 } from '../../../lib/utils';
 import './style.css';
 
 const Checkbox = ({
   prefixCls = prefixClsCheckbox,
+  prefixClsV3 = prefixClsCheckboxV3,
   className = '',
   defaultChecked = false,
   checked,
@@ -64,18 +65,19 @@ const Checkbox = ({
   }, [checked]);
 
   return (
-    <div className={`${prefixCls}-wrapper`}>
+    <div className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper`}>
       <div
         ref={ref}
         style={style}
         onClick={handleClick}
         className={clsx([
           prefixCls,
+          prefixClsV3,
           className,
           {
             noStyle: noStyle,
-            [`${prefixCls}-disabled`]: disabled,
-            [`${prefixCls}-checked`]: internalChecked
+            [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled,
+            [`${prefixCls}-checked ${prefixClsV3}-checked`]: internalChecked
           }
         ])}
       >
@@ -93,9 +95,9 @@ const Checkbox = ({
           onMouseLeave={onMouseLeave}
         />
 
-        <span className={`${prefixCls}-box`}>
+        <span className={`${prefixCls}-box ${prefixClsV3}-box`}>
           <span
-            className={`${prefixCls}-check`}
+            className={`${prefixCls}-check ${prefixClsV3}-check`}
             style={{ opacity: internalChecked ? 1 : 0 }}
           />
         </span>
@@ -103,7 +105,7 @@ const Checkbox = ({
 
       {titleClick
         ? <div onClick={handleClick}>{children}</div>
-        : children && <span className={`${prefixCls}-label`}>{children}</span>
+        : children && <span className={`${prefixCls}-label ${prefixClsV3}-label`}>{children}</span>
       }
     </div>
   );

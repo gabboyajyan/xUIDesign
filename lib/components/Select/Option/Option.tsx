@@ -1,7 +1,7 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { clsx } from '../../../helpers';
 import { OptionProps } from '../../../types/select';
-import { prefixClsSelect } from '../../../utils';
+import { prefixClsSelect, prefixClsSelectV3 } from '../../../utils';
 import './style.css';
 
 const Option: FC<OptionProps> = ({
@@ -13,6 +13,7 @@ const Option: FC<OptionProps> = ({
   onClick,
   render,
   prefixCls = prefixClsSelect,
+  prefixClsV3 = prefixClsSelectV3,
   selected,
   title
 }) => {
@@ -27,7 +28,7 @@ const Option: FC<OptionProps> = ({
   return (
     <div
       className={clsx([
-        `${prefixCls}-option ${className} `,
+        `${prefixCls}-option ${prefixClsV3}-option ${className} `,
         {
           selected: selected,
           disabled: disabled

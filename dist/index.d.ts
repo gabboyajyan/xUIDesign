@@ -26,6 +26,7 @@ export { flattenChildren } from '@/helpers/flatten';
 
 interface DefaultProps {
     prefixCls?: string;
+    prefixClsV3?: string;
     className?: string;
     style?: CSSProperties;
     noStyle?: boolean;

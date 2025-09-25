@@ -15,7 +15,7 @@ import React, {
 } from 'react';
 import { useForm } from '../../hooks/useForm';
 import { FormInstance, FormItemProps, FormLayoutTypes, FormProps } from '../../types/form';
-import { prefixClsForm } from '../../utils';
+import { prefixClsForm, prefixClsFormV3 } from '../../utils';
 import FormItem from './Item/Item';
 import { flattenChildren } from '../../helpers/flatten';
 import { SizeType } from '../../types';
@@ -27,6 +27,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   form,
   style = {},
   prefixCls = prefixClsForm,
+  prefixClsV3 = prefixClsFormV3,
   className = '',
   onFinish,
   onFinishFailed,
@@ -104,7 +105,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
         style={style}
         ref={formRef}
         onSubmit={handleSubmit}
-        className={`${prefixCls} ${className}`}
+        className={`${prefixCls} ${prefixClsV3} ${className}`}
       >
         {Children.map(childrenList, injectPropsIntoFinalLeaf)}
       </form>

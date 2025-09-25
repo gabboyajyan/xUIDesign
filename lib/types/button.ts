@@ -59,6 +59,7 @@ export interface BaseButtonProps {
         icon?: ReactNode;
       };
   prefixCls?: string;
+  prefixClsV3?: string;
   className?: string;
   rootClassName?: string;
   ghost?: boolean;

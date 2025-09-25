@@ -1,11 +1,12 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { SyntheticBaseEvent } from '../../types';
 import { SwitchProps } from '../../types/switch';
-import { prefixClsSwitch } from '@/utils';
+import { prefixClsSwitch, prefixClsSwitchV3 } from '@/utils';
 import './index.css';
 
 const Switch = ({
   prefixCls = prefixClsSwitch,
+  prefixClsV3 = prefixClsSwitchV3,
   checked,
   onChange,
   onClick,
@@ -42,14 +43,14 @@ const Switch = ({
 
   return (
     <div
-      className={`${prefixCls}-wrapper ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`}
+      className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper ${className} ${disabled ? `${prefixCls}__disabled ${prefixClsV3}__disabled` : ''}`}
       style={style}
     >
       <div
-        className={`${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`}
+        className={`${prefixCls} ${prefixClsV3} ${internalChecked ? `${prefixCls}__checked ${prefixClsV3}__checked` : ''}`}
         onClick={handleClick}
       >
-        <div className={`${prefixCls}__slider`}></div>
+        <div className={`${prefixCls}__slider ${prefixClsV3}__slider`}></div>
       </div>
     </div>
   );

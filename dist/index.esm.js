@@ -967,6 +967,16 @@ const prefixClsRangePicker = 'xUi-rangepicker';
 const prefixClsTimePicker = 'xUi-timepicker';
 const prefixClsButton = 'xUi-button';
 const prefixClsSkeleton = 'xUi-skeleton';
+const prefixClsFormV3 = 'v3-form';
+const prefixClsFormItemV3 = 'v3-form-item';
+const prefixClsEmptyV3 = 'v3-empty';
+const prefixClsInputV3 = 'v3-input';
+const prefixClsSelectV3 = 'v3-select';
+const prefixClsCheckboxV3 = 'v3-checkbox-input';
+const prefixClsSwitchV3 = 'v3-switch';
+const prefixClsRadioV3 = 'v3-radio';
+const prefixClsButtonV3 = 'v3-btn';
+const prefixClsUploadV3 = 'v3-upload';
 
 const parseValue = value => {
   if (value === 'true') {
@@ -1040,6 +1050,7 @@ styleInject(css_248z$l);
 
 const FormItem$1 = ({
   prefixCls = prefixClsFormItem,
+  prefixClsV3 = prefixClsFormItemV3,
   name,
   label,
   rules = [],
@@ -1101,16 +1112,16 @@ const FormItem$1 = ({
   return /*#__PURE__*/React.createElement("div", {
     style: style,
     "data-instance": name,
-    className: clsx([`${prefixCls}`, {
+    className: clsx([`${prefixCls} ${prefixClsV3}`, {
       [layout]: layout,
       [className]: className,
       noStyle: props.noStyle
     }])
   }, !props.noStyle && (label || name) && !hideLabel && /*#__PURE__*/React.createElement("label", {
-    className: `${prefixCls}-label`,
+    className: `${prefixCls}-label ${prefixClsV3}-label`,
     htmlFor: name
   }, label || name, isRequired && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-required`
+    className: `${prefixCls}-required ${prefixClsV3}-required`
   }, "*")), Children.map(childrenList, (child, key) => {
     if (/*#__PURE__*/isValidElement(child)) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -1142,11 +1153,11 @@ const FormItem$1 = ({
         ,
         size: childProps.size || props.size
       })), extra ? /*#__PURE__*/React.createElement("div", {
-        className: `${prefixCls}-extra`
+        className: `${prefixCls}-extra ${prefixClsV3}-extra`
       }, extra || '') : null, !props.noStyle && /*#__PURE__*/React.createElement("span", {
         ref: errorRef,
-        className: clsx([`${prefixCls}-error`, {
-          [`${prefixCls}-has-error`]: errors?.length
+        className: clsx([`${prefixCls}-error ${prefixClsV3}-error`, {
+          [`${prefixCls}-has-error ${prefixClsV3}-has-error`]: errors?.length
         }]),
         style: {
           ...(removeErrorMessageHeight ? {
@@ -1245,6 +1256,7 @@ const Form$1 = ({
   form,
   style = {},
   prefixCls = prefixClsForm,
+  prefixClsV3 = prefixClsFormV3,
   className = '',
   onFinish,
   onFinishFailed,
@@ -1310,7 +1322,7 @@ const Form$1 = ({
     style: style,
     ref: formRef,
     onSubmit: handleSubmit,
-    className: `${prefixCls} ${className}`
+    className: `${prefixCls} ${prefixClsV3} ${className}`
   }, Children.map(childrenList, injectPropsIntoFinalLeaf)));
 };
 Form$1.Item = FormItem$1;
@@ -1431,6 +1443,7 @@ const ButtonComponent = ({
   classNames: customClassNames = {},
   styles = {},
   prefixCls = prefixClsButton,
+  prefixClsV3 = prefixClsButtonV3,
   icon,
   iconPosition = 'start',
   loading = false,
@@ -1460,24 +1473,29 @@ const ButtonComponent = ({
     }
   }, [loading]);
   const classes = useMemo(() => {
-    return clsx([...new Set([prefixCls, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-variant-${variant}`, `${prefixCls}-color-${color}`, `${prefixCls}-shape-${shape}`, `${prefixCls}-size-${size}`, {
+    return clsx([...new Set([prefixCls, prefixClsV3, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-variant-${variant}`, `${prefixCls}-color-${color}`, `${prefixCls}-shape-${shape}`, `${prefixCls}-size-${size}`, `${prefixClsV3}-${type}`, `${prefixClsV3}-variant-${variant}`, `${prefixClsV3}-color-${color}`, `${prefixClsV3}-shape-${shape}`, `${prefixClsV3}-size-${size}`, {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
       [`${prefixCls}-danger`]: danger,
       [`${prefixCls}-loading`]: innerLoading,
-      [`${prefixCls}-disabled`]: disabled
+      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixClsV3}-block`]: block,
+      [`${prefixClsV3}-ghost`]: ghost,
+      [`${prefixClsV3}-danger`]: danger,
+      [`${prefixClsV3}-loading`]: innerLoading,
+      [`${prefixClsV3}-disabled`]: disabled
     }, className])]);
-  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, rootClassName, shape, size, type, variant]);
+  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, prefixClsV3, rootClassName, shape, size, type, variant]);
   const iconNode = innerLoading ? typeof loading === 'object' && loading.icon || /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-spinner`
+    className: `${prefixCls}-spinner ${prefixClsV3}-spinner`
   }) : icon;
   const content = /*#__PURE__*/React.createElement(React.Fragment, null, iconNode && iconPosition === 'start' && /*#__PURE__*/React.createElement("span", {
-    className: clsx(`${prefixCls}-icon`, customClassNames.icon),
+    className: clsx(`${prefixCls}-icon ${prefixClsV3}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode), /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-content`
+    className: `${prefixCls}-content ${prefixClsV3}-content`
   }, children), iconNode && iconPosition === 'end' && /*#__PURE__*/React.createElement("span", {
-    className: clsx(`${prefixCls}-icon`, customClassNames.icon),
+    className: clsx(`${prefixCls}-icon ${prefixClsV3}-icon`, customClassNames.icon),
     style: styles.icon
   }, iconNode));
   const mergedDisabled = disabled || innerLoading;
@@ -1505,6 +1523,7 @@ styleInject(css_248z$j);
 
 const Checkbox = ({
   prefixCls = prefixClsCheckbox,
+  prefixClsV3 = prefixClsCheckboxV3,
   className = '',
   defaultChecked = false,
   checked,
@@ -1546,15 +1565,15 @@ const Checkbox = ({
     }
   }, [checked]);
   return /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-wrapper`
+    className: `${prefixCls}-wrapper ${prefixClsV3}-wrapper`
   }, /*#__PURE__*/React.createElement("div", {
     ref: ref,
     style: style,
     onClick: handleClick,
-    className: clsx([prefixCls, className, {
+    className: clsx([prefixCls, prefixClsV3, className, {
       noStyle: noStyle,
-      [`${prefixCls}-disabled`]: disabled,
-      [`${prefixCls}-checked`]: internalChecked
+      [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled,
+      [`${prefixCls}-checked ${prefixClsV3}-checked`]: internalChecked
     }])
   }, /*#__PURE__*/React.createElement("input", {
     id: id,
@@ -1569,16 +1588,16 @@ const Checkbox = ({
     onMouseEnter: onMouseEnter,
     onMouseLeave: onMouseLeave
   }), /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-box`
+    className: `${prefixCls}-box ${prefixClsV3}-box`
   }, /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-check`,
+    className: `${prefixCls}-check ${prefixClsV3}-check`,
     style: {
       opacity: internalChecked ? 1 : 0
     }
   }))), titleClick ? /*#__PURE__*/React.createElement("div", {
     onClick: handleClick
   }, children) : children && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-label`
+    className: `${prefixCls}-label ${prefixClsV3}-label`
   }, children));
 };
 Checkbox.displayName = 'Checkbox';
@@ -1593,6 +1612,7 @@ styleInject(css_248z$i);
 
 const Switch = ({
   prefixCls = prefixClsSwitch,
+  prefixClsV3 = prefixClsSwitchV3,
   checked,
   onChange,
   onClick,
@@ -1620,13 +1640,13 @@ const Switch = ({
     }
   }, [checked]);
   return /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-wrapper ${className}  ${disabled ? `${prefixCls}__disabled` : ''}`,
+    className: `${prefixCls}-wrapper ${prefixClsV3}-wrapper ${className} ${disabled ? `${prefixCls}__disabled ${prefixClsV3}__disabled` : ''}`,
     style: style
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls} ${internalChecked ? `${prefixCls}__checked` : ''}`,
+    className: `${prefixCls} ${prefixClsV3} ${internalChecked ? `${prefixCls}__checked ${prefixClsV3}__checked` : ''}`,
     onClick: handleClick
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}__slider`
+    className: `${prefixCls}__slider ${prefixClsV3}__slider`
   })));
 };
 Switch.displayName = 'Switch';
@@ -1645,10 +1665,11 @@ const EmptyContent = ({
   className = '',
   title = 'No Data',
   description = 'No data',
-  prefixCls = prefixClsEmpty
+  prefixCls = prefixClsEmpty,
+  prefixClsV3 = prefixClsEmptyV3
 }) => /*#__PURE__*/React.createElement("div", {
   style: style,
-  className: `${prefixCls} ${prefixCls}-normal ${prefixCls}-small ${className}`
+  className: `${prefixCls} ${prefixClsV3} ${prefixCls}-normal ${prefixClsV3}--normal ${prefixCls}-small ${prefixClsV3}-small ${className}`
 }, /*#__PURE__*/React.createElement("div", {
   className: `${prefixCls}-image`
 }, icon || /*#__PURE__*/React.createElement("svg", {
@@ -1688,6 +1709,7 @@ const IMAGE_SIZE = 40;
 const IMAGE_PROGRESS_PERCENT = 100;
 const Upload = ({
   prefixCls = prefixClsUpload,
+  prefixClsV3 = prefixClsUploadV3,
   multiple = false,
   style,
   className,
@@ -1825,13 +1847,14 @@ const Upload = ({
     }
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: clsx([`${prefixCls}-wrapper`, className, rootClassName, {
+    className: clsx([`${prefixCls}-wrapper ${prefixClsV3}-wrapper`, className, rootClassName, {
       noStyle: noStyle,
-      [`${prefixCls}-disabled`]: disabled
+      [`${prefixCls}-disabled`]: disabled,
+      [`${prefixClsV3}-disabled`]: disabled
     }]),
     style: style
   }, /*#__PURE__*/React.createElement("span", {
-    className: clsx([`${prefixCls}`, `${prefixCls}-${listType}`]),
+    className: clsx([`${prefixCls}`, `${prefixCls}-${listType}`, `${prefixClsV3}`, `${prefixClsV3}-${listType}`]),
     onClick: handleClick
   }, children, /*#__PURE__*/React.createElement("input", _extends({
     type: "file",
@@ -1839,18 +1862,18 @@ const Upload = ({
     accept: accept,
     multiple: multiple,
     onChange: handleFileChange,
-    className: `${prefixCls}-input`,
+    className: `${prefixCls}-input ${prefixClsV3}-input`,
     disabled: disabled
   }, directory ? {
     directory: true,
     webkitdirectory: true
   } : {}))), showUploadList && fileList.length > 0 && /*#__PURE__*/React.createElement("ul", {
-    className: `${prefixCls}-list ${prefixCls}-list-${listType}`
+    className: `${prefixCls}-list ${prefixCls}-list-${listType} ${prefixClsV3}-list ${prefixClsV3}-list-${listType}`
   }, fileList.map(file => /*#__PURE__*/React.createElement("li", {
     key: file.uid,
-    className: `${prefixCls}-item ${prefixCls}-item-${file.status}`
+    className: `${prefixCls}-item ${prefixCls}-item-${file.status} ${prefixClsV3}-item ${prefixClsV3}-item-${file.status}`
   }, /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-remove`,
+    className: `${prefixCls}-remove ${prefixClsV3}-remove`,
     onClick: () => handleRemove(file.uid)
   }, listType === 'picture' && (file.originFileObj || file.url) ?
   /*#__PURE__*/
@@ -1860,20 +1883,20 @@ const Upload = ({
     height: IMAGE_SIZE,
     alt: file.name,
     src: file.url || URL.createObjectURL(file.originFileObj),
-    className: `${prefixCls}-item-thumbnail`
+    className: `${prefixCls}-item-thumbnail ${prefixClsV3}-item-thumbnail`
   }) : /*#__PURE__*/React.createElement(StampleIcon, null)), /*#__PURE__*/React.createElement("div", {
     style: {
       width: '100%'
     }
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-item-title`,
+    className: `${prefixCls}-item-title ${prefixClsV3}-item-title`,
     style: {
       ...(file.status === 'uploading' ? {
         marginBottom: 12
       } : {})
     }
   }, /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-item-remove-icon`,
+    className: `${prefixCls}-item-remove-icon ${prefixClsV3}-item-remove-icon`,
     onClick: () => handleRemove(file.uid),
     style: {
       cursor: 'pointer',
@@ -1882,9 +1905,9 @@ const Upload = ({
     role: "button",
     "aria-label": "Remove file"
   }, /*#__PURE__*/React.createElement(TrashIcon, null))), file.status === 'uploading' && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-item-progress-line`
+    className: `${prefixCls}-item-progress-line ${prefixClsV3}-item-progress-line`
   }), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-item-progress-line-percent`,
+    className: `${prefixCls}-item-progress-line-percent ${prefixClsV3}-item-progress-line-percent`,
     style: {
       width: `${file.percent}%`
     }
@@ -2854,6 +2877,7 @@ styleInject(css_248z$c);
 
 const Textarea = ({
   prefixCls = prefixClsTextArea,
+  prefixClsV3 = prefixClsTextArea,
   value,
   className = '',
   style,
@@ -2908,7 +2932,7 @@ const Textarea = ({
     }
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-wrapper ${rootClassName || ''}`
+    className: `${prefixCls}-wrapper ${prefixClsV3}-wrapper ${rootClassName || ''}`
   }, /*#__PURE__*/React.createElement("textarea", _extends({}, props, {
     ref: ref || textareaRef,
     value: inputValue,
@@ -2918,13 +2942,13 @@ const Textarea = ({
       ...styles?.textarea,
       ...style
     },
-    className: clsx([`${prefixCls} ${prefixCls}-${size} ${prefixCls}-${variant} ${className}`, {
-      [`${prefixCls}-bordered`]: bordered,
-      [`${prefixCls}-success`]: status === 'success',
-      [`${prefixCls}-error`]: status === 'error' || error
+    className: clsx([`${prefixCls} ${prefixClsV3} ${prefixCls}-${size} ${prefixClsV3}-${size} ${prefixClsV3}-${variant} ${prefixCls}-${variant} ${prefixClsV3}-${variant} ${className}`, {
+      [`${prefixCls}-bordered ${prefixClsV3}-bordered`]: bordered,
+      [`${prefixCls}-success ${prefixClsV3}-success`]: status === 'success',
+      [`${prefixCls}-error ${prefixClsV3}-error`]: status === 'error' || error
     }])
   })), allowClear && inputValue && /*#__PURE__*/React.createElement("button", {
-    className: `${prefixCls}-clear`,
+    className: `${prefixCls}-clear ${prefixClsV3}-clear`,
     onClick: handleClear
   }, "\u2715"));
 };
@@ -2991,6 +3015,7 @@ const InputComponent = ({
   disabled = false,
   allowClear = false,
   prefixCls = prefixClsInput,
+  prefixClsV3 = prefixClsInputV3,
   className = '',
   value = undefined,
   iconRender,
@@ -3086,19 +3111,19 @@ const InputComponent = ({
     }
   };
   return /*#__PURE__*/React.createElement("div", {
-    className: clsx([`${prefixCls}-container`, {
-      [`${prefixCls}-error`]: error,
-      [`${prefixCls}-disabled`]: disabled,
-      [`${prefixCls}-${size}`]: size,
+    className: clsx([`${prefixCls}-container ${prefixClsV3}-container`, {
+      [`${prefixCls}-error ${prefixClsV3}-error`]: error,
+      [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled,
+      [`${prefixCls}-${size} ${prefixClsV3}-${size}`]: size,
       noStyle: noStyle
     }, className]),
     style: props.style
   }, addonBefore && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-addon ${prefixCls}-before`
+    className: `${prefixCls}-addon ${prefixCls}-before ${prefixClsV3}-addon ${prefixClsV3}-before`
   }, addonBefore), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-wrapper`
+    className: `${prefixCls}-wrapper ${prefixClsV3}-wrapper`
   }, prefix && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-prefix`
+    className: `${prefixCls}-prefix ${prefixClsV3}-prefix`
   }, prefix), /*#__PURE__*/React.createElement("input", _extends({}, props, {
     ref: inputRef,
     suppressHydrationWarning: true
@@ -3109,16 +3134,16 @@ const InputComponent = ({
     value: maskValue,
     onChange: handleChange,
     onKeyDown: handleOnKeyDown,
-    className: clsx([prefixCls, className])
+    className: clsx([prefixCls, prefixClsV3, className])
   })), allowClear && internalValue ? /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-clear`,
+    className: `${prefixCls}-clear ${prefixClsV3}-clear`,
     onClick: handleClear
   }, /*#__PURE__*/React.createElement(ErrorIcon, null)) : null, (suffix || iconRender) && /*#__PURE__*/React.createElement("span", _extends({
-    className: `${prefixCls}-suffix`
+    className: `${prefixCls}-suffix ${prefixClsV3}-suffix`
   }, iconRender !== undefined ? {
     onClick: () => setIconRenderVisible(icon => !icon)
   } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-addon ${prefixCls}-after`
+    className: `${prefixCls}-addon ${prefixCls}-after ${prefixClsV3}-addon ${prefixClsV3}-after`
   }, addonAfter) : null);
 };
 InputComponent.displayName = 'Input';
@@ -3200,6 +3225,7 @@ styleInject(css_248z$9);
 
 const RadioButton = ({
   prefixCls = prefixClsRadio,
+  prefixClsV3 = prefixClsRadioV3,
   className = '',
   checked,
   disabled,
@@ -3210,14 +3236,14 @@ const RadioButton = ({
   return /*#__PURE__*/React.createElement(Radio, _extends({}, props, {
     checked: checked,
     disabled: disabled,
-    className: clsx([`${prefixCls}-button`, {
+    className: clsx([`${prefixCls}-button ${prefixClsV3}-button`, {
       disabled,
       [className]: className,
-      [`${prefixCls}-button-${size}`]: size,
-      [`${prefixCls}-button-checked`]: checked
+      [`${prefixCls}-button-${size} ${prefixClsV3}-button-${size}`]: size,
+      [`${prefixCls}-button-checked ${prefixClsV3}-button-checked`]: checked
     }])
   }), /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-button-content`
+    className: `${prefixCls}-button-content ${prefixClsV3}-button-content`
   }, children ?? props.value));
 };
 
@@ -3240,6 +3266,7 @@ const RadioGroup = ({
   buttonStyle = 'outline',
   block,
   prefixCls = prefixClsRadio,
+  prefixClsV3 = prefixClsRadioV3,
   className = '',
   options = [],
   children,
@@ -3282,11 +3309,11 @@ const RadioGroup = ({
   return /*#__PURE__*/React.createElement("div", {
     id: id,
     style: style,
-    className: clsx([`${prefixCls}-group`, {
+    className: clsx([`${prefixCls}-group ${prefixClsV3}-group`, {
       block,
       className,
-      [`${prefixCls}-group-${size}`]: size,
-      [`${prefixCls}-group-solid`]: buttonStyle === 'solid'
+      [`${prefixCls}-group-${size} ${prefixClsV3}-group-${size}`]: size,
+      [`${prefixCls}-group-solid ${prefixClsV3}-group-solid`]: buttonStyle === 'solid'
     }])
   }, renderChildren());
 };
@@ -3308,6 +3335,7 @@ const Option = ({
   onClick,
   render,
   prefixCls = prefixClsSelect,
+  prefixClsV3 = prefixClsSelectV3,
   selected,
   title
 }) => {
@@ -3318,7 +3346,7 @@ const Option = ({
     onClick?.(e);
   };
   return /*#__PURE__*/React.createElement("div", _extends({
-    className: clsx([`${prefixCls}-option ${className} `, {
+    className: clsx([`${prefixCls}-option ${prefixClsV3}-option ${className} `, {
       selected: selected,
       disabled: disabled
     }]),
@@ -3396,6 +3424,7 @@ function getTextFromNode(node) {
 }
 const Select = ({
   prefixCls = prefixClsSelect,
+  prefixClsV3 = prefixClsSelectV3,
   id,
   searchValue = '',
   autoClearSearchValue = true,
@@ -3482,18 +3511,21 @@ const Select = ({
     setSearchQuery('');
     let inputContainer = selectRef.current?.querySelector(`[id='${prefixCls}-search-tag-input']`);
     if (!inputContainer) {
-      inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
+      let inputContainer = selectRef.current?.querySelector(`[id='${prefixClsV3}-search-tag-input']`);
+      if (!inputContainer) {
+        inputContainer = selectRef.current?.querySelector("[content-editable='plaintext-only']");
+      }
     }
     if (inputContainer) {
       inputContainer.innerText = '';
     }
-  }, [autoClearSearchValue, prefixCls]);
+  }, [autoClearSearchValue, prefixCls, prefixClsV3]);
   useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   const handleClickOutside = useCallback(event => {
     if (!selectRef.current) return;
-    const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+    const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
     const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
     if (!clickedInside) {
       setSearchFocused(false);
@@ -3502,7 +3534,7 @@ const Select = ({
       onClose?.();
       onDropdownVisibleChange?.(false, selected);
     }
-  }, [selectRef.current, prefixCls, selected]);
+  }, [selectRef.current, prefixCls, prefixClsV3, selected]);
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
@@ -3513,7 +3545,7 @@ const Select = ({
     if (!selectRef.current) {
       return;
     }
-    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`);
+    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`) || selectRef.current?.querySelector(`.${prefixClsV3}-trigger`);
     const selectBox = triggerNode.getBoundingClientRect();
     const dropdownHeight = (getPopupContainer ? getPopupContainer(triggerNode) : selectRef.current)?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || listHeight;
     const windowHeight = window.innerHeight;
@@ -3796,16 +3828,17 @@ const Select = ({
       [size]: size,
       noStyle: noStyle,
       [prefixCls]: prefixCls,
+      [prefixClsV3]: prefixClsV3,
       [className]: !!className,
-      [`${prefixCls}-error`]: error,
-      [`${prefixCls}-multi`]: hasMode,
-      [`${prefixCls}-disabled`]: disabled
+      [`${prefixCls}-error ${prefixClsV3}-error`]: error,
+      [`${prefixCls}-multi ${prefixClsV3}-multi`]: hasMode,
+      [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled
     }])
   }, /*#__PURE__*/React.createElement("div", {
     onClick: handleTriggerClick,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
-    className: `${prefixCls}-trigger`
+    className: `${prefixCls}-trigger ${prefixClsV3}-trigger`
   }, showSearch || hasMode ? /*#__PURE__*/React.createElement("div", {
     ref: tagContainerRef,
     style: {
@@ -3816,8 +3849,8 @@ const Select = ({
       } : {}),
       minWidth: `${searchInputWidth}px`
     },
-    className: clsx([`${prefixCls}-tag-container`, {
-      [`${prefixCls}-tag-container-fixHeight`]: !tagContainerRef.current
+    className: clsx([`${prefixCls}-tag-container ${prefixClsV3}-tag-container`, {
+      [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagContainerRef.current
     }])
   }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
@@ -3840,13 +3873,13 @@ const Select = ({
     key: `${index}_${tag}`
   })), overflowCount > 0 && /*#__PURE__*/React.createElement(Tag, {
     label: `+${overflowCount}`,
-    className: `${prefixCls}-tag-overflow`
+    className: `${prefixCls}-tag-overflow ${prefixClsV3}-tag-overflow`
   })) : /*#__PURE__*/React.createElement("span", {
     style: {
       opacity: 0.5
     }
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-tag contentEditable`
+    className: `${prefixCls}-tag ${prefixClsV3}-tag contentEditable`
   }, /*#__PURE__*/React.createElement("div", _extends({
     ref: searchInputRef,
     onClick: e => {
@@ -3869,30 +3902,30 @@ const Select = ({
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
   })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-input globalEllipsis`,
+    className: `${prefixCls}-input ${prefixClsV3}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
   }, selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-input globalEllipsis`,
+    className: `${prefixCls}-input ${prefixClsV3}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || defaultOpen),
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
   }, selected === '' ? placeholder : selectedOption) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
-    className: `${prefixCls}-clear-btn`,
+    className: `${prefixCls}-clear-btn ${prefixClsV3}-clear-btn`,
     onClick: handleClear
   }, removeIcon || /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-arrow`
+    className: `${prefixCls}-arrow ${prefixClsV3}-arrow`
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null) : /*#__PURE__*/React.createElement(React.Fragment, null, !loading && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-arrow`
+    className: `${prefixCls}-arrow ${prefixClsV3}-arrow`
   }, ArrowContainer, error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null), loading && /*#__PURE__*/React.createElement("span", {
-    className: `${prefixCls}-loading`
+    className: `${prefixCls}-loading ${prefixClsV3}-loading`
   }, /*#__PURE__*/React.createElement(LoadingIcon, null)))), /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
     wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(triggerNode)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, !loading && open && isOpen && /*#__PURE__*/React.createElement("div", {
-    className: clsx([`${prefixCls}-dropdown`, {
+    className: clsx([`${prefixCls}-dropdown ${prefixClsV3}-dropdown`, {
       [placement]: placement,
       [dropdownClassName]: dropdownClassName
     }]),
@@ -3904,7 +3937,7 @@ const Select = ({
   }, filterable && /*#__PURE__*/React.createElement("input", {
     type: "text",
     inputMode: "text",
-    className: `${prefixCls}-search`,
+    className: `${prefixCls}-search ${prefixClsV3}-search`,
     value: searchQuery,
     onChange: handleSearch,
     placeholder: "Search..."
@@ -3918,7 +3951,7 @@ const Select = ({
     },
     condition: !!dropdownRender
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-options`,
+    className: `${prefixCls}-options ${prefixClsV3}-options`,
     style: {
       maxHeight: listHeight,
       overflowY: 'auto',
@@ -3927,7 +3960,7 @@ const Select = ({
     }
   }, asTag && !!searchQuery && /*#__PURE__*/React.createElement(Option, {
     value: searchQuery,
-    className: `${prefixCls}-focused`,
+    className: `${prefixCls}-focused ${prefixClsV3}-focused`,
     onClick: e => {
       handleSelect(e, searchQuery);
     },
@@ -3943,8 +3976,8 @@ const Select = ({
     }, props, {
       selected: isSelected,
       className: clsx([className, {
-        [`${prefixCls}-focused`]: hasMode ? isSelected : props.value === selected,
-        [`${prefixCls}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
+        [`${prefixCls}-focused ${prefixClsV3}-focused`]: hasMode ? isSelected : props.value === selected,
+        [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: maxCount && hasMode && !isSelected ? selected.length >= maxCount : false
       }]),
       onClick: e => {
         if (props.disabled) {
@@ -3958,7 +3991,7 @@ const Select = ({
       },
       "data-value": props.value
     }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
-      className: `${prefixCls}-selected-icon`
+      className: `${prefixCls}-selected-icon ${prefixClsV3}-selected-icon`
     }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
   }) : !asTag ? notFoundContent || /*#__PURE__*/React.createElement(EmptyContent, null) : null)))));
 };

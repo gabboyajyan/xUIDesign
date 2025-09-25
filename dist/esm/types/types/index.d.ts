@@ -5,6 +5,7 @@ export type SizeType = 'small' | 'middle' | 'large';
 export type MouseEventHandlerSelect = MouseEvent<HTMLDivElement> & TargetProps;
 export interface DefaultProps {
     prefixCls?: string;
+    prefixClsV3?: string;
     className?: string;
     style?: CSSProperties;
     noStyle?: boolean;

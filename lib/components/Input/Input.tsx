@@ -11,7 +11,7 @@ import React, {
 import { clsx } from '../../helpers';
 import { RuleType, SyntheticBaseEvent, TargetProps } from '../../types';
 import { InputProps } from '../../types/input';
-import { prefixClsInput } from '../../utils';
+import { prefixClsInput, prefixClsInputV3 } from '../../utils';
 import Textarea from './Textarea/Textarea';
 import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
@@ -28,6 +28,7 @@ const InputComponent = ({
   disabled = false,
   allowClear = false,
   prefixCls = prefixClsInput,
+  prefixClsV3 = prefixClsInputV3,
   className = '',
   value = undefined,
   iconRender,
@@ -142,11 +143,11 @@ const InputComponent = ({
   return (
     <div
       className={clsx([
-        `${prefixCls}-container`,
+        `${prefixCls}-container ${prefixClsV3}-container`,
         {
-          [`${prefixCls}-error`]: error,
-          [`${prefixCls}-disabled`]: disabled,
-          [`${prefixCls}-${size}`]: size,
+          [`${prefixCls}-error ${prefixClsV3}-error`]: error,
+          [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled,
+          [`${prefixCls}-${size} ${prefixClsV3}-${size}`]: size,
           noStyle: noStyle
         },
         className
@@ -154,13 +155,13 @@ const InputComponent = ({
       style={props.style}
     >
       {addonBefore && (
-        <span className={`${prefixCls}-addon ${prefixCls}-before`}>
+        <span className={`${prefixCls}-addon ${prefixCls}-before ${prefixClsV3}-addon ${prefixClsV3}-before`}>
           {addonBefore}
         </span>
       )}
 
-      <div className={`${prefixCls}-wrapper`}>
-        {prefix && <span className={`${prefixCls}-prefix`}>{prefix}</span>}
+      <div className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper`}>
+        {prefix && <span className={`${prefixCls}-prefix ${prefixClsV3}-prefix`}>{prefix}</span>}
 
         <input
           {...props}
@@ -173,18 +174,18 @@ const InputComponent = ({
           value={maskValue}
           onChange={handleChange}
           onKeyDown={handleOnKeyDown}
-          className={clsx([prefixCls, className])}
+          className={clsx([prefixCls, prefixClsV3, className])}
         />
 
         {allowClear && internalValue ?
-          <span className={`${prefixCls}-clear`} onClick={handleClear}>
+          <span className={`${prefixCls}-clear ${prefixClsV3}-clear`} onClick={handleClear}>
             <ErrorIcon />
           </span> : null
         }
 
         {(suffix || iconRender) && (
           <span
-            className={`${prefixCls}-suffix`}
+            className={`${prefixCls}-suffix ${prefixClsV3}-suffix`}
             {...(iconRender !== undefined
               ? {
                 onClick: () => setIconRenderVisible(icon => !icon)
@@ -198,7 +199,7 @@ const InputComponent = ({
       </div>
 
       {addonAfter ? (
-        <span className={`${prefixCls}-addon ${prefixCls}-after`}>
+        <span className={`${prefixCls}-addon ${prefixCls}-after ${prefixClsV3}-addon ${prefixClsV3}-after`}>
           {addonAfter}
         </span>
       ) : null}

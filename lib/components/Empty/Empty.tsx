@@ -1,6 +1,6 @@
 import React from 'react';
 import { EmptyContentProps } from '../../types/empty';
-import { prefixClsEmpty } from '../../utils';
+import { prefixClsEmpty, prefixClsEmptyV3 } from '../../utils';
 import './style.css';
 
 const EmptyContent = ({
@@ -9,11 +9,12 @@ const EmptyContent = ({
   className = '',
   title = 'No Data',
   description = 'No data',
-  prefixCls = prefixClsEmpty
+  prefixCls = prefixClsEmpty,
+  prefixClsV3 = prefixClsEmptyV3
 }: EmptyContentProps) => (
   <div
     style={style}
-    className={`${prefixCls} ${prefixCls}-normal ${prefixCls}-small ${className}`}
+    className={`${prefixCls} ${prefixClsV3} ${prefixCls}-normal ${prefixClsV3}--normal ${prefixCls}-small ${prefixClsV3}-small ${className}`}
   >
     <div className={`${prefixCls}-image`}>
       {icon || (

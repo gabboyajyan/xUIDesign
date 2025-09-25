@@ -27,6 +27,7 @@ export interface RadioGroupProps {
   onBlur?: FocusEventHandler<HTMLDivElement>;
   block?: boolean;
   prefixCls?: string;
+  prefixClsV3?: string;
   className?: string;
   options?:
     | Array<{ label: ReactNode; value: RuleType; disabled?: boolean }>

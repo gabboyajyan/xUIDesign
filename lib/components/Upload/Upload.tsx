@@ -9,7 +9,7 @@ import {
   UploadFile,
   UploadProps
 } from '../../types/upload';
-import { prefixClsUpload } from '../../utils';
+import { prefixClsUpload, prefixClsUploadV3 } from '../../utils';
 import './style.css';
 import { StampleIcon, TrashIcon } from '../Icons/Icons';
 
@@ -18,6 +18,7 @@ const IMAGE_PROGRESS_PERCENT = 100;
 
 const Upload = ({
   prefixCls = prefixClsUpload,
+  prefixClsV3 = prefixClsUploadV3,
   multiple = false,
   style,
   className,
@@ -195,18 +196,19 @@ const Upload = ({
   return (
     <div
       className={clsx([
-        `${prefixCls}-wrapper`,
+        `${prefixCls}-wrapper ${prefixClsV3}-wrapper`,
         className,
         rootClassName,
         {
           noStyle: noStyle,
-          [`${prefixCls}-disabled`]: disabled
+          [`${prefixCls}-disabled`]: disabled,
+          [`${prefixClsV3}-disabled`]: disabled
         }
       ])}
       style={style}
     >
       <span
-        className={clsx([`${prefixCls}`, `${prefixCls}-${listType}`])}
+        className={clsx([`${prefixCls}`, `${prefixCls}-${listType}`, `${prefixClsV3}`, `${prefixClsV3}-${listType}`])}
         onClick={handleClick}
       >
         {children}
@@ -216,7 +218,7 @@ const Upload = ({
           accept={accept}
           multiple={multiple}
           onChange={handleFileChange}
-          className={`${prefixCls}-input`}
+          className={`${prefixCls}-input ${prefixClsV3}-input`}
           disabled={disabled}
           {...(directory
             ? {
@@ -228,14 +230,14 @@ const Upload = ({
       </span>
 
       {showUploadList && fileList.length > 0 && (
-        <ul className={`${prefixCls}-list ${prefixCls}-list-${listType}`}>
+        <ul className={`${prefixCls}-list ${prefixCls}-list-${listType} ${prefixClsV3}-list ${prefixClsV3}-list-${listType}`}>
           {fileList.map(file => (
             <li
               key={file.uid}
-              className={`${prefixCls}-item ${prefixCls}-item-${file.status}`}
+              className={`${prefixCls}-item ${prefixCls}-item-${file.status} ${prefixClsV3}-item ${prefixClsV3}-item-${file.status}`}
             >
               <span
-                className={`${prefixCls}-remove`}
+                className={`${prefixCls}-remove ${prefixClsV3}-remove`}
                 onClick={() => handleRemove(file.uid)}
               >
                 {listType === 'picture' && (file.originFileObj || file.url) ? (
@@ -245,7 +247,7 @@ const Upload = ({
                     height={IMAGE_SIZE}
                     alt={file.name}
                     src={file.url || URL.createObjectURL(file.originFileObj)}
-                    className={`${prefixCls}-item-thumbnail`}
+                    className={`${prefixCls}-item-thumbnail ${prefixClsV3}-item-thumbnail`}
                   />
                 ) : (
                   <StampleIcon />
@@ -253,13 +255,13 @@ const Upload = ({
               </span>
               <div style={{ width: '100%' }}>
                 <div
-                  className={`${prefixCls}-item-title`}
+                  className={`${prefixCls}-item-title ${prefixClsV3}-item-title`}
                   style={{
                     ...(file.status === 'uploading' ? { marginBottom: 12 } : {})
                   }}
                 >
                   <span
-                    className={`${prefixCls}-item-remove-icon`}
+                    className={`${prefixCls}-item-remove-icon ${prefixClsV3}-item-remove-icon`}
                     onClick={() => handleRemove(file.uid)}
                     style={{ cursor: 'pointer', marginLeft: 'auto' }}
                     role="button"
@@ -270,9 +272,9 @@ const Upload = ({
                 </div>
                 {file.status === 'uploading' && (
                   <>
-                    <div className={`${prefixCls}-item-progress-line`} />
+                    <div className={`${prefixCls}-item-progress-line ${prefixClsV3}-item-progress-line`} />
                     <div
-                      className={`${prefixCls}-item-progress-line-percent`}
+                      className={`${prefixCls}-item-progress-line-percent ${prefixClsV3}-item-progress-line-percent`}
                       style={{ width: `${file.percent}%` }}
                     />
                   </>

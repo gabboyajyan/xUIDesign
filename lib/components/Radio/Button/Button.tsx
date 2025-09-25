@@ -3,12 +3,13 @@
 import React from 'react';
 import { clsx } from '../../../helpers';
 import { RadioButtonProps } from '../../../types/radio';
-import { prefixClsRadio } from '../../../utils';
+import { prefixClsRadio, prefixClsRadioV3 } from '../../../utils';
 import Radio from '../Radio';
 import './style.css';
 
 const RadioButton = ({
   prefixCls = prefixClsRadio,
+  prefixClsV3 = prefixClsRadioV3,
   className = '',
   checked,
   disabled,
@@ -22,16 +23,16 @@ const RadioButton = ({
       checked={checked}
       disabled={disabled}
       className={clsx([
-        `${prefixCls}-button`,
+        `${prefixCls}-button ${prefixClsV3}-button`,
         {
           disabled,
           [className]: className,
-          [`${prefixCls}-button-${size}`]: size,
-          [`${prefixCls}-button-checked`]: checked
+          [`${prefixCls}-button-${size} ${prefixClsV3}-button-${size}`]: size,
+          [`${prefixCls}-button-checked ${prefixClsV3}-button-checked`]: checked
         }
       ])}
     >
-      <span className={`${prefixCls}-button-content`}>
+      <span className={`${prefixCls}-button-content ${prefixClsV3}-button-content`}>
         {children ?? props.value}
       </span>
     </Radio>

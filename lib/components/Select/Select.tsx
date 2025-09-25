@@ -31,7 +31,7 @@ import {
 import { clsx } from '../../helpers';
 import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
 import { OptionType, SelectProps } from '../../types/select';
-import { prefixClsForm, prefixClsSelect } from '../../utils';
+import { prefixClsForm, prefixClsSelect, prefixClsSelectV3 } from '../../utils';
 import Option from './Option/Option';
 import Tag from './Tag/Tag';
 import { Empty } from '../Empty';
@@ -58,6 +58,7 @@ function getTextFromNode(node: ReactNode): string {
 
 const Select = ({
   prefixCls = prefixClsSelect,
+  prefixClsV3 = prefixClsSelectV3,
   id,
   searchValue = '',
   autoClearSearchValue = true,
@@ -171,15 +172,21 @@ const Select = ({
     ) as HTMLDivElement;
 
     if (!inputContainer) {
-      inputContainer = selectRef.current?.querySelector(
-        "[content-editable='plaintext-only']"
+      let inputContainer = selectRef.current?.querySelector(
+        `[id='${prefixClsV3}-search-tag-input']`
       ) as HTMLDivElement;
+
+      if (!inputContainer) {
+        inputContainer = selectRef.current?.querySelector(
+          "[content-editable='plaintext-only']"
+        ) as HTMLDivElement;
+      }
     }
 
     if (inputContainer) {
       inputContainer.innerText = '';
     }
-  }, [autoClearSearchValue, prefixCls]);
+  }, [autoClearSearchValue, prefixCls, prefixClsV3]);
 
   useEffect(() => {
     setSelected(hasMode ? checkModeInitialValue : initialValue)
@@ -188,7 +195,8 @@ const Select = ({
   const handleClickOutside = useCallback((event?: MouseEvent): void => {
     if (!selectRef.current) return;
 
-    const dropdown = document.querySelector(`.${prefixCls}-dropdown`);
+    const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
+    
     const clickedInside =
       selectRef.current.contains(event?.target as Node) ||
       (dropdown && dropdown.contains(event?.target as Node));
@@ -200,7 +208,7 @@ const Select = ({
       onClose?.();
       onDropdownVisibleChange?.(false, selected)
     }
-  }, [selectRef.current, prefixCls, selected]);
+  }, [selectRef.current, prefixCls, prefixClsV3, selected]);
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
@@ -215,7 +223,8 @@ const Select = ({
       return;
     }
 
-    const triggerNode = selectRef.current?.querySelector(`.${prefixCls}-trigger`) as HTMLElement;
+    const triggerNode = 
+      (selectRef.current?.querySelector(`.${prefixCls}-trigger`) || selectRef.current?.querySelector(`.${prefixClsV3}-trigger`)) as HTMLElement;
 
     const selectBox = triggerNode.getBoundingClientRect();
     const dropdownHeight = ((getPopupContainer
@@ -628,10 +637,11 @@ const Select = ({
           [size]: size,
           noStyle: noStyle,
           [prefixCls]: prefixCls,
+          [prefixClsV3]: prefixClsV3,
           [className]: !!className,
-          [`${prefixCls}-error`]: error,
-          [`${prefixCls}-multi`]: hasMode,
-          [`${prefixCls}-disabled`]: disabled
+          [`${prefixCls}-error ${prefixClsV3}-error`]: error,
+          [`${prefixCls}-multi ${prefixClsV3}-multi`]: hasMode,
+          [`${prefixCls}-disabled ${prefixClsV3}-disabled`]: disabled
         }
       ])}
     >
@@ -639,7 +649,7 @@ const Select = ({
         onClick={handleTriggerClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`${prefixCls}-trigger`}
+        className={`${prefixCls}-trigger ${prefixClsV3}-trigger`}
       >
         {(showSearch || hasMode) ? (
           <div
@@ -650,9 +660,9 @@ const Select = ({
               minWidth: `${searchInputWidth}px`
             }}
             className={clsx([
-              `${prefixCls}-tag-container`,
+              `${prefixCls}-tag-container ${prefixClsV3}-tag-container`,
               {
-                [`${prefixCls}-tag-container-fixHeight`]: !tagContainerRef.current
+                [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagContainerRef.current
               }
             ])}
           >
@@ -697,7 +707,7 @@ const Select = ({
                   {overflowCount > 0 && (
                     <Tag
                       label={`+${overflowCount}`}
-                      className={`${prefixCls}-tag-overflow`}
+                      className={`${prefixCls}-tag-overflow ${prefixClsV3}-tag-overflow`}
                     />
                   )}
                 </>
@@ -707,7 +717,7 @@ const Select = ({
             </> : null}
 
             {isOpen ? (
-              <div className={`${prefixCls}-tag contentEditable`}>
+              <div className={`${prefixCls}-tag ${prefixClsV3}-tag contentEditable`}>
                 <div
                   ref={searchInputRef}
                   onClick={e => {
@@ -737,7 +747,7 @@ const Select = ({
               </div>
             ) : !hasMode ? (
               <div
-                className={`${prefixCls}-input globalEllipsis`}
+                className={`${prefixCls}-input ${prefixClsV3}-input globalEllipsis`}
                 style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
               >
                 {selected === ''
@@ -748,7 +758,7 @@ const Select = ({
           </div>
         ) : !hasMode ? (
           <div
-            className={`${prefixCls}-input globalEllipsis`}
+            className={`${prefixCls}-input ${prefixClsV3}-input globalEllipsis`}
             onClick={() => !disabled && setIsOpen(!isOpen || defaultOpen)}
             style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
           >
@@ -761,13 +771,13 @@ const Select = ({
         {isHover && !loading ? (
           allowClear && selected ? (
             <button
-              className={`${prefixCls}-clear-btn`}
+              className={`${prefixCls}-clear-btn ${prefixClsV3}-clear-btn`}
               onClick={handleClear}
             >
               {removeIcon || <ClearIcon />}
             </button>
           ) : (
-            <span className={`${prefixCls}-arrow`}>
+            <span className={`${prefixCls}-arrow ${prefixClsV3}-arrow`}>
               {ArrowContainer}
               {error && feedbackIcons ? <ErrorIcon /> : null}
             </span>
@@ -775,14 +785,14 @@ const Select = ({
         ) : (
           <>
             {!loading && (
-              <span className={`${prefixCls}-arrow`}>
+              <span className={`${prefixCls}-arrow ${prefixClsV3}-arrow`}>
                 {ArrowContainer}
                 {error && feedbackIcons ? <ErrorIcon /> : null}
               </span>
             )}
 
             {loading && (
-              <span className={`${prefixCls}-loading`}>
+              <span className={`${prefixCls}-loading ${prefixClsV3}-loading`}>
                 <LoadingIcon />
               </span>
             )}
@@ -797,7 +807,7 @@ const Select = ({
         {!loading && open && isOpen && (
           <div
             className={clsx([
-              `${prefixCls}-dropdown`,
+              `${prefixCls}-dropdown ${prefixClsV3}-dropdown`,
               {
                 [placement]: placement,
                 [dropdownClassName]: dropdownClassName
@@ -813,7 +823,7 @@ const Select = ({
               <input
                 type="text"
                 inputMode="text"
-                className={`${prefixCls}-search`}
+                className={`${prefixCls}-search ${prefixClsV3}-search`}
                 value={searchQuery}
                 onChange={handleSearch}
                 placeholder="Search..."
@@ -827,7 +837,7 @@ const Select = ({
                 return dropdownRender?.(element || <> </>) || <> </>
               }} condition={!!dropdownRender}>
                 <div
-                  className={`${prefixCls}-options`}
+                  className={`${prefixCls}-options ${prefixClsV3}-options`}
                   style={{
                     maxHeight: listHeight,
                     overflowY: 'auto',
@@ -838,7 +848,7 @@ const Select = ({
                   {asTag && !!searchQuery && (
                     <Option
                       value={searchQuery}
-                      className={`${prefixCls}-focused`}
+                      className={`${prefixCls}-focused ${prefixClsV3}-focused`}
                       onClick={e => {
                         handleSelect(e as MouseEventHandlerSelect, searchQuery);
                       }}
@@ -863,10 +873,10 @@ const Select = ({
                             className={clsx([
                               className,
                               {
-                                [`${prefixCls}-focused`]: hasMode
+                                [`${prefixCls}-focused ${prefixClsV3}-focused`]: hasMode
                                   ? isSelected
                                   : props.value === selected,
-                                [`${prefixCls}-disabled`]:
+                                [`${prefixCls}-disabled ${prefixClsV3}-disabled`]:
                                   maxCount && hasMode && !isSelected
                                     ? selected.length >= maxCount
                                     : false
@@ -888,7 +898,7 @@ const Select = ({
                             {children || props.label || props.value}
 
                             {menuItemSelectedIcon && hasMode && isSelected && (
-                              <span className={`${prefixCls}-selected-icon`}>
+                              <span className={`${prefixCls}-selected-icon ${prefixClsV3}-selected-icon`}>
                                 {menuItemSelectedIcon === true ? (
                                   <CheckIcon />
                                 ) : (

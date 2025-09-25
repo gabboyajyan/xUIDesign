@@ -97,6 +97,7 @@ export interface OptionProps {
     render?: (label: string) => ReactNode;
     onMouseEnter?: MouseEventHandler<HTMLDivElement>;
     prefixCls?: string;
+    prefixClsV3?: string;
     selected?: boolean;
     title?: string;
 }

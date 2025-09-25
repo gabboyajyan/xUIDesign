@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect, useMemo, useState } from 'react';
 import { clsx } from '../../helpers';
 import { ButtonProps } from '../../types/button';
-import { prefixClsButton } from '../../utils';
+import { prefixClsButton, prefixClsButtonV3 } from '../../utils';
 import './style.css';
 
 const ButtonComponent = ({
@@ -16,6 +16,7 @@ const ButtonComponent = ({
   classNames: customClassNames = {},
   styles = {},
   prefixCls = prefixClsButton,
+  prefixClsV3 = prefixClsButtonV3,
   icon,
   iconPosition = 'start',
   loading = false,
@@ -50,26 +51,37 @@ const ButtonComponent = ({
   const classes = useMemo(() => {
     return clsx([...new Set([
       prefixCls,
+      prefixClsV3,
       rootClassName,
       `${prefixCls}-${type}`,
       `${prefixCls}-variant-${variant}`,
       `${prefixCls}-color-${color}`,
       `${prefixCls}-shape-${shape}`,
       `${prefixCls}-size-${size}`,
+      `${prefixClsV3}-${type}`,
+      `${prefixClsV3}-variant-${variant}`,
+      `${prefixClsV3}-color-${color}`,
+      `${prefixClsV3}-shape-${shape}`,
+      `${prefixClsV3}-size-${size}`,
       {
         [`${prefixCls}-block`]: block,
         [`${prefixCls}-ghost`]: ghost,
         [`${prefixCls}-danger`]: danger,
         [`${prefixCls}-loading`]: innerLoading,
-        [`${prefixCls}-disabled`]: disabled
+        [`${prefixCls}-disabled`]: disabled,
+        [`${prefixClsV3}-block`]: block,
+        [`${prefixClsV3}-ghost`]: ghost,
+        [`${prefixClsV3}-danger`]: danger,
+        [`${prefixClsV3}-loading`]: innerLoading,
+        [`${prefixClsV3}-disabled`]: disabled
       },
       className
     ])])
-  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, rootClassName, shape, size, type, variant]);
+  }, [block, className, color, danger, disabled, ghost, innerLoading, prefixCls, prefixClsV3, rootClassName, shape, size, type, variant]);
 
   const iconNode = innerLoading
     ? (typeof loading === 'object' && loading.icon) || (
-      <span className={`${prefixCls}-spinner`} />
+      <span className={`${prefixCls}-spinner ${prefixClsV3}-spinner`} />
     )
     : icon;
 
@@ -77,16 +89,16 @@ const ButtonComponent = ({
     <>
       {iconNode && iconPosition === 'start' && (
         <span
-          className={clsx(`${prefixCls}-icon`, customClassNames.icon)}
+          className={clsx(`${prefixCls}-icon ${prefixClsV3}-icon`, customClassNames.icon)}
           style={styles.icon}
         >
           {iconNode}
         </span>
       )}
-      <span className={`${prefixCls}-content`}>{children}</span>
+      <span className={`${prefixCls}-content ${prefixClsV3}-content`}>{children}</span>
       {iconNode && iconPosition === 'end' && (
         <span
-          className={clsx(`${prefixCls}-icon`, customClassNames.icon)}
+          className={clsx(`${prefixCls}-icon ${prefixClsV3}-icon`, customClassNames.icon)}
           style={styles.icon}
         >
           {iconNode}
