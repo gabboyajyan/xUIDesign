@@ -29,7 +29,7 @@ import {
   SearchIcon
 } from '../Icons/Icons';
 import { clsx } from '../../helpers';
-import { MouseEventHandlerSelect, RuleType, SyntheticBaseEvent } from '../../types';
+import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
 import { OptionType, SelectProps } from '../../types/select';
 import { prefixClsForm, prefixClsSelect, prefixClsSelectV3 } from '../../utils';
 import Option from './Option/Option';
@@ -192,10 +192,7 @@ const Select = ({
     setSelected(hasMode ? checkModeInitialValue : initialValue)
   }, [checkModeInitialValue, hasMode, initialValue])
 
-  const handleClickOutside = useCallback((event?: RuleType): void => {
-    event.preventDefault();
-    event.stopPropagation();
-
+  const handleClickOutside = useCallback((event?: MouseEvent): void => {
     if (!selectRef.current) return;
 
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
@@ -338,7 +335,7 @@ const Select = ({
     return parents;
   }, []);
 
-  const handleSearch = (e: RuleType) => {
+  const handleSearch = (e: SyntheticBaseEvent) => {
     setSearchQuery(e.target.value as string);
     onSearch?.(e.target.value as string);
 
@@ -380,13 +377,10 @@ const Select = ({
   };
 
   const handleSelect = (
-    e: RuleType,
+    e: SyntheticBaseEvent,
     optionValue: string,
     option?: OptionType
   ) => {
-    e.preventDefault();
-    e.stopPropagation();
-
     if (hasMode) {
       if (
         maxCount &&
@@ -568,10 +562,7 @@ const Select = ({
     });
   }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
 
-  const handleTriggerClick = (e: RuleType) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
       onDropdownVisibleChange?.(!isOpen, selected)

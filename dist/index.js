@@ -3526,8 +3526,6 @@ const Select = ({
     setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   const handleClickOutside = React.useCallback(event => {
-    event.preventDefault();
-    event.stopPropagation();
     if (!selectRef.current) return;
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
     const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
@@ -3660,8 +3658,6 @@ const Select = ({
     handleClearInputValue();
   };
   const handleSelect = (e, optionValue, option) => {
-    e.preventDefault();
-    e.stopPropagation();
     if (hasMode) {
       if (maxCount && selected.length >= maxCount && !selected.includes(optionValue)) {
         return;
@@ -3780,9 +3776,7 @@ const Select = ({
       return valueToCheck.toLowerCase().includes(searchQuery.toLowerCase());
     });
   }, [extractedOptions, filterOption, optionFilterProp, searchQuery]);
-  const handleTriggerClick = e => {
-    e.preventDefault();
-    e.stopPropagation();
+  const handleTriggerClick = () => {
     if (!disabled) {
       setIsOpen(!isOpen);
       onDropdownVisibleChange?.(!isOpen, selected);
