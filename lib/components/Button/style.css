@@ -13,13 +13,13 @@ html .xUi-button {
     line-height: 1.5715;
 }
 
-.xUi-button-content {
+html .xUi-button-content {
     display: inline-flex;
     align-items: center;
     justify-content: center;
 }
 
-.xUi-button-icon {
+html .xUi-button-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -27,12 +27,12 @@ html .xUi-button {
     margin-right: 0.5em;
 }
 
-.xUi-button-icon:last-child {
+html .xUi-button-icon:last-child {
     margin-right: 0;
     margin-left: 0.5em;
 }
 
-.xUi-button-spinner {
+html .xUi-button-spinner {
     width: 1em;
     height: 1em;
     border: 1px solid transparent;
@@ -50,140 +50,140 @@ html .xUi-button {
     }
 }
 
-.xUi-button-size-small {
+html .xUi-button-size-small {
     padding: 4px 12px;
     font-size: 12px;
     height: 24px;
 }
 
-.xUi-button-size-middle {
+html .xUi-button-size-middle {
     padding: 0 16px;
     font-size: 14px;
     height: 32px;
 }
 
-.xUi-button-size-large {
+html .xUi-button-size-large {
     padding: 8px 20px;
     font-size: 16px;
     height: 44px;
 }
 
-.xUi-button-shape-circle {
+html .xUi-button-shape-circle {
     padding: 0;
     border-radius: 50%;
     justify-content: center;
 }
 
-.xUi-button-shape-circle.xUi-button-size-small {
+html .xUi-button-shape-circle .xUi-button-size-small {
     width: 24px;
     height: 24px;
 }
 
-.xUi-button-shape-circle.xUi-button-size-large {
+html .xUi-button-shape-circle .xUi-button-size-large {
     width: 44px;
     height: 44px;
 }
 
-.xUi-button-shape-round {
+html .xUi-button-shape-round {
     border-radius: 9999px;
 }
 
-.xUi-button-default {
+html .xUi-button-default {
     background-color: #fff;
     border-color: var(--xui-border-color);
     color: rgba(0, 0, 0, 0.85);
 }
 
-.xUi-button-default:hover {
+html .xUi-button-default:hover {
     border-color: var(--xui-primary-color);
     color: var(--xui-primary-color);
 }
 
-.xUi-button-primary {
+html .xUi-button-primary {
     background-color: var(--xui-primary-color);
     border-color: var(--xui-primary-color);
     color: #fff;
 }
 
-.xUi-button-primary:hover {
+html .xUi-button-primary:hover {
     background-color: var(--xui-primary-color-hover);
     border-color: var(--xui-primary-color-hover);
     color: #fff;
 }
 
-.xUi-button-variant-dashed {
+html .xUi-button-variant-dashed {
     border-style: dashed;
     background-color: #fff;
     color: rgba(0, 0, 0, 0.85);
     border-color: var(--xui-border-color);
 }
 
-.xUi-button-variant-dashed:hover {
+html .xUi-button-variant-dashed:hover {
     border-color: var(--xui-primary-color);
     color: var(--xui-primary-color);
 }
 
-.xUi-button-variant-text {
+html .xUi-button-variant-text {
     background-color: transparent;
     border-color: transparent !important;
     color: rgba(0, 0, 0, 0.88);
 }
 
-.xUi-button-variant-text:hover {
+html .xUi-button-variant-text:hover {
     color: rgba(0, 0, 0, 0.88);
     border-color: transparent;
     background-color: rgba(0, 0, 0, 0.04);
 }
 
-.xUi-button-variant-link {
+html .xUi-button-variant-link {
     background-color: transparent;
     border-color: transparent !important;
     color: var(--xui-primary-color);
 }
 
-.xUi-button-variant-link:hover {
+html .xUi-button-variant-link:hover {
     border-color: transparent;
     color: var(--xui-primary-color-light);
 }
 
-.xUi-button-variant-outlined {
+html .xUi-button-variant-outlined {
     background-color: transparent;
     border-color: var(--xui-border-color);
     color: #fff;
 }
 
-.xUi-button-variant-filled {
+html .xUi-button-variant-filled {
     background-color: transparent;
     color: var(--xui-text-color);
     border-color: var(--xui-border-color);
 }
 
-.xUi-button-danger {
+html .xUi-button-danger {
     background-color: transparent;
     border-color: var(--xui-error-color);
     color: var(--xui-error-color);
 }
 
-.xUi-button-danger:hover {
+html .xUi-button-danger:hover {
     color: var(--xui-error-color-light);
     border-color: var(--xui-error-color-light);
 }
 
-.xUi-button-ghost {
+html .xUi-button-ghost {
     opacity: 0;
 }
 
-.xUi-button-ghost:hover {
+html .xUi-button-ghost:hover {
     opacity: 1;
 }
 
-.xUi-button-block {
+html .xUi-button-block {
     display: flex;
     width: 100%;
 }
 
-.xUi-button-disabled,
-.xUi-button-loading {
+html .xUi-button-disabled,
+html .xUi-button-loading {
     cursor: not-allowed;
     opacity: 0.5;
     color: var(--xui-text-color);
@@ -192,6 +192,6 @@ html .xUi-button {
     pointer-events: none;
 }
 
-.xUi-button-loading {
+html .xUi-button-loading {
     background-color: transparent
 }
