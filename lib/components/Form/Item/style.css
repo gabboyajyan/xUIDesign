@@ -55,3 +55,7 @@
 .xUi-form-item .xUi-input-container {
     width: -webkit-fill-available;
 }
+
+.xUi-form-item-content {
+    width: -webkit-fill-available;
+}

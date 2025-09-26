@@ -1904,7 +1904,7 @@ export default function Home() {
             <Form
                 form={form}
                 layout="vertical"
-                // style={{ width: 400 }}
+                style={{ width: 400 }}
                 scrollToFirstError={true}
                 // onValuesChange={(values) => {
                 //     console.log(values, form.isFieldsTouched());
@@ -1917,9 +1917,9 @@ export default function Home() {
                 {current === 0
                     ? <>
                         {true ? <Item rules={[{ required: true }]} name="email" label="Email">
-                            <div>
+                            {/* <div> */}
                                 <Input placeholder="Email" />
-                            </div>
+                            {/* </div> */}
                         </Item>: <></>}
 
                         {!hide && <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>

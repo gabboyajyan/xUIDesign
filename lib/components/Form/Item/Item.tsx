@@ -131,7 +131,7 @@ const FormItem = ({
           const fieldValue = value ?? getFieldValue(name) ?? initialValue;
 
           return (
-            <div>
+            <div className={`${prefixCls}-content`}>
               <FormItemChildComponent
                 {...props}
                 key={`${key}_${name}_${isReseting}`}

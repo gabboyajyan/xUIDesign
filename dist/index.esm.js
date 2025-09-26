@@ -1045,7 +1045,7 @@ function useWatchError(form, name) {
   return errors;
 }
 
-var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container{width:-webkit-fill-available}";
+var css_248z$l = ".xUi-form-item{display:flex;position:relative}.xUi-form-item.noStyle{display:inline-flex;margin-bottom:0}.xUi-form-item-label{align-items:center;color:var(--xui-text-color);display:flex;font-size:var(--xui-font-size-md);font-weight:500;line-height:20px;margin-bottom:4px}.xUi-form-item-error{color:var(--xui-error-color);display:block;font-size:var(--xui-font-size-xs);line-height:16px;margin-bottom:8px;margin-top:4px;min-height:16px;position:relative;right:0;text-align:end;user-select:none}.xUi-form-item-required{color:var(--xui-error-color);display:inline-block;font-size:var(--xui-font-size-md);line-height:1;margin-left:4px;margin-right:4px}.xUi-form-item.horizontal{align-items:center;flex-direction:row;gap:4px}.xUi-form-item.vertical{align-self:flex-start;flex-direction:column}.xUi-form-item .xUi-input-container,.xUi-form-item-content{width:-webkit-fill-available}";
 styleInject(css_248z$l);
 
 const FormItem$1 = ({
@@ -1132,7 +1132,9 @@ const FormItem$1 = ({
         ...childProps
       } = child.props;
       const fieldValue = value ?? getFieldValue(name) ?? initialValue;
-      return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
+      return /*#__PURE__*/React.createElement("div", {
+        className: `${prefixCls}-content`
+      }, /*#__PURE__*/React.createElement(FormItemChildComponent, _extends({}, props, {
         key: `${key}_${name}_${isReseting}`
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
