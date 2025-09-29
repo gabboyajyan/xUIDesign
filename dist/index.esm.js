@@ -1276,7 +1276,13 @@ const Form$1 = ({
     onFinishFailed
   });
   const formRef = useRef(null);
-  const formInstance = useMemo(() => form || internalForm, [form, internalForm]);
+  const formInstance = useMemo(() => {
+    const _form = form || internalForm;
+    if (form && Object.keys(initialValues).length) {
+      _form.setFieldsValue(initialValues);
+    }
+    return _form;
+  }, [form, internalForm]);
   const childrenList = useMemo(() => flattenChildren(children), [children]);
   const handleSubmit = useCallback(async e => {
     e.preventDefault();
