@@ -1916,7 +1916,7 @@ export default function Home() {
             >
                 {current === 0
                     ? <>
-                        {true ? <Item rules={[{ required: true }]} name="email" label="Email">
+                        {true ? <Item rules={[{ pattern: /\S{8,}/ }]} name="email" label="Email">
                             {/* <div> */}
                                 <Input placeholder="Email" />
                             {/* </div> */}
@@ -1932,6 +1932,7 @@ export default function Home() {
                         <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
+                                defaultValue={'AM'}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}

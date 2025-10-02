@@ -3486,7 +3486,7 @@ const Select = ({
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
-  const initialValue = React.useMemo(() => value ?? defaultValue ?? '', [value, defaultValue]);
+  const initialValue = React.useMemo(() => value ?? defaultValue ?? '', [value]);
   const checkModeInitialValue = React.useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
   const [isHover, setIsHover] = React.useState(false);
   const selectRef = React.useRef(null);

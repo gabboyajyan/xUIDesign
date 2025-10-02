@@ -114,7 +114,7 @@ const Select = ({
 
   const initialValue = useMemo(
     () => value ?? defaultValue ?? '',
-    [value, defaultValue]
+    [value]
   );
 
   const checkModeInitialValue = useMemo(
