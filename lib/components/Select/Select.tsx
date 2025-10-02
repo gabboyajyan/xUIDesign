@@ -890,7 +890,7 @@ const Select = ({
                               handleSelect(
                                 e as MouseEventHandlerSelect,
                                 props.value as string,
-                                { children, className, ...props } as OptionType
+                                { children, className, ...props, key: `${index}` } as OptionType
                               );
                             }}
                             data-value={props.value}

@@ -3994,7 +3994,8 @@ const Select = ({
         handleSelect(e, props.value, {
           children,
           className,
-          ...props
+          ...props,
+          key: `${index}`
         });
       },
       "data-value": props.value
