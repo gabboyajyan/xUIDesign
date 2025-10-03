@@ -1094,7 +1094,7 @@ const FormItem$1 = ({
   }, [name, fieldRef.current]);
   useEffect(() => () => registerField(name, undefined, true), [name]);
   useEffect(() => {
-    if (initialValue) {
+    if (initialValue && getFieldValue(name) === undefined) {
       setFieldValue(name, initialValue);
     }
   }, []);

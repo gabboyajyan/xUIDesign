@@ -80,7 +80,7 @@ const FormItem = ({
   useEffect(() => () => registerField(name, undefined, true), [name])
 
   useEffect(() => {
-    if (initialValue) {
+    if (initialValue && getFieldValue(name) === undefined) {
       setFieldValue(name, initialValue);
     }
   }, []);

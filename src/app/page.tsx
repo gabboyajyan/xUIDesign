@@ -1852,7 +1852,7 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm({});
+    const form = useForm();
 
     // const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
@@ -1906,9 +1906,9 @@ export default function Home() {
                 layout="vertical"
                 style={{ width: 400 }}
                 scrollToFirstError={true}
-                // onValuesChange={(values) => {
-                //     console.log(values, form.isFieldsTouched());
-                // }}
+                onValuesChange={(values) => {
+                    console.log(values, form.isFieldsTouched());
+                }}
                 // onFinishFailed={(errors) => {
                 //     console.log('errors', errors);
                 // }}
@@ -1929,10 +1929,9 @@ export default function Home() {
                             </RadioGroup>
                         </Item>}
 
-                        <Item rules={[{ required: true }]} name="country" label="Country">
+                        <Item rules={[{ required: true }]} initialValue={'Philippines'} name="country" label="Country">
                             <Select
                                 showSearch
-                                defaultValue={'AM'}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
