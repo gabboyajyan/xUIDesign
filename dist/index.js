@@ -3796,10 +3796,9 @@ const Select = ({
   };
   const selectedOption = React.useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
-    console.info(option);
     return /*#__PURE__*/React.createElement("div", {
       dangerouslySetInnerHTML: {
-        __html: option?.children || option?.label || option?.value || null
+        __html: typeof option === 'string' ? option : option?.children || option?.label || option?.value || null
       }
     });
   }, [extractedOptions, selected]) || selected || null;

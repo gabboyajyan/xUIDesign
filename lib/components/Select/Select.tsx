@@ -583,9 +583,8 @@ const Select = ({
         (e) => e.value === selected || e.label === selected || e.children === selected
       ) || selected;
 
-      console.info(option)
     return <div dangerouslySetInnerHTML={{
-      __html: option?.children || option?.label || option?.value || null
+      __html: typeof option === 'string' ? option : option?.children || option?.label || option?.value || null
     }} />;
   }, [extractedOptions, selected]) || selected || null;
 
