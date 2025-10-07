@@ -1280,11 +1280,15 @@ const Form$1 = ({
   const formRef = React.useRef(null);
   const formInstance = React.useMemo(() => {
     const _form = form || internalForm;
-    if (form && Object.keys(initialValues).length) {
-      _form.setFieldsValue(initialValues);
+    if (_form && Object.keys(initialValues).length) {
+      Object.keys(initialValues).forEach(name => {
+        if (_form.getFieldValue(name) === undefined) {
+          _form.setFieldValue(name, initialValues[name]);
+        }
+      });
     }
     return _form;
-  }, [form, internalForm]);
+  }, [form, internalForm, initialValues]);
   const childrenList = React.useMemo(() => flattenChildren(children), [children]);
   const handleSubmit = React.useCallback(async e => {
     e.preventDefault();

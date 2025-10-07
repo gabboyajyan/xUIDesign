@@ -44,12 +44,16 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   const formInstance = useMemo(() => {
     const _form = form || internalForm;
 
-    if (form && Object.keys(initialValues).length) {
-      _form.setFieldsValue(initialValues);
+    if (_form && Object.keys(initialValues).length) {
+      Object.keys(initialValues).forEach((name) => {
+        if (_form.getFieldValue(name) === undefined) {
+          _form.setFieldValue(name, initialValues[name]);
+        }
+      });
     }
 
     return _form;
-  }, [form, internalForm]);
+  }, [form, internalForm, initialValues]);
   const childrenList = useMemo(() => flattenChildren(children), [children])
 
   const handleSubmit = useCallback(async (e: SyntheticEvent) => {
