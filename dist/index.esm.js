@@ -3794,7 +3794,11 @@ const Select = ({
   };
   const selectedOption = useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
-    return /*#__PURE__*/React.createElement("div", null, option?.children || option?.label || option?.value || null);
+    return /*#__PURE__*/React.createElement("div", {
+      dangerouslySetInnerHTML: {
+        __html: option?.children || option?.label || option?.value || null
+      }
+    });
   }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagContainerRef.current;

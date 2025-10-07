@@ -583,7 +583,9 @@ const Select = ({
         (e) => e.value === selected || e.label === selected || e.children === selected
       ) || selected;
 
-    return <div>{option?.children || option?.label || option?.value || null}</div>;
+    return <div dangerouslySetInnerHTML={{
+      __html: option?.children || option?.label || option?.value || null
+    }} />;
   }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
