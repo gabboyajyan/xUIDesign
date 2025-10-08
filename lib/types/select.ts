@@ -32,6 +32,8 @@ export type SelectProps = DefaultProps & {
   defaultValue?: RuleTypes;
   maxCount?: number;
   onChange?: (e: RuleTypes, option?: OptionType) => void;
+  iconClick?: () => void;
+  iconClickClear?: boolean;
   onClose?: () => void;
   disabled?: boolean;
   loading?: boolean;

@@ -95,6 +95,7 @@ const Select = ({
   placement = 'bottomLeft',
   removeIcon,
   maxTagCount,
+  iconClickClear,
   onSearch,
   onSelect,
   onDeselect,
@@ -105,6 +106,7 @@ const Select = ({
   getPopupContainer,
   dropdownRender,
   onDropdownVisibleChange,
+  iconClick,
   ref
 }: SelectProps
 ): ReactElement => {
@@ -490,7 +492,7 @@ const Select = ({
     return showSearch && isOpen ? (
       searchIcon || <SearchIcon />
     ) : (
-      <span>
+      <span onClick={() => iconClickClear ? handleClear() : iconClick?.()}>
         {suffixIcon || (showArrow && <ArrowIcon isOpen={isOpen} />)}
       </span>
     );

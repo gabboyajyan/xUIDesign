@@ -1853,19 +1853,19 @@ const period: {
 
 export default function Home() {
     const form = useForm();
-    // const [i, setI] = useState()
+    const [i, setI] = useState()
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setI({ email: 'sdfdsfdsf' })
-    //     }, 2000);
-    // }, [])
+    useEffect(() => {
+        // setTimeout(() => {
+        //     setI({ email: 'sdfdsfdsf' })
+        // }, 2000);
+    }, [])
 
     // const [dates, setDates] = useState<Date[] | any[] | null>([]);
     const [current, setCurrent] = useState(0);
     const [hide, setHide] = useState(false);
     const [type, setType] = useState('full');
-    // const [value, setValue] = useState('');
+    const [value, setValue] = useState('');
     // const [country, setCountry] = useState('')
 
     // const fields = useWatch({ form });
@@ -1911,7 +1911,7 @@ export default function Home() {
             <Form
                 form={form}
                 layout="vertical"
-                // initialValues={i}
+                initialValues={i}
                 style={{ width: 400 }}
                 scrollToFirstError={true}
                 onValuesChange={(values) => {
@@ -1939,8 +1939,12 @@ export default function Home() {
 
                         <Item rules={[{ required: true }]} initialValue={'Philippines'} name="country" label="Country">
                             <Select
-                                allowClear
                                 showSearch
+                                iconClickClear
+                                suffixIcon={<>clear</>}
+                                iconClick={() => {
+                                    console.log(1);
+                                }}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
