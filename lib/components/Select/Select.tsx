@@ -490,14 +490,11 @@ const Select = ({
     }
 
     return (
-      <span>
-        {showSearch && isOpen 
-          ? (searchIcon || <SearchIcon />) 
-          : suffixIcon 
-            ? <span onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span> 
-            : (showArrow && <ArrowIcon isOpen={isOpen} />)
-        }
-      </span>
+      showSearch && isOpen 
+        ? (searchIcon || <SearchIcon />) 
+        : suffixIcon 
+          ? <span onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span> 
+          : (showArrow && <ArrowIcon isOpen={isOpen} />)
     )
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 

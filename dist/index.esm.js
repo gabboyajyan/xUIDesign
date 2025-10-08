@@ -3738,11 +3738,11 @@ const Select = ({
     if (!showArrow) {
       return null;
     }
-    return /*#__PURE__*/React.createElement("span", null, showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : suffixIcon ? /*#__PURE__*/React.createElement("span", {
+    return showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : suffixIcon ? /*#__PURE__*/React.createElement("span", {
       onClick: () => iconClickClear ? handleClear() : iconClick?.()
     }, suffixIcon) : showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
       isOpen: isOpen
-    }));
+    });
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
   const extractOptions = useCallback((children, options) => {
     const result = [];
