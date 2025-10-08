@@ -3804,7 +3804,11 @@ const Select = ({
   };
   const selectedOption = React.useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
-    return /*#__PURE__*/React.createElement("div", null, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
+    return /*#__PURE__*/React.createElement("div", {
+      style: {
+        display: 'contents'
+      }
+    }, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
   }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagContainerRef.current;
