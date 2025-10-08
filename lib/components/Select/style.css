@@ -30,6 +30,7 @@
     display: flex;
     gap: 6px;
     align-items: center;
+    pointer-events: all !important;
     color: var(--xui-text-color-light);
 }
 
