@@ -1942,9 +1942,6 @@ export default function Home() {
                                 showSearch
                                 iconClickClear
                                 suffixIcon={<>clear</>}
-                                iconClick={() => {
-                                    console.log(1);
-                                }}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}

@@ -3738,9 +3738,9 @@ const Select = ({
     if (!showArrow) {
       return null;
     }
-    return showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : /*#__PURE__*/React.createElement("span", {
+    return /*#__PURE__*/React.createElement("span", {
       onClick: () => iconClickClear ? handleClear() : iconClick?.()
-    }, suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
+    }, showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : suffixIcon || showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
       isOpen: isOpen
     }));
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);

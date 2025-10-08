@@ -489,13 +489,14 @@ const Select = ({
       return null;
     }
 
-    return showSearch && isOpen ? (
-      searchIcon || <SearchIcon />
-    ) : (
+    return (
       <span onClick={() => iconClickClear ? handleClear() : iconClick?.()}>
-        {suffixIcon || (showArrow && <ArrowIcon isOpen={isOpen} />)}
+        {showSearch && isOpen 
+          ? (searchIcon || <SearchIcon />) 
+          : suffixIcon || (showArrow && <ArrowIcon isOpen={isOpen} />)
+        }
       </span>
-    );
+    )
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
 
   const extractOptions = useCallback((children: ReactNode, options?: OptionType[]) => {
