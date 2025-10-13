@@ -3739,6 +3739,9 @@ const Select = ({
       return null;
     }
     return showSearch && isOpen ? searchIcon || /*#__PURE__*/React.createElement(SearchIcon, null) : suffixIcon ? /*#__PURE__*/React.createElement("span", {
+      style: {
+        display: 'contents'
+      },
       onClick: () => iconClickClear ? handleClear() : iconClick?.()
     }, suffixIcon) : showArrow && /*#__PURE__*/React.createElement(ArrowIcon, {
       isOpen: isOpen
