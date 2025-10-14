@@ -56,7 +56,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     margin-top: 4px;
-    padding: 8px 4px;
+    padding: 8px 0;
     z-index: 1;
     position: absolute;
     top: 100%;
@@ -72,13 +72,12 @@
     flex: 1;
     max-height: 169px;
     overflow-y: auto;
-    width: 45px;
+    width: 52px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 4px;
+    padding-left: 4px;
     margin-bottom: 5px;
-    scrollbar-width: none;
 }
 
 .xUi-timepicker-column::-webkit-scrollbar,
@@ -103,6 +102,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 2px;
 }
 
 .xUi-timepicker-cell:hover {
