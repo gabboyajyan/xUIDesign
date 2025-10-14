@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+import { TimePicker } from "../../lib/components/DatePicker/TimePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -1904,10 +1904,9 @@ export default function Home() {
 
     return (
         <>
-        <button onClick={() => {
-            form.setFieldValue('username', 'Gabriel')
-            setHide(!hide)
-        }}>dfgdsg</button>
+            <TimePicker />
+
+
             <Form
                 form={form}
                 layout="vertical"
@@ -1941,7 +1940,7 @@ export default function Home() {
                             <Select
                                 showSearch
                                 iconClickClear
-                                suffixIcon={<>clear</>}
+                                // suffixIcon={<>clear</>}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
                                 options={CountryCodes}
