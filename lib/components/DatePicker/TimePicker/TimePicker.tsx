@@ -97,6 +97,12 @@ const TimePicker: FC<TimePickerProps> = ({
     onSelect?.(tempValue);
   }, [tempValue, onSelect]);
 
+  useEffect(() => {
+    if (open) {
+      setTempValue(innerValue ? new Date(innerValue) : null);
+    }
+  }, [open, innerValue]);
+
   const formatDate = (date: Date | null): string => {
     if (!date) {
       return '';
@@ -427,7 +433,8 @@ const TimePicker: FC<TimePickerProps> = ({
           className={`${prefixCls}-input`}
           readOnly={inputReadOnly}
           onChange={handleOnChange}
-          {...(open ? {} : { value: formatDate(innerValue) })}
+          // {...(open ? {} : { value: formatDate(innerValue) })}
+          value={open ? formatDate(tempValue) : formatDate(innerValue) || ''}
           onBlur={(e: FocusEvent<HTMLInputElement>) => {
             onBlur?.(e, { source: 'input' });
           }}

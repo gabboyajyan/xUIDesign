@@ -2634,6 +2634,11 @@ const TimePicker = ({
   useEffect(() => {
     onSelect?.(tempValue);
   }, [tempValue, onSelect]);
+  useEffect(() => {
+    if (open) {
+      setTempValue(innerValue ? new Date(innerValue) : null);
+    }
+  }, [open, innerValue]);
   const formatDate = date => {
     if (!date) {
       return '';
@@ -2848,22 +2853,22 @@ const TimePicker = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input-wrapper`,
     onClick: () => setOpen(true)
-  }, /*#__PURE__*/React.createElement("input", _extends({
+  }, /*#__PURE__*/React.createElement("input", {
     ref: inputRef,
     size: INPUT_SIZE,
     placeholder: placeholder,
     className: `${prefixCls}-input`,
     readOnly: inputReadOnly,
     onChange: handleOnChange
-  }, open ? {} : {
-    value: formatDate(innerValue)
-  }, {
+    // {...(open ? {} : { value: formatDate(innerValue) })}
+    ,
+    value: open ? formatDate(tempValue) : formatDate(innerValue) || '',
     onBlur: e => {
       onBlur?.(e, {
         source: 'input'
       });
     }
-  })), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-icons`
   }, clearIcon && innerValue ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
