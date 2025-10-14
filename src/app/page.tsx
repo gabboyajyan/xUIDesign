@@ -1904,7 +1904,7 @@ export default function Home() {
 
     return (
         <>
-            <TimePicker />
+            <TimePicker format={'HH:mm'} />
 
 
             <Form

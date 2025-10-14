@@ -2598,6 +2598,7 @@ const TimePicker = ({
 }) => {
   const [open, setOpen] = React.useState(false);
   const [innerValue, setInnerValue] = React.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
+  const [[showHour, showMinutes, showSeconds]] = React.useState(`${format}`.split(':'));
   const [tempValue, setTempValue] = React.useState(null);
   const inputRef = React.useRef(null);
   const popupRef = React.useRef(null);
@@ -2778,7 +2779,7 @@ const TimePicker = ({
     const currentMinute = selectedMinute ?? 0;
     return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-panel`
-    }, /*#__PURE__*/React.createElement("div", {
+    }, showHour ? /*#__PURE__*/React.createElement("div", {
       ref: hourRef,
       className: `${prefixCls}-column`
     }, hours.map((h, index) => h === false ? /*#__PURE__*/React.createElement("div", {
@@ -2796,7 +2797,7 @@ const TimePicker = ({
         [`${prefixCls}-cell-selected`]: selectedHour === h
       }]),
       onClick: () => !getDisabled('hour').includes(h) && onSelectHour(h)
-    }, pad(h)))), /*#__PURE__*/React.createElement("div", {
+    }, pad(h)))) : null, showMinutes ? /*#__PURE__*/React.createElement("div", {
       ref: minuteRef,
       className: `${prefixCls}-column`
     }, minutesSeconds.map((m, index) => m === false ? /*#__PURE__*/React.createElement("div", {
@@ -2814,7 +2815,7 @@ const TimePicker = ({
         [`${prefixCls}-cell-selected`]: selectedMinute === m
       }]),
       onClick: () => !getDisabled('minute', currentHour).includes(m) && onSelectMinute(m)
-    }, pad(m)))), /*#__PURE__*/React.createElement("div", {
+    }, pad(m)))) : null, showSeconds ? /*#__PURE__*/React.createElement("div", {
       ref: secondRef,
       className: `${prefixCls}-column`
     }, minutesSeconds.map((s, index) => s === false ? /*#__PURE__*/React.createElement("div", {
@@ -2832,7 +2833,7 @@ const TimePicker = ({
         [`${prefixCls}-cell-selected`]: selectedSecond === s
       }]),
       onClick: () => !getDisabled('second', currentHour, currentMinute).includes(s) && onSelectSecond(s)
-    }, pad(s))))), /*#__PURE__*/React.createElement("div", {
+    }, pad(s)))) : null), /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-actions`
     }, showNow ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-now-btn`,

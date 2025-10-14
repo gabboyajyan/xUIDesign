@@ -48,6 +48,8 @@ const TimePicker: FC<TimePickerProps> = ({
     propValue || defaultValue ? new Date(propValue || defaultValue) : null
   );
 
+  const [[showHour, showMinutes, showSeconds]] = useState(`${format}`.split(':'))
+
   const [tempValue, setTempValue] = useState<Date | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -287,7 +289,7 @@ const TimePicker: FC<TimePickerProps> = ({
     return (
       <div>
         <div className={`${prefixCls}-panel`}>
-          <div ref={hourRef} className={`${prefixCls}-column`}>
+          {showHour ? <div ref={hourRef} className={`${prefixCls}-column`}>
             {hours.map((h, index) =>
               h === false ? (
                 <div
@@ -316,8 +318,9 @@ const TimePicker: FC<TimePickerProps> = ({
                 </div>
               )
             )}
-          </div>
-          <div ref={minuteRef} className={`${prefixCls}-column`}>
+          </div> : null}
+
+          {showMinutes ? <div ref={minuteRef} className={`${prefixCls}-column`}>
             {minutesSeconds.map((m, index) =>
               m === false ? (
                 <div
@@ -349,8 +352,9 @@ const TimePicker: FC<TimePickerProps> = ({
                 </div>
               )
             )}
-          </div>
-          <div ref={secondRef} className={`${prefixCls}-column`}>
+          </div>: null}
+
+          {showSeconds ? <div ref={secondRef} className={`${prefixCls}-column`}>
             {minutesSeconds.map((s, index) =>
               s === false ? (
                 <div
@@ -384,7 +388,7 @@ const TimePicker: FC<TimePickerProps> = ({
                 </div>
               )
             )}
-          </div>
+          </div> : null}
         </div>
         <div className={`${prefixCls}-actions`}>
           {showNow ? (
