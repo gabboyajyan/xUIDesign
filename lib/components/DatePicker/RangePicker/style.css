@@ -271,7 +271,7 @@
 .xUi-rangepicker-selected:not(.xUi-rangepicker-other-month),
 .xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),
 .xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month) {
-    background-color: var(--xui-primary-color);
+    background-color: var(--xui-primary-color) !important;
     color: #fff;
     font-weight: 600;
 }
