@@ -2313,6 +2313,9 @@ const RangePicker = ({
   const containerRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedDates, setSelectedDates] = React.useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
+  React.useEffect(() => {
+    setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
+  }, [value]);
   const [hoveredDate, setHoveredDate] = React.useState(null);
   const [currentMonth, setCurrentMonth] = React.useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());

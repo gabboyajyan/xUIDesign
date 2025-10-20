@@ -40,6 +40,13 @@ const RangePicker = ({
     value?.[1] || defaultValue?.[1] || null
   ]);
 
+  useEffect(() => {
+    setSelectedDates([
+      value?.[0] || defaultValue?.[0] || null,
+      value?.[1] || defaultValue?.[1] || null
+    ])
+  }, [value])
+
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());

@@ -4,7 +4,7 @@ import { Form } from "../../lib/components/Form";
 import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 import { Item } from "../../lib/components/Form/Item";
-import { TimePicker } from "../../lib/components/DatePicker/TimePicker";
+import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -1902,10 +1902,19 @@ export default function Home() {
     //     }
     // }, []);
 
+    const [aa, bb] = useState([new Date(), new Date()])
+
+    useEffect(() => {
+        setTimeout(() => {
+            console.log(1);
+            
+            bb([new Date("2025-10-06T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
+        }, 3000);
+    }, [])
+
     return (
         <>
-            <TimePicker format={'HH:mm'} />
-
+            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
 
             <Form
                 form={form}
@@ -1952,8 +1961,6 @@ export default function Home() {
                         {<Item rules={[{ required: true }]} name="gender" label="Gender">
                             <Input mask="___.___.___.__" placeholder="Gender" />
                         </Item>}
-
-                        
 
                         {/* <Item rules={[{ required: true }]} name="date" label="Date">
                         <RangePicker
