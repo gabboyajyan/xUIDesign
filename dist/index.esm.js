@@ -1632,7 +1632,8 @@ const Switch = ({
   className = '',
   style = {},
   defaultChecked,
-  value
+  value,
+  controlled = false
 }) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
@@ -1641,8 +1642,12 @@ const Switch = ({
     if (disabled) {
       return;
     }
-    setInternalChecked(!internalChecked);
-    e.target.value = !internalChecked;
+    if (!controlled) {
+      setInternalChecked(!internalChecked);
+      e.target.value = !internalChecked;
+    } else {
+      e.target.value = !checked;
+    }
     onClick?.(e.target.value);
     onChange?.(e.target.value);
   };

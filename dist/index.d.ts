@@ -101,6 +101,7 @@ type SwitchProps = DefaultProps & {
     required?: boolean;
     defaultChecked?: boolean;
     checked?: boolean;
+    controlled?: boolean;
 };
 
 declare const Button: react.ComponentType<__types_button.ButtonProps>;

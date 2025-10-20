@@ -7,6 +7,7 @@ import { Item } from "../../lib/components/Form/Item";
 import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
+import { Switch } from "../../lib/components/Switch";
 // import { Switch } from "../../lib/components/Switch";
 // import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
@@ -1903,18 +1904,21 @@ export default function Home() {
     // }, []);
 
     const [aa, bb] = useState([new Date(), new Date()])
+    const [c, d] = useState(false)
 
     useEffect(() => {
         setTimeout(() => {
-            console.log(1);
-            
             bb([new Date("2025-10-06T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
         }, 3000);
     }, [])
 
     return (
         <>
+        <button onClick={() => { d(!c) }}>aaaa</button>
             <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
+            <Switch checked={c} onChange={(ccc) => {
+                d(!c)
+            }} />
 
             <Form
                 form={form}

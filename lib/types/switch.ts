@@ -18,4 +18,5 @@ export type SwitchProps = DefaultProps & {
   required?: boolean;
   defaultChecked?: boolean;
   checked?: boolean;
+  controlled?: boolean;
 };
