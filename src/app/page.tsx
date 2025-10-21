@@ -1914,25 +1914,19 @@ export default function Home() {
 
     return (
         <>
-        <button onClick={() => { d(!c) }}>aaaa</button>
-            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
-            <Switch checked={c} onChange={(ccc) => {
-                d(!c)
-            }} />
-
             <Form
                 form={form}
                 layout="vertical"
                 initialValues={i}
                 style={{ width: 400 }}
                 scrollToFirstError={true}
-                onValuesChange={(values) => {
-                    console.log(values, form.isFieldsTouched());
-                }}
+                // onValuesChange={(values) => {
+                //     console.log(values, form.isFieldsTouched());
+                // }}
                 // onFinishFailed={(errors) => {
                 //     console.log('errors', errors);
                 // }}
-                onFinish={(values) => console.log('onFinish', values)}
+                // onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
@@ -1962,8 +1956,8 @@ export default function Home() {
                     </>
                     : current === 1 ?
                     <>
-                        {<Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Input mask="___.___.___.__" placeholder="Gender" />
+                        {<Item rules={[{ required: true }]} name="gender" label="Gender" initialValue={'aaa'}>
+                            <Input placeholder="Gender" />
                         </Item>}
 
                         {/* <Item rules={[{ required: true }]} name="date" label="Date">
@@ -1999,6 +1993,10 @@ export default function Home() {
                             if (await form.validateFields()) {
                                 form.changeStep(current + 1);
                                 setCurrent(current + 1)
+
+                                // setTimeout(() => {
+                                    form.setFields([{ errors: ['sdfsdfdfs'], name: 'gender' }])
+                                // }, 1000);
                             }
                         }
                     }}>

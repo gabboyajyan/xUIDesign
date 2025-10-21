@@ -21,9 +21,9 @@ const useForm = (
   scrollToFirstError?: boolean,
   onFinish?: ((values: Record<string, RuleTypes>) => void) | undefined,
   onFinishFailed?: (errorInfo: {
-      values: Record<string, RuleTypes>;
-      errorFields: Pick<FieldError, 'errors' | 'name'>[];
-    }) => void
+    values: Record<string, RuleTypes>;
+    errorFields: Pick<FieldError, 'errors' | 'name'>[];
+  }) => void
 ): FormInstance => {
   const touchedFieldsRef = useRef(new Set<string>());
   const rulesRef = useRef<Record<string, RuleObject[] | RuleRender>>({});
@@ -53,7 +53,7 @@ const useForm = (
   const fieldInstancesRef = useRef<Record<string, FieldInstancesRef | null>>({});
 
   const [isReseting, setIsReseting] = useState(false);
-  
+
   const errorsRef = useRef<Record<string, string[]>>({});
   const errorSubscribers = useRef<
     Record<string, ((errors: string[]) => void)[]>
@@ -83,7 +83,7 @@ const useForm = (
 
   function getFieldsValue(nameList?: string[]) {
     const formData = getFormFields();
-    
+
     if (!nameList) {
       return formData;
     }
@@ -111,7 +111,7 @@ const useForm = (
     name: string,
     value: RuleTypes,
     errors?: string[],
-    reset: boolean | null | undefined = undefined,
+    reset: boolean | null | -1 | undefined = undefined,
     touch?: boolean
   ) {
     if (
@@ -132,7 +132,7 @@ const useForm = (
         return;
       }
     })
- 
+
     if (!isFieldExist) {
       formRef.current[stepRef.current][name] = value;
     }
@@ -163,7 +163,15 @@ const useForm = (
         }
       });
     } else {
-      errorsRef.current[name] = errors;
+      if (reset === -1) {
+        setTimeout(() => {
+          errorsRef.current[name] = errors;
+          notifyErrorSubscribers(name);
+        }, 0);
+      } else {
+        errorsRef.current[name] = errors;
+        notifyErrorSubscribers(name);
+      }
     }
   }
 
@@ -175,7 +183,12 @@ const useForm = (
 
   function setFields(fields: FieldData[]) {
     fields.forEach(({ name, value, errors }) =>
-      setFieldValue(Array.isArray(name) ? name[0] : name, value, errors)
+      setFieldValue(
+        Array.isArray(name) ? name[0] : name,
+        value ?? getFieldValue(Array.isArray(name) ? name[0] : name),
+        errors,
+        -1
+      )
     );
   }
 
@@ -224,7 +237,7 @@ const useForm = (
               delete formRef.current[step][name];
             }
           })
-          
+
           formRef.current[stepRef.current][name] = initialValues?.[name];
 
           if (Object.keys(existFields).length) {
@@ -307,7 +320,7 @@ const useForm = (
         }
       })
     );
-    
+
     errorsRef.current[name] = fieldErrors
     warningsRef.current[name] = fieldWarnings;
 

@@ -699,7 +699,15 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
         }
       });
     } else {
-      errorsRef.current[name] = errors;
+      if (reset === -1) {
+        setTimeout(() => {
+          errorsRef.current[name] = errors;
+          notifyErrorSubscribers(name);
+        }, 0);
+      } else {
+        errorsRef.current[name] = errors;
+        notifyErrorSubscribers(name);
+      }
     }
   }
   function setFieldsValue(values, reset) {
@@ -710,7 +718,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       name,
       value,
       errors
-    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value, errors));
+    }) => setFieldValue(Array.isArray(name) ? name[0] : name, value ?? getFieldValue(Array.isArray(name) ? name[0] : name), errors, -1));
   }
   function setFieldInstance(fieldName, fieldRef) {
     fieldInstancesRef.current[fieldName] = fieldRef;
@@ -1099,7 +1107,7 @@ const FormItem$1 = ({
     if (initialValue && getFieldValue(name) === undefined) {
       setFieldValue(name, initialValue);
     }
-  }, []);
+  }, [name]);
   React.useEffect(() => {
     if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {

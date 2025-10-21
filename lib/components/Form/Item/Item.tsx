@@ -83,7 +83,7 @@ const FormItem = ({
     if (initialValue && getFieldValue(name) === undefined) {
       setFieldValue(name, initialValue);
     }
-  }, []);
+  }, [name]);
 
   useEffect(() => {
     if (name && dependencies.length > 0) {
