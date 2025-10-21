@@ -3558,7 +3558,7 @@ const Select = ({
     }
   }, [autoClearSearchValue, prefixCls, prefixClsV3]);
   useEffect(() => {
-    setSelected(hasMode ? checkModeInitialValue : initialValue);
+    !controlled && setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
   const handleClickOutside = useCallback(event => {
     if (!selectRef.current) return;
@@ -3684,12 +3684,12 @@ const Select = ({
     }
     const updatedSelected = [...selected, newOptionValue];
     onChange?.(updatedSelected);
-    onSelect?.(updatedSelected);
+    !controlled && onSelect?.(updatedSelected);
     const input = selectRef.current?.querySelector('input');
     if (input) {
       input.value = '';
     }
-    setSelected(updatedSelected);
+    !controlled && setSelected(updatedSelected);
     handleClearInputValue();
   };
   const handleSelect = (e, optionValue, option) => {
@@ -3747,10 +3747,10 @@ const Select = ({
         if (hasMode && !e.target.value.trim().length) {
           const updatedSelected = hasMode ? selected.filter(item => item !== selected[selected.length - 1]) : e.target.value.trim();
           if (selected[selected.length - 1]) {
-            onDeselect?.(selected[selected.length - 1]);
+            !controlled && onDeselect?.(selected[selected.length - 1]);
           }
           onChange?.(updatedSelected);
-          setSelected(updatedSelected);
+          !controlled && setSelected(updatedSelected);
           setSearchFocused(false);
         }
       }
