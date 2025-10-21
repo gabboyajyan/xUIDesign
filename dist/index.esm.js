@@ -3507,7 +3507,8 @@ const Select = ({
   dropdownRender,
   onDropdownVisibleChange,
   iconClick,
-  ref
+  ref,
+  controlled
 }) => {
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
@@ -3697,26 +3698,26 @@ const Select = ({
         return;
       }
       const newSelection = selected.includes(optionValue) ? selected.filter(item => item !== optionValue) : [...selected, optionValue];
-      setSelected(newSelection);
+      !controlled && setSelected(newSelection);
       onChange?.(newSelection, option);
       if (selected.includes(optionValue)) {
-        onDeselect?.(optionValue, option);
+        !controlled && onDeselect?.(optionValue, option);
       } else {
-        onSelect?.(optionValue, option);
+        !controlled && onSelect?.(optionValue, option);
       }
     } else {
       setIsOpen(defaultOpen);
-      setSelected(optionValue);
+      !controlled && setSelected(optionValue);
       onChange?.(optionValue, option);
-      onSelect?.(optionValue, option);
+      !controlled && onSelect?.(optionValue, option);
     }
     handleClearInputValue();
   };
   const handleClear = () => {
     const value = hasMode ? [] : '';
-    setSelected(value);
+    !controlled && setSelected(value);
     onChange?.('');
-    onSelect?.('');
+    !controlled && onSelect?.('');
     onClear?.();
     handleClearInputValue();
   };

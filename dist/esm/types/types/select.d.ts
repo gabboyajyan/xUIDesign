@@ -51,6 +51,7 @@ export type SelectProps = DefaultProps & {
     maxTagCount?: number | 'responsive';
     ref?: ForwardedRef<HTMLDivElement>;
     closeFromParent?: boolean;
+    controlled?: boolean;
 };
 export interface OptionType {
     value: RuleType;

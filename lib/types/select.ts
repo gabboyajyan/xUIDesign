@@ -65,7 +65,8 @@ export type SelectProps = DefaultProps & {
   removeIcon?: ReactNode;
   maxTagCount?: number | 'responsive',
   ref?: ForwardedRef<HTMLDivElement>,
-  closeFromParent?: boolean
+  closeFromParent?: boolean;
+  controlled?: boolean
 };
 
 export interface OptionType {

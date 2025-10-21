@@ -107,7 +107,8 @@ const Select = ({
   dropdownRender,
   onDropdownVisibleChange,
   iconClick,
-  ref
+  ref,
+  controlled
 }: SelectProps
 ): ReactElement => {
   const asTag = mode === 'tags';
@@ -396,19 +397,19 @@ const Select = ({
         ? (selected as string[]).filter(item => item !== optionValue)
         : [...selected, optionValue];
 
-      setSelected(newSelection);
+      !controlled && setSelected(newSelection);
       onChange?.(newSelection, option);
 
       if (selected.includes(optionValue)) {
-        onDeselect?.(optionValue, option);
+        !controlled && onDeselect?.(optionValue, option);
       } else {
-        onSelect?.(optionValue, option);
+        !controlled && onSelect?.(optionValue, option);
       }
     } else {
       setIsOpen(defaultOpen);
-      setSelected(optionValue);
+      !controlled && setSelected(optionValue);
       onChange?.(optionValue, option);
-      onSelect?.(optionValue, option);
+      !controlled && onSelect?.(optionValue, option);
     }
 
     handleClearInputValue();
@@ -417,9 +418,9 @@ const Select = ({
   const handleClear = () => {
     const value = hasMode ? [] : '';
 
-    setSelected(value);
+    !controlled && setSelected(value);
     onChange?.('');
-    onSelect?.('');
+    !controlled && onSelect?.('');
     onClear?.();
 
     handleClearInputValue();

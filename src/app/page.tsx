@@ -1904,7 +1904,7 @@ export default function Home() {
     // }, []);
 
     const [aa, bb] = useState([new Date(), new Date()])
-    const [c, d] = useState(false)
+    const [selected, setSelected] = useState('Armenia')
 
     useEffect(() => {
         setTimeout(() => {
@@ -1912,21 +1912,44 @@ export default function Home() {
         }, 3000);
     }, [])
 
+    const disableDate = useCallback(
+    (date: any) => {
+        const startDate = aa[0];
+        const endDate = aa[1];
+        const dateToCheck = date;
+
+        console.log({
+            endDate,
+            startDate,
+            dateToCheck
+        });
+        
+        if (dateToCheck >= startDate && dateToCheck <= endDate) {
+            return false
+        }
+        
+        return true
+    },
+    [aa]
+  );
+
     return (
         <>
+            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} disabledDate={disableDate} />
+
             <Form
                 form={form}
                 layout="vertical"
                 initialValues={i}
                 style={{ width: 400 }}
                 scrollToFirstError={true}
-                // onValuesChange={(values) => {
-                //     console.log(values, form.isFieldsTouched());
-                // }}
+                onValuesChange={(values) => {
+                    console.log(values, form.isFieldsTouched());
+                }}
                 // onFinishFailed={(errors) => {
                 //     console.log('errors', errors);
                 // }}
-                // onFinish={(values) => console.log('onFinish', values)}
+                onFinish={(values) => console.log('onFinish', values)}
             >
                 {current === 0
                     ? <>
@@ -1943,10 +1966,12 @@ export default function Home() {
                             </RadioGroup>
                         </Item>}
 
-                        <Item rules={[{ required: true }]} initialValue={'Philippines'} name="country" label="Country">
+                        <Item rules={[{ required: true }]} name="country" label="Country">
                             <Select
                                 showSearch
                                 iconClickClear
+                                value={selected}
+                                controlled
                                 // suffixIcon={<>clear</>}
                                 // style={{ width: 400 }}
                                 placeholder="Select..."
@@ -1956,8 +1981,8 @@ export default function Home() {
                     </>
                     : current === 1 ?
                     <>
-                        {<Item rules={[{ required: true }]} name="gender" label="Gender" initialValue={'aaa'}>
-                            <Input placeholder="Gender" />
+                        {<Item rules={[{ required: true }]} name="gender" label="Gender">
+                            <Input mask="___.___.___.__" placeholder="Gender" />
                         </Item>}
 
                         {/* <Item rules={[{ required: true }]} name="date" label="Date">
@@ -1993,10 +2018,6 @@ export default function Home() {
                             if (await form.validateFields()) {
                                 form.changeStep(current + 1);
                                 setCurrent(current + 1)
-
-                                // setTimeout(() => {
-                                    form.setFields([{ errors: ['sdfsdfdfs'], name: 'gender' }])
-                                // }, 1000);
                             }
                         }
                     }}>
