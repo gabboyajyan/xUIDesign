@@ -1903,13 +1903,16 @@ export default function Home() {
     //     }
     // }, []);
 
-    const [aa, bb] = useState([new Date(), new Date()])
+    const [aa, bb] = useState([
+    new Date("2025-10-06T20:00:00.000Z"),
+    new Date("2025-10-09T19:59:59.999Z")
+])
     const [selected, setSelected] = useState('Armenia')
 
     useEffect(() => {
-        setTimeout(() => {
-            bb([new Date("2025-10-06T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
-        }, 3000);
+        // setTimeout(() => {
+        //     bb([new Date("2025-10-06T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
+        // }, 3000);
     }, [])
 
     const disableDate = useCallback(
@@ -1935,7 +1938,7 @@ export default function Home() {
 
     return (
         <>
-            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} disabledDate={disableDate} />
+            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
 
             <Form
                 form={form}

@@ -2348,6 +2348,7 @@ const RangePicker = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
   const handleSelect = date => {
+    debugger;
     if (!selectedDates[0] || selectedDates[0] && selectedDates[1]) {
       setSelectedDates([date, null]);
       onCalendarChange?.([date.toUTCString(), undefined], [formatDate(date)], {});
