@@ -2532,6 +2532,11 @@ const RangePicker = ({
     setSelectedDates([null, null]);
     onChange?.(null, ['', '']);
   };
+  console.info({
+    value,
+    defaultValue,
+    selectedDates
+  });
   return /*#__PURE__*/React.createElement("div", {
     ref: containerRef,
     style: style,

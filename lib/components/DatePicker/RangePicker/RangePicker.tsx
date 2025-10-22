@@ -382,6 +382,12 @@ const RangePicker = ({
     onChange?.(null, ['', '']);
   };
 
+  console.info({
+    value,
+    defaultValue,
+    selectedDates
+  });
+
   return (
     <div
       ref={containerRef}
