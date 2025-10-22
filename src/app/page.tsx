@@ -1,23 +1,23 @@
 'use client'
 
-import { Form } from "../../lib/components/Form";
-import { Radio } from "../../lib/components/Radio";
+// import { Form } from "../../lib/components/Form";
+// import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
-import { Item } from "../../lib/components/Form/Item";
+// import { Item } from "../../lib/components/Form/Item";
 import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
-import { Input } from "../../lib/components/Input";
-import { Select } from "../../lib/components/Select";
-import { Switch } from "../../lib/components/Switch";
+// import { Input } from "../../lib/components/Input";
+// import { Select } from "../../lib/components/Select";
+// import { Switch } from "../../lib/components/Switch";
 // import { Switch } from "../../lib/components/Switch";
 // import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
-import { Button } from "../../lib/components/Button";
+// import { Button } from "../../lib/components/Button";
 import { useCallback, useEffect, useState } from "react";
 // import dayjs from 'dayjs';
-import { useForm } from "../../lib/hooks/useForm";
-import { RadioGroup } from "../../lib/components/Radio/Group";
-import { useWatch } from '../../lib/hooks/useWatch';
+// import { useForm } from "../../lib/hooks/useForm";
+// import { RadioGroup } from "../../lib/components/Radio/Group";
+// import { useWatch } from '../../lib/hooks/useWatch';
 // import { ForwardedRef, useEffect, useRef, useState } from "react";
 // import { RadioButton } from "../../lib/components/Radio/Button";
 // import Option from "../../lib/components/Select/Option/Option";
@@ -1853,183 +1853,15 @@ const period: {
 }
 
 export default function Home() {
-    const form = useForm();
-    const [i, setI] = useState()
-
-    useEffect(() => {
-        // setTimeout(() => {
-        //     setI({ email: 'sdfdsfdsf' })
-        // }, 2000);
-    }, [])
-
-    // const [dates, setDates] = useState<Date[] | any[] | null>([]);
-    const [current, setCurrent] = useState(0);
-    const [hide, setHide] = useState(false);
-    const [type, setType] = useState('full');
-    const [value, setValue] = useState('');
-    // const [country, setCountry] = useState('')
-
-    // const fields = useWatch({ form });
-
-    // const disableDate = useCallback(
-    //     (date: any) => {
-    //         date = dayjs(date);
-
-    //         if (date > dayjs().endOf('day')) {
-    //             return true;
-    //         }
-
-    //         if (!period || !dates || dates.length === 0) {
-    //             return false;
-    //         }
-
-    //         const tooLate =
-    //             dates[0] &&
-    //             date.add(-1, 'd').diff(dates[0], period.unit) >=
-    //             period.value;
-
-    //         const tooEarly =
-    //             dates[0] &&
-    //             date.add(-1, 'd').diff(dates[0], 0) <= -period.value;
-
-    //         return tooLate || tooEarly;
-    //     },
-    //     [dates, period]
-    // );
-
-    // const onOpenChange = useCallback((open: boolean) => {
-    //     if (open) {
-    //         setDates([]);
-    //     }
-    // }, []);
-
     const [aa, bb] = useState([
         new Date("2025-10-06T20:00:00.000Z"),
         new Date("2025-10-09T19:59:59.999Z")
-    ])
-    const [selected, setSelected] = useState('Armenia')
-
-    useEffect(() => {
-        // setTimeout(() => {
-        //     bb([new Date("2025-10-06T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
-        // }, 3000);
-    }, [])
-
-    const disableDate = useCallback(
-    (date: any) => {
-        const startDate = aa[0];
-        const endDate = aa[1];
-        const dateToCheck = date;
-
-        console.log({
-            endDate,
-            startDate,
-            dateToCheck
-        });
-        
-        if (dateToCheck >= startDate && dateToCheck <= endDate) {
-            return false
-        }
-        
-        return true
-    },
-    [aa]
-  );
+    ]);
 
     return (
         <>
-            <RangePicker size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
+            <RangePicker inputReadOnly size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
 
-            <Form
-                form={form}
-                layout="vertical"
-                initialValues={i}
-                style={{ width: 400 }}
-                scrollToFirstError={true}
-                onValuesChange={(values) => {
-                    console.log(values, form.isFieldsTouched());
-                }}
-                // onFinishFailed={(errors) => {
-                //     console.log('errors', errors);
-                // }}
-                onFinish={(values) => console.log('onFinish', values)}
-            >
-                {current === 0
-                    ? <>
-                        {true ? <Item rules={[{ pattern: /\S{8,}/ }]} name="email" label="Email">
-                            {/* <div> */}
-                                <Input placeholder="Email" />
-                            {/* </div> */}
-                        </Item>: <></>}
-
-                        {!hide && <Item rules={[{ required: true }]} name="type" label="Type" initialValue={type}>
-                            <RadioGroup>
-                                <Radio checked={type === 'full'} name="type" value='full' onClick={() => setType('full')} />
-                                <Radio checked={type === 'partial'} name="type" value='partial' onClick={() => setType('partial')} />
-                            </RadioGroup>
-                        </Item>}
-
-                        <Item rules={[{ required: true }]} name="country" label="Country">
-                            <Select
-                                showSearch
-                                iconClickClear
-                                value={selected}
-                                controlled
-                                // suffixIcon={<>clear</>}
-                                // style={{ width: 400 }}
-                                placeholder="Select..."
-                                options={CountryCodes}
-                            />
-                        </Item>
-                    </>
-                    : current === 1 ?
-                    <>
-                        {<Item rules={[{ required: true }]} name="gender" label="Gender">
-                            <Input mask="___.___.___.__" placeholder="Gender" />
-                        </Item>}
-
-                        {/* <Item rules={[{ required: true }]} name="date" label="Date">
-                        <RangePicker
-                            disabledDate={disableDate}
-                            onCalendarChange={setDates}
-                            onOpenChange={onOpenChange}
-                        />
-                    </Item> */}
-                    </> : <Item rules={[{ required: true }]} name="username" label="Username">
-                            <Input placeholder="Username" />
-                        </Item>}
-
-                <div style={{ display: 'flex', gap: 8 }}>
-                    {current > 0
-                    ? <Button
-                        type="primary"
-                        htmlType="button"
-                        onClick={() => {
-                            form.changeStep(current - 1);
-                            setCurrent(current - 1);
-                        }}>Previous</Button>
-                    : <> </>
-                }
-
-                <Button
-                    type="primary"
-                    htmlType="button"
-                    onClick={async () => {
-                        if (current === 2) {
-                            await form.submit()
-                        } else {
-                            if (await form.validateFields()) {
-                                form.changeStep(current + 1);
-                                setCurrent(current + 1)
-                            }
-                        }
-                    }}>
-                    {current === 2 ? 'Submit' : 'Next'}
-                </Button>
-
-                <Button type="primary" onClick={() => form.resetFields()}>Reset</Button>
-                </div>
-            </Form>
         </>
     )
 }

@@ -190,7 +190,7 @@
 }
 
 .xUi-rangepicker-input.noBordered {
-    border: none !important
+    border: none !important;
 }
 
 .xUi-rangepicker-input input {
@@ -254,7 +254,7 @@
         background-color 0.3s,
         color 0.3s;
     cursor: pointer;
-    border: none;
+    border: 1px solid transparent;
 }
 
 .xUi-rangepicker-day:hover {
@@ -281,6 +281,7 @@
 }
 
 .xUi-rangepicker-hover-end {
+    color: #fff;
     background-color: var(--xui-primary-color) !important;
 }
 
@@ -424,4 +425,14 @@
     margin-bottom: 8px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--xui-border-color);
+}
+
+.xUi-rangepicker-in-hover-range:not(.xUi-rangepicker-other-month) {
+    border: 1px dashed var(--xui-primary-color);
+    border-radius: 4px;
+}
+
+.xUi-rangepicker-in-hover-range:not(.xUi-rangepicker-other-month) {
+    border: 1px dashed var(--xui-primary-color);
+    background-color: #f0f5ff;
 }

@@ -88,6 +88,16 @@ const RangePicker = ({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const isInHoverRange = (date: Date) => {
+    const [start, end] = selectedDates;
+    if (!start || end || !hoveredDate) return false;
+
+    const rangeStart = hoveredDate < start ? hoveredDate : start;
+    const rangeEnd = hoveredDate < start ? start : hoveredDate;
+
+    return date > rangeStart && date < rangeEnd;
+  };
+
   const handleSelect = (date: Date) => {
     if (!selectedDates[0] || (selectedDates[0] && selectedDates[1])) {
       setSelectedDates([date, null]);
@@ -317,7 +327,8 @@ const RangePicker = ({
                         !selectedDates[1] &&
                         hoveredDate > selectedDates[0] &&
                         hoveredDate?.toDateString() === day?.toDateString(),
-                      [`${prefixCls}-other-month`]: !isSameMonth
+                      [`${prefixCls}-other-month`]: !isSameMonth,
+                      [`${prefixCls}-in-hover-range`]: isInHoverRange(day),
                     }
                   ])}
                 >
@@ -381,12 +392,6 @@ const RangePicker = ({
     setSelectedDates([null, null]);
     onChange?.(null, ['', '']);
   };
-
-  console.info({
-    value,
-    defaultValue,
-    selectedDates
-  });
 
   return (
     <div
