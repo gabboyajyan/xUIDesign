@@ -2326,9 +2326,6 @@ const RangePicker = ({
   const [selectedDates, setSelectedDates] = useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   useEffect(() => {
     setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
-    console.info({
-      Dates: value
-    });
   }, [value]);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());

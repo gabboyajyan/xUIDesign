@@ -45,8 +45,6 @@ const RangePicker = ({
       value?.[0] || defaultValue?.[0] || null,
       value?.[1] || defaultValue?.[1] || null
     ])
-
-    console.info({ Dates: value });
   }, [value])
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
