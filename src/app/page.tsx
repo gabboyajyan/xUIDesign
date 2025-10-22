@@ -1844,24 +1844,32 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-const period: {
-    value: number;
-    unit: "day" | "month" | "year";
-} = {
-    value: 2,
-    unit: "day"
-}
+// const period: {
+//     value: number;
+//     unit: "day" | "month" | "year";
+// } = {
+//     value: 2,
+//     unit: "day"
+// }
 
 export default function Home() {
-    const [aa, bb] = useState([
+    const [selectedDates, setSelectedDates] = useState([
         new Date("2025-10-06T20:00:00.000Z"),
         new Date("2025-10-09T19:59:59.999Z")
     ]);
 
+    console.log(selectedDates);
+    
     return (
-        <>
-            <RangePicker inputReadOnly size="middle" format={'YYYY-MM-DD'} value={aa} defaultValue={aa} />
-
-        </>
+        <RangePicker
+            size="middle"
+            inputReadOnly
+            format={'YYYY-MM-DD'}
+            value={selectedDates}
+            defaultValue={selectedDates}
+            onChange={(dates) => {
+                setSelectedDates([new Date(dates[0]), new Date(dates[1])])
+            }}
+        />
     )
 }

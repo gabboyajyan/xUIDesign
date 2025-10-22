@@ -45,6 +45,8 @@ const RangePicker = ({
       value?.[0] || defaultValue?.[0] || null,
       value?.[1] || defaultValue?.[1] || null
     ])
+
+    console.info({ Dates: value });
   }, [value])
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -430,6 +432,7 @@ const RangePicker = ({
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[0]}
+            key={selectedDates[0]?.toUTCString()}
             {...({
               [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
             })}
@@ -441,6 +444,7 @@ const RangePicker = ({
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[1]}
+            key={selectedDates[1]?.toUTCString()}
             {...({
               [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
             })}

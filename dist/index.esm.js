@@ -2326,6 +2326,9 @@ const RangePicker = ({
   const [selectedDates, setSelectedDates] = useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   useEffect(() => {
     setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
+    console.info({
+      Dates: value
+    });
   }, [value]);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
@@ -2567,6 +2570,7 @@ const RangePicker = ({
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[0],
+    key: selectedDates[0]?.toUTCString(),
     [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-range-separator`
@@ -2574,6 +2578,7 @@ const RangePicker = ({
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[1],
+    key: selectedDates[1]?.toUTCString(),
     [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`
