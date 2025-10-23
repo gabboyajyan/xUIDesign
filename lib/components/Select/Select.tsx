@@ -620,7 +620,7 @@ const Select = ({
         }
       }
 
-      if (overflowCount === 1 && lastTagWidth) {
+      if (overflowCount === 1 && lastTagWidth + PADDING_PLACEMENT) {
         setResponsiveTagCount(0);
       }
 

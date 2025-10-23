@@ -6,7 +6,7 @@
 // import { Item } from "../../lib/components/Form/Item";
 import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 // import { Input } from "../../lib/components/Input";
-// import { Select } from "../../lib/components/Select";
+import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 // import { Switch } from "../../lib/components/Switch";
 // import { useState } from "react";
@@ -1861,6 +1861,7 @@ export default function Home() {
     console.log(selectedDates);
     
     return (
+       <>
         <RangePicker
             size="middle"
             inputReadOnly
@@ -1871,5 +1872,12 @@ export default function Home() {
                 setSelectedDates([new Date(dates[0]), new Date(dates[1])])
             }}
         />
+        <Select 
+            mode="tags"
+            style={{ width: 400 }}
+            options={CountryCodes}
+            maxTagCount="responsive"
+            defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} />
+       </>
     )
 }
