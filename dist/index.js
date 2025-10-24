@@ -2148,6 +2148,7 @@ const DatePicker = ({
       setIsOpen(!isOpen);
     }
   }, prefix || null, /*#__PURE__*/React.createElement("input", {
+    key: selectedDate?.toString(),
     size: INPUT_SIZE$1,
     disabled: disabled,
     readOnly: inputReadOnly,

@@ -291,6 +291,7 @@ const DatePicker = ({
         >
           {prefix || null}
           <input
+            key={selectedDate?.toString()}
             size={INPUT_SIZE}
             disabled={disabled}
             readOnly={inputReadOnly}
