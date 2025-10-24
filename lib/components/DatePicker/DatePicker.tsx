@@ -200,6 +200,10 @@ const DatePicker = ({
       containerRef.current?.querySelector(`.${prefixCls}-dropdown`)
         ?.clientHeight || 0;
 
+    const picker = containerRef.current?.querySelector(`.${prefixCls}-input`) as HTMLButtonElement
+    
+    console.log(placement);
+    
     setPlacementPossition(
       ['topLeft', 'topRight'].includes(placement)
         ? {
@@ -207,14 +211,15 @@ const DatePicker = ({
           top:
             datePickerPossitionFromTop - datePickerContainerPopupHeight < 0
               ? datePickerContainerHeight
-              : -datePickerContainerPopupHeight
+              : -datePickerContainerPopupHeight,
         }
         : {
           position: 'absolute',
           top:
             datePickerPossitionFromBottom > datePickerContainerPopupHeight
               ? 0
-              : -(datePickerContainerPopupHeight + datePickerContainerHeight)
+              : -(datePickerContainerPopupHeight + datePickerContainerHeight),
+          ...(placement.includes('Left') ? {} : { right: (containerRef.current?.offsetWidth || 0) - picker.offsetWidth })
         }
     );
   }

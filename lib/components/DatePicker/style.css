@@ -113,8 +113,8 @@
     opacity: 0;
     transform: scale(0.95);
     transition:
-        opacity 0.2s ease,
-        transform 0.2s ease;
+        opacity 0.3s ease,
+        transform 0.01s ease;
     pointer-events: none;
     position: absolute;
     z-index: 1000;

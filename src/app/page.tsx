@@ -1,5 +1,6 @@
 'use client'
 
+import DatePicker from "../../lib/components/DatePicker/DatePicker";
 // import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
@@ -1862,15 +1863,14 @@ export default function Home() {
     
     return (
        <>
-        <RangePicker
+        <DatePicker
             size="middle"
             inputReadOnly
             format={'YYYY-MM-DD'}
-            value={selectedDates}
-            defaultValue={selectedDates}
             onChange={(dates) => {
                 setSelectedDates([new Date(dates[0]), new Date(dates[1])])
             }}
+            placement="bottomLeft"
         />
         <Select 
             mode="tags"
