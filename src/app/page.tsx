@@ -1866,9 +1866,10 @@ export default function Home() {
         <DatePicker
             size="middle"
             inputReadOnly
+            value={selectedDates[0]}
             format={'YYYY-MM-DD'}
             onChange={(dates) => {
-                setSelectedDates([new Date(dates[0]), new Date(dates[1])])
+                setSelectedDates(dates)
             }}
             placement="bottomLeft"
         />

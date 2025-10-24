@@ -88,6 +88,10 @@ const DatePicker = ({
   ];
 
   useEffect(() => {
+    setSelectedDate(value || defaultValue);
+  }, [value])
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         containerRef.current &&

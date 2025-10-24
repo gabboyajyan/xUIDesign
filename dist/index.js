@@ -1998,6 +1998,9 @@ const DatePicker = ({
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   React.useEffect(() => {
+    setSelectedDate(value || defaultValue);
+  }, [value]);
+  React.useEffect(() => {
     const handleClickOutside = event => {
       if (containerRef.current && !containerRef.current.contains(event.target)) {
         setIsOpen(false);
