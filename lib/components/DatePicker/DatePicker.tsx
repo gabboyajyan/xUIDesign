@@ -202,8 +202,6 @@ const DatePicker = ({
 
     const picker = containerRef.current?.querySelector(`.${prefixCls}-input`) as HTMLButtonElement
     
-    console.log(placement);
-    
     setPlacementPossition(
       ['topLeft', 'topRight'].includes(placement)
         ? {

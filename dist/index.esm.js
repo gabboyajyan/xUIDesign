@@ -2079,7 +2079,6 @@ const DatePicker = ({
     const datePickerPossitionFromBottom = window.innerHeight - (containerRef.current?.getBoundingClientRect().bottom || 0);
     const datePickerContainerPopupHeight = containerRef.current?.querySelector(`.${prefixCls}-dropdown`)?.clientHeight || 0;
     const picker = containerRef.current?.querySelector(`.${prefixCls}-input`);
-    console.log(placement);
     setPlacementPossition(['topLeft', 'topRight'].includes(placement) ? {
       position: 'absolute',
       top: datePickerPossitionFromTop - datePickerContainerPopupHeight < 0 ? datePickerContainerHeight : -datePickerContainerPopupHeight
