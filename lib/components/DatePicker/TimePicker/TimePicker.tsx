@@ -95,22 +95,21 @@ const TimePicker: FC<TimePickerProps> = ({
     }
   }, [open, innerValue]);
 
-  useEffect(() => {
-    if (open && inputRef.current && popupRef.current) {
+  const decideOpenDirection = () => {
+    if (inputRef.current) {
       const inputRect = inputRef.current.getBoundingClientRect();
-      const popupRect = popupRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
-
+      const popupHeight = 240;
       const spaceBelow = viewportHeight - inputRect.bottom;
       const spaceAbove = inputRect.top;
 
-      if (spaceBelow < popupRect.height && spaceAbove > popupRect.height) {
+      if (spaceBelow < popupHeight && spaceAbove > popupHeight) {
         setOpenUpward(true);
       } else {
         setOpenUpward(false);
       }
     }
-  }, [open]);
+  };
 
   useEffect(() => {
     onSelect?.(tempValue);
@@ -443,7 +442,10 @@ const TimePicker: FC<TimePickerProps> = ({
     <div className={clsx([`${prefixCls}-wrapper`, className])} style={style}>
       <div
         className={`${prefixCls}-input-wrapper`}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          decideOpenDirection();
+          setOpen(true);
+        }}
       >
         <input
           ref={inputRef}
@@ -469,6 +471,7 @@ const TimePicker: FC<TimePickerProps> = ({
                 className={`${prefixCls}-suffix`}
                 onClick={e => {
                   e.stopPropagation();
+                  decideOpenDirection();
                   setOpen(true);
                 }}
               >

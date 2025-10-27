@@ -2667,20 +2667,20 @@ const TimePicker = ({
       scrollToTop(secondRef, second || 0);
     }
   }, [open, innerValue]);
-  useEffect(() => {
-    if (open && inputRef.current && popupRef.current) {
+  const decideOpenDirection = () => {
+    if (inputRef.current) {
       const inputRect = inputRef.current.getBoundingClientRect();
-      const popupRect = popupRef.current.getBoundingClientRect();
       const viewportHeight = window.innerHeight;
+      const popupHeight = 240;
       const spaceBelow = viewportHeight - inputRect.bottom;
       const spaceAbove = inputRect.top;
-      if (spaceBelow < popupRect.height && spaceAbove > popupRect.height) {
+      if (spaceBelow < popupHeight && spaceAbove > popupHeight) {
         setOpenUpward(true);
       } else {
         setOpenUpward(false);
       }
     }
-  }, [open]);
+  };
   useEffect(() => {
     onSelect?.(tempValue);
   }, [tempValue, onSelect]);
@@ -2902,7 +2902,10 @@ const TimePicker = ({
     style: style
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input-wrapper`,
-    onClick: () => setOpen(true)
+    onClick: () => {
+      decideOpenDirection();
+      setOpen(true);
+    }
   }, /*#__PURE__*/React.createElement("input", {
     ref: inputRef,
     size: INPUT_SIZE,
@@ -2927,6 +2930,7 @@ const TimePicker = ({
     className: `${prefixCls}-suffix`,
     onClick: e => {
       e.stopPropagation();
+      decideOpenDirection();
       setOpen(true);
     }
   }, suffixIcon))), open && /*#__PURE__*/React.createElement("div", {
