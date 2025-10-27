@@ -2133,10 +2133,10 @@ const DatePicker = ({
       [`${prefixCls}-${size}`]: size
     }])
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-input-wrapper ${className}`
+    className: `${prefixCls}-input-wrapper`
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
-    className: clsx([`${prefixCls}-input`, {
+    className: clsx([`${prefixCls}-input ${className}`, {
       noBordered: !bordered,
       [`${prefixCls}-error`]: error,
       [`${prefixCls}-${size}`]: size,

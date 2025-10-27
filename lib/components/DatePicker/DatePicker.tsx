@@ -271,11 +271,11 @@ const DatePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-input-wrapper ${className}`}>
+      <div className={`${prefixCls}-input-wrapper`}>
         <button
           type="button"
           className={clsx([
-            `${prefixCls}-input`,
+            `${prefixCls}-input ${className}`,
             {
               noBordered: !bordered,
               [`${prefixCls}-error`]: error,
