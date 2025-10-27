@@ -8,6 +8,7 @@ import React, {
   ReactNode,
   RefObject,
   useEffect,
+  useMemo,
   useRef,
   useState
 } from 'react';
@@ -17,6 +18,8 @@ import { TimePickerProps } from '../../../types/datepicker';
 import { prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
 import './style.css';
+import { ConditionalWrapper } from '@/components/ConditionalWrapper';
+import { createPortal } from 'react-dom';
 
 const HOURS = 24;
 const INPUT_SIZE = 13;
@@ -41,7 +44,8 @@ const TimePicker: FC<TimePickerProps> = ({
   showNow = true,
   clearIcon = <ClearIcon />,
   suffixIcon = <TimeIcon />,
-  placeholder = 'Select time'
+  placeholder = 'Select time',
+  getPopupContainer
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [innerValue, setInnerValue] = useState<Date | null>(
@@ -70,6 +74,7 @@ const TimePicker: FC<TimePickerProps> = ({
       ) {
         setOpen(false);
         setTempValue(null);
+        setOpenUpward(false);
 
         if (!innerValue) {
           onChange?.(null as RuleType, '');
@@ -483,14 +488,26 @@ const TimePicker: FC<TimePickerProps> = ({
       </div>
 
       {open && (
-        <div
-          ref={popupRef}
-          className={clsx([
-            `${prefixCls}-popup`,
-            { [`${prefixCls}-popup-up`]: openUpward }
-          ])}>
-          {renderOptions()}
-        </div>
+        <ConditionalWrapper
+          condition={getPopupContainer !== undefined}
+          wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
+          <div
+            ref={popupRef}
+            style={{
+              ...(getPopupContainer ? {
+                position: 'absolute', 
+                top: (inputRef.current?.getBoundingClientRect().top || 0) + (inputRef.current?.offsetHeight || 0), 
+                left: inputRef.current?.getBoundingClientRect().left,
+                height: 'max-content'
+              } : {})
+            }}
+            className={clsx([
+              `${prefixCls}-popup`,
+              { [`${prefixCls}-popup-up`]: openUpward }
+            ])}>
+            {renderOptions()}
+          </div>
+        </ConditionalWrapper>
       )}
     </div>
   );
