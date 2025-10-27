@@ -24,6 +24,7 @@ const DatePicker = ({
   noStyle,
   feedbackIcons,
   locale,
+  className = '',
   placement = 'bottomLeft',
   defaultValue,
   size = 'large',
@@ -270,7 +271,7 @@ const DatePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-input-wrapper`}>
+      <div className={`${prefixCls}-input-wrapper ${className}`}>
         <button
           type="button"
           className={clsx([

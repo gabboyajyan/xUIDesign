@@ -154,7 +154,7 @@ const RangePicker = ({
     const baseMonth = currentMonth + monthOffset;
 
     return (
-      <div className={`${prefixCls}-header`}>
+      <div className={`${prefixCls}-header ${className}`}>
         {all || !monthOffset ? (
           <div className={`${prefixCls}-nav-buttons`}>
             <button onClick={(e) => {

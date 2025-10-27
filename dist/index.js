@@ -1965,6 +1965,7 @@ const DatePicker = ({
   noStyle,
   feedbackIcons,
   locale,
+  className = '',
   placement = 'bottomLeft',
   defaultValue,
   size = 'large',
@@ -2132,7 +2133,7 @@ const DatePicker = ({
       [`${prefixCls}-${size}`]: size
     }])
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-input-wrapper`
+    className: `${prefixCls}-input-wrapper ${className}`
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
@@ -2407,7 +2408,7 @@ const RangePicker = ({
     const baseYear = currentYear;
     const baseMonth = currentMonth + monthOffset;
     return /*#__PURE__*/React.createElement("div", {
-      className: `${prefixCls}-header`
+      className: `${prefixCls}-header ${className}`
     }, all || !monthOffset ? /*#__PURE__*/React.createElement("div", {
       className: `${prefixCls}-nav-buttons`
     }, /*#__PURE__*/React.createElement("button", {
