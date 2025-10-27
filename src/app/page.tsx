@@ -1859,13 +1859,19 @@ export default function Home() {
         new Date("2025-10-09T19:59:59.999Z")
     ]);
 
-    console.log(selectedDates);
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        setTimeout(() => {
+            setTime(new Date())
+        }, 2000);
+    }, [])
     
     return (
        <>
         <div style={{ height: 1500, overflow: 'scroll' }}>
             <div style={{ height: 400 }} />
-            <TimePicker  />
+            <TimePicker value={time} format={'HH:mm:ss'} />
         </div>
         {/* <Select 
             mode="tags"

@@ -65,6 +65,10 @@ const TimePicker: FC<TimePickerProps> = ({
   const secondRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
+  }, [propValue])
+
+  useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (
         popupRef.current &&

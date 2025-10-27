@@ -2649,6 +2649,9 @@ const TimePicker = ({
   const minuteRef = React.useRef(null);
   const secondRef = React.useRef(null);
   React.useEffect(() => {
+    setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
+  }, [propValue]);
+  React.useEffect(() => {
     const handleClickOutside = e => {
       if (popupRef.current && !popupRef.current.contains(e.target) && inputRef.current && !inputRef.current.contains(e.target)) {
         setOpen(false);
