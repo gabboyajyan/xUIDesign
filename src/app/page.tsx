@@ -1,6 +1,6 @@
 'use client'
 
-import DatePicker from "../../lib/components/DatePicker/DatePicker";
+import TimePicker from "../../lib/components/DatePicker/TimePicker/TimePicker";
 // import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
@@ -1863,22 +1863,13 @@ export default function Home() {
     
     return (
        <>
-        <DatePicker
-            size="middle"
-            inputReadOnly
-            value={selectedDates[0]}
-            format={'YYYY-MM-DD'}
-            onChange={(dates) => {
-                setSelectedDates(dates)
-            }}
-            placement="bottomLeft"
-        />
-        <Select 
+        <TimePicker />
+        {/* <Select 
             mode="tags"
             style={{ width: 400 }}
             options={CountryCodes}
             maxTagCount="responsive"
-            defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} />
+            defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} /> */}
        </>
     )
 }

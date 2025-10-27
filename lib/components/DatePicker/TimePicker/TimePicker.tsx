@@ -48,6 +48,8 @@ const TimePicker: FC<TimePickerProps> = ({
     propValue || defaultValue ? new Date(propValue || defaultValue) : null
   );
 
+  const [openUpward, setOpenUpward] = useState(false);
+
   const [[showHour, showMinutes, showSeconds]] = useState(`${format}`.split(':'))
 
   const [tempValue, setTempValue] = useState<Date | null>(null);
@@ -92,6 +94,23 @@ const TimePicker: FC<TimePickerProps> = ({
       scrollToTop(secondRef as { current: HTMLDivElement }, second || 0);
     }
   }, [open, innerValue]);
+
+  useEffect(() => {
+    if (open && inputRef.current && popupRef.current) {
+      const inputRect = inputRef.current.getBoundingClientRect();
+      const popupRect = popupRef.current.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      const spaceBelow = viewportHeight - inputRect.bottom;
+      const spaceAbove = inputRect.top;
+
+      if (spaceBelow < popupRect.height && spaceAbove > popupRect.height) {
+        setOpenUpward(true);
+      } else {
+        setOpenUpward(false);
+      }
+    }
+  }, [open]);
 
   useEffect(() => {
     onSelect?.(tempValue);
@@ -358,7 +377,7 @@ const TimePicker: FC<TimePickerProps> = ({
                 </div>
               )
             )}
-          </div>: null}
+          </div> : null}
 
           {showSeconds ? <div ref={secondRef} className={`${prefixCls}-column`}>
             {minutesSeconds.map((s, index) =>
@@ -461,7 +480,12 @@ const TimePicker: FC<TimePickerProps> = ({
       </div>
 
       {open && (
-        <div ref={popupRef} className={`${prefixCls}-popup`}>
+        <div
+          ref={popupRef}
+          className={clsx([
+            `${prefixCls}-popup`,
+            { [`${prefixCls}-popup-up`]: openUpward }
+          ])}>
           {renderOptions()}
         </div>
       )}
