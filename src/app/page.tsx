@@ -1869,9 +1869,10 @@ export default function Home() {
     
     return (
        <>
-        <div style={{ height: 1500, overflow: 'scroll' }}>
-            <div style={{ height: 400 }} />
-            <TimePicker value={time} format={'HH:mm:ss'} />
+        <div style={{ height: 2500 }}>
+            <div style={{ height: 1000 }} />
+
+            <TimePicker value={time} format={'HH:mm:ss'} getPopupContainer={() => document.body} />
         </div>
         {/* <Select 
             mode="tags"

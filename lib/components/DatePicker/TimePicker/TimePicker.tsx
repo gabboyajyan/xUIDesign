@@ -2,11 +2,13 @@
 
 import React, {
   ChangeEvent,
+  CSSProperties,
   FC,
   FocusEvent,
   MouseEvent as ReactMouseEvent,
   ReactNode,
   RefObject,
+  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -63,6 +65,8 @@ const TimePicker: FC<TimePickerProps> = ({
   const hourRef = useRef<HTMLDivElement>(null);
   const minuteRef = useRef<HTMLDivElement>(null);
   const secondRef = useRef<HTMLDivElement>(null);
+
+  const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
   useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -299,6 +303,79 @@ const TimePicker: FC<TimePickerProps> = ({
     }
   };
 
+  const dropdownPossition = useCallback(() => {
+    if (!inputRef.current) {
+      return {}
+    }
+
+    const dropdownHeight = 230
+    const inputPoss = inputRef.current?.getBoundingClientRect()
+    const windowHeight = window.innerHeight;
+    const spaceBelow = windowHeight - (inputPoss.bottom || 0);
+    const spaceAbove = inputPoss.top;
+    
+    const shouldShowAbove = spaceBelow < dropdownHeight;
+    const shouldShowBelow = spaceAbove < dropdownHeight;
+
+    if (open) {
+      if (getPopupContainer) {
+        if (!shouldShowBelow && !shouldShowAbove) {
+          if (!Object.keys(dropdownPosition).length) {
+            setDropdownPosition({
+              position: 'absolute',
+              top: (inputPoss.top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
+              left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
+              height: 'max-content'
+            })
+          }
+
+          return
+        }
+
+        if (!shouldShowBelow) {
+          setDropdownPosition({
+            position: 'absolute',
+            top: (inputPoss.top || 0) + document.documentElement.scrollTop - dropdownHeight,
+            left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
+            height: 'max-content'
+          })
+        } 
+        
+        if (!shouldShowAbove) {
+          setDropdownPosition({
+            position: 'absolute',
+            top: (inputPoss.top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
+            left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
+            height: 'max-content'
+          })
+        }
+      }
+    }
+  }, [open, inputRef.current])
+
+  useEffect(() => {
+    if (!open) return;
+
+    const _dropdownPossition = () => dropdownPossition();
+
+    _dropdownPossition();
+
+    const controller = new AbortController();
+
+    window.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
+    });
+
+    window.addEventListener('resize', _dropdownPossition, {
+      signal: controller.signal
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [open, getPopupContainer, dropdownPossition]);
+
   const renderOptions = (): ReactNode => {
     const hours = Array.from(
       { length: HOURS + ADD_EMPTY_SECTION_COUNT },
@@ -498,12 +575,8 @@ const TimePicker: FC<TimePickerProps> = ({
           <div
             ref={popupRef}
             style={{
-              ...(getPopupContainer ? {
-                position: 'absolute', 
-                top: (inputRef.current?.getBoundingClientRect().top || 0) + (inputRef.current?.offsetHeight || 0), 
-                left: inputRef.current?.getBoundingClientRect().left,
-                height: 'max-content'
-              } : {})
+              ...dropdownPosition,
+              opacity: Object.keys(dropdownPosition).length ? 1 : 0
             }}
             className={clsx([
               `${prefixCls}-popup`,
