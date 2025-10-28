@@ -2871,11 +2871,29 @@ const TimePicker = ({
       }
     }
   }, [open, inputRef.current]);
+  const getScrollParents = useCallback(element => {
+    const parents = [];
+    let current = element.parentElement;
+    while (current) {
+      if (current.scrollHeight > current.clientHeight) {
+        parents.push(current);
+      }
+      current = current.parentElement;
+    }
+    return parents;
+  }, []);
   useEffect(() => {
     if (!open) return;
     const _dropdownPossition = () => dropdownPossition();
     _dropdownPossition();
     const controller = new AbortController();
+    const scrollableParents = getScrollParents(inputRef.current);
+    scrollableParents.forEach(el => {
+      el.addEventListener('scroll', _dropdownPossition, {
+        passive: true,
+        signal: controller.signal
+      });
+    });
     window.addEventListener('scroll', _dropdownPossition, {
       passive: true,
       signal: controller.signal

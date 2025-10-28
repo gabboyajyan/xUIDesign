@@ -313,7 +313,7 @@ const TimePicker: FC<TimePickerProps> = ({
     const windowHeight = window.innerHeight;
     const spaceBelow = windowHeight - (inputPoss.bottom || 0);
     const spaceAbove = inputPoss.top;
-    
+
     const shouldShowAbove = spaceBelow < dropdownHeight;
     const shouldShowBelow = spaceAbove < dropdownHeight;
 
@@ -339,8 +339,8 @@ const TimePicker: FC<TimePickerProps> = ({
             left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
             height: 'max-content'
           })
-        } 
-        
+        }
+
         if (!shouldShowAbove) {
           setDropdownPosition({
             position: 'absolute',
@@ -351,7 +351,21 @@ const TimePicker: FC<TimePickerProps> = ({
         }
       }
     }
-  }, [open, inputRef.current])
+  }, [open, inputRef.current]);
+
+  const getScrollParents = useCallback((element: HTMLElement): HTMLElement[] => {
+    const parents: HTMLElement[] = [];
+    let current = element.parentElement;
+
+    while (current) {
+      if (current.scrollHeight > current.clientHeight) {
+        parents.push(current);
+      }
+      current = current.parentElement;
+    }
+
+    return parents;
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -361,6 +375,15 @@ const TimePicker: FC<TimePickerProps> = ({
     _dropdownPossition();
 
     const controller = new AbortController();
+
+    const scrollableParents = getScrollParents(inputRef.current!);
+
+    scrollableParents.forEach(el => {
+      el.addEventListener('scroll', _dropdownPossition, {
+        passive: true,
+        signal: controller.signal
+      });
+    });
 
     window.addEventListener('scroll', _dropdownPossition, {
       passive: true,
