@@ -1872,7 +1872,7 @@ export default function Home() {
         <div style={{ height: 2500 }}>
             <div style={{ height: 1000 }} />
 
-            <TimePicker value={time} format={'HH:mm:ss'} getPopupContainer={() => document.body} />
+            <TimePicker value={time} format={'HH:mm:ss'} />
         </div>
         {/* <Select 
             mode="tags"

@@ -3031,7 +3031,7 @@ const TimePicker = ({
     ref: popupRef,
     style: {
       ...dropdownPosition,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
+      opacity: getPopupContainer ? Object.keys(dropdownPosition).length ? 1 : 0 : 1
     },
     className: clsx([`${prefixCls}-popup`, {
       [`${prefixCls}-popup-up`]: openUpward
