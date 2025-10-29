@@ -2866,6 +2866,7 @@ const TimePicker = ({
       }
     } else {
       console.log({
+        offsetHeight: scrollableParents?.offsetHeight,
         shouldShowBelow,
         shouldShowAbove
       });

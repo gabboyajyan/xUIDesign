@@ -346,6 +346,7 @@ const TimePicker: FC<TimePickerProps> = ({
       }
     } else {
       console.log({
+        offsetHeight: scrollableParents?.offsetHeight,
         shouldShowBelow,
         shouldShowAbove
       });
