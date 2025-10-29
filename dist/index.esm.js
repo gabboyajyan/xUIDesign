@@ -2857,16 +2857,22 @@ const TimePicker = ({
     if (getPopupContainer) {
       if (!shouldShowBelow) {
         toBelow();
+        return;
       }
       if (!shouldShowAbove) {
         toAbove();
       }
     } else {
+      console.log({
+        shouldShowBelow,
+        shouldShowAbove
+      });
       if (shouldShowBelow) {
         setDropdownPosition({
           top: inputRef.current.offsetTop + inputRef.current.offsetHeight,
           left: inputRef.current?.offsetLeft
         });
+        return;
       }
       if (shouldShowAbove) {
         setDropdownPosition({

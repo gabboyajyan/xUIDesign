@@ -1870,7 +1870,9 @@ export default function Home() {
     return (
        <>
         <div style={{ height: 600 }}>
-            <TimePicker value={time} format={'HH:mm:ss'} />
+            <div id="sdfdsf" style={{ height: 200 }}>
+                <TimePicker value={time} format={'HH:mm:ss'} />
+            </div>
 
             <div style={{ height: 500 }} />
 
