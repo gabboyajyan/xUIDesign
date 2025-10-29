@@ -10,7 +10,6 @@ import React, {
   RefObject,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState
 } from 'react';
@@ -19,9 +18,9 @@ import { RuleType } from '../../../types';
 import { TimePickerProps } from '../../../types/datepicker';
 import { prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
-import './style.css';
 import { ConditionalWrapper } from '@/components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
+import './style.css';
 
 const HOURS = 24;
 const INPUT_SIZE = 13;
@@ -322,7 +321,8 @@ const TimePicker: FC<TimePickerProps> = ({
       return {}
     }
 
-    const offsetHeight = window.innerHeight
+    const scrollableParents = getScrollParents(inputRef.current)[1];
+    const offsetHeight = getPopupContainer ? window.innerHeight : (scrollableParents?.offsetHeight || 0)
     const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
     const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
 

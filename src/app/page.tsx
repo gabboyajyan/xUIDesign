@@ -1869,10 +1869,12 @@ export default function Home() {
     
     return (
        <>
-        <div style={{ height: 1000 }}>
+        <div style={{ height: 600 }}>
+            <TimePicker value={time} format={'HH:mm:ss'} />
 
-            <TimePicker style={{ marginTop: 900 }} value={time} format={'HH:mm:ss'} />
-            <div style={{ height: 1900 }} />
+            <div style={{ height: 500 }} />
+
+            <TimePicker value={time} format={'HH:mm:ss'} />
         </div>
         {/* <Select 
             mode="tags"
