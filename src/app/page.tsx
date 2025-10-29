@@ -1870,17 +1870,21 @@ export default function Home() {
     return (
        <>
         <div style={{ height: 1200 }}>
-            {/* <div style={{ height: 300 }}>
-                <div id="sdfdsf" style={{ height: 200 }}>
-                <TimePicker value={time} format={'HH:mm:ss'} />
+            <div style={{ height: 600, width: 700, border: '1px solid', overflow: 'auto' }}>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100, border: '1px solid' }}>
+                        <TimePicker value={time} format={'HH:mm:ss'} />
+                    </div>
+                </div>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100, border: '1px solid' }}></div>
+                </div>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100, border: '1px solid' }}>
+                        <TimePicker value={time} format={'HH:mm:ss'} />
+                    </div>
+                </div>
             </div>
-            </div> */}
-
-            {/* <div style={{ height: 800 }} /> */}
-
-            <TimePicker value={time} format={'HH:mm:ss'} getPopupContainer={() => document.body} />
-
-            <div style={{ height: 500 }} />
         </div>
         {/* <Select 
             mode="tags"

@@ -309,9 +309,10 @@ const TimePicker: FC<TimePickerProps> = ({
     const popupEl = popupRef.current;
     const dropdownHeight = popupEl?.offsetHeight || 230;
 
+    const parents = getScrollParents(inputRef.current);
     const popupContainer = getPopupContainer
       ? getPopupContainer(document.body)
-      : getScrollParents(inputRef.current)[1] || document.body;
+      : parents[parents.length - 2] || parents[1] || document.body;
 
     const containerRect = popupContainer.getBoundingClientRect();
 
@@ -319,7 +320,6 @@ const TimePicker: FC<TimePickerProps> = ({
     const spaceBelow = containerRect.bottom - inputRect.bottom;
 
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    const shouldShowBelow = !shouldShowAbove;
 
     if (getPopupContainer) {
       if (shouldShowAbove) {
