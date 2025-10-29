@@ -2849,10 +2849,22 @@ const TimePicker = ({
     const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
     const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
     if (open && !shouldShowBelow && !shouldShowAbove) {
-      if (getPopupContainer && !Object.keys(dropdownPosition).length) {
-        toAbove();
-      }
-      return;
+      setDropdownPosition(previousDropdownPosition => {
+        if (!Object.keys(previousDropdownPosition).length) {
+          if (getPopupContainer) {
+            return {
+              top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 230,
+              left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
+            };
+          } else {
+            return {
+              top: (inputRef.current?.offsetTop || 0) + (inputRef.current?.offsetHeight || 0),
+              left: inputRef.current?.offsetLeft
+            };
+          }
+        }
+        return previousDropdownPosition;
+      });
     }
     if (getPopupContainer) {
       if (!shouldShowBelow) {
@@ -2863,11 +2875,6 @@ const TimePicker = ({
         toAbove();
       }
     } else {
-      console.log({
-        offsetHeight: scrollableParents?.offsetHeight,
-        shouldShowBelow,
-        shouldShowAbove
-      });
       if (shouldShowBelow) {
         setDropdownPosition({
           top: inputRef.current.offsetTop + inputRef.current.offsetHeight,
@@ -3041,7 +3048,7 @@ const TimePicker = ({
     ref: popupRef,
     style: {
       ...dropdownPosition,
-      opacity: getPopupContainer ? Object.keys(dropdownPosition).length ? 1 : 0 : 1
+      opacity: Object.keys(dropdownPosition).length ? 1 : 0
     },
     className: clsx([`${prefixCls}-popup`, {
       [`${prefixCls}-popup-up`]: openUpward
