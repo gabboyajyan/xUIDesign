@@ -334,6 +334,8 @@ const TimePicker: FC<TimePickerProps> = ({
       return
     }
 
+    debugger
+
     if (getPopupContainer) {
       if (!shouldShowBelow) {
         toBelow();
