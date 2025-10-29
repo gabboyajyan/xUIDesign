@@ -1869,16 +1869,16 @@ export default function Home() {
     
     return (
        <>
-        <div style={{ height: 900 }}>
+        <div style={{ height: 1200 }}>
             {/* <div style={{ height: 300 }}>
                 <div id="sdfdsf" style={{ height: 200 }}>
                 <TimePicker value={time} format={'HH:mm:ss'} />
             </div>
             </div> */}
 
-            <div style={{ height: 800 }} />
+            {/* <div style={{ height: 800 }} /> */}
 
-            <TimePicker value={time} format={'HH:mm:ss'} />
+            <TimePicker value={time} format={'HH:mm:ss'} getPopupContainer={() => document.body} />
 
             <div style={{ height: 500 }} />
         </div>
