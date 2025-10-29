@@ -326,6 +326,11 @@ const TimePicker: FC<TimePickerProps> = ({
     const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
     const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
 
+    console.log({
+      shouldShowBelow,
+      shouldShowAbove
+    })
+
     if (open && !shouldShowBelow && !shouldShowAbove) {
       setDropdownPosition(previousDropdownPosition => {
         if (!Object.keys(previousDropdownPosition).length) {
