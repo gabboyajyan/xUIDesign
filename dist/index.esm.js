@@ -2845,7 +2845,7 @@ const TimePicker = ({
       return {};
     }
     const scrollableParents = getScrollParents(inputRef.current)[1];
-    const offsetHeight = getPopupContainer ? window.innerHeight : scrollableParents?.offsetHeight || 0;
+    const offsetHeight = getPopupContainer ? window.innerHeight : scrollableParents?.offsetHeight;
     const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
     const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
     if (open && !shouldShowBelow && !shouldShowAbove) {
@@ -2854,7 +2854,6 @@ const TimePicker = ({
       }
       return;
     }
-    debugger;
     if (getPopupContainer) {
       if (!shouldShowBelow) {
         toBelow();
