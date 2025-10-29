@@ -316,69 +316,58 @@ const TimePicker: FC<TimePickerProps> = ({
     })
   }
 
-  const dropdownPossition = useCallback(() => {
-    if (!inputRef.current) {
-      return {}
-    }
+const dropdownPossition = useCallback(() => {
+  if (!inputRef.current) return {};
 
-    const scrollableParents = getScrollParents(inputRef.current)[1];
-    const offsetHeight = getPopupContainer ? window.innerHeight : scrollableParents?.offsetHeight
-    const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
-    const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
+  const inputRect = inputRef.current.getBoundingClientRect();
+  const popupEl = popupRef.current;
+  const dropdownHeight = popupEl?.offsetHeight || 230;
 
-    console.log({
-      shouldShowBelow,
-      shouldShowAbove
-    })
+  // 1️⃣ Determine the container for popup
+  const popupContainer = getPopupContainer
+    ? getPopupContainer(document.body)
+    : getScrollParents(inputRef.current)[1] || document.body;
 
-    if (open && !shouldShowBelow && !shouldShowAbove) {
-      setDropdownPosition(previousDropdownPosition => {
-        if (!Object.keys(previousDropdownPosition).length) {
-          if (getPopupContainer) {
-            return {
-              top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 230,
-              left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
-            }
-          } else {
-            return {
-              top: (inputRef.current?.offsetTop || 0) + (inputRef.current?.offsetHeight || 0),
-              left: inputRef.current?.offsetLeft,
-            }
-          }
-        }
+  const containerRect = popupContainer.getBoundingClientRect();
 
-        return previousDropdownPosition
-      })
-    }
+  // 2️⃣ Compute visible space inside the container
+  const spaceAbove = inputRect.top - containerRect.top;
+  const spaceBelow = containerRect.bottom - inputRect.bottom;
 
-    if (getPopupContainer) {
-      if (!shouldShowBelow) {
-        toBelow();
+  const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+  const shouldShowBelow = !shouldShowAbove;
 
-        return
-      }
+  // Debug
+  console.log({
+    container: popupContainer,
+    spaceAbove,
+    spaceBelow,
+    shouldShowAbove,
+    shouldShowBelow,
+  });
 
-      if (!shouldShowAbove) {
-        toAbove();
-      }
+  // 3️⃣ Compute the position
+  if (getPopupContainer) {
+    // Position relative to container (like Antd with custom popup container)
+    if (shouldShowAbove) {
+      toAbove();
     } else {
-      if (shouldShowBelow) {
-        setDropdownPosition({
-          top: inputRef.current.offsetTop + inputRef.current.offsetHeight,
-          left: inputRef.current?.offsetLeft,
-        })
-
-        return
-      }
-
-      if (shouldShowAbove) {
-        setDropdownPosition({
-          top: inputRef.current?.offsetHeight - inputRef.current.offsetHeight - (popupRef.current?.offsetHeight || 0) - 8,
-          left: inputRef.current?.offsetLeft,
-        })
-      }
+      toBelow();
     }
-  }, [open, inputRef.current]);
+  } else {
+    // Position relative to nearest scrollable container (Antd default)
+    setDropdownPosition({
+      top:
+        shouldShowAbove
+          ? inputRef.current.offsetTop -
+            (popupEl?.offsetHeight || dropdownHeight) -
+            8
+          : inputRef.current.offsetTop + inputRef.current.offsetHeight,
+      left: inputRef.current.offsetLeft,
+    });
+  }
+}, [open, getPopupContainer]);
+
 
   const getScrollParents = useCallback((element: HTMLElement): HTMLElement[] => {
     const parents: HTMLElement[] = [];
