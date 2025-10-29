@@ -303,52 +303,58 @@ const TimePicker: FC<TimePickerProps> = ({
     }
   };
 
+  const toAbove = () => {
+    setDropdownPosition({
+      top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
+      left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+    })
+  }
+
+  const toBelow = () => {
+    setDropdownPosition({
+      top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 230,
+      left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+    })
+  }
+
   const dropdownPossition = useCallback(() => {
     if (!inputRef.current) {
       return {}
     }
 
-    const dropdownHeight = 230
-    const inputPoss = inputRef.current?.getBoundingClientRect()
-    const windowHeight = window.innerHeight;
-    const spaceBelow = windowHeight - (inputPoss.bottom || 0);
-    const spaceAbove = inputPoss.top;
+    const offsetHeight = window.innerHeight
+    const shouldShowAbove = offsetHeight - (inputRef.current?.getBoundingClientRect().bottom || 0) < 230;
+    const shouldShowBelow = inputRef.current?.getBoundingClientRect().top < 230;
 
-    const shouldShowAbove = spaceBelow < dropdownHeight;
-    const shouldShowBelow = spaceAbove < dropdownHeight;
+    if (open && !shouldShowBelow && !shouldShowAbove) {
+      if (getPopupContainer && !Object.keys(dropdownPosition).length) {
+        toAbove()
+      }
 
-    if (open) {
-      if (getPopupContainer) {
-        if (!shouldShowBelow && !shouldShowAbove) {
-          if (!Object.keys(dropdownPosition).length) {
-            setDropdownPosition({
-              position: 'absolute',
-              top: (inputPoss.top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
-              left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
-              height: 'max-content'
-            })
-          }
+      return
+    }
 
-          return
-        }
+    if (getPopupContainer) {
+      if (!shouldShowBelow) {
+        toBelow();
+      }
 
-        if (!shouldShowBelow) {
-          setDropdownPosition({
-            position: 'absolute',
-            top: (inputPoss.top || 0) + document.documentElement.scrollTop - dropdownHeight,
-            left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
-            height: 'max-content'
-          })
-        }
+      if (!shouldShowAbove) {
+        toAbove();
+      }
+    } else {
+      if (shouldShowBelow) {
+        setDropdownPosition({
+          top: inputRef.current.offsetTop + inputRef.current.offsetHeight,
+          left: inputRef.current?.offsetLeft,
+        })
+      }
 
-        if (!shouldShowAbove) {
-          setDropdownPosition({
-            position: 'absolute',
-            top: (inputPoss.top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
-            left: (inputPoss.left || 0) + document.documentElement.scrollLeft,
-            height: 'max-content'
-          })
-        }
+      if (shouldShowAbove) {
+        setDropdownPosition({
+          top: inputRef.current?.offsetHeight - inputRef.current.offsetHeight - (popupRef.current?.offsetHeight || 0) - 8,
+          left: inputRef.current?.offsetLeft,
+        })
       }
     }
   }, [open, inputRef.current]);
