@@ -71,10 +71,10 @@ export const usePossition = ({
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
         const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-        const hasLeft = placement?.includes('Left');
+        const hasRight = placement?.includes('Right');
 
         if (getPopupContainer) {
-            const leftPossition = hasLeft
+            const leftPossition = hasRight
                 ? (containerRef.current?.getBoundingClientRect().left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
                 : (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
 
@@ -96,7 +96,7 @@ export const usePossition = ({
                         ? containerRef.current.offsetTop -
                         (popupRef.current?.offsetHeight || dropdownHeight) - 8
                         : containerRef.current.offsetTop + containerRef.current.offsetHeight,
-                ...(hasLeft ? {
+                ...(hasRight ? {
                     left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {
                     left: containerRef.current.offsetLeft

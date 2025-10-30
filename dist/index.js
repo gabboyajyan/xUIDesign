@@ -1984,9 +1984,9 @@ const usePossition = ({
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    const hasLeft = placement?.includes('Left');
+    const hasRight = placement?.includes('Right');
     if (getPopupContainer) {
-      const leftPossition = hasLeft ? (containerRef.current?.getBoundingClientRect().left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft;
+      const leftPossition = hasRight ? (containerRef.current?.getBoundingClientRect().left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft;
       if (shouldShowAbove) {
         setDropdownPosition({
           top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - (popupRef.current?.offsetHeight || 0),
@@ -2001,7 +2001,7 @@ const usePossition = ({
     } else {
       setDropdownPosition({
         top: shouldShowAbove ? containerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - 8 : containerRef.current.offsetTop + containerRef.current.offsetHeight,
-        ...(hasLeft ? {
+        ...(hasRight ? {
           left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
         } : {
           left: containerRef.current.offsetLeft
