@@ -1877,7 +1877,7 @@ export default function Home() {
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid', display: 'flex' }}>
                         <TimePicker value={time}  />
-                        <TimePicker value={time}  />
+                        <TimePicker value={time} placement="topLeft" getPopupContainer={() => document.body}  />
                     </div>
                 </div>
             </div>

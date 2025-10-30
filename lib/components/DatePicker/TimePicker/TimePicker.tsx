@@ -2,13 +2,11 @@
 
 import React, {
   ChangeEvent,
-  CSSProperties,
   FC,
   FocusEvent,
   MouseEvent as ReactMouseEvent,
   ReactNode,
   RefObject,
-  useCallback,
   useEffect,
   useRef,
   useState
@@ -20,8 +18,8 @@ import { prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
 import { ConditionalWrapper } from '@/components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import './style.css';
 import { usePossition } from '@/hooks/usePossition';
+import './style.css';
 
 const HOURS = 24;
 const INPUT_SIZE = 13;
@@ -47,7 +45,8 @@ const TimePicker: FC<TimePickerProps> = ({
   clearIcon = <ClearIcon />,
   suffixIcon = <TimeIcon />,
   placeholder = 'Select time',
-  getPopupContainer
+  getPopupContainer,
+  placement
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [innerValue, setInnerValue] = useState<Date | null>(
@@ -66,8 +65,8 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const { dropdownPosition } = usePossition({
     popupRef,
+    placement,
     isOpen: open,
-    popupHeight: 235,
     getPopupContainer,
     containerRef: inputRef
   });

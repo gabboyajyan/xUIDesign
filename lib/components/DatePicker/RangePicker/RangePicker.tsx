@@ -1,6 +1,6 @@
 'use client';
 
-import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { clsx } from '../../../helpers';
 import { TRangePickerProps } from '../../../types/datepicker';
 import { prefixClsRangePicker } from '../../../utils';
@@ -8,8 +8,8 @@ import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../D
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
 import { createPortal } from 'react-dom';
 import { ConditionalWrapper } from '@/components/ConditionalWrapper';
-import './style.css';
 import { usePossition } from '@/hooks/usePossition';
+import './style.css';
 
 const RangePicker = ({
   prefixCls = prefixClsRangePicker,
@@ -64,7 +64,6 @@ const RangePicker = ({
       isOpen,
       popupRef,
       containerRef,
-      popupHeight: 295,
       getPopupContainer
   })
 

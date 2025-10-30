@@ -117,4 +117,5 @@ export type TimePickerProps = DefaultProps & {
     getPopupContainer?: (node: HTMLElement) => HTMLElement;
     suffixIcon?: ReactNode;
     placeholder?: string;
+    placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
 };

@@ -8,7 +8,6 @@ import {
 
 type TPossition = {
     isOpen: boolean;
-    popupHeight: number;
     popupRef: RefObject<HTMLDivElement | null>;
     containerRef: RefObject<HTMLDivElement | null>;
     getPopupContainer?: (node: HTMLElement) => HTMLElement;
@@ -48,8 +47,7 @@ function getScrollParent(
 export const usePossition = ({
     isOpen,
     popupRef,
-    // placement,
-    popupHeight,
+    placement,
     containerRef,
     getPopupContainer
 }: TPossition): {
@@ -61,8 +59,7 @@ export const usePossition = ({
         if (!containerRef.current) return {};
 
         const inputRect = containerRef.current.getBoundingClientRect();
-        const popupEl = popupRef.current;
-        const dropdownHeight = popupEl?.offsetHeight || popupHeight;
+        const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
 
         const popupContainer = getPopupContainer
             ? getPopupContainer(document.body)
@@ -74,17 +71,22 @@ export const usePossition = ({
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
         const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+        const hasLeft = placement?.includes('Left');
 
         if (getPopupContainer) {
+            const leftPossition = hasLeft
+                ? (containerRef.current?.getBoundingClientRect().left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+                : (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
+
             if (shouldShowAbove) {
                 setDropdownPosition({
-                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - popupHeight,
-                    left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - (popupRef.current?.offsetHeight || 0),
+                    left: leftPossition
                 })
             } else {
                 setDropdownPosition({
                     top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0),
-                    left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+                    left: leftPossition
                 })
             }
         } else {
@@ -92,14 +94,18 @@ export const usePossition = ({
                 top:
                     shouldShowAbove
                         ? containerRef.current.offsetTop -
-                        (popupEl?.offsetHeight || dropdownHeight) - 8
+                        (popupRef.current?.offsetHeight || dropdownHeight) - 8
                         : containerRef.current.offsetTop + containerRef.current.offsetHeight,
-                left: containerRef.current.offsetLeft,
+                ...(hasLeft ? {
+                    left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
+                } : {
+                    left: containerRef.current.offsetLeft
+                })
             });
         }
     }, [
         popupRef,
-        popupHeight,
+        placement,
         containerRef,
         getPopupContainer
     ]);
@@ -142,6 +148,4 @@ export const usePossition = ({
     return {
         dropdownPosition
     }
-
-    // ...(placement.includes('Left') ? {} : { right: (containerRef.current?.offsetWidth || 0) - picker.offsetWidth })
 }

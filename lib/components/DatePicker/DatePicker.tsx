@@ -1,6 +1,6 @@
 'use client';
 
-import React, { CSSProperties, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { clsx } from '../../helpers';
 import { TDatePickerProps } from '../../types/datepicker';
 import { prefixClsDatePicker } from '../../utils';
@@ -11,7 +11,6 @@ import { usePossition } from '@/hooks/usePossition';
 import './style.css';
 
 const INPUT_SIZE = 12;
-const CONTENT_PADDING = 6;
 export const NUMBER_SIX = 6;
 export const MONTH_LENGTH = 11;
 export const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 35;
@@ -95,7 +94,6 @@ const DatePicker = ({
     popupRef,
     placement,
     containerRef,
-    popupHeight: 305,
     getPopupContainer
   })
 

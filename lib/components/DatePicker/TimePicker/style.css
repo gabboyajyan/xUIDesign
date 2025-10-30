@@ -51,6 +51,7 @@
 
 .xUi-timepicker-popup {
     display: flex;
+    min-width: max-content;
     background: #fff;
     border: 1px solid var(--xui-border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
