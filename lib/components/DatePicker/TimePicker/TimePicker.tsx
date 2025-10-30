@@ -21,6 +21,7 @@ import { ClearIcon, TimeIcon } from '../../Icons/Icons';
 import { ConditionalWrapper } from '@/components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
 import './style.css';
+import { usePossition } from '@/hooks/usePossition';
 
 const HOURS = 24;
 const INPUT_SIZE = 13;
@@ -63,7 +64,14 @@ const TimePicker: FC<TimePickerProps> = ({
   const minuteRef = useRef<HTMLDivElement>(null);
   const secondRef = useRef<HTMLDivElement>(null);
 
-  const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
+  const { dropdownPosition } = usePossition({
+    popupRef,
+    isOpen: open,
+    popupHeight: 235,
+    getPopupContainer,
+    containerRef: inputRef
+  });
+
 
   useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -282,108 +290,6 @@ const TimePicker: FC<TimePickerProps> = ({
       }
     }
   };
-
-  const dropdownPossition = useCallback(() => {
-    if (!inputRef.current) return {};
-
-    const inputRect = inputRef.current.getBoundingClientRect();
-    const popupEl = popupRef.current;
-    const dropdownHeight = popupEl?.offsetHeight || 230;
-
-    const popupContainer = getPopupContainer
-      ? getPopupContainer(document.body)
-      : getScrollParent(inputRef.current, true) || document.body;
-
-    const containerRect = popupContainer.getBoundingClientRect();
-
-    const spaceAbove = inputRect.top - containerRect.top;
-    const spaceBelow = containerRect.bottom - inputRect.bottom;
-
-    const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-
-    if (getPopupContainer) {
-      if (shouldShowAbove) {
-        setDropdownPosition({
-          top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 230,
-          left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
-        })
-      } else {
-        setDropdownPosition({
-          top: (inputRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (inputRef.current?.offsetHeight || 0),
-          left: (inputRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
-        })
-      }
-    } else {
-      setDropdownPosition({
-        top:
-          shouldShowAbove
-            ? inputRef.current.offsetTop -
-            (popupEl?.offsetHeight || dropdownHeight) - 8
-            : inputRef.current.offsetTop + inputRef.current.offsetHeight,
-        left: inputRef.current.offsetLeft,
-      });
-    }
-  }, [open, getPopupContainer]);
-
-  function getScrollParent(
-    el: HTMLElement | null,
-    includeSelf = false
-  ): HTMLElement | null {
-    if (!el) return null;
-
-    let current: HTMLElement | null = includeSelf ? el : el.parentElement;
-
-    while (current) {
-      const style = getComputedStyle(current);
-
-      const overflowY = style.overflowY;
-      const overflowX = style.overflowX;
-
-      const canScroll =
-        overflowY === 'auto' ||
-        overflowY === 'scroll' ||
-        overflowX === 'auto' ||
-        overflowX === 'scroll';
-
-      if (canScroll) {
-        return current;
-      }
-
-      current = current.parentElement;
-    }
-
-    return document.scrollingElement as HTMLElement;
-  }
-
-  useEffect(() => {
-    if (!open) return;
-
-    const _dropdownPossition = () => dropdownPossition();
-
-    _dropdownPossition();
-
-    const controller = new AbortController();
-
-    const scrollableParents = getScrollParent(inputRef.current, true);
-
-    scrollableParents?.addEventListener('scroll', _dropdownPossition, {
-      passive: true,
-      signal: controller.signal
-    });
-
-    window.addEventListener('scroll', _dropdownPossition, {
-      passive: true,
-      signal: controller.signal
-    });
-
-    window.addEventListener('resize', _dropdownPossition, {
-      signal: controller.signal
-    });
-
-    return () => {
-      controller.abort();
-    };
-  }, [open, getPopupContainer, dropdownPossition]);
 
   const renderOptions = (): ReactNode => {
     const hours = Array.from(

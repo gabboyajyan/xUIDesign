@@ -1864,11 +1864,11 @@ export default function Home() {
     
     return (
        <>
-        <div style={{ height: 1200 }}>
+        <div style={{ height: 1000 }}>
             <div style={{  width: 700, border: '1px solid', overflow: 'auto' }}>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid' }}>
-                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
+                        <TimePicker value={time}  />
                     </div>
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
@@ -1876,8 +1876,8 @@ export default function Home() {
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid', display: 'flex' }}>
-                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
-                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
+                        <TimePicker value={time}  />
+                        <TimePicker value={time}  />
                     </div>
                 </div>
             </div>

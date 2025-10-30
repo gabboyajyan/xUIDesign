@@ -5,6 +5,9 @@ import { clsx } from '../../helpers';
 import { TDatePickerProps } from '../../types/datepicker';
 import { prefixClsDatePicker } from '../../utils';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
+import { ConditionalWrapper } from '../ConditionalWrapper';
+import { createPortal } from 'react-dom';
+import { usePossition } from '@/hooks/usePossition';
 import './style.css';
 
 const INPUT_SIZE = 12;
@@ -42,10 +45,9 @@ const DatePicker = ({
 }: TDatePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const initialDate = value || defaultValue;
+
+  const popupRef = useRef<HTMLDivElement>(null);
   const popupContainerRef = useRef<HTMLElement | null>(null);
-  const [placementPossition, setPlacementPossition] = useState<CSSProperties>(
-    {}
-  );
 
   const DateNow = new Date();
 
@@ -88,6 +90,15 @@ const DatePicker = ({
     'Sa'
   ];
 
+  const { dropdownPosition } = usePossition({
+    isOpen,
+    popupRef,
+    placement,
+    containerRef,
+    popupHeight: 305,
+    getPopupContainer
+  })
+
   useEffect(() => {
     setSelectedDate(value || defaultValue);
   }, [value])
@@ -95,6 +106,8 @@ const DatePicker = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node) &&
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
@@ -105,12 +118,6 @@ const DatePicker = ({
     const controller = new AbortController();
 
     if (isOpen) {
-      calculateDatePickerPopupPossition();
-
-      document.addEventListener('scroll', calculateDatePickerPopupPossition, {
-        signal: controller.signal
-      });
-
       document.addEventListener('mousedown', handleClickOutside, {
         signal: controller.signal
       });
@@ -190,43 +197,6 @@ const DatePicker = ({
     return disabledDate?.(date, { from: undefined, to: undefined });
   };
 
-  function calculateDatePickerPopupPossition() {
-    const datePickerContainerHeight =
-      (containerRef.current?.clientHeight || 0) + CONTENT_PADDING;
-
-    const datePickerPossitionFromTop =
-      containerRef.current?.getBoundingClientRect().top || 0;
-
-    const datePickerPossitionFromBottom =
-      window.innerHeight -
-      (containerRef.current?.getBoundingClientRect().bottom || 0);
-
-    const datePickerContainerPopupHeight =
-      containerRef.current?.querySelector(`.${prefixCls}-dropdown`)
-        ?.clientHeight || 0;
-
-    const picker = containerRef.current?.querySelector(`.${prefixCls}-input`) as HTMLButtonElement
-    
-    setPlacementPossition(
-      ['topLeft', 'topRight'].includes(placement)
-        ? {
-          position: 'absolute',
-          top:
-            datePickerPossitionFromTop - datePickerContainerPopupHeight < 0
-              ? datePickerContainerHeight
-              : -datePickerContainerPopupHeight,
-        }
-        : {
-          position: 'absolute',
-          top:
-            datePickerPossitionFromBottom > datePickerContainerPopupHeight
-              ? 0
-              : -(datePickerContainerPopupHeight + datePickerContainerHeight),
-          ...(placement.includes('Left') ? {} : { right: (containerRef.current?.offsetWidth || 0) - picker.offsetWidth })
-        }
-    );
-  }
-
   const prevMonth = currentMonth === 0 ? MONTH_LENGTH : currentMonth - 1;
   const nextMonth = currentMonth === MONTH_LENGTH ? 0 : currentMonth + 1;
   const prevMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
@@ -262,7 +232,7 @@ const DatePicker = ({
 
   return (
     <div
-      ref={containerRef}
+
       className={clsx([
         `${prefixCls}-container`,
         {
@@ -271,7 +241,7 @@ const DatePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-input-wrapper`}>
+      <div className={`${prefixCls}-input-wrapper`} ref={containerRef}>
         <button
           type="button"
           className={clsx([
@@ -318,216 +288,218 @@ const DatePicker = ({
         </button>
       </div>
 
-      <div
-        style={popupContainerRef.current ? { position: 'absolute' } : {}}
-        className={clsx([
-          placement,
-          `${prefixCls}-dropdown-wrapper`,
-          {
-            show: isOpen
-          }
-        ])}
-      >
-        {isOpen && (
-          <div className={`${prefixCls}-dropdown`} style={placementPossition}>
-            <div className={`${prefixCls}-header`}>
-              <div className={`${prefixCls}-nav-buttons`}>
-                <button onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  setCurrentYear((y: number) => y - 1)
-                }}>
-                  &laquo;
-                </button>
-                <button
-                  onClick={(e) => {
+      {isOpen && (
+        <ConditionalWrapper
+          condition={getPopupContainer !== undefined}
+          wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
+          <div
+            ref={popupRef}
+            className={`${prefixCls}-dropdown-wrapper`}
+            style={{
+              ...dropdownPosition,
+              opacity: Object.keys(dropdownPosition).length ? 1 : 0
+            }}
+          >
+            <div className={`${prefixCls}-dropdown`}>
+              <div className={`${prefixCls}-header`}>
+                <div className={`${prefixCls}-nav-buttons`}>
+                  <button onClick={(e) => {
                     e.preventDefault();
                     e.stopPropagation();
 
-                    setCurrentMonth((m: number) =>
-                      m === 0
-                        ? (setCurrentYear((y: number) => y - 1), MONTH_LENGTH)
-                        : m - 1
-                    )
-                  }}
-                >
-                  &lsaquo;
-                </button>
-              </div>
-              <div className={`${prefixCls}-dropdown-selects`}>
-                <button
-                  type="button"
-                  className={`${prefixCls}-select`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    setViewMode('year')
-                  }}
-                >
-                  {currentYear}
-                </button>
-                <button
-                  type="button"
-                  className={`${prefixCls}-select`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    setViewMode('month')
-                  }}
-                >
-                  {localeMonths[currentMonth]}
-                </button>
-              </div>
-              <div className={`${prefixCls}-nav-buttons`}>
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-
-                    setCurrentMonth((m: number) =>
-                      m === MONTH_LENGTH
-                        ? (setCurrentYear((y: number) => y + 1), 0)
-                        : m + 1
-                    )
-                  }}
-                >
-                  &rsaquo;
-                </button>
-                <button onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-
-                  setCurrentYear((y: number) => y + 1)
-                }}>
-                  &raquo;
-                </button>
-              </div>
-            </div>
-
-            {viewMode === 'day' && (
-              <div className={`${prefixCls}-grid day`}>
-                {localeWeekdays.map(day => (
-                  <div key={day} className={`${prefixCls}-day-header`}>
-                    {day}
-                  </div>
-                ))}
-                {days.map(({ day, current, month, year }, idx) => {
-                  const isSelected =
-                    selectedDate &&
-                    selectedDate.getDate() === day &&
-                    selectedDate.getMonth() === month &&
-                    selectedDate.getFullYear() === year;
-
-                  return (
-                    <button
-                      key={`${year}-${month}-${day}-${idx}`}
-                      className={clsx([
-                        `${prefixCls}-day`,
-                        {
-                          [`${prefixCls}-selected`]: isSelected,
-                          [`${prefixCls}-other-month`]: !current
-                        }
-                      ])}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-
-                        handleSelect(day, month, year)
-                      }}
-                      disabled={disabledDate?.(new Date(year, month, day), {
-                        from: undefined,
-                        to: undefined
-                      })}
-                    >
-                      {day}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {viewMode === 'month' && (
-              <div className={`${prefixCls}-grid`}>
-                {localeMonths.map((m, i) => (
+                    setCurrentYear((y: number) => y - 1)
+                  }}>
+                    &laquo;
+                  </button>
                   <button
-                    key={i}
-                    className={`${prefixCls}-month`}
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
 
-                      setCurrentMonth(i);
-                      setViewMode('day');
+                      setCurrentMonth((m: number) =>
+                        m === 0
+                          ? (setCurrentYear((y: number) => y - 1), MONTH_LENGTH)
+                          : m - 1
+                      )
                     }}
-                    disabled={isMonthDisabled(i)}
                   >
-                    {m}
+                    &lsaquo;
                   </button>
-                ))}
+                </div>
+                <div className={`${prefixCls}-dropdown-selects`}>
+                  <button
+                    type="button"
+                    className={`${prefixCls}-select`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      setViewMode('year')
+                    }}
+                  >
+                    {currentYear}
+                  </button>
+                  <button
+                    type="button"
+                    className={`${prefixCls}-select`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      setViewMode('month')
+                    }}
+                  >
+                    {localeMonths[currentMonth]}
+                  </button>
+                </div>
+                <div className={`${prefixCls}-nav-buttons`}>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      setCurrentMonth((m: number) =>
+                        m === MONTH_LENGTH
+                          ? (setCurrentYear((y: number) => y + 1), 0)
+                          : m + 1
+                      )
+                    }}
+                  >
+                    &rsaquo;
+                  </button>
+                  <button onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    setCurrentYear((y: number) => y + 1)
+                  }}>
+                    &raquo;
+                  </button>
+                </div>
               </div>
-            )}
 
-            {viewMode === 'year' && (
-              <div className={`${prefixCls}-grid`}>
-                {Array.from({ length: 12 }, (_, i) => {
-                  const year = currentYear - NUMBER_SIX + i;
+              {viewMode === 'day' && (
+                <div className={`${prefixCls}-grid day`}>
+                  {localeWeekdays.map(day => (
+                    <div key={day} className={`${prefixCls}-day-header`}>
+                      {day}
+                    </div>
+                  ))}
+                  {days.map(({ day, current, month, year }, idx) => {
+                    const isSelected =
+                      selectedDate &&
+                      selectedDate.getDate() === day &&
+                      selectedDate.getMonth() === month &&
+                      selectedDate.getFullYear() === year;
 
-                  return (
+                    return (
+                      <button
+                        key={`${year}-${month}-${day}-${idx}`}
+                        className={clsx([
+                          `${prefixCls}-day`,
+                          {
+                            [`${prefixCls}-selected`]: isSelected,
+                            [`${prefixCls}-other-month`]: !current
+                          }
+                        ])}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          handleSelect(day, month, year)
+                        }}
+                        disabled={disabledDate?.(new Date(year, month, day), {
+                          from: undefined,
+                          to: undefined
+                        })}
+                      >
+                        {day}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+
+              {viewMode === 'month' && (
+                <div className={`${prefixCls}-grid`}>
+                  {localeMonths.map((m, i) => (
                     <button
-                      key={year}
-                      className={`${prefixCls}-year`}
-                      disabled={isYearDisabled(year)}
+                      key={i}
+                      className={`${prefixCls}-month`}
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
 
-                        setCurrentYear(year);
-                        setViewMode('month');
+                        setCurrentMonth(i);
+                        setViewMode('day');
                       }}
+                      disabled={isMonthDisabled(i)}
                     >
-                      {year}
+                      {m}
                     </button>
-                  );
-                })}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
 
-            {showToday && (
-              <div
-                className={`${prefixCls}-day-footer`}
-                style={{ gridColumn: 'span 7' }}
-              >
-                <button
-                  className={`${prefixCls}-select`}
-                  disabled={disabledDate?.(
-                    new Date(
-                      DateNow.getDate(),
-                      DateNow.getMonth(),
-                      DateNow.getFullYear()
-                    ),
-                    { from: undefined, to: undefined }
-                  )}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
+              {viewMode === 'year' && (
+                <div className={`${prefixCls}-grid`}>
+                  {Array.from({ length: 12 }, (_, i) => {
+                    const year = currentYear - NUMBER_SIX + i;
 
-                    handleSelect(
-                      DateNow.getDate(),
-                      DateNow.getMonth(),
-                      DateNow.getFullYear()
+                    return (
+                      <button
+                        key={year}
+                        className={`${prefixCls}-year`}
+                        disabled={isYearDisabled(year)}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+
+                          setCurrentYear(year);
+                          setViewMode('month');
+                        }}
+                      >
+                        {year}
+                      </button>
                     );
-                  }}
+                  })}
+                </div>
+              )}
+
+              {showToday && (
+                <div
+                  className={`${prefixCls}-day-footer`}
+                  style={{ gridColumn: 'span 7' }}
                 >
-                  {locale?.today || 'Today'}
-                </button>
-              </div>
-            )}
+                  <button
+                    className={`${prefixCls}-select`}
+                    disabled={disabledDate?.(
+                      new Date(
+                        DateNow.getDate(),
+                        DateNow.getMonth(),
+                        DateNow.getFullYear()
+                      ),
+                      { from: undefined, to: undefined }
+                    )}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      handleSelect(
+                        DateNow.getDate(),
+                        DateNow.getMonth(),
+                        DateNow.getFullYear()
+                      );
+                    }}
+                  >
+                    {locale?.today || 'Today'}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
-        )}
-      </div>
+        </ConditionalWrapper>
+      )}
     </div>
   );
 };

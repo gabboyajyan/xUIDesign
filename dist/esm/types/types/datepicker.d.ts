@@ -14,7 +14,7 @@ export type TDatePickerProps = DefaultProps & {
     error?: boolean;
     feedbackIcons?: boolean;
     locale?: Locale;
-    placement?: string;
+    placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
     defaultOpen?: boolean;
     allowClear?: boolean | {
         clearIcon?: ReactNode;

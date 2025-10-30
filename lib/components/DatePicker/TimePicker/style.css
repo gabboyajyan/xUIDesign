@@ -161,7 +161,7 @@
 
 .xUi-timepicker-actions {
     display: flex;
-    padding: 0 4px;
+    padding: 0 8px;
     align-items: center;
     justify-content: space-between;
     border-top: 1px solid var(--xui-border-color);
