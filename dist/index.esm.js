@@ -2304,6 +2304,12 @@ var DatePicker$1 = /*#__PURE__*/Object.freeze({
 	default: DatePicker
 });
 
+const ConditionalWrapper = ({
+  condition,
+  wrapper,
+  children
+}) => condition ? wrapper(children) : children;
+
 var css_248z$e = ".xUi-rangepicker-range-container{font-size:14px;position:relative;user-select:none}.xUi-rangepicker-range-input-wrapper{background-color:#fff;border-radius:6px;display:flex;transition:all .3s;width:100%}.xUi-rangepicker-range-input-wrapper:hover{border-color:#4096ff}.xUi-rangepicker-range-input{align-items:center;border-right:1px solid var(--xui-border-color);cursor:pointer;display:flex;flex:1;padding:4px 11px}.xUi-rangepicker-range-input:last-child{border-right:none}.xUi-rangepicker-range-input input{background:transparent;border:none;color:#000;cursor:pointer;font-size:14px;outline:none;width:100%}.xUi-rangepicker-range-input input::placeholder{color:#bfbfbf}.xUi-rangepicker-range-clear,.xUi-rangepicker-range-icon{align-items:center;display:flex;margin-left:8px;transition:color .3s}.xUi-rangepicker-range-icon{color:rgba(0,0,0,.25)}.xUi-rangepicker-range-clear{color:rgba(0,0,0,.45);cursor:pointer}.xUi-rangepicker-range-clear:hover{color:#000}.xUi-rangepicker-range-dropdown-wrapper{background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;left:0;margin-top:4px;min-width:560px;opacity:1;padding:8px;position:absolute;top:100%;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease;z-index:1050}.xUi-rangepicker-range-dropdown-wrapper.show{display:flex}.xUi-rangepicker-dropdown-range,.xUi-rangepicker-range-dropdown{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:6px;display:flex;margin-top:2px;overflow:hidden}.xUi-rangepicker-calendar{background:#fff;border-radius:6px;margin:12px}.xUi-rangepicker-calendar.month,.xUi-rangepicker-calendar.year{width:280px}.xUi-rangepicker-calendar-header{align-items:center;display:flex;font-weight:500;justify-content:space-between}.xUi-rangepicker-month,.xUi-rangepicker-year{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;height:30px;line-height:30px;margin:7px;min-width:30px;text-align:center;transition:all .2s}.xUi-rangepicker-day:disabled,.xUi-rangepicker-month:disabled,.xUi-rangepicker-select:disabled,.xUi-rangepicker-year:disabled{background-color:var(--xui-color-disabled);cursor:not-allowed;opacity:.5}.xUi-rangepicker-day:not(:disabled):hover,.xUi-rangepicker-month:not(:disabled):hover,.xUi-rangepicker-year:not(:disabled):hover{background:var(--xui-primary-color-light);color:#fff}.xUi-rangepicker-calendar-header button,.xUi-rangepicker-dropdown-selects button,.xUi-rangepicker-nav-buttons button{background:transparent;border:none;color:#595959;cursor:pointer;font-size:14px;font-weight:600;line-height:1;padding:0 6px;transition:color .2s ease}.xUi-rangepicker-nav-buttons button{font-size:20px;font-weight:400}.xUi-rangepicker-calendar-header button:hover,.xUi-rangepicker-dropdown-selects button:hover,.xUi-rangepicker-nav-buttons button:hover{color:var(--xui-primary-color)}.xUi-rangepicker-input{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:6px;color:var(--xui-text-color);cursor:pointer;display:flex;gap:8px;justify-content:space-between;padding:3px 7px;transition:all .3s}.xUi-rangepicker-input.noBordered{border:none!important}.xUi-rangepicker-input input{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-sm);outline:none;padding:0}.xUi-rangepicker-input:placeholder-shown{text-overflow:ellipsis}.xUi-rangepicker-input:hover{border-color:var(--xui-primary-color)}.xUi-rangepicker-weekday-row{background-color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.1);display:grid;gap:4px;grid-template-columns:repeat(7,1fr);position:sticky;top:0;z-index:1}.xUi-rangepicker-weekday{align-items:center;color:var(--xui-text-color);display:flex;font-size:12px;font-weight:500;font-weight:600;height:30px;justify-content:center;text-align:center}.xUi-rangepicker-days-grid,.xUi-rangepicker-grid{display:grid;gap:2px;grid-template-columns:repeat(3,1fr)}.xUi-rangepicker-days-grid.day{grid-template-columns:repeat(7,0fr)}.xUi-rangepicker-day{background-color:transparent;border:1px solid transparent;border-radius:4px;cursor:pointer;height:30px;line-height:30px;text-align:center;transition:background-color .3s,color .3s;width:30px}.xUi-rangepicker-day:hover{background-color:var(--xui-primary-color);border-radius:4px;color:#fff}.xUi-rangepicker-day.xUi-rangepicker-other-month:hover{background-color:var(--xui-color-disabled)!important;color:var(--xui-text-color)}.xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month),.xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),.xUi-rangepicker-selected:not(.xUi-rangepicker-other-month){background-color:var(--xui-primary-color)!important;color:#fff;font-weight:600}.xUi-rangepicker-in-range:not(.xUi-rangepicker-other-month){background-color:#f0f5ff}.xUi-rangepicker-hover-end{background-color:var(--xui-primary-color)!important;color:#fff}.xUi-rangepicker-disabled,.xUi-rangepicker-other-month{color:#ccc}.xUi-rangepicker-disabled{cursor:not-allowed}.xUi-rangepicker-footer{display:flex;grid-column:span 7;justify-content:center;padding-top:6px}.xUi-rangepicker-select{background:none;border:none;color:var(--xui-primary-color);cursor:pointer}.xUi-rangepicker-input.sm{font-size:var(--xui-font-size-sm);padding:4px 8px}.xUi-rangepicker-input.md{font-size:var(--xui-font-size-md);padding:8px 12px}.xUi-rangepicker-input.lg{font-size:var(--xui-font-size-lg);padding:10px 16px}.xUi-rangepicker-dropdown-wrapper{opacity:0;pointer-events:none;position:absolute;transform:scale(.95);transition:opacity .2s ease,transform .2s ease;z-index:1000}.xUi-rangepicker-dropdown-wrapper.bottomLeft{left:0;margin-top:4px;top:100%}.xUi-rangepicker-dropdown-wrapper.bottomRight{margin-top:4px;right:0;top:100%}.xUi-rangepicker-dropdown-wrapper.topLeft{bottom:100%;left:0;margin-bottom:4px}.xUi-rangepicker-dropdown-wrapper.topRight{bottom:100%;margin-bottom:4px;right:0}.xUi-rangepicker-dropdown-wrapper.show{opacity:1;pointer-events:auto;transform:scale(1)}.xUi-rangepicker-large .xUi-rangepicker-selected-date{font-size:16px}.xUi-rangepicker-large .xUi-rangepicker-input{padding:11px}.xUi-rangepicker-middle .xUi-rangepicker-input{padding:6px 11px}.xUi-rangepicker-dropdown-trigger{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:2px;cursor:pointer;line-height:32px;padding:0 8px}.xUi-rangepicker-dropdown-menu{background:#fff;border:1px solid var(--xui-border-color);box-shadow:0 2px 8px rgba(0,0,0,.15);max-height:200px;overflow-y:auto;position:absolute;z-index:1000}.xUi-rangepicker-dropdown-item{cursor:pointer;padding:4px 12px}.xUi-rangepicker-dropdown-item:hover{background:#f5f5f5}.xUi-rangepicker-dropdown-item.active{background-color:#e6f7ff;font-weight:700}.xUi-rangepicker-header{align-items:center;border-bottom:1px solid var(--xui-border-color);display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;padding-bottom:12px;width:100%}.xUi-rangepicker-in-hover-range:not(.xUi-rangepicker-other-month){background-color:#f0f5ff;border:1px dashed var(--xui-primary-color);border-radius:4px}";
 styleInject(css_248z$e);
 
@@ -2328,7 +2334,8 @@ const RangePicker = ({
   className = '',
   separator,
   defaultValue,
-  bordered = true
+  bordered = true,
+  getPopupContainer
 }) => {
   const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -2336,10 +2343,12 @@ const RangePicker = ({
   useEffect(() => {
     setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   }, [value]);
+  const popupRef = useRef(null);
   const [hoveredDate, setHoveredDate] = useState(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [viewMode, setViewMode] = useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
+  const [dropdownPosition, setDropdownPosition] = useState({});
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12
   }, (_, i) => new Date(0, i).toLocaleString(locale?.locale || 'default', {
@@ -2348,7 +2357,7 @@ const RangePicker = ({
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   useEffect(() => {
     const handleClickOutside = event => {
-      if (containerRef.current && !containerRef.current.contains(event.target)) {
+      if (popupRef.current && !popupRef.current.contains(event.target) && containerRef.current && !containerRef.current.contains(event.target)) {
         setIsOpen(false);
         onOpenChange?.(false);
       }
@@ -2356,6 +2365,71 @@ const RangePicker = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+  const dropdownPossition = useCallback(() => {
+    if (!containerRef.current) return {};
+    const inputRect = containerRef.current.getBoundingClientRect();
+    const popupEl = popupRef.current;
+    const dropdownHeight = popupEl?.offsetHeight || 290;
+    const popupContainer = getPopupContainer ? getPopupContainer(document.body) : getScrollParent(containerRef.current, true) || document.body;
+    const containerRect = popupContainer.getBoundingClientRect();
+    const spaceAbove = inputRect.top - containerRect.top;
+    const spaceBelow = containerRect.bottom - inputRect.bottom;
+    const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    if (getPopupContainer) {
+      if (shouldShowAbove) {
+        setDropdownPosition({
+          top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 290,
+          left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
+        });
+      } else {
+        setDropdownPosition({
+          top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0),
+          left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
+        });
+      }
+    } else {
+      setDropdownPosition({
+        top: shouldShowAbove ? containerRef.current.offsetTop - (popupEl?.offsetHeight || dropdownHeight) - 8 : containerRef.current.offsetTop + containerRef.current.offsetHeight,
+        left: containerRef.current.offsetLeft
+      });
+    }
+  }, [isOpen, getPopupContainer]);
+  function getScrollParent(el, includeSelf = false) {
+    if (!el) return null;
+    let current = includeSelf ? el : el.parentElement;
+    while (current) {
+      const style = getComputedStyle(current);
+      const overflowY = style.overflowY;
+      const overflowX = style.overflowX;
+      const canScroll = overflowY === 'auto' || overflowY === 'scroll' || overflowX === 'auto' || overflowX === 'scroll';
+      if (canScroll) {
+        return current;
+      }
+      current = current.parentElement;
+    }
+    return document.scrollingElement;
+  }
+  useEffect(() => {
+    if (!isOpen) return;
+    const _dropdownPossition = () => dropdownPossition();
+    _dropdownPossition();
+    const controller = new AbortController();
+    const scrollableParents = getScrollParent(containerRef.current, true);
+    scrollableParents?.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
+    });
+    window.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
+    });
+    window.addEventListener('resize', _dropdownPossition, {
+      signal: controller.signal
+    });
+    return () => {
+      controller.abort();
+    };
+  }, [isOpen, getPopupContainer, dropdownPossition]);
   const isInHoverRange = date => {
     const [start, end] = selectedDates;
     if (!start || end || !hoveredDate) return false;
@@ -2550,14 +2624,14 @@ const RangePicker = ({
     onChange?.(null, ['', '']);
   };
   return /*#__PURE__*/React.createElement("div", {
-    ref: containerRef,
     style: style,
     className: clsx([`${prefixCls}-range-container`, {
       [`${prefixCls}-${size}`]: size,
       [className]: className
     }])
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-range-input-wrapper`
+    className: `${prefixCls}-range-input-wrapper`,
+    ref: containerRef
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
@@ -2576,7 +2650,7 @@ const RangePicker = ({
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[0],
-    key: selectedDates[0]?.toUTCString(),
+    key: `0_${selectedDates[0]?.toUTCString()}`,
     [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-range-separator`
@@ -2584,30 +2658,31 @@ const RangePicker = ({
     readOnly: inputReadOnly,
     className: `${prefixCls}-selected-date`,
     placeholder: placeholder[1],
-    key: selectedDates[1]?.toUTCString(),
+    key: `1_${selectedDates[1]?.toUTCString()}`,
     [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
   }), /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-icon`
   }, allowClear && (selectedDates[0] || selectedDates[1]) ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
-  }, /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-dropdown-wrapper show`
+  }, /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
+    condition: getPopupContainer !== undefined,
+    wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+  }, /*#__PURE__*/React.createElement("div", {
+    ref: popupRef,
+    className: `${prefixCls}-dropdown-wrapper show`,
+    style: {
+      ...dropdownPosition
+    }
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-range`
-  }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day'))));
+  }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day')))));
 };
 
 var RangePicker$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,
 	default: RangePicker
 });
-
-const ConditionalWrapper = ({
-  condition,
-  wrapper,
-  children
-}) => condition ? wrapper(children) : children;
 
 var css_248z$d = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;padding:8px 0;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 4px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}.xUi-timepicker-popup{margin-top:4px;position:absolute;top:100%}";
 styleInject(css_248z$d);
@@ -2638,7 +2713,6 @@ const TimePicker = ({
 }) => {
   const [open, setOpen] = useState(false);
   const [innerValue, setInnerValue] = useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
-  useState(false);
   const [[showHour, showMinutes, showSeconds]] = useState(`${format}`.split(':'));
   const [tempValue, setTempValue] = useState(null);
   const inputRef = useRef(null);

@@ -53,8 +53,6 @@ const TimePicker: FC<TimePickerProps> = ({
     propValue || defaultValue ? new Date(propValue || defaultValue) : null
   );
 
-  const [openUpward, setOpenUpward] = useState(false);
-
   const [[showHour, showMinutes, showSeconds]] = useState(`${format}`.split(':'))
 
   const [tempValue, setTempValue] = useState<Date | null>(null);

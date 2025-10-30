@@ -1,11 +1,13 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
 import { clsx } from '../../../helpers';
 import { TRangePickerProps } from '../../../types/datepicker';
 import { prefixClsRangePicker } from '../../../utils';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../DatePicker';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
+import { createPortal } from 'react-dom';
+import { ConditionalWrapper } from '@/components/ConditionalWrapper';
 import './style.css';
 
 const RangePicker = ({
@@ -29,7 +31,8 @@ const RangePicker = ({
   className = '',
   separator,
   defaultValue,
-  bordered = true
+  bordered = true,
+  getPopupContainer
 }: TRangePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -47,12 +50,16 @@ const RangePicker = ({
     ])
   }, [value])
 
+  const popupRef = useRef<HTMLDivElement>(null);
+
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
   const [viewMode, setViewMode] = useState<'day' | 'month' | 'year'>(
     picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day'
   );
+
+  const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
   const localeMonths =
     locale?.shortMonths ||
@@ -75,6 +82,8 @@ const RangePicker = ({
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node) &&
         containerRef.current &&
         !containerRef.current.contains(event.target as Node)
       ) {
@@ -87,6 +96,108 @@ const RangePicker = ({
 
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  const dropdownPossition = useCallback(() => {
+    if (!containerRef.current) return {};
+
+    const inputRect = containerRef.current.getBoundingClientRect();
+    const popupEl = popupRef.current;
+    const dropdownHeight = popupEl?.offsetHeight || 290;
+
+    const popupContainer = getPopupContainer
+      ? getPopupContainer(document.body)
+      : getScrollParent(containerRef.current, true) || document.body;
+
+    const containerRect = popupContainer.getBoundingClientRect();
+
+    const spaceAbove = inputRect.top - containerRect.top;
+    const spaceBelow = containerRect.bottom - inputRect.bottom;
+
+    const shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+
+    if (getPopupContainer) {
+      if (shouldShowAbove) {
+        setDropdownPosition({
+          top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - 290,
+          left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+        })
+      } else {
+        setDropdownPosition({
+          top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0),
+          left: (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft,
+        })
+      }
+    } else {
+      setDropdownPosition({
+        top:
+          shouldShowAbove
+            ? containerRef.current.offsetTop -
+            (popupEl?.offsetHeight || dropdownHeight) - 8
+            : containerRef.current.offsetTop + containerRef.current.offsetHeight,
+        left: containerRef.current.offsetLeft,
+      });
+    }
+  }, [isOpen, getPopupContainer]);
+
+  function getScrollParent(
+    el: HTMLElement | null,
+    includeSelf = false
+  ): HTMLElement | null {
+    if (!el) return null;
+
+    let current: HTMLElement | null = includeSelf ? el : el.parentElement;
+
+    while (current) {
+      const style = getComputedStyle(current);
+
+      const overflowY = style.overflowY;
+      const overflowX = style.overflowX;
+
+      const canScroll =
+        overflowY === 'auto' ||
+        overflowY === 'scroll' ||
+        overflowX === 'auto' ||
+        overflowX === 'scroll';
+
+      if (canScroll) {
+        return current;
+      }
+
+      current = current.parentElement;
+    }
+
+    return document.scrollingElement as HTMLElement;
+  }
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const _dropdownPossition = () => dropdownPossition();
+
+    _dropdownPossition();
+
+    const controller = new AbortController();
+
+    const scrollableParents = getScrollParent(containerRef.current, true);
+
+    scrollableParents?.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
+    });
+
+    window.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
+    });
+
+    window.addEventListener('resize', _dropdownPossition, {
+      signal: controller.signal
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [isOpen, getPopupContainer, dropdownPossition]);
 
   const isInHoverRange = (date: Date) => {
     const [start, end] = selectedDates;
@@ -395,7 +506,6 @@ const RangePicker = ({
 
   return (
     <div
-      ref={containerRef}
       style={style}
       className={clsx([
         `${prefixCls}-range-container`,
@@ -405,7 +515,7 @@ const RangePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-range-input-wrapper`}>
+      <div className={`${prefixCls}-range-input-wrapper`} ref={containerRef}>
         <button
           type="button"
           className={clsx([
@@ -430,7 +540,7 @@ const RangePicker = ({
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[0]}
-            key={selectedDates[0]?.toUTCString()}
+            key={`0_${selectedDates[0]?.toUTCString()}`}
             {...({
               [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[0] ? formatDate(selectedDates[0]) : ''
             })}
@@ -442,7 +552,7 @@ const RangePicker = ({
             readOnly={inputReadOnly}
             className={`${prefixCls}-selected-date`}
             placeholder={placeholder[1]}
-            key={selectedDates[1]?.toUTCString()}
+            key={`1_${selectedDates[1]?.toUTCString()}`}
             {...({
               [inputReadOnly ? 'value' : 'defaultValue']: selectedDates[1] ? formatDate(selectedDates[1]) : ''
             })}
@@ -460,12 +570,16 @@ const RangePicker = ({
       </div>
 
       {isOpen && (
-        <div className={`${prefixCls}-dropdown-wrapper show`}>
-          <div className={`${prefixCls}-dropdown-range`}>
-            {renderCalendar(0, viewMode !== 'day')}
-            {viewMode === 'day' && renderCalendar(1, viewMode !== 'day')}
+        <ConditionalWrapper
+          condition={getPopupContainer !== undefined}
+          wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
+          <div ref={popupRef} className={`${prefixCls}-dropdown-wrapper show`} style={{ ...dropdownPosition }}>
+            <div className={`${prefixCls}-dropdown-range`}>
+              {renderCalendar(0, viewMode !== 'day')}
+              {viewMode === 'day' && renderCalendar(1, viewMode !== 'day')}
+            </div>
           </div>
-        </div>
+        </ConditionalWrapper>
       )}
     </div>
   );

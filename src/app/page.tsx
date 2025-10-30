@@ -15,6 +15,7 @@ import { Select } from "../../lib/components/Select";
 // import { Upload } from '../../lib/components/Upload'
 // import { Button } from "../../lib/components/Button";
 import { useCallback, useEffect, useState } from "react";
+import DatePicker from "../../lib/components/DatePicker/DatePicker";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1860,12 +1861,6 @@ export default function Home() {
     ]);
 
     const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        setTimeout(() => {
-            setTime(new Date())
-        }, 2000);
-    }, [])
     
     return (
        <>
@@ -1873,7 +1868,7 @@ export default function Home() {
             <div style={{  width: 700, border: '1px solid', overflow: 'auto' }}>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid' }}>
-                        <TimePicker value={time} format={'HH:mm:ss'} />
+                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
                     </div>
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
@@ -1881,8 +1876,8 @@ export default function Home() {
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid', display: 'flex' }}>
-                        <TimePicker value={time} format={'HH:mm:ss'} />
-                        <TimePicker value={time} format={'HH:mm:ss'} />
+                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
+                        <RangePicker value={[time, time]} format={'DD-MM-YYYY'} getPopupContainer={() => document.body} />
                     </div>
                 </div>
             </div>
