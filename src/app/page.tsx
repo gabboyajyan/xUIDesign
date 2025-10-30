@@ -1870,7 +1870,7 @@ export default function Home() {
     return (
        <>
         <div style={{ height: 1200 }}>
-            <div style={{ height: 600, width: 700, border: '1px solid', overflow: 'auto' }}>
+            <div style={{  width: 700, border: '1px solid', overflow: 'auto' }}>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid' }}>
                         <TimePicker value={time} format={'HH:mm:ss'} />
@@ -1880,7 +1880,8 @@ export default function Home() {
                     <div style={{ height: 100, border: '1px solid' }}></div>
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
-                    <div style={{ height: 100, border: '1px solid' }}>
+                    <div style={{ height: 100, border: '1px solid', display: 'flex' }}>
+                        <TimePicker value={time} format={'HH:mm:ss'} />
                         <TimePicker value={time} format={'HH:mm:ss'} />
                     </div>
                 </div>

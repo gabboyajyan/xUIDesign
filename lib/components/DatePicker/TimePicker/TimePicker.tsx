@@ -292,10 +292,9 @@ const TimePicker: FC<TimePickerProps> = ({
     const popupEl = popupRef.current;
     const dropdownHeight = popupEl?.offsetHeight || 230;
 
-    const parents = getScrollParents(inputRef.current);
     const popupContainer = getPopupContainer
       ? getPopupContainer(document.body)
-      : parents[parents.length - 2] || parents[1] || document.body;
+      : getScrollParent(inputRef.current, true) || document.body;
 
     const containerRect = popupContainer.getBoundingClientRect();
 
@@ -328,20 +327,35 @@ const TimePicker: FC<TimePickerProps> = ({
     }
   }, [open, getPopupContainer]);
 
+  function getScrollParent(
+    el: HTMLElement | null,
+    includeSelf = false
+  ): HTMLElement | null {
+    if (!el) return null;
 
-  const getScrollParents = useCallback((element: HTMLElement): HTMLElement[] => {
-    const parents: HTMLElement[] = [];
-    let current = element.parentElement;
+    let current: HTMLElement | null = includeSelf ? el : el.parentElement;
 
     while (current) {
-      if (current.scrollHeight > current.clientHeight) {
-        parents.push(current);
+      const style = getComputedStyle(current);
+
+      const overflowY = style.overflowY;
+      const overflowX = style.overflowX;
+
+      const canScroll =
+        overflowY === 'auto' ||
+        overflowY === 'scroll' ||
+        overflowX === 'auto' ||
+        overflowX === 'scroll';
+
+      if (canScroll) {
+        return current;
       }
+
       current = current.parentElement;
     }
 
-    return parents;
-  }, []);
+    return document.scrollingElement as HTMLElement;
+  }
 
   useEffect(() => {
     if (!open) return;
@@ -352,13 +366,11 @@ const TimePicker: FC<TimePickerProps> = ({
 
     const controller = new AbortController();
 
-    const scrollableParents = getScrollParents(inputRef.current!);
+    const scrollableParents = getScrollParent(inputRef.current, true);
 
-    scrollableParents.forEach(el => {
-      el.addEventListener('scroll', _dropdownPossition, {
-        passive: true,
-        signal: controller.signal
-      });
+    scrollableParents?.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
     });
 
     window.addEventListener('scroll', _dropdownPossition, {

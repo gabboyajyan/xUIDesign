@@ -2611,7 +2611,7 @@ const ConditionalWrapper = ({
   children
 }) => condition ? wrapper(children) : children;
 
-var css_248z$d = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;padding:8px 0;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 4px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}.xUi-timepicker-popup{margin-top:4px;position:absolute;top:100%}";
+var css_248z$d = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;padding:8px 0;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 4px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}.xUi-timepicker-popup{margin-top:4px;position:absolute;top:100%}";
 styleInject(css_248z$d);
 
 const HOURS = 24;
@@ -2820,8 +2820,7 @@ const TimePicker = ({
     const inputRect = inputRef.current.getBoundingClientRect();
     const popupEl = popupRef.current;
     const dropdownHeight = popupEl?.offsetHeight || 230;
-    const parents = getScrollParents(inputRef.current);
-    const popupContainer = getPopupContainer ? getPopupContainer(document.body) : parents[parents.length - 2] || parents[1] || document.body;
+    const popupContainer = getPopupContainer ? getPopupContainer(document.body) : getScrollParent(inputRef.current, true) || document.body;
     const containerRect = popupContainer.getBoundingClientRect();
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
@@ -2845,28 +2844,30 @@ const TimePicker = ({
       });
     }
   }, [open, getPopupContainer]);
-  const getScrollParents = React.useCallback(element => {
-    const parents = [];
-    let current = element.parentElement;
+  function getScrollParent(el, includeSelf = false) {
+    if (!el) return null;
+    let current = includeSelf ? el : el.parentElement;
     while (current) {
-      if (current.scrollHeight > current.clientHeight) {
-        parents.push(current);
+      const style = getComputedStyle(current);
+      const overflowY = style.overflowY;
+      const overflowX = style.overflowX;
+      const canScroll = overflowY === 'auto' || overflowY === 'scroll' || overflowX === 'auto' || overflowX === 'scroll';
+      if (canScroll) {
+        return current;
       }
       current = current.parentElement;
     }
-    return parents;
-  }, []);
+    return document.scrollingElement;
+  }
   React.useEffect(() => {
     if (!open) return;
     const _dropdownPossition = () => dropdownPossition();
     _dropdownPossition();
     const controller = new AbortController();
-    const scrollableParents = getScrollParents(inputRef.current);
-    scrollableParents.forEach(el => {
-      el.addEventListener('scroll', _dropdownPossition, {
-        passive: true,
-        signal: controller.signal
-      });
+    const scrollableParents = getScrollParent(inputRef.current, true);
+    scrollableParents?.addEventListener('scroll', _dropdownPossition, {
+      passive: true,
+      signal: controller.signal
     });
     window.addEventListener('scroll', _dropdownPossition, {
       passive: true,
