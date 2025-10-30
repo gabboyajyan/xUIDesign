@@ -81,7 +81,6 @@ const TimePicker: FC<TimePickerProps> = ({
       ) {
         setOpen(false);
         setTempValue(null);
-        setOpenUpward(false);
 
         if (!innerValue) {
           onChange?.(null as RuleType, '');
@@ -106,22 +105,6 @@ const TimePicker: FC<TimePickerProps> = ({
       scrollToTop(secondRef as { current: HTMLDivElement }, second || 0);
     }
   }, [open, innerValue]);
-
-  const decideOpenDirection = () => {
-    if (inputRef.current) {
-      const inputRect = inputRef.current.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      const popupHeight = 240;
-      const spaceBelow = viewportHeight - inputRect.bottom;
-      const spaceAbove = inputRect.top;
-
-      if (spaceBelow < popupHeight && spaceAbove > popupHeight) {
-        setOpenUpward(true);
-      } else {
-        setOpenUpward(false);
-      }
-    }
-  };
 
   useEffect(() => {
     onSelect?.(tempValue);
@@ -544,10 +527,7 @@ const TimePicker: FC<TimePickerProps> = ({
     <div className={clsx([`${prefixCls}-wrapper`, className])} style={style}>
       <div
         className={`${prefixCls}-input-wrapper`}
-        onClick={() => {
-          decideOpenDirection();
-          setOpen(true);
-        }}
+        onClick={() => setOpen(true)}
       >
         <input
           ref={inputRef}
@@ -573,7 +553,6 @@ const TimePicker: FC<TimePickerProps> = ({
                 className={`${prefixCls}-suffix`}
                 onClick={e => {
                   e.stopPropagation();
-                  decideOpenDirection();
                   setOpen(true);
                 }}
               >
@@ -594,10 +573,7 @@ const TimePicker: FC<TimePickerProps> = ({
               ...dropdownPosition,
               opacity: Object.keys(dropdownPosition).length ? 1 : 0
             }}
-            className={clsx([
-              `${prefixCls}-popup`,
-              { [`${prefixCls}-popup-up`]: openUpward }
-            ])}>
+            className={`${prefixCls}-popup`}>
             {renderOptions()}
           </div>
         </ConditionalWrapper>
