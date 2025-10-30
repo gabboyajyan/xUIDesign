@@ -2643,8 +2643,10 @@ const RangePicker = ({
     onClick: e => {
       e.preventDefault();
       e.stopPropagation();
-      setIsOpen(!isOpen);
-      onOpenChange?.(!isOpen);
+      if (!isOpen) {
+        setIsOpen(!isOpen);
+        onOpenChange?.(!isOpen);
+      }
     }
   }, prefix, /*#__PURE__*/React.createElement("input", {
     readOnly: inputReadOnly,

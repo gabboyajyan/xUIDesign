@@ -531,8 +531,10 @@ const RangePicker = ({
             e.preventDefault();
             e.stopPropagation();
 
-            setIsOpen(!isOpen);
-            onOpenChange?.(!isOpen);
+            if (!isOpen) {
+              setIsOpen(!isOpen);
+              onOpenChange?.(!isOpen);
+            }
           }}
         >
           {prefix}
