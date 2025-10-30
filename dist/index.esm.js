@@ -2407,7 +2407,8 @@ const RangePicker = ({
   separator,
   defaultValue,
   bordered = true,
-  getPopupContainer
+  getPopupContainer,
+  placement
 }) => {
   const containerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -2425,6 +2426,7 @@ const RangePicker = ({
   } = usePossition({
     isOpen,
     popupRef,
+    placement,
     containerRef,
     getPopupContainer
   });

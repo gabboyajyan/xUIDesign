@@ -33,7 +33,8 @@ const RangePicker = ({
   separator,
   defaultValue,
   bordered = true,
-  getPopupContainer
+  getPopupContainer,
+  placement
 }: TRangePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +64,7 @@ const RangePicker = ({
   const { dropdownPosition } = usePossition({
       isOpen,
       popupRef,
+      placement,
       containerRef,
       getPopupContainer
   })
