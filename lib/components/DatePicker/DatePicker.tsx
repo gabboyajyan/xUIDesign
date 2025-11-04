@@ -56,7 +56,7 @@ const DatePicker = ({
 
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = useState<
     string | undefined
-  >(initialDate ? formatDate(initialDate) : undefined);
+  >(initialDate ? formatDate(initialDate, format as string) : undefined);
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [currentYear, setCurrentYear] = useState(
@@ -87,6 +87,21 @@ const DatePicker = ({
     'Th',
     'Fr',
     'Sa'
+  ];
+
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
   ];
 
   const { dropdownPosition } = usePossition({
@@ -138,7 +153,7 @@ const DatePicker = ({
   const firstDayOfMonth = (year: number, month: number) =>
     new Date(year, month, 1).getDay();
 
-  function formatDate(date: Date): string {
+  function formatDate(date: Date, format?: string | ((d: Date) => string)): string {
     if (typeof format === 'function') {
       return format(date);
     }
@@ -148,12 +163,16 @@ const DatePicker = ({
 
       return format
         .replace(/YYYY/, date.getFullYear().toString())
+        .replace(/MMM/, monthNames[date.getMonth()])
         .replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0'))
         .replace(/DD/, date.getDate().toString().padStart(2, '0'));
     }
 
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return `${date.getFullYear()}-${(date.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
+
 
   const handleSelect = (day: number, month: number, year: number) => {
     if (disabled) {
@@ -170,7 +189,7 @@ const DatePicker = ({
     setCurrentYear(year);
     setSelectedDate(date);
 
-    const formatted = formatDate(date);
+    const formatted = formatDate(date, format as string);
     setSelectedDatePlaceholder(formatted);
     onChange?.(date.toUTCString(), formatted);
     onCalendarChange?.(date.toUTCString(), formatted, { range: undefined });

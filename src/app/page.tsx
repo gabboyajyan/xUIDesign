@@ -1865,19 +1865,19 @@ export default function Home() {
     return (
        <>
         <div style={{ height: 1000 }}>
-            <div style={{  width: 700, border: '1px solid', overflow: 'auto' }}>
-                <div style={{ height: 200, border: '1px solid' }}>
-                    <div style={{ height: 100, border: '1px solid' }}>
-                        <RangePicker value={[time, time]}  />
+            <div style={{  width: 700, overflow: 'auto' }}>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100 }}>
+                        <DatePicker format={'DD/MMM/YYYY'}  />
                     </div>
                 </div>
-                <div style={{ height: 200, border: '1px solid' }}>
-                    <div style={{ height: 100, border: '1px solid' }}></div>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100 }}></div>
                 </div>
-                <div style={{ height: 200, border: '1px solid' }}>
-                    <div style={{ height: 100, border: '1px solid', display: 'flex' }}>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100, display: 'flex' }}>
                         <TimePicker value={time}  />
-                        <TimePicker value={time} placement="bottomRight" getPopupContainer={() => document.body}  />
+                        <TimePicker value={time} placement="bottomRight"  />
                     </div>
                 </div>
             </div>

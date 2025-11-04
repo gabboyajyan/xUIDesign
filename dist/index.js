@@ -2075,7 +2075,7 @@ const DatePicker = ({
   const popupContainerRef = React.useRef(null);
   const DateNow = new Date();
   const [selectedDate, setSelectedDate] = React.useState(initialDate);
-  const [selectedDatePlaceholder, setSelectedDatePlaceholder] = React.useState(initialDate ? formatDate(initialDate) : undefined);
+  const [selectedDatePlaceholder, setSelectedDatePlaceholder] = React.useState(initialDate ? formatDate(initialDate, format) : undefined);
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
   const [currentYear, setCurrentYear] = React.useState(initialDate ? new Date(initialDate).getFullYear() : DateNow.getFullYear());
   const [currentMonth, setCurrentMonth] = React.useState(initialDate ? new Date(initialDate).getMonth() : DateNow.getMonth());
@@ -2086,6 +2086,7 @@ const DatePicker = ({
     month: 'short'
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const {
     dropdownPosition
   } = usePossition({
@@ -2121,15 +2122,15 @@ const DatePicker = ({
   }, [getPopupContainer]);
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
-  function formatDate(date) {
+  function formatDate(date, format) {
     if (typeof format === 'function') {
       return format(date);
     }
     if (typeof format === 'string') {
       date = new Date(date);
-      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
+      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MMM/, monthNames[date.getMonth()]).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
     }
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
   const handleSelect = (day, month, year) => {
     if (disabled) {
@@ -2145,7 +2146,7 @@ const DatePicker = ({
     setCurrentMonth(month);
     setCurrentYear(year);
     setSelectedDate(date);
-    const formatted = formatDate(date);
+    const formatted = formatDate(date, format);
     setSelectedDatePlaceholder(formatted);
     onChange?.(date.toUTCString(), formatted);
     onCalendarChange?.(date.toUTCString(), formatted, {
