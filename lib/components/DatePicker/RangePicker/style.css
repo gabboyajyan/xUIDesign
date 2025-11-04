@@ -268,15 +268,15 @@
     background-color: var(--xui-color-disabled) !important;
 }
 
-.xUi-rangepicker-selected:not(.xUi-rangepicker-other-month),
+.xUi-rangepicker-selected,
 .xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),
 .xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month) {
     background-color: var(--xui-primary-color) !important;
-    color: #fff;
+    color: #fff !important;
     font-weight: 600;
 }
 
-.xUi-rangepicker-in-range:not(.xUi-rangepicker-other-month) {
+.xUi-rangepicker-in-range {
     background-color: #f0f5ff;
 }
 
@@ -285,7 +285,7 @@
     background-color: var(--xui-primary-color) !important;
 }
 
-.xUi-rangepicker-other-month,
+.xUi-rangepicker-other-month:not(.xUi-rangepicker-in-range),
 .xUi-rangepicker-disabled {
     color: #ccc;
 }
@@ -427,12 +427,8 @@
     border-bottom: 1px solid var(--xui-border-color);
 }
 
-.xUi-rangepicker-in-hover-range:not(.xUi-rangepicker-other-month) {
-    border: 1px dashed var(--xui-primary-color);
-    border-radius: 4px;
-}
-
-.xUi-rangepicker-in-hover-range:not(.xUi-rangepicker-other-month) {
-    border: 1px dashed var(--xui-primary-color);
+.xUi-rangepicker-in-hover-range {
+    border: 1px dashed var(--xui-primary-color) !important;
+    border-radius: 4px !important;
     background-color: #f0f5ff;
 }

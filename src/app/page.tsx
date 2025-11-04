@@ -1868,7 +1868,7 @@ export default function Home() {
             <div style={{  width: 700, border: '1px solid', overflow: 'auto' }}>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100, border: '1px solid' }}>
-                        <TimePicker value={time}  />
+                        <RangePicker value={[time, time]}  />
                     </div>
                 </div>
                 <div style={{ height: 200, border: '1px solid' }}>
