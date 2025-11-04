@@ -2067,18 +2067,20 @@ const DatePicker = ({
   prefix,
   defaultOpen = false,
   inputReadOnly = false,
-  bordered = true
+  bordered = true,
+  defaultPickerValue
 }) => {
   const containerRef = React.useRef(null);
   const initialDate = value || defaultValue;
+  const initialPickerDate = defaultPickerValue || initialDate;
   const popupRef = React.useRef(null);
   const popupContainerRef = React.useRef(null);
   const DateNow = new Date();
   const [selectedDate, setSelectedDate] = React.useState(initialDate);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = React.useState(initialDate ? formatDate(initialDate, format) : undefined);
   const [isOpen, setIsOpen] = React.useState(defaultOpen);
-  const [currentYear, setCurrentYear] = React.useState(initialDate ? new Date(initialDate).getFullYear() : DateNow.getFullYear());
-  const [currentMonth, setCurrentMonth] = React.useState(initialDate ? new Date(initialDate).getMonth() : DateNow.getMonth());
+  const [currentYear, setCurrentYear] = React.useState(initialPickerDate ? new Date(initialPickerDate).getFullYear() : DateNow.getFullYear());
+  const [currentMonth, setCurrentMonth] = React.useState(initialPickerDate ? new Date(initialPickerDate).getMonth() : DateNow.getMonth());
   const [viewMode, setViewMode] = React.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12

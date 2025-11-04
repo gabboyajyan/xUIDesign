@@ -40,10 +40,12 @@ const DatePicker = ({
   prefix,
   defaultOpen = false,
   inputReadOnly = false,
-  bordered = true
+  bordered = true,
+  defaultPickerValue
 }: TDatePickerProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const initialDate = value || defaultValue;
+  const initialPickerDate = defaultPickerValue || initialDate;
 
   const popupRef = useRef<HTMLDivElement>(null);
   const popupContainerRef = useRef<HTMLElement | null>(null);
@@ -60,11 +62,11 @@ const DatePicker = ({
 
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [currentYear, setCurrentYear] = useState(
-    initialDate ? new Date(initialDate).getFullYear() : DateNow.getFullYear()
+    initialPickerDate ? new Date(initialPickerDate).getFullYear() : DateNow.getFullYear()
   );
 
   const [currentMonth, setCurrentMonth] = useState(
-    initialDate ? new Date(initialDate).getMonth() : DateNow.getMonth()
+    initialPickerDate ? new Date(initialPickerDate).getMonth() : DateNow.getMonth()
   );
 
   const [viewMode, setViewMode] = useState<'day' | 'month' | 'year'>(

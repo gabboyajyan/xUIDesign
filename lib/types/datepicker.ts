@@ -64,6 +64,7 @@ export type TDatePickerProps = DefaultProps & {
   inputReadOnly?: boolean;
   picker?: PanelMode;
   bordered?: boolean;
+  defaultPickerValue?: Date;
 };
 
 export type TRangePickerProps = Omit<

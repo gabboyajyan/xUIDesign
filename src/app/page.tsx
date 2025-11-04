@@ -1868,7 +1868,7 @@ export default function Home() {
             <div style={{  width: 700, overflow: 'auto' }}>
                 <div style={{ height: 200 }}>
                     <div style={{ height: 100 }}>
-                        <DatePicker format={'DD/MMM/YYYY'}  />
+                        <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
                     </div>
                 </div>
                 <div style={{ height: 200 }}>
