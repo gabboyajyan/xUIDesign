@@ -80,22 +80,22 @@ export const usePossition = ({
 
             if (shouldShowAbove) {
                 setDropdownPosition({
-                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - (popupRef.current?.offsetHeight || 0),
+                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - (popupRef.current?.offsetHeight || 0) + 4,
                     left: leftPossition
                 })
             } else {
                 setDropdownPosition({
-                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0),
+                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0) + 4,
                     left: leftPossition
                 })
             }
         } else {
             setDropdownPosition({
                 top:
-                    shouldShowAbove
+                    (shouldShowAbove
                         ? containerRef.current.offsetTop -
                         (popupRef.current?.offsetHeight || dropdownHeight) - 8
-                        : containerRef.current.offsetTop + containerRef.current.offsetHeight,
+                        : containerRef.current.offsetTop + containerRef.current.offsetHeight) + 4,
                 ...(hasRight ? {
                     left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {
