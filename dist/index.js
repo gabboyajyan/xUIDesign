@@ -2130,7 +2130,7 @@ const DatePicker = ({
     }
     if (typeof format === 'string') {
       date = new Date(date);
-      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MMM/, monthNames[date.getMonth() + 1]).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
+      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MMM/, monthNames[date.getMonth()]).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
     }
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
