@@ -15,6 +15,21 @@ export const NUMBER_SIX = 6;
 export const MONTH_LENGTH = 11;
 export const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 35;
 
+const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 const DatePicker = ({
   value,
   onChange,
@@ -91,21 +106,6 @@ const DatePicker = ({
     'Sa'
   ];
 
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-
   const { dropdownPosition } = usePossition({
     isOpen,
     popupRef,
@@ -165,7 +165,7 @@ const DatePicker = ({
 
       return format
         .replace(/YYYY/, date.getFullYear().toString())
-        .replace(/MMM/, monthNames[date.getMonth()])
+        .replace(/MMM/, monthNames[(date.getMonth() + 1)])
         .replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0'))
         .replace(/DD/, date.getDate().toString().padStart(2, '0'));
     }

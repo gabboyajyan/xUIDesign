@@ -2040,6 +2040,7 @@ const INPUT_SIZE$1 = 12;
 const NUMBER_SIX = 6;
 const MONTH_LENGTH = 11;
 const NEXT_DAYS_COUNT_AS_CURRENT_MUNTH = 35;
+const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const DatePicker = ({
   value,
   onChange,
@@ -2086,7 +2087,6 @@ const DatePicker = ({
     month: 'short'
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   const {
     dropdownPosition
   } = usePossition({
@@ -2128,7 +2128,7 @@ const DatePicker = ({
     }
     if (typeof format === 'string') {
       date = new Date(date);
-      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MMM/, monthNames[date.getMonth()]).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
+      return format.replace(/YYYY/, date.getFullYear().toString()).replace(/MMM/, monthNames[date.getMonth() + 1]).replace(/MM/, (date.getMonth() + 1).toString().padStart(2, '0')).replace(/DD/, date.getDate().toString().padStart(2, '0'));
     }
     return `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
   }
