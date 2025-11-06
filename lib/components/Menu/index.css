@@ -1,0 +1,115 @@
+.xUi-menu {
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    width: 256px;
+    display: flex;
+    font-size: 14px;
+    list-style: none;
+    border-radius: 4px;
+    flex-direction: column;
+}
+
+.xUi-menu-sub-list {
+    gap: 4px;
+    margin: 0;
+    height: 0;
+    padding: 0;
+    display: flex;
+    overflow: auto;
+    list-style: none;
+    border-radius: 4px;
+    flex-direction: column;
+    background: var(--xui-background-color);
+}
+
+.xUi-menu-vertical .xUi-menu-sub-list {
+    top: 0;
+    z-index: 1;
+    right: -100%;
+    position: absolute;
+    left: calc(100% + 4px);
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.xUi-menu-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.xUi-menu-item {
+    display: flex;
+    height: 40px;
+    padding: 0 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    align-items: center;
+    transition: background 0.3s;
+}
+
+.xUi-menu-item:hover {
+    background: rgba(0, 0, 0, 0.04);
+}
+
+.xUi-menu-item-icon {
+    margin-right: 8px;
+}
+
+.xUi-menu-sub {
+    position: relative;
+    border-radius: 6px;
+    width: calc(100% - 8px);
+}
+
+.xUi-menu-sub-title {
+    height: 40px;
+    display: flex;
+    padding: 0 12px;
+    cursor: pointer;
+    align-items: center;
+
+    &:hover {
+        border-radius: 6px;
+        background-color: var(--xui-color-hover);
+    }
+}
+
+.xUi-menu-sub-label {
+    flex: 1;
+}
+
+.xUi-menu-sub-arrow {
+    margin-left: 8px;
+    transition: transform 0.2s;
+}
+
+.xUi-menu-sub-list.xUi-menu-sub-list-open {
+    padding: 4px;
+    height: max-content;
+}
+
+.xUi-menu-group {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.xUi-menu-group-title {
+    font-size: 12px;
+    padding: 8px 12px;
+    color: rgba(0, 0, 0, 0.45);
+}
+
+.xUi-menu-group-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.xUi-menu-divider {
+    display: block;
+    margin: 0 auto;
+    width: calc(100% - 16px);
+    border-bottom: 1px solid var(--xui-color-disabled);
+}

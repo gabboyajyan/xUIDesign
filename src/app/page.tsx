@@ -6,6 +6,8 @@ import TimePicker from "../../lib/components/DatePicker/TimePicker/TimePicker";
 // import { Checkbox } from "../../lib/components/Checkbox";
 // import { Item } from "../../lib/components/Form/Item";
 import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+import { Menu } from "../../lib/components/Menu";
+import { MenuProps } from "../../lib/types/menu";
 // import { Input } from "../../lib/components/Input";
 import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -16,6 +18,7 @@ import { Select } from "../../lib/components/Select";
 // import { Button } from "../../lib/components/Button";
 import { useCallback, useEffect, useState } from "react";
 import DatePicker from "../../lib/components/DatePicker/DatePicker";
+import { CalendarIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/components/Icons/Icons";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1854,40 +1857,129 @@ export const CountryCodes = [...new Set([
 //     unit: "day"
 // }
 
-export default function Home() {
-    const [selectedDates, setSelectedDates] = useState([
-        new Date("2025-10-06T20:00:00.000Z"),
-        new Date("2025-10-09T19:59:59.999Z")
-    ]);
+// export default function Home() {
+//     const [selectedDates, setSelectedDates] = useState([
+//         new Date("2025-10-06T20:00:00.000Z"),
+//         new Date("2025-10-09T19:59:59.999Z")
+//     ]);
 
-    const [time, setTime] = useState(new Date());
+//     const [time, setTime] = useState(new Date());
     
-    return (
-       <>
-        <div style={{ height: 1000 }}>
-            <div style={{  width: 700, overflow: 'auto' }}>
-                <div style={{ height: 200 }}>
-                    <div style={{ height: 100 }}>
-                        <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
-                    </div>
-                </div>
-                <div style={{ height: 200 }}>
-                    <div style={{ height: 100 }}></div>
-                </div>
-                <div style={{ height: 200 }}>
-                    <div style={{ height: 100, display: 'flex' }}>
-                        <TimePicker value={time}  />
-                        <TimePicker value={time} placement="bottomRight"  />
-                    </div>
-                </div>
-            </div>
-        </div>
-        {/* <Select 
-            mode="tags"
-            style={{ width: 400 }}
-            options={CountryCodes}
-            maxTagCount="responsive"
-            defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} /> */}
-       </>
-    )
-}
+//     return (
+//        <>
+//         {/* <div style={{ height: 1000 }}>
+//             <div style={{  width: 700, overflow: 'auto' }}>
+//                 <div style={{ height: 200 }}>
+//                     <div style={{ height: 100 }}>
+//                         <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
+//                     </div>
+//                 </div>
+//                 <div style={{ height: 200 }}>
+//                     <div style={{ height: 100 }}></div>
+//                 </div>
+//                 <div style={{ height: 200 }}>
+//                     <div style={{ height: 100, display: 'flex' }}>
+//                         <TimePicker value={time}  />
+//                         <TimePicker value={time} placement="bottomRight"  />
+//                     </div>
+//                 </div>
+//             </div>
+//         </div> */}
+//         {/* <Select 
+//             mode="tags"
+//             style={{ width: 400 }}
+//             options={CountryCodes}
+//             maxTagCount="responsive"
+//             defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} /> */}
+            
+//        </>
+//     )
+// }
+
+type MenuItem = Required<MenuProps>['items'][number];
+
+const items: MenuItem[] = [
+  {
+    key: 'sub1',
+    label: 'Navigation One',
+    icon: <CalendarIcon />,
+    children: [
+      {
+        key: 'g1',
+        label: 'Item 1',
+        type: 'group',
+        children: [
+          { key: '1', label: 'Option 1' },
+          { key: '2', label: 'Option 2' },
+        ],
+      },
+      {
+        key: 'g2',
+        label: 'Item 2',
+        type: 'group',
+        children: [
+          { key: '3', label: 'Option 3' },
+          { key: '4', label: 'Option 4' },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'sub2',
+    label: 'Navigation Two',
+    icon: <SearchIcon />,
+    children: [
+      { key: '5', label: 'Option 5' },
+      { key: '6', label: 'Option 6' },
+      {
+        key: 'sub3',
+        label: 'Submenu',
+        children: [
+          { key: '7', label: 'Option 7' },
+          { key: '8', label: 'Option 8' },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'divider',
+    key: 'divider'
+  },
+  {
+    key: 'sub4',
+    label: 'Navigation Three',
+    icon: <LoadingIcon />,
+    children: [
+      { key: '9', label: 'Option 9' },
+      { key: '10', label: 'Option 10' },
+      { key: '11', label: 'Option 11' },
+      { key: '12', label: 'Option 12' },
+    ],
+  },
+  {
+    key: 'grp',
+    label: 'Group',
+    type: 'group',
+    children: [
+      { key: '13', label: 'Option 13' },
+      { key: '14', label: 'Option 14' },
+    ]
+  },
+];
+
+const App: React.FC = () => {
+  const onClick: MenuProps['onClick'] = (e) => {
+    console.log('click ', e);
+  };
+
+  return (
+    <Menu
+      onClick={onClick}
+      mode="inline"
+      items={items}
+      triggerSubMenuAction="click"
+    />
+  );
+};
+
+export default App;
