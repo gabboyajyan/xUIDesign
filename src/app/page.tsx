@@ -1975,9 +1975,10 @@ const App: React.FC = () => {
   return (
     <Menu
       onClick={onClick}
-      mode="inline"
+    //   mode="inline"
+    //   defaultOpenKeys={['sub2', 'sub3']}
       items={items}
-      triggerSubMenuAction="click"
+    //   triggerSubMenuAction="click"
     />
   );
 };

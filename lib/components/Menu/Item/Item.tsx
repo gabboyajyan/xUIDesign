@@ -4,6 +4,7 @@ import React, { FC, MouseEvent, useContext } from "react";
 import { MenuContext } from "../Menu";
 import { clsx } from "../../../helpers";
 import { ItemType } from "../../../types/menu";
+import { prefixClsMenu } from "../../../utils";
 
 const MenuItem: FC<ItemType> = ({
     itemKey,
@@ -16,7 +17,7 @@ const MenuItem: FC<ItemType> = ({
     selected
 }) => {
     const ctx = useContext(MenuContext);
-    const prefix = ctx?.prefixCls ?? "xUi-menu";
+    const prefix = ctx?.prefixCls ?? prefixClsMenu;
 
     const handleClick = (e: MouseEvent) => {
         if (disabled) {

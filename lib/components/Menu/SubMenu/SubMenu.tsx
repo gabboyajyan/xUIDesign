@@ -1,8 +1,7 @@
 'use client'
 
-import React, { FC, useContext } from "react";
+import React, { FC, useCallback, useContext } from "react";
 import { MenuContext } from "../Menu";
-import { clsx } from "../../../helpers";
 import { SubMenuItem } from "../../../types/menu";
 import { ArrowIcon } from "@/components/Icons";
 
@@ -10,7 +9,9 @@ const SubMenu: FC<SubMenuItem> = ({
     itemKey,
     title,
     icon,
-    children
+    children,
+    className = '',
+    level
 }) => {
     const ctx = useContext(MenuContext);
 
@@ -22,28 +23,27 @@ const SubMenu: FC<SubMenuItem> = ({
 
     const isOpen = openKeys.includes(itemKey);
 
-    const handleClick = () => {
+    const handleClick = useCallback(() => {
         if (triggerSubMenuAction === "click") {
-            toggleOpen(itemKey);
+            toggleOpen(itemKey, level);
         }
-    };
+    }, [itemKey, level]);
 
-    const handleHover = (open: boolean) => {
+    const handleHover = useCallback((_: boolean) => {
         if (triggerSubMenuAction === "hover") {
-            toggleOpen(itemKey);
+            toggleOpen(itemKey, level);
         }
-    };
+    }, [itemKey, level]);
 
     return (
         <li
-            className={clsx([
-                `${prefixCls}-sub`,
-                {
-                    [`${prefixCls}-sub-open`]: isOpen
-                },
-            ])}
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
+            className={`${prefixCls}-sub ${className}`}
+            {
+                ...(triggerSubMenuAction === "hover" ? {
+                    onMouseEnter: () => handleHover(true),
+                    onMouseLeave: () => handleHover(false)
+                } : {})
+            }
         >
             <div className={`${prefixCls}-sub-title`} onClick={handleClick}>
                 {icon && <span className={`${prefixCls}-sub-icon`}>
@@ -55,12 +55,10 @@ const SubMenu: FC<SubMenuItem> = ({
                 </span>
             </div>
 
-            <ul className={clsx([
-                `${prefixCls}-sub-list`,
-                { [`${prefixCls}-sub-list-open`]: isOpen }
-            ])}>
-                {children}
-            </ul>
+            {!isOpen ? null :
+                <ul className={`${prefixCls}-sub-list`}>
+                    {children}
+                </ul>}
         </li>
     );
 };

@@ -9,10 +9,12 @@ import React, {
   useCallback,
   createContext,
   MouseEvent,
+  useRef
 } from "react";
 import { MenuMode, MenuProps } from "../../types/menu";
 import MenuItem from "./Item/Item";
 import SubMenu from "./SubMenu/SubMenu";
+import { prefixClsMenu } from "../../utils";
 import "./index.css";
 
 export const MenuContext = createContext<{
@@ -21,7 +23,7 @@ export const MenuContext = createContext<{
   inlineCollapsed: boolean;
   selectedKeys: string[];
   openKeys: string[];
-  toggleOpen: (key: string) => void;
+  toggleOpen: (key: string, level?: "1" | "2") => void;
   onItemClick: (key: string, domEvent?: MouseEvent) => void;
   triggerSubMenuAction?: "hover" | "click";
   prefixCls: string;
@@ -35,7 +37,7 @@ const ItemGroup: FC<{
   children
 }) => {
     const ctx = useContext(MenuContext);
-    const prefix = ctx?.prefixCls ?? "xUi-menu";
+    const prefix = ctx?.prefixCls ?? prefixClsMenu;
 
     return (
       <li className={`${prefix}-group`}>
@@ -50,7 +52,7 @@ const Menu: FC<MenuProps> & {
   SubMenu: typeof SubMenu;
   ItemGroup: typeof ItemGroup;
 } = ({
-  prefixCls = "xUi-menu",
+  prefixCls = prefixClsMenu,
   className = "",
   style,
   defaultOpenKeys = [],
@@ -70,18 +72,24 @@ const Menu: FC<MenuProps> & {
   children,
   items
 }) => {
+    const hasInteracted = useRef(false);
+
     const [openKeys, setOpenKeys] = useState<string[]>(openKeysProp ?? defaultOpenKeys);
     const [selectedKeys, setSelectedKeys] = useState<string[]>(selectedKeysProp ?? defaultSelectedKeys);
 
     const toggleOpen = useCallback(
-      (key: string) => {
+      (key: string, level?: "1" | "2") => {
         setOpenKeys((_openKeys) => {
           const isOpen = _openKeys?.includes(key);
-          const next = isOpen
+          const _triggerSubMenuActionClick = triggerSubMenuAction === "click";
+          
+          const openKeysData = level 
+            ? [...(_triggerSubMenuActionClick ? level === "2" ? [..._openKeys] : [] : _openKeys), key] 
+            : [key];
+
+          const next = [...new Set(isOpen
             ? _openKeys.filter((k) => k !== key)
-            : triggerSubMenuAction === "click"
-              ? _openKeys.includes(key) ? [] : [key]
-              : [..._openKeys, key];
+            : openKeysData)];
 
           if (openKeysProp === undefined) {
             _openKeys = next;
@@ -92,7 +100,7 @@ const Menu: FC<MenuProps> & {
           return _openKeys
         })
       },
-      [onOpenChange, openKeysProp]
+      [openKeysProp, hasInteracted]
     );
 
     const onItemClick = useCallback(
@@ -145,7 +153,8 @@ const Menu: FC<MenuProps> & {
         toggleOpen,
         onItemClick,
         triggerSubMenuAction,
-        prefixCls]
+        prefixCls
+      ]
     );
 
     return (
@@ -163,13 +172,30 @@ const Menu: FC<MenuProps> & {
                   itemKey={it.key}
                   title={it.label}
                   icon={it.icon}
+                  level="1"
                 >
                   {it.children.map((c) => (
-                    <MenuItem
-                      key={`${index}_${c.label}_${c.key}`}
+                    c.children ? <SubMenu
+                      key={`${c.key}_${c.label}_${index}`}
                       itemKey={c.key}
-                      label={c.label}
-                      icon={c.icon} />
+                      title={c.label}
+                      icon={c.icon}
+                      className={`${prefixCls}-sub-list-sub`}
+                      level="2"
+                    >
+                      {c.children.map((c) => (
+                        <MenuItem
+                          key={`${index}_${c.label}_${c.key}`}
+                          itemKey={c.key}
+                          label={c.label}
+                          icon={c.icon} />
+                      ))}
+                    </SubMenu> :
+                      <MenuItem
+                        key={`${index}_${c.label}_${c.key}`}
+                        itemKey={c.key}
+                        label={c.label}
+                        icon={c.icon} />
                   ))}
                 </SubMenu>
               ) : it.type === 'divider'

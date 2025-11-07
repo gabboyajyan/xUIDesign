@@ -27,6 +27,7 @@ export const prefixClsButtonV3 = 'v3-btn';
 export const prefixClsUploadV3 = 'v3-upload';
 
 // non updates
+export const prefixClsMenu = 'xUi-menu';
 export const prefixClsSkeletonV3 = 'v3-skeleton';
 export const prefixClsDatePickerV3 = 'v3-datepicker';
 export const prefixClsRangePickerV3 = 'v3-rangepicker';

@@ -24,6 +24,7 @@ export declare const prefixClsRadioV3 = "v3-radio";
 export declare const prefixClsTextAreaV3 = "v3-textarea";
 export declare const prefixClsButtonV3 = "v3-btn";
 export declare const prefixClsUploadV3 = "v3-upload";
+export declare const prefixClsMenu = "xUi-menu";
 export declare const prefixClsSkeletonV3 = "v3-skeleton";
 export declare const prefixClsDatePickerV3 = "v3-datepicker";
 export declare const prefixClsRangePickerV3 = "v3-rangepicker";

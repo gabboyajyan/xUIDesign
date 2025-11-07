@@ -8,17 +8,18 @@
     list-style: none;
     border-radius: 4px;
     flex-direction: column;
+    user-select: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .xUi-menu-sub-list {
     gap: 4px;
     margin: 0;
-    height: 0;
-    padding: 0;
+    padding: 4px;
     display: flex;
-    overflow: auto;
     list-style: none;
     border-radius: 4px;
+    height: max-content;
     flex-direction: column;
     background: var(--xui-background-color);
 }
@@ -26,9 +27,9 @@
 .xUi-menu-vertical .xUi-menu-sub-list {
     top: 0;
     z-index: 1;
+    left: 100%;
     right: -100%;
     position: absolute;
-    left: calc(100% + 4px);
     background-color: #fff;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
@@ -60,6 +61,7 @@
     position: relative;
     border-radius: 6px;
     width: calc(100% - 8px);
+    padding: 0 4px;
 }
 
 .xUi-menu-sub-title {
@@ -84,9 +86,8 @@
     transition: transform 0.2s;
 }
 
-.xUi-menu-sub-list.xUi-menu-sub-list-open {
-    padding: 4px;
-    height: max-content;
+.xUi-menu-vertical .xUi-menu-sub-arrow {
+    transform: rotate(-90deg);
 }
 
 .xUi-menu-group {

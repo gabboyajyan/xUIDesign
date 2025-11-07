@@ -9,7 +9,7 @@ export declare const MenuContext: React.Context<{
     inlineCollapsed: boolean;
     selectedKeys: string[];
     openKeys: string[];
-    toggleOpen: (key: string) => void;
+    toggleOpen: (key: string, level?: "1" | "2") => void;
     onItemClick: (key: string, domEvent?: MouseEvent) => void;
     triggerSubMenuAction?: "hover" | "click";
     prefixCls: string;

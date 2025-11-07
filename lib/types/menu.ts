@@ -1,8 +1,9 @@
 import { CSSProperties, MouseEvent, ReactNode } from "react";
+import { DefaultProps } from ".";
 
 export type MenuMode = "vertical" | "horizontal" | "inline";
 
-export type ItemType = {
+export type ItemType = DefaultProps & {
   danger?: boolean;
   disabled?: boolean;
   extra?: ReactNode;
@@ -16,12 +17,13 @@ export type ItemType = {
   itemKey?: string;
 };
 
-export type SubMenuItem = {
+export type SubMenuItem = DefaultProps & {
   key: string;
   title?: ReactNode;
   icon?: ReactNode;
   children?: ReactNode;
   itemKey: string;
+  level: "1" | "2"
 }
 
 export interface MenuProps {
