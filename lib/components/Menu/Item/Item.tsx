@@ -14,7 +14,8 @@ const MenuItem: FC<ItemType> = ({
     disabled,
     danger,
     extra,
-    selected
+    selected,
+    className = ''
 }) => {
     const ctx = useContext(MenuContext);
     const prefix = ctx?.prefixCls ?? prefixClsMenu;
@@ -33,7 +34,7 @@ const MenuItem: FC<ItemType> = ({
             title={title as string}
             onClick={handleClick}
             className={clsx([
-                `${prefix}-item`,
+                `${prefix}-item ${className}`,
                 {
                     [`${prefix}-item-disabled`]: disabled,
                     [`${prefix}-item-selected`]: selected,

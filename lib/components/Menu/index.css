@@ -2,14 +2,13 @@
     gap: 4px;
     margin: 0;
     padding: 4px;
-    width: 256px;
     display: flex;
     font-size: 14px;
     list-style: none;
     border-radius: 4px;
     flex-direction: column;
     user-select: none;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
 }
 
 .xUi-menu-sub-list {
@@ -24,14 +23,20 @@
     background: var(--xui-background-color);
 }
 
+.xUi-menu-item-group {
+    padding:  0 24px !important;
+}
+
 .xUi-menu-vertical .xUi-menu-sub-list {
     top: 0;
     z-index: 1;
     left: 100%;
     right: -100%;
+    width: min-content;
+    min-width: 160px;
     position: absolute;
     background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
 }
 
 .xUi-menu-horizontal {
@@ -60,8 +65,6 @@
 .xUi-menu-sub {
     position: relative;
     border-radius: 6px;
-    width: calc(100% - 8px);
-    padding: 0 4px;
 }
 
 .xUi-menu-sub-title {
@@ -113,4 +116,29 @@
     margin: 0 auto;
     width: calc(100% - 16px);
     border-bottom: 1px solid var(--xui-color-disabled);
+}
+
+.xUi-menu-item.xUi-menu-item-disabled {
+    cursor: auto;
+    opacity: 0.6;
+
+    &:hover {
+        background-color: unset;
+    }
+}
+
+.xUi-menu-inline .xUi-menu-sub-list {
+    background-color: var(--xui-menu-inline-bg);
+}
+
+.xUi-menu-inline .xUi-menu-item {
+    padding: 0 24px;
+}
+
+.xUi-menu-inline .xUi-menu-sub-title {
+    padding: 0 20px;
+}
+
+.xUi-menu-inline .xUi-menu-sub-list-sub .xUi-menu-item {
+    padding: 0 30px;
 }

@@ -77,14 +77,21 @@ const Menu: FC<MenuProps> & {
     const [openKeys, setOpenKeys] = useState<string[]>(openKeysProp ?? defaultOpenKeys);
     const [selectedKeys, setSelectedKeys] = useState<string[]>(selectedKeysProp ?? defaultSelectedKeys);
 
+    const _triggerSubMenuActionClick = useMemo(() => {
+      if (mode === 'inline') {
+        return "click";
+      }
+
+      return triggerSubMenuAction
+    }, [triggerSubMenuAction, mode]);
+
     const toggleOpen = useCallback(
       (key: string, level?: "1" | "2") => {
         setOpenKeys((_openKeys) => {
           const isOpen = _openKeys?.includes(key);
-          const _triggerSubMenuActionClick = triggerSubMenuAction === "click";
-          
-          const openKeysData = level 
-            ? [...(_triggerSubMenuActionClick ? level === "2" ? [..._openKeys] : [] : _openKeys), key] 
+
+          const openKeysData = level
+            ? [...(_triggerSubMenuActionClick === 'click' ? level === "2" ? [..._openKeys] : [] : _openKeys), key]
             : [key];
 
           const next = [...new Set(isOpen
@@ -100,7 +107,7 @@ const Menu: FC<MenuProps> & {
           return _openKeys
         })
       },
-      [openKeysProp, hasInteracted]
+      [openKeysProp, hasInteracted, _triggerSubMenuActionClick]
     );
 
     const onItemClick = useCallback(
@@ -141,7 +148,7 @@ const Menu: FC<MenuProps> & {
         openKeys: openKeys || [],
         toggleOpen,
         onItemClick,
-        triggerSubMenuAction,
+        triggerSubMenuAction: _triggerSubMenuActionClick,
         prefixCls,
       }),
       [
@@ -152,7 +159,7 @@ const Menu: FC<MenuProps> & {
         openKeys,
         toggleOpen,
         onItemClick,
-        triggerSubMenuAction,
+        _triggerSubMenuActionClick,
         prefixCls
       ]
     );
@@ -165,51 +172,106 @@ const Menu: FC<MenuProps> & {
           className={`${prefixCls}-${mode} ${prefixCls || ''} ${className || ''}`}
         >
           {items
-            ? items.map((it, index) =>
-              it.children ? (
+            ? items.map((it, index) => {
+              if (it.type === 'divider') {
+                return (
+                  <span
+                    key={`${it.key}_${index}_divider`}
+                    className={`${prefixCls}-divider`}
+                  />
+                )
+              }
+
+              if (it.type === 'group') {
+                return (
+                  <div key={index + it.key}>
+                    <MenuItem
+                      key={`${it.key}_${index}_${it.label}_menu-item`}
+                      itemKey={it.key}
+                      label={it.label}
+                      icon={it.icon}
+                      className={`${prefixCls}-item-disabled`}
+                    />
+
+                    {(it.children || []).map((c, i) => (
+                      <MenuItem
+                        key={`${c.key}_${i}_menu-item`}
+                        itemKey={c.key}
+                        label={c.label}
+                        icon={c.icon}
+                        className={`${prefixCls}-item-group`}
+                      />
+                    ))}
+                  </div>
+                )
+              }
+
+              return it.children ? (
                 <SubMenu
-                  key={`${it.key}_${it.label}_${index}`}
+                  key={`${it.key}_${it.label}_${index}_sub_menu`}
                   itemKey={it.key}
                   title={it.label}
                   icon={it.icon}
                   level="1"
                 >
-                  {it.children.map((c) => (
-                    c.children ? <SubMenu
-                      key={`${c.key}_${c.label}_${index}`}
+                  {it.children.map((c, idx) => {
+                    if (c.type === 'group') {
+                      return (
+                        <div key={c.key + idx}>
+                          <MenuItem
+                            key={`${c.key}_${idx}_menu-item`}
+                            itemKey={c.key}
+                            label={c.label}
+                            icon={c.icon}
+                            className={`${prefixCls}-item-disabled`}
+                          />
+
+                          {(c.children || []).map((c, _i) => (
+                            <MenuItem
+                              key={`${c.key}_${_i}_menu-item`}
+                              itemKey={c.key}
+                              label={c.label}
+                              icon={c.icon}
+                              className={`${prefixCls}-item-group`}
+                            />
+                          ))}
+                        </div>
+                      )
+                    }
+
+                    return c.children ? <SubMenu
+                      key={`${c.key}_${c.label}_${idx}_sub_menu`}
+                      className={`${prefixCls}-sub-list-sub`}
                       itemKey={c.key}
                       title={c.label}
                       icon={c.icon}
-                      className={`${prefixCls}-sub-list-sub`}
                       level="2"
                     >
-                      {c.children.map((c) => (
+                      {c.children.map((c, _idx) => (
                         <MenuItem
-                          key={`${index}_${c.label}_${c.key}`}
+                          key={`${c.key}_${_idx}_${c.label}_menu-item`}
                           itemKey={c.key}
                           label={c.label}
-                          icon={c.icon} />
+                          icon={c.icon} 
+                        />
                       ))}
                     </SubMenu> :
                       <MenuItem
-                        key={`${index}_${c.label}_${c.key}`}
+                        key={`${index}_${c.key}_${c.label}_menu-item`}
                         itemKey={c.key}
                         label={c.label}
                         icon={c.icon} />
-                  ))}
+                  })}
                 </SubMenu>
-              ) : it.type === 'divider'
-                ? <span
-                  key={`${it.key}_${index}_${it.label}`}
-                  className={`${prefixCls}-divider`}
-                />
-                : <MenuItem
-                  key={`${it.key}_${index}_${it.label}`}
+              ) : (
+                <MenuItem
+                  key={`${index}_${it.key}_menu-item`}
                   itemKey={it.key}
                   label={it.label}
                   icon={it.icon}
                 />
-            )
+              )
+            })
             : children}
         </ul>
       </MenuContext.Provider>

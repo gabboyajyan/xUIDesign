@@ -1,23 +1,23 @@
 'use client'
 
-import TimePicker from "../../lib/components/DatePicker/TimePicker/TimePicker";
+// import TimePicker from "../../lib/components/DatePicker/TimePicker/TimePicker";
 // import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 // import { Item } from "../../lib/components/Form/Item";
-import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+// import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Menu } from "../../lib/components/Menu";
 import { MenuProps } from "../../lib/types/menu";
 // import { Input } from "../../lib/components/Input";
-import { Select } from "../../lib/components/Select";
+// import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 // import { Switch } from "../../lib/components/Switch";
 // import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 // import { Button } from "../../lib/components/Button";
-import { useCallback, useEffect, useState } from "react";
-import DatePicker from "../../lib/components/DatePicker/DatePicker";
+// import { useCallback, useEffect, useState } from "react";
+// import DatePicker from "../../lib/components/DatePicker/DatePicker";
 import { CalendarIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/components/Icons/Icons";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
@@ -29,9 +29,6 @@ import { CalendarIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/comp
 // import { RuleType } from "../../lib/types";
 // import { clsx } from "../../lib/helpers";
 // import { ArrowIcon } from "../../lib/components/Icons/Icons";
-// import { Input as AntInput, Select as AntSelect, Form as AntForm  } from 'antd';
-// import FormItem from "antd/es/form/FormItem";
-// import { useForm } from "antd/es/form/Form";
 
 export const CountryCodes = [...new Set([
     {
@@ -1864,7 +1861,7 @@ export const CountryCodes = [...new Set([
 //     ]);
 
 //     const [time, setTime] = useState(new Date());
-    
+
 //     return (
 //        <>
 //         {/* <div style={{ height: 1000 }}>
@@ -1891,7 +1888,7 @@ export const CountryCodes = [...new Set([
 //             options={CountryCodes}
 //             maxTagCount="responsive"
 //             defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} /> */}
-            
+
 //        </>
 //     )
 // }
@@ -1899,88 +1896,87 @@ export const CountryCodes = [...new Set([
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
-  {
-    key: 'sub1',
-    label: 'Navigation One',
-    icon: <CalendarIcon />,
-    children: [
-      {
-        key: 'g1',
-        label: 'Item 1',
+    {
+        key: 'sub1',
+        label: 'Navigation One',
+        icon: <CalendarIcon />,
+        children: [
+            {
+                key: 'g1',
+                label: 'Item 1',
+                type: 'group',
+                children: [
+                    { key: '1', label: 'Option 1' },
+                    { key: '2', label: 'Option 2' },
+                ],
+            },
+            {
+                key: 'g2',
+                label: 'Item 2',
+                type: 'group',
+                children: [
+                    { key: '3', label: 'Option 3' },
+                    { key: '4', label: 'Option 4' },
+                ],
+            },
+        ],
+    },
+    {
+        key: 'sub2',
+        label: 'Navigation Two',
+        icon: <SearchIcon />,
+        children: [
+            { key: '5', label: 'Option 5' },
+            { key: '6', label: 'Option 6' },
+            {
+                key: 'sub3',
+                label: 'Submenu',
+                children: [
+                    { key: '7', label: 'Option 7' },
+                    { key: '8', label: 'Option 8' },
+                ],
+            },
+        ],
+    },
+    {
+        type: 'divider',
+        key: 'divider'
+    },
+    {
+        key: 'sub4',
+        label: 'Navigation Three',
+        icon: <LoadingIcon />,
+        children: [
+            { key: '9', label: 'Option 9' },
+            { key: '10', label: 'Option 10' },
+            { key: '11', label: 'Option 11' },
+            { key: '12', label: 'Option 12' },
+        ],
+    },
+    {
+        key: 'grp',
+        label: 'Group',
         type: 'group',
         children: [
-          { key: '1', label: 'Option 1' },
-          { key: '2', label: 'Option 2' },
-        ],
-      },
-      {
-        key: 'g2',
-        label: 'Item 2',
-        type: 'group',
-        children: [
-          { key: '3', label: 'Option 3' },
-          { key: '4', label: 'Option 4' },
-        ],
-      },
-    ],
-  },
-  {
-    key: 'sub2',
-    label: 'Navigation Two',
-    icon: <SearchIcon />,
-    children: [
-      { key: '5', label: 'Option 5' },
-      { key: '6', label: 'Option 6' },
-      {
-        key: 'sub3',
-        label: 'Submenu',
-        children: [
-          { key: '7', label: 'Option 7' },
-          { key: '8', label: 'Option 8' },
-        ],
-      },
-    ],
-  },
-  {
-    type: 'divider',
-    key: 'divider'
-  },
-  {
-    key: 'sub4',
-    label: 'Navigation Three',
-    icon: <LoadingIcon />,
-    children: [
-      { key: '9', label: 'Option 9' },
-      { key: '10', label: 'Option 10' },
-      { key: '11', label: 'Option 11' },
-      { key: '12', label: 'Option 12' },
-    ],
-  },
-  {
-    key: 'grp',
-    label: 'Group',
-    type: 'group',
-    children: [
-      { key: '13', label: 'Option 13' },
-      { key: '14', label: 'Option 14' },
-    ]
-  },
+            { key: '13', label: 'Option 13' },
+            { key: '14', label: 'Option 14' },
+        ]
+    },
 ];
 
 const App: React.FC = () => {
-  const onClick: MenuProps['onClick'] = (e) => {
-    console.log('click ', e);
-  };
+    const onClick: MenuProps['onClick'] = (e) => {
+        console.log('click ', e);
+    };
 
-  return (
-    <Menu
-      onClick={onClick}
-    //   mode="inline"
-    //   defaultOpenKeys={['sub2', 'sub3']}
-      items={items}
-    //   triggerSubMenuAction="click"
-    />
-  );
+    return (
+        <div style={{ width: 300 }}>
+            <Menu
+                onClick={onClick}
+                items={items}
+            />
+        </div>
+    );
 };
 
 export default App;
