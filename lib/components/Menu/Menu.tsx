@@ -27,7 +27,20 @@ export const MenuContext = createContext<{
   onItemClick: (key: string, domEvent?: MouseEvent) => void;
   triggerSubMenuAction?: "hover" | "click";
   prefixCls: string;
-} | null>(null);
+} | null>({
+  prefixCls: prefixClsMenu,
+  mode: "vertical",
+  inlineIndent: 0,
+  inlineCollapsed: false,
+  selectedKeys: [],
+  openKeys: [],
+  toggleOpen: function (key: string, level?: "1" | "2"): void {
+    throw new Error("Function not implemented.");
+  },
+  onItemClick: function (key: string, domEvent?: MouseEvent): void {
+    throw new Error("Function not implemented.");
+  }
+});
 
 const ItemGroup: FC<{
   title?: ReactNode;
