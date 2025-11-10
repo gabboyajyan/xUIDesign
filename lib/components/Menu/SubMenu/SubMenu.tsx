@@ -3,8 +3,8 @@
 import React, { FC, useCallback, useContext } from "react";
 import { MenuContext } from "../Menu";
 import { SubMenuItem } from "../../../types/menu";
-import { ArrowIcon } from "@/components/Icons";
-import { prefixClsMenu } from "@/utils";
+import { ArrowIcon } from "../../../components/Icons";
+import { prefixClsMenu } from "../../../utils";
 
 const SubMenu: FC<SubMenuItem> = ({
     itemKey,

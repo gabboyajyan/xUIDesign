@@ -4525,7 +4525,7 @@ const MenuContext = /*#__PURE__*/createContext(null);
 const ItemGroup = ({
   title,
   children,
-  prefixCls
+  prefixCls = prefixClsMenu
 }) => {
   return /*#__PURE__*/React.createElement("li", {
     className: `${prefixCls}-group`
@@ -4616,9 +4616,8 @@ const Menu = ({
     openKeys: openKeys || [],
     toggleOpen,
     onItemClick,
-    triggerSubMenuAction: _triggerSubMenuActionClick,
-    prefixCls
-  }), [mode, inlineIndent, inlineCollapsed, selectedKeys, openKeys, toggleOpen, onItemClick, _triggerSubMenuActionClick, prefixCls]);
+    triggerSubMenuAction: _triggerSubMenuActionClick
+  }), [mode, inlineIndent, inlineCollapsed, selectedKeys, openKeys, toggleOpen, onItemClick, _triggerSubMenuActionClick]);
   return /*#__PURE__*/React.createElement(MenuContext.Provider, {
     value: menuContext
   }, /*#__PURE__*/React.createElement("ul", {

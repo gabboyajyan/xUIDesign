@@ -35,7 +35,7 @@ const ItemGroup: FC<{
 }> = ({
   title,
   children,
-  prefixCls
+  prefixCls = prefixClsMenu
 }) => {
     return (
       <li className={`${prefixCls}-group`}>
@@ -147,7 +147,6 @@ const Menu: FC<MenuProps> & {
         toggleOpen,
         onItemClick,
         triggerSubMenuAction: _triggerSubMenuActionClick,
-        prefixCls,
       }),
       [
         mode,
@@ -157,8 +156,7 @@ const Menu: FC<MenuProps> & {
         openKeys,
         toggleOpen,
         onItemClick,
-        _triggerSubMenuActionClick,
-        prefixCls
+        _triggerSubMenuActionClick
       ]
     );
 
