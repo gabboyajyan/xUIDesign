@@ -1971,10 +1971,11 @@ const App: React.FC = () => {
 
     return (
         <div style={{ width: 300 }}>
-            <Menu
-                onClick={onClick}
-                items={items}
-            />
+            <Menu onClick={onClick}>
+                {items.map(item => {
+                    return <Menu.Item key={item.key} label={item.label} />
+                })}
+            </Menu>
         </div>
     );
 };

@@ -1,3 +1,5 @@
+import * as __types_menu from '@/types/menu';
+export { ItemType, MenuProps, SubMenuItem } from '@/types/menu';
 import * as react from 'react';
 import { CSSProperties, ReactNode } from 'react';
 import * as __types_select from '@/types/select';
@@ -127,5 +129,8 @@ declare const SkeletonAvatar: react.ComponentType<SkeletonAvatarProps>;
 declare const SkeletonButton: react.ComponentType<SkeletonButtonProps>;
 declare const SkeletonImage: react.ComponentType<SkeletonImageProps>;
 declare const SkeletonInput: react.ComponentType<SkeletonInputProps>;
+declare const Menu: react.ComponentType<__types_menu.MenuProps>;
+declare const MenuItem: react.ComponentType<__types_menu.ItemType>;
+declare const MenuSubMenu: react.ComponentType<__types_menu.SubMenuItem>;
 
-export { Button, Checkbox, DatePicker, Empty, Form, FormItem, Input, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };
+export { Button, Checkbox, DatePicker, Empty, Form, FormItem, Input, Menu, MenuItem, MenuSubMenu, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };

@@ -32,6 +32,10 @@ const SkeletonButton = dynamic(() => import('@/components/Skeleton/Button/Button
 const SkeletonImage = dynamic(() => import('@/components/Skeleton/Image/Image'), { ssr: false });
 const SkeletonInput = dynamic(() => import('@/components/Skeleton/Input/Input'), { ssr: false });
 
+const Menu = dynamic(() => import('@/components/Menu/Menu'), { ssr: false });
+const MenuItem = dynamic(() => import('@/components/Menu/Item/Item'), { ssr: false });
+const MenuSubMenu = dynamic(() => import('@/components/Menu/SubMenu/SubMenu'), { ssr: false });
+
 export {
   Button,
   Checkbox,
@@ -55,7 +59,10 @@ export {
   SkeletonImage,
   SkeletonInput,
   Upload,
-  Switch
+  Switch,
+  Menu,
+  MenuItem,
+  MenuSubMenu
 };
 
 export {
@@ -98,9 +105,26 @@ export type {
   SyntheticBaseEvent
 } from '@/types';
 
-export type { CheckboxProps } from '@/types/checkbox';
-export type { InputProps, TextareaProps } from '@/types/input';
-export type { ButtonProps, BaseButtonProps, ButtonType } from '@/types/button';
+export type {
+  CheckboxProps
+} from '@/types/checkbox';
+
+export type {
+  InputProps,
+  TextareaProps
+} from '@/types/input';
+
+export type {
+  ButtonType,
+  ButtonProps,
+  BaseButtonProps
+} from '@/types/button';
+
+export type {
+  ItemType,
+  MenuProps,
+  SubMenuItem
+} from '@/types/menu';
 
 export type {
   RadioProps,
