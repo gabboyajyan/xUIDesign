@@ -4430,6 +4430,9 @@ const MenuItem = ({
   className = ''
 }) => {
   const ctx = useContext(MenuContext);
+  if (!ctx) {
+    return null;
+  }
   const prefix = ctx?.prefixCls ?? prefixClsMenu;
   const handleClick = e => {
     if (disabled) {

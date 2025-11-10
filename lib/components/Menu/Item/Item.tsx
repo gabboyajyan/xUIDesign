@@ -18,6 +18,11 @@ const MenuItem: FC<ItemType> = ({
     className = ''
 }) => {
     const ctx = useContext(MenuContext);
+
+    if (!ctx) {
+        return null;
+    }
+
     const prefix = ctx?.prefixCls ?? prefixClsMenu;
 
     const handleClick = (e: MouseEvent) => {
