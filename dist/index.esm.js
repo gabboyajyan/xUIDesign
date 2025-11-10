@@ -1576,21 +1576,32 @@ const Checkbox = ({
   required = false,
   noStyle,
   titleClick,
-  ref
+  ref,
+  controlled = false
 }) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
+  const checkboxRef = useRef(null);
   const handleClick = e => {
     if (disabled) {
       e.stopPropagation();
       return;
     }
-    setInternalChecked(!internalChecked);
-    e.target.value = !internalChecked;
+    if (checkboxRef.current) {
+      if (!controlled) {
+        e.target.value = !internalChecked;
+        setInternalChecked(!internalChecked);
+        checkboxRef.current.checked = !internalChecked;
+      } else {
+        e.target.value = !checked;
+        checkboxRef.current.checked = !checked;
+      }
+    }
     onClick?.(e);
     onChange?.(e);
   };
   useEffect(() => {
+    console.log(checked);
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
@@ -1610,6 +1621,7 @@ const Checkbox = ({
     id: id,
     type: type,
     name: name,
+    ref: checkboxRef,
     disabled: disabled,
     tabIndex: tabIndex,
     required: required,

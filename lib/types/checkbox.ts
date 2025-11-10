@@ -27,5 +27,6 @@ export type CheckboxProps = DefaultProps & {
   defaultChecked?: boolean;
   checked?: boolean;
   titleClick?: boolean;
-  ref?: ForwardedRef<HTMLDivElement>
+  ref?: ForwardedRef<HTMLDivElement>;
+  controlled?: boolean;
 };
