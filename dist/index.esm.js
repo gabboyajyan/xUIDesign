@@ -4618,10 +4618,10 @@ const Menu = ({
     toggleOpen,
     onItemClick,
     triggerSubMenuAction: _triggerSubMenuActionClick,
-    prefixCls
+    prefixCls: prefixCls ?? prefixClsMenu
   }), [mode, inlineIndent, inlineCollapsed, selectedKeys, openKeys, toggleOpen, onItemClick, _triggerSubMenuActionClick, prefixCls]);
   return /*#__PURE__*/React.createElement(MenuContext.Provider, {
-    value: ctxValue
+    value: ctxValue ?? {}
   }, /*#__PURE__*/React.createElement("ul", {
     role: "menu",
     style: style,

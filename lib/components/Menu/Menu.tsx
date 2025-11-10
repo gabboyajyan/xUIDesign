@@ -149,7 +149,7 @@ const Menu: FC<MenuProps> & {
         toggleOpen,
         onItemClick,
         triggerSubMenuAction: _triggerSubMenuActionClick,
-        prefixCls,
+        prefixCls: prefixCls ?? prefixClsMenu,
       }),
       [
         mode,
@@ -165,7 +165,7 @@ const Menu: FC<MenuProps> & {
     );
 
     return (
-      <MenuContext.Provider value={ctxValue}>
+      <MenuContext.Provider value={ctxValue ?? {}}>
         <ul
           role="menu"
           style={style}
