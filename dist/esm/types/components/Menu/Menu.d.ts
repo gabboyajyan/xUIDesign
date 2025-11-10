@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, MouseEvent } from "react";
+import React, { FC, MouseEvent } from "react";
 import { MenuMode, MenuProps } from "../../types/menu";
 import MenuItem from "./Item/Item";
 import SubMenu from "./SubMenu/SubMenu";
@@ -13,14 +13,8 @@ export declare const MenuContext: React.Context<{
     onItemClick: (key: string, domEvent?: MouseEvent) => void;
     triggerSubMenuAction?: "hover" | "click";
 } | null>;
-declare const ItemGroup: FC<{
-    title?: ReactNode;
-    children?: ReactNode;
-    prefixCls?: string;
-}>;
 declare const Menu: FC<MenuProps> & {
     Item: typeof MenuItem;
     SubMenu: typeof SubMenu;
-    ItemGroup: typeof ItemGroup;
 };
 export default Menu;

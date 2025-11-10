@@ -4522,19 +4522,6 @@ var css_248z = ".xUi-menu{box-shadow:0 0 4px rgba(0,0,0,.15);font-size:14px;user
 styleInject(css_248z);
 
 const MenuContext = /*#__PURE__*/createContext(null);
-const ItemGroup = ({
-  title,
-  children,
-  prefixCls = prefixClsMenu
-}) => {
-  return /*#__PURE__*/React.createElement("li", {
-    className: `${prefixCls}-group`
-  }, title && /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-group-title`
-  }, title), /*#__PURE__*/React.createElement("ul", {
-    className: `${prefixCls}-group-list`
-  }, children));
-};
 const Menu = ({
   prefixCls = prefixClsMenu,
   className = "",
@@ -4700,7 +4687,6 @@ const Menu = ({
 };
 Menu.Item = MenuItem;
 Menu.SubMenu = SubMenu;
-Menu.ItemGroup = ItemGroup;
 
 var Menu$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,

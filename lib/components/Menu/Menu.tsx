@@ -5,7 +5,6 @@ import React, {
   useMemo,
   useState,
   ReactNode,
-  useContext,
   useCallback,
   createContext,
   MouseEvent,
@@ -28,27 +27,9 @@ export const MenuContext = createContext<{
   triggerSubMenuAction?: "hover" | "click";
 } | null>(null);
 
-const ItemGroup: FC<{
-  title?: ReactNode;
-  children?: ReactNode,
-  prefixCls?: string
-}> = ({
-  title,
-  children,
-  prefixCls = prefixClsMenu
-}) => {
-    return (
-      <li className={`${prefixCls}-group`}>
-        {title && <div className={`${prefixCls}-group-title`}>{title}</div>}
-        <ul className={`${prefixCls}-group-list`}>{children}</ul>
-      </li>
-    );
-  };
-
 const Menu: FC<MenuProps> & {
   Item: typeof MenuItem;
   SubMenu: typeof SubMenu;
-  ItemGroup: typeof ItemGroup;
 } = ({
   prefixCls = prefixClsMenu,
   className = "",
@@ -276,6 +257,5 @@ const Menu: FC<MenuProps> & {
 
 Menu.Item = MenuItem;
 Menu.SubMenu = SubMenu;
-Menu.ItemGroup = ItemGroup;
 
 export default Menu;
