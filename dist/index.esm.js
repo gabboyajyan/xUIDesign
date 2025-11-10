@@ -4427,34 +4427,34 @@ const MenuItem = ({
   danger,
   extra,
   selected,
-  className = ''
+  className = '',
+  prefixCls = prefixClsMenu
 }) => {
-  const ctx = useContext(MenuContext);
-  if (!ctx) {
-    return null;
+  const menuContext = useContext(MenuContext);
+  if (!menuContext) {
+    throw new Error('MenuItem must be used within a Menu');
   }
-  const prefix = ctx?.prefixCls ?? prefixClsMenu;
   const handleClick = e => {
     if (disabled) {
       return;
     }
-    ctx?.onItemClick(itemKey, e);
+    menuContext?.onItemClick(itemKey, e);
   };
   return /*#__PURE__*/React.createElement("li", {
     role: "menuitem",
     title: title,
     onClick: handleClick,
-    className: clsx([`${prefix}-item ${className}`, {
-      [`${prefix}-item-disabled`]: disabled,
-      [`${prefix}-item-selected`]: selected,
-      [`${prefix}-item-danger`]: danger
+    className: clsx([`${prefixCls}-item ${className}`, {
+      [`${prefixCls}-item-disabled`]: disabled,
+      [`${prefixCls}-item-selected`]: selected,
+      [`${prefixCls}-item-danger`]: danger
     }])
   }, icon && /*#__PURE__*/React.createElement("span", {
-    className: `${prefix}-item-icon`
+    className: `${prefixCls}-item-icon`
   }, icon), /*#__PURE__*/React.createElement("span", {
-    className: `${prefix}-item-label`
+    className: `${prefixCls}-item-label`
   }, label), extra && /*#__PURE__*/React.createElement("span", {
-    className: `${prefix}-item-extra`
+    className: `${prefixCls}-item-extra`
   }, extra));
 };
 
@@ -4469,18 +4469,18 @@ const SubMenu = ({
   icon,
   children,
   className = '',
-  level
+  level,
+  prefixCls = prefixClsMenu
 }) => {
-  const ctx = useContext(MenuContext);
-  if (!ctx) {
-    return null;
+  const menuContext = useContext(MenuContext);
+  if (!menuContext) {
+    throw new Error('MenuItem must be used within a Menu');
   }
   const {
-    prefixCls,
     openKeys,
     toggleOpen,
     triggerSubMenuAction
-  } = ctx;
+  } = menuContext;
   const isOpen = openKeys.includes(itemKey);
   const handleClick = useCallback(() => {
     if (triggerSubMenuAction === "click") {
@@ -4521,32 +4521,18 @@ var SubMenu$1 = /*#__PURE__*/Object.freeze({
 var css_248z = ".xUi-menu{box-shadow:0 0 4px rgba(0,0,0,.15);font-size:14px;user-select:none}.xUi-menu,.xUi-menu-sub-list{border-radius:4px;display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:4px}.xUi-menu-sub-list{background:var(--xui-background-color);height:max-content}.xUi-menu-item-group{padding:0 24px!important}.xUi-menu-vertical .xUi-menu-sub-list{background-color:#fff;box-shadow:0 0 4px rgba(0,0,0,.15);left:100%;min-width:160px;position:absolute;right:-100%;top:0;width:min-content;z-index:1}.xUi-menu-horizontal{display:flex;flex-direction:row}.xUi-menu-item{align-items:center;border-radius:4px;cursor:pointer;display:flex;height:40px;padding:0 12px;transition:background .3s}.xUi-menu-item:hover{background:rgba(0,0,0,.04)}.xUi-menu-item-icon{margin-right:8px}.xUi-menu-sub{border-radius:6px;position:relative}.xUi-menu-sub-title{align-items:center;cursor:pointer;display:flex;height:40px;padding:0 12px;&:hover{background-color:var(--xui-color-hover);border-radius:6px}}.xUi-menu-sub-label{flex:1}.xUi-menu-sub-arrow{margin-left:8px;transition:transform .2s}.xUi-menu-vertical .xUi-menu-sub-arrow{transform:rotate(-90deg)}.xUi-menu-group{list-style:none;margin:0;padding:0}.xUi-menu-group-title{color:rgba(0,0,0,.45);font-size:12px;padding:8px 12px}.xUi-menu-group-list{list-style:none;margin:0;padding:0}.xUi-menu-divider{border-bottom:1px solid var(--xui-color-disabled);display:block;margin:0 auto;width:calc(100% - 16px)}.xUi-menu-item.xUi-menu-item-disabled{cursor:auto;opacity:.6;&:hover{background-color:unset}}.xUi-menu-inline .xUi-menu-sub-list{background-color:var(--xui-menu-inline-bg)}.xUi-menu-inline .xUi-menu-item{padding:0 24px}.xUi-menu-inline .xUi-menu-sub-title{padding:0 20px}.xUi-menu-inline .xUi-menu-sub-list-sub .xUi-menu-item{padding:0 30px}";
 styleInject(css_248z);
 
-const MenuContext = /*#__PURE__*/createContext({
-  prefixCls: prefixClsMenu,
-  mode: "vertical",
-  inlineIndent: 0,
-  inlineCollapsed: false,
-  selectedKeys: [],
-  openKeys: [],
-  toggleOpen: function (key, level) {
-    throw new Error("Function not implemented.");
-  },
-  onItemClick: function (key, domEvent) {
-    throw new Error("Function not implemented.");
-  }
-});
+const MenuContext = /*#__PURE__*/createContext(null);
 const ItemGroup = ({
   title,
-  children
+  children,
+  prefixCls
 }) => {
-  const ctx = useContext(MenuContext);
-  const prefix = ctx?.prefixCls ?? prefixClsMenu;
   return /*#__PURE__*/React.createElement("li", {
-    className: `${prefix}-group`
+    className: `${prefixCls}-group`
   }, title && /*#__PURE__*/React.createElement("div", {
-    className: `${prefix}-group-title`
+    className: `${prefixCls}-group-title`
   }, title), /*#__PURE__*/React.createElement("ul", {
-    className: `${prefix}-group-list`
+    className: `${prefixCls}-group-list`
   }, children));
 };
 const Menu = ({
@@ -4622,7 +4608,7 @@ const Menu = ({
       });
     }
   }, [multiple, onClick, onSelect, onDeselect, selectedKeys, selectable, selectedKeysProp]);
-  const ctxValue = useMemo(() => ({
+  const menuContext = useMemo(() => ({
     mode,
     inlineIndent,
     inlineCollapsed,
@@ -4631,10 +4617,10 @@ const Menu = ({
     toggleOpen,
     onItemClick,
     triggerSubMenuAction: _triggerSubMenuActionClick,
-    prefixCls: prefixCls ?? prefixClsMenu
+    prefixCls
   }), [mode, inlineIndent, inlineCollapsed, selectedKeys, openKeys, toggleOpen, onItemClick, _triggerSubMenuActionClick, prefixCls]);
   return /*#__PURE__*/React.createElement(MenuContext.Provider, {
-    value: ctxValue ?? {}
+    value: menuContext
   }, /*#__PURE__*/React.createElement("ul", {
     role: "menu",
     style: style,

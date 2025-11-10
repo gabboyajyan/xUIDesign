@@ -12,11 +12,11 @@ export declare const MenuContext: React.Context<{
     toggleOpen: (key: string, level?: "1" | "2") => void;
     onItemClick: (key: string, domEvent?: MouseEvent) => void;
     triggerSubMenuAction?: "hover" | "click";
-    prefixCls: string;
 } | null>;
 declare const ItemGroup: FC<{
     title?: ReactNode;
     children?: ReactNode;
+    prefixCls?: string;
 }>;
 declare const Menu: FC<MenuProps> & {
     Item: typeof MenuItem;

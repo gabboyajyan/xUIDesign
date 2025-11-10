@@ -4,6 +4,7 @@ import React, { FC, useCallback, useContext } from "react";
 import { MenuContext } from "../Menu";
 import { SubMenuItem } from "../../../types/menu";
 import { ArrowIcon } from "@/components/Icons";
+import { prefixClsMenu } from "@/utils";
 
 const SubMenu: FC<SubMenuItem> = ({
     itemKey,
@@ -11,15 +12,16 @@ const SubMenu: FC<SubMenuItem> = ({
     icon,
     children,
     className = '',
-    level
+    level,
+    prefixCls = prefixClsMenu
 }) => {
-    const ctx = useContext(MenuContext);
+    const menuContext = useContext(MenuContext);
 
-    if (!ctx) {
-        return null;
+    if (!menuContext) {
+        throw new Error('MenuItem must be used within a Menu');
     }
 
-    const { prefixCls, openKeys, toggleOpen, triggerSubMenuAction } = ctx;
+    const { openKeys, toggleOpen, triggerSubMenuAction } = menuContext;
 
     const isOpen = openKeys.includes(itemKey);
 

@@ -15,22 +15,21 @@ const MenuItem: FC<ItemType> = ({
     danger,
     extra,
     selected,
-    className = ''
+    className = '',
+    prefixCls = prefixClsMenu
 }) => {
-    const ctx = useContext(MenuContext);
+    const menuContext = useContext(MenuContext);
 
-    if (!ctx) {
-        return null;
+    if (!menuContext) {
+        throw new Error('MenuItem must be used within a Menu');
     }
-
-    const prefix = ctx?.prefixCls ?? prefixClsMenu;
 
     const handleClick = (e: MouseEvent) => {
         if (disabled) {
             return;
         }
 
-        ctx?.onItemClick(itemKey as string, e);
+        menuContext?.onItemClick(itemKey as string, e);
     };
 
     return (
@@ -39,17 +38,17 @@ const MenuItem: FC<ItemType> = ({
             title={title as string}
             onClick={handleClick}
             className={clsx([
-                `${prefix}-item ${className}`,
+                `${prefixCls}-item ${className}`,
                 {
-                    [`${prefix}-item-disabled`]: disabled,
-                    [`${prefix}-item-selected`]: selected,
-                    [`${prefix}-item-danger`]: danger,
+                    [`${prefixCls}-item-disabled`]: disabled,
+                    [`${prefixCls}-item-selected`]: selected,
+                    [`${prefixCls}-item-danger`]: danger,
                 }
             ])}
         >
-            {icon && <span className={`${prefix}-item-icon`}>{icon}</span>}
-            <span className={`${prefix}-item-label`}>{label}</span>
-            {extra && <span className={`${prefix}-item-extra`}>{extra}</span>}
+            {icon && <span className={`${prefixCls}-item-icon`}>{icon}</span>}
+            <span className={`${prefixCls}-item-label`}>{label}</span>
+            {extra && <span className={`${prefixCls}-item-extra`}>{extra}</span>}
         </li>
     );
 };

@@ -26,36 +26,21 @@ export const MenuContext = createContext<{
   toggleOpen: (key: string, level?: "1" | "2") => void;
   onItemClick: (key: string, domEvent?: MouseEvent) => void;
   triggerSubMenuAction?: "hover" | "click";
-  prefixCls: string;
-} | null>({
-  prefixCls: prefixClsMenu,
-  mode: "vertical",
-  inlineIndent: 0,
-  inlineCollapsed: false,
-  selectedKeys: [],
-  openKeys: [],
-  toggleOpen: function (key: string, level?: "1" | "2"): void {
-    throw new Error("Function not implemented.");
-  },
-  onItemClick: function (key: string, domEvent?: MouseEvent): void {
-    throw new Error("Function not implemented.");
-  }
-});
+} | null>(null);
 
 const ItemGroup: FC<{
   title?: ReactNode;
-  children?: ReactNode
+  children?: ReactNode,
+  prefixCls?: string
 }> = ({
   title,
-  children
+  children,
+  prefixCls
 }) => {
-    const ctx = useContext(MenuContext);
-    const prefix = ctx?.prefixCls ?? prefixClsMenu;
-
     return (
-      <li className={`${prefix}-group`}>
-        {title && <div className={`${prefix}-group-title`}>{title}</div>}
-        <ul className={`${prefix}-group-list`}>{children}</ul>
+      <li className={`${prefixCls}-group`}>
+        {title && <div className={`${prefixCls}-group-title`}>{title}</div>}
+        <ul className={`${prefixCls}-group-list`}>{children}</ul>
       </li>
     );
   };
@@ -152,7 +137,7 @@ const Menu: FC<MenuProps> & {
       [multiple, onClick, onSelect, onDeselect, selectedKeys, selectable, selectedKeysProp]
     );
 
-    const ctxValue = useMemo(
+    const menuContext = useMemo(
       () => ({
         mode,
         inlineIndent,
@@ -162,7 +147,7 @@ const Menu: FC<MenuProps> & {
         toggleOpen,
         onItemClick,
         triggerSubMenuAction: _triggerSubMenuActionClick,
-        prefixCls: prefixCls ?? prefixClsMenu,
+        prefixCls,
       }),
       [
         mode,
@@ -178,7 +163,7 @@ const Menu: FC<MenuProps> & {
     );
 
     return (
-      <MenuContext.Provider value={ctxValue ?? {}}>
+      <MenuContext.Provider value={menuContext}>
         <ul
           role="menu"
           style={style}
