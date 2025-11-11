@@ -1603,7 +1603,6 @@ const Checkbox = ({
     onChange?.(e);
   };
   React.useEffect(() => {
-    console.log(checked);
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
