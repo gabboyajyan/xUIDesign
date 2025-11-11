@@ -3,7 +3,7 @@
 // import TimePicker from "../../lib/components/DatePicker/TimePicker/TimePicker";
 // import { Form } from "../../lib/components/Form";
 // import { Radio } from "../../lib/components/Radio";
-import { Checkbox } from "../../lib/components/Checkbox";
+// import { Checkbox } from "../../lib/components/Checkbox";
 // import { Item } from "../../lib/components/Form/Item";
 // import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Menu } from "../../lib/components/Menu";
@@ -19,7 +19,7 @@ import { MenuProps } from "../../lib/types/menu";
 // import { useCallback, useEffect, useState } from "react";
 // import DatePicker from "../../lib/components/DatePicker/DatePicker";
 import { CalendarIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/components/Icons/Icons";
-import { useState } from "react";
+// import { useState } from "react";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1966,23 +1966,13 @@ const items: MenuItem[] = [
 ];
 
 const App: React.FC = () => {
-    const [check, setCheck] = useState(false);
-
     const onClick: MenuProps['onClick'] = (e) => {
         console.log('click ', e);
     };
 
     return (
         <div style={{ width: 300 }}>
-            {/* <Menu onClick={onClick} items={items} /> */}
-            <button onClick={() => setCheck(!check)}>okokok</button>
-            <Checkbox 
-                titleClick
-                // controlled
-                checked={check}
-            >
-                Check
-            </Checkbox>
+            <Menu onClick={onClick} items={items} />
         </div>
     );
 };

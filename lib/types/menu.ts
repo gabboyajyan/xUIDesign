@@ -15,6 +15,7 @@ export type ItemType = DefaultProps & {
   type?: string;
   selected?: boolean;
   itemKey?: string;
+  onClick?: (info: { key: string; keyPath: string[]; domEvent?: MouseEvent }) => void;
 };
 
 export type SubMenuItem = DefaultProps & {

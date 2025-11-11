@@ -16,7 +16,8 @@ const MenuItem: FC<ItemType> = ({
     extra,
     selected,
     className = '',
-    prefixCls = prefixClsMenu
+    prefixCls = prefixClsMenu,
+    onClick
 }) => {
     const menuContext = useContext(MenuContext);
 
@@ -28,6 +29,12 @@ const MenuItem: FC<ItemType> = ({
         if (disabled) {
             return;
         }
+
+        onClick?.({ 
+            key: itemKey as string, 
+            keyPath: [itemKey as string], 
+            domEvent: e as MouseEvent 
+        });
 
         menuContext?.onItemClick(itemKey as string, e);
     };

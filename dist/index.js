@@ -4442,7 +4442,8 @@ const MenuItem = ({
   extra,
   selected,
   className = '',
-  prefixCls = prefixClsMenu
+  prefixCls = prefixClsMenu,
+  onClick
 }) => {
   const menuContext = React.useContext(MenuContext);
   if (!menuContext) {
@@ -4452,6 +4453,11 @@ const MenuItem = ({
     if (disabled) {
       return;
     }
+    onClick?.({
+      key: itemKey,
+      keyPath: [itemKey],
+      domEvent: e
+    });
     menuContext?.onItemClick(itemKey, e);
   };
   return /*#__PURE__*/React.createElement("li", {
