@@ -17,7 +17,8 @@ const MenuItem: FC<ItemType> = ({
     selected,
     className = '',
     prefixCls = prefixClsMenu,
-    onClick
+    onClick,
+    style
 }) => {
     const menuContext = useContext(MenuContext);
 
@@ -41,6 +42,7 @@ const MenuItem: FC<ItemType> = ({
 
     return (
         <li
+            style={style}
             role="menuitem"
             title={title as string}
             onClick={handleClick}
