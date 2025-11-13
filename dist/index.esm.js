@@ -2121,9 +2121,7 @@ const DatePicker = ({
   useEffect(() => {
     const _date = value || defaultValue;
     setSelectedDate(_date);
-    if (_date) {
-      setSelectedDatePlaceholder(formatDate(_date, format));
-    }
+    setSelectedDatePlaceholder(_date ? formatDate(_date, format) : undefined);
   }, [value]);
   useEffect(() => {
     const handleClickOutside = event => {

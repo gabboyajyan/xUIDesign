@@ -118,10 +118,7 @@ const DatePicker = ({
     const _date = value || defaultValue;
 
     setSelectedDate(_date);
-
-    if (_date) {
-      setSelectedDatePlaceholder(formatDate(_date, format as string));
-    }
+    setSelectedDatePlaceholder(_date ? formatDate(_date, format as string) : undefined);
   }, [value])
 
   useEffect(() => {
