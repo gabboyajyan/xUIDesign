@@ -95,7 +95,7 @@ export const usePossition = ({
                     (shouldShowAbove
                         ? containerRef.current.offsetTop -
                         (popupRef.current?.offsetHeight || dropdownHeight) - 8
-                        : containerRef.current.offsetTop + containerRef.current.offsetHeight) + 4,
+                        : containerRef.current.offsetTop + containerRef.current?.offsetHeight) + 4,
                 ...(hasRight ? {
                     left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {

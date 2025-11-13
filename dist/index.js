@@ -2022,7 +2022,7 @@ const usePossition = ({
       }
     } else {
       setDropdownPosition({
-        top: (shouldShowAbove ? containerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - 8 : containerRef.current.offsetTop + containerRef.current.offsetHeight) + 4,
+        top: (shouldShowAbove ? containerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - 8 : containerRef.current.offsetTop + containerRef.current?.offsetHeight) + 4,
         ...(hasRight ? {
           left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
         } : {
@@ -2121,7 +2121,11 @@ const DatePicker = ({
     getPopupContainer
   });
   React.useEffect(() => {
-    setSelectedDate(value || defaultValue);
+    const _date = value || defaultValue;
+    setSelectedDate(_date);
+    if (_date) {
+      setSelectedDatePlaceholder(formatDate(_date, format));
+    }
   }, [value]);
   React.useEffect(() => {
     const handleClickOutside = event => {

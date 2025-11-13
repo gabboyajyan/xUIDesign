@@ -6,20 +6,18 @@
 // import { Checkbox } from "../../lib/components/Checkbox";
 // import { Item } from "../../lib/components/Form/Item";
 // import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
-import { Menu } from "../../lib/components/Menu";
+// import { Menu } from "../../lib/components/Menu";
 import { MenuProps } from "../../lib/types/menu";
 // import { Input } from "../../lib/components/Input";
 // import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
 // import { Switch } from "../../lib/components/Switch";
-// import { useState } from "react";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 // import { Button } from "../../lib/components/Button";
-// import { useCallback, useEffect, useState } from "react";
-// import DatePicker from "../../lib/components/DatePicker/DatePicker";
+import { useCallback, useEffect, useState } from "react";
+import DatePicker from "../../lib/components/DatePicker/DatePicker";
 import { CalendarIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/components/Icons/Icons";
-// import { useState } from "react";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
 // import { RadioGroup } from "../../lib/components/Radio/Group";
@@ -1847,53 +1845,6 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-// const period: {
-//     value: number;
-//     unit: "day" | "month" | "year";
-// } = {
-//     value: 2,
-//     unit: "day"
-// }
-
-// export default function Home() {
-//     const [selectedDates, setSelectedDates] = useState([
-//         new Date("2025-10-06T20:00:00.000Z"),
-//         new Date("2025-10-09T19:59:59.999Z")
-//     ]);
-
-//     const [time, setTime] = useState(new Date());
-
-//     return (
-//        <>
-//         {/* <div style={{ height: 1000 }}>
-//             <div style={{  width: 700, overflow: 'auto' }}>
-//                 <div style={{ height: 200 }}>
-//                     <div style={{ height: 100 }}>
-//                         <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
-//                     </div>
-//                 </div>
-//                 <div style={{ height: 200 }}>
-//                     <div style={{ height: 100 }}></div>
-//                 </div>
-//                 <div style={{ height: 200 }}>
-//                     <div style={{ height: 100, display: 'flex' }}>
-//                         <TimePicker value={time}  />
-//                         <TimePicker value={time} placement="bottomRight"  />
-//                     </div>
-//                 </div>
-//             </div>
-//         </div> */}
-//         {/* <Select 
-//             mode="tags"
-//             style={{ width: 400 }}
-//             options={CountryCodes}
-//             maxTagCount="responsive"
-//             defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']} /> */}
-
-//        </>
-//     )
-// }
-
 type MenuItem = Required<MenuProps>['items'][number];
 
 const items: MenuItem[] = [
@@ -1965,16 +1916,60 @@ const items: MenuItem[] = [
     },
 ];
 
-const App: React.FC = () => {
-    const onClick: MenuProps['onClick'] = (e) => {
-        console.log('click ', e);
-    };
+
+// const period: {
+//     value: number;
+//     unit: "day" | "month" | "year";
+// } = {
+//     value: 2,
+//     unit: "day"
+// }
+
+export default function Home() {
+    const [selectedDates, setSelectedDates] = useState([
+        new Date("2025-10-06T20:00:00.000Z"),
+        new Date("2025-10-09T19:59:59.999Z")
+    ]);
+
+    // const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        setTimeout(() => {
+            setSelectedDates([new Date("2025-10-09T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
+        }, 2000);
+    }, [])
 
     return (
-        <div style={{ width: 300 }}>
-            <Menu onClick={onClick} items={items} />
-        </div>
-    );
-};
+        <>
+            {/* <div style={{ height: 1000 }}>
+            <div style={{  width: 700, overflow: 'auto' }}>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100 }}>
+                        <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
+                    </div>
+                </div>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100 }}></div>
+                </div>
+                <div style={{ height: 200 }}>
+                    <div style={{ height: 100, display: 'flex' }}>
+                        <TimePicker value={time}  />
+                        <TimePicker value={time} placement="bottomRight"  />
+                    </div>
+                </div>
+            </div>
+        </div> */}
+            {/* <Select
+                mode="tags"
+                size="middle"
+                style={{ width: 400 }}
+                options={CountryCodes}
+                maxTagCount="responsive"
+                // defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']}
+            /> */}
+            <DatePicker format={'DD/MMM/YYYY'} value={selectedDates[0]}  />
+            {/* <RangePicker format={'DD/MMM/YYYY'} value={selectedDates}  /> */}
+        </>
+    )
+}
 
-export default App;
