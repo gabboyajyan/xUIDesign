@@ -29,6 +29,7 @@ export type DropdownProps = DefaultProps & {
     autoAdjustOverflow?: boolean;
     popupRender?: (node: ReactNode) => ReactNode;
     overlay?: ReactElement | OverlayFunc;
+    onVisibleChange?: ((open: boolean) => void) | undefined;
 };
 export type DropdownMenuInnerProps = DefaultProps & {
     items: DropdownItemType[];

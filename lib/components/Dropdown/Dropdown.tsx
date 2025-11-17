@@ -35,6 +35,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
     className = '',
     overlay,
     prefixCls = prefixClsDropdown,
+    onVisibleChange
 }, ref) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
     const [_hover, setHover] = useState<boolean>(controlledOpen ?? defaultOpen);
@@ -56,6 +57,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
     useEffect(() => {
         if (isControlled) {
             setOpen(Boolean(controlledOpen));
+            onVisibleChange?.(Boolean(controlledOpen))
         }
     }, [controlledOpen]);
 
@@ -79,8 +81,9 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
         if (!isControlled) {
             setOpen(next);
         }
-
+        
         onOpenChange?.(next);
+        onVisibleChange?.(next)
     };
 
     useEffect(() => {
@@ -208,7 +211,7 @@ function MenuInner({
     items,
     menuRef,
     onClose,
-    prefixCls
+    prefixCls,
 }: DropdownMenuInnerProps) {
     return (
         <ul className={`${prefixCls}-menu`} ref={menuRef} role='menu'>

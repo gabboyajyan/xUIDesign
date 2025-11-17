@@ -128,6 +128,7 @@ export default function Home() {
                 placement="bottomLeft"
                 arrow
                 autoFocus
+                onVisibleChange={(a) => console.log(a)}
             >
                 <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Hover Me</a>
             </Dropdown>

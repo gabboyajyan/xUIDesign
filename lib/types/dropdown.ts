@@ -30,7 +30,8 @@ export type DropdownProps = DefaultProps & {
     autoFocus?: boolean;
     autoAdjustOverflow?: boolean;
     popupRender?: (node: ReactNode) => ReactNode;
-    overlay?: ReactElement | OverlayFunc
+    overlay?: ReactElement | OverlayFunc;
+    onVisibleChange?: ((open: boolean) => void) | undefined;
 }
 
 

@@ -20,5 +20,6 @@ declare const Dropdown: React.ForwardRefExoticComponent<import("../..").DefaultP
     autoAdjustOverflow?: boolean;
     popupRender?: (node: React.ReactNode) => React.ReactNode;
     overlay?: React.ReactElement | (() => React.ReactElement);
+    onVisibleChange?: ((open: boolean) => void) | undefined;
 } & React.RefAttributes<HTMLDivElement>>;
 export default Dropdown;
