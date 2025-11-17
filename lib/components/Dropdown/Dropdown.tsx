@@ -33,6 +33,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
     autoFocus = false,
     popupRender,
     className = '',
+    overlay,
     prefixCls = prefixClsDropdown,
 }, ref) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
@@ -145,7 +146,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
             >
                 {arrow && <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />}
 
-                {popupRender ? (
+                {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                     popupRender(
                         menu ? (
                             <MenuInner

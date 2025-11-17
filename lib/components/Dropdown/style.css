@@ -8,6 +8,12 @@
     position: absolute;
 }
 
+.xUi-dropdown-overlay > ul,
+.xUi-dropdown-overlay > div,
+.xUi-dropdown-overlay > select {
+    box-shadow: unset;
+}
+
 .xUi-dropdown-overlay .xUi-dropdown-menu {
     padding: 0 4px;
     margin: 0;

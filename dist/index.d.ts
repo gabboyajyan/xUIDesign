@@ -154,6 +154,7 @@ declare const Dropdown: react.ComponentType<__types.DefaultProps & {
     autoFocus?: boolean;
     autoAdjustOverflow?: boolean;
     popupRender?: (node: react.ReactNode) => react.ReactNode;
+    overlay?: react.ReactElement | (() => react.ReactElement);
 } & react.RefAttributes<HTMLDivElement>>;
 
 export { Button, Checkbox, DatePicker, Dropdown, Empty, Form, FormItem, Input, Menu, MenuItem, MenuSubMenu, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };

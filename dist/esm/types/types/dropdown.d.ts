@@ -1,13 +1,14 @@
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, MouseEvent, ReactElement, ReactNode, RefObject } from "react";
 import { DefaultProps, Placement } from ".";
 export type TriggerType = 'click' | 'hover' | 'contextMenu' | Array<TriggerType>;
 export interface DropdownItemType {
     key: string;
     label?: ReactNode;
     disabled?: boolean;
-    onClick?: (e: React.MouseEvent) => void;
+    onClick?: (e: MouseEvent) => void;
     danger?: boolean;
 }
+declare type OverlayFunc = () => ReactElement;
 export type DropdownProps = DefaultProps & {
     children: ReactNode;
     menu?: {
@@ -27,9 +28,11 @@ export type DropdownProps = DefaultProps & {
     autoFocus?: boolean;
     autoAdjustOverflow?: boolean;
     popupRender?: (node: ReactNode) => ReactNode;
+    overlay?: ReactElement | OverlayFunc;
 };
 export type DropdownMenuInnerProps = DefaultProps & {
     items: DropdownItemType[];
-    menuRef: React.RefObject<HTMLUListElement | null>;
+    menuRef: RefObject<HTMLUListElement | null>;
     onClose: () => void;
 };
+export {};

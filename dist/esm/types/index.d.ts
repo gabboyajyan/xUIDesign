@@ -44,6 +44,7 @@ declare const Dropdown: import("react").ComponentType<import("@/types").DefaultP
     autoFocus?: boolean;
     autoAdjustOverflow?: boolean;
     popupRender?: (node: import("react").ReactNode) => import("react").ReactNode;
+    overlay?: import("react").ReactElement | (() => import("react").ReactElement);
 } & import("react").RefAttributes<HTMLDivElement>>;
 export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown };
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon, } from '@/components/Icons';

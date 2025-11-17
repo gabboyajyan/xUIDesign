@@ -4722,7 +4722,7 @@ var Menu$1 = /*#__PURE__*/Object.freeze({
 	default: Menu
 });
 
-var css_248z = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);min-width:160px;padding:4px 0;position:absolute}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative;&:before{content:\"\";height:10px;position:absolute;top:-10px;width:100%;z-index:1}}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:1px solid #e5e7eb;border-top:1px solid #e5e7eb;height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.bottom{border-bottom:1px solid #e5e7eb;border-left:unset;border-right:1px solid #e5e7eb;border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-placement-bottom{margin-top:8px}.xUi-dropdown-placement-top{margin-bottom:8px}.xUi-dropdown-placement-left{margin-right:8px}.xUi-dropdown-placement-right{margin-left:8px}";
+var css_248z = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);min-width:160px;padding:4px 0;position:absolute}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative;&:before{content:\"\";height:10px;position:absolute;top:-10px;width:100%;z-index:1}}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:1px solid #e5e7eb;border-top:1px solid #e5e7eb;height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.bottom{border-bottom:1px solid #e5e7eb;border-left:unset;border-right:1px solid #e5e7eb;border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-placement-bottom{margin-top:8px}.xUi-dropdown-placement-top{margin-bottom:8px}.xUi-dropdown-placement-left{margin-right:8px}.xUi-dropdown-placement-right{margin-left:8px}";
 styleInject(css_248z);
 
 const Dropdown = /*#__PURE__*/forwardRef(({
@@ -4742,6 +4742,7 @@ const Dropdown = /*#__PURE__*/forwardRef(({
   autoFocus = false,
   popupRender,
   className = '',
+  overlay,
   prefixCls = prefixClsDropdown
 }, ref) => {
   const [open, setOpen] = useState(controlledOpen ?? defaultOpen);
@@ -4828,7 +4829,7 @@ const Dropdown = /*#__PURE__*/forwardRef(({
     }
   }, arrow && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`
-  }), popupRender ? popupRender(menu ? /*#__PURE__*/React.createElement(MenuInner, {
+  }), overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? popupRender(menu ? /*#__PURE__*/React.createElement(MenuInner, {
     prefixCls: prefixCls,
     items: menu.items,
     menuRef: menuRef,
