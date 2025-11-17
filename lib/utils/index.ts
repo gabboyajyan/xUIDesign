@@ -13,6 +13,8 @@ export const prefixClsRangePicker = 'xUi-rangepicker';
 export const prefixClsTimePicker = 'xUi-timepicker';
 export const prefixClsButton = 'xUi-button';
 export const prefixClsSkeleton = 'xUi-skeleton';
+export const prefixClsMenu = 'xUi-menu';
+export const prefixClsDropdown = 'xUi-dropdown';
 
 export const prefixClsFormV3 = 'v3-form';
 export const prefixClsFormItemV3 = 'v3-form-item';
@@ -27,7 +29,6 @@ export const prefixClsButtonV3 = 'v3-btn';
 export const prefixClsUploadV3 = 'v3-upload';
 
 // non updates
-export const prefixClsMenu = 'xUi-menu';
 export const prefixClsSkeletonV3 = 'v3-skeleton';
 export const prefixClsDatePickerV3 = 'v3-datepicker';
 export const prefixClsRangePickerV3 = 'v3-rangepicker';

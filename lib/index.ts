@@ -36,6 +36,8 @@ const Menu = dynamic(() => import('@/components/Menu/Menu'), { ssr: false });
 const MenuItem = dynamic(() => import('@/components/Menu/Item/Item'), { ssr: false });
 const MenuSubMenu = dynamic(() => import('@/components/Menu/SubMenu/SubMenu'), { ssr: false });
 
+const Dropdown = dynamic(() => import('@/components/Dropdown/Dropdown'), { ssr: false });
+
 export {
   Button,
   Checkbox,
@@ -62,7 +64,8 @@ export {
   Switch,
   Menu,
   MenuItem,
-  MenuSubMenu
+  MenuSubMenu,
+  Dropdown
 };
 
 export {
@@ -125,6 +128,12 @@ export type {
   MenuProps,
   SubMenuItem
 } from '@/types/menu';
+
+export type {
+  Placement,
+  DropdownProps,
+  DropdownItemType,
+} from '@/types/dropdown';
 
 export type {
   RadioProps,

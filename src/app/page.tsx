@@ -7,7 +7,7 @@
 // import { Item } from "../../lib/components/Form/Item";
 // import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 // import { Menu } from "../../lib/components/Menu";
-import { MenuProps } from "../../lib/types/menu";
+// import { MenuProps } from "../../lib/types/menu";
 // import { Input } from "../../lib/components/Input";
 // import { Select } from "../../lib/components/Select";
 // import { Switch } from "../../lib/components/Switch";
@@ -15,8 +15,8 @@ import { MenuProps } from "../../lib/types/menu";
 // import { lazy } from '../../lib/utils/lazy'
 // import { Upload } from '../../lib/components/Upload'
 // import { Button } from "../../lib/components/Button";
-import { useCallback, useEffect, useState } from "react";
-import DatePicker from "../../lib/components/DatePicker/DatePicker";
+import { useEffect, useState } from "react";
+// import DatePicker from "../../lib/components/DatePicker/DatePicker";
 import { CalendarIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../../lib/components/Icons/Icons";
 // import dayjs from 'dayjs';
 // import { useForm } from "../../lib/hooks/useForm";
@@ -28,6 +28,8 @@ import { CalendarIcon, CheckIcon, ClearIcon, LoadingIcon, SearchIcon } from "../
 // import { RuleType } from "../../lib/types";
 // import { clsx } from "../../lib/helpers";
 // import { ArrowIcon } from "../../lib/components/Icons/Icons";
+import { Dropdown } from "../../lib/components/Dropdown";
+import { MenuProps } from "../../lib/types/menu";
 
 export const CountryCodes = [...new Set([
     {
@@ -1845,76 +1847,76 @@ export const CountryCodes = [...new Set([
     }
 ])]
 
-type MenuItem = Required<MenuProps>['items'][number];
+// type MenuItem = Required<MenuProps>['items'][number];
 
-const items: MenuItem[] = [
-    {
-        key: 'sub1',
-        label: 'Navigation One',
-        icon: <CalendarIcon />,
-        children: [
-            {
-                key: 'g1',
-                label: 'Item 1',
-                type: 'group',
-                children: [
-                    { key: '1', label: 'Option 1' },
-                    { key: '2', label: 'Option 2' },
-                ],
-            },
-            {
-                key: 'g2',
-                label: 'Item 2',
-                type: 'group',
-                children: [
-                    { key: '3', label: 'Option 3' },
-                    { key: '4', label: 'Option 4' },
-                ],
-            },
-        ],
-    },
-    {
-        key: 'sub2',
-        label: 'Navigation Two',
-        icon: <SearchIcon />,
-        children: [
-            { key: '5', label: 'Option 5' },
-            { key: '6', label: 'Option 6' },
-            {
-                key: 'sub3',
-                label: 'Submenu',
-                children: [
-                    { key: '7', label: 'Option 7' },
-                    { key: '8', label: 'Option 8' },
-                ],
-            },
-        ],
-    },
-    {
-        type: 'divider',
-        key: 'divider'
-    },
-    {
-        key: 'sub4',
-        label: 'Navigation Three',
-        icon: <LoadingIcon />,
-        children: [
-            { key: '9', label: 'Option 9' },
-            { key: '10', label: 'Option 10' },
-            { key: '11', label: 'Option 11' },
-            { key: '12', label: 'Option 12' },
-        ],
-    },
-    {
-        key: 'grp',
-        label: 'Group',
-        type: 'group',
-        children: [
-            { key: '13', label: 'Option 13' },
-            { key: '14', label: 'Option 14' },
-        ]
-    },
-];
+// const items: MenuItem[] = [
+//     {
+//         key: 'sub1',
+//         label: 'Navigation One',
+//         icon: <CalendarIcon />,
+//         children: [
+//             {
+//                 key: 'g1',
+//                 label: 'Item 1',
+//                 type: 'group',
+//                 children: [
+//                     { key: '1', label: 'Option 1' },
+//                     { key: '2', label: 'Option 2' },
+//                 ],
+//             },
+//             {
+//                 key: 'g2',
+//                 label: 'Item 2',
+//                 type: 'group',
+//                 children: [
+//                     { key: '3', label: 'Option 3' },
+//                     { key: '4', label: 'Option 4' },
+//                 ],
+//             },
+//         ],
+//     },
+//     {
+//         key: 'sub2',
+//         label: 'Navigation Two',
+//         icon: <SearchIcon />,
+//         children: [
+//             { key: '5', label: 'Option 5' },
+//             { key: '6', label: 'Option 6' },
+//             {
+//                 key: 'sub3',
+//                 label: 'Submenu',
+//                 children: [
+//                     { key: '7', label: 'Option 7' },
+//                     { key: '8', label: 'Option 8' },
+//                 ],
+//             },
+//         ],
+//     },
+//     {
+//         type: 'divider',
+//         key: 'divider'
+//     },
+//     {
+//         key: 'sub4',
+//         label: 'Navigation Three',
+//         icon: <LoadingIcon />,
+//         children: [
+//             { key: '9', label: 'Option 9' },
+//             { key: '10', label: 'Option 10' },
+//             { key: '11', label: 'Option 11' },
+//             { key: '12', label: 'Option 12' },
+//         ],
+//     },
+//     {
+//         key: 'grp',
+//         label: 'Group',
+//         type: 'group',
+//         children: [
+//             { key: '13', label: 'Option 13' },
+//             { key: '14', label: 'Option 14' },
+//         ]
+//     },
+// ];
 
 
 // const period: {
@@ -1925,19 +1927,46 @@ const items: MenuItem[] = [
 //     unit: "day"
 // }
 
+const items: MenuProps['items'] = [
+    {
+        key: '1',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.antgroup.com">
+                1st menu item
+            </a>
+        ),
+    },
+    {
+        key: '2',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.aliyun.com">
+                2nd menu item (disabled)
+            </a>
+        ),
+        icon: <ClearIcon />,
+        disabled: true,
+    },
+    {
+        key: '3',
+        label: (
+            <a target="_blank" rel="noopener noreferrer" href="https://www.luohanacademy.com">
+                3rd menu item (disabled)
+            </a>
+        ),
+        disabled: true,
+    },
+    {
+        key: '4',
+        danger: true,
+        label: 'a danger item',
+    },
+];
+
 export default function Home() {
-    const [selectedDates, setSelectedDates] = useState([
-        new Date("2025-10-06T20:00:00.000Z"),
-        new Date("2025-10-09T19:59:59.999Z")
-    ]);
-
-    // const [time, setTime] = useState(new Date());
-
-    useEffect(() => {
-        setTimeout(() => {
-            setSelectedDates([new Date("2025-10-09T19:59:59.999Z"), new Date("2025-10-09T19:59:59.999Z")])
-        }, 2000);
-    }, [])
+    // const [selectedDates, setSelectedDates] = useState([
+    //     new Date("2025-10-06T20:00:00.000Z"),
+    //     new Date("2025-10-09T19:59:59.999Z")
+    // ])
 
     return (
         <>
@@ -1960,15 +1989,28 @@ export default function Home() {
             </div>
         </div> */}
             {/* <Select
-                mode="tags"
-                size="middle"
-                style={{ width: 400 }}
-                options={CountryCodes}
-                maxTagCount="responsive"
-                // defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']}
-            /> */}
-            <DatePicker format={'DD/MMM/YYYY'} value={selectedDates[0]}  />
-            {/* <RangePicker format={'DD/MMM/YYYY'} value={selectedDates}  /> */}
+            mode="tags"
+            size="middle"
+            style={{ width: 400 }}
+            options={CountryCodes}
+            maxTagCount="responsive"
+            // defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']}
+        /> */}
+            <Dropdown
+                menu={{
+                    items: [
+                        { key: '1', label: 'First', onClick: () => console.log('1') },
+                        { key: '2', label: 'Second', disabled: true },
+                        { key: '3', label: 'Danger', danger: true, onClick: () => console.log('danger') }
+                    ]
+                }}
+                trigger={['click']}
+                placement="bottomLeft"
+                arrow
+                autoFocus
+            >
+                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Click Me</a>
+            </Dropdown>
         </>
     )
 }
