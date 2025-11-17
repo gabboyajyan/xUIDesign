@@ -141,7 +141,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
                 ref={popupRef}
                 className={`${prefixCls}-overlay ${overlayClassName}`}
                 style={{
-                    zIndex: _hover ? 1 : 0,
+                    zIndex: _hover ? 1000 : 0,
                     ...overlayStyle,
                     ...dropdownPosition,
                     opacity: Object.keys(dropdownPosition).length ? 1 : 0
