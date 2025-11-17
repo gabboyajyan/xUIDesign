@@ -22,7 +22,7 @@ import {
 import { OptionProps } from '../../../types/select';
 import { prefixClsFormItem, prefixClsFormItemV3 } from '../../../utils';
 import { FormContext } from '../Form';
-import { useWatchError } from '@/hooks/useWatchError';
+import { useWatchError } from '../../../hooks/useWatchError';
 import './style.css';
 
 const FormItem = ({

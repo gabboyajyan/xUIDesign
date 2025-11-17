@@ -7,7 +7,7 @@ import { prefixClsDatePicker } from '../../utils';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePossition } from '@/hooks/usePossition';
+import { usePossition } from '../../hooks/usePossition';
 import './style.css';
 
 const INPUT_SIZE = 12;

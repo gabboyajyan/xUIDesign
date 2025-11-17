@@ -1,5 +1,5 @@
 import { FocusEvent, ReactNode } from 'react';
-import { DefaultProps, RuleType, SizeType } from '.';
+import { DefaultProps, Placement, RuleType, SizeType } from '.';
 
 export interface BaseInfo {
   range?: 'start' | 'end';
@@ -24,7 +24,7 @@ export type TDatePickerProps = DefaultProps & {
   error?: boolean;
   feedbackIcons?: boolean;
   locale?: Locale;
-  placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
+  placement?: Placement;
   defaultOpen?: boolean;
   allowClear?:
     | boolean
@@ -161,5 +161,5 @@ export type TimePickerProps = DefaultProps & {
   getPopupContainer?: (node: HTMLElement) => HTMLElement;
   suffixIcon?: ReactNode;
   placeholder?: string;
-  placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
+  placement?: Placement;
 };

@@ -16,9 +16,9 @@ import { RuleType } from '../../../types';
 import { TimePickerProps } from '../../../types/datepicker';
 import { prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
-import { ConditionalWrapper } from '@/components/ConditionalWrapper';
+import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePossition } from '@/hooks/usePossition';
+import { usePossition } from '../../../hooks/usePossition';
 import './style.css';
 
 const HOURS = 24;

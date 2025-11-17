@@ -1,17 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
-import { DefaultProps } from ".";
+import { DefaultProps, Placement } from ".";
 
 export type TriggerType = 'click' | 'hover' | 'contextMenu' | Array<TriggerType>;
-
-export type Placement =
-    | 'bottomLeft'
-    | 'bottom'
-    | 'bottomRight'
-    | 'topLeft'
-    | 'top'
-    | 'topRight'
-    | 'left'
-    | 'right';
 
 export interface DropdownItemType {
     key: string;
@@ -31,7 +21,7 @@ export type DropdownProps = DefaultProps & {
     placement?: Placement;
     overlayClassName?: string;
     overlayStyle?: CSSProperties;
-    getPopupContainer?: () => HTMLElement;
+    getPopupContainer?: (node: HTMLElement) => HTMLElement;
     destroyOnHidden?: boolean;
     disabled?: boolean;
     arrow?: boolean;

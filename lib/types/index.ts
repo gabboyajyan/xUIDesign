@@ -26,3 +26,13 @@ export type SyntheticBaseEvent = {
   nativeEvent?: Event & { data?: string | null };
   currentTarget: EventTarget;
 };
+
+export type Placement =
+  | 'bottomLeft'
+  | 'bottom'
+  | 'bottomRight'
+  | 'topLeft'
+  | 'top'
+  | 'topRight'
+  | 'left'
+  | 'right';

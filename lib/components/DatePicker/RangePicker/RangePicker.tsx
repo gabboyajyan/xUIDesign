@@ -7,8 +7,8 @@ import { prefixClsRangePicker } from '../../../utils';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../DatePicker';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
 import { createPortal } from 'react-dom';
-import { ConditionalWrapper } from '@/components/ConditionalWrapper';
-import { usePossition } from '@/hooks/usePossition';
+import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
+import { usePossition } from '../../../hooks/usePossition';
 import './style.css';
 
 const RangePicker = ({

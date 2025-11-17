@@ -1970,24 +1970,55 @@ export default function Home() {
 
     return (
         <>
-            {/* <div style={{ height: 1000 }}>
+            <div style={{ height: 1000 }}>
             <div style={{  width: 700, overflow: 'auto' }}>
                 <div style={{ height: 200 }}>
                     <div style={{ height: 100 }}>
-                        <DatePicker format={'DD/MMM/YYYY'} defaultPickerValue={new Date('04-09-2020')}  />
+                        <Dropdown
+                menu={{
+                    items: [
+                        { key: '1', label: 'First', onClick: () => console.log('1') },
+                        { key: '2', label: 'Second', disabled: true },
+                        { key: '3', label: 'Second', disabled: true },
+                        { key: '4', label: 'Second', disabled: true },
+                        { key: '5', label: 'Second', disabled: true },
+                        { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
+                    ]
+                }}
+                trigger={['hover']}
+                placement="bottomLeft"
+                arrow
+                autoFocus
+            >
+                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Hover Me</a>
+            </Dropdown>
                     </div>
                 </div>
                 <div style={{ height: 200 }}>
                     <div style={{ height: 100 }}></div>
                 </div>
                 <div style={{ height: 200 }}>
-                    <div style={{ height: 100, display: 'flex' }}>
-                        <TimePicker value={time}  />
-                        <TimePicker value={time} placement="bottomRight"  />
-                    </div>
+                        <Dropdown
+                menu={{
+                    items: [
+                        { key: '1', label: 'First', onClick: () => console.log('1') },
+                        { key: '2', label: 'Second', disabled: true },
+                        { key: '3', label: 'Second', disabled: true },
+                        { key: '4', label: 'Second', disabled: true },
+                        { key: '5', label: 'Second', disabled: true },
+                        { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
+                    ]
+                }}
+                trigger={['click']}
+                placement="topLeft"
+                arrow
+                autoFocus
+            >
+                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Click Me</a>
+            </Dropdown>
                 </div>
             </div>
-        </div> */}
+        </div>
             {/* <Select
             mode="tags"
             size="middle"
@@ -1996,21 +2027,6 @@ export default function Home() {
             maxTagCount="responsive"
             // defaultValue={['Armenia', 'Russia', 'Italy', 'Georgia']}
         /> */}
-            <Dropdown
-                menu={{
-                    items: [
-                        { key: '1', label: 'First', onClick: () => console.log('1') },
-                        { key: '2', label: 'Second', disabled: true },
-                        { key: '3', label: 'Danger', danger: true, onClick: () => console.log('danger') }
-                    ]
-                }}
-                trigger={['click']}
-                placement="bottomLeft"
-                arrow
-                autoFocus
-            >
-                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Click Me</a>
-            </Dropdown>
         </>
     )
 }

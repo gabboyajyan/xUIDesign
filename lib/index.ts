@@ -105,7 +105,8 @@ export type {
   RuleTypes,
   RuleType,
   MouseEventHandlerSelect,
-  SyntheticBaseEvent
+  SyntheticBaseEvent,
+  Placement
 } from '@/types';
 
 export type {
@@ -130,7 +131,6 @@ export type {
 } from '@/types/menu';
 
 export type {
-  Placement,
   DropdownProps,
   DropdownItemType,
 } from '@/types/dropdown';

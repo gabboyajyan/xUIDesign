@@ -11,7 +11,7 @@ import {
   ReactEventHandler,
   ReactNode
 } from 'react';
-import { DefaultProps, RuleType, RuleTypes, TargetProps } from '.';
+import { DefaultProps, Placement, RuleType, RuleTypes, TargetProps } from '.';
 
 export type SelectProps = DefaultProps & {
   id?: string;
@@ -61,7 +61,7 @@ export type SelectProps = DefaultProps & {
   getPopupContainer?: (triggerNode: HTMLElement) => HTMLElement;
   dropdownRender?: (menu: ReactNode) => ReactNode;
   feedbackIcons?: boolean;
-  placement?: 'bottomLeft' | 'bottomRight' | 'topLeft' | 'topRight';
+  placement?: Placement;
   removeIcon?: ReactNode;
   maxTagCount?: number | 'responsive',
   ref?: ForwardedRef<HTMLDivElement>,

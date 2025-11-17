@@ -1,7 +1,7 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import { SyntheticBaseEvent } from '../../types';
 import { SwitchProps } from '../../types/switch';
-import { prefixClsSwitch, prefixClsSwitchV3 } from '@/utils';
+import { prefixClsSwitch, prefixClsSwitchV3 } from '../../utils';
 import './index.css';
 
 const Switch = ({
