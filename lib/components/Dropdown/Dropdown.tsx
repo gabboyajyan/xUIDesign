@@ -2,8 +2,6 @@ import React, {
     useEffect,
     useRef,
     useState,
-    forwardRef,
-    CSSProperties
 } from 'react';
 import {
     DropdownProps,
@@ -11,12 +9,12 @@ import {
 } from '../../types/dropdown';
 import { prefixClsDropdown } from '../../utils';
 import { clsx } from '../../helpers';
-import { usePossition } from '../../hooks/usePossition';
+import { usePosition } from '../../hooks/usePosition';
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
 import './style.css';
 
-const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
+const Dropdown = ({
     children,
     menu,
     open: controlledOpen,
@@ -36,7 +34,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
     overlay,
     prefixCls = prefixClsDropdown,
     onVisibleChange
-}, ref) => {
+}: DropdownProps) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
     const [_hover, setHover] = useState<boolean>(controlledOpen ?? defaultOpen);
     const isControlled = controlledOpen !== undefined;
@@ -45,7 +43,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    const { shouldShowAbove, dropdownPosition } = usePossition({
+    const { shouldShowAbove, dropdownPosition } = usePosition({
         popupRef,
         placement,
         addTop: 8,
@@ -81,7 +79,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
         if (!isControlled) {
             setOpen(next);
         }
-        
+
         onOpenChange?.(next);
         onVisibleChange?.(next)
     };
@@ -136,7 +134,6 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
         <ConditionalWrapper
             condition={getPopupContainer !== undefined}
             wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
-
             <div
                 ref={popupRef}
                 className={`${prefixCls}-overlay ${overlayClassName}`}
@@ -178,15 +175,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
 
     return (
         <div
-            ref={(n) => {
-                containerRef.current = n;
-
-                if (typeof ref === 'function') {
-                    ref(n!);
-                } else if (ref) {
-                    (ref as React.MutableRefObject<HTMLDivElement | null>).current = n;
-                }
-            }}
+            ref={containerRef}
             className={className}
         >
             <div
@@ -205,7 +194,7 @@ const Dropdown = forwardRef<HTMLDivElement, DropdownProps>(({
             </div>
         </div>
     );
-});
+};
 
 function MenuInner({
     items,

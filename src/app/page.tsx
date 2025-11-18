@@ -5,7 +5,7 @@
 // import { Radio } from "../../lib/components/Radio";
 // import { Checkbox } from "../../lib/components/Checkbox";
 // import { Item } from "../../lib/components/Form/Item";
-// import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
+import { RangePicker } from "../../lib/components/DatePicker/RangePicker";
 import { Menu } from "../../lib/components/Menu";
 import { MenuProps } from "../../lib/types/menu";
 // import { Input } from "../../lib/components/Input";
@@ -110,56 +110,60 @@ export default function Home() {
     return (
         <>
             <div style={{ height: 1000 }}>
-            <div style={{  width: 700, overflow: 'auto' }}>
-                <div style={{ height: 200 }}>
-                    <div style={{ height: 100 }}>
-                        <Dropdown
-                menu={{
-                    items: [
-                        { key: '1', label: 'First', onClick: () => console.log('1') },
-                        { key: '2', label: 'Second', disabled: true },
-                        { key: '3', label: 'Second', disabled: true },
-                        { key: '4', label: 'Second', disabled: true },
-                        { key: '5', label: 'Second', disabled: true },
-                        { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
-                    ]
-                }}
-                trigger={['hover']}
-                placement="bottomLeft"
-                arrow
-                autoFocus
-                onVisibleChange={(a) => console.log(a)}
-            >
-                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Hover Me</a>
-            </Dropdown>
+                <div style={{ width: 600, overflow: 'auto', border: '1px solid' }}>
+                    <div style={{ height: 1000 }}>
+                        <div style={{ height: 100 }}>
+                            {/* <Dropdown
+                                menu={{
+                                    items: [
+                                        { key: '1', label: 'First', onClick: () => console.log('1') },
+                                        { key: '2', label: 'Second', disabled: true },
+                                        { key: '3', label: 'Second', disabled: true },
+                                        { key: '4', label: 'Second', disabled: true },
+                                        { key: '5', label: 'Second', disabled: true },
+                                        { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
+                                    ]
+                                }}
+                                trigger={['hover']}
+                                placement="bottomLeft"
+                                arrow
+                                autoFocus
+                                onVisibleChange={(a) => console.log(a)}
+                            >
+                                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Hover Me</a>
+                            </Dropdown> */}
+                            <RangePicker />
+                        </div>
                     </div>
-                </div>
-                <div style={{ height: 200 }}>
-                    <div style={{ height: 100 }}></div>
-                </div>
-                <div style={{ height: 200 }}>
+
+                    <div style={{ height: 200, border: '1px solid' }}>
                         <Dropdown
-                menu={{
-                    items: [
-                        { key: '1', label: 'First', onClick: () => console.log('1') },
-                        { key: '2', label: 'Second', disabled: true },
-                        { key: '3', label: 'Second', disabled: true },
-                        { key: '4', label: 'Second', disabled: true },
-                        { key: '5', label: 'Second', disabled: true },
-                        { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
-                    ]
-                }}
-                trigger={['click']}
-                placement="topLeft"
-                arrow
-                autoFocus
-                overlay={<Menu items={items} />}
-            >
-                <a href="#" style={{ textDecoration: 'none', color: 'black' }}>Click Me</a>
-            </Dropdown>
+                            menu={{
+                                items: [
+                                    { key: '1', label: 'First', onClick: () => console.log('1') },
+                                    { key: '2', label: 'Second', disabled: true },
+                                    { key: '3', label: 'Second', disabled: true },
+                                    { key: '4', label: 'Second', disabled: true },
+                                    { key: '5', label: 'Second', disabled: true },
+                                    { key: '6', label: 'Danger', danger: true, onClick: () => console.log('danger') }
+                                ]
+                            }}
+                            trigger={['click']}
+                            placement="topLeft"
+                            arrow
+                            autoFocus
+                            getPopupContainer={() => document.body}
+                            overlay={<Menu items={items} />}
+                        >
+                            <button>Click Me</button>
+                        </Dropdown>
+                        {/* <RangePicker  /> */}
+                    </div>
+                    {/* <div style={{ height: 600, border: '1px solid' }}>
+                        <div style={{ height: 100 }}></div>
+                    </div> */}
                 </div>
             </div>
-        </div>
             {/* <Select
             mode="tags"
             size="middle"

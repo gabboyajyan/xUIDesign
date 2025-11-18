@@ -58,12 +58,12 @@ export const usePosition = ({
     dropdownPosition: CSSProperties
 } => {
     const [shouldShowAbove, setShouldShowAbove] = useState(false);
-    const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
+    const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
     const dropdownPosition = useCallback(() => {
         if (!containerRef.current) return {};
 
-        const inputRect = containerRef.current.getBoundingClientRect();
+        const inputRect = containerRef.current?.getBoundingClientRect();
         const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
 
         const popupContainer = getPopupContainer
@@ -82,17 +82,19 @@ export const usePosition = ({
 
         if (getPopupContainer) {
             const leftPosition = hasRight
-                ? (containerRef.current?.getBoundingClientRect().left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
-                : (containerRef.current?.getBoundingClientRect().left || 0) + document.documentElement.scrollLeft
+                ? (inputRect.left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+                : (inputRect.left || 0) + document.documentElement.scrollLeft
+
+            const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
 
             if (_shouldShowAbove) {
                 setDropdownPosition({
-                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop - (popupRef.current?.offsetHeight || 0) + 4,
+                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (addTop !== 4 ? addTop * 2 : 0),
                     left: leftPosition
                 })
             } else {
                 setDropdownPosition({
-                    top: (containerRef.current?.getBoundingClientRect().top || 0) + document.documentElement.scrollTop + (containerRef.current?.offsetHeight || 0) + 4,
+                    top: _top + (containerRef.current?.offsetHeight || 0) + 4,
                     left: leftPosition
                 })
             }
@@ -155,6 +157,6 @@ export const usePosition = ({
 
     return {
         shouldShowAbove,
-        dropdownPosition
+        dropdownPosition: _dropdownPosition
     }
 }

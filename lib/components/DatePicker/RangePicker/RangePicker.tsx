@@ -8,7 +8,7 @@ import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../D
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
 import { createPortal } from 'react-dom';
 import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
-import { usePossition } from '../../../hooks/usePossition';
+import { usePosition } from '../../../hooks/usePosition';
 import './style.css';
 
 const RangePicker = ({
@@ -61,7 +61,7 @@ const RangePicker = ({
     picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day'
   );
 
-  const { dropdownPosition } = usePossition({
+  const { dropdownPosition } = usePosition({
       isOpen,
       popupRef,
       placement,

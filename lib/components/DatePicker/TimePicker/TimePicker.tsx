@@ -18,7 +18,7 @@ import { prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
 import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePossition } from '../../../hooks/usePossition';
+import { usePosition } from '../../../hooks/usePosition';
 import './style.css';
 
 const HOURS = 24;
@@ -63,7 +63,7 @@ const TimePicker: FC<TimePickerProps> = ({
   const minuteRef = useRef<HTMLDivElement>(null);
   const secondRef = useRef<HTMLDivElement>(null);
 
-  const { dropdownPosition } = usePossition({
+  const { dropdownPosition } = usePosition({
     popupRef,
     placement,
     isOpen: open,

@@ -7,7 +7,7 @@ import { prefixClsDatePicker } from '../../utils';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePossition } from '../../hooks/usePossition';
+import { usePosition } from '../../hooks/usePosition';
 import './style.css';
 
 const INPUT_SIZE = 12;
@@ -106,7 +106,7 @@ const DatePicker = ({
     'Sa'
   ];
 
-  const { dropdownPosition } = usePossition({
+  const { dropdownPosition } = usePosition({
     isOpen,
     popupRef,
     placement,
