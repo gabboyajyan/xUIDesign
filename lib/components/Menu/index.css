@@ -52,6 +52,7 @@
     border-radius: 4px;
     align-items: center;
     transition: background 0.3s;
+    color: var(--xui-text-color);
 }
 
 .xUi-menu-item:hover {

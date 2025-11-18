@@ -6,6 +6,15 @@
     padding: 4px 0;
     min-width: 160px;
     position: absolute;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: -15px;
+        width: 100%;
+        height: 10px;
+        z-index: 1;
+    }
 }
 
 .xUi-dropdown-overlay > ul,
@@ -36,6 +45,7 @@
     font-size: 14px;
     user-select: none;
     list-style: none;
+    color: var(--xui-text-color);
 }
 
 .xUi-dropdown-overlay .xUi-dropdown-item:hover,
