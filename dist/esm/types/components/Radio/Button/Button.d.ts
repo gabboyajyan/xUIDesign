@@ -1,0 +1,5 @@
+import React from 'react';
+import { RadioButtonProps } from '../../../types/radio';
+import './style.css';
+declare const RadioButton: ({ prefixCls, prefixClsV3, className, checked, disabled, children, size, ...props }: RadioButtonProps) => React.JSX.Element;
+export default RadioButton;
