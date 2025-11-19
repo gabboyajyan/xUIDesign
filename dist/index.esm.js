@@ -2001,11 +2001,12 @@ const usePosition = ({
   const [shouldShowAbove, setShouldShowAbove] = useState(false);
   const [_dropdownPosition, setDropdownPosition] = useState({});
   const dropdownPosition = useCallback(() => {
-    if (!containerRef.current) return {};
+    if (!containerRef.current) {
+      return {};
+    }
     const inputRect = containerRef.current?.getBoundingClientRect();
     const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
-    const popupContainer = getPopupContainer ? getPopupContainer(document.body) : getScrollParent(containerRef.current, true) || document.body;
-    const containerRect = popupContainer.getBoundingClientRect();
+    const containerRect = (getPopupContainer || getScrollParent(containerRef.current, true) || document.body).getBoundingClientRect();
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
@@ -2124,7 +2125,7 @@ const DatePicker = ({
     popupRef,
     placement,
     containerRef,
-    getPopupContainer
+    getPopupContainer: getPopupContainer?.(containerRef.current)
   });
   useEffect(() => {
     const _date = value || defaultValue;
@@ -2463,7 +2464,7 @@ const RangePicker = ({
     popupRef,
     placement,
     containerRef,
-    getPopupContainer
+    getPopupContainer: getPopupContainer?.(containerRef.current)
   });
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12
@@ -2781,8 +2782,8 @@ const TimePicker = ({
     popupRef,
     placement,
     isOpen: open,
-    getPopupContainer,
-    containerRef: inputRef
+    containerRef: inputRef,
+    getPopupContainer: getPopupContainer?.(inputRef.current)
   });
   useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -4762,7 +4763,7 @@ const Dropdown = ({
     addTop: 8,
     isOpen: open,
     containerRef,
-    getPopupContainer
+    getPopupContainer: getPopupContainer?.(containerRef.current)
   });
   useEffect(() => {
     if (isControlled) {

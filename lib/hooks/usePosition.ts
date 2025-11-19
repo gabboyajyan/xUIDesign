@@ -11,7 +11,7 @@ type TPosition = {
     isOpen: boolean;
     popupRef: RefObject<HTMLDivElement | null>;
     containerRef: RefObject<HTMLDivElement | null>;
-    getPopupContainer?: (node: HTMLElement) => HTMLElement;
+    getPopupContainer?: HTMLElement;
     placement?: Placement;
     addTop?: number;
 };
@@ -61,16 +61,13 @@ export const usePosition = ({
     const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
     const dropdownPosition = useCallback(() => {
-        if (!containerRef.current) return {};
+        if (!containerRef.current) {
+            return {};
+        }
 
         const inputRect = containerRef.current?.getBoundingClientRect();
         const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
-
-        const popupContainer = getPopupContainer
-            ? getPopupContainer(document.body)
-            : getScrollParent(containerRef.current, true) || document.body;
-
-        const containerRect = popupContainer.getBoundingClientRect();
+        const containerRect = (getPopupContainer || getScrollParent(containerRef.current, true) || document.body).getBoundingClientRect();
 
         const spaceAbove = inputRect.top - containerRect.top;
         const spaceBelow = containerRect.bottom - inputRect.bottom;

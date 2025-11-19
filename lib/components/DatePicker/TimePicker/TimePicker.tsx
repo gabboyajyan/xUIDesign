@@ -67,8 +67,8 @@ const TimePicker: FC<TimePickerProps> = ({
     popupRef,
     placement,
     isOpen: open,
-    getPopupContainer,
-    containerRef: inputRef
+    containerRef: inputRef,
+    getPopupContainer: getPopupContainer?.(inputRef.current as HTMLElement)
   });
 
 

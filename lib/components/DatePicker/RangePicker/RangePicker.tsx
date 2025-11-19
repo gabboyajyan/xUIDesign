@@ -66,7 +66,7 @@ const RangePicker = ({
       popupRef,
       placement,
       containerRef,
-      getPopupContainer
+      getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
   })
 
   const localeMonths =

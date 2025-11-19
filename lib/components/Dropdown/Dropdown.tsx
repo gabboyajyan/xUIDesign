@@ -49,7 +49,7 @@ const Dropdown = ({
         addTop: 8,
         isOpen: open,
         containerRef,
-        getPopupContainer
+        getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
     })
 
     useEffect(() => {

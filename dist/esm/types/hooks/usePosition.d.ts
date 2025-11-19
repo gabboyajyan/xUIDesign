@@ -4,7 +4,7 @@ type TPosition = {
     isOpen: boolean;
     popupRef: RefObject<HTMLDivElement | null>;
     containerRef: RefObject<HTMLDivElement | null>;
-    getPopupContainer?: (node: HTMLElement) => HTMLElement;
+    getPopupContainer?: HTMLElement;
     placement?: Placement;
     addTop?: number;
 };

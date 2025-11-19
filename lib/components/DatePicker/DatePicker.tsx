@@ -111,7 +111,7 @@ const DatePicker = ({
     popupRef,
     placement,
     containerRef,
-    getPopupContainer
+    getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
   })
 
   useEffect(() => {
