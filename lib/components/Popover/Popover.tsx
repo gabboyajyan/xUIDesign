@@ -25,7 +25,7 @@ const Popover = ({
     const popupRef = useRef<HTMLDivElement>(null);
 
     const [innerOpen, setInnerOpen] = useState(false);
-    
+
     const [hover, setHover] = useState(false);
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
 
@@ -40,20 +40,26 @@ const Popover = ({
 
     const toggle = () => {
         const newState = !isOpen;
-        onVisibleChange ? onVisibleChange(newState) : setInnerOpen(newState);
+
+        onVisibleChange?.(newState);
+        setInnerOpen(newState);
     };
 
     const show = () => {
         setHover(true);
+
         if (trigger === "hover") {
-            onVisibleChange ? onVisibleChange(true) : setInnerOpen(true);
+            onVisibleChange?.(true);
+            setInnerOpen(true);
         }
     };
 
     const hide = () => {
         setHover(false);
+
         if (trigger === "hover") {
-            onVisibleChange ? onVisibleChange(false) : setInnerOpen(false);
+            onVisibleChange?.(false);
+            setInnerOpen(false);
         }
     };
 
