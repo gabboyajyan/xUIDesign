@@ -21,11 +21,14 @@ const Popover = ({
     const popupRef = useRef<HTMLDivElement>(null);
 
     const [innerOpen, setInnerOpen] = useState(false);
+    
     const isOpen = open !== undefined ? open : innerOpen;
+    
+    const [_hover, setHover] = useState<boolean>(isOpen);
 
     const { dropdownPosition, shouldShowAbove } = usePosition({
         isOpen,
-        addTop: 4,
+        offset: 10,
         popupRef,
         placement,
         triggerRef,
@@ -33,17 +36,20 @@ const Popover = ({
     });
 
     const toggle = () => {
-        const next = !isOpen;
-        onOpenChange ? onOpenChange(next) : setInnerOpen(next);
+        onOpenChange ? onOpenChange(!isOpen) : setInnerOpen(!isOpen);
     };
 
     const show = () => {
+        setHover(true);
+
         if (trigger === "hover") {
             onOpenChange ? onOpenChange(true) : setInnerOpen(true);
         }
     };
 
     const hide = () => {
+        setHover(false);
+
         if (trigger === "hover") {
             onOpenChange ? onOpenChange(false) : setInnerOpen(false);
         }
@@ -56,8 +62,8 @@ const Popover = ({
 
     return (
         <div className={`${prefixCls}-wrapper`}>
-            <div ref={triggerRef} {...childProps}>
-                {children}
+            <div ref={triggerRef}>
+                <div className={`${prefixCls}-wrapper-content`} {...childProps}>{children}</div>
 
                 {isOpen && (
                     <ConditionalWrapper
@@ -66,13 +72,15 @@ const Popover = ({
 
                         <div
                             ref={popupRef}
-                            className={clsx(prefixCls, `${prefixCls}-${placement}`, {
-                                [`${prefixCls}-show-above`]: shouldShowAbove
-                            })}
-                            style={{ position: "absolute", ...dropdownPosition }}
+                            className={clsx(prefixCls, `${prefixCls}-${placement}`)}
+                            style={{
+                                zIndex: _hover ? 1000 : 1,
+                                ...dropdownPosition,
+                                position: "absolute"
+                            }}
                         >
                             <div className={`${prefixCls}-inner`}>{content}</div>
-                            <div className={`${prefixCls}-arrow`} />
+                            <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
                         </div>
                     </ConditionalWrapper>
                 )}

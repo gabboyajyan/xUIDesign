@@ -13,7 +13,7 @@ type TPosition = {
     triggerRef: RefObject<HTMLDivElement | null>;
     getPopupContainer?: HTMLElement;
     placement?: Placement;
-    addTop?: number;
+    offset?: number;
 };
 
 function getScrollParent(
@@ -48,7 +48,7 @@ function getScrollParent(
 
 export const usePosition = ({
     isOpen,
-    addTop = 4,
+    offset = 4,
     popupRef,
     placement,
     triggerRef,
@@ -86,12 +86,12 @@ export const usePosition = ({
 
             if (_shouldShowAbove) {
                 setDropdownPosition({
-                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (addTop !== 4 ? addTop * 2 : 0),
+                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
                     left: leftPosition
                 })
             } else {
                 setDropdownPosition({
-                    top: _top + (triggerRef.current?.offsetHeight || 0) + 4,
+                    top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
                     left: leftPosition
                 })
             }
@@ -100,8 +100,8 @@ export const usePosition = ({
                 top:
                     (_shouldShowAbove
                         ? triggerRef.current.offsetTop -
-                        (popupRef.current?.offsetHeight || dropdownHeight) - (addTop * 2)
-                        : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + addTop,
+                        (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
+                        : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
                 ...(hasRight ? {
                     left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {
@@ -110,7 +110,7 @@ export const usePosition = ({
             });
         }
     }, [
-        addTop,
+        offset,
         popupRef,
         placement,
         triggerRef,
@@ -154,6 +154,9 @@ export const usePosition = ({
 
     return {
         shouldShowAbove,
-        dropdownPosition: _dropdownPosition
+        dropdownPosition: {
+            ..._dropdownPosition,
+             opacity: Object.keys(_dropdownPosition).length ? 1 : 0
+        }
     }
 }

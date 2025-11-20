@@ -75,8 +75,8 @@
     top: -6px;
     left: 12px;
     background: var(--xui-background-color);
-    border-left: 1px solid var(--xui-border-color);
-    border-top: 1px solid var(--xui-border-color);
+    border-left: 0.5px solid var(--xui-border-color);
+    border-top: 0.5px solid var(--xui-border-color);
     transform: rotate(45deg);
 }
 
@@ -85,22 +85,6 @@
     bottom: -6px;
     border-left: unset;
     border-top: unset;
-    border-right: 1px solid var(--xui-border-color);
-    border-bottom: 1px solid var(--xui-border-color);
-}
-
-.xUi-dropdown-placement-bottom {
-    margin-top: 8px;
-}
-
-.xUi-dropdown-placement-top {
-    margin-bottom: 8px;
-}
-
-.xUi-dropdown-placement-left {
-    margin-right: 8px;
-}
-
-.xUi-dropdown-placement-right {
-    margin-left: 8px;
+    border-right: 0.5px solid var(--xui-border-color);
+    border-bottom: 0.5px solid var(--xui-border-color);
 }

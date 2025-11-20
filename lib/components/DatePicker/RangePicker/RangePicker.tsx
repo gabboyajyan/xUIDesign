@@ -484,10 +484,7 @@ const RangePicker = ({
           <div 
             ref={popupRef} 
             className={`${prefixCls}-dropdown-wrapper show`} 
-            style={{
-              ...dropdownPosition,
-              opacity: Object.keys(dropdownPosition).length ? 1 : 0
-            }}
+            style={dropdownPosition}
           >
             <div className={`${prefixCls}-dropdown-range`}>
               {renderCalendar(0, viewMode !== 'day')}

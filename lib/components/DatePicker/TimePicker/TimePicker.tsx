@@ -484,10 +484,7 @@ const TimePicker: FC<TimePickerProps> = ({
           wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
           <div
             ref={popupRef}
-            style={{
-              ...dropdownPosition,
-              opacity: Object.keys(dropdownPosition).length ? 1 : 0
-            }}
+            style={dropdownPosition}
             className={`${prefixCls}-popup`}>
             {renderOptions()}
           </div>

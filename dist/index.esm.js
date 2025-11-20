@@ -1992,7 +1992,7 @@ function getScrollParent(el, includeSelf = false) {
 }
 const usePosition = ({
   isOpen,
-  addTop = 4,
+  offset = 4,
   popupRef,
   placement,
   triggerRef,
@@ -2017,18 +2017,18 @@ const usePosition = ({
       const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
       if (_shouldShowAbove) {
         setDropdownPosition({
-          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (addTop !== 4 ? addTop * 2 : 0),
+          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
           left: leftPosition
         });
       } else {
         setDropdownPosition({
-          top: _top + (triggerRef.current?.offsetHeight || 0) + 4,
+          top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
           left: leftPosition
         });
       }
     } else {
       setDropdownPosition({
-        top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - addTop * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + addTop,
+        top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
         ...(hasRight ? {
           left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
         } : {
@@ -2036,7 +2036,7 @@ const usePosition = ({
         })
       });
     }
-  }, [addTop, popupRef, placement, triggerRef, getPopupContainer]);
+  }, [offset, popupRef, placement, triggerRef, getPopupContainer]);
   useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
@@ -2060,7 +2060,10 @@ const usePosition = ({
   }, [isOpen, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     shouldShowAbove,
-    dropdownPosition: _dropdownPosition
+    dropdownPosition: {
+      ..._dropdownPosition,
+      opacity: Object.keys(_dropdownPosition).length ? 1 : 0
+    }
   };
 };
 
@@ -2280,10 +2283,7 @@ const DatePicker = ({
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-dropdown-wrapper`,
-    style: {
-      ...dropdownPosition,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
-    }
+    style: dropdownPosition
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown`
   }, /*#__PURE__*/React.createElement("div", {
@@ -2725,10 +2725,7 @@ const RangePicker = ({
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-dropdown-wrapper show`,
-    style: {
-      ...dropdownPosition,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
-    }
+    style: dropdownPosition
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-range`
   }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day')))));
@@ -3069,10 +3066,7 @@ const TimePicker = ({
     wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    style: {
-      ...dropdownPosition,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
-    },
+    style: dropdownPosition,
     className: `${prefixCls}-popup`
   }, renderOptions())));
 };
@@ -4147,8 +4141,7 @@ const Select = ({
     }]),
     style: {
       ...dropdownPosition,
-      maxHeight: dropdownRender ? 'unset' : listHeight,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
+      maxHeight: dropdownRender ? 'unset' : listHeight
     }
   }, filterable && /*#__PURE__*/React.createElement("input", {
     type: "text",
@@ -4724,7 +4717,7 @@ var Menu$1 = /*#__PURE__*/Object.freeze({
 	default: Menu
 });
 
-var css_248z = ".xUi-dropdown-overlay{background:var(--xui-menu-inline-bg);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);min-width:160px;padding:4px 0;position:absolute;&:before{content:\"\";height:10px;position:absolute;top:-15px;width:100%;z-index:1}}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative;&:before{content:\"\";height:10px;position:absolute;top:-15px;width:100%;z-index:1}}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:1px solid var(--xui-border-color);border-top:1px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.bottom{border-bottom:1px solid var(--xui-border-color);border-left:unset;border-right:1px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-placement-bottom{margin-top:8px}.xUi-dropdown-placement-top{margin-bottom:8px}.xUi-dropdown-placement-left{margin-right:8px}.xUi-dropdown-placement-right{margin-left:8px}";
+var css_248z = ".xUi-dropdown-overlay{background:var(--xui-menu-inline-bg);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.08);min-width:160px;padding:4px 0;position:absolute;&:before{content:\"\";height:10px;position:absolute;top:-15px;width:100%;z-index:1}}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative;&:before{content:\"\";height:10px;position:absolute;top:-15px;width:100%;z-index:1}}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}";
 styleInject(css_248z);
 
 const Dropdown = ({
@@ -4760,7 +4753,7 @@ const Dropdown = ({
   } = usePosition({
     popupRef,
     placement,
-    addTop: 8,
+    offset: 8,
     isOpen: open,
     triggerRef,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
@@ -4829,8 +4822,7 @@ const Dropdown = ({
     style: {
       zIndex: _hover ? 1000 : 0,
       ...overlayStyle,
-      ...dropdownPosition,
-      opacity: Object.keys(dropdownPosition).length ? 1 : 0
+      ...dropdownPosition
     }
   }, arrow && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`

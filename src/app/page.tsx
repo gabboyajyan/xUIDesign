@@ -5,18 +5,58 @@ import { Popover } from "../../lib/components/Popover";
 
 export default function Home() {
     return (
-        <div style={{ height: '300vh' }}>
-            <div style={{ height: '100vh' }} />
-            {/* <DatePicker 
-                getPopupContainer={() => document.body}
-            /> */}
-            <Popover 
-                trigger="hover"
-                content={'Content'}
-                // getPopupContainer={() => document.body}
-            >
-                Popover
-            </Popover>
+        <div style={{ height: 1000 }}>
+            <div style={{ width: 700, overflow: 'auto' }}>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100 }}>
+                        <Popover content={<div>
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                        </div>}>
+                            <button>Click Popover</button>
+                        </Popover>
+                    </div>
+                </div>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100 }}></div>
+                </div>
+                <div style={{ height: 200, border: '1px solid' }}>
+                    <div style={{ height: 100, display: 'flex' }}>
+                        <Popover getPopupContainer={() => document.body} content={<div>
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                            <br />
+                            <button>Click Popover</button>
+                        </div>}>
+                            <button>Click Popover</button>
+                        </Popover>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

@@ -46,7 +46,7 @@ const Dropdown = ({
     const { shouldShowAbove, dropdownPosition } = usePosition({
         popupRef,
         placement,
-        addTop: 8,
+        offset: 8,
         isOpen: open,
         triggerRef,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
@@ -140,8 +140,7 @@ const Dropdown = ({
                 style={{
                     zIndex: _hover ? 1000 : 0,
                     ...overlayStyle,
-                    ...dropdownPosition,
-                    opacity: Object.keys(dropdownPosition).length ? 1 : 0
+                    ...dropdownPosition
                 }}
             >
                 {arrow && <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />}

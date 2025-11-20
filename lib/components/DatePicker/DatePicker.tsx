@@ -317,10 +317,7 @@ const DatePicker = ({
           <div
             ref={popupRef}
             className={`${prefixCls}-dropdown-wrapper`}
-            style={{
-              ...dropdownPosition,
-              opacity: Object.keys(dropdownPosition).length ? 1 : 0
-            }}
+            style={dropdownPosition}
           >
             <div className={`${prefixCls}-dropdown`}>
               <div className={`${prefixCls}-header`}>

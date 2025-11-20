@@ -6,9 +6,9 @@ type TPosition = {
     triggerRef: RefObject<HTMLDivElement | null>;
     getPopupContainer?: HTMLElement;
     placement?: Placement;
-    addTop?: number;
+    offset?: number;
 };
-export declare const usePosition: ({ isOpen, addTop, popupRef, placement, triggerRef, getPopupContainer }: TPosition) => {
+export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, getPopupContainer }: TPosition) => {
     shouldShowAbove: boolean;
     dropdownPosition: CSSProperties;
 };

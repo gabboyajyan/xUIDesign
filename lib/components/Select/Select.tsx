@@ -818,8 +818,7 @@ const Select = ({
             ])}
             style={{
               ...dropdownPosition,
-              maxHeight: dropdownRender ? 'unset' : listHeight,
-              opacity: Object.keys(dropdownPosition).length ? 1 : 0
+              maxHeight: dropdownRender ? 'unset' : listHeight
             }}
           >
             {filterable && (
