@@ -138,7 +138,7 @@ const Select = ({
   const [dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
   const [lastTagWidth, setLastTagWidth] = useState(0);
 
-  const tagContainerRef = useRef<HTMLDivElement>(null);
+  const tagtriggerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLDivElement>(null);
   const [responsiveTagCount, setResponsiveTagCount] = useState<number | null>(null);
 
@@ -590,7 +590,7 @@ const Select = ({
   }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
-  const container = tagContainerRef.current;
+  const container = tagtriggerRef.current;
   const selectedTags = hasMode ? (selected as string[]) : [];
 
   const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
@@ -656,7 +656,7 @@ const Select = ({
       >
         {(showSearch || hasMode) ? (
           <div
-            ref={tagContainerRef}
+            ref={tagtriggerRef}
             style={{
               ...style,
               ...(isOpen ? { opacity: hasMode || searchQuery.length ? 1 : 0.5, maxWidth: `${searchInputWidth}px` } : {}),
@@ -665,7 +665,7 @@ const Select = ({
             className={clsx([
               `${prefixCls}-tag-container ${prefixClsV3}-tag-container`,
               {
-                [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagContainerRef.current
+                [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagtriggerRef.current
               }
             ])}
           >

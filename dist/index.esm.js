@@ -1995,25 +1995,25 @@ const usePosition = ({
   addTop = 4,
   popupRef,
   placement,
-  containerRef,
+  triggerRef,
   getPopupContainer
 }) => {
   const [shouldShowAbove, setShouldShowAbove] = useState(false);
   const [_dropdownPosition, setDropdownPosition] = useState({});
   const dropdownPosition = useCallback(() => {
-    if (!containerRef.current) {
+    if (!triggerRef.current) {
       return {};
     }
-    const inputRect = containerRef.current?.getBoundingClientRect();
+    const inputRect = triggerRef.current?.getBoundingClientRect();
     const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
-    const containerRect = (getPopupContainer || getScrollParent(containerRef.current, true) || document.body).getBoundingClientRect();
+    const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
     const hasRight = placement?.includes('Right');
     setShouldShowAbove(_shouldShowAbove);
     if (getPopupContainer) {
-      const leftPosition = hasRight ? (inputRect.left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft;
+      const leftPosition = hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft;
       const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
       if (_shouldShowAbove) {
         setDropdownPosition({
@@ -2022,27 +2022,27 @@ const usePosition = ({
         });
       } else {
         setDropdownPosition({
-          top: _top + (containerRef.current?.offsetHeight || 0) + 4,
+          top: _top + (triggerRef.current?.offsetHeight || 0) + 4,
           left: leftPosition
         });
       }
     } else {
       setDropdownPosition({
-        top: (_shouldShowAbove ? containerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - addTop * 2 : containerRef.current.offsetTop + containerRef.current?.offsetHeight) + addTop,
+        top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - addTop * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + addTop,
         ...(hasRight ? {
-          left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
         } : {
-          left: containerRef.current.offsetLeft
+          left: triggerRef.current.offsetLeft
         })
       });
     }
-  }, [addTop, popupRef, placement, containerRef, getPopupContainer]);
+  }, [addTop, popupRef, placement, triggerRef, getPopupContainer]);
   useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
     _dropdownPosition();
     const controller = new AbortController();
-    const scrollableParents = getScrollParent(containerRef.current, true);
+    const scrollableParents = getScrollParent(triggerRef.current, true);
     scrollableParents?.addEventListener('scroll', _dropdownPosition, {
       passive: true,
       signal: controller.signal
@@ -2057,7 +2057,7 @@ const usePosition = ({
     return () => {
       controller.abort();
     };
-  }, [isOpen, containerRef, getPopupContainer, dropdownPosition]);
+  }, [isOpen, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     shouldShowAbove,
     dropdownPosition: _dropdownPosition
@@ -2100,11 +2100,11 @@ const DatePicker = ({
   bordered = true,
   defaultPickerValue
 }) => {
-  const containerRef = useRef(null);
+  const triggerRef = useRef(null);
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
   const popupRef = useRef(null);
-  const popupContainerRef = useRef(null);
+  const popuptriggerRef = useRef(null);
   const DateNow = new Date();
   const [selectedDate, setSelectedDate] = useState(initialDate);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = useState(initialDate ? formatDate(initialDate, format) : undefined);
@@ -2124,8 +2124,8 @@ const DatePicker = ({
     isOpen,
     popupRef,
     placement,
-    containerRef,
-    getPopupContainer: getPopupContainer?.(containerRef.current)
+    triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   useEffect(() => {
     const _date = value || defaultValue;
@@ -2134,7 +2134,7 @@ const DatePicker = ({
   }, [value]);
   useEffect(() => {
     const handleClickOutside = event => {
-      if (popupRef.current && !popupRef.current.contains(event.target) && containerRef.current && !containerRef.current.contains(event.target)) {
+      if (popupRef.current && !popupRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -2149,8 +2149,8 @@ const DatePicker = ({
     };
   }, [isOpen]);
   useEffect(() => {
-    if (getPopupContainer && containerRef.current) {
-      popupContainerRef.current = getPopupContainer(containerRef.current);
+    if (getPopupContainer && triggerRef.current) {
+      popuptriggerRef.current = getPopupContainer(triggerRef.current);
     }
   }, [getPopupContainer]);
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
@@ -2243,7 +2243,7 @@ const DatePicker = ({
     }])
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input-wrapper`,
-    ref: containerRef
+    ref: triggerRef
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input ${className}`, {
@@ -2446,7 +2446,7 @@ const RangePicker = ({
   getPopupContainer,
   placement
 }) => {
-  const containerRef = useRef(null);
+  const triggerRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   useEffect(() => {
@@ -2463,8 +2463,8 @@ const RangePicker = ({
     isOpen,
     popupRef,
     placement,
-    containerRef,
-    getPopupContainer: getPopupContainer?.(containerRef.current)
+    triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12
@@ -2474,7 +2474,7 @@ const RangePicker = ({
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   useEffect(() => {
     const handleClickOutside = event => {
-      if (popupRef.current && !popupRef.current.contains(event.target) && containerRef.current && !containerRef.current.contains(event.target)) {
+      if (popupRef.current && !popupRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
         setIsOpen(false);
         onOpenChange?.(false);
       }
@@ -2683,7 +2683,7 @@ const RangePicker = ({
     }])
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-range-input-wrapper`,
-    ref: containerRef
+    ref: triggerRef
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
@@ -2782,7 +2782,7 @@ const TimePicker = ({
     popupRef,
     placement,
     isOpen: open,
-    containerRef: inputRef,
+    triggerRef: inputRef,
     getPopupContainer: getPopupContainer?.(inputRef.current)
   });
   useEffect(() => {
@@ -3694,7 +3694,7 @@ const Select = ({
   const [searchQuery, setSearchQuery] = useState(searchValue || '');
   const [dropdownPosition, setDropdownPosition] = useState({});
   const [lastTagWidth, setLastTagWidth] = useState(0);
-  const tagContainerRef = useRef(null);
+  const tagtriggerRef = useRef(null);
   const searchInputRef = useRef(null);
   const [responsiveTagCount, setResponsiveTagCount] = useState(null);
   const [selected, setSelected] = useState(hasMode ? checkModeInitialValue : initialValue);
@@ -4005,7 +4005,7 @@ const Select = ({
     }, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
   }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
-  const container = tagContainerRef.current;
+  const container = tagtriggerRef.current;
   const selectedTags = hasMode ? selected : [];
   const displayTagCount = maxTagCount === 'responsive' ? responsiveTagCount : maxTagCount;
   const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
@@ -4056,7 +4056,7 @@ const Select = ({
     onMouseLeave: handleMouseLeave,
     className: `${prefixCls}-trigger ${prefixClsV3}-trigger`
   }, showSearch || hasMode ? /*#__PURE__*/React.createElement("div", {
-    ref: tagContainerRef,
+    ref: tagtriggerRef,
     style: {
       ...style,
       ...(isOpen ? {
@@ -4066,7 +4066,7 @@ const Select = ({
       minWidth: `${searchInputWidth}px`
     },
     className: clsx([`${prefixCls}-tag-container ${prefixClsV3}-tag-container`, {
-      [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagContainerRef.current
+      [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagtriggerRef.current
     }])
   }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
     key: `${index}_${tag}`
@@ -4751,7 +4751,7 @@ const Dropdown = ({
   const [open, setOpen] = useState(controlledOpen ?? defaultOpen);
   const [_hover, setHover] = useState(controlledOpen ?? defaultOpen);
   const isControlled = controlledOpen !== undefined;
-  const containerRef = useRef(null);
+  const triggerRef = useRef(null);
   const popupRef = useRef(null);
   const menuRef = useRef(null);
   const {
@@ -4762,8 +4762,8 @@ const Dropdown = ({
     placement,
     addTop: 8,
     isOpen: open,
-    containerRef,
-    getPopupContainer: getPopupContainer?.(containerRef.current)
+    triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   useEffect(() => {
     if (isControlled) {
@@ -4795,7 +4795,7 @@ const Dropdown = ({
         return;
       }
       const target = e.target;
-      if (containerRef.current && !containerRef.current.contains(target) && !popupRef.current?.contains(target)) {
+      if (triggerRef.current && !triggerRef.current.contains(target) && !popupRef.current?.contains(target)) {
         setOpenInternal(false);
       }
     };
@@ -4854,7 +4854,7 @@ const Dropdown = ({
     }
   }, "Empty menu")));
   return /*#__PURE__*/React.createElement("div", {
-    ref: containerRef,
+    ref: triggerRef,
     className: className
   }, /*#__PURE__*/React.createElement("div", {
     onClick: onTriggerClick,

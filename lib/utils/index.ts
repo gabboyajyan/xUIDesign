@@ -15,6 +15,7 @@ export const prefixClsButton = 'xUi-button';
 export const prefixClsSkeleton = 'xUi-skeleton';
 export const prefixClsMenu = 'xUi-menu';
 export const prefixClsDropdown = 'xUi-dropdown';
+export const prefixClsPopover = 'xUi-popover';
 
 export const prefixClsFormV3 = 'v3-form';
 export const prefixClsFormItemV3 = 'v3-form-item';

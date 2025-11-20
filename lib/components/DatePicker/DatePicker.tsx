@@ -58,12 +58,12 @@ const DatePicker = ({
   bordered = true,
   defaultPickerValue
 }: TDatePickerProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
 
   const popupRef = useRef<HTMLDivElement>(null);
-  const popupContainerRef = useRef<HTMLElement | null>(null);
+  const popuptriggerRef = useRef<HTMLElement | null>(null);
 
   const DateNow = new Date();
 
@@ -110,8 +110,8 @@ const DatePicker = ({
     isOpen,
     popupRef,
     placement,
-    containerRef,
-    getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
+    triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
   })
 
   useEffect(() => {
@@ -126,8 +126,8 @@ const DatePicker = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target as Node) &&
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -147,8 +147,8 @@ const DatePicker = ({
   }, [isOpen]);
 
   useEffect(() => {
-    if (getPopupContainer && containerRef.current) {
-      popupContainerRef.current = getPopupContainer(containerRef.current);
+    if (getPopupContainer && triggerRef.current) {
+      popuptriggerRef.current = getPopupContainer(triggerRef.current);
     }
   }, [getPopupContainer]);
 
@@ -263,7 +263,7 @@ const DatePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-input-wrapper`} ref={containerRef}>
+      <div className={`${prefixCls}-input-wrapper`} ref={triggerRef}>
         <button
           type="button"
           className={clsx([

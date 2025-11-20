@@ -39,7 +39,7 @@ const Dropdown = ({
     const [_hover, setHover] = useState<boolean>(controlledOpen ?? defaultOpen);
     const isControlled = controlledOpen !== undefined;
 
-    const containerRef = useRef<HTMLDivElement | null>(null);
+    const triggerRef = useRef<HTMLDivElement | null>(null);
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
@@ -48,8 +48,8 @@ const Dropdown = ({
         placement,
         addTop: 8,
         isOpen: open,
-        containerRef,
-        getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
+        triggerRef,
+        getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     })
 
     useEffect(() => {
@@ -93,8 +93,8 @@ const Dropdown = ({
             const target = e.target as Node;
 
             if (
-                containerRef.current &&
-                !containerRef.current.contains(target) &&
+                triggerRef.current &&
+                !triggerRef.current.contains(target) &&
                 !popupRef.current?.contains(target)
             ) {
                 setOpenInternal(false);
@@ -175,7 +175,7 @@ const Dropdown = ({
 
     return (
         <div
-            ref={containerRef}
+            ref={triggerRef}
             className={className}
         >
             <div

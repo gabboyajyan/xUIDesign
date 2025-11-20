@@ -10,7 +10,7 @@ import {
 type TPosition = {
     isOpen: boolean;
     popupRef: RefObject<HTMLDivElement | null>;
-    containerRef: RefObject<HTMLDivElement | null>;
+    triggerRef: RefObject<HTMLDivElement | null>;
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     addTop?: number;
@@ -51,7 +51,7 @@ export const usePosition = ({
     addTop = 4,
     popupRef,
     placement,
-    containerRef,
+    triggerRef,
     getPopupContainer
 }: TPosition): {
     shouldShowAbove: boolean;
@@ -61,13 +61,13 @@ export const usePosition = ({
     const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
     const dropdownPosition = useCallback(() => {
-        if (!containerRef.current) {
+        if (!triggerRef.current) {
             return {};
         }
 
-        const inputRect = containerRef.current?.getBoundingClientRect();
+        const inputRect = triggerRef.current?.getBoundingClientRect();
         const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
-        const containerRect = (getPopupContainer || getScrollParent(containerRef.current, true) || document.body).getBoundingClientRect();
+        const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
 
         const spaceAbove = inputRect.top - containerRect.top;
         const spaceBelow = containerRect.bottom - inputRect.bottom;
@@ -79,7 +79,7 @@ export const usePosition = ({
 
         if (getPopupContainer) {
             const leftPosition = hasRight
-                ? (inputRect.left || 0) + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+                ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
                 : (inputRect.left || 0) + document.documentElement.scrollLeft
 
             const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
@@ -91,7 +91,7 @@ export const usePosition = ({
                 })
             } else {
                 setDropdownPosition({
-                    top: _top + (containerRef.current?.offsetHeight || 0) + 4,
+                    top: _top + (triggerRef.current?.offsetHeight || 0) + 4,
                     left: leftPosition
                 })
             }
@@ -99,13 +99,13 @@ export const usePosition = ({
             setDropdownPosition({
                 top:
                     (_shouldShowAbove
-                        ? containerRef.current.offsetTop -
+                        ? triggerRef.current.offsetTop -
                         (popupRef.current?.offsetHeight || dropdownHeight) - (addTop * 2)
-                        : containerRef.current.offsetTop + containerRef.current?.offsetHeight) + addTop,
+                        : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + addTop,
                 ...(hasRight ? {
-                    left: containerRef.current.offsetLeft + (containerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
+                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {
-                    left: containerRef.current.offsetLeft
+                    left: triggerRef.current.offsetLeft
                 })
             });
         }
@@ -113,7 +113,7 @@ export const usePosition = ({
         addTop,
         popupRef,
         placement,
-        containerRef,
+        triggerRef,
         getPopupContainer
     ]);
 
@@ -126,7 +126,7 @@ export const usePosition = ({
 
         const controller = new AbortController();
 
-        const scrollableParents = getScrollParent(containerRef.current, true);
+        const scrollableParents = getScrollParent(triggerRef.current, true);
 
         scrollableParents?.addEventListener('scroll', _dropdownPosition, {
             passive: true,
@@ -147,7 +147,7 @@ export const usePosition = ({
         };
     }, [
         isOpen,
-        containerRef,
+        triggerRef,
         getPopupContainer,
         dropdownPosition
     ]);

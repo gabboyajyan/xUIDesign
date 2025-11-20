@@ -36,7 +36,7 @@ const RangePicker = ({
   getPopupContainer,
   placement
 }: TRangePickerProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<
     [Date | null, Date | null]
@@ -65,8 +65,8 @@ const RangePicker = ({
       isOpen,
       popupRef,
       placement,
-      containerRef,
-      getPopupContainer: getPopupContainer?.(containerRef.current as HTMLElement)
+      triggerRef,
+      getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
   })
 
   const localeMonths =
@@ -92,8 +92,8 @@ const RangePicker = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target as Node) &&
-        containerRef.current &&
-        !containerRef.current.contains(event.target as Node)
+        triggerRef.current &&
+        !triggerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
         onOpenChange?.(false);
@@ -421,7 +421,7 @@ const RangePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-range-input-wrapper`} ref={containerRef}>
+      <div className={`${prefixCls}-range-input-wrapper`} ref={triggerRef}>
         <button
           type="button"
           className={clsx([
