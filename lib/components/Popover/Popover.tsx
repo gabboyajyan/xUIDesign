@@ -14,8 +14,10 @@ const Popover = ({
     trigger = "click",
     placement = "bottom",
     open,
+    title,
+    overlayClassName = '',
     overlayStyle = {},
-    onOpenChange,
+    onVisibleChange,
     getPopupContainer
 }: PopoverProps) => {
     const triggerRef = useRef<HTMLDivElement>(null);
@@ -37,14 +39,14 @@ const Popover = ({
     });
 
     const toggle = () => {
-        onOpenChange ? onOpenChange(!isOpen) : setInnerOpen(!isOpen);
+        onVisibleChange ? onVisibleChange(!isOpen) : setInnerOpen(!isOpen);
     };
 
     const show = () => {
         setHover(true);
 
         if (trigger === "hover") {
-            onOpenChange ? onOpenChange(true) : setInnerOpen(true);
+            onVisibleChange ? onVisibleChange(true) : setInnerOpen(true);
         }
     };
 
@@ -52,7 +54,7 @@ const Popover = ({
         setHover(false);
 
         if (trigger === "hover") {
-            onOpenChange ? onOpenChange(false) : setInnerOpen(false);
+            onVisibleChange ? onVisibleChange(false) : setInnerOpen(false);
         }
     };
 
@@ -73,7 +75,7 @@ const Popover = ({
 
                         <div
                             ref={popupRef}
-                            className={clsx(prefixCls, `${prefixCls}-${placement}`)}
+                            className={clsx(prefixCls, `${prefixCls}-${placement}`, `${overlayClassName}`)}
                             style={{
                                 zIndex: _hover ? 1000 : 1,
                                 ...overlayStyle,
@@ -81,6 +83,7 @@ const Popover = ({
                                 ...dropdownPosition
                             }}
                         >
+                            {title ? <div className={`${prefixCls}-title`}>{title}</div> : null}
                             <div className={`${prefixCls}-inner`}>{content}</div>
                             <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
                         </div>

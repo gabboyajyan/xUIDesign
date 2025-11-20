@@ -7,6 +7,8 @@ export interface PopoverProps {
     placement?: "top" | "bottom" | "left" | "right" | "topRight" | "bottomRight" | "topLeft" | "bottomLeft";
     open?: boolean;
     overlayStyle?: CSSProperties;
-    onOpenChange?: (open: boolean) => void;
+    overlayClassName?: string;
+    title?: string | ReactNode;
+    onVisibleChange?: ((open: boolean) => void) | undefined;
     getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined;
 }

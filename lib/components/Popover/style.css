@@ -28,6 +28,10 @@
     z-index: 1000;
 }
 
+.xUi-popover-title {
+    padding: 4px;
+}
+
 .xUi-popover-inner {
     font-size: 14px;
     color: var(--xui-text-color);

@@ -18,7 +18,7 @@ export type DropdownProps = DefaultProps & {
     menu?: { items: DropdownItemType[] };
     open?: boolean;
     defaultOpen?: boolean;
-    onOpenChange?: (open: boolean) => void;
+    onVisibleChange?: ((open: boolean) => void) | undefined;
     trigger?: TriggerType;
     placement?: Placement;
     overlayClassName?: string;
@@ -31,7 +31,6 @@ export type DropdownProps = DefaultProps & {
     autoAdjustOverflow?: boolean;
     popupRender?: (node: ReactNode) => ReactNode;
     overlay?: ReactElement | OverlayFunc;
-    onVisibleChange?: ((open: boolean) => void) | undefined;
 }
 
 

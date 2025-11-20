@@ -2440,7 +2440,7 @@ const RangePicker = ({
   picker = 'date',
   locale,
   disabledDate,
-  onOpenChange,
+  onVisibleChange,
   onCalendarChange,
   style = {},
   className = '',
@@ -2480,7 +2480,7 @@ const RangePicker = ({
     const handleClickOutside = event => {
       if (popupRef.current && !popupRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
         setIsOpen(false);
-        onOpenChange?.(false);
+        onVisibleChange?.(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -2505,7 +2505,7 @@ const RangePicker = ({
       onChange?.([begin.toUTCString(), end.toUTCString()], [formatDate(begin), formatDate(end)]);
       onCalendarChange?.([begin.toUTCString(), end.toUTCString()], [formatDate(begin), formatDate(end)], {});
       setIsOpen(false);
-      onOpenChange?.(false);
+      onVisibleChange?.(false);
     }
   };
   const isMonthDisabled = month => {
@@ -2701,7 +2701,7 @@ const RangePicker = ({
       e.stopPropagation();
       if (!isOpen) {
         setIsOpen(!isOpen);
-        onOpenChange?.(!isOpen);
+        onVisibleChange?.(!isOpen);
       }
     }
   }, prefix, /*#__PURE__*/React.createElement("input", {
@@ -4729,7 +4729,7 @@ const Dropdown = ({
   menu,
   open: controlledOpen,
   defaultOpen = false,
-  onOpenChange,
+  onVisibleChange,
   trigger = 'hover',
   placement = 'bottomLeft',
   overlayClassName = '',
@@ -4742,8 +4742,7 @@ const Dropdown = ({
   popupRender,
   className = '',
   overlay,
-  prefixCls = prefixClsDropdown,
-  onVisibleChange
+  prefixCls = prefixClsDropdown
 }) => {
   const [open, setOpen] = useState(controlledOpen ?? defaultOpen);
   const [_hover, setHover] = useState(controlledOpen ?? defaultOpen);
@@ -4783,7 +4782,7 @@ const Dropdown = ({
     if (!isControlled) {
       setOpen(next);
     }
-    onOpenChange?.(next);
+    onVisibleChange?.(next);
     onVisibleChange?.(next);
   };
   useEffect(() => {
@@ -4898,7 +4897,7 @@ var Dropdown$1 = /*#__PURE__*/Object.freeze({
 	default: Dropdown
 });
 
-var css_248z = ".xUi-popover{&:before{content:\"\";height:8px;left:0;position:absolute;top:-8px;width:100%;z-index:10000}}.xUi-popover-wrapper{display:inline-block;position:relative}.xUi-popover-wrapper-content{cursor:pointer}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}";
+var css_248z = ".xUi-popover{&:before{content:\"\";height:8px;left:0;position:absolute;top:-8px;width:100%;z-index:10000}}.xUi-popover-wrapper{display:inline-block;position:relative}.xUi-popover-wrapper-content{cursor:pointer}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}";
 styleInject(css_248z);
 
 const Popover = ({
@@ -4908,8 +4907,10 @@ const Popover = ({
   trigger = "click",
   placement = "bottom",
   open,
+  title,
+  overlayClassName = '',
   overlayStyle = {},
-  onOpenChange,
+  onVisibleChange,
   getPopupContainer
 }) => {
   const triggerRef = useRef(null);
@@ -4929,18 +4930,18 @@ const Popover = ({
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   const toggle = () => {
-    onOpenChange ? onOpenChange(!isOpen) : setInnerOpen(!isOpen);
+    onVisibleChange ? onVisibleChange(!isOpen) : setInnerOpen(!isOpen);
   };
   const show = () => {
     setHover(true);
     if (trigger === "hover") {
-      onOpenChange ? onOpenChange(true) : setInnerOpen(true);
+      onVisibleChange ? onVisibleChange(true) : setInnerOpen(true);
     }
   };
   const hide = () => {
     setHover(false);
     if (trigger === "hover") {
-      onOpenChange ? onOpenChange(false) : setInnerOpen(false);
+      onVisibleChange ? onVisibleChange(false) : setInnerOpen(false);
     }
   };
   const childProps = trigger === "click" ? {
@@ -4960,14 +4961,16 @@ const Popover = ({
     wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    className: clsx(prefixCls, `${prefixCls}-${placement}`),
+    className: clsx(prefixCls, `${prefixCls}-${placement}`, `${overlayClassName}`),
     style: {
       zIndex: _hover ? 1000 : 1,
       ...overlayStyle,
       position: "absolute",
       ...dropdownPosition
     }
-  }, /*#__PURE__*/React.createElement("div", {
+  }, title ? /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls}-title`
+  }, title) : null, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-inner`
   }, content), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`

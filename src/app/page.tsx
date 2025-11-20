@@ -9,7 +9,7 @@ export default function Home() {
             <div style={{ width: 700, overflow: 'auto' }}>
                 <div style={{ height: 200, border: '1px solid' }}>
                     <div style={{ height: 100 }}>
-                        <Popover content={<div>
+                        <Popover title="sdfdsfdsf" content={<div>
                             <button>Click Popover</button>
                             <br />
                             <button>Click Popover</button>

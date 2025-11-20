@@ -19,7 +19,7 @@ const Dropdown = ({
     menu,
     open: controlledOpen,
     defaultOpen = false,
-    onOpenChange,
+    onVisibleChange,
     trigger = 'hover',
     placement = 'bottomLeft',
     overlayClassName = '',
@@ -33,7 +33,6 @@ const Dropdown = ({
     className = '',
     overlay,
     prefixCls = prefixClsDropdown,
-    onVisibleChange
 }: DropdownProps) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
     const [_hover, setHover] = useState<boolean>(controlledOpen ?? defaultOpen);
@@ -80,7 +79,7 @@ const Dropdown = ({
             setOpen(next);
         }
 
-        onOpenChange?.(next);
+        onVisibleChange?.(next);
         onVisibleChange?.(next)
     };
 

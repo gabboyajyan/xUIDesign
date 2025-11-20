@@ -26,7 +26,7 @@ const RangePicker = ({
   picker = 'date',
   locale,
   disabledDate,
-  onOpenChange,
+  onVisibleChange,
   onCalendarChange,
   style = {},
   className = '',
@@ -96,7 +96,7 @@ const RangePicker = ({
         !triggerRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        onOpenChange?.(false);
+        onVisibleChange?.(false);
       }
     };
 
@@ -133,7 +133,7 @@ const RangePicker = ({
         [formatDate(begin), formatDate(end)], {}
       );
       setIsOpen(false);
-      onOpenChange?.(false);
+      onVisibleChange?.(false);
     }
   };
 
@@ -439,7 +439,7 @@ const RangePicker = ({
 
             if (!isOpen) {
               setIsOpen(!isOpen);
-              onOpenChange?.(!isOpen);
+              onVisibleChange?.(!isOpen);
             }
           }}
         >
