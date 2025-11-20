@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
 import { PopoverProps } from "../../types/popover";
@@ -14,6 +14,7 @@ const Popover = ({
     trigger = "click",
     placement = "bottom",
     open,
+    visible,
     title,
     overlayClassName = '',
     overlayStyle = {},
@@ -25,9 +26,8 @@ const Popover = ({
 
     const [innerOpen, setInnerOpen] = useState(false);
     
-    const isOpen = open !== undefined ? open : innerOpen;
-    
-    const [_hover, setHover] = useState<boolean>(isOpen);
+    const [hover, setHover] = useState(false);
+    const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
 
     const { dropdownPosition, shouldShowAbove } = usePosition({
         isOpen,
@@ -39,12 +39,12 @@ const Popover = ({
     });
 
     const toggle = () => {
-        onVisibleChange ? onVisibleChange(!isOpen) : setInnerOpen(!isOpen);
+        const newState = !isOpen;
+        onVisibleChange ? onVisibleChange(newState) : setInnerOpen(newState);
     };
 
     const show = () => {
         setHover(true);
-
         if (trigger === "hover") {
             onVisibleChange ? onVisibleChange(true) : setInnerOpen(true);
         }
@@ -52,7 +52,6 @@ const Popover = ({
 
     const hide = () => {
         setHover(false);
-
         if (trigger === "hover") {
             onVisibleChange ? onVisibleChange(false) : setInnerOpen(false);
         }
@@ -66,31 +65,36 @@ const Popover = ({
     return (
         <div className={`${prefixCls}-wrapper`}>
             <div ref={triggerRef}>
-                <div className={`${prefixCls}-wrapper-content`} {...childProps}>{children}</div>
+                <div className={`${prefixCls}-wrapper-content`} {...childProps}>
+                    {children}
+                </div>
 
                 {isOpen && (
                     <ConditionalWrapper
-                        condition={getPopupContainer !== undefined}
-                        wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
-
+                        condition={!!getPopupContainer}
+                        wrapper={(element) =>
+                            getPopupContainer
+                                ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement))
+                                : <>{element}</>
+                        }
+                    >
                         <div
                             ref={popupRef}
-                            className={clsx(prefixCls, `${prefixCls}-${placement}`, `${overlayClassName}`)}
+                            className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
                             style={{
-                                zIndex: _hover ? 1000 : 1,
+                                zIndex: hover ? 1000 : 1,
                                 ...overlayStyle,
                                 position: "absolute",
                                 ...dropdownPosition
                             }}
                         >
-                            {title ? <div className={`${prefixCls}-title`}>{title}</div> : null}
+                            {title && <div className={`${prefixCls}-title`}>{title}</div>}
                             <div className={`${prefixCls}-inner`}>{content}</div>
                             <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
                         </div>
                     </ConditionalWrapper>
                 )}
             </div>
-
         </div>
     );
 };

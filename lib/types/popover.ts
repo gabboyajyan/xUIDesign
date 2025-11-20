@@ -10,6 +10,7 @@ export interface PopoverProps {
     overlayStyle?: CSSProperties;
     overlayClassName?: string;
     title?: string | ReactNode;
+    visible?: boolean;
     onVisibleChange?: ((open: boolean) => void) | undefined;
     getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
 }

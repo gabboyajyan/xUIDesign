@@ -4909,6 +4909,7 @@ const Popover = ({
   trigger = "click",
   placement = "bottom",
   open,
+  visible,
   title,
   overlayClassName = '',
   overlayStyle = {},
@@ -4918,8 +4919,8 @@ const Popover = ({
   const triggerRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const [innerOpen, setInnerOpen] = React.useState(false);
-  const isOpen = open !== undefined ? open : innerOpen;
-  const [_hover, setHover] = React.useState(isOpen);
+  const [hover, setHover] = React.useState(false);
+  const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
   const {
     dropdownPosition,
     shouldShowAbove
@@ -4932,7 +4933,8 @@ const Popover = ({
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   const toggle = () => {
-    onVisibleChange ? onVisibleChange(!isOpen) : setInnerOpen(!isOpen);
+    const newState = !isOpen;
+    onVisibleChange ? onVisibleChange(newState) : setInnerOpen(newState);
   };
   const show = () => {
     setHover(true);
@@ -4959,20 +4961,20 @@ const Popover = ({
   }, /*#__PURE__*/React.createElement("div", _extends({
     className: `${prefixCls}-wrapper-content`
   }, childProps), children), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
-    condition: getPopupContainer !== undefined,
+    condition: !!getPopupContainer,
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    className: clsx(prefixCls, `${prefixCls}-${placement}`, `${overlayClassName}`),
+    className: clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName),
     style: {
-      zIndex: _hover ? 1000 : 1,
+      zIndex: hover ? 1000 : 1,
       ...overlayStyle,
       position: "absolute",
       ...dropdownPosition
     }
-  }, title ? /*#__PURE__*/React.createElement("div", {
+  }, title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`
-  }, title) : null, /*#__PURE__*/React.createElement("div", {
+  }, title), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-inner`
   }, content), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`
