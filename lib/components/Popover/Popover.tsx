@@ -14,6 +14,7 @@ const Popover = ({
     trigger = "click",
     placement = "bottom",
     open,
+    overlayStyle = {},
     onOpenChange,
     getPopupContainer
 }: PopoverProps) => {
@@ -75,8 +76,9 @@ const Popover = ({
                             className={clsx(prefixCls, `${prefixCls}-${placement}`)}
                             style={{
                                 zIndex: _hover ? 1000 : 1,
-                                ...dropdownPosition,
-                                position: "absolute"
+                                ...overlayStyle,
+                                position: "absolute",
+                                ...dropdownPosition
                             }}
                         >
                             <div className={`${prefixCls}-inner`}>{content}</div>
