@@ -38,6 +38,8 @@ const MenuSubMenu = dynamic(() => import('@/components/Menu/SubMenu/SubMenu'), {
 
 const Dropdown = dynamic(() => import('@/components/Dropdown/Dropdown'), { ssr: false });
 
+const Popover = dynamic(() => import('@/components/Popover/Popover'), { ssr: false });
+
 export {
   Button,
   Checkbox,
@@ -65,7 +67,8 @@ export {
   Menu,
   MenuItem,
   MenuSubMenu,
-  Dropdown
+  Dropdown,
+  Popover
 };
 
 export {
@@ -117,6 +120,10 @@ export type {
   InputProps,
   TextareaProps
 } from '@/types/input';
+
+export type {
+  PopoverProps
+} from '@/types/popover';
 
 export type {
   ButtonType,

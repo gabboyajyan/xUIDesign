@@ -1,3 +1,5 @@
+import * as __types_popover from '@/types/popover';
+export { PopoverProps } from '@/types/popover';
 import * as __types_dropdown from '@/types/dropdown';
 export { DropdownItemType, DropdownProps } from '@/types/dropdown';
 import * as __types_menu from '@/types/menu';
@@ -135,5 +137,6 @@ declare const Menu: react.ComponentType<__types_menu.MenuProps>;
 declare const MenuItem: react.ComponentType<__types_menu.ItemType>;
 declare const MenuSubMenu: react.ComponentType<__types_menu.SubMenuItem>;
 declare const Dropdown: react.ComponentType<__types_dropdown.DropdownProps>;
+declare const Popover: react.ComponentType<__types_popover.PopoverProps>;
 
-export { Button, Checkbox, DatePicker, Dropdown, Empty, Form, FormItem, Input, Menu, MenuItem, MenuSubMenu, Option, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };
+export { Button, Checkbox, DatePicker, Dropdown, Empty, Form, FormItem, Input, Menu, MenuItem, MenuSubMenu, Option, Popover, Radio, RadioButton, RadioGroup, RangePicker, Select, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Switch, Tag, Textarea, TimePicker, Upload };

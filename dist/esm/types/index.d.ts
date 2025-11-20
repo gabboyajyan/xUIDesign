@@ -26,7 +26,8 @@ declare const Menu: import("react").ComponentType<import("@/types/menu").MenuPro
 declare const MenuItem: import("react").ComponentType<import("@/types/menu").ItemType>;
 declare const MenuSubMenu: import("react").ComponentType<import("@/types/menu").SubMenuItem>;
 declare const Dropdown: import("react").ComponentType<import("@/types/dropdown").DropdownProps>;
-export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown };
+declare const Popover: import("react").ComponentType<import("@/types/popover").PopoverProps>;
+export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown, Popover };
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon, } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
@@ -34,6 +35,7 @@ export type { FormInstance, RuleObject, RuleRender, FieldData, FieldInstancesInp
 export type { DefaultProps, TargetProps, RuleTypes, RuleType, MouseEventHandlerSelect, SyntheticBaseEvent, Placement } from '@/types';
 export type { CheckboxProps } from '@/types/checkbox';
 export type { InputProps, TextareaProps } from '@/types/input';
+export type { PopoverProps } from '@/types/popover';
 export type { ButtonType, ButtonProps, BaseButtonProps } from '@/types/button';
 export type { ItemType, MenuProps, SubMenuItem } from '@/types/menu';
 export type { DropdownProps, DropdownItemType, } from '@/types/dropdown';
