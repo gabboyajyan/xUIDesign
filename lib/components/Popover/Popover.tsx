@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, cloneElement, isValidElement, Children, useEffect, useMemo, useCallback } from "react";
 import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
 import { PopoverProps } from "../../types/popover";
@@ -38,41 +38,72 @@ const Popover = ({
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     });
 
-    const toggle = () => {
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(e.target as Node) &&
+                triggerRef.current &&
+                !triggerRef.current.contains(e.target as Node)
+            ) {
+                setInnerOpen(false);
+                onVisibleChange?.(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
+    const handleOnClick = useCallback(() => {
         const newState = !isOpen;
 
         onVisibleChange?.(newState);
         setInnerOpen(newState);
-    };
+    }, [isOpen, trigger]);
 
-    const show = () => {
+    const handleOnMouseEnter = useCallback(() => {
         setHover(true);
 
         if (trigger === "hover") {
             onVisibleChange?.(true);
             setInnerOpen(true);
         }
-    };
+    }, [trigger]);
 
-    const hide = () => {
+    const handleOnMouseLeave = useCallback(() => {
         setHover(false);
 
         if (trigger === "hover") {
             onVisibleChange?.(false);
             setInnerOpen(false);
         }
-    };
+    }, [trigger]);
 
-    const childProps =
-        trigger === "click"
-            ? { onClick: toggle }
-            : { onMouseEnter: show, onMouseLeave: hide };
+    const childProps = useMemo(() => trigger === "click"
+        ? { onClick: handleOnClick }
+        : { onMouseEnter: handleOnMouseEnter, onMouseLeave: handleOnMouseLeave },
+        [trigger]);
 
     return (
-        <div className={`${prefixCls}-wrapper`}>
-            <div ref={triggerRef} className={`${prefixCls}-wrapper-content`} {...childProps}>
-                {children}
-            </div>
+        <>
+            {Children.map(children, (child, index) => {
+                if (!isValidElement(child)) {
+                    child = <div>{child}</div>
+                }
+
+                return cloneElement(child, {
+                    key: index,
+                    ...childProps,
+                    ...(index === 0 ? {
+                        ref: triggerRef,
+                        className: `${prefixCls}-wrapper-content`,
+                    } : {}),
+                })
+            })}
 
             {isOpen && (
                 <ConditionalWrapper
@@ -85,6 +116,7 @@ const Popover = ({
                 >
                     <div
                         ref={popupRef}
+                        {...childProps}
                         className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
                         style={{
                             zIndex: hover ? 1000 : 1,
@@ -99,7 +131,7 @@ const Popover = ({
                     </div>
                 </ConditionalWrapper>
             )}
-        </div>
+        </>
     );
 };
 

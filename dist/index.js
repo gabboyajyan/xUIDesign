@@ -5499,7 +5499,7 @@ var Dropdown$1 = /*#__PURE__*/Object.freeze({
 	default: Dropdown
 });
 
-var css_248z$1 = ".xUi-popover{&:before{content:\"\";height:8px;left:0;position:absolute;top:-8px;width:100%;z-index:10000}}.xUi-popover-wrapper{display:inline-block;position:relative}.xUi-popover-wrapper-content{cursor:pointer}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}";
+var css_248z$1 = ".xUi-popover{&:before{content:\"\";height:10px;left:0;position:absolute;top:-10px;width:100%;z-index:10000}}.xUi-popover-wrapper-content{cursor:pointer}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}";
 styleInject(css_248z$1);
 
 const Popover = ({
@@ -5532,41 +5532,61 @@ const Popover = ({
     triggerRef,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
-  const toggle = () => {
+  React.useEffect(() => {
+    const handleClickOutside = e => {
+      if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
+        setInnerOpen(false);
+        onVisibleChange?.(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  const handleOnClick = React.useCallback(() => {
     const newState = !isOpen;
     onVisibleChange?.(newState);
     setInnerOpen(newState);
-  };
-  const show = () => {
+  }, [isOpen, trigger]);
+  const handleOnMouseEnter = React.useCallback(() => {
     setHover(true);
     if (trigger === "hover") {
       onVisibleChange?.(true);
       setInnerOpen(true);
     }
-  };
-  const hide = () => {
+  }, [trigger]);
+  const handleOnMouseLeave = React.useCallback(() => {
     setHover(false);
     if (trigger === "hover") {
       onVisibleChange?.(false);
       setInnerOpen(false);
     }
-  };
-  const childProps = trigger === "click" ? {
-    onClick: toggle
+  }, [trigger]);
+  const childProps = React.useMemo(() => trigger === "click" ? {
+    onClick: handleOnClick
   } : {
-    onMouseEnter: show,
-    onMouseLeave: hide
-  };
-  return /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-wrapper`
-  }, /*#__PURE__*/React.createElement("div", _extends({
-    ref: triggerRef,
-    className: `${prefixCls}-wrapper-content`
-  }, childProps), children), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
+    onMouseEnter: handleOnMouseEnter,
+    onMouseLeave: handleOnMouseLeave
+  }, [trigger]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, React.Children.map(children, (child, index) => {
+    if (! /*#__PURE__*/React.isValidElement(child)) {
+      child = /*#__PURE__*/React.createElement("div", null, child);
+    }
+    return /*#__PURE__*/React.cloneElement(child, {
+      key: index,
+      ...childProps,
+      ...(index === 0 ? {
+        ref: triggerRef,
+        className: `${prefixCls}-wrapper-content`
+      } : {})
+    });
+  }), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
-  }, /*#__PURE__*/React.createElement("div", {
-    ref: popupRef,
+  }, /*#__PURE__*/React.createElement("div", _extends({
+    ref: popupRef
+  }, childProps, {
     className: clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName),
     style: {
       zIndex: hover ? 1000 : 1,
@@ -5574,7 +5594,7 @@ const Popover = ({
       ...overlayStyle,
       ...dropdownPosition
     }
-  }, title && /*#__PURE__*/React.createElement("div", {
+  }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`
   }, title), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-inner`

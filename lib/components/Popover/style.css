@@ -1,18 +1,13 @@
 .xUi-popover {
     &::before {
         left: 0;
-        top: -8px;
+        top: -10px;
         content: "";
         width: 100%;
-        height: 8px;
+        height: 10px;
         z-index: 10000;
         position: absolute;
     }
-}
-
-.xUi-popover-wrapper {
-    position: relative;
-    display: inline-block;
 }
 
 .xUi-popover-wrapper-content {
