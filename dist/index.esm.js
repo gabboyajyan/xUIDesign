@@ -5557,9 +5557,8 @@ const Popover = ({
   };
   return /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-wrapper`
-  }, /*#__PURE__*/React.createElement("div", {
-    ref: triggerRef
   }, /*#__PURE__*/React.createElement("div", _extends({
+    ref: triggerRef,
     className: `${prefixCls}-wrapper-content`
   }, childProps), children), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
@@ -5569,8 +5568,8 @@ const Popover = ({
     className: clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName),
     style: {
       zIndex: hover ? 1000 : 1,
-      ...overlayStyle,
       position: "absolute",
+      ...overlayStyle,
       ...dropdownPosition
     }
   }, title && /*#__PURE__*/React.createElement("div", {
@@ -5579,7 +5578,7 @@ const Popover = ({
     className: `${prefixCls}-inner`
   }, content), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`
-  })))));
+  }))));
 };
 
 var Popover$1 = /*#__PURE__*/Object.freeze({

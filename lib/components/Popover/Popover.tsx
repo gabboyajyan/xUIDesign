@@ -70,37 +70,35 @@ const Popover = ({
 
     return (
         <div className={`${prefixCls}-wrapper`}>
-            <div ref={triggerRef}>
-                <div className={`${prefixCls}-wrapper-content`} {...childProps}>
-                    {children}
-                </div>
-
-                {isOpen && (
-                    <ConditionalWrapper
-                        condition={!!getPopupContainer}
-                        wrapper={(element) =>
-                            getPopupContainer
-                                ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement))
-                                : <>{element}</>
-                        }
-                    >
-                        <div
-                            ref={popupRef}
-                            className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
-                            style={{
-                                zIndex: hover ? 1000 : 1,
-                                ...overlayStyle,
-                                position: "absolute",
-                                ...dropdownPosition
-                            }}
-                        >
-                            {title && <div className={`${prefixCls}-title`}>{title}</div>}
-                            <div className={`${prefixCls}-inner`}>{content}</div>
-                            <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
-                        </div>
-                    </ConditionalWrapper>
-                )}
+            <div ref={triggerRef} className={`${prefixCls}-wrapper-content`} {...childProps}>
+                {children}
             </div>
+
+            {isOpen && (
+                <ConditionalWrapper
+                    condition={!!getPopupContainer}
+                    wrapper={(element) =>
+                        getPopupContainer
+                            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement))
+                            : <>{element}</>
+                    }
+                >
+                    <div
+                        ref={popupRef}
+                        className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
+                        style={{
+                            zIndex: hover ? 1000 : 1,
+                            position: "absolute",
+                            ...overlayStyle,
+                            ...dropdownPosition
+                        }}
+                    >
+                        {title && <div className={`${prefixCls}-title`}>{title}</div>}
+                        <div className={`${prefixCls}-inner`}>{content}</div>
+                        <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
+                    </div>
+                </ConditionalWrapper>
+            )}
         </div>
     );
 };
