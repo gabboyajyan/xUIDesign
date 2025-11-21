@@ -16,6 +16,7 @@ export declare const prefixClsSkeleton = "xUi-skeleton";
 export declare const prefixClsMenu = "xUi-menu";
 export declare const prefixClsDropdown = "xUi-dropdown";
 export declare const prefixClsPopover = "xUi-popover";
+export declare const prefixClsResult = "xUi-result";
 export declare const prefixClsFormV3 = "v3-form";
 export declare const prefixClsFormItemV3 = "v3-form-item";
 export declare const prefixClsEmptyV3 = "v3-empty";

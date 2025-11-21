@@ -27,7 +27,8 @@ declare const MenuItem: import("react").ComponentType<import("@/types/menu").Ite
 declare const MenuSubMenu: import("react").ComponentType<import("@/types/menu").SubMenuItem>;
 declare const Dropdown: import("react").ComponentType<import("@/types/dropdown").DropdownProps>;
 declare const Popover: import("react").ComponentType<import("@/types/popover").PopoverProps>;
-export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown, Popover };
+declare const Result: import("react").ComponentType<import("@/types/result").ResultProps>;
+export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown, Popover, Result };
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon, } from '@/components/Icons';
 export { useForm } from '@/hooks/useForm';
 export { useWatch } from '@/hooks/useWatch';
@@ -39,6 +40,7 @@ export type { PopoverProps } from '@/types/popover';
 export type { ButtonType, ButtonProps, BaseButtonProps } from '@/types/button';
 export type { ItemType, MenuProps, SubMenuItem } from '@/types/menu';
 export type { DropdownProps, DropdownItemType, } from '@/types/dropdown';
+export type { ResultProps, ResultStatusType } from '@/types/result';
 export type { RadioProps, RadioGroupProps, RadioButtonProps } from '@/types/radio';
 export type { TDatePickerProps, TRangePickerProps, TimePickerProps } from '@/types/datepicker';
 export type { SelectProps, OptionType, OptionProps, CustomTagProps, TagProps, DisplayValueType } from '@/types/select';

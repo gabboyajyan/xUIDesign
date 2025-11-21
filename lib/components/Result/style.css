@@ -1,0 +1,173 @@
+.xUi-result {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--xui-result-bg);
+    color: var(--xui-result-color);
+    padding: var(--xui-padding);
+    border-radius: var(--xui-border-radius-lg);
+    gap: var(--xui-gap);
+    max-width: var(--xui-max-width);
+    margin: 0 auto;
+}
+
+.xUi-result-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--xui-icon-size);
+    height: var(--xui-icon-size);
+    border-radius: 50%;
+    font-size: 32px;
+    line-height: 1;
+}
+
+.xUi-result-icon.xUi-result-icon-success {
+    background: #f6ffed;
+    color: #52c41a;
+    border: 1px solid #b7eb8f;
+}
+.xUi-result-icon.xUi-result-icon-error {
+    background: #fff2f0;
+    color: #ff4d4f;
+    border: 1px solid #ffccc7;
+}
+.xUi-result-icon.xUi-result-icon-info {
+    background: #e6f7ff;
+    color: #1890ff;
+    border: 1px solid #91d5ff;
+}
+.xUi-result-icon.xUi-result-icon-warning {
+    background: #fffbe6;
+    color: #faad14;
+    border: 1px solid #ffe58f;
+}
+
+.xUi-result
+    > .xUi-result-icon:not(.xUi-result-icon-success):not(.xUi-result-icon-error):not(.xUi-result-icon-info):not(
+        .xUi-result-icon-warning
+    ) {
+    width: auto;
+    height: auto;
+    border-radius: 0;
+    background: transparent;
+}
+
+.xUi-result-title {
+    font-family: var(--xui-font-family);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--xui-result-color);
+    margin-top: 4px;
+}
+
+.xUi-result-subtitle {
+    font-family: var(--xui-font-family);
+    font-size: 14px;
+    color: var(--xui-subtle-color);
+    margin-top: 6px;
+    max-width: 100%;
+}
+
+.xUi-result-extra {
+    margin-top: 12px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.xUi-result-content {
+    width: 100%;
+    margin-top: 12px;
+}
+
+.xUi-result-success {
+    --xui-accent: #52c41a;
+}
+.xUi-result-error {
+    --xui-accent: #ff4d4f;
+}
+.xUi-result-info {
+    --xui-accent: #1890ff;
+}
+.xUi-result-warning {
+    --xui-accent: #faad14;
+}
+
+.xUi-result-403 .xUi-result-icon,
+.xUi-result-404 .xUi-result-icon,
+.xUi-result-500 .xUi-result-icon {
+    width: 160px;
+    height: 110px;
+    border-radius: 8px;
+    background: none;
+    color: var(--xui-subtle-color);
+    font-size: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 480px) {
+    .xUi-result {
+        padding: 16px;
+        gap: 12px;
+    }
+    .xUi-result-title {
+        font-size: 18px;
+    }
+    .xUi-result-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 24px;
+    }
+    .xUi-result-404 .xUi-result-icon,
+    .xUi-result-500 .xUi-result-icon,
+    .xUi-result-403 .xUi-result-icon {
+        width: 120px;
+        height: 84px;
+        font-size: 40px;
+    }
+}
+
+.xUi-result-extra :is(button, a) {
+    outline: none;
+    text-decoration: none;
+}
+.xUi-result-extra :is(button, a):focus {
+    box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.12);
+    border-radius: 6px;
+}
+
+.xUi-result-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.xUi-result-bordered {
+    border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.xUi-result[data-bg] {
+    background: var(--xui-result-bg);
+}
+
+.xUi-result.full-width {
+    max-width: 100%;
+}
+
+.xUi-result-extra .xUi-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: #fff;
+    cursor: pointer;
+}
+.xUi-result-extra .xUi-btn:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}

@@ -34,6 +34,16 @@
 
     /* MENU */
     --xui-menu-inline-bg: rgba(0, 0, 0, 0.02);
+
+    /* RESULT */
+    --xui-result-bg: #fff;
+    --xui-result-color: rgba(0, 0, 0, 0.85);
+    --xui-subtle-color: rgba(0, 0, 0, 0.45);
+    --xui-padding: 24px;
+    --xui-gap: 16px;
+    --xui-icon-size: 72px;
+    --xui-max-width: 560px;
+    --xui-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
 html {

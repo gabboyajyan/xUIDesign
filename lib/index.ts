@@ -40,6 +40,8 @@ const Dropdown = dynamic(() => import('@/components/Dropdown/Dropdown'), { ssr: 
 
 const Popover = dynamic(() => import('@/components/Popover/Popover'), { ssr: false });
 
+const Result = dynamic(() => import('@/components/Result/Result'), { ssr: false });
+
 export {
   Button,
   Checkbox,
@@ -68,7 +70,8 @@ export {
   MenuItem,
   MenuSubMenu,
   Dropdown,
-  Popover
+  Popover,
+  Result
 };
 
 export {
@@ -141,6 +144,11 @@ export type {
   DropdownProps,
   DropdownItemType,
 } from '@/types/dropdown';
+
+export type {
+  ResultProps,
+  ResultStatusType
+} from '@/types/result';
 
 export type {
   RadioProps,
