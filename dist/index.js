@@ -2619,7 +2619,6 @@ const usePosition = ({
     if (!triggerRef.current) {
       return {};
     }
-    debugger;
     const inputRect = triggerRef.current?.getBoundingClientRect();
     const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
     const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
@@ -2648,6 +2647,9 @@ const usePosition = ({
         });
       }
     } else {
+      console.info({
+        _shouldShowAbove
+      });
       setDropdownPosition({
         top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
         ...(hasRight ? {
