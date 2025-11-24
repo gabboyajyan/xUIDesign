@@ -26,19 +26,7 @@ declare const Menu: import("react").ComponentType<import("@/types/menu").MenuPro
 declare const MenuItem: import("react").ComponentType<import("@/types/menu").ItemType>;
 declare const MenuSubMenu: import("react").ComponentType<import("@/types/menu").SubMenuItem>;
 declare const Dropdown: import("react").ComponentType<import("@/types/dropdown").DropdownProps>;
-declare const Popover: import("react").ComponentType<import("@/types").DefaultProps & {
-    content: import("react").ReactNode;
-    children: import("react").ReactNode;
-    trigger?: "click" | "hover";
-    placement?: "top" | "bottom" | "left" | "right" | "topRight" | "bottomRight" | "topLeft" | "bottomLeft";
-    open?: boolean;
-    overlayStyle?: import("react").CSSProperties;
-    overlayClassName?: string;
-    title?: string | import("react").ReactNode;
-    visible?: boolean;
-    onVisibleChange?: ((open: boolean) => void) | undefined;
-    getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined;
-} & import("react").RefAttributes<HTMLDivElement>>;
+declare const Popover: import("react").ComponentType<import("@/types/popover").PopoverProps>;
 declare const Result: import("react").ComponentType<import("@/types/result").ResultProps>;
 export { Button, Checkbox, Empty, DatePicker, RangePicker, TimePicker, Form, FormItem, Input, Textarea, Radio, RadioButton, RadioGroup, Select, Option, Tag, Skeleton, SkeletonAvatar, SkeletonButton, SkeletonImage, SkeletonInput, Upload, Switch, Menu, MenuItem, MenuSubMenu, Dropdown, Popover, Result };
 export { ClearIcon, ArrowIcon, LoadingIcon, CheckIcon, SearchIcon, CalendarIcon, SuccessIcon, ErrorIcon, DateDistanceIcon, TimeIcon, StampleIcon, TrashIcon, SpinerIcon, } from '@/components/Icons';

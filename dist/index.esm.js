@@ -1,5 +1,5 @@
 import require$$1 from 'react/jsx-runtime';
-import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useEffect, useContext, useMemo, useCallback, createContext, useImperativeHandle, useLayoutEffect, forwardRef, cloneElement } from 'react';
+import React, { useRef, useState, Children, isValidElement, Fragment, Suspense, useEffect, useContext, useMemo, useCallback, createContext, useImperativeHandle, useLayoutEffect, cloneElement } from 'react';
 import { createPortal } from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 
@@ -5532,15 +5532,7 @@ var Dropdown$1 = /*#__PURE__*/Object.freeze({
 var css_248z$1 = ".xUi-popover{&:before{content:\"\";height:10px;left:0;position:absolute;top:-10px;width:100%;z-index:10000}}.xUi-popover-wrapper-content{cursor:pointer;max-width:fit-content;width:-webkit-fill-available}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-bottomRight .xUi-popover-arrow,.xUi-popover-right .xUi-popover-arrow,.xUi-popover-topRight .xUi-popover-arrow{left:unset;right:12px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-popover-arrow.center{left:0;margin:0 auto;right:0}";
 styleInject(css_248z$1);
 
-function mergeRefs(...refs) {
-  return node => {
-    refs.forEach(ref => {
-      if (!ref) return;
-      if (typeof ref === "function") ref(node);else ref.current = node;
-    });
-  };
-}
-const Popover = /*#__PURE__*/forwardRef(({
+const Popover = ({
   prefixCls = prefixClsPopover,
   content,
   children,
@@ -5554,7 +5546,7 @@ const Popover = /*#__PURE__*/forwardRef(({
   overlayStyle = {},
   onVisibleChange,
   getPopupContainer
-}, ref) => {
+}) => {
   const triggerRef = useRef(null);
   const popupRef = useRef(null);
   const [innerOpen, setInnerOpen] = useState(false);
@@ -5570,17 +5562,6 @@ const Popover = /*#__PURE__*/forwardRef(({
     triggerRef,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
-  useImperativeHandle(ref, () => ({
-    focus: () => triggerRef.current?.focus(),
-    blur: () => triggerRef.current?.blur(),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    scrollTo: (...args) =>
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    selectRef.current?.scrollTo(...args),
-    nativeElement: triggerRef.current
-  }), []);
   useEffect(() => {
     const handleClickOutside = e => {
       if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
@@ -5620,15 +5601,12 @@ const Popover = /*#__PURE__*/forwardRef(({
     if (! /*#__PURE__*/isValidElement(child)) {
       child = /*#__PURE__*/React.createElement("div", null, child);
     }
-    // Merge user's ref + internal triggerRef
-    const existingRef = child.ref;
-    const mergedRef = mergeRefs(existingRef, triggerRef);
     return /*#__PURE__*/cloneElement(child, {
       key: index,
       ...(index === 0 ? {
         style,
         ...childProps,
-        ref: mergedRef,
+        ref: triggerRef,
         className: `${prefixCls}-wrapper-content`
       } : {})
     });
@@ -5652,7 +5630,7 @@ const Popover = /*#__PURE__*/forwardRef(({
   }, content), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${showPlacement}`
   }))));
-});
+};
 
 var Popover$1 = /*#__PURE__*/Object.freeze({
 	__proto__: null,

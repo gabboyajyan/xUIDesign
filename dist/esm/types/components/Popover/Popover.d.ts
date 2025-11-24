@@ -1,16 +1,5 @@
 import React from "react";
+import { PopoverProps } from "../../types/popover";
 import './style.css';
-declare const Popover: React.ForwardRefExoticComponent<import("../..").DefaultProps & {
-    content: React.ReactNode;
-    children: React.ReactNode;
-    trigger?: "click" | "hover";
-    placement?: "top" | "bottom" | "left" | "right" | "topRight" | "bottomRight" | "topLeft" | "bottomLeft";
-    open?: boolean;
-    overlayStyle?: React.CSSProperties;
-    overlayClassName?: string;
-    title?: string | React.ReactNode;
-    visible?: boolean;
-    onVisibleChange?: ((open: boolean) => void) | undefined;
-    getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined;
-} & React.RefAttributes<HTMLDivElement>>;
+declare const Popover: ({ prefixCls, content, children, trigger, placement, open, visible, title, style, overlayClassName, overlayStyle, onVisibleChange, getPopupContainer }: PopoverProps) => React.JSX.Element;
 export default Popover;
