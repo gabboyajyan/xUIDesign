@@ -4,6 +4,7 @@ import {
     RefObject,
     useCallback,
     useEffect,
+    useMemo,
     useState
 } from "react";
 
@@ -196,11 +197,11 @@ export const usePosition = ({
         dropdownPosition
     ]);
 
-    return {
+    return useMemo(() => ({
         showPlacement,
         dropdownPosition: {
             ..._dropdownPosition,
             opacity: Object.keys(_dropdownPosition).length ? 1 : 0
         }
-    }
+    }), [showPlacement, _dropdownPosition])
 }
