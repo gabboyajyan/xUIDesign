@@ -12,6 +12,8 @@
 
 .xUi-popover-wrapper-content {
     cursor: pointer;
+    max-width: fit-content;
+    width: -webkit-fill-available;
 }
 
 .xUi-popover {
@@ -44,6 +46,25 @@
     transform: rotate(45deg);
 }
 
+.xUi-popover-arrow {
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    top: -6px;
+    left: 12px;
+    background: var(--xui-background-color);
+    border-left: 0.5px solid var(--xui-border-color);
+    border-top: 0.5px solid var(--xui-border-color);
+    transform: rotate(45deg);
+}
+
+.xUi-popover-right .xUi-popover-arrow,
+.xUi-popover-topRight .xUi-popover-arrow,
+.xUi-popover-bottomRight .xUi-popover-arrow {
+    left: unset;
+    right: 12px;
+}
+
 .xUi-popover-arrow.bottom {
     top: unset;
     bottom: -6px;
@@ -52,3 +73,10 @@
     border-right: 0.5px solid var(--xui-border-color);
     border-bottom: 0.5px solid var(--xui-border-color);
 }
+
+.xUi-popover-arrow.center {
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+

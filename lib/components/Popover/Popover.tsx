@@ -16,6 +16,7 @@ const Popover = ({
     open,
     visible,
     title,
+    style = {},
     overlayClassName = '',
     overlayStyle = {},
     onVisibleChange,
@@ -29,7 +30,7 @@ const Popover = ({
     const [hover, setHover] = useState(false);
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
 
-    const { dropdownPosition, shouldShowAbove } = usePosition({
+    const { dropdownPosition, showPlacement } = usePosition({
         isOpen,
         offset: 10,
         popupRef,
@@ -100,6 +101,7 @@ const Popover = ({
                     ...childProps,
                     ...(index === 0 ? {
                         ref: triggerRef,
+                        style,
                         className: `${prefixCls}-wrapper-content`,
                     } : {}),
                 })
@@ -127,7 +129,7 @@ const Popover = ({
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
                         <div className={`${prefixCls}-inner`}>{content}</div>
-                        <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />
+                        <div className={`${prefixCls}-arrow ${showPlacement}`} />
                     </div>
                 </ConditionalWrapper>
             )}

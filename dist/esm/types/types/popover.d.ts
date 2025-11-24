@@ -1,6 +1,6 @@
 import { CSSProperties, ReactNode } from "react";
-export interface PopoverProps {
-    prefixCls?: string;
+import { DefaultProps } from ".";
+export type PopoverProps = DefaultProps & {
     content: ReactNode;
     children: ReactNode;
     trigger?: "click" | "hover";
@@ -12,4 +12,4 @@ export interface PopoverProps {
     visible?: boolean;
     onVisibleChange?: ((open: boolean) => void) | undefined;
     getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined;
-}
+};

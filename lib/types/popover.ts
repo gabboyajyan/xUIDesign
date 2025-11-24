@@ -1,7 +1,7 @@
 import { CSSProperties, ReactNode } from "react";
+import { DefaultProps } from ".";
 
-export interface PopoverProps {
-    prefixCls?: string;
+export type PopoverProps = DefaultProps & {
     content: ReactNode;
     children: ReactNode;
     trigger?: "click" | "hover";

@@ -42,7 +42,7 @@ const Dropdown = ({
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    const { shouldShowAbove, dropdownPosition } = usePosition({
+    const { showPlacement, dropdownPosition } = usePosition({
         popupRef,
         placement,
         offset: 8,
@@ -135,14 +135,14 @@ const Dropdown = ({
             wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
             <div
                 ref={popupRef}
-                className={`${prefixCls}-overlay ${overlayClassName}`}
+                className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
                 style={{
                     zIndex: _hover ? 1000 : 0,
                     ...overlayStyle,
                     ...dropdownPosition
                 }}
             >
-                {arrow && <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />}
+                {arrow && <div className={`${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`} />}
 
                 {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                     popupRender(
