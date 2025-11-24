@@ -29,20 +29,13 @@ const Popover = ({
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
     
-    const { dropdownPosition, showPlacement } = usePosition({
+    const { dropdownPosition, shouldShowAbove } = usePosition({
         isOpen,
         offset: 10,
         popupRef,
         placement,
         triggerRef,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
-    });
-
-    console.log({
-        isOpen,
-        popupRef,
-        placement,
-        triggerRef
     });
 
     useEffect(() => {
@@ -100,10 +93,10 @@ const Popover = ({
 
                 return cloneElement(child, {
                     key: index,
-                    ...childProps,
-                    ...(index === 0 || !triggerRef.current ? {
-                        ref: triggerRef,
+                    ...(index === 0 ? {
                         style,
+                        ...childProps,
+                        ref: triggerRef,
                         className: `${prefixCls}-wrapper-content`,
                     } : {}),
                 })
@@ -131,7 +124,7 @@ const Popover = ({
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
                         <div className={`${prefixCls}-inner`}>{content}</div>
-                        <div className={`${prefixCls}-arrow ${showPlacement}`} />
+                        <div className={`${prefixCls}-arrow ${shouldShowAbove}`} />
                     </div>
                 </ConditionalWrapper>
             )}

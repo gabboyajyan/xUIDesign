@@ -46,21 +46,6 @@ function getScrollParent(
     return document.scrollingElement as HTMLElement;
 }
 
-const clampWithinContainer = (
-    left: number,
-    popupWidth: number,
-    containerRect: DOMRect
-) => {
-    const minLeft = containerRect.left + document.documentElement.scrollLeft;
-    const maxLeft = containerRect.right + document.documentElement.scrollLeft - popupWidth;
-
-    return {
-        minLeft,
-        maxLeft,
-        leftPosition: Math.min(Math.max(left, minLeft), maxLeft)
-    };
-};
-
 export const usePosition = ({
     isOpen,
     offset = 4,
@@ -69,10 +54,10 @@ export const usePosition = ({
     triggerRef,
     getPopupContainer
 }: TPosition): {
-    showPlacement: string;
+    shouldShowAbove: boolean;
     dropdownPosition: CSSProperties
 } => {
-    const [showPlacement, setShowPlacement] = useState('');
+    const [shouldShowAbove, setShouldShowAbove] = useState(false);
     const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
     const dropdownPosition = useCallback(() => {
@@ -90,17 +75,12 @@ export const usePosition = ({
         const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
         const hasRight = placement?.includes('Right');
 
-        if (getPopupContainer) {
-            const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                hasRight
-                    ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
-                    : (inputRect.left || 0) + document.documentElement.scrollLeft,
-                popupRef.current?.offsetWidth || 0,
-                containerRect
-            );
+        setShouldShowAbove(_shouldShowAbove);
 
-            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+        if (getPopupContainer) {
+            const leftPosition = hasRight
+                ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+                : (inputRect.left || 0) + document.documentElement.scrollLeft
 
             const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
 
@@ -123,33 +103,9 @@ export const usePosition = ({
                         (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
                         : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
                 ...(hasRight ? {
-                    left: (() => {
-                        const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                            triggerRef.current.offsetLeft +
-                            (triggerRef.current?.offsetWidth || 0) -
-                            (popupRef.current?.offsetWidth || dropdownHeight),
-                            popupRef.current?.offsetWidth || dropdownHeight,
-                            containerRect
-                        )
-
-                        const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-                        setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-
-                        return leftPosition
-                    })()
+                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
                 } : {
-                    left: (() => {
-                        const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                            triggerRef.current.offsetLeft,
-                            popupRef.current?.offsetWidth || dropdownHeight,
-                            containerRect
-                        );
-
-                        const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-                        setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-
-                        return leftPosition
-                    })()
+                    left: triggerRef.current.offsetLeft
                 })
             });
         }
@@ -197,10 +153,10 @@ export const usePosition = ({
     ]);
 
     return {
-        showPlacement,
+        shouldShowAbove,
         dropdownPosition: {
             ..._dropdownPosition,
-            opacity: Object.keys(_dropdownPosition).length ? 1 : 0
+             opacity: Object.keys(_dropdownPosition).length ? 1 : 0
         }
     }
 }
