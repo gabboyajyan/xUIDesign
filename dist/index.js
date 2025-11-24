@@ -2696,6 +2696,10 @@ const usePosition = ({
       controller.abort();
     };
   }, [isOpen, triggerRef, getPopupContainer, dropdownPosition]);
+  console.info({
+    showPlacement,
+    _dropdownPosition
+  });
   return React.useMemo(() => ({
     showPlacement,
     dropdownPosition: {

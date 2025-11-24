@@ -197,6 +197,8 @@ export const usePosition = ({
         dropdownPosition
     ]);
 
+    console.info({ showPlacement, _dropdownPosition })
+
     return useMemo(() => ({
         showPlacement,
         dropdownPosition: {
