@@ -5562,7 +5562,9 @@ const Popover = ({
     offset: 10,
     popupRef,
     placement,
-    triggerRef,
+    triggerRef: triggerRef ?? {
+      current: document.getElementsByClassName(`${prefixCls}-wrapper-content`)[0]
+    },
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
