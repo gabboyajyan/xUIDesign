@@ -1,4 +1,15 @@
-import React, { useRef, useState, cloneElement, isValidElement, Children, useEffect, useMemo, useCallback } from "react";
+import React, {
+    useRef,
+    useState,
+    cloneElement,
+    isValidElement,
+    Children,
+    useEffect,
+    useMemo,
+    useCallback,
+    forwardRef,
+    useImperativeHandle
+} from "react";
 import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
 import { PopoverProps } from "../../types/popover";
@@ -7,7 +18,17 @@ import { createPortal } from 'react-dom';
 import { prefixClsPopover } from "../../utils";
 import './style.css';
 
-const Popover = ({
+function mergeRefs(...refs: any[]) {
+    return (node: HTMLElement | null) => {
+        refs.forEach((ref) => {
+            if (!ref) return;
+            if (typeof ref === "function") ref(node);
+            else ref.current = node;
+        });
+    };
+}
+
+const Popover = forwardRef<HTMLDivElement, PopoverProps>(({
     prefixCls = prefixClsPopover,
     content,
     children,
@@ -21,14 +42,14 @@ const Popover = ({
     overlayStyle = {},
     onVisibleChange,
     getPopupContainer
-}: PopoverProps) => {
+}, ref) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
 
     const [innerOpen, setInnerOpen] = useState(false);
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
-    
+
     const { dropdownPosition, showPlacement } = usePosition({
         isOpen,
         offset: 10,
@@ -37,6 +58,18 @@ const Popover = ({
         triggerRef,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     });
+
+    useImperativeHandle(ref, () => ({
+        focus: () => triggerRef.current?.focus(),
+        blur: () => (triggerRef.current as HTMLInputElement)?.blur(),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        scrollTo: (...args) =>
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-expect-error
+          (selectRef.current as HTMLDivElement)?.scrollTo(...args),
+        nativeElement: triggerRef.current
+      }), []);
 
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
@@ -88,20 +121,24 @@ const Popover = ({
         <>
             {Children.map(children, (child, index) => {
                 if (!isValidElement(child)) {
-                    child = <div>{child}</div>
+                    child = <div>{child}</div>;
                 }
 
-                console.log(index);
-                
+                // Merge user's ref + internal triggerRef
+                const existingRef = (child as any).ref;
+                const mergedRef = mergeRefs(existingRef, triggerRef);
+
                 return cloneElement(child, {
                     key: index,
-                    ...(index === 0 ? {
-                        style,
-                        ...childProps,
-                        ref: triggerRef,
-                        className: `${prefixCls}-wrapper-content`,
-                    } : {}),
-                })
+                    ...(index === 0
+                        ? {
+                              style,
+                              ...childProps,
+                              ref: mergedRef,
+                              className: `${prefixCls}-wrapper-content`,
+                          }
+                        : {}),
+                });
             })}
 
             {isOpen && (
@@ -132,6 +169,6 @@ const Popover = ({
             )}
         </>
     );
-};
+});
 
 export default Popover;
