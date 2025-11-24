@@ -81,6 +81,8 @@ export const usePosition = ({
             return {};
         }
 
+        debugger
+
         const inputRect = triggerRef.current?.getBoundingClientRect();
         const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
         const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
@@ -196,8 +198,6 @@ export const usePosition = ({
         getPopupContainer,
         dropdownPosition
     ]);
-
-    console.info({ showPlacement, _dropdownPosition })
 
     return useMemo(() => ({
         showPlacement,

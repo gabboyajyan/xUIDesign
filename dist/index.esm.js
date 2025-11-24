@@ -2617,6 +2617,7 @@ const usePosition = ({
     if (!triggerRef.current) {
       return {};
     }
+    debugger;
     const inputRect = triggerRef.current?.getBoundingClientRect();
     const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
     const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
@@ -2694,10 +2695,6 @@ const usePosition = ({
       controller.abort();
     };
   }, [isOpen, triggerRef, getPopupContainer, dropdownPosition]);
-  console.info({
-    showPlacement,
-    _dropdownPosition
-  });
   return useMemo(() => ({
     showPlacement,
     dropdownPosition: {
