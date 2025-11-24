@@ -29,7 +29,7 @@ const Popover = ({
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
     
-    const { dropdownPosition, shouldShowAbove } = usePosition({
+    const { dropdownPosition, showPlacement } = usePosition({
         isOpen,
         offset: 10,
         popupRef,
@@ -124,7 +124,7 @@ const Popover = ({
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
                         <div className={`${prefixCls}-inner`}>{content}</div>
-                        <div className={`${prefixCls}-arrow ${shouldShowAbove}`} />
+                        <div className={`${prefixCls}-arrow ${showPlacement}`} />
                     </div>
                 </ConditionalWrapper>
             )}

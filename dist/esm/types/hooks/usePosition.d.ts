@@ -9,7 +9,7 @@ type TPosition = {
     offset?: number;
 };
 export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, getPopupContainer }: TPosition) => {
-    shouldShowAbove: boolean;
+    showPlacement: string;
     dropdownPosition: CSSProperties;
 };
 export {};
