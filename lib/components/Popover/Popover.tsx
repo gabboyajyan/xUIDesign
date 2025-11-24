@@ -27,9 +27,8 @@ const Popover = ({
 
     const [innerOpen, setInnerOpen] = useState(false);
 
-    const [hover, setHover] = useState(false);
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
-
+    
     const { dropdownPosition, showPlacement } = usePosition({
         isOpen,
         offset: 10,
@@ -37,6 +36,13 @@ const Popover = ({
         placement,
         triggerRef,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
+    });
+
+    console.log({
+        isOpen,
+        popupRef,
+        placement,
+        triggerRef
     });
 
     useEffect(() => {
@@ -67,8 +73,6 @@ const Popover = ({
     }, [isOpen, trigger]);
 
     const handleOnMouseEnter = useCallback(() => {
-        setHover(true);
-
         if (trigger === "hover") {
             onVisibleChange?.(true);
             setInnerOpen(true);
@@ -76,8 +80,6 @@ const Popover = ({
     }, [trigger]);
 
     const handleOnMouseLeave = useCallback(() => {
-        setHover(false);
-
         if (trigger === "hover") {
             onVisibleChange?.(false);
             setInnerOpen(false);
@@ -121,7 +123,7 @@ const Popover = ({
                         {...childProps}
                         className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
                         style={{
-                            zIndex: hover ? 1000 : 1,
+                            zIndex: 1000,
                             position: "absolute",
                             ...overlayStyle,
                             ...dropdownPosition

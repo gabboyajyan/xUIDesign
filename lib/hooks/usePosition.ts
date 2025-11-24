@@ -4,7 +4,6 @@ import {
     RefObject,
     useCallback,
     useEffect,
-    useMemo,
     useState
 } from "react";
 
@@ -100,7 +99,7 @@ export const usePosition = ({
                 containerRect
             );
 
-            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''            
+            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
             setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
 
             const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
@@ -117,10 +116,6 @@ export const usePosition = ({
                 })
             }
         } else {
-            console.info({
-                _shouldShowAbove
-            });
-
             setDropdownPosition({
                 top:
                     (_shouldShowAbove
@@ -201,11 +196,11 @@ export const usePosition = ({
         dropdownPosition
     ]);
 
-    return useMemo(() => ({
+    return {
         showPlacement,
         dropdownPosition: {
             ..._dropdownPosition,
             opacity: Object.keys(_dropdownPosition).length ? 1 : 0
         }
-    }), [showPlacement, _dropdownPosition])
+    }
 }
