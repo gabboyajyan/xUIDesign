@@ -87,10 +87,10 @@ const Popover = ({
     return (
         <>
             {Children.map(children, (child, index) => {
-                if (!isValidElement(child) || typeof child.type === 'string' && ['svg'].includes(child.type)) {
+                if (!isValidElement(child)) {
                     child = <div>{child}</div>
                 }
-
+                
                 return cloneElement(child, {
                     key: index,
                     ...(index === 0 ? {

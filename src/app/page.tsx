@@ -3,6 +3,7 @@
 import { Result } from "../../lib/components/Result";
 import { Button } from '../../lib/components/Button';
 import { Popover } from '../../lib/components/Popover';
+import { ClearIcon } from "../../lib/components/Icons/Icons";
 
 export default function Home() {
     return (
@@ -13,7 +14,7 @@ export default function Home() {
 
                 <Popover
                     // placement="bottomRight"
-                    trigger="hover"
+                    trigger="click"
                     getPopupContainer={() => document.body}
                     content={
                         <Result
@@ -24,7 +25,7 @@ export default function Home() {
                         />
                     }
                 >
-                    Result Popover
+                    <ClearIcon />
                 </Popover>
                 <div style={{ width: '100%' }} />
             </div>
