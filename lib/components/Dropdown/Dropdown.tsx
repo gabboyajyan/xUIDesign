@@ -42,7 +42,7 @@ const Dropdown = ({
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    const { showPlacement, dropdownPosition } = usePosition({
+    const { shouldShowAbove, dropdownPosition } = usePosition({
         popupRef,
         placement,
         offset: 8,
@@ -142,7 +142,7 @@ const Dropdown = ({
                     ...dropdownPosition
                 }}
             >
-                {arrow && <div className={`${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`} />}
+                {arrow && <div className={`${prefixCls}-arrow ${shouldShowAbove ? 'bottom' : ''}`} />}
 
                 {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                     popupRender(
