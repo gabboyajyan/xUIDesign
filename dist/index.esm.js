@@ -5610,7 +5610,7 @@ const Popover = ({
     return /*#__PURE__*/cloneElement(child, {
       key: index,
       ...childProps,
-      ...(index === 0 ? {
+      ...(index === 0 || !triggerRef.current ? {
         ref: triggerRef,
         style,
         className: `${prefixCls}-wrapper-content`
