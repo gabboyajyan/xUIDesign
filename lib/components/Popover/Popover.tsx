@@ -87,7 +87,7 @@ const Popover = ({
     return (
         <>
             {Children.map(children, (child, index) => {
-                if (!isValidElement(child)) {
+                if (!isValidElement(child) || typeof child.type === 'string' && ['svg'].includes(child.type)) {
                     child = <div>{child}</div>
                 }
 

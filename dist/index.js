@@ -5600,7 +5600,7 @@ const Popover = ({
     onMouseLeave: handleOnMouseLeave
   }, [trigger]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, React.Children.map(children, (child, index) => {
-    if (! /*#__PURE__*/React.isValidElement(child)) {
+    if (! /*#__PURE__*/React.isValidElement(child) || typeof child.type === 'string' && ['svg'].includes(child.type)) {
       child = /*#__PURE__*/React.createElement("div", null, child);
     }
     return /*#__PURE__*/React.cloneElement(child, {
