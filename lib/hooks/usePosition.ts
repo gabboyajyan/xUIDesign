@@ -166,8 +166,6 @@ export const usePosition = ({
 
         const _dropdownPosition = () => dropdownPosition();
 
-        console.log(_dropdownPosition);
-
         _dropdownPosition();
 
         const controller = new AbortController();

@@ -34,9 +34,7 @@ const Popover = ({
         offset: 10,
         popupRef,
         placement,
-        triggerRef: triggerRef ?? {
-            current: document.getElementsByClassName(`${prefixCls}-wrapper-content`)[0]
-        },
+        triggerRef,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     });
 
@@ -93,6 +91,8 @@ const Popover = ({
                     child = <div>{child}</div>
                 }
 
+                console.log(index);
+                
                 return cloneElement(child, {
                     key: index,
                     ...(index === 0 ? {

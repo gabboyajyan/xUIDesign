@@ -2678,7 +2678,6 @@ const usePosition = ({
   React.useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
-    console.log(_dropdownPosition);
     _dropdownPosition();
     const controller = new AbortController();
     const scrollableParents = getScrollParent(triggerRef.current, true);
@@ -5562,9 +5561,7 @@ const Popover = ({
     offset: 10,
     popupRef,
     placement,
-    triggerRef: triggerRef ?? {
-      current: document.getElementsByClassName(`${prefixCls}-wrapper-content`)[0]
-    },
+    triggerRef,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
@@ -5606,6 +5603,7 @@ const Popover = ({
     if (! /*#__PURE__*/React.isValidElement(child)) {
       child = /*#__PURE__*/React.createElement("div", null, child);
     }
+    console.log(index);
     return /*#__PURE__*/React.cloneElement(child, {
       key: index,
       ...(index === 0 ? {
