@@ -2616,6 +2616,11 @@ const usePosition = ({
   const [showPlacement, setShowPlacement] = React.useState('');
   const [_dropdownPosition, setDropdownPosition] = React.useState({});
   const dropdownPosition = React.useCallback(() => {
+    console.log({
+      getPopupContainer,
+      popupRef: popupRef.current,
+      triggerRef: triggerRef.current
+    });
     if (!triggerRef.current) {
       return {};
     }

@@ -76,6 +76,12 @@ export const usePosition = ({
     const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
     const dropdownPosition = useCallback(() => {
+        console.log({
+            getPopupContainer,
+            popupRef: popupRef.current,
+            triggerRef: triggerRef.current
+        });
+
         if (!triggerRef.current) {
             return {};
         }
