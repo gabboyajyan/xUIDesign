@@ -20,7 +20,8 @@ const Popover = ({
     overlayClassName = '',
     overlayStyle = {},
     onVisibleChange,
-    getPopupContainer
+    getPopupContainer,
+    stopDropdownPosition = false
 }: PopoverProps) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -127,7 +128,7 @@ const Popover = ({
                             zIndex: 1000,
                             position: "absolute",
                             ...overlayStyle,
-                            ...dropdownPosition
+                            ...(!stopDropdownPosition ? dropdownPosition : {})
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
