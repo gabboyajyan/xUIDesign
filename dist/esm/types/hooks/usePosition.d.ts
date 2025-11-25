@@ -7,8 +7,9 @@ type TPosition = {
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     offset?: number;
+    controlDropdownPosition?: CSSProperties;
 };
-export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, getPopupContainer }: TPosition) => {
+export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, getPopupContainer, controlDropdownPosition }: TPosition) => {
     showPlacement: string;
     dropdownPosition: CSSProperties;
 };
