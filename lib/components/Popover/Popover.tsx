@@ -28,7 +28,7 @@ const Popover = ({
     const [innerOpen, setInnerOpen] = useState(false);
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
-    
+
     const { dropdownPosition, showPlacement } = usePosition({
         isOpen,
         offset: 10,
@@ -86,29 +86,29 @@ const Popover = ({
 
     const _children = useMemo(() => {
         if (Children.count(children) > 1) {
-            return <div>{children}</div>
+            children = <div>{children}</div>
         }
 
-        return children;
-    }, [children])
+       return Children.map(children, (child, index) => {
+            if (!isValidElement(child)) {
+                child = <div>{child}</div>
+            }
+
+            return cloneElement(child, {
+                key: index,
+                ...{
+                    style,
+                    ...childProps,
+                    ref: triggerRef,
+                    className: `${prefixCls}-wrapper-content`,
+                },
+            })
+        })
+    }, [children, style, childProps])
 
     return (
         <>
-            {Children.map(_children, (child, index) => {
-                if (!isValidElement(child)) {
-                    child = <div>{child}</div>
-                }
-                
-                return cloneElement(child, {
-                    key: index,
-                    ...{
-                        style,
-                        ...childProps,
-                        ref: triggerRef,
-                        className: `${prefixCls}-wrapper-content`,
-                    },
-                })
-            })}
+            {_children}
 
             {isOpen && (
                 <ConditionalWrapper

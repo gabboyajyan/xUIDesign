@@ -5606,24 +5606,24 @@ const Popover = ({
   }, [trigger]);
   const _children = React.useMemo(() => {
     if (React.Children.count(children) > 1) {
-      return /*#__PURE__*/React.createElement("div", null, children);
+      children = /*#__PURE__*/React.createElement("div", null, children);
     }
-    return children;
-  }, [children]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, React.Children.map(_children, (child, index) => {
-    if (! /*#__PURE__*/React.isValidElement(child)) {
-      child = /*#__PURE__*/React.createElement("div", null, child);
-    }
-    return /*#__PURE__*/React.cloneElement(child, {
-      key: index,
-      ...{
-        style,
-        ...childProps,
-        ref: triggerRef,
-        className: `${prefixCls}-wrapper-content`
+    return React.Children.map(children, (child, index) => {
+      if (! /*#__PURE__*/React.isValidElement(child)) {
+        child = /*#__PURE__*/React.createElement("div", null, child);
       }
+      return /*#__PURE__*/React.cloneElement(child, {
+        key: index,
+        ...{
+          style,
+          ...childProps,
+          ref: triggerRef,
+          className: `${prefixCls}-wrapper-content`
+        }
+      });
     });
-  }), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
+  }, [children, style, childProps]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, _children, isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", _extends({
