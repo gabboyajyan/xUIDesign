@@ -84,21 +84,29 @@ const Popover = ({
         : { onMouseEnter: handleOnMouseEnter, onMouseLeave: handleOnMouseLeave },
         [trigger]);
 
+    const _children = useMemo(() => {
+        if (Children.count(children) > 1) {
+            return <div>{children}</div>
+        }
+
+        return children;
+    }, [children])
+
     return (
         <>
-            {Children.map(children, (child, index) => {
+            {Children.map(_children, (child, index) => {
                 if (!isValidElement(child)) {
                     child = <div>{child}</div>
                 }
                 
                 return cloneElement(child, {
                     key: index,
-                    ...(index === 0 ? {
+                    ...{
                         style,
                         ...childProps,
                         ref: triggerRef,
                         className: `${prefixCls}-wrapper-content`,
-                    } : {}),
+                    },
                 })
             })}
 

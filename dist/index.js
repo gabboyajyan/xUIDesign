@@ -5604,18 +5604,24 @@ const Popover = ({
     onMouseEnter: handleOnMouseEnter,
     onMouseLeave: handleOnMouseLeave
   }, [trigger]);
-  return /*#__PURE__*/React.createElement(React.Fragment, null, React.Children.map(children, (child, index) => {
+  const _children = React.useMemo(() => {
+    if (React.Children.count(children) > 1) {
+      return /*#__PURE__*/React.createElement("div", null, children);
+    }
+    return children;
+  }, [children]);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, React.Children.map(_children, (child, index) => {
     if (! /*#__PURE__*/React.isValidElement(child)) {
       child = /*#__PURE__*/React.createElement("div", null, child);
     }
     return /*#__PURE__*/React.cloneElement(child, {
       key: index,
-      ...(index === 0 ? {
+      ...{
         style,
         ...childProps,
         ref: triggerRef,
         className: `${prefixCls}-wrapper-content`
-      } : {})
+      }
     });
   }), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,

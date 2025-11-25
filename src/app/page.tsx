@@ -3,7 +3,7 @@
 import { Result } from "../../lib/components/Result";
 import { Button } from '../../lib/components/Button';
 import { Popover } from '../../lib/components/Popover';
-import { ClearIcon } from "../../lib/components/Icons/Icons";
+import { ArrowIcon, ClearIcon } from "../../lib/components/Icons/Icons";
 
 export default function Home() {
     return (
@@ -25,6 +25,7 @@ export default function Home() {
                         />
                     }
                 >
+                    <div><ArrowIcon isOpen /></div>
                     <ClearIcon />
                 </Popover>
                 <div style={{ width: '100%' }} />
