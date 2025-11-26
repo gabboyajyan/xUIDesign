@@ -1,6 +1,7 @@
 import { Placement } from "../types";
 import {
     CSSProperties,
+    ReactNode,
     RefObject,
     useCallback,
     useEffect,
@@ -14,6 +15,7 @@ type TPosition = {
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     offset?: number;
+    children?: ReactNode;
 };
 
 function getScrollParent(
@@ -67,6 +69,7 @@ export const usePosition = ({
     popupRef,
     placement,
     triggerRef,
+    children,
     getPopupContainer,
 }: TPosition): {
     showPlacement: string;
@@ -191,6 +194,7 @@ export const usePosition = ({
         };
     }, [
         isOpen,
+        children,
         triggerRef,
         getPopupContainer,
         dropdownPosition

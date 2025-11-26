@@ -2611,6 +2611,7 @@ const usePosition = ({
   popupRef,
   placement,
   triggerRef,
+  children,
   getPopupContainer
 }) => {
   const [showPlacement, setShowPlacement] = React.useState('');
@@ -2695,7 +2696,7 @@ const usePosition = ({
     return () => {
       controller.abort();
     };
-  }, [isOpen, triggerRef, getPopupContainer, dropdownPosition]);
+  }, [isOpen, children, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     showPlacement,
     dropdownPosition: {

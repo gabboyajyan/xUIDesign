@@ -1,5 +1,5 @@
 import { Placement } from "../types";
-import { CSSProperties, RefObject } from "react";
+import { CSSProperties, ReactNode, RefObject } from "react";
 type TPosition = {
     isOpen: boolean;
     popupRef: RefObject<HTMLDivElement | null>;
@@ -7,8 +7,9 @@ type TPosition = {
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     offset?: number;
+    children?: ReactNode;
 };
-export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, getPopupContainer, }: TPosition) => {
+export declare const usePosition: ({ isOpen, offset, popupRef, placement, triggerRef, children, getPopupContainer, }: TPosition) => {
     showPlacement: string;
     dropdownPosition: CSSProperties;
 };
