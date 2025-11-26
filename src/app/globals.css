@@ -32,9 +32,6 @@
     /* SELECT */
     --xui-select-primary-color: var(--xui-primary-color);
     --xui-select-background-color: var(--xui-background-color);
-
-    /* MENU */
-    --xui-menu-inline-bg: rgba(0, 0, 0, 0.02);
 }
 
 html {

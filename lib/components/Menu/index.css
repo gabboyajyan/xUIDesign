@@ -129,7 +129,7 @@
 }
 
 .xUi-menu-inline .xUi-menu-sub-list {
-    background-color: var(--xui-menu-inline-bg);
+    background-color: var(--xui-background-color);
 }
 
 .xUi-menu-inline .xUi-menu-item {

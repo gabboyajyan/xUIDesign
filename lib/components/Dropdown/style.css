@@ -1,5 +1,5 @@
 .xUi-dropdown-overlay {
-    background: var(--xui-menu-inline-bg);
+    background: var(--xui-background-color);
     border-radius: 8px;
     border: 1px solid var(--xui-border-color);
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.08);

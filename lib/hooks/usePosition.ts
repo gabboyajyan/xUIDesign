@@ -98,7 +98,7 @@ export const usePosition = ({
                     ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
                     : (inputRect.left || 0) + document.documentElement.scrollLeft,
                 popupRef.current?.offsetWidth || 0,
-                containerRect
+                triggerRef.current.getBoundingClientRect()
             );
 
             const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
@@ -131,7 +131,7 @@ export const usePosition = ({
                             (triggerRef.current?.offsetWidth || 0) -
                             (popupRef.current?.offsetWidth || dropdownHeight),
                             popupRef.current?.offsetWidth || dropdownHeight,
-                            containerRect
+                            triggerRef.current.getBoundingClientRect()
                         )
 
                         const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
@@ -144,7 +144,7 @@ export const usePosition = ({
                         const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
                             triggerRef.current.offsetLeft,
                             popupRef.current?.offsetWidth || dropdownHeight,
-                            containerRect
+                            triggerRef.current.getBoundingClientRect()
                         );
 
                         const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
