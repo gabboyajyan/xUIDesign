@@ -5545,8 +5545,7 @@ const Popover = ({
   overlayClassName = '',
   overlayStyle = {},
   onVisibleChange,
-  getPopupContainer,
-  controlDropdownPosition
+  getPopupContainer
 }) => {
   const triggerRef = useRef(null);
   const popupRef = useRef(null);
@@ -5609,10 +5608,7 @@ const Popover = ({
       return /*#__PURE__*/cloneElement(child, {
         key: index,
         ...{
-          style: {
-            ...style,
-            ...(controlDropdownPosition || {})
-          },
+          style,
           ...childProps,
           ref: triggerRef,
           className: `${prefixCls}-wrapper-content`
@@ -5631,8 +5627,7 @@ const Popover = ({
       zIndex: 1000,
       position: "absolute",
       ...overlayStyle,
-      ...dropdownPosition,
-      ...(controlDropdownPosition || {})
+      ...dropdownPosition
     }
   }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`

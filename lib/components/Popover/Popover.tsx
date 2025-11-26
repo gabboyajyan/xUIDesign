@@ -20,8 +20,7 @@ const Popover = ({
     overlayClassName = '',
     overlayStyle = {},
     onVisibleChange,
-    getPopupContainer,
-    controlDropdownPosition
+    getPopupContainer
 }: PopoverProps) => {
     const triggerRef = useRef<HTMLDivElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
@@ -98,10 +97,7 @@ const Popover = ({
             return cloneElement(child, {
                 key: index,
                 ...{
-                    style: {
-                        ...style,
-                        ...(controlDropdownPosition || {})
-                    },
+                    style,
                     ...childProps,
                     ref: triggerRef,
                     className: `${prefixCls}-wrapper-content`,
@@ -131,8 +127,7 @@ const Popover = ({
                             zIndex: 1000,
                             position: "absolute",
                             ...overlayStyle,
-                            ...dropdownPosition,
-                            ...(controlDropdownPosition || {})
+                            ...dropdownPosition
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
