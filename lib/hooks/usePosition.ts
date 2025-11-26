@@ -84,7 +84,7 @@ export const usePosition = ({
 
         const inputRect = triggerRef.current?.getBoundingClientRect();
         const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
-        const containerRect = (triggerRef.current || (getPopupContainer as HTMLElement) || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
+        const containerRect = ((getPopupContainer as HTMLElement) || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
 
         const spaceAbove = inputRect.top - containerRect.top;
         const spaceBelow = containerRect.bottom - inputRect.bottom;
