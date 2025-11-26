@@ -2611,7 +2611,7 @@ const usePosition = ({
   popupRef,
   placement,
   triggerRef,
-  showPopoverPossitions,
+  listenPopoverPossitions,
   getPopupContainer
 }) => {
   const [showPlacement, setShowPlacement] = React.useState('');
@@ -2696,12 +2696,12 @@ const usePosition = ({
     return () => {
       controller.abort();
     };
-  }, [isOpen, showPopoverPossitions, triggerRef, getPopupContainer, dropdownPosition]);
+  }, [isOpen, listenPopoverPossitions, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     showPlacement,
     dropdownPosition: {
       ..._dropdownPosition,
-      opacity: Object.keys(_dropdownPosition).length ? 1 : 0
+      opacity: listenPopoverPossitions && !Object.keys(listenPopoverPossitions).length || !Object.keys(_dropdownPosition).length ? 0 : 1
     }
   };
 };
@@ -5547,7 +5547,7 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
-  showPopoverPossitions,
+  listenPopoverPossitions,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5564,7 +5564,7 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
-    showPopoverPossitions,
+    listenPopoverPossitions,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
