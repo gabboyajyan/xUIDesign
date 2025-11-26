@@ -5633,7 +5633,8 @@ const Popover = ({
       zIndex: 1000,
       position: "absolute",
       ...overlayStyle,
-      ...dropdownPosition
+      ...dropdownPosition,
+      ...(controlDropdownPosition || {})
     }
   }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`

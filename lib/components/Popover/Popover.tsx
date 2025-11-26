@@ -131,7 +131,8 @@ const Popover = ({
                             zIndex: 1000,
                             position: "absolute",
                             ...overlayStyle,
-                            ...dropdownPosition
+                            ...dropdownPosition,
+                            ...(controlDropdownPosition || {})
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
