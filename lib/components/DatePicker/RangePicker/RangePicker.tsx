@@ -62,11 +62,11 @@ const RangePicker = ({
   );
 
   const { dropdownPosition } = usePosition({
-      isOpen,
-      popupRef,
-      placement,
-      triggerRef,
-      getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
+    isOpen,
+    popupRef,
+    placement,
+    triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
   })
 
   const localeMonths =
@@ -480,10 +480,13 @@ const RangePicker = ({
       {isOpen && (
         <ConditionalWrapper
           condition={getPopupContainer !== undefined}
-          wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
-          <div 
-            ref={popupRef} 
-            className={`${prefixCls}-dropdown-wrapper show`} 
+          wrapper={(element) => getPopupContainer
+            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
+            : <>{element}</>
+          }>
+          <div
+            ref={popupRef}
+            className={`${prefixCls}-dropdown-wrapper show`}
             style={dropdownPosition}
           >
             <div className={`${prefixCls}-dropdown-range`}>

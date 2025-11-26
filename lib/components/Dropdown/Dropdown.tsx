@@ -136,7 +136,10 @@ const Dropdown = ({
     const popup = (
         <ConditionalWrapper
             condition={getPopupContainer !== undefined}
-            wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
+            wrapper={(element) => getPopupContainer
+                ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
+                : <>{element}</>
+            }>
             <div
                 ref={popupRef}
                 className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}

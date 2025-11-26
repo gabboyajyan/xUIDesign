@@ -1,4 +1,13 @@
-import React, { useRef, useState, cloneElement, isValidElement, Children, useEffect, useMemo, useCallback } from "react";
+import React, {
+    useRef,
+    useState,
+    cloneElement,
+    isValidElement,
+    Children,
+    useEffect,
+    useMemo,
+    useCallback
+} from "react";
 import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
 import { PopoverProps } from "../../types/popover";
@@ -91,7 +100,7 @@ const Popover = ({
             children = <div>{children}</div>
         }
 
-       return Children.map(children, (child, index) => {
+        return Children.map(children, (child, index) => {
             if (!isValidElement(child)) {
                 child = <div>{child}</div>
             }
@@ -117,7 +126,7 @@ const Popover = ({
                     condition={!!getPopupContainer}
                     wrapper={(element) =>
                         getPopupContainer
-                            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement))
+                            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
                             : <>{element}</>
                     }
                 >

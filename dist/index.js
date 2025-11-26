@@ -2746,7 +2746,6 @@ const DatePicker = ({
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
   const popupRef = React.useRef(null);
-  const popuptriggerRef = React.useRef(null);
   const DateNow = new Date();
   const [selectedDate, setSelectedDate] = React.useState(initialDate);
   const [selectedDatePlaceholder, setSelectedDatePlaceholder] = React.useState(initialDate ? formatDate(initialDate, format) : undefined);
@@ -2790,11 +2789,6 @@ const DatePicker = ({
       controller.abort();
     };
   }, [isOpen]);
-  React.useEffect(() => {
-    if (getPopupContainer && triggerRef.current) {
-      popuptriggerRef.current = getPopupContainer(triggerRef.current);
-    }
-  }, [getPopupContainer]);
   const daysInMonth = (year, month) => new Date(year, month + 1, 0).getDate();
   const firstDayOfMonth = (year, month) => new Date(year, month, 1).getDay();
   function formatDate(date, format) {
@@ -3702,7 +3696,7 @@ const TimePicker = ({
     }
   }, suffixIcon))), open && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(inputRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     style: dropdownPosition,
@@ -5455,7 +5449,7 @@ const Dropdown = ({
   };
   const popup = /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`,
@@ -5625,7 +5619,7 @@ const Popover = ({
   }, [children, style, childProps]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, _children, isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", _extends({
     ref: popupRef
   }, childProps, {

@@ -4,7 +4,7 @@ type TPosition = {
     isOpen: boolean;
     popupRef: RefObject<HTMLDivElement | null>;
     triggerRef: RefObject<HTMLDivElement | null>;
-    getPopupContainer?: HTMLElement;
+    getPopupContainer?: HTMLElement | ParentNode;
     placement?: Placement;
     offset?: number;
     listenPopoverPossitions?: CSSProperties;

@@ -199,7 +199,7 @@ const Select = ({
     if (!selectRef.current) return;
 
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
-    
+
     const clickedInside =
       selectRef.current.contains(event?.target as Node) ||
       (dropdown && dropdown.contains(event?.target as Node));
@@ -226,7 +226,7 @@ const Select = ({
       return;
     }
 
-    const triggerNode = 
+    const triggerNode =
       (selectRef.current?.querySelector(`.${prefixCls}-trigger`) || selectRef.current?.querySelector(`.${prefixClsV3}-trigger`)) as HTMLElement;
 
     const selectBox = triggerNode.getBoundingClientRect();
@@ -491,10 +491,10 @@ const Select = ({
     }
 
     return (
-      showSearch && isOpen 
-        ? (searchIcon || <SearchIcon />) 
-        : suffixIcon 
-          ? <span style={{ display: 'contents' }} onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span> 
+      showSearch && isOpen
+        ? (searchIcon || <SearchIcon />)
+        : suffixIcon
+          ? <span style={{ display: 'contents' }} onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span>
           : (showArrow && <ArrowIcon isOpen={isOpen} />)
     )
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
@@ -805,7 +805,10 @@ const Select = ({
 
       <ConditionalWrapper
         condition={getPopupContainer !== undefined}
-        wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(triggerNode)) : <>{element}</>}
+        wrapper={(element) => getPopupContainer
+          ? createPortal(element, getPopupContainer(triggerNode) as HTMLElement)
+          : <>{element}</>
+        }
       >
         {!loading && open && isOpen && (
           <div

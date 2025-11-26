@@ -15,7 +15,9 @@ export default function Home() {
                 <Popover
                     // placement="bottomRight"
                     trigger="click"
-                    getPopupContainer={() => document.body}
+                    getPopupContainer={(triggerRef: HTMLElement) => {
+                        return triggerRef?.parentNode || document.body
+                    }}
                     content={
                         <Result
                             status="success"

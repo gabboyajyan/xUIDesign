@@ -13,5 +13,5 @@ export type PopoverProps = DefaultProps & {
     visible?: boolean;
     listenPopoverPossitions?: CSSProperties;
     onVisibleChange?: ((open: boolean) => void) | undefined;
-    getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
+    getPopupContainer?: ((node: HTMLElement) => HTMLElement | ParentNode) | undefined
 }

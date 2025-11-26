@@ -63,7 +63,6 @@ const DatePicker = ({
   const initialPickerDate = defaultPickerValue || initialDate;
 
   const popupRef = useRef<HTMLDivElement>(null);
-  const popuptriggerRef = useRef<HTMLElement | null>(null);
 
   const DateNow = new Date();
 
@@ -145,12 +144,6 @@ const DatePicker = ({
       controller.abort();
     };
   }, [isOpen]);
-
-  useEffect(() => {
-    if (getPopupContainer && triggerRef.current) {
-      popuptriggerRef.current = getPopupContainer(triggerRef.current);
-    }
-  }, [getPopupContainer]);
 
   const daysInMonth = (year: number, month: number) =>
     new Date(year, month + 1, 0).getDate();
@@ -313,7 +306,10 @@ const DatePicker = ({
       {isOpen && (
         <ConditionalWrapper
           condition={getPopupContainer !== undefined}
-          wrapper={(element) => getPopupContainer ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement)) : <>{element}</>}>
+          wrapper={(element) => getPopupContainer
+            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
+            : <>{element}</>
+          }>
           <div
             ref={popupRef}
             className={`${prefixCls}-dropdown-wrapper`}
