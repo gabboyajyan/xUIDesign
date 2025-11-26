@@ -59,7 +59,7 @@ export type TDatePickerProps = DefaultProps & {
     info: BaseInfo
   ) => void;
   onVisibleChange?: ((open: boolean) => void) | undefined;
-  getPopupContainer?: ((node: HTMLElement) => HTMLElement | ParentNode) | undefined
+  getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
   showToday?: boolean;
   inputReadOnly?: boolean;
   picker?: PanelMode;
@@ -158,7 +158,7 @@ export type TimePickerProps = DefaultProps & {
   onSelect?: ((value: Date | null) => void) | undefined;
   showNow?: boolean;
   clearIcon?: ReactNode;
-  getPopupContainer?: ((node: HTMLElement) => HTMLElement | ParentNode) | undefined
+  getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
   suffixIcon?: ReactNode;
   placeholder?: string;
   placement?: Placement;

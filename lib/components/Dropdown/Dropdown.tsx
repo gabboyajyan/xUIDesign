@@ -178,21 +178,18 @@ const Dropdown = ({
         <div
             ref={triggerRef}
             className={className}
+            onClick={onTriggerClick}
+            onMouseEnter={onTriggerMouseEnter}
+            onMouseLeave={onTriggerMouseLeave}
+            tabIndex={disabled ? -1 : 0}
+            aria-haspopup='menu'
+            style={{ width: 'fit-content', height: 'fit-content' }}
+            aria-expanded={open}
         >
-            <div
-                onClick={onTriggerClick}
-                onMouseEnter={onTriggerMouseEnter}
-                onMouseLeave={onTriggerMouseLeave}
-                tabIndex={disabled ? -1 : 0}
-                aria-haspopup='menu'
-                style={{ width: 'fit-content', height: '-webkit-fill-available' }}
-                aria-expanded={open}
-            >
-                {children}
+            {children}
 
-                {open && popup}
-                {!open && !destroyOnHidden && null}
-            </div>
+            {open && popup}
+            {!open && !destroyOnHidden && null}
         </div>
     );
 };

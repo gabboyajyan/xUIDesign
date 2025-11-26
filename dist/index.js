@@ -2596,15 +2596,6 @@ function getScrollParent(el, includeSelf = false) {
   }
   return document.scrollingElement;
 }
-const clampWithinContainer = (left, popupWidth, containerRect) => {
-  const minLeft = containerRect.left + document.documentElement.scrollLeft;
-  const maxLeft = containerRect.right + document.documentElement.scrollLeft - popupWidth;
-  return {
-    minLeft,
-    maxLeft,
-    leftPosition: Math.min(Math.max(left, minLeft), maxLeft)
-  };
-};
 const usePosition = ({
   isOpen,
   offset = 4,
@@ -2627,14 +2618,9 @@ const usePosition = ({
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
     const hasRight = placement?.includes('Right');
+    setShowPlacement(_shouldShowAbove ? 'bottom' : '');
     if (getPopupContainer) {
-      const {
-        minLeft,
-        maxLeft,
-        leftPosition
-      } = clampWithinContainer(hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft, popupRef.current?.offsetWidth || 0, triggerRef.current.getBoundingClientRect());
-      const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-      setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+      const leftPosition = hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft;
       const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
       if (_shouldShowAbove) {
         setDropdownPosition({
@@ -2651,27 +2637,9 @@ const usePosition = ({
       setDropdownPosition({
         top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
         ...(hasRight ? {
-          left: (() => {
-            const {
-              minLeft,
-              maxLeft,
-              leftPosition
-            } = clampWithinContainer(triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || dropdownHeight), popupRef.current?.offsetWidth || dropdownHeight, triggerRef.current.getBoundingClientRect());
-            const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-            return leftPosition;
-          })()
+          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
         } : {
-          left: (() => {
-            const {
-              minLeft,
-              maxLeft,
-              leftPosition
-            } = clampWithinContainer(triggerRef.current.offsetLeft, popupRef.current?.offsetWidth || dropdownHeight, triggerRef.current.getBoundingClientRect());
-            const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-            return leftPosition;
-          })()
+          left: triggerRef.current.offsetLeft
         })
       });
     }
@@ -3369,7 +3337,7 @@ var RangePicker$1 = /*#__PURE__*/Object.freeze({
 	default: RangePicker
 });
 
-var css_248z$h = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;min-width:max-content;padding:8px 0;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 8px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}.xUi-timepicker-popup{margin-top:4px;position:absolute;top:100%}";
+var css_248z$h = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;min-width:max-content;padding:8px 0;position:absolute;top:100%;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 8px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}";
 styleInject(css_248z$h);
 
 const HOURS = 24;
@@ -5477,8 +5445,7 @@ const Dropdown = ({
   }, "Empty menu")));
   return /*#__PURE__*/React.createElement("div", {
     ref: triggerRef,
-    className: className
-  }, /*#__PURE__*/React.createElement("div", {
+    className: className,
     onClick: onTriggerClick,
     onMouseEnter: onTriggerMouseEnter,
     onMouseLeave: onTriggerMouseLeave,
@@ -5486,10 +5453,10 @@ const Dropdown = ({
     "aria-haspopup": "menu",
     style: {
       width: 'fit-content',
-      height: '-webkit-fill-available'
+      height: 'fit-content'
     },
     "aria-expanded": open
-  }, children, open && popup, !open && !destroyOnHidden && null));
+  }, children, open && popup, !open && !destroyOnHidden && null);
 };
 function MenuInner({
   items,

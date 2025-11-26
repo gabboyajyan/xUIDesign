@@ -56,7 +56,6 @@
     border: 1px solid var(--xui-border-color);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
-    margin-top: 4px;
     padding: 8px 0;
     z-index: 1;
     position: absolute;
@@ -190,8 +189,3 @@
     background-color: var(--xui-primary-color-light);
 }
 
-.xUi-timepicker-popup {
-    position: absolute;
-    top: 100%;
-    margin-top: 4px;
-}

@@ -4,6 +4,9 @@ import { Result } from "../../lib/components/Result";
 import { Button } from '../../lib/components/Button';
 import { Popover } from '../../lib/components/Popover';
 import { Dropdown } from '../../lib/components/Dropdown';
+import { RangePicker } from '../../lib/components/DatePicker/RangePicker';
+import { DatePicker } from '../../lib/components/DatePicker';
+import { TimePicker } from '../../lib/components/DatePicker/TimePicker';
 import { Menu } from '../../lib/components/Menu';
 import { ArrowIcon, ClearIcon } from "../../lib/components/Icons/Icons";
 import { ItemType } from "../../lib/types/menu";
@@ -83,23 +86,23 @@ export default function Home() {
 
                 <div style={{ width: 700 }}>
                     <Popover
-                    placement="bottomRight"
-                    trigger={['click', 'hover']}
-                    style={{ width: 700 }}
-                    getPopupContainer={(trigger: HTMLElement) => {
-                        return trigger?.parentNode || document.body
-                    }}
-                    content={
-                        <Result
-                            status="success"
-                            title="Success"
-                            subTitle="Sorry, you are not authorized to access this page."
-                            extra={<Button type="primary">Back Home</Button>}
-                        />
-                    }
-                >
-                    <div><ArrowIcon isOpen /></div>
-                </Popover>
+                        // placement="bottomRight"
+                        trigger={['click', 'hover']}
+                        style={{ width: 700 }}
+                        getPopupContainer={(trigger: HTMLElement) => {
+                            return document.body
+                        }}
+                        content={
+                            <Result
+                                status="success"
+                                title="Success"
+                                subTitle="Sorry, you are not authorized to access this page."
+                                extra={<Button type="primary">Back Home</Button>}
+                            />
+                        }
+                    >
+                        <div><ArrowIcon isOpen /></div>
+                    </Popover>
                 </div>
                 <Dropdown trigger={['click', 'hover']} overlay={<Menu items={items} />}>
                     Menu

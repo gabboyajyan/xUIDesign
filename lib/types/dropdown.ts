@@ -21,7 +21,7 @@ export type DropdownProps = DefaultProps & {
     placement?: Placement;
     overlayClassName?: string;
     overlayStyle?: CSSProperties;
-    getPopupContainer?: ((node: HTMLElement) => HTMLElement | ParentNode) | undefined
+    getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
     destroyOnHidden?: boolean;
     disabled?: boolean;
     arrow?: boolean;

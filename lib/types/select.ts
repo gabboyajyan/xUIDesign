@@ -58,7 +58,7 @@ export type SelectProps = DefaultProps & {
   searchIcon?: ReactNode;
   open?: boolean;
   notFoundContent?: ReactNode;
-  getPopupContainer?: ((node: HTMLElement) => HTMLElement | ParentNode) | undefined
+  getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
   dropdownRender?: (menu: ReactNode) => ReactNode;
   feedbackIcons?: boolean;
   placement?: Placement;
