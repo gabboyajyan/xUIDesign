@@ -81,12 +81,13 @@ export default function Home() {
             <div style={{ display: "flex" }}>
                 <div style={{ width: '100%' }} />
 
-                <Popover
+                <div style={{ width: 700 }}>
+                    <Popover
                     placement="bottomRight"
                     trigger={['click', 'hover']}
                     style={{ width: 700 }}
-                    getPopupContainer={(triggerRef: HTMLElement) => {
-                        return triggerRef
+                    getPopupContainer={(trigger: HTMLElement) => {
+                        return trigger?.parentNode || document.body
                     }}
                     content={
                         <Result
@@ -98,8 +99,8 @@ export default function Home() {
                     }
                 >
                     <div><ArrowIcon isOpen /></div>
-                    <ClearIcon />
                 </Popover>
+                </div>
                 <Dropdown trigger={['click', 'hover']} overlay={<Menu items={items} />}>
                     Menu
                 </Dropdown>

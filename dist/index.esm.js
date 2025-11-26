@@ -2620,7 +2620,7 @@ const usePosition = ({
     }
     const inputRect = triggerRef.current?.getBoundingClientRect();
     const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
-    const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
+    const containerRect = (triggerRef.current || getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
@@ -5570,29 +5570,32 @@ const Popover = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  const handleOnClick = useCallback(() => {
+  const triggers = Array.isArray(trigger) ? trigger : [trigger];
+  const handleOnClick = useCallback(e => {
     const newState = !isOpen;
-    onVisibleChange?.(newState);
-    setInnerOpen(newState);
-  }, [isOpen, trigger]);
+    if (triggers.includes('click')) {
+      onVisibleChange?.(newState);
+      setInnerOpen(newState);
+    }
+  }, [isOpen, triggers]);
   const handleOnMouseEnter = useCallback(() => {
-    if (trigger === "hover") {
+    if (triggers.includes("hover")) {
       onVisibleChange?.(true);
       setInnerOpen(true);
     }
-  }, [trigger]);
+  }, [triggers]);
   const handleOnMouseLeave = useCallback(() => {
-    if (trigger === "hover") {
+    if (triggers.includes("hover")) {
       onVisibleChange?.(false);
       setInnerOpen(false);
     }
-  }, [trigger]);
-  const childProps = useMemo(() => trigger === "click" ? {
+  }, [triggers]);
+  const childProps = useMemo(() => triggers.includes("click") ? {
     onClick: handleOnClick
   } : {
     onMouseEnter: handleOnMouseEnter,
     onMouseLeave: handleOnMouseLeave
-  }, [trigger]);
+  }, [triggers]);
   const _children = useMemo(() => {
     if (Children.count(children) > 1) {
       children = /*#__PURE__*/React.createElement("div", null, children);

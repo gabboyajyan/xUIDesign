@@ -6,7 +6,8 @@ import React, {
     Children,
     useEffect,
     useMemo,
-    useCallback
+    useCallback,
+    SyntheticEvent
 } from "react";
 import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
@@ -69,31 +70,36 @@ const Popover = ({
         };
     }, []);
 
-    const handleOnClick = useCallback(() => {
-        const newState = !isOpen;
+    const triggers = Array.isArray(trigger) ? trigger : [trigger];
 
-        onVisibleChange?.(newState);
-        setInnerOpen(newState);
-    }, [isOpen, trigger]);
+    const handleOnClick = useCallback((e: SyntheticEvent) => {
+        const newState = !isOpen;
+        
+        if (triggers.includes('click')) {
+            onVisibleChange?.(newState);
+            setInnerOpen(newState);
+        }
+
+    }, [isOpen, triggers]);
 
     const handleOnMouseEnter = useCallback(() => {
-        if (trigger === "hover") {
+        if (triggers.includes("hover")) {
             onVisibleChange?.(true);
             setInnerOpen(true);
         }
-    }, [trigger]);
+    }, [triggers]);
 
     const handleOnMouseLeave = useCallback(() => {
-        if (trigger === "hover") {
+        if (triggers.includes("hover")) {
             onVisibleChange?.(false);
             setInnerOpen(false);
         }
-    }, [trigger]);
+    }, [triggers]);
 
-    const childProps = useMemo(() => trigger === "click"
+    const childProps = useMemo(() => triggers.includes("click")
         ? { onClick: handleOnClick }
         : { onMouseEnter: handleOnMouseEnter, onMouseLeave: handleOnMouseLeave },
-        [trigger]);
+        [triggers]);
 
     const _children = useMemo(() => {
         if (Children.count(children) > 1) {
