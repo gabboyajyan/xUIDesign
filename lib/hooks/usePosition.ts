@@ -14,7 +14,6 @@ type TPosition = {
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     offset?: number;
-    controlDropdownPosition?: CSSProperties;
 };
 
 function getScrollParent(
@@ -69,7 +68,6 @@ export const usePosition = ({
     placement,
     triggerRef,
     getPopupContainer,
-    controlDropdownPosition
 }: TPosition): {
     showPlacement: string;
     dropdownPosition: CSSProperties
@@ -82,82 +80,78 @@ export const usePosition = ({
             return {};
         }
 
-        if (controlDropdownPosition) {
-            setDropdownPosition(controlDropdownPosition)
-        } else {
-            const inputRect = triggerRef.current?.getBoundingClientRect();
-            const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
-            const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
+        const inputRect = triggerRef.current?.getBoundingClientRect();
+        const dropdownHeight = popupRef.current?.offsetHeight || (popupRef.current?.offsetHeight || 0);
+        const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
 
-            const spaceAbove = inputRect.top - containerRect.top;
-            const spaceBelow = containerRect.bottom - inputRect.bottom;
+        const spaceAbove = inputRect.top - containerRect.top;
+        const spaceBelow = containerRect.bottom - inputRect.bottom;
 
-            const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-            const hasRight = placement?.includes('Right');
+        const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+        const hasRight = placement?.includes('Right');
 
-            if (getPopupContainer) {
-                const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                    hasRight
-                        ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
-                        : (inputRect.left || 0) + document.documentElement.scrollLeft,
-                    popupRef.current?.offsetWidth || 0,
-                    containerRect
-                );
+        if (getPopupContainer) {
+            const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
+                hasRight
+                    ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+                    : (inputRect.left || 0) + document.documentElement.scrollLeft,
+                popupRef.current?.offsetWidth || 0,
+                containerRect
+            );
 
-                const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-                setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
+            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
 
-                const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
+            const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
 
-                if (_shouldShowAbove) {
-                    setDropdownPosition({
-                        top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-                        left: leftPosition
-                    })
-                } else {
-                    setDropdownPosition({
-                        top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
-                        left: leftPosition
-                    })
-                }
+            if (_shouldShowAbove) {
+                setDropdownPosition({
+                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
+                    left: leftPosition
+                })
             } else {
                 setDropdownPosition({
-                    top:
-                        (_shouldShowAbove
-                            ? triggerRef.current.offsetTop -
-                            (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
-                            : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
-                    ...(hasRight ? {
-                        left: (() => {
-                            const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                                triggerRef.current.offsetLeft +
-                                (triggerRef.current?.offsetWidth || 0) -
-                                (popupRef.current?.offsetWidth || dropdownHeight),
-                                popupRef.current?.offsetWidth || dropdownHeight,
-                                containerRect
-                            )
-
-                            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-                            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-
-                            return leftPosition
-                        })()
-                    } : {
-                        left: (() => {
-                            const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
-                                triggerRef.current.offsetLeft,
-                                popupRef.current?.offsetWidth || dropdownHeight,
-                                containerRect
-                            );
-
-                            const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
-                            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-
-                            return leftPosition
-                        })()
-                    })
-                });
+                    top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
+                    left: leftPosition
+                })
             }
+        } else {
+            setDropdownPosition({
+                top:
+                    (_shouldShowAbove
+                        ? triggerRef.current.offsetTop -
+                        (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
+                        : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+                ...(hasRight ? {
+                    left: (() => {
+                        const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
+                            triggerRef.current.offsetLeft +
+                            (triggerRef.current?.offsetWidth || 0) -
+                            (popupRef.current?.offsetWidth || dropdownHeight),
+                            popupRef.current?.offsetWidth || dropdownHeight,
+                            containerRect
+                        )
+
+                        const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
+                        setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+
+                        return leftPosition
+                    })()
+                } : {
+                    left: (() => {
+                        const { minLeft, maxLeft, leftPosition } = clampWithinContainer(
+                            triggerRef.current.offsetLeft,
+                            popupRef.current?.offsetWidth || dropdownHeight,
+                            containerRect
+                        );
+
+                        const _center = (minLeft + maxLeft) < (popupRef.current?.offsetWidth || 0) ? 'center' : ''
+                        setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+
+                        return leftPosition
+                    })()
+                })
+            });
         }
     }, [
         offset,
@@ -165,7 +159,6 @@ export const usePosition = ({
         placement,
         triggerRef,
         getPopupContainer,
-        controlDropdownPosition
     ]);
 
     useEffect(() => {

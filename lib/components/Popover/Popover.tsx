@@ -36,7 +36,6 @@ const Popover = ({
         popupRef,
         placement,
         triggerRef,
-        controlDropdownPosition,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     });
 
@@ -99,7 +98,10 @@ const Popover = ({
             return cloneElement(child, {
                 key: index,
                 ...{
-                    style,
+                    style: {
+                        ...style,
+                        ...(controlDropdownPosition || {})
+                    },
                     ...childProps,
                     ref: triggerRef,
                     className: `${prefixCls}-wrapper-content`,

@@ -15,7 +15,10 @@ export default function Home() {
                 <Popover
                     // placement="bottomRight"
                     trigger="click"
-                    getPopupContainer={() => document.body}
+                    controlDropdownPosition={{
+                        maxWidth: 30
+                    }}
+                    // getPopupContainer={() => document.body}
                     content={
                         <Result
                             status="success"

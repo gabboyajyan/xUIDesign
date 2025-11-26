@@ -2611,8 +2611,7 @@ const usePosition = ({
   popupRef,
   placement,
   triggerRef,
-  getPopupContainer,
-  controlDropdownPosition
+  getPopupContainer
 }) => {
   const [showPlacement, setShowPlacement] = React.useState('');
   const [_dropdownPosition, setDropdownPosition] = React.useState({});
@@ -2620,66 +2619,62 @@ const usePosition = ({
     if (!triggerRef.current) {
       return {};
     }
-    if (controlDropdownPosition) {
-      setDropdownPosition(controlDropdownPosition);
-    } else {
-      const inputRect = triggerRef.current?.getBoundingClientRect();
-      const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
-      const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
-      const spaceAbove = inputRect.top - containerRect.top;
-      const spaceBelow = containerRect.bottom - inputRect.bottom;
-      const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-      const hasRight = placement?.includes('Right');
-      if (getPopupContainer) {
-        const {
-          minLeft,
-          maxLeft,
-          leftPosition
-        } = clampWithinContainer(hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft, popupRef.current?.offsetWidth || 0, containerRect);
-        const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-        setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-        const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
-        if (_shouldShowAbove) {
-          setDropdownPosition({
-            top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-            left: leftPosition
-          });
-        } else {
-          setDropdownPosition({
-            top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
-            left: leftPosition
-          });
-        }
+    const inputRect = triggerRef.current?.getBoundingClientRect();
+    const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
+    const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
+    const spaceAbove = inputRect.top - containerRect.top;
+    const spaceBelow = containerRect.bottom - inputRect.bottom;
+    const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
+    const hasRight = placement?.includes('Right');
+    if (getPopupContainer) {
+      const {
+        minLeft,
+        maxLeft,
+        leftPosition
+      } = clampWithinContainer(hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft, popupRef.current?.offsetWidth || 0, containerRect);
+      const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
+      setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+      const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
+      if (_shouldShowAbove) {
+        setDropdownPosition({
+          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
+          left: leftPosition
+        });
       } else {
         setDropdownPosition({
-          top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
-          ...(hasRight ? {
-            left: (() => {
-              const {
-                minLeft,
-                maxLeft,
-                leftPosition
-              } = clampWithinContainer(triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || dropdownHeight), popupRef.current?.offsetWidth || dropdownHeight, containerRect);
-              const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-              setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-              return leftPosition;
-            })()
-          } : {
-            left: (() => {
-              const {
-                minLeft,
-                maxLeft,
-                leftPosition
-              } = clampWithinContainer(triggerRef.current.offsetLeft, popupRef.current?.offsetWidth || dropdownHeight, containerRect);
-              const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
-              setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
-              return leftPosition;
-            })()
-          })
+          top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
+          left: leftPosition
         });
       }
+    } else {
+      setDropdownPosition({
+        top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+        ...(hasRight ? {
+          left: (() => {
+            const {
+              minLeft,
+              maxLeft,
+              leftPosition
+            } = clampWithinContainer(triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || dropdownHeight), popupRef.current?.offsetWidth || dropdownHeight, containerRect);
+            const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
+            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+            return leftPosition;
+          })()
+        } : {
+          left: (() => {
+            const {
+              minLeft,
+              maxLeft,
+              leftPosition
+            } = clampWithinContainer(triggerRef.current.offsetLeft, popupRef.current?.offsetWidth || dropdownHeight, containerRect);
+            const _center = minLeft + maxLeft < (popupRef.current?.offsetWidth || 0) ? 'center' : '';
+            setShowPlacement(_shouldShowAbove ? `bottom ${_center}` : `${_center}`);
+            return leftPosition;
+          })()
+        })
+      });
     }
-  }, [offset, popupRef, placement, triggerRef, getPopupContainer, controlDropdownPosition]);
+  }, [offset, popupRef, placement, triggerRef, getPopupContainer]);
   React.useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
@@ -5568,7 +5563,6 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
-    controlDropdownPosition,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
@@ -5617,7 +5611,10 @@ const Popover = ({
       return /*#__PURE__*/React.cloneElement(child, {
         key: index,
         ...{
-          style,
+          style: {
+            ...style,
+            ...(controlDropdownPosition || {})
+          },
           ...childProps,
           ref: triggerRef,
           className: `${prefixCls}-wrapper-content`
