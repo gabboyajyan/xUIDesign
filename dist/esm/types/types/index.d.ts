@@ -25,3 +25,4 @@ export type SyntheticBaseEvent = {
     currentTarget: EventTarget;
 };
 export type Placement = 'bottomLeft' | 'bottom' | 'bottomRight' | 'topLeft' | 'top' | 'topRight' | 'left' | 'right';
+export type TriggerType = 'click' | 'hover' | 'contextMenu' | Array<TriggerType>;

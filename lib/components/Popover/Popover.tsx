@@ -135,7 +135,7 @@ const Popover = ({
                         {...childProps}
                         className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
                         style={{
-                            zIndex: 1000,
+                            zIndex: 10000,
                             position: "absolute",
                             ...overlayStyle,
                             ...dropdownPosition

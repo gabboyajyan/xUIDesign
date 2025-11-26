@@ -36,3 +36,5 @@ export type Placement =
   | 'topRight'
   | 'left'
   | 'right';
+
+export type TriggerType = 'click' | 'hover' | 'contextMenu' | Array<TriggerType>;

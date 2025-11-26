@@ -1,9 +1,9 @@
 import { CSSProperties, ReactNode } from "react";
-import { DefaultProps } from ".";
+import { DefaultProps, TriggerType } from ".";
 export type PopoverProps = DefaultProps & {
     content: ReactNode;
     children: ReactNode;
-    trigger?: "click" | "hover";
+    trigger?: TriggerType;
     placement?: "top" | "bottom" | "left" | "right" | "topRight" | "bottomRight" | "topLeft" | "bottomLeft";
     open?: boolean;
     overlayStyle?: CSSProperties;

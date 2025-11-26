@@ -36,7 +36,6 @@ const Dropdown = ({
     prefixCls = prefixClsDropdown,
 }: DropdownProps) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
-    const [_hover, setHover] = useState<boolean>(controlledOpen ?? defaultOpen);
     const isControlled = controlledOpen !== undefined;
 
     const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -85,26 +84,24 @@ const Dropdown = ({
     };
 
     useEffect(() => {
-        const handleClick = (e: MouseEvent) => {
-            if (!open) {
-                return;
-            }
-
-            const target = e.target as Node;
-
+        const handleClickOutside = (e: MouseEvent) => {
             if (
+                popupRef.current &&
+                !popupRef.current.contains(e.target as Node) &&
                 triggerRef.current &&
-                !triggerRef.current.contains(target) &&
-                !popupRef.current?.contains(target)
+                !triggerRef.current.contains(e.target as Node)
             ) {
                 setOpenInternal(false);
+                onVisibleChange?.(false);
             }
         };
 
-        document.addEventListener('mousedown', handleClick);
+        document.addEventListener('mousedown', handleClickOutside);
 
-        return () => document.removeEventListener('mousedown', handleClick);
-    }, [open]);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     const triggers = Array.isArray(trigger) ? trigger : [trigger];
 
@@ -112,22 +109,21 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
 
-        if (triggers.includes('click')) {
+        if ((popupRef.current &&
+            !popupRef.current.contains(e.target as Node) &&
+            triggerRef.current &&
+            !triggerRef.current.contains(e.target as Node)) && triggers.includes('click')) {
             setOpenInternal(!open);
         }
     };
 
     const onTriggerMouseEnter = () => {
-        setHover(true);
-
         if (triggers.includes('hover')) {
             setOpenInternal(true);
         }
     };
 
     const onTriggerMouseLeave = () => {
-        setHover(false);
-
         if (triggers.includes('hover')) {
             setOpenInternal(false);
         }
@@ -144,7 +140,7 @@ const Dropdown = ({
                 ref={popupRef}
                 className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
                 style={{
-                    zIndex: _hover ? 1000 : 0,
+                    zIndex: 10000,
                     ...overlayStyle,
                     ...dropdownPosition
                 }}
@@ -189,7 +185,7 @@ const Dropdown = ({
                 onMouseLeave={onTriggerMouseLeave}
                 tabIndex={disabled ? -1 : 0}
                 aria-haspopup='menu'
-                style={{ width: 'fit-content' }}
+                style={{ width: 'fit-content', height: '-webkit-fill-available' }}
                 aria-expanded={open}
             >
                 {children}

@@ -1,7 +1,5 @@
 import { CSSProperties, MouseEvent, ReactElement, ReactNode, RefObject } from "react";
-import { DefaultProps, Placement } from ".";
-
-export type TriggerType = 'click' | 'hover' | 'contextMenu' | Array<TriggerType>;
+import { DefaultProps, Placement, TriggerType } from ".";
 
 export interface DropdownItemType {
     key: string;
