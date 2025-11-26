@@ -2699,7 +2699,7 @@ const usePosition = ({
     showPlacement,
     dropdownPosition: {
       ..._dropdownPosition,
-      opacity: listenPopoverPossitions && !Object.keys(listenPopoverPossitions).length || !Object.keys(_dropdownPosition).length ? 0 : 1
+      opacity: Object.keys(_dropdownPosition).length ? 1 : 0
     }
   };
 };
