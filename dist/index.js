@@ -2611,7 +2611,7 @@ const usePosition = ({
   popupRef,
   placement,
   triggerRef,
-  children,
+  showPopoverPossitions,
   getPopupContainer
 }) => {
   const [showPlacement, setShowPlacement] = React.useState('');
@@ -2696,7 +2696,7 @@ const usePosition = ({
     return () => {
       controller.abort();
     };
-  }, [isOpen, children, triggerRef, getPopupContainer, dropdownPosition]);
+  }, [isOpen, showPopoverPossitions, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     showPlacement,
     dropdownPosition: {
@@ -5547,6 +5547,7 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
+  showPopoverPossitions,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5563,7 +5564,7 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
-    children,
+    showPopoverPossitions,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
