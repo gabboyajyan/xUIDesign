@@ -5432,7 +5432,9 @@ const Dropdown = ({
     return () => document.removeEventListener('mousedown', handleClick);
   }, [open]);
   const triggers = Array.isArray(trigger) ? trigger : [trigger];
-  const onTriggerClick = () => {
+  const onTriggerClick = e => {
+    e.preventDefault();
+    e.stopPropagation();
     if (triggers.includes('click')) {
       setOpenInternal(!open);
     }

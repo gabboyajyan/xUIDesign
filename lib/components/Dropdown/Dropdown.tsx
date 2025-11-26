@@ -1,4 +1,5 @@
 import React, {
+    SyntheticEvent,
     useEffect,
     useRef,
     useState,
@@ -107,7 +108,10 @@ const Dropdown = ({
 
     const triggers = Array.isArray(trigger) ? trigger : [trigger];
 
-    const onTriggerClick = () => {
+    const onTriggerClick = (e: SyntheticEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+
         if (triggers.includes('click')) {
             setOpenInternal(!open);
         }
