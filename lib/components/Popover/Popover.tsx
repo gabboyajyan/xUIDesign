@@ -35,6 +35,7 @@ const Popover = ({
         popupRef,
         placement,
         triggerRef,
+        children,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     });
 

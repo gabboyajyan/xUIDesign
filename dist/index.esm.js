@@ -5561,6 +5561,7 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
+    children,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   useEffect(() => {
