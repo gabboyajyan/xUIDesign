@@ -104,7 +104,7 @@ export default function Home() {
                         <div><ArrowIcon isOpen /></div>
                     </Popover>
                 </div>
-                <Dropdown trigger={['click', 'hover']} overlay={<Menu items={items} />}>
+                <Dropdown trigger={['click']} overlay={<Menu items={items} />}>
                     Menu
                 </Dropdown>
                 <div style={{ width: '100%' }} />

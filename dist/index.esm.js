@@ -5187,6 +5187,8 @@ const Menu = ({
     });
   }, [openKeysProp, hasInteracted, _triggerSubMenuActionClick]);
   const onItemClick = useCallback((key, domEvent) => {
+    domEvent?.preventDefault();
+    domEvent?.stopPropagation();
     if (!selectable) {
       return;
     }
@@ -5395,8 +5397,8 @@ const Dropdown = ({
   const onTriggerClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log(triggerRef.current, triggers.includes('click'), !open);
-    if (triggerRef.current && triggers.includes('click')) {
+    console.info(triggers.includes('click') && triggerRef.current && !open && triggerRef.current?.contains(e.target));
+    if (triggers.includes('click') && triggerRef.current && !open && triggerRef.current?.contains(e.target)) {
       setOpenInternal(!open);
     }
   };
@@ -5442,10 +5444,6 @@ const Dropdown = ({
       padding: 8
     }
   }, "Empty menu")));
-  console.log({
-    open,
-    popup
-  });
   return /*#__PURE__*/React.createElement("div", {
     ref: triggerRef,
     className: className,
