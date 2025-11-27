@@ -5395,14 +5395,7 @@ const Dropdown = ({
   const onTriggerClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.log({
-      triggers,
-      triggerRef: triggerRef.current,
-      popupRef: popupRef.current,
-      t: triggerRef.current?.contains(e.target),
-      p: popupRef.current?.contains(e.target)
-    });
-    if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target) && triggers.includes('click')) {
+    if (triggerRef.current && !triggerRef.current.contains(e.target) && triggers.includes('click')) {
       setOpenInternal(!open);
     }
   };
@@ -5448,6 +5441,10 @@ const Dropdown = ({
       padding: 8
     }
   }, "Empty menu")));
+  console.log({
+    open,
+    popup
+  });
   return /*#__PURE__*/React.createElement("div", {
     ref: triggerRef,
     className: className,
