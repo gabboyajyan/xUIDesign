@@ -108,7 +108,7 @@ const Dropdown = ({
     const onTriggerClick = (e: SyntheticEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         if (triggers.includes('click') && triggerRef.current &&
             (!open && triggerRef.current?.contains(e.target as Node))) {
             setOpenInternal(!open);
@@ -135,46 +135,41 @@ const Dropdown = ({
                 : <>{element}</>
             }>
             <>
-            {console.log({
-                zIndex: 10000,
-                ...overlayStyle,
-                ...dropdownPosition
-            })}
-            <div
-                ref={popupRef}
-                className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
-                style={{
-                    zIndex: 10000,
-                    ...overlayStyle,
-                    ...dropdownPosition
-                }}
-            >
-                {arrow && <div className={`${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`} />}
+                <div
+                    ref={popupRef}
+                    className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
+                    style={{
+                        zIndex: 10000,
+                        ...overlayStyle,
+                        ...dropdownPosition
+                    }}
+                >
+                    {arrow && <div className={`${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`} />}
 
-                {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
-                    popupRender(
-                        menu ? (
-                            <MenuInner
-                                prefixCls={prefixCls}
-                                items={menu.items}
-                                menuRef={menuRef}
-                                onClose={() => setOpenInternal(false)}
-                            />
-                        ) : (
-                            <div style={{ padding: 8 }}>Empty menu</div>
+                    {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
+                        popupRender(
+                            menu ? (
+                                <MenuInner
+                                    prefixCls={prefixCls}
+                                    items={menu.items}
+                                    menuRef={menuRef}
+                                    onClose={() => setOpenInternal(false)}
+                                />
+                            ) : (
+                                <div style={{ padding: 8 }}>Empty menu</div>
+                            )
                         )
-                    )
-                ) : menu ? (
-                    <MenuInner
-                        prefixCls={prefixCls}
-                        items={menu.items}
-                        menuRef={menuRef}
-                        onClose={() => setOpenInternal(false)}
-                    />
-                ) : (
-                    <div style={{ padding: 8 }}>Empty menu</div>
-                )}
-            </div>
+                    ) : menu ? (
+                        <MenuInner
+                            prefixCls={prefixCls}
+                            items={menu.items}
+                            menuRef={menuRef}
+                            onClose={() => setOpenInternal(false)}
+                        />
+                    ) : (
+                        <div style={{ padding: 8 }}>Empty menu</div>
+                    )}
+                </div>
             </>
         </ConditionalWrapper>
     );
