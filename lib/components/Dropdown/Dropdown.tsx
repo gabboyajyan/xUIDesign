@@ -109,7 +109,12 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
 
-        if (triggers.includes('click')) {
+        if ((popupRef.current &&
+            !popupRef.current.contains(e.target as Node) &&
+            triggerRef.current &&
+            !triggerRef.current.contains(e.target as Node)) && triggers.includes('click')) {
+            console.log(true);
+
             setOpenInternal(!open);
         }
     };
@@ -184,6 +189,8 @@ const Dropdown = ({
             aria-expanded={open}
         >
             {children}
+
+            {console.info({ open, popup })}
 
             {open && popup}
             {!open && !destroyOnHidden && null}
