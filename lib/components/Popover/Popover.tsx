@@ -96,10 +96,10 @@ const Popover = ({
         }
     }, [triggers]);
 
-    const childProps = useMemo(() => triggers.includes("click")
-        ? { onClick: handleOnClick }
-        : { onMouseEnter: handleOnMouseEnter, onMouseLeave: handleOnMouseLeave },
-        [triggers]);
+    const childProps = useMemo(() => ({
+        ...(triggers.includes("click") ? { onClick: handleOnClick } : {}),
+        ...(triggers.includes("hover") ? { onMouseEnter: handleOnMouseEnter, onMouseLeave: handleOnMouseLeave } : {})
+    }), [triggers]);
 
     const _children = useMemo(() => {
         if (Children.count(children) > 1) {
@@ -121,7 +121,7 @@ const Popover = ({
                 },
             })
         })
-    }, [children, style, childProps])
+    }, [children, style])
 
     return (
         <>

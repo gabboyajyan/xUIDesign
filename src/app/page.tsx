@@ -89,9 +89,6 @@ export default function Home() {
                         // placement="bottomRight"
                         trigger={['click', 'hover']}
                         style={{ width: 700 }}
-                        getPopupContainer={(trigger: HTMLElement) => {
-                            return document.body
-                        }}
                         content={
                             <Result
                                 status="success"

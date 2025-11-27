@@ -5561,12 +5561,15 @@ const Popover = ({
       setInnerOpen(false);
     }
   }, [triggers]);
-  const childProps = React.useMemo(() => triggers.includes("click") ? {
-    onClick: handleOnClick
-  } : {
-    onMouseEnter: handleOnMouseEnter,
-    onMouseLeave: handleOnMouseLeave
-  }, [triggers]);
+  const childProps = React.useMemo(() => ({
+    ...(triggers.includes("click") ? {
+      onClick: handleOnClick
+    } : {}),
+    ...(triggers.includes("hover") ? {
+      onMouseEnter: handleOnMouseEnter,
+      onMouseLeave: handleOnMouseLeave
+    } : {})
+  }), [triggers]);
   const _children = React.useMemo(() => {
     if (React.Children.count(children) > 1) {
       children = /*#__PURE__*/React.createElement("div", null, children);
@@ -5585,7 +5588,7 @@ const Popover = ({
         }
       });
     });
-  }, [children, style, childProps]);
+  }, [children, style]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, _children, isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
