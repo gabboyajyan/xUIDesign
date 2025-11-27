@@ -33,7 +33,6 @@
     left: 100%;
     right: -100%;
     width: min-content;
-    min-width: 160px;
     position: absolute;
     background-color: #fff;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
