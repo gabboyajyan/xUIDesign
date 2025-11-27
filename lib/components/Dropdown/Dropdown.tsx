@@ -176,6 +176,8 @@ const Dropdown = ({
         </ConditionalWrapper>
     );
 
+    {console.info({ open, popup })}
+
     return (
         <div
             ref={triggerRef}
@@ -189,8 +191,6 @@ const Dropdown = ({
             aria-expanded={open}
         >
             {children}
-
-            {console.info({ open, popup })}
 
             {open && popup}
             {!open && !destroyOnHidden && null}
