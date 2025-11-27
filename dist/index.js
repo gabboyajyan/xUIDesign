@@ -5397,8 +5397,7 @@ const Dropdown = ({
   const onTriggerClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.info(e);
-    if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target) && triggers.includes('click')) {
+    if (triggers.includes('click')) {
       setOpenInternal(!open);
     }
   };
