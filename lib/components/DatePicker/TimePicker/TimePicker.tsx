@@ -57,7 +57,7 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const [tempValue, setTempValue] = useState<Date | null>(null);
 
-  const inputRef = useRef<HTMLInputElement>(null);
+  const triggerRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const hourRef = useRef<HTMLDivElement>(null);
   const minuteRef = useRef<HTMLDivElement>(null);
@@ -67,8 +67,8 @@ const TimePicker: FC<TimePickerProps> = ({
     popupRef,
     placement,
     isOpen: open,
-    triggerRef: inputRef,
-    getPopupContainer: getPopupContainer?.(inputRef.current as HTMLElement)
+    triggerRef: triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
   });
 
 
@@ -81,8 +81,8 @@ const TimePicker: FC<TimePickerProps> = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(e.target as Node) &&
-        inputRef.current &&
-        !inputRef.current.contains(e.target as Node)
+        triggerRef.current &&
+        !triggerRef.current.contains(e.target as Node)
       ) {
         setOpen(false);
         setTempValue(null);
@@ -445,7 +445,7 @@ const TimePicker: FC<TimePickerProps> = ({
         onClick={() => setOpen(true)}
       >
         <input
-          ref={inputRef}
+          ref={triggerRef}
           size={INPUT_SIZE}
           placeholder={placeholder}
           className={`${prefixCls}-input`}
@@ -482,7 +482,7 @@ const TimePicker: FC<TimePickerProps> = ({
         <ConditionalWrapper
           condition={getPopupContainer !== undefined}
           wrapper={(element) => getPopupContainer
-            ? createPortal(element, getPopupContainer(inputRef.current as HTMLElement) as HTMLElement)
+            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
             : <>{element}</>
           }>
           <div

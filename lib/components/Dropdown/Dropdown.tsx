@@ -109,9 +109,6 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
         
-        console.info(triggers.includes('click') && triggerRef.current &&
-            (!open && triggerRef.current?.contains(e.target as Node)));
-
         if (triggers.includes('click') && triggerRef.current &&
             (!open && triggerRef.current?.contains(e.target as Node))) {
             setOpenInternal(!open);
@@ -134,9 +131,15 @@ const Dropdown = ({
         <ConditionalWrapper
             condition={getPopupContainer !== undefined}
             wrapper={(element) => getPopupContainer
-                ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
+                ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
                 : <>{element}</>
             }>
+            <>
+            {console.log({
+                zIndex: 10000,
+                ...overlayStyle,
+                ...dropdownPosition
+            })}
             <div
                 ref={popupRef}
                 className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
@@ -172,6 +175,7 @@ const Dropdown = ({
                     <div style={{ padding: 8 }}>Empty menu</div>
                 )}
             </div>
+            </>
         </ConditionalWrapper>
     );
 

@@ -3369,7 +3369,7 @@ const TimePicker = ({
   const [innerValue, setInnerValue] = React.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
   const [[showHour, showMinutes, showSeconds]] = React.useState(`${format}`.split(':'));
   const [tempValue, setTempValue] = React.useState(null);
-  const inputRef = React.useRef(null);
+  const triggerRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const hourRef = React.useRef(null);
   const minuteRef = React.useRef(null);
@@ -3380,15 +3380,15 @@ const TimePicker = ({
     popupRef,
     placement,
     isOpen: open,
-    triggerRef: inputRef,
-    getPopupContainer: getPopupContainer?.(inputRef.current)
+    triggerRef: triggerRef,
+    getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
   }, [propValue]);
   React.useEffect(() => {
     const handleClickOutside = e => {
-      if (popupRef.current && !popupRef.current.contains(e.target) && inputRef.current && !inputRef.current.contains(e.target)) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
         setOpen(false);
         setTempValue(null);
         if (!innerValue) {
@@ -3637,7 +3637,7 @@ const TimePicker = ({
     className: `${prefixCls}-input-wrapper`,
     onClick: () => setOpen(true)
   }, /*#__PURE__*/React.createElement("input", {
-    ref: inputRef,
+    ref: triggerRef,
     size: INPUT_SIZE,
     placeholder: placeholder,
     className: `${prefixCls}-input`,
@@ -3664,7 +3664,7 @@ const TimePicker = ({
     }
   }, suffixIcon))), open && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(inputRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     style: dropdownPosition,
@@ -5399,7 +5399,6 @@ const Dropdown = ({
   const onTriggerClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    console.info(triggers.includes('click') && triggerRef.current && !open && triggerRef.current?.contains(e.target));
     if (triggers.includes('click') && triggerRef.current && !open && triggerRef.current?.contains(e.target)) {
       setOpenInternal(!open);
     }
@@ -5416,8 +5415,12 @@ const Dropdown = ({
   };
   const popup = /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
-  }, /*#__PURE__*/React.createElement("div", {
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+  }, /*#__PURE__*/React.createElement(React.Fragment, null, console.log({
+    zIndex: 10000,
+    ...overlayStyle,
+    ...dropdownPosition
+  }), /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`,
     style: {
@@ -5445,7 +5448,7 @@ const Dropdown = ({
     style: {
       padding: 8
     }
-  }, "Empty menu")));
+  }, "Empty menu"))));
   return /*#__PURE__*/React.createElement("div", {
     ref: triggerRef,
     className: className,
