@@ -108,12 +108,19 @@ const Dropdown = ({
     const onTriggerClick = (e: SyntheticEvent) => {
         e.preventDefault();
         e.stopPropagation();
+        
+        console.log({
+            triggers,
+            triggerRef: triggerRef.current,
+            popupRef: popupRef.current,
+            t: triggerRef.current?.contains(e.target as Node),
+            p: popupRef.current?.contains(e.target as Node)
+        });
 
         if ((popupRef.current &&
             !popupRef.current.contains(e.target as Node) &&
             triggerRef.current &&
             !triggerRef.current.contains(e.target as Node)) && triggers.includes('click')) {
-            console.log(true);
 
             setOpenInternal(!open);
         }
@@ -175,8 +182,6 @@ const Dropdown = ({
             </div>
         </ConditionalWrapper>
     );
-
-    {console.info({ open, popup })}
 
     return (
         <div
