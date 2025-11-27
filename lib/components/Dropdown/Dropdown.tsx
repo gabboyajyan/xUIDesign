@@ -109,6 +109,7 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
 
+        console.info(e)
         if ((popupRef.current &&
             !popupRef.current.contains(e.target as Node) &&
             triggerRef.current &&
