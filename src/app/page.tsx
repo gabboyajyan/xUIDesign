@@ -87,11 +87,12 @@ export default function Home() {
                 <div style={{ width: '100%' }} />
 
                 <div style={{ width: 1100, 
-                    height: 1000
+                    height: 1500
                      }}>
                     <Popover
                         placement="right"
-                        trigger={['hover']}
+                        trigger={['click']}
+                        getPopupContainer={() => document.body}
                         style={{ width: 700 }}
                         content={
                             <Suspense>
