@@ -5579,10 +5579,12 @@ const Popover = ({
     }
     return React.Children.map(children, (child, index) => {
       if (! /*#__PURE__*/React.isValidElement(child)) {
-        child = /*#__PURE__*/React.createElement("div", null, child);
+        child = /*#__PURE__*/React.createElement("div", {
+          key: index ?? `popover-child-${index}`
+        }, child);
       }
       return /*#__PURE__*/React.cloneElement(child, {
-        key: index,
+        key: index ?? `popover-child-${index}`,
         ...{
           style,
           ...childProps,
@@ -5592,6 +5594,7 @@ const Popover = ({
       });
     });
   }, [children, style]);
+  const _content = React.useMemo(() => flattenChildren(content), [content]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, _children, isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
@@ -5609,7 +5612,9 @@ const Popover = ({
     className: `${prefixCls}-title`
   }, title), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-inner`
-  }, content), /*#__PURE__*/React.createElement("div", {
+  }, React.Children.map(_content, (child, index) => /*#__PURE__*/React.createElement("div", {
+    key: index
+  }, child))), /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-arrow ${showPlacement}`
   }))));
 };

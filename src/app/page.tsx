@@ -1,6 +1,5 @@
 'use client'
 
-import { Result } from "../../lib/components/Result";
 import { Button } from '../../lib/components/Button';
 import { Popover } from '../../lib/components/Popover';
 import { Dropdown } from '../../lib/components/Dropdown';
@@ -10,6 +9,9 @@ import { TimePicker } from '../../lib/components/DatePicker/TimePicker';
 import { Menu } from '../../lib/components/Menu';
 import { ArrowIcon, ClearIcon } from "../../lib/components/Icons/Icons";
 import { ItemType } from "../../lib/types/menu";
+import { lazy, Suspense } from "react";
+
+const Result = lazy(() => import('../../lib/components/Result/Result'))
 
 const items: ItemType[] = [
     {
@@ -87,16 +89,18 @@ export default function Home() {
                 <div style={{ width: 700 }}>
                     <Popover
                         placement="bottomRight"
-                        placementPositionOffset={3.5}
+                        // placementPositionOffset={3.5}
                         trigger={['click', 'hover']}
                         style={{ width: 700 }}
                         content={
-                            <Result
-                                status="success"
-                                title="Success"
-                                subTitle="Sorry, you are not authorized to access this page."
-                                extra={<Button type="primary">Back Home</Button>}
-                            />
+                            <Suspense>
+                                <Result
+                                    status="success"
+                                    title="Success"
+                                    subTitle="Sorry, you are not authorized to access this page."
+                                    extra={<Button type="primary">Back Home</Button>}
+                                />
+                            </Suspense>
                         }
                     >
                         <div><ArrowIcon isOpen /></div>

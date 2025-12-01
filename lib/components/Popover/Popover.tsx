@@ -15,6 +15,7 @@ import { PopoverProps } from "../../types/popover";
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
 import { prefixClsPopover } from "../../utils";
+import { flattenChildren } from "../../helpers/flatten";
 import './style.css';
 
 const Popover = ({
@@ -76,7 +77,7 @@ const Popover = ({
 
     const handleOnClick = useCallback((e: SyntheticEvent) => {
         const newState = !isOpen;
-        
+
         if (triggers.includes('click')) {
             onVisibleChange?.(newState);
             setInnerOpen(newState);
@@ -110,11 +111,15 @@ const Popover = ({
 
         return Children.map(children, (child, index) => {
             if (!isValidElement(child)) {
-                child = <div>{child}</div>
+                child = (
+                    <div key={index ?? `popover-child-${index}`}>
+                        {child}
+                    </div>
+                )
             }
 
             return cloneElement(child, {
-                key: index,
+                key: index ?? `popover-child-${index}`,
                 ...{
                     style,
                     ...childProps,
@@ -124,6 +129,8 @@ const Popover = ({
             })
         })
     }, [children, style])
+
+    const _content = useMemo(() => flattenChildren(content), [content]);
 
     return (
         <>
@@ -150,7 +157,9 @@ const Popover = ({
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
-                        <div className={`${prefixCls}-inner`}>{content}</div>
+                        <div className={`${prefixCls}-inner`}>
+                            {Children.map(_content, (child, index) => <div key={index}>{child}</div>)}
+                        </div>
                         <div className={`${prefixCls}-arrow ${showPlacement}`} />
                     </div>
                 </ConditionalWrapper>
