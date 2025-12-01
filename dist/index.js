@@ -2602,8 +2602,9 @@ const usePosition = ({
   popupRef,
   placement,
   triggerRef,
-  listenPopoverPossitions,
-  getPopupContainer
+  listenPopoverPositions,
+  getPopupContainer,
+  placementPositionOffset = 1
 }) => {
   const [showPlacement, setShowPlacement] = React.useState('');
   const [_dropdownPosition, setDropdownPosition] = React.useState({});
@@ -2637,13 +2638,13 @@ const usePosition = ({
       setDropdownPosition({
         top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
         ...(hasRight ? {
-          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0)
+          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset
         } : {
           left: triggerRef.current.offsetLeft
         })
       });
     }
-  }, [offset, popupRef, placement, triggerRef, getPopupContainer]);
+  }, [offset, popupRef, placement, triggerRef, getPopupContainer, placementPositionOffset]);
   React.useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
@@ -2664,7 +2665,7 @@ const usePosition = ({
     return () => {
       controller.abort();
     };
-  }, [isOpen, listenPopoverPossitions, triggerRef, getPopupContainer, dropdownPosition]);
+  }, [isOpen, listenPopoverPositions, triggerRef, getPopupContainer, dropdownPosition]);
   return {
     showPlacement,
     dropdownPosition: {
@@ -5509,7 +5510,8 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
-  listenPopoverPossitions,
+  listenPopoverPositions,
+  placementPositionOffset,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5526,7 +5528,8 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
-    listenPopoverPossitions,
+    listenPopoverPositions,
+    placementPositionOffset,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
   });
   React.useEffect(() => {

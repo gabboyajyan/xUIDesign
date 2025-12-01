@@ -14,7 +14,8 @@ type TPosition = {
     getPopupContainer?: HTMLElement;
     placement?: Placement;
     offset?: number;
-    listenPopoverPossitions?: CSSProperties;
+    placementPositionOffset?: number;
+    listenPopoverPositions?: CSSProperties;
 };
 
 function getScrollParent(
@@ -53,8 +54,9 @@ export const usePosition = ({
     popupRef,
     placement,
     triggerRef,
-    listenPopoverPossitions,
+    listenPopoverPositions,
     getPopupContainer,
+    placementPositionOffset = 1
 }: TPosition): {
     showPlacement: string;
     dropdownPosition: CSSProperties
@@ -105,7 +107,7 @@ export const usePosition = ({
                         (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
                         : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
                 ...(hasRight ? {
-                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0),
+                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset,
                 } : {
                     left: triggerRef.current.offsetLeft
                 })
@@ -116,7 +118,8 @@ export const usePosition = ({
         popupRef,
         placement,
         triggerRef,
-        getPopupContainer
+        getPopupContainer,
+        placementPositionOffset
     ]);
 
     useEffect(() => {
@@ -149,7 +152,7 @@ export const usePosition = ({
         };
     }, [
         isOpen,
-        listenPopoverPossitions,
+        listenPopoverPositions,
         triggerRef,
         getPopupContainer,
         dropdownPosition

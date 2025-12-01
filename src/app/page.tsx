@@ -86,7 +86,8 @@ export default function Home() {
 
                 <div style={{ width: 700 }}>
                     <Popover
-                        // placement="bottomRight"
+                        placement="bottomRight"
+                        placementPositionOffset={3.5}
                         trigger={['click', 'hover']}
                         style={{ width: 700 }}
                         content={
