@@ -90,7 +90,7 @@ export default function Home() {
                     height: 1500
                      }}>
                     <Popover
-                        placement="right"
+                        placement="left"
                         trigger={['click']}
                         getPopupContainer={() => document.body}
                         style={{ width: 700 }}
