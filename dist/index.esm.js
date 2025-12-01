@@ -2602,7 +2602,8 @@ const usePosition = ({
   triggerRef,
   listenPopoverPositions,
   getPopupContainer,
-  placementPositionOffset = 1
+  placementPositionOffset = 1,
+  prefixCls = ''
 }) => {
   const [showPlacement, setShowPlacement] = useState('');
   const [_dropdownPosition, setDropdownPosition] = useState({});
@@ -2616,33 +2617,43 @@ const usePosition = ({
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    const hasRight = placement?.includes('Right');
-    setShowPlacement(_shouldShowAbove ? 'bottom' : '');
+    const hasLeft = placement?.toLowerCase()?.includes('left');
+    const hasRight = placement?.toLowerCase()?.includes('right');
+    const isLeft = placement === 'left';
+    const isRight = placement === 'right';
+    const isBottom = placement === 'bottom';
+    const isTop = placement === 'top';
+    setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : ''}${isBottom || isTop ? 'Left' : 'Right'} ${placement}`);
     if (getPopupContainer) {
       const leftPosition = hasRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : (inputRect.left || 0) + document.documentElement.scrollLeft;
       const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
-      if (_shouldShowAbove) {
+      setDropdownPosition({
+        top: _shouldShowAbove ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0) : _top + (triggerRef.current?.offsetHeight || 0) + offset,
+        left: leftPosition
+      });
+    } else {
+      if (isLeft) {
         setDropdownPosition({
-          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-          left: leftPosition
+          top: triggerRef.current.offsetTop,
+          left: triggerRef.current.offsetLeft - (popupRef.current?.offsetWidth || 0) - offset
+        });
+      } else if (isRight) {
+        setDropdownPosition({
+          top: triggerRef.current.offsetTop,
+          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) + offset
         });
       } else {
         setDropdownPosition({
-          top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
-          left: leftPosition
+          top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+          ...(hasRight ? {
+            left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset
+          } : {
+            left: triggerRef.current.offsetLeft
+          })
         });
       }
-    } else {
-      setDropdownPosition({
-        top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
-        ...(hasRight ? {
-          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset
-        } : {
-          left: triggerRef.current.offsetLeft
-        })
-      });
     }
-  }, [offset, popupRef, placement, triggerRef, getPopupContainer, placementPositionOffset]);
+  }, [offset, popupRef, prefixCls, placement, triggerRef, getPopupContainer, placementPositionOffset]);
   useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();
@@ -5319,7 +5330,7 @@ var Menu$1 = /*#__PURE__*/Object.freeze({
 	default: Menu
 });
 
-var css_248z$2 = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 2px 18px rgba(0,0,0,.08);padding:4px 0;position:absolute;&:after,&:before{content:\"\";height:10px;position:absolute;top:-10px;width:100%;z-index:1}&:after{bottom:-10px;top:unset}}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-bottomRight .xUi-dropdown-arrow,.xUi-dropdown-right .xUi-dropdown-arrow,.xUi-dropdown-topRight .xUi-dropdown-arrow{left:unset;right:12px}.xUi-dropdown-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-arrow.center{left:0;margin:0 auto;right:0}";
+var css_248z$2 = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 2px 18px rgba(0,0,0,.08);padding:4px 0;position:absolute;&:after,&:before{content:\"\";height:10px;position:absolute;top:-10px;width:100%;z-index:1}&:after{bottom:-10px;top:unset}}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.xUi-dropdown-topLeft,.xUi-dropdown-arrow.xUi-dropdown-topRight{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-arrow.xUi-dropdown-topRight{left:unset;right:12px}.xUi-dropdown-arrow.right{border-bottom:.5px solid var(--xui-border-color);border-left:.5px solid var(--xui-border-color);border-right:unset;border-top:unset;left:-6px;top:12px}.xUi-dropdown-arrow.left{border-bottom:unset;border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);left:unset;right:-6px;top:12px}";
 styleInject(css_248z$2);
 
 const Dropdown = ({
@@ -5424,7 +5435,7 @@ const Dropdown = ({
       ...dropdownPosition
     }
   }, arrow && /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`
+    className: `${prefixCls}-arrow ${showPlacement}`
   }), overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? popupRender(menu ? /*#__PURE__*/React.createElement(MenuInner, {
     prefixCls: prefixCls,
     items: menu.items,
@@ -5493,7 +5504,7 @@ var Dropdown$1 = /*#__PURE__*/Object.freeze({
 	default: Dropdown
 });
 
-var css_248z$1 = ".xUi-popover{&:after,&:before{content:\"\";height:10px;left:0;position:absolute;top:-10px;width:100%;z-index:10000}&:after{bottom:-10px;top:unset}}.xUi-popover-wrapper-content{cursor:pointer;max-width:fit-content;width:-webkit-fill-available}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-bottomRight .xUi-popover-arrow,.xUi-popover-right .xUi-popover-arrow,.xUi-popover-topRight .xUi-popover-arrow{left:unset;right:12px}.xUi-popover-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-popover-arrow.center{left:0;margin:0 auto;right:0}";
+var css_248z$1 = ".xUi-popover{&:after,&:before{content:\"\";height:10px;left:0;position:absolute;top:-10px;width:100%;z-index:10000}&:after{bottom:-10px;top:unset}}.xUi-popover-wrapper-content{cursor:pointer;max-width:fit-content;width:-webkit-fill-available}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.xUi-popover-topLeft,.xUi-popover-arrow.xUi-popover-topRight{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-popover-arrow.xUi-popover-topRight{left:unset;right:12px}.xUi-popover-arrow.right{border-bottom:.5px solid var(--xui-border-color);border-left:.5px solid var(--xui-border-color);border-right:unset;border-top:unset;left:-6px;top:12px}.xUi-popover-arrow.left{border-bottom:unset;border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);left:unset;right:-6px;top:12px}";
 styleInject(css_248z$1);
 
 const Popover = ({
@@ -5501,7 +5512,7 @@ const Popover = ({
   content,
   children,
   trigger = "click",
-  placement = "bottom",
+  placement = "bottomLeft",
   open,
   visible,
   title,
@@ -5526,6 +5537,7 @@ const Popover = ({
     popupRef,
     placement,
     triggerRef,
+    prefixCls,
     listenPopoverPositions,
     placementPositionOffset,
     getPopupContainer: getPopupContainer?.(triggerRef.current)
@@ -5586,6 +5598,8 @@ const Popover = ({
         ...{
           style,
           ...childProps,
+          // @ts-expect-error
+          ...child.props,
           ref: triggerRef,
           className: `${prefixCls}-wrapper-content`
         }

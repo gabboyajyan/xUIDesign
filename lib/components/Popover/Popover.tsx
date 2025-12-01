@@ -23,7 +23,7 @@ const Popover = ({
     content,
     children,
     trigger = "click",
-    placement = "bottom",
+    placement = "bottomLeft",
     open,
     visible,
     title,
@@ -48,6 +48,7 @@ const Popover = ({
         popupRef,
         placement,
         triggerRef,
+        prefixCls,
         listenPopoverPositions,
         placementPositionOffset,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
@@ -123,6 +124,8 @@ const Popover = ({
                 ...{
                     style,
                     ...childProps,
+                    // @ts-expect-error
+                    ...child.props,
                     ref: triggerRef,
                     className: `${prefixCls}-wrapper-content`,
                 },

@@ -86,11 +86,12 @@ export default function Home() {
             <div style={{ display: "flex" }}>
                 <div style={{ width: '100%' }} />
 
-                <div style={{ width: 700 }}>
+                <div style={{ width: 1100, 
+                    height: 1000
+                     }}>
                     <Popover
-                        placement="bottomRight"
-                        // placementPositionOffset={3.5}
-                        trigger={['click', 'hover']}
+                        placement="right"
+                        trigger={['hover']}
                         style={{ width: 700 }}
                         content={
                             <Suspense>
@@ -103,10 +104,14 @@ export default function Home() {
                             </Suspense>
                         }
                     >
-                        <div><ArrowIcon isOpen /></div>
+                        <div style={{ border: '1px solid' }}>
+                            <ArrowIcon isOpen />
+
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem accusantium doloremque quibusdam tenetur fuga distinctio nihil praesentium molestias consectetur assumenda, cum dolor repudiandae laudantium hic iure at. Ut aspernatur voluptatibus aperiam placeat officiis fugiat rerum suscipit, mollitia quod sapiente impedit cumque cupiditate nisi! Modi minus, dolore velit eos ratione assumenda tempore dolorum, provident corporis ab architecto iure reiciendis, quo similique. Quod atque, repudiandae sint amet quia voluptate dolores. Laborum doloribus nihil et esse architecto molestiae asperiores error excepturi quia ad?
+                        </div>
                     </Popover>
                 </div>
-                <Dropdown trigger={['click']} overlay={<Menu items={items} />}>
+                <Dropdown arrow placement='left' trigger={['hover']} overlay={<Menu items={items} />}>
                     Menu
                 </Dropdown>
                 <div style={{ width: '100%' }} />

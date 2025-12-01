@@ -16,6 +16,7 @@ type TPosition = {
     offset?: number;
     placementPositionOffset?: number;
     listenPopoverPositions?: CSSProperties;
+    prefixCls?: string;
 };
 
 function getScrollParent(
@@ -56,7 +57,8 @@ export const usePosition = ({
     triggerRef,
     listenPopoverPositions,
     getPopupContainer,
-    placementPositionOffset = 1
+    placementPositionOffset = 1,
+    prefixCls = ''
 }: TPosition): {
     showPlacement: string;
     dropdownPosition: CSSProperties
@@ -77,9 +79,15 @@ export const usePosition = ({
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
         const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-        const hasRight = placement?.includes('Right');
+        const hasLeft = placement?.toLowerCase()?.includes('left');
+        const hasRight = placement?.toLowerCase()?.includes('right');
 
-        setShowPlacement(_shouldShowAbove ? 'bottom' : '')
+        const isLeft = placement === 'left';
+        const isRight = placement === 'right';
+        const isBottom = placement === 'bottom';
+        const isTop = placement === 'top';
+
+        setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : ''}${isBottom || isTop ? 'Left' : 'Right'} ${placement}`)
 
         if (getPopupContainer) {
             const leftPosition = hasRight
@@ -88,34 +96,43 @@ export const usePosition = ({
 
             const _top = (inputRect.top || 0) + document.documentElement.scrollTop;
 
-            if (_shouldShowAbove) {
+            setDropdownPosition({
+                top: _shouldShowAbove
+                    ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0)
+                    : _top + (triggerRef.current?.offsetHeight || 0) + offset,
+                left: leftPosition
+            })
+        } else {
+            if (isLeft) {
                 setDropdownPosition({
-                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-                    left: leftPosition
+                    top: triggerRef.current.offsetTop,
+                    left: triggerRef.current.offsetLeft - (popupRef.current?.offsetWidth || 0) - offset
+                })
+            } else if (isRight) {
+                setDropdownPosition({
+                    top: triggerRef.current.offsetTop,
+                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) + offset
                 })
             } else {
                 setDropdownPosition({
-                    top: _top + (triggerRef.current?.offsetHeight || 0) + offset,
-                    left: leftPosition
-                })
+                    top:
+                        (_shouldShowAbove
+                            ? triggerRef.current.offsetTop -
+                            (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
+                            : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+                    ...(hasRight ? {
+                        left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset,
+                    } : {
+                        left: triggerRef.current.offsetLeft
+                    })
+                });
             }
-        } else {
-            setDropdownPosition({
-                top:
-                    (_shouldShowAbove
-                        ? triggerRef.current.offsetTop -
-                        (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
-                        : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
-                ...(hasRight ? {
-                    left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset,
-                } : {
-                    left: triggerRef.current.offsetLeft
-                })
-            });
+
         }
     }, [
         offset,
         popupRef,
+        prefixCls,
         placement,
         triggerRef,
         getPopupContainer,

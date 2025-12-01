@@ -144,7 +144,7 @@ const Dropdown = ({
                         ...dropdownPosition
                     }}
                 >
-                    {arrow && <div className={`${prefixCls}-arrow ${showPlacement ? 'bottom' : ''}`} />}
+                    {arrow && <div className={`${prefixCls}-arrow ${showPlacement}`} />}
 
                     {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                         popupRender(
