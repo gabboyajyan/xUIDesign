@@ -81,19 +81,20 @@ const items: ItemType[] = [
 
 export default function Home() {
     return (
-        <div>
+        <div style={{ height: 3000 }}>
             <div style={{ height: 200 }} />
             <div style={{ display: "flex" }}>
                 <div style={{ width: '100%' }} />
 
-                <div style={{
+                <div className='dsfdf' style={{
                     width: 1100,
-                    // height: 1500
+                    height: 100,
+                    overflow: 'scroll'
                 }}>
                     <Popover
-                        placement="left"
+                        placement="bottomLeft"
                         trigger={['click']}
-                        getPopupContainer={() => document.body}
+                        // getPopupContainer={() => document.body}
                         style={{ width: 700 }}
                         content={
                             <Suspense>
@@ -110,18 +111,18 @@ export default function Home() {
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem accusantium doloremque quibusdam tenetur fuga distinctio nihil praesentium molestias consectetur assumenda, cum dolor repudiandae laudantium hic iure at. Ut aspernatur voluptatibus aperiam placeat officiis fugiat rerum suscipit, mollitia quod sapiente impedit cumque cupiditate nisi! Modi minus, dolore velit eos ratione assumenda tempore dolorum, provident corporis ab architecto iure reiciendis, quo similique. Quod atque, repudiandae sint amet quia voluptate dolores. Laborum doloribus nihil et esse architecto molestiae asperiores error excepturi quia ad?
                         </div>
                     </Popover>
-                </div>
                 <Dropdown
                     arrow
-                    placement='left'
+                    placement='bottomLeft'
                     trigger={['click']}
                     overlay={<Menu items={items} />}
-                    getPopupContainer={(t) => {
-                        console.log(t);
-                        return document.body
-                    }}>
+                    // getPopupContainer={() => {
+                    //     return (document.getElementsByClassName('dsfdf')[0] || document.body) as HTMLDivElement
+                    // }}
+                    >
                     Menu
                 </Dropdown>
+                </div>
                 <div style={{ width: '100%' }} />
             </div>
         </div>

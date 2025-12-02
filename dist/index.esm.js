@@ -2607,6 +2607,12 @@ const usePosition = ({
 }) => {
   const [showPlacement, setShowPlacement] = useState('');
   const [_dropdownPosition, setDropdownPosition] = useState({});
+  const isTop = placement === 'top';
+  const isLeft = placement === 'left';
+  const isRight = placement === 'right';
+  const isBottom = placement === 'bottom';
+  const hasLeft = placement?.toLowerCase()?.includes('left');
+  const hasRight = placement?.toLowerCase()?.includes('right');
   const dropdownPosition = useCallback(() => {
     if (!triggerRef.current) {
       return {};
@@ -2617,18 +2623,12 @@ const usePosition = ({
     const spaceAbove = inputRect.top - containerRect.top;
     const spaceBelow = containerRect.bottom - inputRect.bottom;
     const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    const hasLeft = placement?.toLowerCase()?.includes('left');
-    const hasRight = placement?.toLowerCase()?.includes('right');
-    const isLeft = placement === 'left';
-    const isRight = placement === 'right';
-    const isBottom = placement === 'bottom';
-    const isTop = placement === 'top';
     setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : ''}${isBottom || isTop ? 'Left' : 'Right'} ${placement}`);
     if (getPopupContainer) {
       const leftPosition = hasRight ? isRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) + offset : (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : isLeft ? (inputRect.left || 0) + document.documentElement.scrollLeft - (popupRef.current?.offsetWidth || 0) - offset : (inputRect.left || 0) + document.documentElement.scrollLeft;
       const _top = isRight || isLeft ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2 : (inputRect.top || 0) + document.documentElement.scrollTop;
       setDropdownPosition({
-        top: _shouldShowAbove ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0) : _top + (triggerRef.current?.offsetHeight || 0) + offset,
+        top: _shouldShowAbove || isLeft || isRight ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0) : _top + (triggerRef.current?.offsetHeight || 0) + offset,
         left: leftPosition
       });
     } else {
@@ -2644,7 +2644,7 @@ const usePosition = ({
         });
       } else {
         setDropdownPosition({
-          top: (_shouldShowAbove ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+          top: (_shouldShowAbove || isLeft || isRight ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
           ...(hasRight ? {
             left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset
           } : {
@@ -2653,7 +2653,7 @@ const usePosition = ({
         });
       }
     }
-  }, [offset, popupRef, prefixCls, placement, triggerRef, getPopupContainer, placementPositionOffset]);
+  }, [isTop, isLeft, isRight, hasLeft, hasRight, isBottom, offset, popupRef, prefixCls, placement, triggerRef, getPopupContainer, placementPositionOffset]);
   useEffect(() => {
     if (!isOpen) return;
     const _dropdownPosition = () => dropdownPosition();

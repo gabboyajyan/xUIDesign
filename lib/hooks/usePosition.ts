@@ -66,6 +66,14 @@ export const usePosition = ({
     const [showPlacement, setShowPlacement] = useState('');
     const [_dropdownPosition, setDropdownPosition] = useState<CSSProperties>({});
 
+    const isTop = placement === 'top';
+    const isLeft = placement === 'left';
+    const isRight = placement === 'right';
+    const isBottom = placement === 'bottom';
+
+    const hasLeft = placement?.toLowerCase()?.includes('left');
+    const hasRight = placement?.toLowerCase()?.includes('right');
+
     const dropdownPosition = useCallback(() => {
         if (!triggerRef.current) {
             return {};
@@ -79,13 +87,6 @@ export const usePosition = ({
         const spaceBelow = containerRect.bottom - inputRect.bottom;
 
         const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-        const hasLeft = placement?.toLowerCase()?.includes('left');
-        const hasRight = placement?.toLowerCase()?.includes('right');
-
-        const isLeft = placement === 'left';
-        const isRight = placement === 'right';
-        const isBottom = placement === 'bottom';
-        const isTop = placement === 'top';
 
         setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : ''}${isBottom || isTop ? 'Left' : 'Right'} ${placement}`)
 
@@ -103,7 +104,7 @@ export const usePosition = ({
                 : (inputRect.top || 0) + document.documentElement.scrollTop;
 
             setDropdownPosition({
-                top: _shouldShowAbove
+                top: _shouldShowAbove || isLeft || isRight
                     ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0)
                     : _top + (triggerRef.current?.offsetHeight || 0) + offset,
                 left: leftPosition
@@ -122,7 +123,7 @@ export const usePosition = ({
             } else {
                 setDropdownPosition({
                     top:
-                        (_shouldShowAbove
+                        (_shouldShowAbove || isLeft || isRight
                             ? triggerRef.current.offsetTop -
                             (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
                             : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
@@ -136,6 +137,13 @@ export const usePosition = ({
 
         }
     }, [
+        isTop,
+        isLeft,
+        isRight,
+        hasLeft,
+        hasRight,
+        isBottom,
+
         offset,
         popupRef,
         prefixCls,
