@@ -88,7 +88,11 @@ export const usePosition = ({
 
         const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
 
-        setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : ''}${isBottom || isTop ? 'Left' : 'Right'} ${placement}`)
+        setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : `${isBottom || isTop ? 'Left' : 'Right'}`} ${placement}`)
+
+        const _top = isRight || isLeft
+            ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2
+            : (inputRect.top || 0) + document.documentElement.scrollTop;
 
         if (getPopupContainer) {
             const leftPosition = hasRight
@@ -99,9 +103,7 @@ export const usePosition = ({
                     ? (inputRect.left || 0) + document.documentElement.scrollLeft - (popupRef.current?.offsetWidth || 0) - offset
                     : (inputRect.left || 0) + document.documentElement.scrollLeft
 
-            const _top = isRight || isLeft
-                ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2
-                : (inputRect.top || 0) + document.documentElement.scrollTop;
+            
 
             setDropdownPosition({
                 top: _shouldShowAbove || isLeft || isRight
@@ -112,21 +114,20 @@ export const usePosition = ({
         } else {
             if (isLeft) {
                 setDropdownPosition({
-                    top: triggerRef.current.offsetTop,
+                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
                     left: triggerRef.current.offsetLeft - (popupRef.current?.offsetWidth || 0) - offset
                 })
             } else if (isRight) {
                 setDropdownPosition({
-                    top: triggerRef.current.offsetTop,
+                    top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
                     left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) + offset
                 })
             } else {
                 setDropdownPosition({
                     top:
-                        (_shouldShowAbove || isLeft || isRight
-                            ? triggerRef.current.offsetTop -
-                            (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
-                            : triggerRef.current.offsetTop + triggerRef.current?.offsetHeight) + offset,
+                        _shouldShowAbove || isLeft || isRight
+                            ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2
+                            : _top + triggerRef.current?.offsetHeight + offset,
                     ...(hasRight ? {
                         left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset,
                     } : {

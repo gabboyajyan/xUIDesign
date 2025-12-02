@@ -83,18 +83,14 @@ export default function Home() {
     return (
         <div style={{ height: 3000 }}>
             <div style={{ height: 200 }} />
-            <div style={{ display: "flex" }}>
+            <div className='sdfdsgfsfdg'>
                 <div style={{ width: '100%' }} />
 
-                <div className='dsfdf' style={{
-                    width: 1100,
-                    height: 100,
-                    overflow: 'scroll'
-                }}>
+                <div className='dsfdf'>
                     <Popover
                         placement="bottomLeft"
                         trigger={['click']}
-                        // getPopupContainer={() => document.body}
+                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
                         style={{ width: 700 }}
                         content={
                             <Suspense>
@@ -111,17 +107,18 @@ export default function Home() {
                             Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem accusantium doloremque quibusdam tenetur fuga distinctio nihil praesentium molestias consectetur assumenda, cum dolor repudiandae laudantium hic iure at. Ut aspernatur voluptatibus aperiam placeat officiis fugiat rerum suscipit, mollitia quod sapiente impedit cumque cupiditate nisi! Modi minus, dolore velit eos ratione assumenda tempore dolorum, provident corporis ab architecto iure reiciendis, quo similique. Quod atque, repudiandae sint amet quia voluptate dolores. Laborum doloribus nihil et esse architecto molestiae asperiores error excepturi quia ad?
                         </div>
                     </Popover>
-                <Dropdown
-                    arrow
-                    placement='bottomLeft'
-                    trigger={['click']}
-                    overlay={<Menu items={items} />}
-                    // getPopupContainer={() => {
-                    //     return (document.getElementsByClassName('dsfdf')[0] || document.body) as HTMLDivElement
-                    // }}
+
+                    <Dropdown
+                        arrow
+                        placement='bottomLeft'
+                        trigger={['click']}
+                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                        overlay={<Menu items={items}/>}
                     >
-                    Menu
-                </Dropdown>
+                        <div>
+                            Menu
+                        </div>
+                    </Dropdown>
                 </div>
                 <div style={{ width: '100%' }} />
             </div>

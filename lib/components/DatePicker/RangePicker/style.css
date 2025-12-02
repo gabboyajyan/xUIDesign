@@ -90,7 +90,6 @@
 .xUi-rangepicker-range-dropdown,
 .xUi-rangepicker-dropdown-range {
     display: flex;
-    margin-top: 2px;
     background-color: #fff;
     border-radius: 6px;
     overflow: hidden;

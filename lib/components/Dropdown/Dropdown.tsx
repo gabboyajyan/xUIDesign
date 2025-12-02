@@ -48,6 +48,7 @@ const Dropdown = ({
         offset: 8,
         isOpen: open,
         triggerRef,
+        prefixCls,
         getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
     })
 
@@ -129,7 +130,7 @@ const Dropdown = ({
 
     const popup = (
         <ConditionalWrapper
-            condition={getPopupContainer !== undefined}
+            condition={!!getPopupContainer}
             wrapper={(element) => getPopupContainer
                 ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
                 : <>{element}</>

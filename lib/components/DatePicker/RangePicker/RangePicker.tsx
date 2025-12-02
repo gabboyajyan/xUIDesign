@@ -66,6 +66,8 @@ const RangePicker = ({
     popupRef,
     placement,
     triggerRef,
+    prefixCls,
+    offset: 2,
     getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement) as HTMLElement
   })
 
@@ -479,9 +481,9 @@ const RangePicker = ({
 
       {isOpen && (
         <ConditionalWrapper
-          condition={getPopupContainer !== undefined}
+          condition={!!getPopupContainer}
           wrapper={(element) => getPopupContainer
-            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
+            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
             : <>{element}</>
           }>
           <div

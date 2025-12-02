@@ -62,7 +62,8 @@
     border-bottom: 0.5px solid var(--xui-border-color);
 }
 
-.xUi-popover-arrow.xUi-popover-topRight {
+.xUi-popover-arrow.xUi-popover-topRight,
+.xUi-popover-arrow.xUi-popover-bottomRight {
     left: unset;
     right: 12px;
 }

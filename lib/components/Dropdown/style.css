@@ -107,7 +107,8 @@
     border-bottom: 0.5px solid var(--xui-border-color);
 }
 
-.xUi-dropdown-arrow.xUi-dropdown-topRight {
+.xUi-dropdown-arrow.xUi-dropdown-topRight,
+.xUi-dropdown-arrow.xUi-dropdown-bottomRight {
     left: unset;
     right: 12px;
 }

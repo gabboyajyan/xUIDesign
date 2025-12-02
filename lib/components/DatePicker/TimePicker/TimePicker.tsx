@@ -66,8 +66,9 @@ const TimePicker: FC<TimePickerProps> = ({
   const { dropdownPosition } = usePosition({
     popupRef,
     placement,
+    triggerRef,
+    prefixCls,
     isOpen: open,
-    triggerRef: triggerRef,
     getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
   });
 
@@ -480,7 +481,7 @@ const TimePicker: FC<TimePickerProps> = ({
 
       {open && (
         <ConditionalWrapper
-          condition={getPopupContainer !== undefined}
+          condition={!!getPopupContainer}
           wrapper={(element) => getPopupContainer
             ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
             : <>{element}</>
