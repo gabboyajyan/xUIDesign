@@ -99,7 +99,7 @@ export const usePosition = ({
                     : (inputRect.left || 0) + document.documentElement.scrollLeft
 
             const _top = isRight || isLeft
-                ? (inputRect.top || 0) + triggerRef.current?.offsetHeight + document.documentElement.scrollTop
+                ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2
                 : (inputRect.top || 0) + document.documentElement.scrollTop;
 
             setDropdownPosition({
