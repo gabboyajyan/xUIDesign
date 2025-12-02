@@ -95,6 +95,12 @@ export const usePosition = ({
             : (inputRect.top || 0) + document.documentElement.scrollTop;
 
         if (getPopupContainer) {
+            console.info({
+                hasRight,
+                isRight,
+                isLeft
+            })
+
             const leftPosition = hasRight
                 ? isRight 
                     ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) + offset 
@@ -102,8 +108,6 @@ export const usePosition = ({
                 : isLeft
                     ? (inputRect.left || 0) + document.documentElement.scrollLeft - (popupRef.current?.offsetWidth || 0) - offset
                     : (inputRect.left || 0) + document.documentElement.scrollLeft
-
-            
 
             setDropdownPosition({
                 top: _shouldShowAbove || isLeft || isRight

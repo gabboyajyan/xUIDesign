@@ -2626,6 +2626,11 @@ const usePosition = ({
     setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : `${isBottom || isTop ? 'Left' : 'Right'}`} ${placement}`);
     const _top = isRight || isLeft ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2 : (inputRect.top || 0) + document.documentElement.scrollTop;
     if (getPopupContainer) {
+      console.info({
+        hasRight,
+        isRight,
+        isLeft
+      });
       const leftPosition = hasRight ? isRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) + offset : (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : isLeft ? (inputRect.left || 0) + document.documentElement.scrollLeft - (popupRef.current?.offsetWidth || 0) - offset : (inputRect.left || 0) + document.documentElement.scrollLeft;
       setDropdownPosition({
         top: _shouldShowAbove || isLeft || isRight ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0) : _top + (triggerRef.current?.offsetHeight || 0) + offset,
