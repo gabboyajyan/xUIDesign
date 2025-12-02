@@ -5425,7 +5425,7 @@ const Dropdown = ({
   };
   const popup = /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`,

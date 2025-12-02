@@ -131,7 +131,7 @@ const Dropdown = ({
         <ConditionalWrapper
             condition={getPopupContainer !== undefined}
             wrapper={(element) => getPopupContainer
-                ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
+                ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
                 : <>{element}</>
             }>
             <>

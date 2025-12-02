@@ -86,9 +86,10 @@ export default function Home() {
             <div style={{ display: "flex" }}>
                 <div style={{ width: '100%' }} />
 
-                <div style={{ width: 1100, 
+                <div style={{
+                    width: 1100,
                     // height: 1500
-                     }}>
+                }}>
                     <Popover
                         placement="left"
                         trigger={['click']}
@@ -110,7 +111,15 @@ export default function Home() {
                         </div>
                     </Popover>
                 </div>
-                <Dropdown arrow placement='left' trigger={['hover']} overlay={<Menu items={items} />}>
+                <Dropdown
+                    arrow
+                    placement='left'
+                    trigger={['click']}
+                    overlay={<Menu items={items} />}
+                    getPopupContainer={(t) => {
+                        console.log(t);
+                        return document.body
+                    }}>
                     Menu
                 </Dropdown>
                 <div style={{ width: '100%' }} />
