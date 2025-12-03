@@ -42,7 +42,7 @@ const Dropdown = ({
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    const { popupStyle } = usePopupPosition({
+    const { popupStyle, _placement } = usePopupPosition({
         open,
         targetRef,
         popupRef,
@@ -143,7 +143,7 @@ const Dropdown = ({
                         ...popupStyle
                     }}
                 >
-                    {arrow && <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />}
+                    {arrow && <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`} />}
 
                     {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                         popupRender(

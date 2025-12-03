@@ -5,10 +5,11 @@ type TPopupPosition = {
     setOpen: Dispatch<SetStateAction<boolean>>;
     targetRef: RefObject<HTMLDivElement | null>;
     popupRef: RefObject<HTMLDivElement | null>;
-    placement: Placement;
+    placement?: Placement;
     inBody: boolean;
 };
 export declare const usePopupPosition: ({ open, setOpen, inBody, popupRef, targetRef, placement }: TPopupPosition) => {
+    _placement: Placement;
     popupStyle: CSSProperties;
 };
 export {};

@@ -105,7 +105,7 @@ const DatePicker = ({
     'Sa'
   ];
 
-  const { popupStyle } = usePopupPosition({
+  const { popupStyle, _placement } = usePopupPosition({
     targetRef,
     popupRef,
     placement,
@@ -517,7 +517,7 @@ const DatePicker = ({
               )}
             </div>
 
-            <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
+            <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`} />
           </div>
         </ConditionalWrapper>
       )}

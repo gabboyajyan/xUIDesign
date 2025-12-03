@@ -444,7 +444,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xUi-popup-position{&:after,&:before{content:\"\";height:12px;left:0;position:absolute;top:-12px;width:100%;z-index:10000}&:after{bottom:-12px;top:unset}}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight,.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;position:absolute;width:10px}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight{top:-6px;transform:rotate(45deg)}.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{bottom:-6px;top:unset;transform:rotate(-135deg)}.xUi-popup-position-bottom,.xUi-popup-position-top{left:50%;right:50%}.xUi-popup-position-bottomLeft,.xUi-popup-position-topLeft{left:12px;right:unset}.xUi-popup-position-bottomRight,.xUi-popup-position-topRight{left:unset;right:12px}";
+var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xUi-popup-position{&:after,&:before{content:\"\";height:12px;left:0;position:absolute;top:-12px;width:100%;z-index:10000}&:after{bottom:-12px;top:unset}}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight,.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;position:absolute;width:10px}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight{top:-5px;transform:rotate(45deg)}.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{bottom:-5px;top:unset;transform:rotate(-135deg)}.xUi-popup-position-bottom,.xUi-popup-position-top{left:50%;right:50%}.xUi-popup-position-bottomLeft,.xUi-popup-position-topLeft{left:12px;right:unset}.xUi-popup-position-bottomRight,.xUi-popup-position-topRight{left:unset;right:12px}";
 styleInject(css_248z$q);
 
 const ClearIcon = () => /*#__PURE__*/React.createElement("svg", {
@@ -2605,6 +2605,7 @@ const usePopupPosition = ({
   targetRef,
   placement
 }) => {
+  const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
   const calculatePosition = React.useCallback(e => {
     const container = targetRef.current?.getBoundingClientRect();
@@ -2612,11 +2613,28 @@ const usePopupPosition = ({
       return;
     }
     const scrollableParents = getScrollParent(targetRef.current, true);
-    e?.target === scrollableParents;
+    const scrollSameTarget = e?.target === scrollableParents;
+    if (!inBody) {
+      const hidePopupFromTop = Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.scrollTop || 0) + container?.height);
+      const hidePopupFromBottom = Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetHeight || 0) - (scrollableParents?.scrollTop || 0) + container?.height);
+      const spaceAboveFromTop = hidePopupFromTop - Math.round((popupRef.current?.clientHeight || 0) + container?.height + OFFSET);
+      const spaceAboveFromBottom = -Math.round((popupRef.current?.clientHeight || 0) + container?.height - OFFSET);
+      if (spaceAboveFromBottom <= hidePopupFromBottom) {
+        _setPlacement(_placement.replace('bottom', 'top'));
+      }
+      if (spaceAboveFromTop <= 0) {
+        _setPlacement(_placement.replace('top', 'bottom'));
+      }
+    }
+    if (scrollSameTarget && inBody) {
+      setOpen(false);
+      setPopupPosition({});
+      return;
+    }
     const _calculation = () => {
-      const _bottomCollectionTop = !placement.includes('bottom') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0)) + OFFSET;
-      const _topCollectionTop = !placement.includes('top') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0)) - OFFSET;
-      switch (placement) {
+      const _bottomCollectionTop = !_placement.includes('bottom') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0)) + OFFSET;
+      const _topCollectionTop = !_placement.includes('top') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0)) - OFFSET;
+      switch (_placement) {
         case "bottom":
           setPopupPosition({
             top: _bottomCollectionTop,
@@ -2655,15 +2673,8 @@ const usePopupPosition = ({
           break;
       }
     };
-    const spaceAboveFromTop = Math.round(container?.top + container?.height) <= 0 || Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.scrollTop || 0) + container?.height) <= 0;
-    const spaceAboveFromBottom = Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetHeight || 0) - (scrollableParents?.scrollTop || 0) + container?.height) >= 0;
-    if (spaceAboveFromTop || spaceAboveFromBottom) {
-      setOpen(false);
-      setPopupPosition({});
-      return;
-    }
     _calculation();
-  }, [targetRef, popupRef, placement, inBody, setOpen]);
+  }, [targetRef, popupRef, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2683,6 +2694,7 @@ const usePopupPosition = ({
     };
   }, [inBody, open, targetRef, calculatePosition]);
   return {
+    _placement,
     popupStyle: {
       zIndex: 10000,
       position: "absolute",
@@ -2746,7 +2758,8 @@ const DatePicker = ({
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const {
-    popupStyle
+    popupStyle,
+    _placement
   } = usePopupPosition({
     targetRef,
     popupRef,
@@ -3028,7 +3041,7 @@ const DatePicker = ({
       handleSelect(DateNow.getDate(), DateNow.getMonth(), DateNow.getFullYear());
     }
   }, locale?.today || 'Today'))), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`
   }))));
 };
 
@@ -3080,7 +3093,8 @@ const RangePicker = ({
   const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
   const [viewMode, setViewMode] = React.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
   const {
-    popupStyle
+    popupStyle,
+    _placement
   } = usePopupPosition({
     targetRef,
     popupRef,
@@ -3352,7 +3366,7 @@ const RangePicker = ({
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-range`
   }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day'), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`
   })))));
 };
 
@@ -3399,7 +3413,8 @@ const TimePicker = ({
   const minuteRef = React.useRef(null);
   const secondRef = React.useRef(null);
   const {
-    popupStyle
+    popupStyle,
+    _placement
   } = usePopupPosition({
     open,
     popupRef,
@@ -3658,7 +3673,7 @@ const TimePicker = ({
       disabled: selectedHour === null || selectedMinute === null || selectedSecond === null,
       onClick: handleOkButton
     }, "OK")), /*#__PURE__*/React.createElement("div", {
-      className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+      className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`
     }));
   };
   return /*#__PURE__*/React.createElement("div", {
@@ -5376,7 +5391,8 @@ const Dropdown = ({
   const popupRef = React.useRef(null);
   const menuRef = React.useRef(null);
   const {
-    popupStyle
+    popupStyle,
+    _placement
   } = usePopupPosition({
     open,
     targetRef,
@@ -5450,7 +5466,7 @@ const Dropdown = ({
       ...popupStyle
     }
   }, arrow && /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`
   }), overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? popupRender(menu ? /*#__PURE__*/React.createElement(MenuInner, {
     prefixCls: prefixCls,
     items: menu.items,
@@ -5544,7 +5560,8 @@ const Popover = ({
   const [innerOpen, setInnerOpen] = React.useState(false);
   const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
   const {
-    popupStyle
+    popupStyle,
+    _placement
   } = usePopupPosition({
     targetRef,
     popupRef,
@@ -5636,7 +5653,7 @@ const Popover = ({
   }, React.Children.map(_content, (child, index) => /*#__PURE__*/React.createElement("div", {
     key: index
   }, child))), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`
   }))));
 };
 

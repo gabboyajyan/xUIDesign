@@ -88,7 +88,7 @@ html {
 .xUi-popup-position-bottom,
 .xUi-popup-position-bottomLeft,
 .xUi-popup-position-bottomRight {
-    top: -6px;
+    top: -5px;
     transform: rotate(45deg);
 }
 
@@ -96,7 +96,7 @@ html {
 .xUi-popup-position-topLeft,
 .xUi-popup-position-topRight {
     top: unset;
-    bottom: -6px;
+    bottom: -5px;
     transform: rotate(-135deg);
 }
 

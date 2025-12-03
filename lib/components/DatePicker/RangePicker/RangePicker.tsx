@@ -61,7 +61,7 @@ const RangePicker = ({
     picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day'
   );
 
-  const { popupStyle } = usePopupPosition({
+  const { popupStyle, _placement } = usePopupPosition({
     targetRef,
     popupRef,
     placement,
@@ -493,7 +493,7 @@ const RangePicker = ({
             <div className={`${prefixCls}-dropdown-range`}>
               {renderCalendar(0, viewMode !== 'day')}
               {viewMode === 'day' && renderCalendar(1, viewMode !== 'day')}
-              <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
+              <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`} />
             </div>
           </div>
 

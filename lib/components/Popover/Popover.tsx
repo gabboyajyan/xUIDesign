@@ -42,7 +42,7 @@ const Popover = ({
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
 
-    const { popupStyle } = usePopupPosition({
+    const { popupStyle, _placement } = usePopupPosition({
         targetRef,
         popupRef,
         placement,
@@ -158,7 +158,7 @@ const Popover = ({
                         <div className={`${prefixCls}-inner`}>
                             {Children.map(_content, (child, index) => <div key={index}>{child}</div>)}
                         </div>
-                        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
+                        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`} />
                     </div>
                 </ConditionalWrapper>
             )}

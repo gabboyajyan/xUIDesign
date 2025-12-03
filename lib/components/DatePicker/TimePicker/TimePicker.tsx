@@ -64,7 +64,7 @@ const TimePicker: FC<TimePickerProps> = ({
   const minuteRef = useRef<HTMLDivElement>(null);
   const secondRef = useRef<HTMLDivElement>(null);
 
-  const { popupStyle } = usePopupPosition({
+  const { popupStyle, _placement } = usePopupPosition({
     open,
     popupRef,
     placement,
@@ -443,7 +443,7 @@ const TimePicker: FC<TimePickerProps> = ({
           </button>
         </div>
 
-        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
+        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${_placement}`} />
       </div>
     );
   };

@@ -86,7 +86,7 @@ export default function Home() {
             <div
                 className='sdfdsgfsfdg'
                 style={{
-                    height: 500,
+                    height: 700,
                     display: "flex",
                     overflow: 'auto',
                     border: '1px solid' 
@@ -113,7 +113,7 @@ export default function Home() {
                             </Suspense>
                         }
                         // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                        getPopupContainer={() => document.body}
+                        // getPopupContainer={() => document.body}
                     >
                         Menu
                     </Popover>
