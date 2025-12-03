@@ -311,7 +311,7 @@ const DatePicker = ({
         <ConditionalWrapper
           condition={getPopupContainer !== undefined}
           wrapper={(element) => getPopupContainer
-            ? createPortal(element, getPopupContainer(popupRef.current as HTMLElement) as HTMLElement)
+            ? createPortal(element, getPopupContainer(targetRef.current as HTMLElement) as HTMLElement)
             : <>{element}</>
           }>
           <div

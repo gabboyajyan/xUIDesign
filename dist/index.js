@@ -2912,7 +2912,7 @@ const DatePicker = ({
     onClick: clearSelection
   }, typeof allowClear === 'object' && allowClear.clearIcon ? allowClear.clearIcon : /*#__PURE__*/React.createElement(ClearIcon, null)) : suffixIcon || /*#__PURE__*/React.createElement(CalendarIcon, null), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null))), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: getPopupContainer !== undefined,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(targetRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-dropdown-wrapper ${prefixClsPopupPosition}`,
