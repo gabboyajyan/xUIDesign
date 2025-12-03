@@ -68,50 +68,34 @@ export const usePopupPosition = ({
         }
 
         const _calculation = () => {
-            const _bottomCollectionTop = !_placement.includes('bottom') ? 0 : (inBody
+            const _placementBottom = !_placement.includes('bottom') ? 0 : (inBody
                 ? (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0)
                 : (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0)) + OFFSET;
 
-            const _topCollectionTop = !_placement.includes('top') ? 0 : (inBody
+            const _placementTop = !_placement.includes('top') ? 0 : (inBody
                 ? (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0)
                 : (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0)) - OFFSET;
 
+            const _positionLeft = inBody ? container.left : (targetRef.current?.offsetLeft || 0)
+
             switch (_placement) {
                 case "bottom":
-                    setPopupPosition({
-                        top: _bottomCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0) + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                    });
+                    setPopupPosition({ top: _placementBottom, left: _positionLeft + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2) });
                     break;
                 case "bottomLeft":
-                    setPopupPosition({
-                        top: _bottomCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0)
-                    });
+                    setPopupPosition({ top: _placementBottom, left: _positionLeft });
                     break;
                 case "bottomRight":
-                    setPopupPosition({
-                        top: _bottomCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                    });
+                    setPopupPosition({ top: _placementBottom, left: _positionLeft + (container.width || 0) - (popupRef.current?.offsetWidth || 0) });
                     break;
                 case "top":
-                    setPopupPosition({
-                        top: _topCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0) + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                    });
+                    setPopupPosition({ top: _placementTop, left: _positionLeft + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2) });
                     break;
                 case "topLeft":
-                    setPopupPosition({
-                        top: _topCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0)
-                    });
+                    setPopupPosition({ top: _placementTop, left: _positionLeft });
                     break;
                 case "topRight":
-                    setPopupPosition({
-                        top: _topCollectionTop,
-                        left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                    });
+                    setPopupPosition({ top: _placementTop, left: _positionLeft + (container.width || 0) - (popupRef.current?.offsetWidth || 0) });
                     break;
             }
         }

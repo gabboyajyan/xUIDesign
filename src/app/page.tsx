@@ -86,10 +86,10 @@ export default function Home() {
             <div
                 className='sdfdsgfsfdg'
                 style={{
-                    height: 700,
+                    height: 400,
                     display: "flex",
                     overflow: 'auto',
-                    border: '1px solid' 
+                    border: '1px solid'
                 }}>
                 <div style={{ width: 1000 }} />
 
@@ -97,10 +97,11 @@ export default function Home() {
                     className='dsfdf'
                     style={{
                         width: 1000,
-                        height: 1500,
+                        position: 'relative'
+                        // height: 1500,
                     }}>
-                    <div style={{ height: 700, width: '100%' }} />
-                    <Popover
+                    {/* <div style={{ height: 400, width: '100%' }} /> */}
+                    {/* <Popover
                         placement='bottom'
                         content={
                             <Suspense>
@@ -116,7 +117,11 @@ export default function Home() {
                         // getPopupContainer={() => document.body}
                     >
                         Menu
-                    </Popover>
+                    </Popover> */}
+                    <DatePicker
+                        getPopupContainer={() => document.body}
+                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                    />
                 </div>
                 <div style={{ width: '100%' }} />
             </div>
