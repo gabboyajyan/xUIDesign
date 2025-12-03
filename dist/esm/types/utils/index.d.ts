@@ -1,3 +1,4 @@
+export declare const prefixClsPopupPosition = "xUi-popup-position";
 export declare const prefixClsForm = "xUi-form";
 export declare const prefixClsFormItem = "xUi-form-item";
 export declare const prefixClsEmpty = "xUi-empty";

@@ -3,11 +3,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { clsx } from '../../helpers';
 import { TDatePickerProps } from '../../types/datepicker';
-import { prefixClsDatePicker } from '../../utils';
+import { prefixClsDatePicker, prefixClsPopupPosition } from '../../utils';
 import { CalendarIcon, ClearIcon, ErrorIcon } from '../Icons/Icons';
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePosition } from '../../hooks/usePosition';
+import { usePopupPosition } from '../../hooks/usePopupPosition';
 import './style.css';
 
 const INPUT_SIZE = 12;
@@ -58,10 +58,10 @@ const DatePicker = ({
   bordered = true,
   defaultPickerValue
 }: TDatePickerProps) => {
-  const triggerRef = useRef<HTMLDivElement>(null);
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
 
+  const targetRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
 
   const DateNow = new Date();
@@ -105,13 +105,13 @@ const DatePicker = ({
     'Sa'
   ];
 
-  const { dropdownPosition } = usePosition({
-    isOpen,
+  const { popupStyle } = usePopupPosition({
+    targetRef,
     popupRef,
     placement,
-    triggerRef,
-    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
-  })
+    open: isOpen,
+    inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
+  });
 
   useEffect(() => {
     const _date = value || defaultValue;
@@ -125,8 +125,8 @@ const DatePicker = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
+        targetRef.current &&
+        !targetRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
       }
@@ -256,7 +256,10 @@ const DatePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-input-wrapper`} ref={triggerRef}>
+      <div
+        ref={targetRef}
+        className={`${prefixCls}-input-wrapper`}
+      >
         <button
           type="button"
           className={clsx([
@@ -312,8 +315,8 @@ const DatePicker = ({
           }>
           <div
             ref={popupRef}
-            className={`${prefixCls}-dropdown-wrapper`}
-            style={dropdownPosition}
+            className={`${prefixCls}-dropdown-wrapper ${prefixClsPopupPosition}`}
+            style={popupStyle}
           >
             <div className={`${prefixCls}-dropdown`}>
               <div className={`${prefixCls}-header`}>
@@ -512,6 +515,8 @@ const DatePicker = ({
                 </div>
               )}
             </div>
+
+            <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
           </div>
         </ConditionalWrapper>
       )}

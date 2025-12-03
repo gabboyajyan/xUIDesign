@@ -8,11 +8,11 @@ import {
     DropdownProps,
     DropdownMenuInnerProps
 } from '../../types/dropdown';
-import { prefixClsDropdown } from '../../utils';
+import { prefixClsDropdown, prefixClsPopupPosition } from '../../utils';
 import { clsx } from '../../helpers';
-import { usePosition } from '../../hooks/usePosition';
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
+import { usePopupPosition } from '../../hooks/usePopupPosition';
 import './style.css';
 
 const Dropdown = ({
@@ -38,18 +38,16 @@ const Dropdown = ({
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
     const isControlled = controlledOpen !== undefined;
 
-    const triggerRef = useRef<HTMLDivElement | null>(null);
+    const targetRef = useRef<HTMLDivElement | null>(null);
     const popupRef = useRef<HTMLDivElement | null>(null);
     const menuRef = useRef<HTMLUListElement | null>(null);
 
-    const { showPlacement, dropdownPosition } = usePosition({
+    const { popupStyle } = usePopupPosition({
+        open,
+        targetRef,
         popupRef,
         placement,
-        offset: 8,
-        isOpen: open,
-        triggerRef,
-        prefixCls,
-        getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
+        inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
     })
 
     useEffect(() => {
@@ -89,8 +87,8 @@ const Dropdown = ({
             if (
                 popupRef.current &&
                 !popupRef.current.contains(e.target as Node) &&
-                triggerRef.current &&
-                !triggerRef.current.contains(e.target as Node)
+                targetRef.current &&
+                !targetRef.current.contains(e.target as Node)
             ) {
                 setOpenInternal(false);
                 onVisibleChange?.(false);
@@ -110,8 +108,8 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
 
-        if (triggers.includes('click') && triggerRef.current &&
-            (!open && triggerRef.current?.contains(e.target as Node))) {
+        if (triggers.includes('click') && targetRef.current &&
+            (!open && targetRef.current?.contains(e.target as Node))) {
             setOpenInternal(!open);
         }
     };
@@ -132,20 +130,19 @@ const Dropdown = ({
         <ConditionalWrapper
             condition={!!getPopupContainer}
             wrapper={(element) => getPopupContainer
-                ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
+                ? createPortal(element, getPopupContainer(targetRef.current as HTMLElement) as HTMLElement)
                 : <>{element}</>
             }>
             <>
                 <div
                     ref={popupRef}
-                    className={`${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`}
+                    className={`${prefixCls}-overlay ${prefixClsPopupPosition} ${overlayClassName}`}
                     style={{
-                        zIndex: 10000,
                         ...overlayStyle,
-                        ...dropdownPosition
+                        ...popupStyle
                     }}
                 >
-                    {arrow && <div className={`${prefixCls}-arrow ${showPlacement}`} />}
+                    {arrow && <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />}
 
                     {overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? (
                         popupRender(
@@ -177,7 +174,7 @@ const Dropdown = ({
 
     return (
         <div
-            ref={triggerRef}
+            ref={targetRef}
             className={className}
             onClick={onTriggerClick}
             onMouseEnter={onTriggerMouseEnter}

@@ -1,21 +1,3 @@
-.xUi-popover {
-    &::after,
-    &::before {
-        left: 0;
-        top: -10px;
-        content: "";
-        width: 100%;
-        height: 10px;
-        z-index: 10000;
-        position: absolute;
-    }
-
-    &::after {
-        top: unset;
-        bottom: -10px;
-    }
-}
-
 .xUi-popover-wrapper-content {
     cursor: pointer;
     max-width: fit-content;
@@ -38,51 +20,4 @@
 .xUi-popover-inner {
     font-size: 14px;
     color: var(--xui-text-color);
-}
-
-.xUi-popover-arrow {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: -6px;
-    left: 12px;
-    background: var(--xui-background-color);
-    border-left: 0.5px solid var(--xui-border-color);
-    border-top: 0.5px solid var(--xui-border-color);
-    transform: rotate(45deg);
-}
-
-.xUi-popover-arrow.xUi-popover-topRight,
-.xUi-popover-arrow.xUi-popover-topLeft {
-    top: unset;
-    bottom: -6px;
-    border-left: unset;
-    border-top: unset;
-    border-right: 0.5px solid var(--xui-border-color);
-    border-bottom: 0.5px solid var(--xui-border-color);
-}
-
-.xUi-popover-arrow.xUi-popover-topRight,
-.xUi-popover-arrow.xUi-popover-bottomRight {
-    left: unset;
-    right: 12px;
-}
-
-.xUi-popover-arrow.right {
-    border-top: unset;
-    border-right: unset;
-    top: 12px;
-    left: -6px;
-    border-left: 0.5px solid var(--xui-border-color);
-    border-bottom: 0.5px solid var(--xui-border-color);
-}
-
-.xUi-popover-arrow.left {
-    top: 12px;
-    right: -6px;
-    left: unset;
-    border-left: unset;
-    border-bottom: unset;
-    border-right: 0.5px solid var(--xui-border-color);
-    border-top: 0.5px solid var(--xui-border-color);
 }

@@ -444,7 +444,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}";
+var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xUi-popup-position{&:after,&:before{content:\"\";height:12px;left:0;position:absolute;top:-12px;width:100%;z-index:10000}&:after{bottom:-12px;top:unset}}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight,.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;position:absolute;width:10px}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight{top:-6px;transform:rotate(45deg)}.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{bottom:-6px;top:unset;transform:rotate(-135deg)}.xUi-popup-position-bottom,.xUi-popup-position-top{left:50%;right:50%}.xUi-popup-position-bottomLeft,.xUi-popup-position-topLeft{left:12px;right:unset}.xUi-popup-position-bottomRight,.xUi-popup-position-topRight{left:unset;right:12px}";
 styleInject(css_248z$q);
 
 const ClearIcon = () => /*#__PURE__*/React.createElement("svg", {
@@ -1558,6 +1558,7 @@ function _extends() {
   }, _extends.apply(null, arguments);
 }
 
+const prefixClsPopupPosition = "xUi-popup-position";
 const prefixClsForm = 'xUi-form';
 const prefixClsFormItem = 'xUi-form-item';
 const prefixClsEmpty = 'xUi-empty';
@@ -1624,6 +1625,20 @@ function clsx(...args) {
     }
     return [];
   }).filter(Boolean).join(' ');
+}
+function getScrollParent(el, includeSelf = false) {
+  if (!el) return null;
+  let current = includeSelf ? el : el.parentElement;
+  while (current) {
+    const style = getComputedStyle(current);
+    const canScroll = ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX);
+    if (canScroll) {
+      current.style.position = 'relative';
+      return current;
+    }
+    current = current.parentElement;
+  }
+  return document.scrollingElement;
 }
 
 function flattenChildren(children) {
@@ -2581,117 +2596,102 @@ const ConditionalWrapper = ({
   children
 }) => condition ? wrapper(children) : children;
 
-function getScrollParent(el, includeSelf = false) {
-  if (!el) return null;
-  let current = includeSelf ? el : el.parentElement;
-  while (current) {
-    const style = getComputedStyle(current);
-    const overflowY = style.overflowY;
-    const overflowX = style.overflowX;
-    const canScroll = overflowY === 'auto' || overflowY === 'scroll' || overflowX === 'auto' || overflowX === 'scroll';
-    if (canScroll) {
-      return current;
-    }
-    current = current.parentElement;
-  }
-  return document.scrollingElement;
-}
-const usePosition = ({
-  isOpen,
-  offset = 4,
+const OFFSET = 12;
+const usePopupPosition = ({
+  open,
+  inBody,
   popupRef,
-  placement,
-  triggerRef,
-  listenPopoverPositions,
-  getPopupContainer,
-  placementPositionOffset = 1,
-  prefixCls = ''
+  targetRef,
+  placement
 }) => {
-  const [showPlacement, setShowPlacement] = React.useState('');
-  const [_dropdownPosition, setDropdownPosition] = React.useState({});
-  const isTop = placement === 'top';
-  const isLeft = placement === 'left';
-  const isRight = placement === 'right';
-  const isBottom = placement === 'bottom';
-  const hasLeft = placement?.toLowerCase()?.includes('left');
-  const hasRight = placement?.toLowerCase()?.includes('right');
-  const dropdownPosition = React.useCallback(() => {
-    if (!triggerRef.current) {
-      return {};
+  const [popupPosition, setPopupPosition] = React.useState({});
+  const rafRef = React.useRef(null);
+  const calculatePosition = React.useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
     }
-    const inputRect = triggerRef.current?.getBoundingClientRect();
-    const dropdownHeight = popupRef.current?.offsetHeight || popupRef.current?.offsetHeight || 0;
-    const containerRect = (getPopupContainer || getScrollParent(triggerRef.current, true) || document.body).getBoundingClientRect();
-    const spaceAbove = inputRect.top - containerRect.top;
-    const spaceBelow = containerRect.bottom - inputRect.bottom;
-    const _shouldShowAbove = spaceBelow < dropdownHeight && spaceAbove > dropdownHeight;
-    setShowPlacement(`${prefixCls}-${_shouldShowAbove ? 'top' : 'bottom'}${hasRight ? 'Right' : hasLeft ? 'Left' : `${isBottom || isTop ? 'Left' : 'Right'}`} ${placement}`);
-    const _top = isRight || isLeft ? (inputRect.top || 0) + (popupRef.current?.offsetHeight || 0) + document.documentElement.scrollTop + offset * 2 : (inputRect.top || 0) + document.documentElement.scrollTop;
-    if (getPopupContainer) {
-      console.info({
-        hasRight,
-        isRight,
-        isLeft
-      });
-      const leftPosition = hasRight ? isRight ? (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) + offset : (inputRect.left || 0) + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) : isLeft ? (inputRect.left || 0) + document.documentElement.scrollLeft - (popupRef.current?.offsetWidth || 0) - offset : (inputRect.left || 0) + document.documentElement.scrollLeft;
-      setDropdownPosition({
-        top: _shouldShowAbove || isLeft || isRight ? _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0) : _top + (triggerRef.current?.offsetHeight || 0) + offset,
-        left: leftPosition
-      });
-    } else {
-      if (isLeft) {
-        setDropdownPosition({
-          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-          left: triggerRef.current.offsetLeft - (popupRef.current?.offsetWidth || 0) - offset
-        });
-      } else if (isRight) {
-        setDropdownPosition({
-          top: _top - (popupRef.current?.offsetHeight || 0) + 4 - (offset !== 4 ? offset * 2 : 0),
-          left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) + offset
-        });
-      } else {
-        setDropdownPosition({
-          top: _shouldShowAbove || isLeft || isRight ? triggerRef.current.offsetTop - (popupRef.current?.offsetHeight || dropdownHeight) - offset * 2 : _top + triggerRef.current?.offsetHeight + offset,
-          ...(hasRight ? {
-            left: triggerRef.current.offsetLeft + (triggerRef.current?.offsetWidth || 0) - (popupRef.current?.offsetWidth || 0) / placementPositionOffset
-          } : {
-            left: triggerRef.current.offsetLeft
-          })
-        });
+    rafRef.current = requestAnimationFrame(() => {
+      const scrollableParents = getScrollParent(targetRef.current, true);
+      const container = targetRef.current?.getBoundingClientRect();
+      if (!container) {
+        return;
       }
-    }
-  }, [isTop, isLeft, isRight, hasLeft, hasRight, isBottom, offset, popupRef, prefixCls, placement, triggerRef, getPopupContainer, placementPositionOffset]);
+      const _bottomCollectionTop = !placement.includes('bottom') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0)) + OFFSET;
+      const _topCollectionTop = !placement.includes('top') ? 0 : (inBody ? (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0) : (targetRef.current?.offsetTop || 0) - (popupRef.current?.clientHeight || 0)) - OFFSET;
+      switch (placement) {
+        case "bottom":
+          setPopupPosition({
+            top: _bottomCollectionTop,
+            left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
+          });
+          break;
+        case "bottomLeft":
+          setPopupPosition({
+            top: _bottomCollectionTop,
+            left: targetRef.current?.offsetLeft || 0
+          });
+          break;
+        case "bottomRight":
+          setPopupPosition({
+            top: _bottomCollectionTop,
+            left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+          });
+          break;
+        case "top":
+          setPopupPosition({
+            top: _topCollectionTop,
+            left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
+          });
+          break;
+        case "topLeft":
+          setPopupPosition({
+            top: _topCollectionTop,
+            left: targetRef.current?.offsetLeft || 0
+          });
+          break;
+        case "topRight":
+          setPopupPosition({
+            top: _topCollectionTop,
+            left: (targetRef.current?.offsetLeft || 0) + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+          });
+          break;
+      }
+    });
+  }, [targetRef, popupRef, placement, inBody]);
   React.useEffect(() => {
-    if (!isOpen) return;
-    const _dropdownPosition = () => dropdownPosition();
-    _dropdownPosition();
+    if (!open) {
+      return;
+    }
+    calculatePosition();
     const controller = new AbortController();
-    const scrollableParents = getScrollParent(triggerRef.current, true);
-    scrollableParents?.addEventListener('scroll', _dropdownPosition, {
+    const scrollableParents = getScrollParent(targetRef.current, true);
+    const options = {
       passive: true,
       signal: controller.signal
-    });
-    window.addEventListener('scroll', _dropdownPosition, {
-      passive: true,
-      signal: controller.signal
-    });
-    window.addEventListener('resize', _dropdownPosition, {
+    };
+    scrollableParents?.addEventListener("scroll", calculatePosition, options);
+    window.addEventListener("scroll", calculatePosition, options);
+    window.addEventListener("resize", calculatePosition, {
       signal: controller.signal
     });
     return () => {
       controller.abort();
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [isOpen, listenPopoverPositions, triggerRef, getPopupContainer, dropdownPosition]);
+  }, [open, targetRef, calculatePosition]);
   return {
-    showPlacement,
-    dropdownPosition: {
-      ..._dropdownPosition,
-      opacity: Object.keys(_dropdownPosition).length ? 1 : 0
+    popupStyle: {
+      zIndex: 10000,
+      position: "absolute",
+      opacity: Object.keys(popupPosition).length ? 1 : 0,
+      ...popupPosition
     }
   };
 };
 
-var css_248z$j = ".xUi-datepicker-container{font-family:Arial,sans-serif;height:max-content;position:relative}.xUi-datepicker-input{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:6px;color:var(--xui-text-color);cursor:pointer;display:flex;gap:8px;justify-content:space-between;padding:3px 7px;transition:all .3s}.xUi-datepicker-input.noBordered{border:none!important}.xUi-datepicker-input input{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-sm);outline:none;padding:0}.xUi-datepicker-input:placeholder-shown{text-overflow:ellipsis}.xUi-datepicker-input:hover{border-color:var(--xui-primary-color)}.xUi-datepicker-icon{color:var(--xui-text-color);cursor:pointer;height:16px;opacity:.6;transition:.3s ease;width:16px}.xUi-datepicker-icon:hover{color:var(--xui-primary-color);opacity:1}.xUi-datepicker-selected-date{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-md);letter-spacing:.8px;outline:none}.xUi-datepicker-disabled{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-datepicker-disabled .xUi-datepicker-selected-date{cursor:not-allowed;opacity:.6}.xUi-datepicker-disabled .xUi-datepicker-icon{cursor:not-allowed}.xUi-datepicker-icon{align-items:center;color:#8c8c8c;display:flex;font-size:16px;gap:6px}.xUi-datepicker-error{border-color:var(--xui-error-color)}.xUi-datepicker-error .error-svg-icon,.xUi-datepicker-error .xUi-datepicker-icon,.xUi-datepicker-icon .error-svg-icon{color:var(--xui-error-color)}.xUi-datepicker-input.sm{font-size:var(--xui-font-size-sm);padding:4px 8px}.xUi-datepicker-input.md{font-size:var(--xui-font-size-md);padding:8px 12px}.xUi-datepicker-input.lg{font-size:var(--xui-font-size-lg);padding:10px 16px}.xUi-datepicker-dropdown-wrapper{position:absolute;transition:opacity .3s ease,transform .01s ease;z-index:1000}.xUi-datepicker-dropdown-wrapper.bottomLeft{left:0;margin-top:4px;top:100%}.xUi-datepicker-dropdown-wrapper.bottomRight{margin-top:4px;right:0;top:100%}.xUi-datepicker-dropdown-wrapper.topLeft{bottom:100%;left:0;margin-bottom:4px}.xUi-datepicker-dropdown-wrapper.topRight{bottom:100%;margin-bottom:4px;right:0}.xUi-datepicker-dropdown{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-width:250px;padding:12px}.xUi-datepicker-header{align-items:center;border-bottom:1px solid var(--xui-border-color);display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;padding-bottom:12px}.xUi-datepicker-day-footer{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:center;margin-top:8px;padding-top:12px;width:100%}.xUi-datepicker-nav-buttons{display:flex;gap:4px}.xUi-datepicker-nav-buttons button{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;font-size:20px;opacity:.7;padding:2px 6px;transition:all .3s}.xUi-datepicker-nav-buttons button:not(:disabled):hover{color:var(--xui-primary-color)}.xUi-datepicker-dropdown-selects{align-items:center;display:flex;gap:6px}.xUi-datepicker-dropdown-selects button,.xUi-datepicker-select{background:var(--xui-background-color);border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;font-weight:600;padding:4px 8px;transition:all .3s}.xUi-datepicker-dropdown-selects button:hover,.xUi-datepicker-select:not(:disabled):hover{color:var(--xui-primary-color)}.xUi-datepicker-grid{display:grid;gap:2px;grid-template-columns:repeat(3,1fr);text-align:center}.xUi-datepicker-grid.day{grid-template-columns:repeat(7,1fr)}.xUi-datepicker-day-header{color:var(--xui-text-color);font-size:14px;margin:4px 0;user-select:none}.xUi-datepicker-day,.xUi-datepicker-month,.xUi-datepicker-year{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;height:30px;line-height:30px;min-width:30px;text-align:center;transition:all .2s}.xUi-datepicker-month,.xUi-datepicker-year{margin:7px}.xUi-datepicker-day:disabled,.xUi-datepicker-month:disabled,.xUi-datepicker-select:disabled,.xUi-datepicker-year:disabled{background-color:var(--xui-color-disabled);cursor:not-allowed;opacity:.5}.xUi-datepicker-day:not(:disabled):hover,.xUi-datepicker-month:not(:disabled):hover,.xUi-datepicker-year:not(:disabled):hover{background:var(--xui-primary-color-light);color:#fff}.xUi-datepicker-selected{background:var(--xui-primary-color)!important;color:#fff!important;font-weight:700}.xUi-datepicker-other-month{color:var(--xui-text-color);opacity:.4}.xUi-datepicker-other-month:not(:disabled):hover{background-color:var(--xui-color-hover);color:var(--xui-text-color);user-select:none}.xUi-datepicker-footer{margin-top:12px;text-align:right}.xUi-datepicker-footer-today-btn{background:none;border:1px solid var(--xui-border-color);border-radius:4px;color:var(--xui-primary-color);cursor:pointer;font-size:13px;padding:4px 8px;transition:all .3s}.xUi-datepicker-footer-today-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light);color:#fff}.xUi-datepicker-large .xUi-datepicker-selected-date{font-size:16px}.xUi-datepicker-large .xUi-datepicker-input{padding:11px}.xUi-datepicker-middle .xUi-datepicker-input{padding:6px 11px}";
+var css_248z$j = ".xUi-datepicker-container{font-family:Arial,sans-serif;height:max-content}.xUi-datepicker-input-wrapper{width:fit-content}.xUi-datepicker-input{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:6px;color:var(--xui-text-color);cursor:pointer;display:flex;gap:8px;justify-content:space-between;padding:3px 7px;transition:all .3s}.xUi-datepicker-input.noBordered{border:none!important}.xUi-datepicker-input input{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-sm);outline:none;padding:0}.xUi-datepicker-input:placeholder-shown{text-overflow:ellipsis}.xUi-datepicker-input:hover{border-color:var(--xui-primary-color)}.xUi-datepicker-icon{color:var(--xui-text-color);cursor:pointer;height:16px;opacity:.6;transition:.3s ease;width:16px}.xUi-datepicker-icon:hover{color:var(--xui-primary-color);opacity:1}.xUi-datepicker-selected-date{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-md);letter-spacing:.8px;outline:none}.xUi-datepicker-disabled{background-color:var(--xui-color-disabled);border-color:var(--xui-border-color)!important;cursor:not-allowed;opacity:.5}.xUi-datepicker-disabled .xUi-datepicker-selected-date{cursor:not-allowed;opacity:.6}.xUi-datepicker-disabled .xUi-datepicker-icon{cursor:not-allowed}.xUi-datepicker-icon{align-items:center;color:#8c8c8c;display:flex;font-size:16px;gap:6px}.xUi-datepicker-error{border-color:var(--xui-error-color)}.xUi-datepicker-error .error-svg-icon,.xUi-datepicker-error .xUi-datepicker-icon,.xUi-datepicker-icon .error-svg-icon{color:var(--xui-error-color)}.xUi-datepicker-input.sm{font-size:var(--xui-font-size-sm);padding:4px 8px}.xUi-datepicker-input.md{font-size:var(--xui-font-size-md);padding:8px 12px}.xUi-datepicker-input.lg{font-size:var(--xui-font-size-lg);padding:10px 16px}.xUi-datepicker-dropdown-wrapper{position:absolute;transition:opacity .3s ease,transform .01s ease;z-index:1000}.xUi-datepicker-dropdown-wrapper.bottomLeft{left:0;margin-top:4px;top:100%}.xUi-datepicker-dropdown-wrapper.bottomRight{margin-top:4px;right:0;top:100%}.xUi-datepicker-dropdown-wrapper.topLeft{bottom:100%;left:0;margin-bottom:4px}.xUi-datepicker-dropdown-wrapper.topRight{bottom:100%;margin-bottom:4px;right:0}.xUi-datepicker-dropdown{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);min-width:250px;padding:12px}.xUi-datepicker-header{align-items:center;border-bottom:1px solid var(--xui-border-color);display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;padding-bottom:12px}.xUi-datepicker-day-footer{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:center;margin-top:8px;padding-top:12px;width:100%}.xUi-datepicker-nav-buttons{display:flex;gap:4px}.xUi-datepicker-nav-buttons button{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;font-size:20px;opacity:.7;padding:2px 6px;transition:all .3s}.xUi-datepicker-nav-buttons button:not(:disabled):hover{color:var(--xui-primary-color)}.xUi-datepicker-dropdown-selects{align-items:center;display:flex;gap:6px}.xUi-datepicker-dropdown-selects button,.xUi-datepicker-select{background:var(--xui-background-color);border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;font-weight:600;padding:4px 8px;transition:all .3s}.xUi-datepicker-dropdown-selects button:hover,.xUi-datepicker-select:not(:disabled):hover{color:var(--xui-primary-color)}.xUi-datepicker-grid{display:grid;gap:2px;grid-template-columns:repeat(3,1fr);text-align:center}.xUi-datepicker-grid.day{grid-template-columns:repeat(7,1fr)}.xUi-datepicker-day-header{color:var(--xui-text-color);font-size:14px;margin:4px 0;user-select:none}.xUi-datepicker-day,.xUi-datepicker-month,.xUi-datepicker-year{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;height:30px;line-height:30px;min-width:30px;text-align:center;transition:all .2s}.xUi-datepicker-month,.xUi-datepicker-year{margin:7px}.xUi-datepicker-day:disabled,.xUi-datepicker-month:disabled,.xUi-datepicker-select:disabled,.xUi-datepicker-year:disabled{background-color:var(--xui-color-disabled);cursor:not-allowed;opacity:.5}.xUi-datepicker-day:not(:disabled):hover,.xUi-datepicker-month:not(:disabled):hover,.xUi-datepicker-year:not(:disabled):hover{background:var(--xui-primary-color-light);color:#fff}.xUi-datepicker-selected{background:var(--xui-primary-color)!important;color:#fff!important;font-weight:700}.xUi-datepicker-other-month{color:var(--xui-text-color);opacity:.4}.xUi-datepicker-other-month:not(:disabled):hover{background-color:var(--xui-color-hover);color:var(--xui-text-color);user-select:none}.xUi-datepicker-footer{margin-top:12px;text-align:right}.xUi-datepicker-footer-today-btn{background:none;border:1px solid var(--xui-border-color);border-radius:4px;color:var(--xui-primary-color);cursor:pointer;font-size:13px;padding:4px 8px;transition:all .3s}.xUi-datepicker-footer-today-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light);color:#fff}.xUi-datepicker-large .xUi-datepicker-selected-date{font-size:16px}.xUi-datepicker-large .xUi-datepicker-input{padding:11px}.xUi-datepicker-middle .xUi-datepicker-input{padding:6px 11px}";
 styleInject(css_248z$j);
 
 const INPUT_SIZE$1 = 12;
@@ -2727,9 +2727,9 @@ const DatePicker = ({
   bordered = true,
   defaultPickerValue
 }) => {
-  const triggerRef = React.useRef(null);
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
+  const targetRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const DateNow = new Date();
   const [selectedDate, setSelectedDate] = React.useState(initialDate);
@@ -2745,13 +2745,13 @@ const DatePicker = ({
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   const {
-    dropdownPosition
-  } = usePosition({
-    isOpen,
+    popupStyle
+  } = usePopupPosition({
+    targetRef,
     popupRef,
     placement,
-    triggerRef,
-    getPopupContainer: getPopupContainer?.(triggerRef.current)
+    open: isOpen,
+    inBody: getPopupContainer?.(targetRef.current)?.tagName === 'BODY'
   });
   React.useEffect(() => {
     const _date = value || defaultValue;
@@ -2760,7 +2760,7 @@ const DatePicker = ({
   }, [value]);
   React.useEffect(() => {
     const handleClickOutside = event => {
-      if (popupRef.current && !popupRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
+      if (popupRef.current && !popupRef.current.contains(event.target) && targetRef.current && !targetRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     };
@@ -2863,8 +2863,8 @@ const DatePicker = ({
       [`${prefixCls}-${size}`]: size
     }])
   }, /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-input-wrapper`,
-    ref: triggerRef
+    ref: targetRef,
+    className: `${prefixCls}-input-wrapper`
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input ${className}`, {
@@ -2900,8 +2900,8 @@ const DatePicker = ({
     wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(popupRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    className: `${prefixCls}-dropdown-wrapper`,
-    style: dropdownPosition
+    className: `${prefixCls}-dropdown-wrapper ${prefixClsPopupPosition}`,
+    style: popupStyle
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown`
   }, /*#__PURE__*/React.createElement("div", {
@@ -3025,7 +3025,9 @@ const DatePicker = ({
       e.stopPropagation();
       handleSelect(DateNow.getDate(), DateNow.getMonth(), DateNow.getFullYear());
     }
-  }, locale?.today || 'Today'))))));
+  }, locale?.today || 'Today'))), /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+  }))));
 };
 
 var DatePicker$1 = /*#__PURE__*/Object.freeze({
@@ -3036,7 +3038,7 @@ var DatePicker$1 = /*#__PURE__*/Object.freeze({
 	default: DatePicker
 });
 
-var css_248z$i = ".xUi-rangepicker-range-container{font-size:14px;position:relative;user-select:none}.xUi-rangepicker-range-input-wrapper{background-color:#fff;border-radius:6px;display:flex;transition:all .3s;width:100%}.xUi-rangepicker-range-input-wrapper:hover{border-color:#4096ff}.xUi-rangepicker-range-input{align-items:center;border-right:1px solid var(--xui-border-color);cursor:pointer;display:flex;flex:1;padding:4px 11px}.xUi-rangepicker-range-input:last-child{border-right:none}.xUi-rangepicker-range-input input{background:transparent;border:none;color:#000;cursor:pointer;font-size:14px;outline:none;width:100%}.xUi-rangepicker-range-input input::placeholder{color:#bfbfbf}.xUi-rangepicker-range-clear,.xUi-rangepicker-range-icon{align-items:center;display:flex;margin-left:8px;transition:color .3s}.xUi-rangepicker-range-icon{color:rgba(0,0,0,.25)}.xUi-rangepicker-range-clear{color:rgba(0,0,0,.45);cursor:pointer}.xUi-rangepicker-range-clear:hover{color:#000}.xUi-rangepicker-range-dropdown-wrapper{background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;left:0;margin-top:4px;min-width:560px;opacity:1;padding:8px;position:absolute;top:100%;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease;z-index:1050}.xUi-rangepicker-range-dropdown-wrapper.show{display:flex}.xUi-rangepicker-dropdown-range,.xUi-rangepicker-range-dropdown{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:6px;display:flex;overflow:hidden}.xUi-rangepicker-calendar{background:#fff;border-radius:6px;margin:12px}.xUi-rangepicker-calendar.month,.xUi-rangepicker-calendar.year{width:280px}.xUi-rangepicker-calendar-header{align-items:center;display:flex;font-weight:500;justify-content:space-between}.xUi-rangepicker-month,.xUi-rangepicker-year{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;height:30px;line-height:30px;margin:7px;min-width:30px;text-align:center;transition:all .2s}.xUi-rangepicker-day:disabled,.xUi-rangepicker-month:disabled,.xUi-rangepicker-select:disabled,.xUi-rangepicker-year:disabled{background-color:var(--xui-color-disabled);cursor:not-allowed;opacity:.5}.xUi-rangepicker-day:not(:disabled):hover,.xUi-rangepicker-month:not(:disabled):hover,.xUi-rangepicker-year:not(:disabled):hover{background:var(--xui-primary-color-light);color:#fff}.xUi-rangepicker-calendar-header button,.xUi-rangepicker-dropdown-selects button,.xUi-rangepicker-nav-buttons button{background:transparent;border:none;color:#595959;cursor:pointer;font-size:14px;font-weight:600;line-height:1;padding:0 6px;transition:color .2s ease}.xUi-rangepicker-nav-buttons button{font-size:20px;font-weight:400}.xUi-rangepicker-calendar-header button:hover,.xUi-rangepicker-dropdown-selects button:hover,.xUi-rangepicker-nav-buttons button:hover{color:var(--xui-primary-color)}.xUi-rangepicker-input{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:6px;color:var(--xui-text-color);cursor:pointer;display:flex;gap:8px;justify-content:space-between;padding:3px 7px;transition:all .3s}.xUi-rangepicker-input.noBordered{border:none!important}.xUi-rangepicker-input input{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-sm);outline:none;padding:0}.xUi-rangepicker-input:placeholder-shown{text-overflow:ellipsis}.xUi-rangepicker-input:hover{border-color:var(--xui-primary-color)}.xUi-rangepicker-weekday-row{background-color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.1);display:grid;gap:4px;grid-template-columns:repeat(7,1fr);position:sticky;top:0;z-index:1}.xUi-rangepicker-weekday{align-items:center;color:var(--xui-text-color);display:flex;font-size:12px;font-weight:500;font-weight:600;height:30px;justify-content:center;text-align:center}.xUi-rangepicker-days-grid,.xUi-rangepicker-grid{display:grid;gap:2px;grid-template-columns:repeat(3,1fr)}.xUi-rangepicker-days-grid.day{grid-template-columns:repeat(7,0fr)}.xUi-rangepicker-day{background-color:transparent;border:1px solid transparent;border-radius:4px;cursor:pointer;height:30px;line-height:30px;text-align:center;transition:background-color .3s,color .3s;width:30px}.xUi-rangepicker-day:hover{background-color:var(--xui-primary-color);border-radius:4px;color:#fff}.xUi-rangepicker-day.xUi-rangepicker-other-month:hover{background-color:var(--xui-color-disabled)!important;color:var(--xui-text-color)}.xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month),.xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),.xUi-rangepicker-selected{background-color:var(--xui-primary-color)!important;color:#fff!important;font-weight:600}.xUi-rangepicker-in-range{background-color:#f0f5ff}.xUi-rangepicker-hover-end{background-color:var(--xui-primary-color)!important;color:#fff}.xUi-rangepicker-disabled,.xUi-rangepicker-other-month:not(.xUi-rangepicker-in-range){color:#ccc}.xUi-rangepicker-disabled{cursor:not-allowed}.xUi-rangepicker-footer{display:flex;grid-column:span 7;justify-content:center;padding-top:6px}.xUi-rangepicker-select{background:none;border:none;color:var(--xui-primary-color);cursor:pointer}.xUi-rangepicker-input.sm{font-size:var(--xui-font-size-sm);padding:4px 8px}.xUi-rangepicker-input.md{font-size:var(--xui-font-size-md);padding:8px 12px}.xUi-rangepicker-input.lg{font-size:var(--xui-font-size-lg);padding:10px 16px}.xUi-rangepicker-dropdown-wrapper{opacity:0;pointer-events:none;position:absolute;transform:scale(.95);transition:opacity .2s ease,transform .2s ease;z-index:1000}.xUi-rangepicker-dropdown-wrapper.bottomLeft{left:0;margin-top:4px;top:100%}.xUi-rangepicker-dropdown-wrapper.bottomRight{margin-top:4px;right:0;top:100%}.xUi-rangepicker-dropdown-wrapper.topLeft{bottom:100%;left:0;margin-bottom:4px}.xUi-rangepicker-dropdown-wrapper.topRight{bottom:100%;margin-bottom:4px;right:0}.xUi-rangepicker-dropdown-wrapper.show{opacity:1;pointer-events:auto;transform:scale(1)}.xUi-rangepicker-large .xUi-rangepicker-selected-date{font-size:16px}.xUi-rangepicker-large .xUi-rangepicker-input{padding:11px}.xUi-rangepicker-middle .xUi-rangepicker-input{padding:6px 11px}.xUi-rangepicker-dropdown-trigger{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:2px;cursor:pointer;line-height:32px;padding:0 8px}.xUi-rangepicker-dropdown-menu{background:#fff;border:1px solid var(--xui-border-color);box-shadow:0 2px 8px rgba(0,0,0,.15);max-height:200px;overflow-y:auto;position:absolute;z-index:1000}.xUi-rangepicker-dropdown-item{cursor:pointer;padding:4px 12px}.xUi-rangepicker-dropdown-item:hover{background:#f5f5f5}.xUi-rangepicker-dropdown-item.active{background-color:#e6f7ff;font-weight:700}.xUi-rangepicker-header{align-items:center;border-bottom:1px solid var(--xui-border-color);display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;padding-bottom:12px;width:100%}.xUi-rangepicker-in-hover-range{background-color:#f0f5ff;border:1px dashed var(--xui-primary-color)!important;border-radius:4px!important}";
+var css_248z$i = ".xUi-rangepicker-range-container{font-size:14px;position:relative;user-select:none;width:fit-content}.xUi-rangepicker-range-input-wrapper{background-color:#fff;border-radius:6px;display:flex;transition:all .3s;width:100%}.xUi-rangepicker-range-input-wrapper:hover{border-color:#4096ff}.xUi-rangepicker-range-input{align-items:center;border-right:1px solid var(--xui-border-color);cursor:pointer;display:flex;flex:1;padding:4px 11px}.xUi-rangepicker-range-input:last-child{border-right:none}.xUi-rangepicker-range-input input{background:transparent;border:none;color:#000;cursor:pointer;font-size:14px;outline:none;width:100%}.xUi-rangepicker-range-input input::placeholder{color:#bfbfbf}.xUi-rangepicker-range-clear,.xUi-rangepicker-range-icon{align-items:center;display:flex;margin-left:8px;transition:color .3s}.xUi-rangepicker-range-icon{color:rgba(0,0,0,.25)}.xUi-rangepicker-range-clear{color:rgba(0,0,0,.45);cursor:pointer}.xUi-rangepicker-range-clear:hover{color:#000}.xUi-rangepicker-range-dropdown-wrapper{background:#fff;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;left:0;margin-top:4px;min-width:560px;opacity:1;padding:8px;position:absolute;top:100%;transform:translateY(4px);transition:opacity .2s ease,transform .2s ease;z-index:1050}.xUi-rangepicker-range-dropdown-wrapper.show{display:flex}.xUi-rangepicker-dropdown-range,.xUi-rangepicker-range-dropdown{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:6px;display:flex;overflow:hidden}.xUi-rangepicker-calendar{background:#fff;border-radius:6px;margin:12px}.xUi-rangepicker-calendar.month,.xUi-rangepicker-calendar.year{width:280px}.xUi-rangepicker-calendar-header{align-items:center;display:flex;font-weight:500;justify-content:space-between}.xUi-rangepicker-month,.xUi-rangepicker-year{background:none;border:none;border-radius:4px;color:var(--xui-text-color);cursor:pointer;height:30px;line-height:30px;margin:7px;min-width:30px;text-align:center;transition:all .2s}.xUi-rangepicker-day:disabled,.xUi-rangepicker-month:disabled,.xUi-rangepicker-select:disabled,.xUi-rangepicker-year:disabled{background-color:var(--xui-color-disabled);cursor:not-allowed;opacity:.5}.xUi-rangepicker-day:not(:disabled):hover,.xUi-rangepicker-month:not(:disabled):hover,.xUi-rangepicker-year:not(:disabled):hover{background:var(--xui-primary-color-light);color:#fff}.xUi-rangepicker-calendar-header button,.xUi-rangepicker-dropdown-selects button,.xUi-rangepicker-nav-buttons button{background:transparent;border:none;color:#595959;cursor:pointer;font-size:14px;font-weight:600;line-height:1;padding:0 6px;transition:color .2s ease}.xUi-rangepicker-nav-buttons button{font-size:20px;font-weight:400}.xUi-rangepicker-calendar-header button:hover,.xUi-rangepicker-dropdown-selects button:hover,.xUi-rangepicker-nav-buttons button:hover{color:var(--xui-primary-color)}.xUi-rangepicker-input{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:6px;color:var(--xui-text-color);cursor:pointer;display:flex;gap:8px;justify-content:space-between;padding:3px 7px;transition:all .3s}.xUi-rangepicker-input.noBordered{border:none!important}.xUi-rangepicker-input input{border:none;color:var(--xui-text-color);font-size:var(--xui-font-size-sm);outline:none;padding:0}.xUi-rangepicker-input:placeholder-shown{text-overflow:ellipsis}.xUi-rangepicker-input:hover{border-color:var(--xui-primary-color)}.xUi-rangepicker-weekday-row{background-color:#fff;box-shadow:0 1px 0 rgba(0,0,0,.1);display:grid;gap:4px;grid-template-columns:repeat(7,1fr);position:sticky;top:0;z-index:1}.xUi-rangepicker-weekday{align-items:center;color:var(--xui-text-color);display:flex;font-size:12px;font-weight:500;font-weight:600;height:30px;justify-content:center;text-align:center}.xUi-rangepicker-days-grid,.xUi-rangepicker-grid{display:grid;gap:2px;grid-template-columns:repeat(3,1fr)}.xUi-rangepicker-days-grid.day{grid-template-columns:repeat(7,0fr)}.xUi-rangepicker-day{background-color:transparent;border:1px solid transparent;border-radius:4px;cursor:pointer;height:30px;line-height:30px;text-align:center;transition:background-color .3s,color .3s;width:30px}.xUi-rangepicker-day:hover{background-color:var(--xui-primary-color);border-radius:4px;color:#fff}.xUi-rangepicker-day.xUi-rangepicker-other-month:hover{background-color:var(--xui-color-disabled)!important;color:var(--xui-text-color)}.xUi-rangepicker-range-end:not(.xUi-rangepicker-other-month),.xUi-rangepicker-range-start:not(.xUi-rangepicker-other-month),.xUi-rangepicker-selected{background-color:var(--xui-primary-color)!important;color:#fff!important;font-weight:600}.xUi-rangepicker-in-range{background-color:#f0f5ff}.xUi-rangepicker-hover-end{background-color:var(--xui-primary-color)!important;color:#fff}.xUi-rangepicker-disabled,.xUi-rangepicker-other-month:not(.xUi-rangepicker-in-range){color:#ccc}.xUi-rangepicker-disabled{cursor:not-allowed}.xUi-rangepicker-footer{display:flex;grid-column:span 7;justify-content:center;padding-top:6px}.xUi-rangepicker-select{background:none;border:none;color:var(--xui-primary-color);cursor:pointer}.xUi-rangepicker-input.sm{font-size:var(--xui-font-size-sm);padding:4px 8px}.xUi-rangepicker-input.md{font-size:var(--xui-font-size-md);padding:8px 12px}.xUi-rangepicker-input.lg{font-size:var(--xui-font-size-lg);padding:10px 16px}.xUi-rangepicker-dropdown-wrapper{opacity:0;pointer-events:none;position:absolute;transform:scale(.95);transition:opacity .2s ease,transform .2s ease;z-index:1000}.xUi-rangepicker-dropdown-wrapper.bottomLeft{left:0;margin-top:4px;top:100%}.xUi-rangepicker-dropdown-wrapper.bottomRight{margin-top:4px;right:0;top:100%}.xUi-rangepicker-dropdown-wrapper.topLeft{bottom:100%;left:0;margin-bottom:4px}.xUi-rangepicker-dropdown-wrapper.topRight{bottom:100%;margin-bottom:4px;right:0}.xUi-rangepicker-dropdown-wrapper.show{opacity:1;pointer-events:auto;transform:scale(1)}.xUi-rangepicker-large .xUi-rangepicker-selected-date{font-size:16px}.xUi-rangepicker-large .xUi-rangepicker-input{padding:11px}.xUi-rangepicker-middle .xUi-rangepicker-input{padding:6px 11px}.xUi-rangepicker-dropdown-trigger{background-color:#fff;border:1px solid var(--xui-border-color);border-radius:2px;cursor:pointer;line-height:32px;padding:0 8px}.xUi-rangepicker-dropdown-menu{background:#fff;border:1px solid var(--xui-border-color);box-shadow:0 2px 8px rgba(0,0,0,.15);max-height:200px;overflow-y:auto;position:absolute;z-index:1000}.xUi-rangepicker-dropdown-item{cursor:pointer;padding:4px 12px}.xUi-rangepicker-dropdown-item:hover{background:#f5f5f5}.xUi-rangepicker-dropdown-item.active{background-color:#e6f7ff;font-weight:700}.xUi-rangepicker-header{align-items:center;border-bottom:1px solid var(--xui-border-color);display:flex;gap:8px;justify-content:space-between;margin-bottom:8px;padding-bottom:12px;width:100%}.xUi-rangepicker-in-hover-range{background-color:#f0f5ff;border:1px dashed var(--xui-primary-color)!important;border-radius:4px!important}";
 styleInject(css_248z$i);
 
 const RangePicker = ({
@@ -3062,29 +3064,27 @@ const RangePicker = ({
   defaultValue,
   bordered = true,
   getPopupContainer,
-  placement
+  placement = "bottomLeft"
 }) => {
-  const triggerRef = React.useRef(null);
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedDates, setSelectedDates] = React.useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   React.useEffect(() => {
     setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   }, [value]);
+  const targetRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const [hoveredDate, setHoveredDate] = React.useState(null);
   const [currentMonth, setCurrentMonth] = React.useState(new Date().getMonth());
   const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
   const [viewMode, setViewMode] = React.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
   const {
-    dropdownPosition
-  } = usePosition({
-    isOpen,
+    popupStyle
+  } = usePopupPosition({
+    targetRef,
     popupRef,
     placement,
-    triggerRef,
-    prefixCls,
-    offset: 2,
-    getPopupContainer: getPopupContainer?.(triggerRef.current)
+    open: isOpen,
+    inBody: getPopupContainer?.(targetRef.current)?.tagName === 'BODY'
   });
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12
@@ -3094,7 +3094,7 @@ const RangePicker = ({
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
   React.useEffect(() => {
     const handleClickOutside = event => {
-      if (popupRef.current && !popupRef.current.contains(event.target) && triggerRef.current && !triggerRef.current.contains(event.target)) {
+      if (popupRef.current && !popupRef.current.contains(event.target) && targetRef.current && !targetRef.current.contains(event.target)) {
         setIsOpen(false);
         onVisibleChange?.(false);
       }
@@ -3303,7 +3303,7 @@ const RangePicker = ({
     }])
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-range-input-wrapper`,
-    ref: triggerRef
+    ref: targetRef
   }, /*#__PURE__*/React.createElement("button", {
     type: "button",
     className: clsx([`${prefixCls}-input`, {
@@ -3341,14 +3341,16 @@ const RangePicker = ({
     onClick: handleClear
   }, /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement(CalendarIcon, null)))), isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(targetRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
     className: `${prefixCls}-dropdown-wrapper show`,
-    style: dropdownPosition
+    style: popupStyle
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-dropdown-range`
-  }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day')))));
+  }, renderCalendar(0, viewMode !== 'day'), viewMode === 'day' && renderCalendar(1, viewMode !== 'day'), /*#__PURE__*/React.createElement("div", {
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+  })))));
 };
 
 var RangePicker$1 = /*#__PURE__*/Object.freeze({
@@ -3356,7 +3358,7 @@ var RangePicker$1 = /*#__PURE__*/Object.freeze({
 	default: RangePicker
 });
 
-var css_248z$h = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px;position:relative}.xUi-timepicker-input-wrapper{position:relative;width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;left:0;min-width:max-content;padding:8px 0;position:absolute;top:100%;z-index:1}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-icons{align-items:center;display:flex;gap:4px;position:absolute;right:8px;top:50%;transform:translateY(-50%)}.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:flex;justify-content:center}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{right:0;top:1px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 8px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}";
+var css_248z$h = ".xUi-timepicker-wrapper{display:inline-block;font-size:14px}.xUi-timepicker-input-wrapper{width:100%}.xUi-timepicker-input{border:1px solid var(--xui-border-color);border-radius:6px;box-sizing:border-box;font-size:14px;height:32px;line-height:32px;padding:4px 11px;transition:all .3s;width:100%}.xUi-timepicker-input:focus,.xUi-timepicker-input:hover{border-color:var(--xui-primary-color-light)}.xUi-timepicker-input:focus{outline:none}.xUi-timepicker-input::placeholder{opacity:.6}.xUi-timepicker-clear{color:rgba(0,0,0,.45);cursor:pointer;font-size:12px;position:absolute;right:8px;top:50%;transform:translateY(-50%);z-index:2}.xUi-timepicker-clear:hover{color:rgba(0,0,0,.75)}.xUi-timepicker-popup{background:#fff;border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:flex;min-width:max-content;padding:8px 0}.xUi-timepicker-panel{display:flex;width:100%}.xUi-timepicker-column{align-items:center;display:flex;flex:1;flex-direction:column;margin-bottom:5px;max-height:169px;overflow-x:hidden;overflow-y:auto;padding-left:4px;width:52px}.xUi-timepicker-column::-webkit-scrollbar,.xUi-timepicker-column::-webkit-scrollbar-thumb{width:4px}.xUi-timepicker-column:nth-child(2){border-left:1px solid var(--xui-border-color);border-right:1px solid var(--xui-border-color)}.xUi-timepicker-cell{align-items:center;border-radius:4px;cursor:pointer;display:flex;font-size:14px;justify-content:center;margin-bottom:2px;padding:6px 0;text-align:center;transition:background .3s;width:44px}.xUi-timepicker-cell:hover{background-color:#e6f4ff}.xUi-timepicker-cell-selected{background-color:#e6f4ff;font-weight:500}.xUi-timepicker-cell-disabled{color:rgba(0,0,0,.25);pointer-events:none;user-select:none}.xUi-timepicker-now-btn{color:#4096ff;cursor:pointer;font-weight:500;margin-top:10px;padding:0 0 4px;text-align:center;transition:background .3s}.xUi-timepicker-clear,.xUi-timepicker-suffix{align-items:center;cursor:pointer;display:block;display:flex;justify-content:flex-end;position:relative;right:8px;top:-23px;width:100%}.xUi-timepicker-suffix svg{color:#999;height:14px;width:14px}.xUi-timepicker-clear{top:-16px}.xUi-timepicker-actions{align-items:center;border-top:1px solid var(--xui-border-color);display:flex;justify-content:space-between;padding:0 8px}.xUi-timepicker-ok-btn{background-color:var(--xui-primary-color);border:none;border-radius:4px;color:#fff;cursor:pointer;margin-top:7px;outline:none;padding:4px 8px;transition:.3s ease}.xUi-timepicker-ok-btn:disabled{background-color:var(--xui-color-disabled);color:grey;font-size:13px}.xUi-timepicker-ok-btn:not(:disabled):hover{background-color:var(--xui-primary-color-light)}";
 styleInject(css_248z$h);
 
 const HOURS = 24;
@@ -3382,33 +3384,32 @@ const TimePicker = ({
   suffixIcon = /*#__PURE__*/React.createElement(TimeIcon, null),
   placeholder = 'Select time',
   getPopupContainer,
-  placement
+  placement = "bottomLeft"
 }) => {
   const [open, setOpen] = React.useState(false);
   const [innerValue, setInnerValue] = React.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
   const [[showHour, showMinutes, showSeconds]] = React.useState(`${format}`.split(':'));
   const [tempValue, setTempValue] = React.useState(null);
-  const triggerRef = React.useRef(null);
+  const targetRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const hourRef = React.useRef(null);
   const minuteRef = React.useRef(null);
   const secondRef = React.useRef(null);
   const {
-    dropdownPosition
-  } = usePosition({
+    popupStyle
+  } = usePopupPosition({
+    open,
     popupRef,
     placement,
-    triggerRef,
-    prefixCls,
-    isOpen: open,
-    getPopupContainer: getPopupContainer?.(triggerRef.current)
+    targetRef,
+    inBody: getPopupContainer?.(targetRef.current)?.tagName === 'BODY'
   });
   React.useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
   }, [propValue]);
   React.useEffect(() => {
     const handleClickOutside = e => {
-      if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setOpen(false);
         setTempValue(null);
         if (!innerValue) {
@@ -3537,7 +3538,9 @@ const TimePicker = ({
     setTempValue(null);
     onChange?.(null, '');
   };
-  const handleShowNow = () => {
+  const handleShowNow = e => {
+    e.preventDefault();
+    e.stopPropagation();
     const now = new Date();
     setTempValue(now);
     setInnerValue(now);
@@ -3545,7 +3548,9 @@ const TimePicker = ({
     onSelect?.(now);
     setOpen(false);
   };
-  const handleOkButton = () => {
+  const handleOkButton = e => {
+    e.preventDefault();
+    e.stopPropagation();
     if (tempValue) {
       setInnerValue(tempValue);
       onChange?.(tempValue, formatDate(tempValue));
@@ -3648,7 +3653,9 @@ const TimePicker = ({
       className: `${prefixCls}-ok-btn`,
       disabled: selectedHour === null || selectedMinute === null || selectedSecond === null,
       onClick: handleOkButton
-    }, "OK")));
+    }, "OK")), /*#__PURE__*/React.createElement("div", {
+      className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
+    }));
   };
   return /*#__PURE__*/React.createElement("div", {
     className: clsx([`${prefixCls}-wrapper`, className]),
@@ -3657,23 +3664,19 @@ const TimePicker = ({
     className: `${prefixCls}-input-wrapper`,
     onClick: () => setOpen(true)
   }, /*#__PURE__*/React.createElement("input", {
-    ref: triggerRef,
+    ref: targetRef,
     size: INPUT_SIZE,
     placeholder: placeholder,
     className: `${prefixCls}-input`,
     readOnly: inputReadOnly,
-    onChange: handleOnChange
-    // {...(open ? {} : { value: formatDate(innerValue) })}
-    ,
+    onChange: handleOnChange,
     value: open ? formatDate(tempValue) : formatDate(innerValue) || '',
     onBlur: e => {
       onBlur?.(e, {
         source: 'input'
       });
     }
-  }), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-icons`
-  }, clearIcon && innerValue ? /*#__PURE__*/React.createElement("span", {
+  }), clearIcon && innerValue ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-clear`,
     onClick: handleClear
   }, clearIcon) : suffixIcon && /*#__PURE__*/React.createElement("span", {
@@ -3682,14 +3685,14 @@ const TimePicker = ({
       e.stopPropagation();
       setOpen(true);
     }
-  }, suffixIcon))), open && /*#__PURE__*/React.createElement(ConditionalWrapper, {
+  }, suffixIcon), open && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(targetRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    style: dropdownPosition,
-    className: `${prefixCls}-popup`
-  }, renderOptions())));
+    style: popupStyle,
+    className: `${prefixCls}-popup ${prefixClsPopupPosition}`
+  }, renderOptions()))));
 };
 
 var TimePicker$1 = /*#__PURE__*/Object.freeze({
@@ -5340,7 +5343,7 @@ var Menu$1 = /*#__PURE__*/Object.freeze({
 	default: Menu
 });
 
-var css_248z$2 = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 2px 18px rgba(0,0,0,.08);padding:4px 0;position:absolute;&:after,&:before{content:\"\";height:10px;position:absolute;top:-10px;width:100%;z-index:1}&:after{bottom:-10px;top:unset}}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}.xUi-dropdown-arrow.bottom{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-dropdown-arrow.xUi-dropdown-topLeft,.xUi-dropdown-arrow.xUi-dropdown-topRight{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-dropdown-arrow.xUi-dropdown-bottomRight,.xUi-dropdown-arrow.xUi-dropdown-topRight{left:unset;right:12px}.xUi-dropdown-arrow.right{border-bottom:.5px solid var(--xui-border-color);border-left:.5px solid var(--xui-border-color);border-right:unset;border-top:unset;left:-6px;top:12px}.xUi-dropdown-arrow.left{border-bottom:unset;border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);left:unset;right:-6px;top:12px}";
+var css_248z$2 = ".xUi-dropdown-overlay{background:var(--xui-background-color);border:1px solid var(--xui-border-color);border-radius:8px;box-shadow:0 2px 18px rgba(0,0,0,.08);padding:4px 0;position:absolute}.xUi-dropdown-overlay>div,.xUi-dropdown-overlay>select,.xUi-dropdown-overlay>ul{box-shadow:unset}.xUi-dropdown-overlay .xUi-dropdown-menu{margin:0;padding:0 4px;position:relative}.xUi-dropdown-overlay .xUi-dropdown-item{border-radius:8px;color:var(--xui-text-color);cursor:pointer;font-size:14px;list-style:none;padding:8px 12px;user-select:none}.xUi-dropdown-overlay .xUi-dropdown-item:focus,.xUi-dropdown-overlay .xUi-dropdown-item:hover{background:var(--xui-color-hover);outline:none}.xUi-dropdown-overlay .xUi-dropdown-item.disabled{cursor:not-allowed;opacity:.5}.xUi-dropdown-overlay .xUi-dropdown-item.danger{color:var(--xui-error-color-light);&:hover{background-color:var(--xui-error-color-light);color:var(--xui-background-color)}}";
 styleInject(css_248z$2);
 
 const Dropdown = ({
@@ -5365,20 +5368,17 @@ const Dropdown = ({
 }) => {
   const [open, setOpen] = React.useState(controlledOpen ?? defaultOpen);
   const isControlled = controlledOpen !== undefined;
-  const triggerRef = React.useRef(null);
+  const targetRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const menuRef = React.useRef(null);
   const {
-    showPlacement,
-    dropdownPosition
-  } = usePosition({
+    popupStyle
+  } = usePopupPosition({
+    open,
+    targetRef,
     popupRef,
     placement,
-    offset: 8,
-    isOpen: open,
-    triggerRef,
-    prefixCls,
-    getPopupContainer: getPopupContainer?.(triggerRef.current)
+    inBody: getPopupContainer?.(targetRef.current)?.tagName === 'BODY'
   });
   React.useEffect(() => {
     if (isControlled) {
@@ -5406,7 +5406,7 @@ const Dropdown = ({
   };
   React.useEffect(() => {
     const handleClickOutside = e => {
-      if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setOpenInternal(false);
         onVisibleChange?.(false);
       }
@@ -5420,7 +5420,7 @@ const Dropdown = ({
   const onTriggerClick = e => {
     e.preventDefault();
     e.stopPropagation();
-    if (triggers.includes('click') && triggerRef.current && !open && triggerRef.current?.contains(e.target)) {
+    if (triggers.includes('click') && targetRef.current && !open && targetRef.current?.contains(e.target)) {
       setOpenInternal(!open);
     }
   };
@@ -5436,17 +5436,16 @@ const Dropdown = ({
   };
   const popup = /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(targetRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     ref: popupRef,
-    className: `${prefixCls}-overlay ${prefixCls}-${placement} ${overlayClassName}`,
+    className: `${prefixCls}-overlay ${prefixClsPopupPosition} ${overlayClassName}`,
     style: {
-      zIndex: 10000,
       ...overlayStyle,
-      ...dropdownPosition
+      ...popupStyle
     }
   }, arrow && /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${showPlacement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
   }), overlay ? typeof overlay === 'function' ? overlay() : overlay : popupRender ? popupRender(menu ? /*#__PURE__*/React.createElement(MenuInner, {
     prefixCls: prefixCls,
     items: menu.items,
@@ -5467,7 +5466,7 @@ const Dropdown = ({
     }
   }, "Empty menu"))));
   return /*#__PURE__*/React.createElement("div", {
-    ref: triggerRef,
+    ref: targetRef,
     className: className,
     onClick: onTriggerClick,
     onMouseEnter: onTriggerMouseEnter,
@@ -5515,7 +5514,7 @@ var Dropdown$1 = /*#__PURE__*/Object.freeze({
 	default: Dropdown
 });
 
-var css_248z$1 = ".xUi-popover{&:after,&:before{content:\"\";height:10px;left:0;position:absolute;top:-10px;width:100%;z-index:10000}&:after{bottom:-10px;top:unset}}.xUi-popover-wrapper-content{cursor:pointer;max-width:fit-content;width:-webkit-fill-available}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}.xUi-popover-arrow{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;left:12px;position:absolute;top:-6px;transform:rotate(45deg);width:10px}.xUi-popover-arrow.xUi-popover-topLeft,.xUi-popover-arrow.xUi-popover-topRight{border-bottom:.5px solid var(--xui-border-color);border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:unset;bottom:-6px;top:unset}.xUi-popover-arrow.xUi-popover-bottomRight,.xUi-popover-arrow.xUi-popover-topRight{left:unset;right:12px}.xUi-popover-arrow.right{border-bottom:.5px solid var(--xui-border-color);border-left:.5px solid var(--xui-border-color);border-right:unset;border-top:unset;left:-6px;top:12px}.xUi-popover-arrow.left{border-bottom:unset;border-left:unset;border-right:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);left:unset;right:-6px;top:12px}";
+var css_248z$1 = ".xUi-popover-wrapper-content{cursor:pointer;max-width:fit-content;width:-webkit-fill-available}.xUi-popover{background:var(--xui-background-color);border-radius:6px;box-shadow:0 4px 12px rgba(0,0,0,.15);padding:8px 12px;width:max-content;z-index:1000}.xUi-popover-title{padding:4px}.xUi-popover-inner{color:var(--xui-text-color);font-size:14px}";
 styleInject(css_248z$1);
 
 const Popover = ({
@@ -5535,27 +5534,22 @@ const Popover = ({
   onVisibleChange,
   getPopupContainer
 }) => {
-  const triggerRef = React.useRef(null);
+  const targetRef = React.useRef(null);
   const popupRef = React.useRef(null);
   const [innerOpen, setInnerOpen] = React.useState(false);
   const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
   const {
-    dropdownPosition,
-    showPlacement
-  } = usePosition({
-    isOpen,
-    offset: 10,
+    popupStyle
+  } = usePopupPosition({
+    targetRef,
     popupRef,
     placement,
-    triggerRef,
-    prefixCls,
-    listenPopoverPositions,
-    placementPositionOffset,
-    getPopupContainer: getPopupContainer?.(triggerRef.current)
+    open: isOpen,
+    inBody: getPopupContainer?.(targetRef.current)?.tagName === 'BODY'
   });
   React.useEffect(() => {
     const handleClickOutside = e => {
-      if (popupRef.current && !popupRef.current.contains(e.target) && triggerRef.current && !triggerRef.current.contains(e.target)) {
+      if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setInnerOpen(false);
         onVisibleChange?.(false);
       }
@@ -5611,7 +5605,7 @@ const Popover = ({
           ...childProps,
           // @ts-expect-error
           ...child.props,
-          ref: triggerRef,
+          ref: targetRef,
           className: `${prefixCls}-wrapper-content`
         }
       });
@@ -5620,16 +5614,14 @@ const Popover = ({
   const _content = React.useMemo(() => flattenChildren(content), [content]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, _children, isOpen && /*#__PURE__*/React.createElement(ConditionalWrapper, {
     condition: !!getPopupContainer,
-    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(triggerRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
+    wrapper: element => getPopupContainer ? /*#__PURE__*/reactDom.createPortal(element, getPopupContainer(targetRef.current)) : /*#__PURE__*/React.createElement(React.Fragment, null, element)
   }, /*#__PURE__*/React.createElement("div", _extends({
     ref: popupRef
   }, childProps, {
-    className: clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName),
+    className: clsx(prefixCls, prefixClsPopupPosition, overlayClassName),
     style: {
-      zIndex: 10000,
-      position: "absolute",
       ...overlayStyle,
-      ...dropdownPosition
+      ...popupStyle
     }
   }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`
@@ -5638,7 +5630,7 @@ const Popover = ({
   }, React.Children.map(_content, (child, index) => /*#__PURE__*/React.createElement("div", {
     key: index
   }, child))), /*#__PURE__*/React.createElement("div", {
-    className: `${prefixCls}-arrow ${showPlacement}`
+    className: `${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`
   }))));
 };
 

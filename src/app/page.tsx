@@ -82,43 +82,31 @@ const items: ItemType[] = [
 export default function Home() {
     return (
         <div style={{ height: 3000 }}>
-            <div style={{ height: 200 }} />
-            <div className='sdfdsgfsfdg'>
-                <div style={{ width: '100%' }} />
+            <div style={{ height: 200, width: 500 }} />
+            <div
+                className='sdfdsgfsfdg'
+                style={{
+                    height: 500,
+                    display: "flex",
+                    overflow: 'auto',
+                }}>
+                <div style={{ width: 500 }} />
 
-                <div className='dsfdf'>
-                    <Popover
-                        placement="bottomLeft"
-                        trigger={['click']}
+                <div
+                    className='dsfdf'
+                    style={{
+                        width: 1000,
+                        height: 1500,
+                        border: '1px solid',
+                    }}>
+                    <div style={{ height: 400, width: '100%', border: '1px solid' }} />
+                    <RangePicker
+                        placement='top'
+                        size='middle'
+                        allowClear
                         // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                        style={{ width: 700 }}
-                        content={
-                            <Suspense>
-                                <Result
-                                    status="success"
-                                    title="Success"
-                                    subTitle="Sorry, you are not authorized to access this page."
-                                    extra={<Button type="primary">Back Home</Button>}
-                                />
-                            </Suspense>
-                        }
-                    >
-                        <div>
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem accusantium doloremque quibusdam tenetur fuga distinctio nihil praesentium molestias consectetur assumenda, cum dolor repudiandae laudantium hic iure at. Ut aspernatur voluptatibus aperiam placeat officiis fugiat rerum suscipit, mollitia quod sapiente impedit cumque cupiditate nisi! Modi minus, dolore velit eos ratione assumenda tempore dolorum, provident corporis ab architecto iure reiciendis, quo similique. Quod atque, repudiandae sint amet quia voluptate dolores. Laborum doloribus nihil et esse architecto molestiae asperiores error excepturi quia ad?
-                        </div>
-                    </Popover>
-
-                    <Dropdown
-                        arrow
-                        placement='bottomLeft'
-                        trigger={['click']}
-                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                        overlay={<Menu items={items}/>}
-                    >
-                        <div>
-                            Menu
-                        </div>
-                    </Dropdown>
+                        // getPopupContainer={() => document.body}
+                    />
                 </div>
                 <div style={{ width: '100%' }} />
             </div>

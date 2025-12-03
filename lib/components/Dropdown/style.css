@@ -5,21 +5,6 @@
     box-shadow: 0 2px 18px rgba(0, 0, 0, 0.08);
     padding: 4px 0;
     position: absolute;
-
-    &::before,
-    &::after {
-        content: "";
-        position: absolute;
-        top: -10px;
-        width: 100%;
-        height: 10px;
-        z-index: 1;
-    }
-
-    &::after {
-        top: unset;
-        bottom: -10px;
-    }
 }
 
 .xUi-dropdown-overlay > ul,
@@ -63,72 +48,3 @@
         background-color: var(--xui-error-color-light);
     }
 }
-
-.xUi-dropdown-arrow {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: -6px;
-    left: 12px;
-    background: var(--xui-background-color);
-    border-left: 0.5px solid var(--xui-border-color);
-    border-top: 0.5px solid var(--xui-border-color);
-    transform: rotate(45deg);
-}
-
-.xUi-dropdown-arrow.bottom {
-    top: unset;
-    bottom: -6px;
-    border-left: unset;
-    border-top: unset;
-    border-right: 0.5px solid var(--xui-border-color);
-    border-bottom: 0.5px solid var(--xui-border-color);
-}
-
-.xUi-dropdown-arrow {
-    width: 10px;
-    height: 10px;
-    position: absolute;
-    top: -6px;
-    left: 12px;
-    background: var(--xui-background-color);
-    border-left: 0.5px solid var(--xui-border-color);
-    border-top: 0.5px solid var(--xui-border-color);
-    transform: rotate(45deg);
-}
-
-.xUi-dropdown-arrow.xUi-dropdown-topRight,
-.xUi-dropdown-arrow.xUi-dropdown-topLeft {
-    top: unset;
-    bottom: -6px;
-    border-left: unset;
-    border-top: unset;
-    border-right: 0.5px solid var(--xui-border-color);
-    border-bottom: 0.5px solid var(--xui-border-color);
-}
-
-.xUi-dropdown-arrow.xUi-dropdown-topRight,
-.xUi-dropdown-arrow.xUi-dropdown-bottomRight {
-    left: unset;
-    right: 12px;
-}
-
-.xUi-dropdown-arrow.right {
-    border-top: unset;
-    border-right: unset;
-    top: 12px;
-    left: -6px;
-    border-left: 0.5px solid var(--xui-border-color);
-    border-bottom: 0.5px solid var(--xui-border-color);
-}
-
-.xUi-dropdown-arrow.left {
-    top: 12px;
-    right: -6px;
-    left: unset;
-    border-left: unset;
-    border-bottom: unset;
-    border-right: 0.5px solid var(--xui-border-color);
-    border-top: 0.5px solid var(--xui-border-color);
-}
-

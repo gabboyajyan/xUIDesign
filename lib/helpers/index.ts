@@ -50,3 +50,29 @@ export function clsx(...args: RuleType[]): string {
     .filter(Boolean)
     .join(' ');
 }
+
+export function getScrollParent(
+  el: HTMLElement | null,
+  includeSelf = false
+): HTMLElement | null {
+  if (!el) return null;
+
+  let current: HTMLElement | null = includeSelf ? el : el.parentElement;
+
+  while (current) {
+    const style = getComputedStyle(current);
+
+    const canScroll = 
+        ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX)
+
+    if (canScroll) {
+      current.style.position = 'relative';
+
+      return current;
+    }
+
+    current = current.parentElement;
+  }
+
+  return document.scrollingElement as HTMLElement;
+}

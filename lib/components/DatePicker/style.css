@@ -1,7 +1,10 @@
 .xUi-datepicker-container {
-    position: relative;
     font-family: Arial, sans-serif;
     height: max-content;
+}
+
+.xUi-datepicker-input-wrapper {
+    width: fit-content;
 }
 
 .xUi-datepicker-input {

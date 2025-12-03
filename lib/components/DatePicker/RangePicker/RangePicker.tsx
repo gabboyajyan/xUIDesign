@@ -3,12 +3,12 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { clsx } from '../../../helpers';
 import { TRangePickerProps } from '../../../types/datepicker';
-import { prefixClsRangePicker } from '../../../utils';
+import { prefixClsPopupPosition, prefixClsRangePicker } from '../../../utils';
 import { MONTH_LENGTH, NEXT_DAYS_COUNT_AS_CURRENT_MUNTH, NUMBER_SIX } from '../DatePicker';
 import { CalendarIcon, ClearIcon, DateDistanceIcon } from '../../Icons/Icons';
 import { createPortal } from 'react-dom';
 import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
-import { usePosition } from '../../../hooks/usePosition';
+import { usePopupPosition } from '../../../hooks/usePopupPosition';
 import './style.css';
 
 const RangePicker = ({
@@ -34,24 +34,24 @@ const RangePicker = ({
   defaultValue,
   bordered = true,
   getPopupContainer,
-  placement
+  placement = "bottomLeft"
 }: TRangePickerProps) => {
-  const triggerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<
-    [Date | null, Date | null]
+  [Date | null, Date | null]
   >([
     value?.[0] || defaultValue?.[0] || null,
     value?.[1] || defaultValue?.[1] || null
   ]);
-
+  
   useEffect(() => {
     setSelectedDates([
       value?.[0] || defaultValue?.[0] || null,
       value?.[1] || defaultValue?.[1] || null
     ])
   }, [value])
-
+  
+  const targetRef = useRef<HTMLDivElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
 
   const [hoveredDate, setHoveredDate] = useState<Date | null>(null);
@@ -61,15 +61,13 @@ const RangePicker = ({
     picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day'
   );
 
-  const { dropdownPosition } = usePosition({
-    isOpen,
+  const { popupStyle } = usePopupPosition({
+    targetRef,
     popupRef,
     placement,
-    triggerRef,
-    prefixCls,
-    offset: 2,
-    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement) as HTMLElement
-  })
+    open: isOpen,
+    inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
+  });
 
   const localeMonths =
     locale?.shortMonths ||
@@ -94,8 +92,8 @@ const RangePicker = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(event.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(event.target as Node)
+        targetRef.current &&
+        !targetRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
         onVisibleChange?.(false);
@@ -423,7 +421,7 @@ const RangePicker = ({
         }
       ])}
     >
-      <div className={`${prefixCls}-range-input-wrapper`} ref={triggerRef}>
+      <div className={`${prefixCls}-range-input-wrapper`} ref={targetRef}>
         <button
           type="button"
           className={clsx([
@@ -483,19 +481,21 @@ const RangePicker = ({
         <ConditionalWrapper
           condition={!!getPopupContainer}
           wrapper={(element) => getPopupContainer
-            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
+            ? createPortal(element, getPopupContainer(targetRef.current as HTMLElement) as HTMLElement)
             : <>{element}</>
           }>
           <div
             ref={popupRef}
             className={`${prefixCls}-dropdown-wrapper show`}
-            style={dropdownPosition}
+            style={popupStyle}
           >
             <div className={`${prefixCls}-dropdown-range`}>
               {renderCalendar(0, viewMode !== 'day')}
               {viewMode === 'day' && renderCalendar(1, viewMode !== 'day')}
+              <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
             </div>
           </div>
+
         </ConditionalWrapper>
       )}
     </div>

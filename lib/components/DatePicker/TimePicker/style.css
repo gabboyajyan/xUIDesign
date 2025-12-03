@@ -1,11 +1,9 @@
 .xUi-timepicker-wrapper {
-    position: relative;
     display: inline-block;
     font-size: 14px;
 }
 
 .xUi-timepicker-input-wrapper {
-    position: relative;
     width: 100%;
 }
 
@@ -57,10 +55,6 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     border-radius: 8px;
     padding: 8px 0;
-    z-index: 1;
-    position: absolute;
-    top: 100%;
-    left: 0;
 }
 
 .xUi-timepicker-panel {
@@ -131,21 +125,17 @@
     transition: background 0.3s;
 }
 
-.xUi-timepicker-icons {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    position: absolute;
-    right: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
+.xUi-timepicker-clear,
 .xUi-timepicker-suffix {
-    cursor: pointer;
+    width: 100%;
+    display: block;
     display: flex;
+    cursor: pointer;
+    top: -23px;
+    right: 8px;
+    position: relative;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .xUi-timepicker-suffix svg {
@@ -155,8 +145,7 @@
 }
 
 .xUi-timepicker-clear {
-    right: 0;
-    top: 1px;
+    top: -16px;
 }
 
 .xUi-timepicker-actions {

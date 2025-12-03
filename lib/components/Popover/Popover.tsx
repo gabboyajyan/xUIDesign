@@ -9,13 +9,13 @@ import React, {
     useCallback,
     SyntheticEvent
 } from "react";
-import { usePosition } from "../../hooks/usePosition";
 import { clsx } from '../../helpers';
 import { PopoverProps } from "../../types/popover";
 import { ConditionalWrapper } from '../ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { prefixClsPopover } from "../../utils";
+import { prefixClsPopover, prefixClsPopupPosition } from "../../utils";
 import { flattenChildren } from "../../helpers/flatten";
+import { usePopupPosition } from "@/hooks/usePopupPosition";
 import './style.css';
 
 const Popover = ({
@@ -35,23 +35,19 @@ const Popover = ({
     onVisibleChange,
     getPopupContainer
 }: PopoverProps) => {
-    const triggerRef = useRef<HTMLDivElement>(null);
+    const targetRef = useRef<HTMLDivElement>(null);
     const popupRef = useRef<HTMLDivElement>(null);
 
     const [innerOpen, setInnerOpen] = useState(false);
 
     const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
 
-    const { dropdownPosition, showPlacement } = usePosition({
-        isOpen,
-        offset: 10,
+    const { popupStyle } = usePopupPosition({
+        targetRef,
         popupRef,
         placement,
-        triggerRef,
-        prefixCls,
-        listenPopoverPositions,
-        placementPositionOffset,
-        getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
+        open: isOpen,
+        inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
     });
 
     useEffect(() => {
@@ -59,8 +55,8 @@ const Popover = ({
             if (
                 popupRef.current &&
                 !popupRef.current.contains(e.target as Node) &&
-                triggerRef.current &&
-                !triggerRef.current.contains(e.target as Node)
+                targetRef.current &&
+                !targetRef.current.contains(e.target as Node)
             ) {
                 setInnerOpen(false);
                 onVisibleChange?.(false);
@@ -126,7 +122,7 @@ const Popover = ({
                     ...childProps,
                     // @ts-expect-error
                     ...child.props,
-                    ref: triggerRef,
+                    ref: targetRef,
                     className: `${prefixCls}-wrapper-content`,
                 },
             })
@@ -144,26 +140,24 @@ const Popover = ({
                     condition={!!getPopupContainer}
                     wrapper={(element) =>
                         getPopupContainer
-                            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
+                            ? createPortal(element, getPopupContainer(targetRef.current as HTMLElement) as HTMLElement)
                             : <>{element}</>
                     }
                 >
                     <div
                         ref={popupRef}
                         {...childProps}
-                        className={clsx(prefixCls, `${prefixCls}-${placement}`, overlayClassName)}
+                        className={clsx(prefixCls, prefixClsPopupPosition, overlayClassName)}
                         style={{
-                            zIndex: 10000,
-                            position: "absolute",
                             ...overlayStyle,
-                            ...dropdownPosition
+                            ...popupStyle
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
                         <div className={`${prefixCls}-inner`}>
                             {Children.map(_content, (child, index) => <div key={index}>{child}</div>)}
                         </div>
-                        <div className={`${prefixCls}-arrow ${showPlacement}`} />
+                        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
                     </div>
                 </ConditionalWrapper>
             )}

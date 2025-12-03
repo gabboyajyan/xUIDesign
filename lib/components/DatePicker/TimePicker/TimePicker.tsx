@@ -7,6 +7,7 @@ import React, {
   MouseEvent as ReactMouseEvent,
   ReactNode,
   RefObject,
+  SyntheticEvent,
   useEffect,
   useRef,
   useState
@@ -14,11 +15,11 @@ import React, {
 import { clsx } from '../../../helpers';
 import { RuleType } from '../../../types';
 import { TimePickerProps } from '../../../types/datepicker';
-import { prefixClsTimePicker } from '../../../utils';
+import { prefixClsPopupPosition, prefixClsTimePicker } from '../../../utils';
 import { ClearIcon, TimeIcon } from '../../Icons/Icons';
 import { ConditionalWrapper } from '../../../components/ConditionalWrapper';
 import { createPortal } from 'react-dom';
-import { usePosition } from '../../../hooks/usePosition';
+import { usePopupPosition } from '../../../hooks/usePopupPosition';
 import './style.css';
 
 const HOURS = 24;
@@ -46,7 +47,7 @@ const TimePicker: FC<TimePickerProps> = ({
   suffixIcon = <TimeIcon />,
   placeholder = 'Select time',
   getPopupContainer,
-  placement
+  placement = "bottomLeft"
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [innerValue, setInnerValue] = useState<Date | null>(
@@ -57,21 +58,19 @@ const TimePicker: FC<TimePickerProps> = ({
 
   const [tempValue, setTempValue] = useState<Date | null>(null);
 
-  const triggerRef = useRef<HTMLInputElement>(null);
+  const targetRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
   const hourRef = useRef<HTMLDivElement>(null);
   const minuteRef = useRef<HTMLDivElement>(null);
   const secondRef = useRef<HTMLDivElement>(null);
 
-  const { dropdownPosition } = usePosition({
+  const { popupStyle } = usePopupPosition({
+    open,
     popupRef,
     placement,
-    triggerRef,
-    prefixCls,
-    isOpen: open,
-    getPopupContainer: getPopupContainer?.(triggerRef.current as HTMLElement)
-  });
-
+    targetRef,
+    inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
+  })
 
   useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -82,8 +81,8 @@ const TimePicker: FC<TimePickerProps> = ({
       if (
         popupRef.current &&
         !popupRef.current.contains(e.target as Node) &&
-        triggerRef.current &&
-        !triggerRef.current.contains(e.target as Node)
+        targetRef.current &&
+        !targetRef.current.contains(e.target as Node)
       ) {
         setOpen(false);
         setTempValue(null);
@@ -243,8 +242,12 @@ const TimePicker: FC<TimePickerProps> = ({
     onChange?.(null as RuleType, '');
   };
 
-  const handleShowNow = (): void => {
+  const handleShowNow = (e: SyntheticEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+
     const now = new Date();
+
     setTempValue(now);
     setInnerValue(now);
     onChange?.(now, formatDate(now));
@@ -252,7 +255,10 @@ const TimePicker: FC<TimePickerProps> = ({
     setOpen(false);
   };
 
-  const handleOkButton = (): void => {
+  const handleOkButton = (e: SyntheticEvent): void => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (tempValue) {
       setInnerValue(tempValue);
       onChange?.(tempValue, formatDate(tempValue));
@@ -435,6 +441,8 @@ const TimePicker: FC<TimePickerProps> = ({
             OK
           </button>
         </div>
+
+        <div className={`${prefixCls}-arrow ${prefixClsPopupPosition}-${placement}`} />
       </div>
     );
   };
@@ -446,54 +454,52 @@ const TimePicker: FC<TimePickerProps> = ({
         onClick={() => setOpen(true)}
       >
         <input
-          ref={triggerRef}
+          ref={targetRef}
           size={INPUT_SIZE}
           placeholder={placeholder}
           className={`${prefixCls}-input`}
           readOnly={inputReadOnly}
           onChange={handleOnChange}
-          // {...(open ? {} : { value: formatDate(innerValue) })}
           value={open ? formatDate(tempValue) : formatDate(innerValue) || ''}
           onBlur={(e: FocusEvent<HTMLInputElement>) => {
             onBlur?.(e, { source: 'input' });
           }}
         />
-        <div className={`${prefixCls}-icons`}>
-          {clearIcon && innerValue ? (
-            <span className={`${prefixCls}-clear`} onClick={handleClear}>
-              {clearIcon}
+        {clearIcon && innerValue ? (
+          <span className={`${prefixCls}-clear`} onClick={handleClear}>
+            {clearIcon}
+          </span>
+        ) : (
+          suffixIcon && (
+            <span
+              className={`${prefixCls}-suffix`}
+              onClick={e => {
+                e.stopPropagation();
+                setOpen(true);
+              }}
+            >
+              {suffixIcon}
             </span>
-          ) : (
-            suffixIcon && (
-              <span
-                className={`${prefixCls}-suffix`}
-                onClick={e => {
-                  e.stopPropagation();
-                  setOpen(true);
-                }}
-              >
-                {suffixIcon}
-              </span>
-            )
-          )}
-        </div>
+          )
+        )}
+
+        {open && (
+          <ConditionalWrapper
+            condition={!!getPopupContainer}
+            wrapper={(element) => getPopupContainer
+              ? createPortal(element, getPopupContainer(targetRef.current as HTMLElement) as HTMLElement)
+              : <>{element}</>
+            }>
+            <div
+              ref={popupRef}
+              style={popupStyle}
+              className={`${prefixCls}-popup ${prefixClsPopupPosition}`}>
+              {renderOptions()}
+            </div>
+          </ConditionalWrapper>
+        )}
       </div>
 
-      {open && (
-        <ConditionalWrapper
-          condition={!!getPopupContainer}
-          wrapper={(element) => getPopupContainer
-            ? createPortal(element, getPopupContainer(triggerRef.current as HTMLElement) as HTMLElement)
-            : <>{element}</>
-          }>
-          <div
-            ref={popupRef}
-            style={dropdownPosition}
-            className={`${prefixCls}-popup`}>
-            {renderOptions()}
-          </div>
-        </ConditionalWrapper>
-      )}
     </div>
   );
 };
