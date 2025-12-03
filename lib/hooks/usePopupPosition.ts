@@ -1,19 +1,29 @@
-import { CSSProperties, RefObject, useCallback, useEffect, useRef, useState } from "react"
-import { Placement } from "../types"
-import { getScrollParent } from "../helpers"
+import {
+    CSSProperties,
+    Dispatch,
+    RefObject,
+    SetStateAction,
+    useCallback,
+    useEffect,
+    useState
+} from "react";
+import { Placement } from "../types";
+import { getScrollParent } from "../helpers";
 
 const OFFSET = 12;
 
 type TPopupPosition = {
-    targetRef: RefObject<HTMLDivElement | null>,
-    popupRef: RefObject<HTMLDivElement | null>,
-    placement: Placement,
-    open: boolean,
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
+    targetRef: RefObject<HTMLDivElement | null>;
+    popupRef: RefObject<HTMLDivElement | null>;
+    placement: Placement;
     inBody: boolean;
 }
 
 export const usePopupPosition = ({
     open,
+    setOpen,
     inBody,
     popupRef,
     targetRef,
@@ -22,21 +32,22 @@ export const usePopupPosition = ({
     popupStyle: CSSProperties
 } => {
     const [popupPosition, setPopupPosition] = useState<CSSProperties>({});
-    const rafRef = useRef<number | null>(null);
 
-    const calculatePosition = useCallback(() => {
-        if (rafRef.current) {
-            cancelAnimationFrame(rafRef.current);
+    const calculatePosition = useCallback((e?: Event) => {
+        const container = targetRef.current?.getBoundingClientRect();
+
+        if (!container) {
+            return;
         }
 
-        rafRef.current = requestAnimationFrame(() => {
-            const scrollableParents = getScrollParent(targetRef.current, true);
-            const container = targetRef.current?.getBoundingClientRect();
+        const scrollableParents = getScrollParent(targetRef.current, true);
+        const scrollSameTarget = e?.target === scrollableParents;
 
-            if (!container) {
-                return;
-            }
+        if (scrollSameTarget) {
+            // console.log(container.top);
+        }
 
+        const _calculation = () => {
             const _bottomCollectionTop = !placement.includes('bottom') ? 0 : (inBody
                 ? (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0) - (scrollableParents?.scrollTop || 0) + (scrollableParents?.offsetTop || 0)
                 : (targetRef.current?.offsetTop || 0) + (targetRef.current?.clientHeight || 0)) + OFFSET;
@@ -83,34 +94,42 @@ export const usePopupPosition = ({
                     });
                     break;
             }
-        });
-    }, [targetRef, popupRef, placement, inBody]);
+        }
+
+        const spaceAboveFromTop = Math.round(container?.top + container?.height) <= 0 || Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.scrollTop || 0) + container?.height) <= 0;
+        const spaceAboveFromBottom = Math.round((targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetHeight || 0) - (scrollableParents?.scrollTop || 0) + container?.height) >= 0
+
+        if (spaceAboveFromTop || spaceAboveFromBottom) {
+            setOpen(false);
+            setPopupPosition({});
+
+            return
+        }
+
+        _calculation()
+    }, [targetRef, popupRef, placement, inBody, setOpen]);
 
     useEffect(() => {
         if (!open) {
             return;
         }
 
-        calculatePosition();
+        calculatePosition(undefined);
 
         const controller = new AbortController();
-        const scrollableParents = getScrollParent(targetRef.current, true);
 
         const options = { passive: true, signal: controller.signal };
 
+        const scrollableParents = getScrollParent(targetRef.current, true);
         scrollableParents?.addEventListener("scroll", calculatePosition, options);
 
-        window.addEventListener("scroll", calculatePosition, options);
-        window.addEventListener("resize", calculatePosition, { signal: controller.signal });
+        document.body.addEventListener("scroll", calculatePosition, options);
+        document.body.addEventListener("resize", calculatePosition, options);
 
         return () => {
             controller.abort();
-
-            if (rafRef.current) {
-                cancelAnimationFrame(rafRef.current);
-            }
         };
-    }, [open, targetRef, calculatePosition]);
+    }, [inBody, open, targetRef, calculatePosition]);
 
     return {
         popupStyle: {

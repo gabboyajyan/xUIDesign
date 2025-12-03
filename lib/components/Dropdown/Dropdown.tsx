@@ -47,6 +47,7 @@ const Dropdown = ({
         targetRef,
         popupRef,
         placement,
+        setOpen,
         inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
     })
 

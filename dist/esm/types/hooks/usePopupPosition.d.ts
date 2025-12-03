@@ -1,13 +1,14 @@
-import { CSSProperties, RefObject } from "react";
+import { CSSProperties, Dispatch, RefObject, SetStateAction } from "react";
 import { Placement } from "../types";
 type TPopupPosition = {
+    open: boolean;
+    setOpen: Dispatch<SetStateAction<boolean>>;
     targetRef: RefObject<HTMLDivElement | null>;
     popupRef: RefObject<HTMLDivElement | null>;
     placement: Placement;
-    open: boolean;
     inBody: boolean;
 };
-export declare const usePopupPosition: ({ open, inBody, popupRef, targetRef, placement }: TPopupPosition) => {
+export declare const usePopupPosition: ({ open, setOpen, inBody, popupRef, targetRef, placement }: TPopupPosition) => {
     popupStyle: CSSProperties;
 };
 export {};

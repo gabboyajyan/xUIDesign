@@ -89,24 +89,34 @@ export default function Home() {
                     height: 500,
                     display: "flex",
                     overflow: 'auto',
+                    border: '1px solid' 
                 }}>
-                <div style={{ width: 500 }} />
+                <div style={{ width: 1000 }} />
 
                 <div
                     className='dsfdf'
                     style={{
                         width: 1000,
                         height: 1500,
-                        border: '1px solid',
                     }}>
-                    <div style={{ height: 400, width: '100%', border: '1px solid' }} />
-                    <RangePicker
-                        placement='top'
-                        size='middle'
-                        allowClear
+                    <div style={{ height: 700, width: '100%' }} />
+                    <Popover
+                        placement='bottom'
+                        content={
+                            <Suspense>
+                                <Result
+                                    status="success"
+                                    title="Success"
+                                    subTitle="Sorry, you are not authorized to access this page."
+                                    extra={<Button type="primary">Back Home</Button>}
+                                />
+                            </Suspense>
+                        }
                         // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                        // getPopupContainer={() => document.body}
-                    />
+                        getPopupContainer={() => document.body}
+                    >
+                        Menu
+                    </Popover>
                 </div>
                 <div style={{ width: '100%' }} />
             </div>

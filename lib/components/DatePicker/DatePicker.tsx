@@ -110,6 +110,7 @@ const DatePicker = ({
     popupRef,
     placement,
     open: isOpen,
+    setOpen: setIsOpen,
     inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
   });
 
