@@ -4,7 +4,7 @@
 }
 
 .xUi-datepicker-input-wrapper {
-    width: fit-content;
+    width: -webkit-fill-available;
 }
 
 .xUi-datepicker-input {
