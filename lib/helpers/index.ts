@@ -51,28 +51,50 @@ export function clsx(...args: RuleType[]): string {
     .join(' ');
 }
 
-export function getScrollParent(
+export function getElementParentDetails(
   el: HTMLElement | null,
   includeSelf = false
-): HTMLElement | null {
-  if (!el) return null;
+): {
+  relativePosition: {
+    left: number;
+    top: number;
+  },
+  scrollableParents: HTMLElement | null
+} {
+  if (!el) {
+    return {
+      relativePosition: { left: 0, top: 0 },
+      scrollableParents: null
+    }
+  };
 
   let current: HTMLElement | null = includeSelf ? el : el.parentElement;
+  const relativePosition = { left: 0, top: 0 };
 
   while (current) {
     const style = getComputedStyle(current);
 
-    const canScroll = 
-        ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX)
+    const canScroll =
+      ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX)
+
+    if (current.style.position === 'relative') {
+      relativePosition.left += current.offsetLeft;
+      relativePosition.top += current.offsetTop;
+    }
 
     if (canScroll) {
-      current.style.position = 'relative';
-
-      return current;
+      return {
+        relativePosition,
+        scrollableParents: current
+      };
     }
 
     current = current.parentElement;
   }
 
-  return document.scrollingElement as HTMLElement;
+  return {
+    relativePosition: { left: 0, top: 0 },
+    scrollableParents: document.scrollingElement as HTMLElement
+  };
 }
+

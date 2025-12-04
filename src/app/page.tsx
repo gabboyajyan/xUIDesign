@@ -82,27 +82,37 @@ const items: ItemType[] = [
 export default function Home() {
     return (
         <div style={{ height: 3000 }}>
-            <div style={{ height: 200, width: 500 }} />
+            <div style={{ height: 200, width: 900 }} />
             <div
                 className='sdfdsgfsfdg'
                 style={{
-                    height: 400,
+                    height: 700,
+                    width: 2500,
                     display: "flex",
                     overflow: 'auto',
-                    border: '1px solid'
+                    border: '1px solid',
+                    position: 'relative',
                 }}>
-                <div style={{ width: 1000 }} />
+                <div style={{ width: 900 }} />
 
-                <div
+                <div style={{
+                        width: 900,
+                        position: 'relative',
+                        height: 1500,
+                        border: '1px solid',
+                    }}>
+                    <div style={{ height: 1000, width: '100%' }} />
+                    <div
                     className='dsfdf'
                     style={{
-                        width: 1000,
-                        position: 'relative'
-                        // height: 1500,
+                        width: 1500,
+                        position: 'relative',
+                        height: 1500,
+                        border: '1px solid',
                     }}>
-                    {/* <div style={{ height: 400, width: '100%' }} /> */}
-                    {/* <Popover
-                        placement='bottom'
+                    <div style={{ height: 900, width: '100%' }} />
+                    <Popover
+                        placement='bottomRight'
                         content={
                             <Suspense>
                                 <Result
@@ -113,17 +123,21 @@ export default function Home() {
                                 />
                             </Suspense>
                         }
-                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
                         // getPopupContainer={() => document.body}
+                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                        // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
                     >
                         Menu
-                    </Popover> */}
-                    <DatePicker
-                        getPopupContainer={() => document.body}
-                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                    />
+                        <br />
+                        Menu
+                    </Popover>
+                    {/* <DatePicker
+                        // getPopupContainer={() => document.body}
+                        getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                    /> */}
                 </div>
-                <div style={{ width: '100%' }} />
+                </div>
+                {/* <div style={{ width: '100%' }} /> */}
             </div>
         </div>
     )

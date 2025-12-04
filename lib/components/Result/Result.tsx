@@ -1,8 +1,8 @@
 import React from "react";
 import { ResultProps } from "../../types/result";
 import { prefixClsResult } from "../../utils";
-import './style.css';
 import { renderDefaultIcon } from "../Icons/Icons";
+import './style.css';
 
 const Result = ({
     icon,

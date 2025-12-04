@@ -48,7 +48,7 @@ const Popover = ({
         placement,
         open: isOpen,
         setOpen: setInnerOpen,
-        inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
+        popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     });
 
     useEffect(() => {
