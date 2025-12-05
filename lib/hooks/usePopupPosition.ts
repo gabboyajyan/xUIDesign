@@ -60,8 +60,8 @@ export const usePopupPosition = ({
                 }
                 : inBody
                     ? {
-                        top: container.top,
-                        left: container.left - (targetRef.current?.clientWidth || 0) / 2
+                        top: container.top + OFFSET,
+                        left: container.left
                     }
                     : {
                         top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
