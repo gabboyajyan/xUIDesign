@@ -156,13 +156,13 @@ export const usePopupPosition = ({
             return;
         }
 
-        const setPositionRelative = (position: string) => {
-            (scrollableParents as HTMLDivElement).style.position = position;
+        // const setPositionRelative = (position: string) => {
+        //     (scrollableParents as HTMLDivElement).style.position = position;
 
-            if (popupContainer) {
-                (popupContainer as HTMLDivElement).style.position = position;
-            }
-        }
+        //     if (popupContainer) {
+        //         (popupContainer as HTMLDivElement).style.position = position;
+        //     }
+        // }
 
         const controller = new AbortController();
         const options = { passive: true, signal: controller.signal };
@@ -170,7 +170,7 @@ export const usePopupPosition = ({
         const { scrollableParents } = getElementParentDetails(targetRef.current, true);
         scrollableParents?.addEventListener("scroll", calculatePosition, options);
 
-        setPositionRelative('relative');
+        // setPositionRelative('relative');
 
         calculatePosition();
 
@@ -179,7 +179,8 @@ export const usePopupPosition = ({
 
         return () => {
             controller.abort();
-            setPositionRelative('unset');
+
+            // setPositionRelative('unset');
         };
     }, [open, targetRef, popupContainer, inBody, calculatePosition]);
 

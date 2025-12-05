@@ -2729,12 +2729,12 @@ const usePopupPosition = ({
     if (!open) {
       return;
     }
-    const setPositionRelative = position => {
-      scrollableParents.style.position = position;
-      if (popupContainer) {
-        popupContainer.style.position = position;
-      }
-    };
+    // const setPositionRelative = (position: string) => {
+    //     (scrollableParents as HTMLDivElement).style.position = position;
+    //     if (popupContainer) {
+    //         (popupContainer as HTMLDivElement).style.position = position;
+    //     }
+    // }
     const controller = new AbortController();
     const options = {
       passive: true,
@@ -2744,13 +2744,13 @@ const usePopupPosition = ({
       scrollableParents
     } = getElementParentDetails(targetRef.current, true);
     scrollableParents?.addEventListener("scroll", calculatePosition, options);
-    setPositionRelative('relative');
+    // setPositionRelative('relative');
     calculatePosition();
     document.body.addEventListener("scroll", calculatePosition, options);
     document.body.addEventListener("resize", calculatePosition, options);
     return () => {
       controller.abort();
-      setPositionRelative('unset');
+      // setPositionRelative('unset');
     };
   }, [open, targetRef, popupContainer, inBody, calculatePosition]);
   return {
