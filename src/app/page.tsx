@@ -81,64 +81,94 @@ const items: ItemType[] = [
 
 export default function Home() {
     return (
-        <div style={{ height: 3000 }}>
-            <div style={{ height: 200, width: 900 }} />
-            <div
-                className='sdfdsgfsfdg'
-                style={{
-                    height: 700,
-                    width: 2500,
-                    display: "flex",
-                    overflow: 'auto',
-                    border: '1px solid',
-                    position: 'relative',
-                }}>
-                <div style={{ width: 900 }} />
+        // <div style={{ height: 1000 }}>
+        //     <div />
+        //     <div
+        //         className='sdfdsgfsfdg'
+        //         style={{
+        //             height: 500,
+        //             // width: 2000,
+        //             display: "flex",
+        //             overflow: 'auto',
+        //             border: '1px solid',
+        //             position: 'relative',
+        //         }}>
+        //         <div style={{ width: 900 }} />
 
-                <div style={{
-                        width: 900,
-                        position: 'relative',
-                        height: 1500,
-                        border: '1px solid',
-                    }}>
-                    <div style={{ height: 1000, width: '100%' }} />
-                    <div
-                    className='dsfdf'
-                    style={{
-                        width: 1500,
-                        position: 'relative',
-                        height: 1500,
-                        border: '1px solid',
-                    }}>
-                    <div style={{ height: 900, width: '100%' }} />
-                    <Popover
-                        placement='bottomRight'
-                        content={
-                            <Suspense>
-                                <Result
-                                    status="success"
-                                    title="Success"
-                                    subTitle="Sorry, you are not authorized to access this page."
-                                    extra={<Button type="primary">Back Home</Button>}
-                                />
-                            </Suspense>
-                        }
-                        // getPopupContainer={() => document.body}
-                        // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                        // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
-                    >
-                        Menu
-                        <br />
-                        Menu
-                    </Popover>
-                    {/* <DatePicker
-                        // getPopupContainer={() => document.body}
-                        getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                    /> */}
-                </div>
-                </div>
-                {/* <div style={{ width: '100%' }} /> */}
+        //         <div style={{
+        //                 width: 900,
+        //                 position: 'relative',
+        //                 // height: 1500,
+        //                 // border: '1px solid',
+        //             }}>
+        //             <div style={{ height: 300, width: '100%' }} />
+        //             <div
+        //             className='dsfdf'
+        //             style={{
+        //                 width: 1500,
+        //                 position: 'relative',
+        //                 height: 500,
+        //                 border: '1px solid',
+        //             }}>
+        //             {/* <div style={{ height: 900, width: '100%' }} /> */}
+        //             <Popover
+        //                 placement='bottomRight'
+        //                 content={
+        //                     <Suspense>
+        //                         <Result
+        //                             status="success"
+        //                             title="Success"
+        //                             subTitle="Sorry, you are not authorized to access this page."
+        //                             extra={<Button type="primary">Back Home</Button>}
+        //                         />
+        //                     </Suspense>
+        //                 }
+        //                 // getPopupContainer={() => document.body}
+        //                 // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+        //                 // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
+        //             >
+        //                 Menu
+        //                 <br />
+        //                 Menu
+        //             </Popover>
+        //             {/* <DatePicker
+        //                 // getPopupContainer={() => document.body}
+        //                 getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+        //             /> */}
+        //         </div>
+        //         </div>
+        //         {/* <div style={{ width: '100%' }} /> */}
+        //     </div>
+        // </div>
+
+
+        <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 700 }}>
+            <div style={{ minWidth: 1500 }} />
+            <div style={{ height: 2000, minWidth: 1000, border: '1px solid', position: 'relative' }}>
+                <div style={{ height: 1000, position: 'relative' }} />
+                {/* <Popover
+                    placement='bottomLeft'
+                    content={
+                        <Suspense>
+                            <Result
+                                status="success"
+                                title="Success"
+                                subTitle="Sorry, you are not authorized to access this page."
+                                extra={<Button type="primary">Back Home</Button>}
+                            />
+                        </Suspense>
+                    }
+                getPopupContainer={() => document.body}
+                // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
+                >
+                    Menu
+                    <br />
+                    Menu
+                </Popover> */}
+                <TimePicker />
             </div>
+            <div style={{ minWidth: 1500 }} />
         </div>
     )
 }

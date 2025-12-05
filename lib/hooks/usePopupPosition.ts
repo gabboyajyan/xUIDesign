@@ -68,17 +68,36 @@ export const usePopupPosition = ({
                         left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
                     };
 
-        if (!inBody) {
-            const hasNotSpaceFromBottom = relativePosition.top - ((scrollableParents?.scrollHeight || 0) - (scrollableParents?.scrollTop || 0) - (popupRef.current?.clientHeight || 0)) - OFFSET
-            const hasNotSpaceFromTop = (relativePosition.top + (popupRef.current?.clientHeight || 0) - container.height - (OFFSET * 2)) - (scrollableParents?.scrollTop || 0)
+        if (!inBody && popupRef.current) {
+            const popupRect = popupRef.current.getBoundingClientRect();
 
-            if (hasNotSpaceFromBottom < 0) {
-                _setPlacement(_placement.replace('bottom', 'top') as Placement)
+            const availableSpace = {
+                top: container.top - (popupRect.height + OFFSET),
+                bottom: (scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
+
+                left: container.left - (popupRect.width + OFFSET),
+                right: (scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
+            };
+
+            let newPlacement = _placement;
+
+            if (availableSpace.bottom < 0 && availableSpace.top > 0) {
+                newPlacement = newPlacement.replace('bottom', 'top') as Placement;
             }
 
-            if (hasNotSpaceFromTop <= 0) {
-                _setPlacement(_placement.replace('top', 'bottom') as Placement)
+            if (availableSpace.top < 0 && availableSpace.bottom > 0) {
+                newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
+
+            if (availableSpace.left < 0 && availableSpace.right > 0) {
+                newPlacement = newPlacement.replace('Right', 'Left') as Placement;
+            }
+
+            if (availableSpace.right < 0 && availableSpace.left > 0) {
+                newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+            }
+
+            _setPlacement(newPlacement);
         }
 
         if (e?.target === scrollableParents && inBody) {
@@ -98,14 +117,14 @@ export const usePopupPosition = ({
                     break;
                 case "bottomLeft":
                     setPopupPosition({
-                        top: positions.top + container.height, 
-                        left: positions.left 
+                        top: positions.top + container.height,
+                        left: positions.left
                     });
                     break;
                 case "bottomRight":
-                    setPopupPosition({ 
-                        top: positions.top + container.height, 
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0) 
+                    setPopupPosition({
+                        top: positions.top + container.height,
+                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
                     });
                     break;
                 case "top":
@@ -116,14 +135,14 @@ export const usePopupPosition = ({
                     break;
                 case "topLeft":
                     setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2), 
-                        left: positions.left 
+                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                        left: positions.left
                     });
                     break;
                 case "topRight":
-                    setPopupPosition({ 
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2), 
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0) 
+                    setPopupPosition({
+                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
                     });
                     break;
             }

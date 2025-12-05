@@ -111,7 +111,7 @@ const DatePicker = ({
     placement,
     open: isOpen,
     setOpen: setIsOpen,
-    inBody: getPopupContainer?.(targetRef.current as HTMLElement)?.tagName === 'BODY'
+    popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
   });
 
   useEffect(() => {
