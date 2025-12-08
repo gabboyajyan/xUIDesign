@@ -68,11 +68,12 @@ export const usePopupPosition = ({
                         left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
                     };
 
-        console.log({
-            popupContainer: !popupContainer,
-            _containsElement,
-            inBody
-        });
+        if (e?.target && inBody) {
+            setOpen(false);
+            setPopupPosition({});
+
+            return
+        }
 
         if (popupRef.current) {
             const popupRect = popupRef.current.getBoundingClientRect();
@@ -84,6 +85,15 @@ export const usePopupPosition = ({
                 left: container.left - (popupRect.width + OFFSET),
                 right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
             };
+
+            console.log({
+                popupRect,
+                container,
+                scrollableParents,
+                innerWidth: window.innerWidth,
+                innerHeight: window.innerHeight
+            });
+            
 
             let newPlacement = _placement;
 
@@ -113,19 +123,7 @@ export const usePopupPosition = ({
                 }
             }
 
-            console.log({
-                availableSpace,
-                newPlacement
-            });            
-
             _setPlacement(newPlacement);
-        }
-
-        if (e?.target === scrollableParents && inBody) {
-            setOpen(false);
-            setPopupPosition({});
-
-            return
         }
 
         const _calculation = () => {
