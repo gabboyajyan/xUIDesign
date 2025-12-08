@@ -16,8 +16,7 @@
     "rollup": "npm run build:types && npm run build:rollup"
   },
   "dependencies": {
-    "next": "15.2.0",
-    "x-ui-design": "^0.7.91"
+    "next": "15.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.27.1",

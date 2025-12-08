@@ -2642,6 +2642,15 @@ const usePopupPosition = ({
       relativePosition
     } = getElementParentDetails(targetRef.current, true);
     const _containsElement = scrollableParents?.contains(popupContainer) && popupContainer !== scrollableParents;
+    console.info({
+      container,
+      scrollableParents,
+      relativePosition,
+      positions: !popupContainer,
+      _containsElement,
+      inBody,
+      popupRef
+    });
     const positions = !popupContainer ? {
       top: (targetRef.current?.offsetTop || 0) + OFFSET,
       left: targetRef.current?.offsetLeft || 0
@@ -2668,6 +2677,10 @@ const usePopupPosition = ({
         left: container.left - (popupRect.width + OFFSET),
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
       };
+      console.info({
+        popupRect,
+        availableSpace
+      });
       let newPlacement = _placement;
       if (availableSpace.bottom < 0 && availableSpace.top > 0) {
         newPlacement = newPlacement.replace('bottom', 'top');

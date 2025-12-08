@@ -48,6 +48,16 @@ export const usePopupPosition = ({
         const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
         const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents
 
+        console.info({
+            container,
+            scrollableParents,
+            relativePosition,
+            positions: !popupContainer,
+            _containsElement,
+            inBody,
+            popupRef
+        });
+
         const positions = !popupContainer
             ? {
                 top: (targetRef.current?.offsetTop || 0) + OFFSET,
@@ -85,6 +95,11 @@ export const usePopupPosition = ({
                 left: container.left - (popupRect.width + OFFSET),
                 right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
             };
+
+            console.info({
+                popupRect,
+                availableSpace
+            });
 
             let newPlacement = _placement;
 
