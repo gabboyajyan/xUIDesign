@@ -55,37 +55,41 @@ export function getElementParentDetails(
   el: HTMLElement | null,
   includeSelf = false
 ): {
-  relativePosition: {
-    left: number;
-    top: number;
-  },
-  scrollableParents: HTMLElement | null
+  relativePosition: { left: number; top: number };
+  scrollableParents: HTMLElement | null;
 } {
   if (!el) {
     return {
       relativePosition: { left: 0, top: 0 },
-      scrollableParents: null
-    }
-  };
+      scrollableParents: null,
+    };
+  }
 
   let current: HTMLElement | null = includeSelf ? el : el.parentElement;
   const relativePosition = { left: 0, top: 0 };
 
+  function hasActualScroll(element: HTMLElement): boolean {
+    return (
+      element.scrollHeight > element.clientHeight ||
+      element.scrollWidth > element.clientWidth
+    );
+  }
+
   while (current) {
     const style = getComputedStyle(current);
 
-    const canScroll =
-      ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX)
+    const allowScroll =
+      style.overflowY !== "visible" || style.overflowX !== "visible";
 
-    if (current.style.position === 'relative') {
+    if (current.style.position === "relative") {
       relativePosition.left += current.offsetLeft;
       relativePosition.top += current.offsetTop;
     }
 
-    if (canScroll) {
+    if (allowScroll && hasActualScroll(current)) {
       return {
         relativePosition,
-        scrollableParents: current
+        scrollableParents: current,
       };
     }
 
@@ -93,8 +97,9 @@ export function getElementParentDetails(
   }
 
   return {
-    relativePosition: { left: 0, top: 0 },
-    scrollableParents: document.scrollingElement as HTMLElement
+    relativePosition,
+    scrollableParents: document.scrollingElement as HTMLElement,
   };
 }
+
 

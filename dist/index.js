@@ -1641,14 +1641,17 @@ function getElementParentDetails(el, includeSelf = false) {
     left: 0,
     top: 0
   };
+  function hasActualScroll(element) {
+    return element.scrollHeight > element.clientHeight || element.scrollWidth > element.clientWidth;
+  }
   while (current) {
     const style = getComputedStyle(current);
-    const canScroll = ['auto', 'scroll'].includes(style.overflowY) || ['auto', 'scroll'].includes(style.overflowX);
-    if (current.style.position === 'relative') {
+    const allowScroll = style.overflowY !== "visible" || style.overflowX !== "visible";
+    if (current.style.position === "relative") {
       relativePosition.left += current.offsetLeft;
       relativePosition.top += current.offsetTop;
     }
-    if (canScroll) {
+    if (allowScroll && hasActualScroll(current)) {
       return {
         relativePosition,
         scrollableParents: current
@@ -1657,10 +1660,7 @@ function getElementParentDetails(el, includeSelf = false) {
     current = current.parentElement;
   }
   return {
-    relativePosition: {
-      left: 0,
-      top: 0
-    },
+    relativePosition,
     scrollableParents: document.scrollingElement
   };
 }
@@ -2678,9 +2678,9 @@ const usePopupPosition = ({
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.offsetLeft || 0 || container.right) + popupRect.width + OFFSET)
       };
       let newPlacement = _placement;
-      if (availableSpace.bottom < 0 && availableSpace.top > 0 && availableSpace.top > popupRect.height) {
+      if (availableSpace.bottom < 0 && availableSpace.top > 0) {
         newPlacement = newPlacement.replace('bottom', 'top');
-      } else if (availableSpace.top < 0 && availableSpace.bottom > 0 && availableSpace.bottom > popupRect.height) {
+      } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
         newPlacement = newPlacement.replace('top', 'bottom');
       }
       if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
