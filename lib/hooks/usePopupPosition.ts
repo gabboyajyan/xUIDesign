@@ -48,16 +48,6 @@ export const usePopupPosition = ({
         const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
         const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents
 
-        console.info({
-            container,
-            scrollableParents,
-            relativePosition,
-            positions: !popupContainer,
-            _containsElement,
-            inBody,
-            popupRef
-        });
-
         const positions = !popupContainer
             ? {
                 top: (targetRef.current?.offsetTop || 0) + OFFSET,
@@ -121,11 +111,11 @@ export const usePopupPosition = ({
 
             if (availableSpace.right < 0 && availableSpace.left < 0) {
                 if (newPlacement.includes('Right')) {
-                    positions.left = (popupRef.current.clientWidth - positions.left) + container.left
+                    positions.left = (popupRect.width - positions.left) + container.left
                 }
 
                 if (newPlacement.includes('Left')) {
-                    positions.left = positions.left - popupRef.current.clientWidth + container.width
+                    positions.left = positions.left - popupRect.width + container.width
                 }
             }
 
@@ -174,7 +164,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupRef, popupContainer, inBody, _placement, setOpen]);
+    }, [targetRef, popupRef.current, popupContainer, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
