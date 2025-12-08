@@ -103,17 +103,13 @@ export const usePopupPosition = ({
 
             if (availableSpace.bottom < 0 && availableSpace.top > 0) {
                 newPlacement = newPlacement.replace('bottom', 'top') as Placement;
-            }
-
-            if (availableSpace.top < 0 && availableSpace.bottom > 0) {
+            } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
-
+            
             if (availableSpace.left < 0 && availableSpace.right > 0) {
                 newPlacement = newPlacement.replace('Right', 'Left') as Placement;
-            }
-
-            if (availableSpace.right < 0 && availableSpace.left > 0) {
+            } else if (availableSpace.right < 0 && availableSpace.left > 0) {
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
