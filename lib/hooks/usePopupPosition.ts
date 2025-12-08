@@ -183,12 +183,18 @@ export const usePopupPosition = ({
         };
     }, [open, targetRef, calculatePosition]);
 
+    const opacity = useMemo(() => {
+        console.log(popupRect?.width, popupPosition);
+
+        return Object.keys(popupPosition).length && popupRect?.width ? 1 : 0
+    }, [popupPosition, popupRect?.width])
+
     return {
         _placement,
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
-            opacity: Object.keys(popupPosition).length && popupRect?.width ? 1 : 0,
+            opacity: opacity,
             ...popupPosition
         }
     };
