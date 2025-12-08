@@ -68,7 +68,7 @@ export const usePopupPosition = ({
                         left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
                     };
 
-        if (!inBody && popupRef.current) {
+        if (popupRef.current) {
             const popupRect = popupRef.current.getBoundingClientRect();
 
             const availableSpace = {
@@ -95,6 +95,16 @@ export const usePopupPosition = ({
 
             if (availableSpace.right < 0 && availableSpace.left > 0) {
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+            }
+
+            if (availableSpace.right < 0 && availableSpace.left < 0) {
+                if (newPlacement.includes('Right')) {
+                    positions.left = (popupRef.current.clientWidth - positions.left) + container.left
+                }
+
+                if (newPlacement.includes('Left')) {
+                    positions.left = positions.left - popupRef.current.clientWidth + container.width
+                }
             }
 
             _setPlacement(newPlacement);
