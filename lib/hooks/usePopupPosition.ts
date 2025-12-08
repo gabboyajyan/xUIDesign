@@ -101,9 +101,9 @@ export const usePopupPosition = ({
 
             let newPlacement = _placement;
 
-            if (availableSpace.bottom < 0 && availableSpace.top > 0) {
+            if (availableSpace.bottom < 0 && availableSpace.top > 0 && availableSpace.top > popupRect.height) {
                 newPlacement = newPlacement.replace('bottom', 'top') as Placement;
-            } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
+            } else if (availableSpace.top < 0 && availableSpace.bottom > 0 && availableSpace.bottom > popupRect.height) {
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
             
@@ -113,15 +113,15 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
-            if (availableSpace.right < 0 && availableSpace.left < 0) {
-                if (newPlacement.includes('Right')) {
-                    positions.left = (popupRect.width - positions.left) + container.left
-                }
+            // if (availableSpace.right < 0 && availableSpace.left < 0) {
+            //     if (newPlacement.includes('Right')) {
+            //         positions.left = (popupRect.width - positions.left) + container.left
+            //     }
 
-                if (newPlacement.includes('Left')) {
-                    positions.left = positions.left - popupRect.width + container.width
-                }
-            }
+            //     if (newPlacement.includes('Left')) {
+            //         positions.left = positions.left - popupRect.width + container.width
+            //     }
+            // }
 
             _setPlacement(newPlacement);
         }

@@ -2676,9 +2676,9 @@ const usePopupPosition = ({
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.offsetLeft || 0 || container.right) + popupRect.width + OFFSET)
       };
       let newPlacement = _placement;
-      if (availableSpace.bottom < 0 && availableSpace.top > 0) {
+      if (availableSpace.bottom < 0 && availableSpace.top > 0 && availableSpace.top > popupRect.height) {
         newPlacement = newPlacement.replace('bottom', 'top');
-      } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
+      } else if (availableSpace.top < 0 && availableSpace.bottom > 0 && availableSpace.bottom > popupRect.height) {
         newPlacement = newPlacement.replace('top', 'bottom');
       }
       if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
@@ -2686,14 +2686,14 @@ const usePopupPosition = ({
       } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
         newPlacement = newPlacement.replace('Left', 'Right');
       }
-      if (availableSpace.right < 0 && availableSpace.left < 0) {
-        if (newPlacement.includes('Right')) {
-          positions.left = popupRect.width - positions.left + container.left;
-        }
-        if (newPlacement.includes('Left')) {
-          positions.left = positions.left - popupRect.width + container.width;
-        }
-      }
+      // if (availableSpace.right < 0 && availableSpace.left < 0) {
+      //     if (newPlacement.includes('Right')) {
+      //         positions.left = (popupRect.width - positions.left) + container.left
+      //     }
+      //     if (newPlacement.includes('Left')) {
+      //         positions.left = positions.left - popupRect.width + container.width
+      //     }
+      // }
       _setPlacement(newPlacement);
     }
     const _calculation = () => {
