@@ -2642,10 +2642,6 @@ const usePopupPosition = ({
       relativePosition
     } = getElementParentDetails(targetRef.current, true);
     const _containsElement = scrollableParents?.contains(popupContainer) && popupContainer !== scrollableParents;
-    const popupRect = popupRef.current?.getBoundingClientRect();
-    if (!popupRect?.width) {
-      return;
-    }
     const positions = !popupContainer ? {
       top: (targetRef.current?.offsetTop || 0) + OFFSET,
       left: targetRef.current?.offsetLeft || 0
@@ -2664,7 +2660,8 @@ const usePopupPosition = ({
       setPopupPosition({});
       return;
     }
-    if (popupRect) {
+    if (popupRef.current) {
+      const popupRect = popupRef.current?.getBoundingClientRect();
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
@@ -2735,17 +2732,11 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
     }
-    // const setPositionRelative = (position: string) => {
-    //     (scrollableParents as HTMLDivElement).style.position = position;
-    //     if (popupContainer) {
-    //         (popupContainer as HTMLDivElement).style.position = position;
-    //     }
-    // }
     const controller = new AbortController();
     const options = {
       passive: true,
@@ -2762,9 +2753,8 @@ const usePopupPosition = ({
     return () => {
       controller.abort();
       setPopupPosition({});
-      // setPositionRelative('unset');
     };
-  }, [open, targetRef, popupContainer, inBody, calculatePosition]);
+  }, [open, calculatePosition]);
   return {
     _placement,
     popupStyle: {

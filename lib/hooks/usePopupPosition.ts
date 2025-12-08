@@ -47,11 +47,6 @@ export const usePopupPosition = ({
 
         const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
         const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents
-        const popupRect = popupRef.current?.getBoundingClientRect();
-
-        if (!popupRect?.width) {
-            return
-        }
 
         const positions = !popupContainer
             ? {
@@ -80,7 +75,9 @@ export const usePopupPosition = ({
             return
         }
 
-        if (popupRect) {
+        if (popupRef.current) {
+            const popupRect = popupRef.current?.getBoundingClientRect();
+
             const availableSpace = {
                 top: container.top - (popupRect.height + OFFSET),
                 bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
@@ -162,29 +159,12 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [
-        targetRef,
-        popupContainer,
-        popupRef.current,
-
-        inBody,
-        _placement,
-
-        setOpen
-    ]);
+    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
             return;
         }
-
-        // const setPositionRelative = (position: string) => {
-        //     (scrollableParents as HTMLDivElement).style.position = position;
-
-        //     if (popupContainer) {
-        //         (popupContainer as HTMLDivElement).style.position = position;
-        //     }
-        // }
 
         const controller = new AbortController();
         const options = { passive: true, signal: controller.signal };
@@ -203,10 +183,8 @@ export const usePopupPosition = ({
             controller.abort();
 
             setPopupPosition({});
-            // setPositionRelative('unset');
-
         };
-    }, [open, targetRef, popupContainer, inBody, calculatePosition]);
+    }, [open, calculatePosition]);
 
     return {
         _placement,
