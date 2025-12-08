@@ -150,8 +150,8 @@ export default function Home() {
                 <div style={{ height: 1000, 
                     position: 'relative'
                      }} />
-                {/* <Popover
-                    placement='bottomLeft'
+                <Popover
+                    placement='left'
                     content={
                         <Suspense>
                             <Result
@@ -169,8 +169,8 @@ export default function Home() {
                     Menu
                     <br />
                     Menu
-                </Popover> */}
-                <DatePicker getPopupContainer={() => document.body} />
+                </Popover>
+                {/* <DatePicker getPopupContainer={() => document.body} /> */}
             </div>
             <div style={{ minWidth: 1500 }} />
         </div>

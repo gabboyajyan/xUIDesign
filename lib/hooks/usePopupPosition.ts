@@ -73,7 +73,7 @@ export const usePopupPosition = ({
 
             const availableSpace = {
                 top: container.top - (popupRect.height + OFFSET),
-                bottom: (scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
+                bottom: (inBody ? window.innerWidth : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
 
                 left: container.left - (popupRect.width + OFFSET),
                 right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
@@ -97,10 +97,6 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
-            console.info({
-                availableSpace, 
-                inBody
-            })
             if (availableSpace.right < 0 && availableSpace.left < 0) {
                 if (newPlacement.includes('Right')) {
                     positions.left = (popupRef.current.clientWidth - positions.left) + container.left
