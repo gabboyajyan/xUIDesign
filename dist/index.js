@@ -2620,7 +2620,7 @@ const ConditionalWrapper = ({
   children
 }) => condition ? wrapper(children) : children;
 
-const OFFSET = 12;
+const OFFSET = 11;
 const usePopupPosition = ({
   open,
   setOpen,
@@ -2632,6 +2632,7 @@ const usePopupPosition = ({
   const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
   const inBody = React.useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
+  const popupRect = React.useMemo(() => popupRef.current?.getBoundingClientRect(), [popupRef.current]);
   const calculatePosition = React.useCallback(e => {
     const container = targetRef.current?.getBoundingClientRect();
     if (!container) {
@@ -2660,8 +2661,7 @@ const usePopupPosition = ({
       setPopupPosition({});
       return;
     }
-    if (popupRef.current) {
-      const popupRect = popupRef.current?.getBoundingClientRect();
+    if (popupRect) {
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
@@ -2696,7 +2696,7 @@ const usePopupPosition = ({
         case "bottom":
           setPopupPosition({
             top: positions.top + container.height,
-            left: positions.left + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
+            left: positions.left + (container.width || 0) / 2 - (popupRect?.width || 0) / 2
           });
           break;
         case "bottomLeft":
@@ -2708,31 +2708,31 @@ const usePopupPosition = ({
         case "bottomRight":
           setPopupPosition({
             top: positions.top + container.height,
-            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+            left: positions.left + (container.width || 0) - (popupRect?.width || 0)
           });
           break;
         case "top":
           setPopupPosition({
-            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
-            left: positions.left + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
+            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
+            left: positions.left + (container.width || 0) / 2 - (popupRect?.width || 0) / 2
           });
           break;
         case "topLeft":
           setPopupPosition({
-            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
+            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
             left: positions.left
           });
           break;
         case "topRight":
           setPopupPosition({
-            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
-            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
+            left: positions.left + (container.width || 0) - (popupRect?.width || 0)
           });
           break;
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRect, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2746,7 +2746,6 @@ const usePopupPosition = ({
       scrollableParents
     } = getElementParentDetails(targetRef.current, true);
     scrollableParents?.addEventListener("scroll", calculatePosition, options);
-    // setPositionRelative('relative');
     calculatePosition();
     document.body.addEventListener("scroll", calculatePosition, options);
     document.body.addEventListener("resize", calculatePosition, options);
@@ -2754,13 +2753,13 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, calculatePosition]);
+  }, [open, targetRef, calculatePosition]);
   return {
     _placement,
     popupStyle: {
       zIndex: 10000,
       position: "absolute",
-      opacity: Object.keys(popupPosition).length ? 1 : 0,
+      opacity: Object.keys(popupPosition).length && popupRect?.width ? 1 : 0,
       ...popupPosition
     }
   };
@@ -5573,7 +5572,7 @@ function MenuInner({
     className: `${prefixCls}-menu`,
     ref: menuRef,
     role: "menu"
-  }, items.map(it => /*#__PURE__*/React.createElement("li", {
+  }, items?.map(it => /*#__PURE__*/React.createElement("li", {
     key: it.key,
     role: "menuitem",
     tabIndex: it.disabled ? -1 : 0,

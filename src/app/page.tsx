@@ -10,6 +10,7 @@ import { Menu } from '../../lib/components/Menu';
 import { ArrowIcon, ClearIcon } from "../../lib/components/Icons/Icons";
 import { ItemType } from "../../lib/types/menu";
 import { lazy, Suspense } from "react";
+import MenuItem from '../../lib/components/Menu/Item/Item';
 
 const Result = lazy(() => import('../../lib/components/Result/Result'))
 
@@ -155,7 +156,7 @@ export default function Home() {
                 <Popover
                     placement='bottomLeft'
                     content={
-                        <Suspense>
+                        <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
                             <Result
                                 status="success"
                                 title="Success"
@@ -173,6 +174,15 @@ export default function Home() {
                     Menu
                 </Popover>
                 {/* <DatePicker getPopupContainer={() => document.body} /> */}
+                {/* <Dropdown overlay={() => {
+                    return <Menu>
+                        {items.map((item) => {
+                            return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
+                        })}
+                    </Menu>
+                }}>
+                    DropDown
+                </Dropdown> */}
             </div>
             <div style={{ minWidth: 1500 }} />
         </div>

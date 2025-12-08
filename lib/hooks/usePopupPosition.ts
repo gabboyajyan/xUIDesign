@@ -11,7 +11,7 @@ import {
 import { Placement } from "../types";
 import { getElementParentDetails } from "../helpers";
 
-const OFFSET = 12;
+const OFFSET = 11;
 
 type TPopupPosition = {
     open: boolean;
@@ -37,6 +37,7 @@ export const usePopupPosition = ({
     const [popupPosition, setPopupPosition] = useState<CSSProperties>({});
 
     const inBody = useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
+    const popupRect = useMemo(() => popupRef.current?.getBoundingClientRect(), [popupRef.current]);
 
     const calculatePosition = useCallback((e?: Event) => {
         const container = targetRef.current?.getBoundingClientRect();
@@ -75,9 +76,7 @@ export const usePopupPosition = ({
             return
         }
 
-        if (popupRef.current) {
-            const popupRect = popupRef.current?.getBoundingClientRect();
-
+        if (popupRect) {
             const availableSpace = {
                 top: container.top - (popupRect.height + OFFSET),
                 bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
@@ -122,7 +121,7 @@ export const usePopupPosition = ({
                 case "bottom":
                     setPopupPosition({
                         top: positions.top + container.height,
-                        left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                        left: positions.left + ((container.width || 0) / 2) - ((popupRect?.width || 0) / 2)
                     });
                     break;
                 case "bottomLeft":
@@ -134,32 +133,32 @@ export const usePopupPosition = ({
                 case "bottomRight":
                     setPopupPosition({
                         top: positions.top + container.height,
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                        left: positions.left + (container.width || 0) - (popupRect?.width || 0)
                     });
                     break;
                 case "top":
                     setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                        left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                        top: positions.top - (popupRect?.height || 0) - (OFFSET * 2),
+                        left: positions.left + ((container.width || 0) / 2) - ((popupRect?.width || 0) / 2)
                     });
                     break;
                 case "topLeft":
                     setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                        top: positions.top - (popupRect?.height || 0) - (OFFSET * 2),
                         left: positions.left
                     });
                     break;
                 case "topRight":
                     setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                        top: positions.top - (popupRect?.height || 0) - (OFFSET * 2),
+                        left: positions.left + (container.width || 0) - (popupRect?.width || 0)
                     });
                     break;
             }
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRect, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
@@ -172,8 +171,6 @@ export const usePopupPosition = ({
         const { scrollableParents } = getElementParentDetails(targetRef.current, true);
         scrollableParents?.addEventListener("scroll", calculatePosition, options);
 
-        // setPositionRelative('relative');
-
         calculatePosition();
 
         document.body.addEventListener("scroll", calculatePosition, options);
@@ -184,14 +181,14 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, calculatePosition]);
+    }, [open, targetRef, calculatePosition]);
 
     return {
         _placement,
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
-            opacity: Object.keys(popupPosition).length ? 1 : 0,
+            opacity: Object.keys(popupPosition).length && popupRect?.width ? 1 : 0,
             ...popupPosition
         }
     };

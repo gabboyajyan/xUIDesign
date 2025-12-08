@@ -201,7 +201,7 @@ function MenuInner({
 }: DropdownMenuInnerProps) {
     return (
         <ul className={`${prefixCls}-menu`} ref={menuRef} role='menu'>
-            {items.map((it) => (
+            {items?.map((it) => (
                 <li
                     key={it.key}
                     role='menuitem'
