@@ -2659,7 +2659,7 @@ const usePopupPosition = ({
       const popupRect = popupRef.current.getBoundingClientRect();
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
-        bottom: (inBody ? window.innerWidth : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
+        bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
         left: container.left - (popupRect.width + OFFSET),
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
       };
