@@ -2683,9 +2683,9 @@ const usePopupPosition = ({
       } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
         newPlacement = newPlacement.replace('top', 'bottom');
       }
-      if (availableSpace.left < 0 && availableSpace.right > 0) {
+      if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
         newPlacement = newPlacement.replace('Right', 'Left');
-      } else if (availableSpace.right < 0 && availableSpace.left > 0) {
+      } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
         newPlacement = newPlacement.replace('Left', 'Right');
       }
       if (availableSpace.right < 0 && availableSpace.left < 0) {

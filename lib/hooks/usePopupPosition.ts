@@ -107,9 +107,9 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
             
-            if (availableSpace.left < 0 && availableSpace.right > 0) {
+            if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
                 newPlacement = newPlacement.replace('Right', 'Left') as Placement;
-            } else if (availableSpace.right < 0 && availableSpace.left > 0) {
+            } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
