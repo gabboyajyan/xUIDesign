@@ -2646,7 +2646,7 @@ const usePopupPosition = ({
       top: (targetRef.current?.offsetTop || 0) + OFFSET,
       left: targetRef.current?.offsetLeft || 0
     } : _containsElement ? {
-      top: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
+      top: (targetRef.current?.clientTop || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
       left: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetLeft || 0)
     } : inBody ? {
       top: container.top + OFFSET,
@@ -2675,7 +2675,7 @@ const usePopupPosition = ({
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
         left: container.left - (popupRect.width + OFFSET),
-        right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
+        right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - (container.left + popupRect.width + OFFSET)
       };
       let newPlacement = _placement;
       if (availableSpace.bottom < 0 && availableSpace.top > 0) {

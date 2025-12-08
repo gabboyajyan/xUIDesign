@@ -55,7 +55,7 @@ export const usePopupPosition = ({
             }
             : _containsElement
                 ? {
-                    top: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
+                    top: (targetRef.current?.clientTop || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
                     left: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetLeft || 0)
                 }
                 : inBody
@@ -96,7 +96,7 @@ export const usePopupPosition = ({
                 bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
 
                 left: container.left - (popupRect.width + OFFSET),
-                right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
+                right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.left + popupRect.width + OFFSET)
             };
 
             let newPlacement = _placement;
