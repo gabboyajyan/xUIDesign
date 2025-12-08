@@ -2675,7 +2675,7 @@ const usePopupPosition = ({
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
         left: container.left - (popupRect.width + OFFSET),
-        right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.clientLeft || 0 || container.right) + popupRect.width + OFFSET)
+        right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.offsetLeft || 0 || container.right) + popupRect.width + OFFSET)
       };
       let newPlacement = _placement;
       if (availableSpace.bottom < 0 && availableSpace.top > 0) {
