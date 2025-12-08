@@ -68,22 +68,15 @@ export const usePopupPosition = ({
                         left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
                     };
 
-        if (e?.target === scrollableParents && inBody) {
-            setOpen(false);
-            setPopupPosition({});
-
-            return
-        }
-
-        if (popupRef.current) {
+        if (!inBody && popupRef.current) {
             const popupRect = popupRef.current.getBoundingClientRect();
 
             const availableSpace = {
                 top: container.top - (popupRect.height + OFFSET),
-                bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
+                bottom: (scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
 
                 left: container.left - (popupRect.width + OFFSET),
-                right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
+                right: (scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
             };
 
             let newPlacement = _placement;
@@ -104,17 +97,14 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
-            if (availableSpace.right < 0 && availableSpace.left < 0) {
-                if (newPlacement.includes('Right')) {
-                    positions.left = (popupRef.current.clientWidth - positions.left) + container.left
-                }
-
-                if (newPlacement.includes('Left')) {
-                    positions.left = positions.left - popupRef.current.clientWidth + container.width
-                }
-            }
-
             _setPlacement(newPlacement);
+        }
+
+        if (e?.target === scrollableParents && inBody) {
+            setOpen(false);
+            setPopupPosition({});
+
+            return
         }
 
         const _calculation = () => {
@@ -190,9 +180,7 @@ export const usePopupPosition = ({
         return () => {
             controller.abort();
 
-            setPopupPosition({});
             // setPositionRelative('unset');
-
         };
     }, [open, targetRef, popupContainer, inBody, calculatePosition]);
 

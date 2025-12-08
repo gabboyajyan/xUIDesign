@@ -142,15 +142,15 @@ export default function Home() {
         // </div>
 
 
-        <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 700 }}>
-            <div style={{ minWidth: 100 }} />
-            <div style={{ height: 700, border: '1px solid', 
+        <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 700, position: 'relative' }}>
+            <div style={{ minWidth: 1500 }} />
+            <div style={{ height: 2000, minWidth: 1000, border: '1px solid', 
                 position: 'relative'
                  }}>
-                <div style={{ height: 700, 
+                <div style={{ height: 1000, 
                     position: 'relative'
                      }} />
-                <Popover
+                {/* <Popover
                     placement='bottomLeft'
                     content={
                         <Suspense>
@@ -169,8 +169,8 @@ export default function Home() {
                     Menu
                     <br />
                     Menu
-                </Popover>
-                {/* <DatePicker getPopupContainer={() => document.body} /> */}
+                </Popover> */}
+                <DatePicker getPopupContainer={() => document.body} />
             </div>
             <div style={{ minWidth: 1500 }} />
         </div>
