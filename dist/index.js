@@ -2662,6 +2662,15 @@ const usePopupPosition = ({
     }
     const popupRect = popupRef.current?.getBoundingClientRect();
     if (popupRect) {
+      if (!popupRect?.width) {
+        setOpen(false);
+        setPopupPosition({});
+        const timeout = setTimeout(() => {
+          setOpen(true);
+          clearTimeout(timeout);
+        }, 10);
+        return;
+      }
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
@@ -2692,15 +2701,6 @@ const usePopupPosition = ({
       _setPlacement(newPlacement);
     }
     const _calculation = () => {
-      if (!popupRect?.width) {
-        setOpen(false);
-        setPopupPosition({});
-        const timeout = setTimeout(() => {
-          setOpen(true);
-          clearTimeout(timeout);
-        }, 0);
-        return;
-      }
       switch (_placement) {
         case "bottom":
           setPopupPosition({
