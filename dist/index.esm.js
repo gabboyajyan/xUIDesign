@@ -2673,10 +2673,10 @@ const usePopupPosition = ({
       if (availableSpace.top < 0 && availableSpace.bottom > 0) {
         newPlacement = newPlacement.replace('top', 'bottom');
       }
-      if (availableSpace.left < 0 && availableSpace.right > 0) {
+      if (availableSpace.left < 0 && (availableSpace.right > 0 || availableSpace.right < popupRect.width)) {
         newPlacement = newPlacement.replace('Right', 'Left');
       }
-      if (availableSpace.right < 0 && availableSpace.left > 0) {
+      if (availableSpace.right < 0 && (availableSpace.left > 0 || availableSpace.left < popupRect.width)) {
         newPlacement = newPlacement.replace('Left', 'Right');
       }
       if (availableSpace.right < 0 && availableSpace.left < 0) {
@@ -2687,10 +2687,6 @@ const usePopupPosition = ({
           positions.left = positions.left - popupRef.current.clientWidth + container.width;
         }
       }
-      console.log({
-        newPlacement,
-        availableSpace
-      });
       _setPlacement(newPlacement);
     }
     const _calculation = () => {

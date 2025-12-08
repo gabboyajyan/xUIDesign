@@ -96,11 +96,11 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
 
-            if (availableSpace.left < 0 && availableSpace.right > 0) {
+            if (availableSpace.left < 0 && (availableSpace.right > 0 || availableSpace.right < popupRect.width)) {
                 newPlacement = newPlacement.replace('Right', 'Left') as Placement;
             }
 
-            if (availableSpace.right < 0 && availableSpace.left > 0) {
+            if (availableSpace.right < 0 && (availableSpace.left > 0 || availableSpace.left < popupRect.width)) {
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
@@ -113,11 +113,6 @@ export const usePopupPosition = ({
                     positions.left = positions.left - popupRef.current.clientWidth + container.width
                 }
             }
-
-            console.log({
-                newPlacement,
-                availableSpace
-            });
 
             _setPlacement(newPlacement);
         }

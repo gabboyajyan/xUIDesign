@@ -143,15 +143,15 @@ export default function Home() {
 
 
         <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 700 }}>
-            <div style={{ minWidth: 1500 }} />
-            <div style={{ height: 2000, minWidth: 1000, border: '1px solid', 
+            <div style={{ minWidth: 100 }} />
+            <div style={{ height: 700, border: '1px solid', 
                 position: 'relative'
                  }}>
-                <div style={{ height: 1000, 
+                <div style={{ height: 700, 
                     position: 'relative'
                      }} />
                 <Popover
-                    placement='left'
+                    placement='bottomLeft'
                     content={
                         <Suspense>
                             <Result
