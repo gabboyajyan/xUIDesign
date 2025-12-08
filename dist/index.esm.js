@@ -2653,6 +2653,11 @@ const usePopupPosition = ({
       top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
       left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
     };
+    console.log({
+      popupContainer: !popupContainer,
+      _containsElement,
+      inBody
+    });
     if (popupRef.current) {
       const popupRect = popupRef.current.getBoundingClientRect();
       const availableSpace = {
@@ -2682,6 +2687,10 @@ const usePopupPosition = ({
           positions.left = positions.left - popupRef.current.clientWidth + container.width;
         }
       }
+      console.log({
+        availableSpace,
+        newPlacement
+      });
       _setPlacement(newPlacement);
     }
     if (e?.target === scrollableParents && inBody) {
