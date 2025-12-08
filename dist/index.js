@@ -2620,7 +2620,7 @@ const ConditionalWrapper = ({
   children
 }) => condition ? wrapper(children) : children;
 
-const OFFSET = 11;
+const OFFSET = 12;
 const usePopupPosition = ({
   open,
   setOpen,
@@ -2632,7 +2632,6 @@ const usePopupPosition = ({
   const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
   const inBody = React.useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
-  const popupRect = React.useMemo(() => popupRef.current?.getBoundingClientRect(), [popupRef.current]);
   const calculatePosition = React.useCallback(e => {
     const container = targetRef.current?.getBoundingClientRect();
     if (!container) {
@@ -2661,6 +2660,7 @@ const usePopupPosition = ({
       setPopupPosition({});
       return;
     }
+    const popupRect = popupRef.current?.getBoundingClientRect();
     if (popupRect) {
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
@@ -2692,11 +2692,14 @@ const usePopupPosition = ({
       _setPlacement(newPlacement);
     }
     const _calculation = () => {
+      if (!popupRect?.width) {
+        return;
+      }
       switch (_placement) {
         case "bottom":
           setPopupPosition({
             top: positions.top + container.height,
-            left: positions.left + (container.width || 0) / 2 - (popupRect?.width || 0) / 2
+            left: positions.left + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
           });
           break;
         case "bottomLeft":
@@ -2708,31 +2711,31 @@ const usePopupPosition = ({
         case "bottomRight":
           setPopupPosition({
             top: positions.top + container.height,
-            left: positions.left + (container.width || 0) - (popupRect?.width || 0)
+            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
           });
           break;
         case "top":
           setPopupPosition({
-            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
-            left: positions.left + (container.width || 0) / 2 - (popupRect?.width || 0) / 2
+            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
+            left: positions.left + (container.width || 0) / 2 - (popupRef.current?.offsetWidth || 0) / 2
           });
           break;
         case "topLeft":
           setPopupPosition({
-            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
+            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
             left: positions.left
           });
           break;
         case "topRight":
           setPopupPosition({
-            top: positions.top - (popupRect?.height || 0) - OFFSET * 2,
-            left: positions.left + (container.width || 0) - (popupRect?.width || 0)
+            top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
+            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
           });
           break;
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRect, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2754,16 +2757,12 @@ const usePopupPosition = ({
       setPopupPosition({});
     };
   }, [open, targetRef, calculatePosition]);
-  const opacity = React.useMemo(() => {
-    console.log(popupRect?.width, popupPosition);
-    return Object.keys(popupPosition).length && popupRect?.width ? 1 : 0;
-  }, [popupPosition, popupRect?.width]);
   return {
     _placement,
     popupStyle: {
       zIndex: 10000,
       position: "absolute",
-      opacity: opacity,
+      opacity: Object.keys(popupPosition).length ? 1 : 0,
       ...popupPosition
     }
   };
