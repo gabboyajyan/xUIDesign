@@ -2694,7 +2694,7 @@ const usePopupPosition = ({
         setOpen(false);
         setPopupPosition({});
         const timeout = setTimeout(() => {
-          setOpen(false);
+          setOpen(true);
           clearTimeout(timeout);
         }, 0);
         return;

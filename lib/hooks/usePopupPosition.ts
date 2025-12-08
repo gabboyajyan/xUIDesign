@@ -123,7 +123,7 @@ export const usePopupPosition = ({
                 setPopupPosition({});
 
                 const timeout = setTimeout(() => {
-                    setOpen(false);
+                    setOpen(true);
 
                     clearTimeout(timeout)
                 }, 0);
