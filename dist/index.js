@@ -2735,7 +2735,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2756,7 +2756,7 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, targetRef, calculatePosition]);
+  }, [open, targetRef, popupRef, calculatePosition]);
   return {
     _placement,
     popupStyle: {

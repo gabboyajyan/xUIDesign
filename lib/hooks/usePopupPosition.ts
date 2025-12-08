@@ -163,7 +163,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
@@ -186,7 +186,7 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, targetRef, calculatePosition]);
+    }, [open, targetRef, popupRef, calculatePosition]);
 
     return {
         _placement,
