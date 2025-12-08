@@ -2640,6 +2640,10 @@ const usePopupPosition = ({
       relativePosition
     } = getElementParentDetails(targetRef.current, true);
     const _containsElement = scrollableParents?.contains(popupContainer) && popupContainer !== scrollableParents;
+    const popupRect = popupRef.current?.getBoundingClientRect();
+    if (!popupRect?.width) {
+      return;
+    }
     const positions = !popupContainer ? {
       top: (targetRef.current?.offsetTop || 0) + OFFSET,
       left: targetRef.current?.offsetLeft || 0
@@ -2658,18 +2662,13 @@ const usePopupPosition = ({
       setPopupPosition({});
       return;
     }
-    if (popupRef.current) {
-      const popupRect = popupRef.current.getBoundingClientRect();
+    if (popupRect) {
       const availableSpace = {
         top: container.top - (popupRect.height + OFFSET),
         bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
         left: container.left - (popupRect.width + OFFSET),
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - (container.right + popupRect.width + OFFSET)
       };
-      console.info({
-        popupRect,
-        availableSpace
-      });
       let newPlacement = _placement;
       if (availableSpace.bottom < 0 && availableSpace.top > 0) {
         newPlacement = newPlacement.replace('bottom', 'top');
@@ -2734,7 +2733,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupRef.current, popupContainer, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
   useEffect(() => {
     if (!open) {
       return;
