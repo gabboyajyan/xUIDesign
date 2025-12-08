@@ -2691,6 +2691,12 @@ const usePopupPosition = ({
     }
     const _calculation = () => {
       if (!popupRect?.width) {
+        setOpen(false);
+        setPopupPosition({});
+        const timeout = setTimeout(() => {
+          setOpen(false);
+          clearTimeout(timeout);
+        }, 0);
         return;
       }
       switch (_placement) {
@@ -2733,7 +2739,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
   useEffect(() => {
     if (!open) {
       return;
@@ -2754,7 +2760,7 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, targetRef, popupRef, calculatePosition]);
+  }, [open, targetRef, calculatePosition]);
   return {
     _placement,
     popupStyle: {

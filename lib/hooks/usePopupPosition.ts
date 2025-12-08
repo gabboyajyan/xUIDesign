@@ -76,7 +76,7 @@ export const usePopupPosition = ({
         }
 
         const popupRect = popupRef.current?.getBoundingClientRect();
-        
+
         if (popupRect) {
             const availableSpace = {
                 top: container.top - (popupRect.height + OFFSET),
@@ -119,6 +119,15 @@ export const usePopupPosition = ({
 
         const _calculation = () => {
             if (!popupRect?.width) {
+                setOpen(false);
+                setPopupPosition({});
+
+                const timeout = setTimeout(() => {
+                    setOpen(false);
+
+                    clearTimeout(timeout)
+                }, 0);
+
                 return
             }
 
@@ -163,7 +172,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef.current, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
@@ -186,7 +195,7 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, targetRef, popupRef, calculatePosition]);
+    }, [open, targetRef, calculatePosition]);
 
     return {
         _placement,
