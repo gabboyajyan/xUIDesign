@@ -68,7 +68,7 @@ export const usePopupPosition = ({
                         left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
                     };
 
-        if (e?.target && inBody) {
+        if (e?.target === scrollableParents && inBody) {
             setOpen(false);
             setPopupPosition({});
 
@@ -85,16 +85,7 @@ export const usePopupPosition = ({
                 left: container.left - (popupRect.width + OFFSET),
                 right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (container.right + popupRect.width + OFFSET)
             };
-
-            console.log({
-                popupRect,
-                container,
-                scrollableParents,
-                innerWidth: window.innerWidth,
-                innerHeight: window.innerHeight
-            });
             
-
             let newPlacement = _placement;
 
             if (availableSpace.bottom < 0 && availableSpace.top > 0) {
@@ -122,6 +113,11 @@ export const usePopupPosition = ({
                     positions.left = positions.left - popupRef.current.clientWidth + container.width
                 }
             }
+
+            console.log({
+                newPlacement,
+                availableSpace
+            });
 
             _setPlacement(newPlacement);
         }
@@ -199,7 +195,9 @@ export const usePopupPosition = ({
         return () => {
             controller.abort();
 
+            setPopupPosition({});
             // setPositionRelative('unset');
+
         };
     }, [open, targetRef, popupContainer, inBody, calculatePosition]);
 
