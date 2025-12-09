@@ -2640,7 +2640,7 @@ const usePopupPosition = ({
       scrollableParents,
       relativePosition
     } = getElementParentDetails(targetRef.current, true);
-    const _containsElement = scrollableParents?.contains(popupContainer) && popupContainer !== scrollableParents;
+    const _containsElement = scrollableParents?.contains(popupContainer) && popupContainer !== scrollableParents && !inBody;
     const positions = !popupContainer ? {
       top: (targetRef.current?.offsetTop || 0) + OFFSET,
       left: targetRef.current?.offsetLeft || 0

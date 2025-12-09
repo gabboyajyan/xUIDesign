@@ -48,7 +48,7 @@ export const usePopupPosition = ({
         }
 
         const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
-        const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents
+        const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents && !inBody
 
         const positions = !popupContainer
             ? {
