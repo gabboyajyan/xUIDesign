@@ -28,7 +28,7 @@ import {
   SearchIcon
 } from '../Icons/Icons';
 import { clsx } from '../../helpers';
-import { MouseEventHandlerSelect, SyntheticBaseEvent } from '../../types';
+import { MouseEventHandlerSelect, RuleType, SyntheticBaseEvent } from '../../types';
 import { OptionType, SelectProps } from '../../types/select';
 import { prefixClsForm, prefixClsSelect, prefixClsSelectV3 } from '../../utils';
 import Option from './Option/Option';
@@ -145,6 +145,8 @@ const Select = ({
     hasMode ? checkModeInitialValue : initialValue
   );
 
+  const [currentLanguage, setCurrentLanguage] = useState<string | null>('');
+
   useImperativeHandle(ref, () => ({
     focus: () => selectRef.current?.focus(),
     blur: () => (selectRef.current as HTMLInputElement)?.blur(),
@@ -189,6 +191,39 @@ const Select = ({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls, prefixClsV3]);
+
+  useEffect(() => {
+    const targetNode = document.documentElement;
+
+    let originalLang = targetNode.getAttribute('lang');
+
+    const callback = (mutationsList: RuleType) => {
+      for (const mutation of mutationsList) {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'lang'
+        ) {
+          const newLang = targetNode.getAttribute('lang');
+
+          if (newLang !== originalLang) {
+            setCurrentLanguage(newLang);
+
+            originalLang = newLang;
+          }
+        }
+      }
+    };
+
+    const observer = new MutationObserver(callback);
+    observer.observe(targetNode, {
+      attributes: true,
+      attributeFilter: ['lang']
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     !controlled && setSelected(hasMode ? checkModeInitialValue : initialValue)
@@ -871,7 +906,7 @@ const Select = ({
 
                         return (
                           <Option
-                            key={`${props.value}_${index}`}
+                            key={`${props.value}_${index}_${currentLanguage}`}
                             {...props}
                             selected={isSelected}
                             className={clsx([
