@@ -72,6 +72,8 @@ html {
 }
 
 .xUi-popup-position-top,
+.xUi-popup-position-left,
+.xUi-popup-position-right,
 .xUi-popup-position-topLeft,
 .xUi-popup-position-topRight,
 .xUi-popup-position-bottom,
@@ -104,6 +106,20 @@ html {
 .xUi-popup-position-bottom {
     left: 50%;
     right: 50%;
+}
+
+.xUi-popup-position-left {
+    top: 10px;
+    right: unset;
+    left: calc(100% - 5px);
+    transform: rotate(135deg);
+}
+
+.xUi-popup-position-right {
+    top: 10px;
+    left: unset;
+    right: calc(100% - 5px);
+    transform: rotate(-45deg);
 }
 
 .xUi-popup-position-topLeft,

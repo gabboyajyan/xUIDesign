@@ -6,7 +6,6 @@ import React, {
   Fragment,
   isValidElement,
   KeyboardEvent,
-  memo,
   ReactElement,
   ReactNode,
   Suspense,

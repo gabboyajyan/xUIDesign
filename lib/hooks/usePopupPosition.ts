@@ -12,6 +12,7 @@ import { Placement } from "../types";
 import { getElementParentDetails } from "../helpers";
 
 const OFFSET = 11;
+const LEFT_OR_RIGHT = ['left', 'right'];
 
 type TPopupPosition = {
     open: boolean;
@@ -62,8 +63,8 @@ export const usePopupPosition = ({
                 }
                 : inBody
                     ? {
-                        top: container.top + OFFSET,
-                        left: container.left
+                        top: container.top + window.scrollY + OFFSET,
+                        left: container.left + + window.scrollX
                     }
                     : {
                         top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
@@ -102,6 +103,7 @@ export const usePopupPosition = ({
             };
 
             let newPlacement = _placement;
+            const onlyLeftOrRight = LEFT_OR_RIGHT.includes(newPlacement);
 
             if (availableSpace.bottom < 0 && availableSpace.top > 0) {
                 newPlacement = newPlacement.replace('bottom', 'top') as Placement;
@@ -109,10 +111,18 @@ export const usePopupPosition = ({
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
 
-            if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
-                newPlacement = newPlacement.replace('Right', 'Left') as Placement;
-            } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
-                newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+            if (onlyLeftOrRight) {
+                if (availableSpace.left < 0) {
+                    newPlacement = newPlacement.replace('left', 'right') as Placement;
+                } else if (availableSpace.right < 0) {
+                    newPlacement = newPlacement.replace('right', 'left') as Placement;
+                }
+            } else {
+                if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
+                    newPlacement = newPlacement.replace('Right', 'Left') as Placement;
+                } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
+                    newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+                }
             }
 
             if (showInnerContent) {
@@ -168,6 +178,18 @@ export const usePopupPosition = ({
                         left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
                     });
                     break;
+                case "left":
+                    setPopupPosition({
+                        top: positions.top - OFFSET,
+                        left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
+                    });
+                    break
+                case "right":
+                    setPopupPosition({
+                        top: positions.top - OFFSET,
+                        left: positions.left + container.width + OFFSET
+                    });
+                    break
             }
         }
 

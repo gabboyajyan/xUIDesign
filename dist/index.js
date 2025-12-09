@@ -444,7 +444,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xUi-popup-position{&:after,&:before{content:\"\";height:12px;left:0;position:absolute;top:-12px;width:100%;z-index:10000}&:after{bottom:-12px;top:unset}}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight,.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;position:absolute;width:10px}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight{top:-5px;transform:rotate(45deg)}.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{bottom:-5px;top:unset;transform:rotate(-135deg)}.xUi-popup-position-bottom,.xUi-popup-position-top{left:50%;right:50%}.xUi-popup-position-bottomLeft,.xUi-popup-position-topLeft{left:12px;right:unset}.xUi-popup-position-bottomRight,.xUi-popup-position-topRight{left:unset;right:12px}";
+var css_248z$q = ":root{--xui-color-hover:#f5f5f5;--xui-color-disabled:#e6e6e6;--xui-primary-color:#1677ff;--xui-primary-color-light:#40a9ff;--xui-text-color:rgba(0,0,0,.88);--xui-text-color-light:rgba(0,0,0,.5);--xui-error-color:#ff4d4f;--xui-error-color-light:#ff6668;--xui-success-color:#52c41a;--xui-background-color:#fff;--xui-font-size-xs:12px;--xui-font-size-sm:14px;--xui-font-size-md:14px;--xui-font-size-lg:16px;--xui-border-radius-sm:4px;--xui-border-radius-md:4px;--xui-border-radius-lg:6px;--xui-border-color:#d9d9d9;--xui-select-primary-color:var(--xui-primary-color);--xui-select-background-color:var(--xui-background-color);--xui-result-bg:#fff;--xui-result-color:rgba(0,0,0,.85);--xui-subtle-color:rgba(0,0,0,.45);--xui-padding:24px;--xui-gap:16px;--xui-icon-size:72px;--xui-max-width:560px;--xui-font-family:-apple-system,BlinkMacSystemFont,\"Segoe UI\",Roboto,\"Helvetica Neue\",Arial}html{font-family:sans-serif}.globalEllipsis{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.xUi-popup-position{&:after,&:before{content:\"\";height:12px;left:0;position:absolute;top:-12px;width:100%;z-index:10000}&:after{bottom:-12px;top:unset}}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight,.xUi-popup-position-left,.xUi-popup-position-right,.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{background:var(--xui-background-color);border-left:.5px solid var(--xui-border-color);border-top:.5px solid var(--xui-border-color);height:10px;position:absolute;width:10px}.xUi-popup-position-bottom,.xUi-popup-position-bottomLeft,.xUi-popup-position-bottomRight{top:-5px;transform:rotate(45deg)}.xUi-popup-position-top,.xUi-popup-position-topLeft,.xUi-popup-position-topRight{bottom:-5px;top:unset;transform:rotate(-135deg)}.xUi-popup-position-bottom,.xUi-popup-position-top{left:50%;right:50%}.xUi-popup-position-left{left:calc(100% - 5px);right:unset;top:10px;transform:rotate(135deg)}.xUi-popup-position-right{left:unset;right:calc(100% - 5px);top:10px;transform:rotate(-45deg)}.xUi-popup-position-bottomLeft,.xUi-popup-position-topLeft{left:12px;right:unset}.xUi-popup-position-bottomRight,.xUi-popup-position-topRight{left:unset;right:12px}";
 styleInject(css_248z$q);
 
 const ClearIcon = () => /*#__PURE__*/React.createElement("svg", {
@@ -2621,6 +2621,7 @@ const ConditionalWrapper = ({
 }) => condition ? wrapper(children) : children;
 
 const OFFSET = 11;
+const LEFT_OR_RIGHT = ['left', 'right'];
 const usePopupPosition = ({
   open,
   setOpen,
@@ -2650,8 +2651,8 @@ const usePopupPosition = ({
       top: (targetRef.current?.clientTop || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
       left: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetLeft || 0)
     } : inBody ? {
-      top: container.top + OFFSET,
-      left: container.left
+      top: container.top + window.scrollY + OFFSET,
+      left: container.left + +window.scrollX
     } : {
       top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
       left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
@@ -2679,15 +2680,24 @@ const usePopupPosition = ({
         right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.offsetLeft || 0 || container.right) + popupRect.width + OFFSET)
       };
       let newPlacement = _placement;
+      const onlyLeftOrRight = LEFT_OR_RIGHT.includes(newPlacement);
       if (availableSpace.bottom < 0 && availableSpace.top > 0) {
         newPlacement = newPlacement.replace('bottom', 'top');
       } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
         newPlacement = newPlacement.replace('top', 'bottom');
       }
-      if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
-        newPlacement = newPlacement.replace('Right', 'Left');
-      } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
-        newPlacement = newPlacement.replace('Left', 'Right');
+      if (onlyLeftOrRight) {
+        if (availableSpace.left < 0) {
+          newPlacement = newPlacement.replace('left', 'right');
+        } else if (availableSpace.right < 0) {
+          newPlacement = newPlacement.replace('right', 'left');
+        }
+      } else {
+        if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
+          newPlacement = newPlacement.replace('Right', 'Left');
+        } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
+          newPlacement = newPlacement.replace('Left', 'Right');
+        }
       }
       if (showInnerContent) {
         if (availableSpace.right < 0 && availableSpace.left < 0) {
@@ -2737,6 +2747,18 @@ const usePopupPosition = ({
           setPopupPosition({
             top: positions.top - (popupRef.current?.clientHeight || 0) - OFFSET * 2,
             left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+          });
+          break;
+        case "left":
+          setPopupPosition({
+            top: positions.top - OFFSET,
+            left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
+          });
+          break;
+        case "right":
+          setPopupPosition({
+            top: positions.top - OFFSET,
+            left: positions.left + container.width + OFFSET
           });
           break;
       }
