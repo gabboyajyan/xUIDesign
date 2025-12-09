@@ -4430,7 +4430,6 @@ const Select = ({
   const searchInputRef = useRef(null);
   const [responsiveTagCount, setResponsiveTagCount] = useState(null);
   const [selected, setSelected] = useState(hasMode ? checkModeInitialValue : initialValue);
-  const [currentLanguage, setCurrentLanguage] = useState('');
   useImperativeHandle(ref, () => ({
     focus: () => selectRef.current?.focus(),
     blur: () => selectRef.current?.blur(),
@@ -4460,29 +4459,6 @@ const Select = ({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls, prefixClsV3]);
-  useEffect(() => {
-    const targetNode = document.documentElement;
-    let originalLang = targetNode.getAttribute('lang');
-    const callback = mutationsList => {
-      for (const mutation of mutationsList) {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'lang') {
-          const newLang = targetNode.getAttribute('lang');
-          if (newLang !== originalLang) {
-            setCurrentLanguage(newLang);
-            originalLang = newLang;
-          }
-        }
-      }
-    };
-    const observer = new MutationObserver(callback);
-    observer.observe(targetNode, {
-      attributes: true,
-      attributeFilter: ['lang']
-    });
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
   useEffect(() => {
     !controlled && setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
@@ -4943,7 +4919,7 @@ const Select = ({
   }, index) => {
     const isSelected = hasMode ? selected.includes(props.value) : props.value === selected;
     return /*#__PURE__*/React.createElement(Option, _extends({
-      key: `${props.value}_${index}_${currentLanguage}`
+      key: `${props.value}_${index}`
     }, props, {
       selected: isSelected,
       className: clsx([className, {
