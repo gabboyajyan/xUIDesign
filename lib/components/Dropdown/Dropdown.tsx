@@ -34,6 +34,7 @@ const Dropdown = ({
     className = '',
     overlay,
     prefixCls = prefixClsDropdown,
+    showInnerContent
 }: DropdownProps) => {
     const [open, setOpen] = useState<boolean>(controlledOpen ?? defaultOpen);
     const isControlled = controlledOpen !== undefined;
@@ -44,10 +45,11 @@ const Dropdown = ({
 
     const { popupStyle, _placement } = usePopupPosition({
         open,
-        targetRef,
-        popupRef,
-        placement,
         setOpen,
+        popupRef,
+        targetRef,
+        placement,
+        showInnerContent,
         popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     })
 

@@ -11,7 +11,7 @@ import {
 import { Placement } from "../types";
 import { getElementParentDetails } from "../helpers";
 
-const OFFSET = 12;
+const OFFSET = 11;
 
 type TPopupPosition = {
     open: boolean;
@@ -20,6 +20,7 @@ type TPopupPosition = {
     popupRef: RefObject<HTMLDivElement | null>;
     placement?: Placement;
     popupContainer?: HTMLElement | null;
+    showInnerContent?: boolean;
 }
 
 export const usePopupPosition = ({
@@ -29,6 +30,7 @@ export const usePopupPosition = ({
     targetRef,
     placement,
     popupContainer,
+    showInnerContent
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -106,22 +108,24 @@ export const usePopupPosition = ({
             } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
                 newPlacement = newPlacement.replace('top', 'bottom') as Placement;
             }
-            
+
             if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
                 newPlacement = newPlacement.replace('Right', 'Left') as Placement;
             } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
                 newPlacement = newPlacement.replace('Left', 'Right') as Placement;
             }
 
-            // if (availableSpace.right < 0 && availableSpace.left < 0) {
-            //     if (newPlacement.includes('Right')) {
-            //         positions.left = (popupRect.width - positions.left) + container.left
-            //     }
+            if (showInnerContent) {
+                if (availableSpace.right < 0 && availableSpace.left < 0) {
+                    if (newPlacement.includes('Right')) {
+                        positions.left = (popupRect.width - positions.left) + container.left
+                    }
 
-            //     if (newPlacement.includes('Left')) {
-            //         positions.left = positions.left - popupRect.width + container.width
-            //     }
-            // }
+                    if (newPlacement.includes('Left')) {
+                        positions.left = positions.left - popupRect.width + container.width
+                    }
+                }
+            }
 
             _setPlacement(newPlacement);
         }
@@ -168,7 +172,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef, showInnerContent, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {

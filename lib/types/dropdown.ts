@@ -29,8 +29,8 @@ export type DropdownProps = DefaultProps & {
     autoAdjustOverflow?: boolean;
     popupRender?: (node: ReactNode) => ReactNode;
     overlay?: ReactElement | OverlayFunc;
+    showInnerContent?: boolean;
 }
-
 
 export type DropdownMenuInnerProps = DefaultProps & {
     items: DropdownItemType[];

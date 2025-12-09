@@ -13,6 +13,7 @@ export type PopoverProps = DefaultProps & {
     visible?: boolean;
     listenPopoverPositions?: CSSProperties;
     placementPositionOffset?: number;
+    showInnerContent?: boolean;
     onVisibleChange?: ((open: boolean) => void) | undefined;
     getPopupContainer?: ((node: HTMLElement) => HTMLElement) | undefined
 }

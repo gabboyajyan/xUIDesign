@@ -2618,14 +2618,15 @@ const ConditionalWrapper = ({
   children
 }) => condition ? wrapper(children) : children;
 
-const OFFSET = 12;
+const OFFSET = 11;
 const usePopupPosition = ({
   open,
   setOpen,
   popupRef,
   targetRef,
   placement,
-  popupContainer
+  popupContainer,
+  showInnerContent
 }) => {
   const [_placement, _setPlacement] = useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = useState({});
@@ -2686,14 +2687,16 @@ const usePopupPosition = ({
       } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
         newPlacement = newPlacement.replace('Left', 'Right');
       }
-      // if (availableSpace.right < 0 && availableSpace.left < 0) {
-      //     if (newPlacement.includes('Right')) {
-      //         positions.left = (popupRect.width - positions.left) + container.left
-      //     }
-      //     if (newPlacement.includes('Left')) {
-      //         positions.left = positions.left - popupRect.width + container.width
-      //     }
-      // }
+      if (showInnerContent) {
+        if (availableSpace.right < 0 && availableSpace.left < 0) {
+          if (newPlacement.includes('Right')) {
+            positions.left = popupRect.width - positions.left + container.left;
+          }
+          if (newPlacement.includes('Left')) {
+            positions.left = positions.left - popupRect.width + container.width;
+          }
+        }
+      }
       _setPlacement(newPlacement);
     }
     const _calculation = () => {
@@ -2737,7 +2740,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, showInnerContent, inBody, _placement, setOpen]);
   useEffect(() => {
     if (!open) {
       return;
@@ -3145,7 +3148,8 @@ const RangePicker = ({
   defaultValue,
   bordered = true,
   getPopupContainer,
-  placement = "bottomLeft"
+  placement = "bottomLeft",
+  showInnerContent
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
@@ -3166,6 +3170,7 @@ const RangePicker = ({
     popupRef,
     placement,
     open: isOpen,
+    showInnerContent,
     setOpen: setIsOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
@@ -3467,7 +3472,8 @@ const TimePicker = ({
   suffixIcon = /*#__PURE__*/React.createElement(TimeIcon, null),
   placeholder = 'Select time',
   getPopupContainer,
-  placement = "bottomLeft"
+  placement = "bottomLeft",
+  showInnerContent
 }) => {
   const [open, setOpen] = useState(false);
   const [innerValue, setInnerValue] = useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -3486,6 +3492,7 @@ const TimePicker = ({
     popupRef,
     placement,
     targetRef,
+    showInnerContent,
     setOpen: setOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
@@ -5449,7 +5456,8 @@ const Dropdown = ({
   popupRender,
   className = '',
   overlay,
-  prefixCls = prefixClsDropdown
+  prefixCls = prefixClsDropdown,
+  showInnerContent
 }) => {
   const [open, setOpen] = useState(controlledOpen ?? defaultOpen);
   const isControlled = controlledOpen !== undefined;
@@ -5461,10 +5469,11 @@ const Dropdown = ({
     _placement
   } = usePopupPosition({
     open,
-    targetRef,
-    popupRef,
-    placement,
     setOpen,
+    popupRef,
+    targetRef,
+    placement,
+    showInnerContent,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   useEffect(() => {
@@ -5616,8 +5625,7 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
-  listenPopoverPositions,
-  placementPositionOffset,
+  showInnerContent,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5633,6 +5641,7 @@ const Popover = ({
     popupRef,
     placement,
     open: isOpen,
+    showInnerContent,
     setOpen: setInnerOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });

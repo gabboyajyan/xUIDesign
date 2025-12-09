@@ -40,6 +40,7 @@ export type TDatePickerProps = DefaultProps & {
     picker?: PanelMode;
     bordered?: boolean;
     defaultPickerValue?: Date;
+    showInnerContent?: boolean;
 };
 export type TRangePickerProps = Omit<TDatePickerProps, 'placeholder' | 'value' | 'defaultValue'> & {
     placeholder?: string[];
@@ -119,4 +120,5 @@ export type TimePickerProps = DefaultProps & {
     suffixIcon?: ReactNode;
     placeholder?: string;
     placement?: Placement;
+    showInnerContent?: boolean;
 };

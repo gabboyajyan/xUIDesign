@@ -101,5 +101,3 @@ export function getElementParentDetails(
     scrollableParents: document.scrollingElement as HTMLElement,
   };
 }
-
-
