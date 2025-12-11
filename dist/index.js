@@ -2699,8 +2699,8 @@ const usePopupPosition = ({
           newPlacement = newPlacement.replace('Left', 'Right');
         }
       }
-      if (showInnerContent && (newPlacement.includes('Left') || newPlacement.includes('Right'))) {
-        if (availableSpace.right < 0 && availableSpace.left < 0) {
+      if (availableSpace.right < 0 && availableSpace.left < 0) {
+        if (newPlacement.includes('Left') || newPlacement.includes('Right')) {
           const popupWidth = popupRect.width;
           const targetWidth = container.width;
           if (!popupContainer) {
@@ -2714,6 +2714,14 @@ const usePopupPosition = ({
             newPlacement = newPlacement.replace('Left', '');
           } else if (newPlacement.includes('Right')) {
             newPlacement = newPlacement.replace('Right', '');
+          }
+        }
+        if (showInnerContent) {
+          if (newPlacement.includes('Right')) {
+            positions.left = popupRect.width - positions.left + container.left;
+          }
+          if (newPlacement.includes('Left')) {
+            positions.left = positions.left - popupRect.width + container.width;
           }
         }
       }

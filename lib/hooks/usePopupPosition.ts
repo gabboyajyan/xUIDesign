@@ -125,11 +125,11 @@ export const usePopupPosition = ({
                 }
             }
 
-            if (showInnerContent && (newPlacement.includes('Left') || newPlacement.includes('Right'))) {
-                if (availableSpace.right < 0 && availableSpace.left < 0) {
+            if (availableSpace.right < 0 && availableSpace.left < 0) {
+                if (newPlacement.includes('Left') || newPlacement.includes('Right')) {
                     const popupWidth = popupRect.width;
                     const targetWidth = container.width;
-
+    
                     if (!popupContainer) {
                         positions.left = positions.left - (popupWidth / 2) + (targetWidth / 2);
                     } else if (_containsElement) {
@@ -137,11 +137,21 @@ export const usePopupPosition = ({
                     } else if (inBody) {
                         positions.left = container.left + window.scrollX + (targetWidth / 2) - (popupWidth / 2);
                     }
-
+    
                     if (newPlacement.includes('Left')) {
                         newPlacement = newPlacement.replace('Left', '') as Placement;
                     } else if (newPlacement.includes('Right')) {
                         newPlacement = newPlacement.replace('Right', '') as Placement;
+                    }
+                }
+
+                if (showInnerContent) {
+                    if (newPlacement.includes('Right')) {
+                        positions.left = (popupRect.width - positions.left) + container.left
+                    }
+    
+                    if (newPlacement.includes('Left')) {
+                        positions.left = positions.left - popupRect.width + container.width
                     }
                 }
             }
