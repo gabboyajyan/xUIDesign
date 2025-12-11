@@ -130,9 +130,9 @@ export const usePopupPosition = ({
                     newPlacement = newPlacement.replace('Right', '') as Placement;
                 } else if (newPlacement.includes('top') || newPlacement.includes('bottom')) {
                     if (availableSpace.left > availableSpace.right) {
-                        newPlacement = (newPlacement + 'Left') as Placement;
-                    } else {
                         newPlacement = (newPlacement + 'Right') as Placement;
+                    } else {
+                        newPlacement = (newPlacement + 'Left') as Placement;
                     }
                 }
             }
