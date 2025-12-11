@@ -143,19 +143,23 @@ export default function Home() {
         // </div>
 
 
-        <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 1700, position: 'relative' }}>
-            <div style={{ minWidth: 1500 }} />
-            <div
-                className='sdfdsgfsfdg'
-            style={{
-                height: 2000, minWidth: 1000, border: '1px solid',
-                position: 'relative'
-            }}>
+        // <div className='dsfdf' style={{ display: 'flex', width: 1200, border: '1px solid', overflow: 'scroll', height: 1700, position: 'relative' }}>
+        //     <div style={{ minWidth: 1500 }} />
+        //     <div
+        //         className='sdfdsgfsfdg'
+        //     style={{
+        //         height: 2000, minWidth: 1000, border: '1px solid',
+        //         position: 'relative'
+        //     }}>
+        //         <div style={{
+        //             height: 1000,
+        //             position: 'relative'
+        //         }} />
                 <div style={{
-                    height: 1000,
-                    position: 'relative'
-                }} />
-                <Popover
+                    display: 'flex',
+                    justifyContent: 'center'
+                }}>
+                    <Popover
                     placement='bottomLeft'
                     content={
                         <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
@@ -172,26 +176,27 @@ export default function Home() {
                     // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
                 >
                     <div style={{
-                        marginRight: 100
+                        // marginRight: 100
                     }}>
                         Menu
                     <br />
                     Menu
                     </div>
                 </Popover>
-                {/* <DatePicker placement='right' getPopupContainer={() => document.body} /> */}
-                {/* <Dropdown overlay={() => {
-                    return <Menu>
-                        {items.map((item) => {
-                            return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
-                        })}
-                    </Menu>
-                }}>
-                    DropDown
-                </Dropdown> */}
-            </div>
-            <div style={{ minWidth: 1500 }} />
-        </div>
+                </div>
+            //     {/* <DatePicker placement='right' getPopupContainer={() => document.body} /> */}
+            //     {/* <Dropdown overlay={() => {
+            //         return <Menu>
+            //             {items.map((item) => {
+            //                 return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
+            //             })}
+            //         </Menu>
+            //     }}>
+            //         DropDown
+            //     </Dropdown> */}
+            // </div>
+            // <div style={{ minWidth: 1500 }} />
+        // </div>
     )
 }
 

@@ -40,102 +40,111 @@ export const usePopupPosition = ({
     const inBody = useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
 
     const calculatePosition = useCallback((e?: Event) => {
-        const container = targetRef.current?.getBoundingClientRect();
+        const promisePopupPlacment = new Promise((resolve) => {
+            const container = targetRef.current?.getBoundingClientRect();
 
-        if (!container) {
-            return;
-        }
-
-        const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
-        const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents && !inBody
-
-        const positions = !popupContainer
-            ? {
-                top: (targetRef.current?.offsetTop || 0) + OFFSET,
-                left: (targetRef.current?.offsetLeft || 0)
+            if (!container) {
+                return;
             }
-            : _containsElement
+
+            const { scrollableParents, relativePosition } = getElementParentDetails(targetRef.current, true);
+            const _containsElement = scrollableParents?.contains(popupContainer as HTMLDivElement) && popupContainer !== scrollableParents && !inBody
+
+            const positions = !popupContainer
                 ? {
-                    top: (targetRef.current?.clientTop || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
-                    left: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetLeft || 0)
+                    top: (targetRef.current?.offsetTop || 0) + OFFSET,
+                    left: (targetRef.current?.offsetLeft || 0)
                 }
-                : inBody
+                : _containsElement
                     ? {
-                        top: container.top + window.scrollY + OFFSET,
-                        left: container.left + window.scrollX
+                        top: (targetRef.current?.clientTop || 0) + (targetRef.current?.offsetTop || 0) + OFFSET,
+                        left: (targetRef.current?.clientLeft || 0) + (targetRef.current?.offsetLeft || 0)
                     }
-                    : {
-                        top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
-                        left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
-                    };
+                    : inBody
+                        ? {
+                            top: container.top + window.scrollY + OFFSET,
+                            left: container.left + window.scrollX
+                        }
+                        : {
+                            top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
+                            left: relativePosition.left + (targetRef.current?.offsetLeft || 0) - (targetRef.current?.clientWidth || 0) / 2
+                        };
 
-        if (e?.target === scrollableParents && inBody) {
-            setOpen(false);
-            setPopupPosition({});
-
-            return
-        }
-
-        const popupRect = popupRef.current?.getBoundingClientRect();
-
-        if (popupRect) {
-            if (!popupRect?.width) {
+            if (e?.target === scrollableParents && inBody) {
                 setOpen(false);
                 setPopupPosition({});
-
-                const timeout = setTimeout(() => {
-                    setOpen(true);
-
-                    clearTimeout(timeout)
-                }, 10);
 
                 return
             }
 
-            const availableSpace = {
-                top: container.top - (popupRect.height + OFFSET),
-                bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
+            const popupRect = popupRef.current?.getBoundingClientRect();
 
-                left: container.left - (popupRect.width + OFFSET),
-                right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (((targetRef.current?.offsetLeft || 0) || container.right) + popupRect.width + OFFSET)
-            };
+            if (popupRect) {
+                if (!popupRect?.width) {
+                    setOpen(false);
+                    setPopupPosition({});
 
-            let newPlacement = _placement;
-            const onlyLeftOrRight = LEFT_OR_RIGHT.includes(newPlacement);
+                    const timeout = setTimeout(() => {
+                        setOpen(true);
 
-            if (availableSpace.bottom < 0 && availableSpace.top > 0) {
-                newPlacement = newPlacement.replace('bottom', 'top') as Placement;
-            } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
-                newPlacement = newPlacement.replace('top', 'bottom') as Placement;
-            }
+                        clearTimeout(timeout)
+                    }, 10);
 
-            if (onlyLeftOrRight) {
-                if (availableSpace.left < 0) {
-                    newPlacement = newPlacement.replace('left', 'right') as Placement;
-                } else if (availableSpace.right < 0) {
-                    newPlacement = newPlacement.replace('right', 'left') as Placement;
+                    return
                 }
-            } else {
-                if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
-                    newPlacement = newPlacement.replace('Right', 'Left') as Placement;
-                } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
-                    newPlacement = newPlacement.replace('Left', 'Right') as Placement;
-                } else if (availableSpace.right < 0 && availableSpace.left < 0) {
-                    if (Math.abs(availableSpace.right) + container.width > popupRect.width) {
-                        newPlacement = newPlacement.replace('Left', 'Right') as Placement;
-                    } else if (Math.abs(availableSpace.left) + container.width > popupRect.width) {
+
+                const availableSpace = {
+                    top: container.top - (popupRect.height + OFFSET),
+                    bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
+
+                    left: container.left - (popupRect.width + OFFSET),
+                    right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (((targetRef.current?.offsetLeft || 0) || container.right) + popupRect.width + OFFSET)
+                };
+
+                let newPlacement = _placement;
+                const onlyLeftOrRight = LEFT_OR_RIGHT.includes(newPlacement);
+
+                if (availableSpace.bottom < 0 && availableSpace.top > 0) {
+                    newPlacement = newPlacement.replace('bottom', 'top') as Placement;
+                } else if (availableSpace.top < 0 && availableSpace.bottom > 0) {
+                    newPlacement = newPlacement.replace('top', 'bottom') as Placement;
+                }
+
+                if (onlyLeftOrRight) {
+                    if (availableSpace.left < 0) {
+                        newPlacement = newPlacement.replace('left', 'right') as Placement;
+                    } else if (availableSpace.right < 0) {
+                        newPlacement = newPlacement.replace('right', 'left') as Placement;
+                    }
+                } else {
+                    if (availableSpace.left < 0 && availableSpace.right > 0 && availableSpace.right > popupRect.width) {
                         newPlacement = newPlacement.replace('Right', 'Left') as Placement;
-                    } else {
-                        newPlacement = newPlacement.replace(/Left|Right/, '') as Placement;
+                    } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
+                        newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+                    } else if (availableSpace.right < 0 && availableSpace.left < 0) {
+                        if (Math.abs(availableSpace.right) + container.width > popupRect.width) {
+                            newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+                        } else if (Math.abs(availableSpace.left) + container.width > popupRect.width) {
+                            newPlacement = newPlacement.replace('Right', 'Left') as Placement;
+                        } else {
+                            newPlacement = newPlacement.replace(/Left|Right/, '') as Placement;
+                        }
                     }
                 }
+
+                _setPlacement(newPlacement);
+
+                resolve({
+                    newPlacement,
+                    container,
+                    positions
+                })
             }
+        })
 
-            _setPlacement(newPlacement);
-        }
-
-        const _calculation = () => {
-            switch (_placement) {
+        promisePopupPlacment.then(({ newPlacement, positions, container }) => {
+             const _calculation = () => {
+            switch (newPlacement) {
                 case "bottom":
                     setPopupPosition({
                         top: positions.top + container.height,
@@ -188,6 +197,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
+        })
     }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
 
     useEffect(() => {
@@ -218,6 +228,7 @@ export const usePopupPosition = ({
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
+            // transition: '1s ease',
             opacity: Object.keys(popupPosition).length ? 1 : 0,
             ...popupPosition
         }
