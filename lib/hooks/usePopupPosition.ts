@@ -120,23 +120,13 @@ export const usePopupPosition = ({
                     newPlacement = newPlacement.replace('Right', 'Left') as Placement;
                 } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
                     newPlacement = newPlacement.replace('Left', 'Right') as Placement;
-                }
-            }
-
-            if (availableSpace.right < 0 && availableSpace.left < 0) {
-                if (newPlacement.includes('Left') || newPlacement.includes('Right')) {
-                    if (newPlacement.includes('Left')) {
-                        newPlacement = newPlacement.replace('Left', '') as Placement;
-                    } else if (newPlacement.includes('Right')) {
-                        newPlacement = newPlacement.replace('Right', '') as Placement;
-                    }
-                }
-
-                if (newPlacement.includes('top') || newPlacement.includes('bottom')) {
-                    if (Math.abs(availableSpace.left - container.width - OFFSET) > popupRect.width) {
-                        newPlacement = (newPlacement + 'Right') as Placement;
-                    } else if (Math.abs(availableSpace.right - container.width - OFFSET) > popupRect.width) {
-                        newPlacement = (newPlacement + 'Left') as Placement;
+                } else if (availableSpace.right < 0 && availableSpace.left < 0) {
+                    if (Math.abs(availableSpace.right) + container.width > popupRect.width) {
+                        newPlacement = newPlacement.replace('Left', 'Right') as Placement;
+                    } else if (Math.abs(availableSpace.left) + container.width > popupRect.width) {
+                        newPlacement = newPlacement.replace('Right', 'Left') as Placement;
+                    } else {
+                        newPlacement = newPlacement.replace(/Left|Right/, '') as Placement;
                     }
                 }
             }
