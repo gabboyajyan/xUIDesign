@@ -2699,17 +2699,15 @@ const usePopupPosition = ({
         }
       }
       if (availableSpace.right < 0 && availableSpace.left < 0) {
-        if (newPlacement.includes('Left') || newPlacement.includes('Right')) {
-          if (newPlacement.includes('Left')) {
-            newPlacement = newPlacement.replace('Left', '');
-          } else if (newPlacement.includes('Right')) {
-            newPlacement = newPlacement.replace('Right', '');
-          } else if (newPlacement.includes('top') || newPlacement.includes('bottom')) {
-            if (availableSpace.left > availableSpace.right) {
-              newPlacement = newPlacement + 'Left';
-            } else {
-              newPlacement = newPlacement + 'Right';
-            }
+        if (newPlacement.includes('Left')) {
+          newPlacement = newPlacement.replace('Left', '');
+        } else if (newPlacement.includes('Right')) {
+          newPlacement = newPlacement.replace('Right', '');
+        } else if (newPlacement.includes('top') || newPlacement.includes('bottom')) {
+          if (availableSpace.left > availableSpace.right) {
+            newPlacement = newPlacement + 'Left';
+          } else {
+            newPlacement = newPlacement + 'Right';
           }
         }
       }
