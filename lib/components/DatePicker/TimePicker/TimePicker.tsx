@@ -48,7 +48,6 @@ const TimePicker: FC<TimePickerProps> = ({
   placeholder = 'Select time',
   getPopupContainer,
   placement = "bottomLeft",
-  showInnerContent
 }) => {
   const [open, setOpen] = useState<boolean>(false);
   const [innerValue, setInnerValue] = useState<Date | null>(
@@ -70,7 +69,6 @@ const TimePicker: FC<TimePickerProps> = ({
     popupRef,
     placement,
     targetRef,
-    showInnerContent,
     setOpen: setOpen,
     popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
   })

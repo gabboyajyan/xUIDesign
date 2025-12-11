@@ -2628,8 +2628,7 @@ const usePopupPosition = ({
   popupRef,
   targetRef,
   placement,
-  popupContainer,
-  showInnerContent
+  popupContainer
 }) => {
   const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
@@ -2660,6 +2659,7 @@ const usePopupPosition = ({
     if (e?.target === scrollableParents && inBody) {
       setOpen(false);
       setPopupPosition({});
+      _setPlacement(placement ?? "bottomLeft");
       return;
     }
     const popupRect = popupRef.current?.getBoundingClientRect();
@@ -2703,9 +2703,7 @@ const usePopupPosition = ({
         if (newPlacement.includes('Left') || newPlacement.includes('Right')) {
           const popupWidth = popupRect.width;
           const targetWidth = container.width;
-          if (!popupContainer) {
-            positions.left = positions.left - popupWidth / 2 + targetWidth / 2;
-          } else if (_containsElement) {
+          if (!popupContainer || _containsElement) {
             positions.left = positions.left - popupWidth / 2 + targetWidth / 2;
           } else if (inBody) {
             positions.left = container.left + window.scrollX + targetWidth / 2 - popupWidth / 2;
@@ -2714,14 +2712,6 @@ const usePopupPosition = ({
             newPlacement = newPlacement.replace('Left', '');
           } else if (newPlacement.includes('Right')) {
             newPlacement = newPlacement.replace('Right', '');
-          }
-        }
-        if (showInnerContent) {
-          if (newPlacement.includes('Right')) {
-            positions.left = popupRect.width - positions.left + container.left;
-          }
-          if (newPlacement.includes('Left')) {
-            positions.left = positions.left - popupRect.width + container.width;
           }
         }
       }
@@ -2780,7 +2770,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef, showInnerContent, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, placement, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2800,8 +2790,9 @@ const usePopupPosition = ({
     return () => {
       controller.abort();
       setPopupPosition({});
+      _setPlacement(placement ?? "bottomLeft");
     };
-  }, [open, targetRef, calculatePosition]);
+  }, [open, targetRef, placement, calculatePosition]);
   return {
     _placement,
     popupStyle: {
@@ -3188,8 +3179,7 @@ const RangePicker = ({
   defaultValue,
   bordered = true,
   getPopupContainer,
-  placement = "bottomLeft",
-  showInnerContent
+  placement = "bottomLeft"
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const [selectedDates, setSelectedDates] = React.useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
@@ -3210,7 +3200,6 @@ const RangePicker = ({
     popupRef,
     placement,
     open: isOpen,
-    showInnerContent,
     setOpen: setIsOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
@@ -3512,8 +3501,7 @@ const TimePicker = ({
   suffixIcon = /*#__PURE__*/React.createElement(TimeIcon, null),
   placeholder = 'Select time',
   getPopupContainer,
-  placement = "bottomLeft",
-  showInnerContent
+  placement = "bottomLeft"
 }) => {
   const [open, setOpen] = React.useState(false);
   const [innerValue, setInnerValue] = React.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
@@ -3532,7 +3520,6 @@ const TimePicker = ({
     popupRef,
     placement,
     targetRef,
-    showInnerContent,
     setOpen: setOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
@@ -5496,8 +5483,7 @@ const Dropdown = ({
   popupRender,
   className = '',
   overlay,
-  prefixCls = prefixClsDropdown,
-  showInnerContent
+  prefixCls = prefixClsDropdown
 }) => {
   const [open, setOpen] = React.useState(controlledOpen ?? defaultOpen);
   const isControlled = controlledOpen !== undefined;
@@ -5513,7 +5499,6 @@ const Dropdown = ({
     popupRef,
     targetRef,
     placement,
-    showInnerContent,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   React.useEffect(() => {
@@ -5665,7 +5650,6 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
-  showInnerContent,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5681,7 +5665,6 @@ const Popover = ({
     popupRef,
     placement,
     open: isOpen,
-    showInnerContent,
     setOpen: setInnerOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });

@@ -21,7 +21,6 @@ type TPopupPosition = {
     popupRef: RefObject<HTMLDivElement | null>;
     placement?: Placement;
     popupContainer?: HTMLElement | null;
-    showInnerContent?: boolean;
 }
 
 export const usePopupPosition = ({
@@ -31,7 +30,6 @@ export const usePopupPosition = ({
     targetRef,
     placement,
     popupContainer,
-    showInnerContent
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -74,6 +72,7 @@ export const usePopupPosition = ({
         if (e?.target === scrollableParents && inBody) {
             setOpen(false);
             setPopupPosition({});
+            _setPlacement(placement ?? "bottomLeft");
 
             return
         }
@@ -130,9 +129,7 @@ export const usePopupPosition = ({
                     const popupWidth = popupRect.width;
                     const targetWidth = container.width;
     
-                    if (!popupContainer) {
-                        positions.left = positions.left - (popupWidth / 2) + (targetWidth / 2);
-                    } else if (_containsElement) {
+                    if (!popupContainer || _containsElement) {
                         positions.left = positions.left - (popupWidth / 2) + (targetWidth / 2);
                     } else if (inBody) {
                         positions.left = container.left + window.scrollX + (targetWidth / 2) - (popupWidth / 2);
@@ -142,16 +139,6 @@ export const usePopupPosition = ({
                         newPlacement = newPlacement.replace('Left', '') as Placement;
                     } else if (newPlacement.includes('Right')) {
                         newPlacement = newPlacement.replace('Right', '') as Placement;
-                    }
-                }
-
-                if (showInnerContent) {
-                    if (newPlacement.includes('Right')) {
-                        positions.left = (popupRect.width - positions.left) + container.left
-                    }
-    
-                    if (newPlacement.includes('Left')) {
-                        positions.left = positions.left - popupRect.width + container.width
                     }
                 }
             }
@@ -213,7 +200,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef, showInnerContent, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef, placement, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
@@ -235,8 +222,9 @@ export const usePopupPosition = ({
             controller.abort();
 
             setPopupPosition({});
+            _setPlacement(placement ?? "bottomLeft");
         };
-    }, [open, targetRef, calculatePosition]);
+    }, [open, targetRef, placement, calculatePosition]);
 
     return {
         _placement,

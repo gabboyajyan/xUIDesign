@@ -7,9 +7,8 @@ type TPopupPosition = {
     popupRef: RefObject<HTMLDivElement | null>;
     placement?: Placement;
     popupContainer?: HTMLElement | null;
-    showInnerContent?: boolean;
 };
-export declare const usePopupPosition: ({ open, setOpen, popupRef, targetRef, placement, popupContainer, showInnerContent }: TPopupPosition) => {
+export declare const usePopupPosition: ({ open, setOpen, popupRef, targetRef, placement, popupContainer, }: TPopupPosition) => {
     _placement: Placement;
     popupStyle: CSSProperties;
 };

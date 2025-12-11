@@ -35,7 +35,6 @@ const RangePicker = ({
   bordered = true,
   getPopupContainer,
   placement = "bottomLeft",
-  showInnerContent
 }: TRangePickerProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedDates, setSelectedDates] = useState<
@@ -67,7 +66,6 @@ const RangePicker = ({
     popupRef,
     placement,
     open: isOpen,
-    showInnerContent,
     setOpen: setIsOpen,
     popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
   });
