@@ -149,14 +149,14 @@ export default function Home() {
                 className='sdfdsgfsfdg'
             style={{
                 height: 2000, minWidth: 1000, border: '1px solid',
-                // position: 'relative'
+                position: 'relative'
             }}>
                 <div style={{
                     height: 1000,
                     position: 'relative'
                 }} />
                 <Popover
-                    placement='right'
+                    placement='bottomLeft'
                     content={
                         <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
                             <Result
@@ -168,7 +168,7 @@ export default function Home() {
                         </Suspense>
                     }
                     // getPopupContainer={() => document.body}
-                    getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                    // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
                     // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
                 >
                     <div style={{
