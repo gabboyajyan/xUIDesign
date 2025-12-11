@@ -2659,7 +2659,6 @@ const usePopupPosition = ({
     if (e?.target === scrollableParents && inBody) {
       setOpen(false);
       setPopupPosition({});
-      _setPlacement(placement ?? "bottomLeft");
       return;
     }
     const popupRect = popupRef.current?.getBoundingClientRect();
@@ -2770,7 +2769,7 @@ const usePopupPosition = ({
       }
     };
     _calculation();
-  }, [targetRef, popupContainer, popupRef, placement, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -2790,9 +2789,8 @@ const usePopupPosition = ({
     return () => {
       controller.abort();
       setPopupPosition({});
-      _setPlacement(placement ?? "bottomLeft");
     };
-  }, [open, targetRef, placement, calculatePosition]);
+  }, [open, targetRef, calculatePosition]);
   return {
     _placement,
     popupStyle: {

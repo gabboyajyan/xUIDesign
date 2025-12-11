@@ -72,7 +72,6 @@ export const usePopupPosition = ({
         if (e?.target === scrollableParents && inBody) {
             setOpen(false);
             setPopupPosition({});
-            _setPlacement(placement ?? "bottomLeft");
 
             return
         }
@@ -200,7 +199,7 @@ export const usePopupPosition = ({
         }
 
         _calculation()
-    }, [targetRef, popupContainer, popupRef, placement, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
@@ -222,9 +221,8 @@ export const usePopupPosition = ({
             controller.abort();
 
             setPopupPosition({});
-            _setPlacement(placement ?? "bottomLeft");
         };
-    }, [open, targetRef, placement, calculatePosition]);
+    }, [open, targetRef, calculatePosition]);
 
     return {
         _placement,
