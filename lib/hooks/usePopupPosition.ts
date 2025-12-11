@@ -132,14 +132,11 @@ export const usePopupPosition = ({
                     }
                 }
 
-                if (
-                    (Math.abs(availableSpace.left - container.width - OFFSET) > popupRect.width || Math.abs(availableSpace.right - container.width - OFFSET) > popupRect.width) &&
-                    (newPlacement.includes('top') || newPlacement.includes('bottom'))
-                ) {
-                    if (availableSpace.left > availableSpace.right) {
-                        newPlacement = (newPlacement + 'Left') as Placement;
-                    } else {
+                if (newPlacement.includes('top') || newPlacement.includes('bottom')) {
+                    if (Math.abs(availableSpace.left - container.width - OFFSET) > popupRect.width) {
                         newPlacement = (newPlacement + 'Right') as Placement;
+                    } else if (Math.abs(availableSpace.right - container.width - OFFSET) > popupRect.width) {
+                        newPlacement = (newPlacement + 'Left') as Placement;
                     }
                 }
             }
