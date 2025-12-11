@@ -64,7 +64,7 @@ export const usePopupPosition = ({
                 : inBody
                     ? {
                         top: container.top + window.scrollY + OFFSET,
-                        left: container.left + + window.scrollX
+                        left: container.left + window.scrollX
                     }
                     : {
                         top: (relativePosition.top || 0) + (targetRef.current?.offsetTop || 0) - (scrollableParents?.offsetTop || 0) + OFFSET,
@@ -125,14 +125,23 @@ export const usePopupPosition = ({
                 }
             }
 
-            if (showInnerContent) {
+            if (showInnerContent && (newPlacement.includes('Left') || newPlacement.includes('Right'))) {
                 if (availableSpace.right < 0 && availableSpace.left < 0) {
-                    if (newPlacement.includes('Right')) {
-                        positions.left = (popupRect.width - positions.left) + container.left
+                    const popupWidth = popupRect.width;
+                    const targetWidth = container.width;
+
+                    if (!popupContainer) {
+                        positions.left = positions.left - (popupWidth / 2) + (targetWidth / 2);
+                    } else if (_containsElement) {
+                        positions.left = positions.left - (popupWidth / 2) + (targetWidth / 2);
+                    } else if (inBody) {
+                        positions.left = container.left + window.scrollX + (targetWidth / 2) - (popupWidth / 2);
                     }
 
                     if (newPlacement.includes('Left')) {
-                        positions.left = positions.left - popupRect.width + container.width
+                        newPlacement = newPlacement.replace('Left', '') as Placement;
+                    } else if (newPlacement.includes('Right')) {
+                        newPlacement = newPlacement.replace('Right', '') as Placement;
                     }
                 }
             }
