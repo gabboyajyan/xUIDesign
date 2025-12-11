@@ -133,7 +133,7 @@ export const usePopupPosition = ({
                 }
 
                 if (
-                    (Math.abs(availableSpace.left) > popupRect.width || Math.abs(availableSpace.right) > popupRect.width) &&
+                    (Math.abs(availableSpace.left - container.width - OFFSET) > popupRect.width || Math.abs(availableSpace.right - container.width - OFFSET) > popupRect.width) &&
                     (newPlacement.includes('top') || newPlacement.includes('bottom'))
                 ) {
                     if (availableSpace.left > availableSpace.right) {

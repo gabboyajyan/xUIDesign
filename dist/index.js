@@ -2706,7 +2706,7 @@ const usePopupPosition = ({
             newPlacement = newPlacement.replace('Right', '');
           }
         }
-        if ((Math.abs(availableSpace.left) > popupRect.width || Math.abs(availableSpace.right) > popupRect.width) && (newPlacement.includes('top') || newPlacement.includes('bottom'))) {
+        if ((Math.abs(availableSpace.left - container.width - OFFSET) > popupRect.width || Math.abs(availableSpace.right - container.width - OFFSET) > popupRect.width) && (newPlacement.includes('top') || newPlacement.includes('bottom'))) {
           if (availableSpace.left > availableSpace.right) {
             newPlacement = newPlacement + 'Left';
           } else {
