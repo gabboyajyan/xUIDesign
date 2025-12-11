@@ -40,7 +40,11 @@ export const usePopupPosition = ({
     const inBody = useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
 
     const calculatePosition = useCallback((e?: Event) => {
-        const promisePopupPlacment = new Promise((resolve) => {
+        const promisePopupPlacment: Promise<{
+            container: DOMRect,
+            positions: { top: number, left: number },
+            newPlacement: Placement
+        }> = new Promise((resolve) => {
             const container = targetRef.current?.getBoundingClientRect();
 
             if (!container) {
@@ -142,61 +146,65 @@ export const usePopupPosition = ({
             }
         })
 
-        promisePopupPlacment.then(({ newPlacement, positions, container }) => {
-             const _calculation = () => {
-            switch (newPlacement) {
-                case "bottom":
-                    setPopupPosition({
-                        top: positions.top + container.height,
-                        left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                    });
-                    break;
-                case "bottomLeft":
-                    setPopupPosition({
-                        top: positions.top + container.height,
-                        left: positions.left
-                    });
-                    break;
-                case "bottomRight":
-                    setPopupPosition({
-                        top: positions.top + container.height,
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                    });
-                    break;
-                case "top":
-                    setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                        left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                    });
-                    break;
-                case "topLeft":
-                    setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                        left: positions.left
-                    });
-                    break;
-                case "topRight":
-                    setPopupPosition({
-                        top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                        left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                    });
-                    break;
-                case "left":
-                    setPopupPosition({
-                        top: positions.top - OFFSET,
-                        left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
-                    });
-                    break
-                case "right":
-                    setPopupPosition({
-                        top: positions.top - OFFSET,
-                        left: positions.left + container.width + OFFSET
-                    });
-                    break
+        promisePopupPlacment.then(({
+            container,
+            positions,
+            newPlacement
+        }): void => {
+            const _calculation = () => {
+                switch (newPlacement) {
+                    case "bottom":
+                        setPopupPosition({
+                            top: positions.top + container.height,
+                            left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                        });
+                        break;
+                    case "bottomLeft":
+                        setPopupPosition({
+                            top: positions.top + container.height,
+                            left: positions.left
+                        });
+                        break;
+                    case "bottomRight":
+                        setPopupPosition({
+                            top: positions.top + container.height,
+                            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                        });
+                        break;
+                    case "top":
+                        setPopupPosition({
+                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                            left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                        });
+                        break;
+                    case "topLeft":
+                        setPopupPosition({
+                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                            left: positions.left
+                        });
+                        break;
+                    case "topRight":
+                        setPopupPosition({
+                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                        });
+                        break;
+                    case "left":
+                        setPopupPosition({
+                            top: positions.top - OFFSET,
+                            left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
+                        });
+                        break
+                    case "right":
+                        setPopupPosition({
+                            top: positions.top - OFFSET,
+                            left: positions.left + container.width + OFFSET
+                        });
+                        break
+                }
             }
-        }
 
-        _calculation()
+            _calculation()
         })
     }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
 
