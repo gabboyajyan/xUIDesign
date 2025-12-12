@@ -109,8 +109,7 @@ const Dropdown = ({
         e.preventDefault();
         e.stopPropagation();
 
-        if (triggers.includes('click') && targetRef.current &&
-            (!open && targetRef.current?.contains(e.target as Node))) {
+        if (triggers.includes('click')) {
             setOpenInternal(!open);
         }
     };
@@ -176,13 +175,12 @@ const Dropdown = ({
     return (
         <div
             ref={targetRef}
-            className={className}
+            className={`${prefixCls}-wrapper ${className}`}
             onClick={onTriggerClick}
             onMouseEnter={onTriggerMouseEnter}
             onMouseLeave={onTriggerMouseLeave}
             tabIndex={disabled ? -1 : 0}
             aria-haspopup='menu'
-            style={{ width: 'fit-content', height: 'fit-content' }}
             aria-expanded={open}
         >
             {children}
@@ -208,6 +206,8 @@ function MenuInner({
                     tabIndex={it.disabled ? -1 : 0}
                     aria-disabled={it.disabled ?? false}
                     onClick={(e) => {
+                        console.log(1);
+                        
                         if (it.disabled) {
                             return;
                         }

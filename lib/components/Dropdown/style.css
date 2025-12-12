@@ -1,3 +1,9 @@
+.xUi-dropdown-wrapper {
+    width: fit-content;
+    height: fit-content;
+    cursor: pointer;
+}
+
 .xUi-dropdown-overlay {
     background: var(--xui-background-color);
     border-radius: 8px;

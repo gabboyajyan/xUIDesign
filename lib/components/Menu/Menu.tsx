@@ -91,9 +91,6 @@ const Menu: FC<MenuProps> & {
 
     const onItemClick = useCallback(
       (key: string, domEvent?: MouseEvent) => {
-        domEvent?.preventDefault();
-        domEvent?.stopPropagation();
-
         if (!selectable) {
           return;
         }

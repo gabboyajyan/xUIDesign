@@ -40,6 +40,10 @@ const MenuItem: FC<ItemType> = ({
         menuContext?.onItemClick(itemKey as string, e);
     };
 
+    if (itemKey === 'divider') {
+        return <hr className={`${prefixCls}-divider`} />
+    }
+
     return (
         <li
             style={style}

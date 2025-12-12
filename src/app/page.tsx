@@ -155,45 +155,45 @@ export default function Home() {
         //             height: 1000,
         //             position: 'relative'
         //         }} />
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center'
-                }}>
-                    <Popover
-                    placement='bottomLeft'
-                    content={
-                        <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
-                            <Result
-                                status="success"
-                                title="Success"
-                                subTitle="Sorry, you are not authorized to access this page."
-                                extra={<Button type="primary">Back Home</Button>}
-                            />
-                        </Suspense>
-                    }
-                    // getPopupContainer={() => document.body}
-                    // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
-                    // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
-                >
-                    <div style={{
-                        // marginRight: 100
-                    }}>
-                        Menu
-                    <br />
-                    Menu
-                    </div>
-                </Popover>
-                </div>
+                // <div style={{
+                //     display: 'flex',
+                //     justifyContent: 'center'
+                // }}>
+                //     <Popover
+                //     placement='bottomLeft'
+                //     content={
+                //         <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
+                //             <Result
+                //                 status="success"
+                //                 title="Success"
+                //                 subTitle="Sorry, you are not authorized to access this page."
+                //                 extra={<Button type="primary">Back Home</Button>}
+                //             />
+                //         </Suspense>
+                //     }
+                //     // getPopupContainer={() => document.body}
+                //     // getPopupContainer={() => document.getElementsByClassName('sdfdsgfsfdg')?.[0] as HTMLDivElement}
+                //     // getPopupContainer={() => document.getElementsByClassName('dsfdf')?.[0] as HTMLDivElement}
+                // >
+                //     <div style={{
+                //         // marginRight: 100
+                //     }}>
+                //         Menu
+                //     <br />
+                //     Menu
+                //     </div>
+                // </Popover>
+                // </div>
             //     {/* <DatePicker placement='right' getPopupContainer={() => document.body} /> */}
-            //     {/* <Dropdown overlay={() => {
-            //         return <Menu>
-            //             {items.map((item) => {
-            //                 return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
-            //             })}
-            //         </Menu>
-            //     }}>
-            //         DropDown
-            //     </Dropdown> */}
+            <Dropdown trigger={'click'} overlay={() => {
+                return <Menu items={items} />
+                    {/* {items.map((item) => {
+                        return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
+                    })}
+                </Menu> */}
+            }}>
+                DropDown
+            </Dropdown>
             // </div>
             // <div style={{ minWidth: 1500 }} />
         // </div>
