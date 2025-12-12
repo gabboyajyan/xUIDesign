@@ -5293,7 +5293,7 @@ var SubMenu$1 = /*#__PURE__*/Object.freeze({
 	default: SubMenu
 });
 
-var css_248z$3 = ".xUi-menu{box-shadow:0 0 4px rgba(0,0,0,.15);font-size:14px;user-select:none}.xUi-menu,.xUi-menu-sub-list{border-radius:4px;display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:4px}.xUi-menu-sub-list{background:var(--xui-background-color);height:max-content}.xUi-menu-item-group{padding:0 24px!important}.xUi-menu-vertical .xUi-menu-sub-list{background-color:#fff;box-shadow:0 0 4px rgba(0,0,0,.15);left:100%;position:absolute;right:-100%;top:0;width:-webkit-fill-available;z-index:1}.xUi-menu-horizontal{display:flex;flex-direction:row}.xUi-menu-item{align-items:center;border-radius:4px;color:var(--xui-text-color);cursor:pointer;display:flex;height:40px;min-height:40px;padding:0 12px;transition:background .3s}.xUi-menu-item:hover{background:rgba(0,0,0,.04)}.xUi-menu-item-icon{margin-right:8px}.xUi-menu-sub{border-radius:6px;position:relative}.xUi-menu-sub-title{align-items:center;cursor:pointer;display:flex;height:40px;padding:0 12px;&:hover{background-color:var(--xui-color-hover);border-radius:6px}}.xUi-menu-sub-label{flex:1}.xUi-menu-sub-arrow{margin-left:8px;transition:transform .2s}.xUi-menu-vertical .xUi-menu-sub-arrow{transform:rotate(-90deg)}.xUi-menu-group{list-style:none;margin:0;padding:0}.xUi-menu-group-title{color:rgba(0,0,0,.45);font-size:12px;padding:8px 12px}.xUi-menu-group-list{list-style:none;margin:0;padding:0}.xUi-menu-divider{border-bottom:1px solid var(--xui-color-disabled);display:block;margin:0 auto;width:calc(100% - 16px)}.xUi-menu-item.xUi-menu-item-disabled{cursor:auto;opacity:.6;&:hover{background-color:unset}}.xUi-menu-inline .xUi-menu-sub-list{background-color:var(--xui-background-color)}.xUi-menu-inline .xUi-menu-item{padding:0 24px}.xUi-menu-inline .xUi-menu-sub-title{padding:0 20px}.xUi-menu-inline .xUi-menu-sub-list-sub .xUi-menu-item{padding:0 30px}";
+var css_248z$3 = ".xUi-menu{box-shadow:0 0 4px rgba(0,0,0,.15);font-size:14px;user-select:none}.xUi-menu,.xUi-menu-sub-list{border-radius:4px;display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:4px}.xUi-menu-sub-list{background:var(--xui-background-color);height:max-content}.xUi-menu-item-group{padding:0 24px!important}.xUi-menu-vertical .xUi-menu-sub-list{background-color:#fff;box-shadow:0 0 4px rgba(0,0,0,.15);left:100%;position:absolute;right:-100%;top:0;width:-webkit-fill-available;z-index:1}.xUi-menu-horizontal{display:flex;flex-direction:row}.xUi-menu-item{align-items:center;border-radius:4px;color:var(--xui-text-color);cursor:pointer;display:flex;height:40px;min-height:40px;padding:0 12px;transition:background .3s}.xUi-menu-item-selected,.xUi-menu-item:hover{background:rgba(0,0,0,.04)}.xUi-menu-item-icon{margin-right:8px}.xUi-menu-sub{border-radius:6px;position:relative}.xUi-menu-sub-title{align-items:center;cursor:pointer;display:flex;height:40px;padding:0 12px;&:hover{background-color:var(--xui-color-hover);border-radius:6px}}.xUi-menu-sub-label{flex:1}.xUi-menu-sub-arrow{margin-left:8px;transition:transform .2s}.xUi-menu-vertical .xUi-menu-sub-arrow{transform:rotate(-90deg)}.xUi-menu-group{list-style:none;margin:0;padding:0}.xUi-menu-group-title{color:rgba(0,0,0,.45);font-size:12px;padding:8px 12px}.xUi-menu-group-list{list-style:none;margin:0;padding:0}.xUi-menu-divider{border-bottom:1px solid var(--xui-color-disabled);display:block;margin:0 auto;width:calc(100% - 16px)}.xUi-menu-item.xUi-menu-item-disabled{cursor:auto;opacity:.6;&:hover{background-color:unset}}.xUi-menu-inline .xUi-menu-sub-list{background-color:var(--xui-background-color)}.xUi-menu-inline .xUi-menu-item{padding:0 24px}.xUi-menu-inline .xUi-menu-sub-title{padding:0 20px}.xUi-menu-inline .xUi-menu-sub-list-sub .xUi-menu-item{padding:0 30px}";
 styleInject(css_248z$3);
 
 const MenuContext = /*#__PURE__*/React.createContext(null);
@@ -5401,14 +5401,18 @@ const Menu = ({
         itemKey: it.key,
         label: it.label,
         icon: it.icon,
+        selected: selectedKeys.includes(it.key),
         className: `${prefixCls}-item-disabled`
-      }), (it.children || []).map((c, i) => /*#__PURE__*/React.createElement(MenuItem, {
-        key: `${c.key}_${i}_menu-item`,
-        itemKey: c.key,
-        label: c.label,
-        icon: c.icon,
-        className: `${prefixCls}-item-group`
-      })));
+      }), (it.children || []).map((c, i) => {
+        return /*#__PURE__*/React.createElement(MenuItem, {
+          key: `${c.key}_${i}_menu-item`,
+          itemKey: c.key,
+          label: c.label,
+          icon: c.icon,
+          selected: selectedKeys.includes(c.key),
+          className: `${prefixCls}-item-group`
+        });
+      }));
     }
     return it.children ? /*#__PURE__*/React.createElement(SubMenu, {
       key: `${it.key}_${it.label}_${index}_sub_menu`,
@@ -5425,12 +5429,14 @@ const Menu = ({
           itemKey: c.key,
           label: c.label,
           icon: c.icon,
+          selected: selectedKeys.includes(c.key),
           className: `${prefixCls}-item-disabled`
         }), (c.children || []).map((c, _i) => /*#__PURE__*/React.createElement(MenuItem, {
           key: `${c.key}_${_i}_menu-item`,
           itemKey: c.key,
           label: c.label,
           icon: c.icon,
+          selected: selectedKeys.includes(c.key),
           className: `${prefixCls}-item-group`
         })));
       }
@@ -5445,18 +5451,21 @@ const Menu = ({
         key: `${c.key}_${_idx}_${c.label}_menu-item`,
         itemKey: c.key,
         label: c.label,
-        icon: c.icon
+        icon: c.icon,
+        selected: selectedKeys.includes(c.key)
       }))) : /*#__PURE__*/React.createElement(MenuItem, {
         key: `${index}_${c.key}_${c.label}_menu-item`,
         itemKey: c.key,
         label: c.label,
-        icon: c.icon
+        icon: c.icon,
+        selected: selectedKeys.includes(c.key)
       });
     })) : /*#__PURE__*/React.createElement(MenuItem, {
       key: `${index}_${it.key}_menu-item`,
       itemKey: it.key,
       label: it.label,
-      icon: it.icon
+      icon: it.icon,
+      selected: selectedKeys.includes(it.key)
     });
   }) : children));
 };

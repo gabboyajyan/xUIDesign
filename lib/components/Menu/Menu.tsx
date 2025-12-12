@@ -4,7 +4,6 @@ import React, {
   FC,
   useMemo,
   useState,
-  ReactNode,
   useCallback,
   createContext,
   MouseEvent,
@@ -167,18 +166,20 @@ const Menu: FC<MenuProps> & {
                       itemKey={it.key}
                       label={it.label}
                       icon={it.icon}
+                      selected={selectedKeys.includes(it.key)}
                       className={`${prefixCls}-item-disabled`}
                     />
 
-                    {(it.children || []).map((c, i) => (
-                      <MenuItem
+                    {(it.children || []).map((c, i) => {
+                      return <MenuItem
                         key={`${c.key}_${i}_menu-item`}
                         itemKey={c.key}
                         label={c.label}
                         icon={c.icon}
+                        selected={selectedKeys.includes(c.key)}
                         className={`${prefixCls}-item-group`}
                       />
-                    ))}
+                    })}
                   </div>
                 )
               }
@@ -200,6 +201,7 @@ const Menu: FC<MenuProps> & {
                             itemKey={c.key}
                             label={c.label}
                             icon={c.icon}
+                            selected={selectedKeys.includes(c.key)}
                             className={`${prefixCls}-item-disabled`}
                           />
 
@@ -209,6 +211,7 @@ const Menu: FC<MenuProps> & {
                               itemKey={c.key}
                               label={c.label}
                               icon={c.icon}
+                              selected={selectedKeys.includes(c.key)}
                               className={`${prefixCls}-item-group`}
                             />
                           ))}
@@ -229,7 +232,8 @@ const Menu: FC<MenuProps> & {
                           key={`${c.key}_${_idx}_${c.label}_menu-item`}
                           itemKey={c.key}
                           label={c.label}
-                          icon={c.icon} 
+                          icon={c.icon}
+                          selected={selectedKeys.includes(c.key)}
                         />
                       ))}
                     </SubMenu> :
@@ -237,7 +241,9 @@ const Menu: FC<MenuProps> & {
                         key={`${index}_${c.key}_${c.label}_menu-item`}
                         itemKey={c.key}
                         label={c.label}
-                        icon={c.icon} />
+                        icon={c.icon}
+                        selected={selectedKeys.includes(c.key)}
+                      />
                   })}
                 </SubMenu>
               ) : (
@@ -246,6 +252,7 @@ const Menu: FC<MenuProps> & {
                   itemKey={it.key}
                   label={it.label}
                   icon={it.icon}
+                  selected={selectedKeys.includes(it.key)}
                 />
               )
             })
