@@ -48,6 +48,7 @@ const Dropdown = ({
         popupRef,
         targetRef,
         placement,
+        useTargetWidth: true,
         popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     })
 

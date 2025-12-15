@@ -673,7 +673,7 @@ const Select = ({
                 <>
                   {tagsToDisplay.map((tag, index) =>
                     tagRender ? (
-                      <div key={`${index}_${tag}`}>
+                      <div key={`${index}_${tag}`} className={`${prefixCls}-tag-render-container`}>
                         {tagRender?.({
                           label:
                             (() => {

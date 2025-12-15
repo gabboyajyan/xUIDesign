@@ -2628,7 +2628,8 @@ const usePopupPosition = ({
   popupRef,
   targetRef,
   placement,
-  popupContainer
+  popupContainer,
+  useTargetWidth
 }) => {
   const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
@@ -2672,6 +2673,12 @@ const usePopupPosition = ({
             clearTimeout(timeout);
           }, 10);
           return;
+        }
+        if (targetRef.current && popupRef.current && useTargetWidth) {
+          if (popupRect.width < container.width) {
+            const targetWidth = targetRef.current.offsetWidth;
+            popupRef.current.style.width = `${targetWidth}px`;
+          }
         }
         const availableSpace = {
           top: container.top - (popupRect.height + OFFSET),
@@ -2774,7 +2781,7 @@ const usePopupPosition = ({
       };
       _calculation();
     });
-  }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+  }, [targetRef, popupContainer, popupRef, useTargetWidth, inBody, _placement, setOpen]);
   React.useEffect(() => {
     if (!open) {
       return;
@@ -4810,7 +4817,8 @@ const Select = ({
       [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagtriggerRef.current
     }])
   }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
-    key: `${index}_${tag}`
+    key: `${index}_${tag}`,
+    className: `${prefixCls}-tag-render-container`
   }, tagRender?.({
     label: (() => {
       const option = extractedOptions.find(e => e.value === tag || e.label === tag || e.children === tag);
@@ -5515,6 +5523,7 @@ const Dropdown = ({
     popupRef,
     targetRef,
     placement,
+    useTargetWidth: true,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   React.useEffect(() => {

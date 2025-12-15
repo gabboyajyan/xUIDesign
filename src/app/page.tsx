@@ -192,7 +192,7 @@ export default function Home() {
                     })}
                 </Menu> */}
             }}>
-                DropDown
+                Dropdown 
             </Dropdown>
             // </div>
             // <div style={{ minWidth: 1500 }} />

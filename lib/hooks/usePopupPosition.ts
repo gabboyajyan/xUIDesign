@@ -21,6 +21,7 @@ type TPopupPosition = {
     popupRef: RefObject<HTMLDivElement | null>;
     placement?: Placement;
     popupContainer?: HTMLElement | null;
+    useTargetWidth?: boolean;
 }
 
 export const usePopupPosition = ({
@@ -30,6 +31,7 @@ export const usePopupPosition = ({
     targetRef,
     placement,
     popupContainer,
+    useTargetWidth
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -95,6 +97,14 @@ export const usePopupPosition = ({
                     }, 10);
 
                     return
+                }
+
+                if (targetRef.current && popupRef.current && useTargetWidth) {
+                    if (popupRect.width < container.width) {
+                        const targetWidth = targetRef.current.offsetWidth;
+
+                        popupRef.current.style.width = `${targetWidth}px`;
+                    }
                 }
 
                 const availableSpace = {
@@ -206,7 +216,7 @@ export const usePopupPosition = ({
 
             _calculation()
         })
-    }, [targetRef, popupContainer, popupRef, inBody, _placement, setOpen]);
+    }, [targetRef, popupContainer, popupRef, useTargetWidth, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
