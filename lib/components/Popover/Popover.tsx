@@ -47,7 +47,7 @@ const Popover = ({
         placement,
         open: isOpen,
         setOpen: setInnerOpen,
-        positionObserver: overlayPopupStyle,
+        overlayPopupStyle,
         popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     });
 

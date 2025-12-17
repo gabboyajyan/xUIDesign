@@ -22,7 +22,7 @@ type TPopupPosition = {
     placement?: Placement;
     popupContainer?: HTMLElement | null;
     useTargetWidth?: boolean;
-    positionObserver?: CSSProperties;
+    overlayPopupStyle?: CSSProperties;
 }
 
 export const usePopupPosition = ({
@@ -33,7 +33,7 @@ export const usePopupPosition = ({
     placement,
     popupContainer,
     useTargetWidth,
-    positionObserver
+    overlayPopupStyle = {}
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -158,77 +158,75 @@ export const usePopupPosition = ({
             }
         })
 
-        promisePopupPlacment.then(({
-            container,
-            positions,
-            newPlacement
-        }): void => {
-            const _calculation = () => {
-                switch (newPlacement) {
-                    case "bottom":
-                        setPopupPosition({
-                            top: positions.top + container.height,
-                            left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                        });
-                        break;
-                    case "bottomLeft":
-                        setPopupPosition({
-                            top: positions.top + container.height,
-                            left: positions.left
-                        });
-                        break;
-                    case "bottomRight":
-                        setPopupPosition({
-                            top: positions.top + container.height,
-                            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                        });
-                        break;
-                    case "top":
-                        setPopupPosition({
-                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                            left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
-                        });
-                        break;
-                    case "topLeft":
-                        setPopupPosition({
-                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                            left: positions.left
-                        });
-                        break;
-                    case "topRight":
-                        setPopupPosition({
-                            top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
-                            left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
-                        });
-                        break;
-                    case "left":
-                        setPopupPosition({
-                            top: positions.top - OFFSET,
-                            left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
-                        });
-                        break
-                    case "right":
-                        setPopupPosition({
-                            top: positions.top - OFFSET,
-                            left: positions.left + container.width + OFFSET
-                        });
-                        break
+        if (Object.keys(overlayPopupStyle).length) {
+            setPopupPosition(overlayPopupStyle)
+        } else {
+            promisePopupPlacment.then(({
+                container,
+                positions,
+                newPlacement
+            }): void => {
+                const _calculation = () => {
+                    switch (newPlacement) {
+                        case "bottom":
+                            setPopupPosition({
+                                top: positions.top + container.height,
+                                left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                            });
+                            break;
+                        case "bottomLeft":
+                            setPopupPosition({
+                                top: positions.top + container.height,
+                                left: positions.left
+                            });
+                            break;
+                        case "bottomRight":
+                            setPopupPosition({
+                                top: positions.top + container.height,
+                                left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                            });
+                            break;
+                        case "top":
+                            setPopupPosition({
+                                top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                                left: positions.left + ((container.width || 0) / 2) - ((popupRef.current?.offsetWidth || 0) / 2)
+                            });
+                            break;
+                        case "topLeft":
+                            setPopupPosition({
+                                top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                                left: positions.left
+                            });
+                            break;
+                        case "topRight":
+                            setPopupPosition({
+                                top: positions.top - (popupRef.current?.clientHeight || 0) - (OFFSET * 2),
+                                left: positions.left + (container.width || 0) - (popupRef.current?.offsetWidth || 0)
+                            });
+                            break;
+                        case "left":
+                            setPopupPosition({
+                                top: positions.top - OFFSET,
+                                left: positions.left - (popupRef.current?.offsetWidth || 0) - OFFSET
+                            });
+                            break
+                        case "right":
+                            setPopupPosition({
+                                top: positions.top - OFFSET,
+                                left: positions.left + container.width + OFFSET
+                            });
+                            break
+                    }
                 }
-            }
-
-            _calculation()
-        })
+    
+                _calculation()
+            })
+        }
     }, [targetRef, popupContainer, popupRef, useTargetWidth, inBody, _placement, setOpen]);
 
     useEffect(() => {
         if (!open) {
             return;
-        }
-
-        if (positionObserver) {
-            setPopupPosition(positionObserver);
-
-            return
         }
 
         const controller = new AbortController();
@@ -247,7 +245,7 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, targetRef, positionObserver, calculatePosition]);
+    }, [open, targetRef, calculatePosition]);
 
     return {
         _placement,
