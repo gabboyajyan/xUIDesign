@@ -2627,7 +2627,8 @@ const usePopupPosition = ({
   targetRef,
   placement,
   popupContainer,
-  useTargetWidth
+  useTargetWidth,
+  listenPopoverPossitions
 }) => {
   const [_placement, _setPlacement] = useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = useState({});
@@ -2800,7 +2801,7 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, targetRef, calculatePosition]);
+  }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
   return {
     _placement,
     popupStyle: {
@@ -5670,7 +5671,8 @@ const Popover = ({
   overlayClassName = '',
   overlayStyle = {},
   onVisibleChange,
-  getPopupContainer
+  getPopupContainer,
+  listenPopoverPossitions
 }) => {
   const targetRef = useRef(null);
   const popupRef = useRef(null);
@@ -5685,6 +5687,7 @@ const Popover = ({
     placement,
     open: isOpen,
     setOpen: setInnerOpen,
+    listenPopoverPossitions,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   useEffect(() => {
