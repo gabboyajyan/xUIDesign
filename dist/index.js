@@ -2665,7 +2665,7 @@ const usePopupPosition = ({
       }
       const popupRect = popupRef.current?.getBoundingClientRect();
       if (popupRect) {
-        if (popupRect?.width < OFFSET || !targetRef.current) {
+        if (popupRect?.width < OFFSET || container.width === 0) {
           setOpen(false);
           setPopupPosition({});
           const timeout = setTimeout(() => {
