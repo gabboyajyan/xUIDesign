@@ -2787,6 +2787,10 @@ const usePopupPosition = ({
     if (!open) {
       return;
     }
+    if (positionObserver) {
+      setPopupPosition(positionObserver);
+      return;
+    }
     const controller = new AbortController();
     const options = {
       passive: true,
