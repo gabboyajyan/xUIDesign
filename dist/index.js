@@ -2629,8 +2629,7 @@ const usePopupPosition = ({
   targetRef,
   placement,
   popupContainer,
-  useTargetWidth,
-  listenPopoverPositions
+  useTargetWidth
 }) => {
   const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = React.useState({});
@@ -2666,7 +2665,7 @@ const usePopupPosition = ({
       }
       const popupRect = popupRef.current?.getBoundingClientRect();
       if (popupRect) {
-        if (popupRect?.width < OFFSET) {
+        if (popupRect?.width < OFFSET || !targetRef.current) {
           setOpen(false);
           setPopupPosition({});
           const timeout = setTimeout(() => {
@@ -2803,13 +2802,12 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, targetRef, listenPopoverPositions, calculatePosition]);
+  }, [open, targetRef, calculatePosition]);
   return {
     _placement,
     popupStyle: {
       zIndex: 10000,
       position: "absolute",
-      // transition: '1s ease',
       opacity: Object.keys(popupPosition).length ? 1 : 0,
       ...popupPosition
     }
@@ -5673,7 +5671,6 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
-  listenPopoverPositions,
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5690,7 +5687,6 @@ const Popover = ({
     placement,
     open: isOpen,
     setOpen: setInnerOpen,
-    listenPopoverPositions,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   React.useEffect(() => {

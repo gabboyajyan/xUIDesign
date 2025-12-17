@@ -22,7 +22,6 @@ type TPopupPosition = {
     placement?: Placement;
     popupContainer?: HTMLElement | null;
     useTargetWidth?: boolean;
-    listenPopoverPositions?: CSSProperties;
 }
 
 export const usePopupPosition = ({
@@ -33,7 +32,6 @@ export const usePopupPosition = ({
     placement,
     popupContainer,
     useTargetWidth,
-    listenPopoverPositions
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -88,7 +86,7 @@ export const usePopupPosition = ({
             const popupRect = popupRef.current?.getBoundingClientRect();
 
             if (popupRect) {
-                if (popupRect?.width < OFFSET) {
+                if (popupRect?.width < OFFSET || !targetRef.current) {
                     setOpen(false);
                     setPopupPosition({});
 
@@ -241,14 +239,13 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, targetRef, listenPopoverPositions, calculatePosition]);
+    }, [open, targetRef, calculatePosition]);
 
     return {
         _placement,
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
-            // transition: '1s ease',
             opacity: Object.keys(popupPosition).length ? 1 : 0,
             ...popupPosition
         }

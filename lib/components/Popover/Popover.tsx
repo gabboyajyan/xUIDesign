@@ -30,7 +30,6 @@ const Popover = ({
     style = {},
     overlayClassName = '',
     overlayStyle = {},
-    listenPopoverPositions,
     onVisibleChange,
     getPopupContainer
 }: PopoverProps) => {
@@ -47,7 +46,6 @@ const Popover = ({
         placement,
         open: isOpen,
         setOpen: setInnerOpen,
-        listenPopoverPositions,
         popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     });
 
