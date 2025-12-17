@@ -22,6 +22,7 @@ type TPopupPosition = {
     placement?: Placement;
     popupContainer?: HTMLElement | null;
     useTargetWidth?: boolean;
+    positionObserver?: CSSProperties;
 }
 
 export const usePopupPosition = ({
@@ -31,7 +32,8 @@ export const usePopupPosition = ({
     targetRef,
     placement,
     popupContainer,
-    useTargetWidth
+    useTargetWidth,
+    positionObserver
 }: TPopupPosition): {
     _placement: Placement;
     popupStyle: CSSProperties
@@ -239,7 +241,7 @@ export const usePopupPosition = ({
 
             setPopupPosition({});
         };
-    }, [open, targetRef, calculatePosition]);
+    }, [open, targetRef, positionObserver, calculatePosition]);
 
     return {
         _placement,

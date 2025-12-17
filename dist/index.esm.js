@@ -2627,7 +2627,8 @@ const usePopupPosition = ({
   targetRef,
   placement,
   popupContainer,
-  useTargetWidth
+  useTargetWidth,
+  positionObserver
 }) => {
   const [_placement, _setPlacement] = useState(placement ?? "bottomLeft");
   const [popupPosition, setPopupPosition] = useState({});
@@ -2800,7 +2801,7 @@ const usePopupPosition = ({
       controller.abort();
       setPopupPosition({});
     };
-  }, [open, targetRef, calculatePosition]);
+  }, [open, targetRef, positionObserver, calculatePosition]);
   return {
     _placement,
     popupStyle: {
@@ -5687,6 +5688,7 @@ const Popover = ({
     placement,
     open: isOpen,
     setOpen: setInnerOpen,
+    positionObserver: overlayPopupStyle,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
   useEffect(() => {
@@ -5763,8 +5765,7 @@ const Popover = ({
     className: clsx(prefixCls, prefixClsPopupPosition, overlayClassName),
     style: {
       ...overlayStyle,
-      ...popupStyle,
-      ...overlayPopupStyle
+      ...popupStyle
     }
   }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`

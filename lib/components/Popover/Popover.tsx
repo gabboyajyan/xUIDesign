@@ -47,6 +47,7 @@ const Popover = ({
         placement,
         open: isOpen,
         setOpen: setInnerOpen,
+        positionObserver: overlayPopupStyle,
         popupContainer: getPopupContainer?.(targetRef.current as HTMLElement)
     });
 
@@ -150,8 +151,7 @@ const Popover = ({
                         className={clsx(prefixCls, prefixClsPopupPosition, overlayClassName)}
                         style={{
                             ...overlayStyle,
-                            ...popupStyle,
-                            ...overlayPopupStyle
+                            ...popupStyle
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}
