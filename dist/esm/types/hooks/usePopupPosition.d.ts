@@ -8,9 +8,9 @@ type TPopupPosition = {
     placement?: Placement;
     popupContainer?: HTMLElement | null;
     useTargetWidth?: boolean;
-    overlayPopupStyle?: CSSProperties;
+    listenPopoverPositions?: CSSProperties;
 };
-export declare const usePopupPosition: ({ open, setOpen, popupRef, targetRef, placement, popupContainer, useTargetWidth, overlayPopupStyle }: TPopupPosition) => {
+export declare const usePopupPosition: ({ open, setOpen, popupRef, targetRef, placement, popupContainer, useTargetWidth, listenPopoverPositions }: TPopupPosition) => {
     _placement: Placement;
     popupStyle: CSSProperties;
 };

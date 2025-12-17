@@ -9,7 +9,7 @@ import { TimePicker } from '../../lib/components/DatePicker/TimePicker';
 import { Menu } from '../../lib/components/Menu';
 import { ArrowIcon, ClearIcon } from "../../lib/components/Icons/Icons";
 import { ItemType } from "../../lib/types/menu";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import MenuItem from '../../lib/components/Menu/Item/Item';
 
 const Result = lazy(() => import('../../lib/components/Result/Result'))
@@ -81,6 +81,14 @@ const items: ItemType[] = [
 ];
 
 export default function Home() {
+    const [s, setS] = useState({});
+
+    useEffect(() => {
+        setTimeout(() => {
+            setS({ top: 200, left: 200 })
+        }, 1000);
+    }, [])
+
     return (
         // <div style={{ height: 1000 }}>
         //     <div />
@@ -161,6 +169,7 @@ export default function Home() {
                 // }}>
                     <Popover
                     placement='bottomLeft'
+                    listenPopoverPositions={s}
                     content={
                         <Suspense fallback={<div style={{ width: 12, height: 12 }}></div>}>
                             <Result
