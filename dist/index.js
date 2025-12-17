@@ -5672,6 +5672,7 @@ const Popover = ({
   style = {},
   overlayClassName = '',
   overlayStyle = {},
+  overlayPopupStyle = {},
   onVisibleChange,
   getPopupContainer
 }) => {
@@ -5764,7 +5765,8 @@ const Popover = ({
     className: clsx(prefixCls, prefixClsPopupPosition, overlayClassName),
     style: {
       ...overlayStyle,
-      ...popupStyle
+      ...popupStyle,
+      ...overlayPopupStyle
     }
   }), title && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-title`

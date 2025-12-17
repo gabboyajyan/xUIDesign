@@ -30,6 +30,7 @@ const Popover = ({
     style = {},
     overlayClassName = '',
     overlayStyle = {},
+    overlayPopupStyle = {},
     onVisibleChange,
     getPopupContainer
 }: PopoverProps) => {
@@ -149,7 +150,8 @@ const Popover = ({
                         className={clsx(prefixCls, prefixClsPopupPosition, overlayClassName)}
                         style={{
                             ...overlayStyle,
-                            ...popupStyle
+                            ...popupStyle,
+                            ...overlayPopupStyle
                         }}
                     >
                         {title && <div className={`${prefixCls}-title`}>{title}</div>}

@@ -8,6 +8,7 @@ export type PopoverProps = DefaultProps & {
     open?: boolean;
     overlayStyle?: CSSProperties;
     overlayClassName?: string;
+    overlayPopupStyle?: CSSProperties;
     title?: string | ReactNode;
     visible?: boolean;
     listenPopoverPositions?: CSSProperties;
