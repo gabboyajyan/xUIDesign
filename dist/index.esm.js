@@ -4844,7 +4844,6 @@ const Select = ({
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag ${prefixClsV3}-tag contentEditable`
   }, /*#__PURE__*/React.createElement("div", _extends({
-    translate: "no",
     ref: searchInputRef,
     onClick: e => {
       if (disabled) {
@@ -4865,18 +4864,30 @@ const Select = ({
   } : {}, {
     id: `${prefixCls}-search-tag-input`,
     className: `${prefixCls}-tag-input`
-  })), !hasMode && !searchQuery.length ? selected === '' ? placeholder : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  })), !hasMode && !searchQuery.length ? selected === '' ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'contents'
+    }
+  }, placeholder) : selectedOption : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input ${prefixClsV3}-input globalEllipsis`,
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
+  }, selected === '' ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'contents'
+    }
+  }, placeholder) : selectedOption) : null) : !hasMode ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-input ${prefixClsV3}-input globalEllipsis`,
     onClick: () => !disabled && setIsOpen(!isOpen || defaultOpen),
     style: {
       opacity: isOpen || selected === '' ? '0.6' : '1'
     }
-  }, selected === '' ? placeholder : selectedOption) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
+  }, selected === '' ? /*#__PURE__*/React.createElement("div", {
+    style: {
+      display: 'contents'
+    }
+  }, placeholder) : selectedOption) : null, isHover && !loading ? allowClear && selected ? /*#__PURE__*/React.createElement("button", {
     className: `${prefixCls}-clear-btn ${prefixClsV3}-clear-btn`,
     onClick: handleClear
   }, removeIcon || /*#__PURE__*/React.createElement(ClearIcon, null)) : /*#__PURE__*/React.createElement("span", {
