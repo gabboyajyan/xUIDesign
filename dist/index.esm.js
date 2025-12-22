@@ -4748,8 +4748,8 @@ const Select = ({
       style: {
         display: 'contents'
       }
-    }, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
-  }, [extractedOptions, selected]) || selected || null;
+    }, (typeof option === 'string' ? option : option?.children || option?.label || option?.value || null) || selected || null);
+  }, [extractedOptions, selected]);
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagtriggerRef.current;
   const selectedTags = hasMode ? selected : [];

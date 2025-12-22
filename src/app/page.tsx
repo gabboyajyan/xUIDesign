@@ -1,17 +1,28 @@
 'use client'
 
-import { Popover } from '../../lib/components/Popover';
+import { Select } from '../../lib/components/Select';
 
 export default function Home() {
     return (
-        <Popover
-            placement='bottomRight'
-            content={
-                <div>Popover</div>
-            }
-        >
-            Menu
-        </Popover>
+        <div>
+            <Select
+                placeholder='Select Option'
+                options={[
+                    { label: 'One', value: 'One' },
+                    { label: 'Two', value: 'Two' },
+                    { label: 'Three', value: 'Three' }
+                ]}
+            />
+
+            <Select
+                placeholder='Select Option'
+                options={[
+                    { label: '1', value: '1' },
+                    { label: '2', value: '2' },
+                    { label: '3', value: '3' }
+                ]}
+            />
+        </div>
     )
 }
 
