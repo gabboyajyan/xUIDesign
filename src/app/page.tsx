@@ -6,6 +6,7 @@ export default function Home() {
     return (
         <div>
             <Select
+                showSearch
                 placeholder='Select Option'
                 options={[
                     { label: 'One', value: 'One' },
@@ -15,6 +16,7 @@ export default function Home() {
             />
 
             <Select
+                showSearch
                 placeholder='Select Option'
                 options={[
                     { label: '1', value: '1' },

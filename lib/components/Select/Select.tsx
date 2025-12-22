@@ -585,12 +585,8 @@ const Select = ({
         (e) => e.value === selected || e.label === selected || e.children === selected
       ) || selected;
 
-    return (
-      <div style={{ display: 'contents' }}>
-        {(typeof option === 'string' ? option : option?.children || option?.label || option?.value || null) || selected || null}
-      </div>
-    );
-  }, [extractedOptions, selected]);
+    return <div style={{ display: 'contents' }}>{typeof option === 'string' ? option : option?.children || option?.label || option?.value || null}</div>;
+  }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagtriggerRef.current;
@@ -725,6 +721,7 @@ const Select = ({
             {isOpen ? (
               <div className={`${prefixCls}-tag ${prefixClsV3}-tag contentEditable`}>
                 <div
+                  translate='no'
                   ref={searchInputRef}
                   onClick={e => {
                     if (disabled) {

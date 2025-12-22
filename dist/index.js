@@ -4750,8 +4750,8 @@ const Select = ({
       style: {
         display: 'contents'
       }
-    }, (typeof option === 'string' ? option : option?.children || option?.label || option?.value || null) || selected || null);
-  }, [extractedOptions, selected]);
+    }, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
+  }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagtriggerRef.current;
   const selectedTags = hasMode ? selected : [];
@@ -4846,6 +4846,7 @@ const Select = ({
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag ${prefixClsV3}-tag contentEditable`
   }, /*#__PURE__*/React.createElement("div", _extends({
+    translate: "no",
     ref: searchInputRef,
     onClick: e => {
       if (disabled) {
