@@ -2711,7 +2711,13 @@ const usePopupPosition = ({
             } else if (Math.abs(availableSpace.left) + container.width > popupRect.width) {
               newPlacement = newPlacement.replace('Right', 'Left');
             } else {
-              newPlacement = newPlacement.replace(/Left|Right/, '');
+              if (inBody) {
+                if (window.innerWidth - (container.left + container.width) < popupRect.width && container.left < popupRect.width) {
+                  newPlacement = newPlacement.replace(/Left|Right/, '');
+                }
+              } else {
+                newPlacement = newPlacement.replace(/Left|Right/, '');
+              }
             }
           }
         }
