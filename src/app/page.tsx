@@ -1,18 +1,16 @@
 'use client'
 
-import { Popover } from '../../lib/components/Popover';
+import { Dropdown } from '../../lib/components/Dropdown';
 
 export default function Home() {
     return (
-        <Popover
-            trigger={'hover'}
+        <Dropdown
+            trigger={['click']}
             placement='bottomRight'
-            content={
-                <div>Popover</div>
-            }
+            getPopupContainer={() => document.body}
         >
             Menu
-        </Popover>
+        </Dropdown>
     )
 }
 

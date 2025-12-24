@@ -5551,11 +5551,24 @@ const Dropdown = ({
     }
   }, [controlledOpen]);
   React.useEffect(() => {
-    if (open && autoFocus) {
-      requestAnimationFrame(() => {
-        const first = menuRef.current?.querySelector("[role='menuitem']:not([aria-disabled='true'])");
-        first?.focus();
-      });
+    const handleClickOutside = e => {
+      if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
+        setOpenInternal(false);
+        onVisibleChange?.(false);
+      }
+    };
+    if (open) {
+      if (autoFocus) {
+        requestAnimationFrame(() => {
+          const first = menuRef.current?.querySelector("[role='menuitem']:not([aria-disabled='true'])");
+          first?.focus();
+        });
+      }
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside);
+      };
     }
   }, [open]);
   const setOpenInternal = next => {
@@ -5568,18 +5581,6 @@ const Dropdown = ({
     onVisibleChange?.(next);
     onVisibleChange?.(next);
   };
-  React.useEffect(() => {
-    const handleClickOutside = e => {
-      if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
-        setOpenInternal(false);
-        onVisibleChange?.(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
   const triggers = Array.isArray(trigger) ? trigger : [trigger];
   const onTriggerClick = e => {
     e.preventDefault();

@@ -60,14 +60,34 @@ const Dropdown = ({
     }, [controlledOpen]);
 
     useEffect(() => {
-        if (open && autoFocus) {
-            requestAnimationFrame(() => {
-                const first = menuRef.current?.querySelector(
-                    "[role='menuitem']:not([aria-disabled='true'])"
-                ) as HTMLElement | null;
+        const handleClickOutside = (e: MouseEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(e.target as Node) &&
+                targetRef.current &&
+                !targetRef.current.contains(e.target as Node)
+            ) {
+                setOpenInternal(false);
+                onVisibleChange?.(false);
+            }
+        };
 
-                first?.focus();
-            });
+        if (open) {
+            if (autoFocus) {
+                requestAnimationFrame(() => {
+                    const first = menuRef.current?.querySelector(
+                        "[role='menuitem']:not([aria-disabled='true'])"
+                    ) as HTMLElement | null;
+    
+                    first?.focus();
+                });
+            }
+
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
         }
     }, [open]);
 
@@ -83,26 +103,6 @@ const Dropdown = ({
         onVisibleChange?.(next);
         onVisibleChange?.(next)
     };
-
-    useEffect(() => {
-        const handleClickOutside = (e: MouseEvent) => {
-            if (
-                popupRef.current &&
-                !popupRef.current.contains(e.target as Node) &&
-                targetRef.current &&
-                !targetRef.current.contains(e.target as Node)
-            ) {
-                setOpenInternal(false);
-                onVisibleChange?.(false);
-            }
-        };
-
-        document.addEventListener('mousedown', handleClickOutside);
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
     const triggers = Array.isArray(trigger) ? trigger : [trigger];
 
@@ -208,7 +208,7 @@ function MenuInner({
                     aria-disabled={it.disabled ?? false}
                     onClick={(e) => {
                         console.log(1);
-                        
+
                         if (it.disabled) {
                             return;
                         }
