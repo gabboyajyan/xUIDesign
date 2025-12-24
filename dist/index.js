@@ -2706,11 +2706,9 @@ const usePopupPosition = ({
           } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
             newPlacement = newPlacement.replace('Left', 'Right');
           } else if (availableSpace.right < 0 && availableSpace.left < 0 && !['top', 'bottom'].includes(newPlacement)) {
-            const availableLeft = Math.abs(availableSpace.left) + container.width;
-            const availableRight = Math.abs(availableSpace.right) + container.width;
-            if (availableRight + OFFSET > popupRect.width) {
+            if (Math.abs(availableSpace.right) + container.width + OFFSET > popupRect.width) {
               newPlacement = newPlacement.replace('Left', 'Right');
-            } else if ((inBody ? window.innerWidth - availableLeft : availableLeft) > popupRect.width) {
+            } else if (Math.abs(availableSpace.left) + container.width < popupRect.width) {
               newPlacement = newPlacement.replace('Right', 'Left');
             } else {
               newPlacement = newPlacement.replace(/Left|Right/, '');
