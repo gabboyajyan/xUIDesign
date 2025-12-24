@@ -101,10 +101,12 @@ const RangePicker = ({
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
 
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
 
   const isInHoverRange = (date: Date) => {
     const [start, end] = selectedDates;

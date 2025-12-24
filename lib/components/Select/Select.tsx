@@ -213,12 +213,12 @@ const Select = ({
   }, [selectRef.current, prefixCls, prefixClsV3, selected]);
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
 
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [handleClickOutside]);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen, handleClickOutside]);
 
   const updateDropdownPosition = useCallback((searchQueryUpdated?: boolean) => {
     if (!selectRef.current) {

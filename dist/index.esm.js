@@ -3231,9 +3231,11 @@ const RangePicker = ({
         onVisibleChange?.(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
   const isInHoverRange = date => {
     const [start, end] = selectedDates;
     if (!start || end || !hoveredDate) return false;
@@ -4495,11 +4497,11 @@ const Select = ({
     }
   }, [selectRef.current, prefixCls, prefixClsV3, selected]);
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [handleClickOutside]);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen, handleClickOutside]);
   const updateDropdownPosition = useCallback(searchQueryUpdated => {
     if (!selectRef.current) {
       return;
@@ -5716,11 +5718,11 @@ const Popover = ({
         onVisibleChange?.(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
   const triggers = Array.isArray(trigger) ? trigger : [trigger];
   const handleOnClick = useCallback(e => {
     const newState = !isOpen;
