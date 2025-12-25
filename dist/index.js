@@ -2810,15 +2810,15 @@ const usePopupPosition = ({
       setPopupPosition({});
     };
   }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
+  const showPopupStyle = open && popupPosition.hasOwnProperty('top') || popupPosition.hasOwnProperty('left');
   return {
     _placement,
-    popupStyle: {
+    popupStyle: showPopupStyle ? {
       zIndex: 10000,
       position: "absolute",
-      transition: '15s ease',
       opacity: Object.keys(popupPosition).length ? 1 : 0,
       ...popupPosition
-    }
+    } : {}
   };
 };
 
