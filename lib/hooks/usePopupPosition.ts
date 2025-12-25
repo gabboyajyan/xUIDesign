@@ -11,7 +11,7 @@ import {
 import { Placement } from "../types";
 import { getElementParentDetails } from "../helpers";
 
-const OFFSET = 11;
+const OFFSET = 8;
 const LEFT_OR_RIGHT = ['left', 'right'];
 
 type TPopupPosition = {
@@ -249,13 +249,18 @@ export const usePopupPosition = ({
         };
     }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
 
-    return {
-        _placement,
-        popupStyle: {
-            zIndex: 10000,
-            position: "absolute",
-            opacity: Object.keys(popupPosition).length ? 1 : 0,
-            ...popupPosition
+    return useMemo(() => {
+        const startedTargetRects = targetRef.current?.getBoundingClientRect() || {};
+        const visible = Object.keys(popupPosition).length
+
+        return {
+            _placement,
+            popupStyle: {
+                zIndex: 10000,
+                position: "absolute",
+                opacity: visible ? 1 : 0,
+                ...!visible ? startedTargetRects : popupPosition
+            }
         }
-    };
+    }, [targetRef, _placement, popupPosition]);
 };

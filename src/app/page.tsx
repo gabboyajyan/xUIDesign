@@ -193,8 +193,8 @@ export default function Home() {
                 //     </div>
                 // </Popover>
                 // </div>
-            //     {/* <DatePicker placement='right' getPopupContainer={() => document.body} /> */}
-            <Dropdown trigger={'hover'} overlay={() => {
+            <div>
+                <Dropdown trigger={'hover'} getPopupContainer={() => document.body} overlay={() => {
                 return <Menu items={items} selectable selectedKeys={['13']} />
                     {/* {items.map((item) => {
                         return <MenuItem key={item.key} itemKey={item.key} label={item.label} />
@@ -203,6 +203,9 @@ export default function Home() {
             }}>
                 Dropdown 
             </Dropdown>
+                <DatePicker placement='right' getPopupContainer={() => document.body} />
+            
+            </div>
             // </div>
             // <div style={{ minWidth: 1500 }} />
         // </div>
