@@ -250,7 +250,6 @@ export const usePopupPosition = ({
     }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
 
     return useMemo(() => {
-        const startedTargetRects = targetRef.current?.getBoundingClientRect() || {};
         const visible = Object.keys(popupPosition).length
 
         return {
@@ -259,8 +258,8 @@ export const usePopupPosition = ({
                 zIndex: 10000,
                 position: "absolute",
                 opacity: visible ? 1 : 0,
-                ...!visible ? startedTargetRects : popupPosition
+                ...(!visible ? { top: 0, left: 0 } : popupPosition)
             }
         }
-    }, [targetRef, _placement, popupPosition]);
+    }, [_placement, popupPosition]);
 };
