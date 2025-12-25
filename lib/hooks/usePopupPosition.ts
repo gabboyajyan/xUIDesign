@@ -254,6 +254,7 @@ export const usePopupPosition = ({
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
+            transition: '15s ease',
             opacity: Object.keys(popupPosition).length ? 1 : 0,
             ...popupPosition
         }
