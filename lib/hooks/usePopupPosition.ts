@@ -254,8 +254,9 @@ export const usePopupPosition = ({
         popupStyle: {
             zIndex: 10000,
             position: "absolute",
-            opacity: Object.keys(popupPosition).length ? 1 : 0,
-            ...popupPosition
+            ...(Object.keys(popupPosition).length
+                ? popupPosition
+                : { visibility: 'hidden' })
         }
     };
 };
