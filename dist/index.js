@@ -2810,15 +2810,14 @@ const usePopupPosition = ({
       setPopupPosition({});
     };
   }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
-  const showPopupStyle = open && (popupPosition.hasOwnProperty('top') || popupPosition.hasOwnProperty('left'));
   return {
     _placement,
-    popupStyle: showPopupStyle ? {
+    popupStyle: {
       zIndex: 10000,
       position: "absolute",
       opacity: Object.keys(popupPosition).length ? 1 : 0,
       ...popupPosition
-    } : {}
+    }
   };
 };
 
