@@ -249,7 +249,7 @@ export const usePopupPosition = ({
         };
     }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
 
-    const showPopupStyle = open && popupPosition.hasOwnProperty('top') || popupPosition.hasOwnProperty('left')
+    const showPopupStyle = open && (popupPosition.hasOwnProperty('top') || popupPosition.hasOwnProperty('left'))
 
     return {
         _placement,
