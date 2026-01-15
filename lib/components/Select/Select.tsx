@@ -674,7 +674,7 @@ const Select = ({
                 <>
                   {tagsToDisplay.map((tag, index) =>
                     tagRender ? (
-                      <div key={`${index}_${tag}`}>
+                      <div key={`${index}_${tag}`} data-testid={tag}>
                         {tagRender?.({
                           label:
                             (() => {
@@ -855,6 +855,7 @@ const Select = ({
                         handleSelect(e as MouseEventHandlerSelect, searchQuery);
                       }}
                       data-value={searchQuery}
+                      data-testid={searchQuery}
                     >
                       {searchQuery}
                     </Option>

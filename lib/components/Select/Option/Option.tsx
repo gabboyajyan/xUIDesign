@@ -36,6 +36,7 @@ const Option: FC<OptionProps> = ({
       ])}
       style={style}
       onClick={handleClick}
+      data-testid={value || children}
       {...(title ? { title } : {})}
     >
       {render ? render(value as string) : children || value}
