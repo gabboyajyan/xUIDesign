@@ -897,6 +897,7 @@ const Select = ({
                               );
                             }}
                             data-value={props.value}
+                            data-testid={props.value}
                           >
                             {children || props.label || props.value}
 
