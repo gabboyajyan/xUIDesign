@@ -3,33 +3,20 @@
 import { Result } from "../../lib/components/Result";
 import { Button } from '../../lib/components/Button';
 import { Popover } from '../../lib/components/Popover';
-import { ClearIcon } from "../../lib/components/Icons/Icons";
+import { Select } from "../../lib/components/Select";
+import Option from "../../lib/components/Select/Option/Option";
+import Tag from "../../lib/components/Select/Tag/Tag";
 
 export default function Home() {
     return (
-        <div>
-            <div style={{ height: 200 }} />
-            <div style={{ display: "flex" }}>
-                <div style={{ width: '100%' }} />
-
-                <Popover
-                    // placement="bottomRight"
-                    trigger="click"
-                    getPopupContainer={() => document.body}
-                    content={
-                        <Result
-                            status="success"
-                            title="Success"
-                            subTitle="Sorry, you are not authorized to access this page."
-                            extra={<Button type="primary">Back Home</Button>}
-                        />
-                    }
-                >
-                    <ClearIcon />
-                </Popover>
-                <div style={{ width: '100%' }} />
-            </div>
-        </div>
+        <Select mode="tags" 
+        tagRender={(tagProps) => {
+            return <Tag {...tagProps}>{tagProps.value}</Tag>
+        }}
+         options={[ {value: 'tag_1', label: 'Tag 1'}]} 
+        />
+            // {/* <Option value={'tag_1'}>tag 1</Option> */}
+        // </Select>
     )
 }
 

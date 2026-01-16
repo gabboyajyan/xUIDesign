@@ -586,7 +586,9 @@ const Select = ({
         (e) => e.value === selected || e.label === selected || e.children === selected
       ) || selected;
 
-    return <div style={{ display: 'contents' }}>{typeof option === 'string' ? option : option?.children || option?.label || option?.value || null}</div>;
+    const title = typeof option === 'string' ? option : option?.children || option?.label || option?.value || null
+
+    return <div data-testid={title} style={{ display: 'contents' }}>{title}</div>;
   }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
