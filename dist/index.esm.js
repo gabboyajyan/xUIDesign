@@ -4191,7 +4191,8 @@ const Option = ({
       disabled: disabled
     }]),
     style: style,
-    onClick: handleClick
+    onClick: handleClick,
+    "data-testid": value || children
   }, title ? {
     title
   } : {}), render ? render(value) : children || value);
@@ -4628,11 +4629,12 @@ const Select = ({
   };
   const selectedOption = useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
+    const title = typeof option === 'string' ? option : option?.children || option?.label || option?.value || null;
     return /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'contents'
       }
-    }, typeof option === 'string' ? option : option?.children || option?.label || option?.value || null);
+    }, title);
   }, [extractedOptions, selected]) || selected || null;
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
   const container = tagtriggerRef.current;
@@ -4699,7 +4701,8 @@ const Select = ({
       [`${prefixCls}-tag-container-fixHeight ${prefixClsV3}-tag-container-fixHeight`]: !tagtriggerRef.current
     }])
   }, hasMode ? /*#__PURE__*/React.createElement(React.Fragment, null, selectedTags.length ? /*#__PURE__*/React.createElement(React.Fragment, null, tagsToDisplay.map((tag, index) => tagRender ? /*#__PURE__*/React.createElement("div", {
-    key: `${index}_${tag}`
+    key: `${index}_${tag}`,
+    "data-testid": tag
   }, tagRender?.({
     label: (() => {
       const option = extractedOptions.find(e => e.value === tag || e.label === tag || e.children === tag);
@@ -4809,7 +4812,8 @@ const Select = ({
     onClick: e => {
       handleSelect(e, searchQuery);
     },
-    "data-value": searchQuery
+    "data-value": searchQuery,
+    "data-testid": searchQuery
   }, searchQuery), filteredOptions.length ? filteredOptions.map(({
     children,
     className = '',
@@ -4835,7 +4839,8 @@ const Select = ({
           key: `${index}`
         });
       },
-      "data-value": props.value
+      "data-value": props.value,
+      "data-testid": props.value
     }), children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && /*#__PURE__*/React.createElement("span", {
       className: `${prefixCls}-selected-icon ${prefixClsV3}-selected-icon`
     }, menuItemSelectedIcon === true ? /*#__PURE__*/React.createElement(CheckIcon, null) : menuItemSelectedIcon));
