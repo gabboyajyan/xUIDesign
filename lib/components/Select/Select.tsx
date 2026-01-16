@@ -632,6 +632,8 @@ const Select = ({
     }
   }, [maxTagCount, container, tags, overflowCount]);
 
+  console.info(1111, 'test from master')
+
   return (
     <div
       id={id}
@@ -676,7 +678,7 @@ const Select = ({
                 <>
                   {tagsToDisplay.map((tag, index) =>
                     tagRender ? (
-                      <div key={`${index}_${tag}`} data-testid={tag}>
+                      <div key={`${index}_${tag}`} data-testid={tag} className={`${prefixCls}_${prefixClsV3}`}>
                         {tagRender?.({
                           label:
                             (() => {
