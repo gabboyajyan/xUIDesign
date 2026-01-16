@@ -588,7 +588,7 @@ const Select = ({
 
     const title = typeof option === 'string' ? option : option?.children || option?.label || option?.value || null
 
-    return <div data-testid={title} style={{ display: 'contents' }}>{title}</div>;
+    return <div style={{ display: 'contents' }}>{title}</div>;
   }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
@@ -631,8 +631,6 @@ const Select = ({
       }
     }
   }, [maxTagCount, container, tags, overflowCount]);
-
-  console.info(1111, 'test from master')
 
   return (
     <div
@@ -678,7 +676,7 @@ const Select = ({
                 <>
                   {tagsToDisplay.map((tag, index) =>
                     tagRender ? (
-                      <div key={`${index}_${tag}`} data-testid={tag} className={`${prefixCls}_${prefixClsV3}`}>
+                      <div key={`${index}_${tag}`} data-testid={tag}>
                         {tagRender?.({
                           label:
                             (() => {

@@ -9,13 +9,13 @@ import Tag from "../../lib/components/Select/Tag/Tag";
 
 export default function Home() {
     return (
-        <Select mode="tags" 
-        tagRender={(tagProps) => {
-            return <Tag {...tagProps}>{tagProps.value}</Tag>
-        }}
-         options={[ {value: 'tag_1', label: 'Tag 1'}]} 
+        <Select mode="tags"
+            tagRender={(tagProps) => {
+                return <Tag {...tagProps}>{tagProps.value}</Tag>
+            }}
+            options={[{ value: 'tag_1', label: 'Tag 1' }]}
         />
-            // {/* <Option value={'tag_1'}>tag 1</Option> */}
+        // {/* <Option value={'tag_1'}>tag 1</Option> */}
         // </Select>
     )
 }
