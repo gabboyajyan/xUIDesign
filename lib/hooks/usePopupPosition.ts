@@ -114,7 +114,7 @@ export const usePopupPosition = ({
                     bottom: (inBody ? window.innerHeight : (scrollableParents?.clientHeight || 0)) - (container.bottom + popupRect.height + OFFSET),
 
                     left: container.left - (popupRect.width + OFFSET),
-                    right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (((targetRef.current?.offsetLeft || 0) || container.right) + popupRect.width + OFFSET)
+                    right: (inBody ? window.innerWidth : (scrollableParents?.clientWidth || 0)) - (((inBody ? container.left : targetRef.current?.offsetLeft) || container.right) + popupRect.width + OFFSET)
                 };
 
                 let newPlacement = _placement;
