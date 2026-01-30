@@ -2685,7 +2685,7 @@ const usePopupPosition = ({
           top: container.top - (popupRect.height + OFFSET),
           bottom: (inBody ? window.innerHeight : scrollableParents?.clientHeight || 0) - (container.bottom + popupRect.height + OFFSET),
           left: container.left - (popupRect.width + OFFSET),
-          right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((Math.ceil(inBody ? container.left : targetRef.current?.offsetLeft || 0) || container.right) + popupRect.width + OFFSET)
+          right: (inBody ? window.innerWidth : scrollableParents?.clientWidth || 0) - ((targetRef.current?.offsetLeft || container.right) + popupRect.width + OFFSET)
         };
         let newPlacement = _placement;
         const onlyLeftOrRight = LEFT_OR_RIGHT.includes(newPlacement);
@@ -2706,7 +2706,8 @@ const usePopupPosition = ({
           } else if (availableSpace.right < 0 && availableSpace.left > 0 && availableSpace.left > popupRect.width) {
             newPlacement = newPlacement.replace('Left', 'Right');
           } else if (availableSpace.right < 0 && availableSpace.left < 0 && !['top', 'bottom'].includes(newPlacement)) {
-            if (Math.ceil(Math.abs(availableSpace.right) + container.width + OFFSET) >= popupRect.width) {
+            const scrollWidthAsPaddingForBody = inBody ? window.innerWidth - (scrollableParents?.clientWidth || window.innerWidth) : 0;
+            if (Math.ceil(Math.abs(availableSpace.right) + container.width + OFFSET) >= popupRect.width - scrollWidthAsPaddingForBody) {
               newPlacement = newPlacement.replace('Left', 'Right');
             } else if (Math.ceil(Math.abs(availableSpace.left) + container.width) >= popupRect.width) {
               newPlacement = newPlacement.replace('Right', 'Left');
