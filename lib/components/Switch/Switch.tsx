@@ -52,6 +52,8 @@ const Switch = ({
       style={style}
     >
       <div
+        tabIndex={0}
+        role="button"
         className={`${prefixCls} ${prefixClsV3} ${internalChecked ? `${prefixCls}__checked ${prefixClsV3}__checked` : ''}`}
         onClick={handleClick}
       >

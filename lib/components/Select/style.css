@@ -19,6 +19,10 @@
     border: 1px solid var(--xui-border-color);
     box-sizing: border-box;
     padding: 2px 8px;
+
+    &:has([tabindex="0"]:focus-visible) {
+        border-color: var(--xui-primary-color);
+    }
 }
 
 .xUi-select-disabled {

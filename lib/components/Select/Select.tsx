@@ -651,6 +651,8 @@ const Select = ({
       ])}
     >
       <div
+        tabIndex={0}
+        role="button"
         onClick={handleTriggerClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
