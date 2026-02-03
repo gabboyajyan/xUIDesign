@@ -1,7 +1,6 @@
 'use client';
 
 import React, {
-  forwardRef,
   KeyboardEvent,
   MouseEvent,
   useEffect,
@@ -18,7 +17,7 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-const InputComponent = forwardRef(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -46,8 +45,9 @@ const InputComponent = forwardRef(({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}: InputProps, ref) => {
+}: InputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -56,13 +56,8 @@ const InputComponent = forwardRef(({
   const animationRef = useRef<number | null>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => {
-      console.info('focusing');
-      inputRef.current?.focus()
-    },
-    blur: () => {
-      inputRef.current?.blur()
-    },
+    focus: () => inputRef.current?.focus(),
+    blur: () => inputRef.current?.blur(),
     input: inputRef.current,
     nativeElement: inputRef.current,
     setSelectionRange: (start: number, end: number) => {
@@ -70,7 +65,7 @@ const InputComponent = forwardRef(({
         inputRef.current.setSelectionRange(start, end);
       }
     }
-  }), [ref]);
+  }));
 
   useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
@@ -208,7 +203,7 @@ const InputComponent = forwardRef(({
       ) : null}
     </div>
   );
-});
+};
 
 InputComponent.displayName = 'Input';
 
