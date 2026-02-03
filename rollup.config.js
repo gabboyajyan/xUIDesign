@@ -1,4 +1,3 @@
-// rollup.config.js
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
@@ -6,12 +5,9 @@ import typescript from '@rollup/plugin-typescript';
 import postcss from 'rollup-plugin-postcss';
 import babel from '@rollup/plugin-babel';
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const dts = require('rollup-plugin-dts').default;
-// eslint-disable-next-line @typescript-eslint/no-require-imports
 const packageJson = require('./package.json');
 
-// eslint-disable-next-line import/no-anonymous-default-export
 export default [
     {
         input: 'lib/index.ts',

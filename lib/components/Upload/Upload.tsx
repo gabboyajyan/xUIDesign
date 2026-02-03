@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useRef, useState } from 'react';
 import { clsx } from '../../helpers';
 import { RuleType } from '../../types';
@@ -241,7 +239,6 @@ const Upload = ({
                 onClick={() => handleRemove(file.uid)}
               >
                 {listType === 'picture' && (file.originFileObj || file.url) ? (
-                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     width={IMAGE_SIZE}
                     height={IMAGE_SIZE}

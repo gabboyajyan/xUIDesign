@@ -1,5 +1,3 @@
-'use client'
-
 import Input from "../../lib/components/Input/Input";
 import { useEffect, useRef } from "react";
 

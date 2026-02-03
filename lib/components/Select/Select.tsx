@@ -1,12 +1,9 @@
-'use client';
-
 import React, {
   Children,
   CSSProperties,
   Fragment,
   isValidElement,
   KeyboardEvent,
-  memo,
   ReactElement,
   ReactNode,
   Suspense,
@@ -149,10 +146,8 @@ const Select = ({
   useImperativeHandle(ref, () => ({
     focus: () => selectRef.current?.focus(),
     blur: () => (selectRef.current as HTMLInputElement)?.blur(),
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error
     scrollTo: (...args) =>
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       (selectRef.current as HTMLDivElement)?.scrollTo(...args),
     nativeElement: selectRef.current
@@ -515,7 +510,6 @@ const Select = ({
             }
           }
         });
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         Object.assign(result, nodes)
       }
@@ -550,7 +544,6 @@ const Select = ({
         return true;
       }
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       const optionFilterPropValue = option[optionFilterProp];
 
@@ -837,7 +830,6 @@ const Select = ({
             )}
 
             {!loading && (
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               // @ts-expect-error
               <ConditionalWrapper wrapper={(element) => {
                 return dropdownRender?.(element || <> </>) || <> </>

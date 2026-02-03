@@ -1,5 +1,3 @@
-'use client'
-
 import React, { FC, useCallback, useContext } from "react";
 import { MenuContext } from "../Menu";
 import { SubMenuItem } from "../../../types/menu";

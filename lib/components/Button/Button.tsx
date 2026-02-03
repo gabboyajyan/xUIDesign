@@ -26,11 +26,9 @@ const ButtonComponent = ({
   block = false,
   children,
   href,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
   ...restProps
 }: ButtonProps): ReactElement => {

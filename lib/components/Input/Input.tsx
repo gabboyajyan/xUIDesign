@@ -1,7 +1,4 @@
-'use client';
-
 import React, {
-  ForwardedRef,
   KeyboardEvent,
   MouseEvent,
   useEffect,
@@ -18,15 +15,7 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-type InputHandle = {
-  focus: () => void;
-  input: HTMLInputElement | null;
-  blur: () => void;
-  nativeElement: HTMLInputElement | null;
-  setSelectionRange: (start: number, end: number) => void;
-}
-
-const InputComponent = React.forwardRef<InputHandle, InputProps>(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -46,16 +35,14 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
   mask,
   maskChar = MASK_CHAR,
   maskRegex = MASK_REGEX,
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultValue,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}, ref: ForwardedRef<InputHandle>) => {
+}: InputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -78,7 +65,7 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
       }
     }
   }), []);
-
+  
   useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
   }, [value, mask, maskChar]);
@@ -215,7 +202,7 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
       ) : null}
     </div>
   );
-});
+};
 
 InputComponent.displayName = 'Input';
 

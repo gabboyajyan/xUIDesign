@@ -1,5 +1,3 @@
-'use client'
-
 import React, { FC, MouseEvent, useContext } from "react";
 import { MenuContext } from "../Menu";
 import { clsx } from "../../../helpers";
