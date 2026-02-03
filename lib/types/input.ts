@@ -9,7 +9,7 @@ import {
     ReactNode,
     TextareaHTMLAttributes
 } from 'react';
-import { DefaultProps, SizeType, SyntheticBaseEvent } from '.';
+import { DefaultProps, RuleType, SizeType, SyntheticBaseEvent } from '.';
 
 export type InputProps = Omit<
     InputHTMLAttributes<HTMLInputElement>,
@@ -38,6 +38,7 @@ export type InputProps = Omit<
         mask?: string;
         maskChar?: string;
         maskRegex?: RegExp;
+        ref?: RuleType;
     };
 
 export type TextareaProps = Omit<
