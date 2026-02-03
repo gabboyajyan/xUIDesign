@@ -10,7 +10,7 @@ export default function Home() {
         if (ref.current) {
             console.log(ref.current);
 
-            ref.current?.retry().focus();
+            ref.current?.focus();
         }
     }, [])
 
