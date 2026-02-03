@@ -1,5 +1,3 @@
-'use client';
-
 import React, { useEffect } from 'react';
 import { clsx, parseValue } from '../../helpers';
 import { RadioProps } from '../../types/radio';

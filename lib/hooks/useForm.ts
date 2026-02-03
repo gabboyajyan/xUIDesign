@@ -1,5 +1,3 @@
-'use client';
-
 import { useRef, useState } from 'react';
 import { RuleType, RuleTypes } from '../types';
 import type {

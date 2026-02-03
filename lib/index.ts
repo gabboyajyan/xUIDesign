@@ -1,46 +1,44 @@
-// Styles
-import dynamic from 'next/dynamic';
 import './styles/global.css';
 
-const Button = dynamic(() => import('@/components/Button/Button'), { ssr: false });
-const Checkbox = dynamic(() => import('@/components/Checkbox/Checkbox'), { ssr: false });
-const Switch = dynamic(() => import('@/components/Switch/Switch'), { ssr: false });
-const Empty = dynamic(() => import('@/components/Empty/Empty'), { ssr: false });
-const Upload = dynamic(() => import('@/components/Upload/Upload'), { ssr: false });
+import Button from '@/components/Button/Button';
+import Checkbox from '@/components/Checkbox/Checkbox';
+import Switch from '@/components/Switch/Switch';
+import Empty from '@/components/Empty/Empty';
+import Upload from '@/components/Upload/Upload';
 
-const DatePicker = dynamic(() => import('@/components/DatePicker/DatePicker'), { ssr: false });
-const RangePicker = dynamic(() => import('@/components/DatePicker/RangePicker/RangePicker'), { ssr: false });
-const TimePicker = dynamic(() => import('@/components/DatePicker/TimePicker/TimePicker'), { ssr: false });
+import DatePicker from '@/components/DatePicker/DatePicker';
+import RangePicker from '@/components/DatePicker/RangePicker/RangePicker';
+import TimePicker from '@/components/DatePicker/TimePicker/TimePicker';
 
-const Form = dynamic(() => import('@/components/Form/Form'), { ssr: false });
-const FormItem = dynamic(() => import('@/components/Form/Item/Item'), { ssr: false });
+import Form from '@/components/Form/Form';
+import FormItem from '@/components/Form/Item/Item';
 
-const Input = dynamic(() => import('@/components/Input/Input'), { ssr: false });
-const Textarea = dynamic(() => import('@/components/Input/Textarea/Textarea'), { ssr: false });
+import Input from '@/components/Input/Input';
+import Textarea from '@/components/Input/Textarea/Textarea';
 
-const Radio = dynamic(() => import('@/components/Radio/Radio'), { ssr: false });
-const RadioButton = dynamic(() => import('@/components/Radio/Button/Button'), { ssr: false });
-const RadioGroup = dynamic(() => import('@/components/Radio/Group/Group'), { ssr: false });
+import Radio from '@/components/Radio/Radio';
+import RadioButton from '@/components/Radio/Button/Button';
+import RadioGroup from '@/components/Radio/Group/Group';
 
-const Select = dynamic(() => import('@/components/Select/Select'), { ssr: false });
-const Option = dynamic(() => import('@/components/Select/Option/Option'), { ssr: false });
-const Tag = dynamic(() => import('@/components/Select/Tag/Tag'), { ssr: false });
+import Select from '@/components/Select/Select';
+import Option from '@/components/Select/Option/Option';
+import Tag from '@/components/Select/Tag/Tag';
 
-const Skeleton = dynamic(() => import('@/components/Skeleton/Skeleton'), { ssr: false });
-const SkeletonAvatar = dynamic(() => import('@/components/Skeleton/Avatar/Avatar'), { ssr: false });
-const SkeletonButton = dynamic(() => import('@/components/Skeleton/Button/Button'), { ssr: false });
-const SkeletonImage = dynamic(() => import('@/components/Skeleton/Image/Image'), { ssr: false });
-const SkeletonInput = dynamic(() => import('@/components/Skeleton/Input/Input'), { ssr: false });
+import Skeleton from '@/components/Skeleton/Skeleton';
+import SkeletonAvatar from '@/components/Skeleton/Avatar/Avatar';
+import SkeletonButton from '@/components/Skeleton/Button/Button';
+import SkeletonImage from '@/components/Skeleton/Image/Image';
+import SkeletonInput from '@/components/Skeleton/Input/Input';
 
-const Menu = dynamic(() => import('@/components/Menu/Menu'), { ssr: false });
-const MenuItem = dynamic(() => import('@/components/Menu/Item/Item'), { ssr: false });
-const MenuSubMenu = dynamic(() => import('@/components/Menu/SubMenu/SubMenu'), { ssr: false });
+import Menu from '@/components/Menu/Menu';
+import MenuItem from '@/components/Menu/Item/Item';
+import MenuSubMenu from '@/components/Menu/SubMenu/SubMenu';
 
-const Dropdown = dynamic(() => import('@/components/Dropdown/Dropdown'), { ssr: false });
+import Dropdown from '@/components/Dropdown/Dropdown';
 
-const Popover = dynamic(() => import('@/components/Popover/Popover'), { ssr: false });
+import Popover from '@/components/Popover/Popover';
 
-const Result = dynamic(() => import('@/components/Result/Result'), { ssr: false });
+import Result from '@/components/Result/Result';
 
 export {
   Button,
