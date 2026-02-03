@@ -1,7 +1,6 @@
 'use client';
 
 import React, {
-  ForwardedRef,
   KeyboardEvent,
   MouseEvent,
   useEffect,
@@ -18,15 +17,15 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-interface InputHandle {
+export interface MyInputHandle {
   focus: () => void;
-  input: HTMLInputElement | null;
   blur: () => void;
+  input: HTMLInputElement | null;
   nativeElement: HTMLInputElement | null;
   setSelectionRange: (start: number, end: number) => void;
 }
 
-const InputComponent = React.forwardRef<InputHandle, InputProps>(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -54,8 +53,9 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}, ref: ForwardedRef<InputHandle>) => {
+}: InputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -64,13 +64,9 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
   const animationRef = useRef<number | null>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => {
-      inputRef.current?.focus()
-    },
+    focus: () => inputRef.current?.focus(),
     input: inputRef.current,
-    blur: () => {
-      inputRef.current?.blur()
-    },
+    blur: () => inputRef.current?.blur(),
     nativeElement: inputRef.current,
     setSelectionRange: (start: number, end: number) => {
       if (inputRef.current) {
@@ -215,7 +211,7 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
       ) : null}
     </div>
   );
-});
+};
 
 InputComponent.displayName = 'Input';
 
