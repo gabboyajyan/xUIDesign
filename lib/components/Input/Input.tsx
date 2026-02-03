@@ -73,7 +73,7 @@ const InputComponent = ({
         inputRef.current.setSelectionRange(start, end);
       }
     }
-  }), []);
+  }), [inputRef]);
 
   useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
