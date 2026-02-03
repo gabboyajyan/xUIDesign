@@ -3888,17 +3888,15 @@ const InputComponent = ({
   const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
   const animationRef = React.useRef(null);
   React.useImperativeHandle(ref, () => ({
-    retry: () => ({
-      focus: () => inputRef.current?.focus(),
-      blur: () => inputRef.current?.blur(),
-      input: inputRef.current,
-      nativeElement: inputRef.current,
-      setSelectionRange: (start, end) => {
-        if (inputRef.current) {
-          inputRef.current.setSelectionRange(start, end);
-        }
+    focus: () => inputRef.current?.focus(),
+    blur: () => inputRef.current?.blur(),
+    input: inputRef.current,
+    nativeElement: inputRef.current,
+    setSelectionRange: (start, end) => {
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(start, end);
       }
-    })
+    }
   }));
   React.useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');

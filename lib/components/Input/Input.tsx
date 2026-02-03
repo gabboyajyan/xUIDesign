@@ -56,17 +56,15 @@ const InputComponent = ({
   const animationRef = useRef<number | null>(null);
 
   useImperativeHandle(ref, () => ({
-    retry: () => ({
-      focus: () => inputRef.current?.focus(),
-      blur: () => inputRef.current?.blur(),
-      input: inputRef.current,
-      nativeElement: inputRef.current,
-      setSelectionRange: (start: number, end: number) => {
-        if (inputRef.current) {
-          inputRef.current.setSelectionRange(start, end);
-        }
+    focus: () => inputRef.current?.focus(),
+    blur: () => inputRef.current?.blur(),
+    input: inputRef.current,
+    nativeElement: inputRef.current,
+    setSelectionRange: (start: number, end: number) => {
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(start, end);
       }
-    })
+    }
   }));
 
   useEffect(() => {
