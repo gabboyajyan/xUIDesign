@@ -13,6 +13,8 @@ export default function Home() {
 
     useEffect(() => {
         if (ref.current) {
+            console.log(ref.current);
+                        
             ref.current.focus();
         }
     }, [])
