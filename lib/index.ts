@@ -15,7 +15,7 @@ const TimePicker = dynamic(() => import('@/components/DatePicker/TimePicker/Time
 const Form = dynamic(() => import('@/components/Form/Form'), { ssr: false });
 const FormItem = dynamic(() => import('@/components/Form/Item/Item'), { ssr: false });
 
-const Input = dynamic(() => import('@/components/Input/Input'), { ssr: false });
+const Input = dynamic(() => import('@/components/Input/Input'), { ssr: false }) as typeof import('@/components/Input/Input').default;
 const Textarea = dynamic(() => import('@/components/Input/Textarea/Textarea'), { ssr: false });
 
 const Radio = dynamic(() => import('@/components/Radio/Radio'), { ssr: false });
