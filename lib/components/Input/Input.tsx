@@ -1,6 +1,8 @@
 'use client';
 
 import React, {
+  ForwardedRef,
+  forwardRef,
   KeyboardEvent,
   MouseEvent,
   useEffect,
@@ -17,15 +19,15 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-export interface MyInputHandle {
+interface InputHandle {
   focus: () => void;
-  blur: () => void;
   input: HTMLInputElement | null;
+  blur: () => void;
   nativeElement: HTMLInputElement | null;
   setSelectionRange: (start: number, end: number) => void;
 }
 
-const InputComponent = ({
+const InputComponent = forwardRef(({
   size = 'large',
   error,
   suffix,
@@ -53,9 +55,8 @@ const InputComponent = ({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
-  ref,
   ...props
-}: InputProps) => {
+}: InputProps, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -63,17 +64,21 @@ const InputComponent = ({
   const [iconRenderVisible, setIconRenderVisible] = useState(false);
   const animationRef = useRef<number | null>(null);
 
-  useImperativeHandle<MyInputHandle, MyInputHandle>(ref, () => ({
-    focus: () => inputRef.current?.focus(),
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current?.focus()
+    },
     input: inputRef.current,
-    blur: () => inputRef.current?.blur(),
+    blur: () => {
+      inputRef.current?.blur()
+    },
     nativeElement: inputRef.current,
     setSelectionRange: (start: number, end: number) => {
       if (inputRef.current) {
         inputRef.current.setSelectionRange(start, end);
       }
     }
-  }), [inputRef]);
+  }), []);
 
   useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
@@ -211,7 +216,7 @@ const InputComponent = ({
       ) : null}
     </div>
   );
-};
+});
 
 InputComponent.displayName = 'Input';
 

@@ -122,7 +122,7 @@ declare const RangePicker: react.ComponentType<__types_datepicker.TRangePickerPr
 declare const TimePicker: react.ComponentType<__types_datepicker.TimePickerProps>;
 declare const Form: react.ComponentType<__types_form.FormProps>;
 declare const FormItem: react.ComponentType<__types_form.FormItemProps>;
-declare const Input: react.ComponentType<__types_input.InputProps>;
+declare const Input: react.ComponentType<Omit<__types_input.InputProps, "ref"> & react.RefAttributes<unknown>>;
 declare const Textarea: react.ComponentType<__types_input.TextareaProps>;
 declare const Radio: react.ComponentType<__types_radio.RadioProps>;
 declare const RadioButton: react.ComponentType<__types_radio.RadioButtonProps>;

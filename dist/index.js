@@ -3850,7 +3850,7 @@ function applyMask(raw, mask, maskChar = MASK_CHAR) {
 var css_248z$f = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:.1px 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 5px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled,.xUi-input-disabled .xUi-input,.xUi-input-disabled .xUi-input-suffix{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:44px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
 styleInject(css_248z$f);
 
-const InputComponent = ({
+const InputComponent = /*#__PURE__*/React.forwardRef(({
   size = 'large',
   error,
   suffix,
@@ -3878,9 +3878,8 @@ const InputComponent = ({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
-  ref,
   ...props
-}) => {
+}, ref) => {
   const inputRef = React.useRef(null);
   const lastKeyPressed = React.useRef(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -3888,16 +3887,20 @@ const InputComponent = ({
   const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
   const animationRef = React.useRef(null);
   React.useImperativeHandle(ref, () => ({
-    focus: () => inputRef.current?.focus(),
+    focus: () => {
+      inputRef.current?.focus();
+    },
     input: inputRef.current,
-    blur: () => inputRef.current?.blur(),
+    blur: () => {
+      inputRef.current?.blur();
+    },
     nativeElement: inputRef.current,
     setSelectionRange: (start, end) => {
       if (inputRef.current) {
         inputRef.current.setSelectionRange(start, end);
       }
     }
-  }), [inputRef]);
+  }), []);
   React.useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');
   }, [value, mask, maskChar]);
@@ -3989,7 +3992,7 @@ const InputComponent = ({
   } : {}), suffix || iconRender?.(iconRenderVisible), error && feedbackIcons ? /*#__PURE__*/React.createElement(ErrorIcon, null) : null)), addonAfter ? /*#__PURE__*/React.createElement("span", {
     className: `${prefixCls}-addon ${prefixCls}-after ${prefixClsV3}-addon ${prefixClsV3}-after`
   }, addonAfter) : null);
-};
+});
 InputComponent.displayName = 'Input';
 const Input$1 = InputComponent;
 Input$1.TextArea = Textarea;
