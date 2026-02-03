@@ -9,13 +9,7 @@ declare const RangePicker: import("react").ComponentType<import("@/types/datepic
 declare const TimePicker: import("react").ComponentType<import("@/types/datepicker").TimePickerProps>;
 declare const Form: import("react").ComponentType<import("@/types/form").FormProps>;
 declare const FormItem: import("react").ComponentType<import("@/types/form").FormItemProps>;
-declare const Input: import("react").ComponentType<Omit<import("@/types/input").InputProps, "ref"> & import("react").RefAttributes<HTMLInputElement | {
-    focus: () => void;
-    blur: () => void;
-    input: HTMLInputElement | null;
-    nativeElement: HTMLInputElement | null;
-    setSelectionRange: (start: number, end: number) => void;
-}>>;
+declare const Input: import("react").ComponentType<Omit<import("@/types/input").InputProps, "ref"> & import("react").RefAttributes<unknown>>;
 declare const Textarea: import("react").ComponentType<import("@/types/input").TextareaProps>;
 declare const Radio: import("react").ComponentType<import("@/types/radio").RadioProps>;
 declare const RadioButton: import("react").ComponentType<import("@/types/radio").RadioButtonProps>;

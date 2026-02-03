@@ -3874,7 +3874,9 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultValue,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
   ...props
 }, ref) => {
@@ -3885,14 +3887,21 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
   const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
   const animationRef = React.useRef(null);
   React.useImperativeHandle(ref, () => ({
-    focus: () => inputRef.current?.focus(),
-    blur: () => inputRef.current?.blur(),
+    focus: () => {
+      console.info('focusing');
+      inputRef.current?.focus();
+    },
+    blur: () => {
+      inputRef.current?.blur();
+    },
     input: inputRef.current,
     nativeElement: inputRef.current,
     setSelectionRange: (start, end) => {
-      inputRef.current?.setSelectionRange(start, end);
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(start, end);
+      }
     }
-  }), [inputRef]);
+  }), [ref]);
   React.useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');
   }, [value, mask, maskChar]);

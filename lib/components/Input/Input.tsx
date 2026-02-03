@@ -18,7 +18,7 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-const InputComponent = forwardRef<HTMLInputElement | { focus: () => void; blur: () => void; input: HTMLInputElement | null; nativeElement: HTMLInputElement | null; setSelectionRange: (start: number, end: number) => void; }, InputProps>(({
+const InputComponent = forwardRef(({
   size = 'large',
   error,
   suffix,
@@ -42,10 +42,12 @@ const InputComponent = forwardRef<HTMLInputElement | { focus: () => void; blur: 
   // @ts-expect-error
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   __injected,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   defaultValue,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
   ...props
-}, ref) => {
+}: InputProps, ref) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -54,14 +56,21 @@ const InputComponent = forwardRef<HTMLInputElement | { focus: () => void; blur: 
   const animationRef = useRef<number | null>(null);
 
   useImperativeHandle(ref, () => ({
-    focus: () => inputRef.current?.focus(),
-    blur: () => inputRef.current?.blur(),
+    focus: () => {
+      console.info('focusing');
+      inputRef.current?.focus()
+    },
+    blur: () => {
+      inputRef.current?.blur()
+    },
     input: inputRef.current,
     nativeElement: inputRef.current,
     setSelectionRange: (start: number, end: number) => {
-      inputRef.current?.setSelectionRange(start, end);
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(start, end);
+      }
     }
-  }), [inputRef]);
+  }), [ref]);
 
   useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : (value ?? ''));
