@@ -1,6 +1,6 @@
 {
   "name": "x-ui-design",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "license": "ISC",
   "author": "Gabriel Boyajyan",
   "main": "dist/index.js",
