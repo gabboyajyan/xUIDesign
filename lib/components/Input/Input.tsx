@@ -63,7 +63,7 @@ const InputComponent = ({
   const [iconRenderVisible, setIconRenderVisible] = useState(false);
   const animationRef = useRef<number | null>(null);
 
-  useImperativeHandle(ref, () => ({
+  useImperativeHandle<MyInputHandle, MyInputHandle>(ref, () => ({
     focus: () => inputRef.current?.focus(),
     input: inputRef.current,
     blur: () => inputRef.current?.blur(),
