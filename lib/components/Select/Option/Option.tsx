@@ -27,6 +27,8 @@ const Option: FC<OptionProps> = ({
 
   return (
     <div
+      tabIndex={0}
+      role="button"
       className={clsx([
         `${prefixCls}-option ${prefixClsV3}-option ${className} `,
         {

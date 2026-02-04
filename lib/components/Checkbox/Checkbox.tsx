@@ -78,6 +78,8 @@ const Checkbox = ({
     <div className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper`}>
       <div
         ref={ref}
+        tabIndex={0}
+        role="button"
         style={style}
         onClick={handleClick}
         className={clsx([
