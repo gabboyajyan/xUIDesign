@@ -29,6 +29,7 @@ const Option: FC<OptionProps> = ({
     <div
       tabIndex={0}
       role="button"
+      data-testid={value || children}
       className={clsx([
         `${prefixCls}-option ${prefixClsV3}-option ${className} `,
         {

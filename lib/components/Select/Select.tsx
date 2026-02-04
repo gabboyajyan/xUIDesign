@@ -673,7 +673,11 @@ const Select = ({
                 <>
                   {tagsToDisplay.map((tag, index) =>
                     tagRender ? (
-                      <div key={`${index}_${tag}`} className={`${prefixCls}-tag-render-container`}>
+                      <div
+                        key={`${index}_${tag}`}
+                        data-testid={tag}
+                        className={`${prefixCls}-tag-render-container`}
+                      >
                         {tagRender?.({
                           label:
                             (() => {
@@ -703,6 +707,7 @@ const Select = ({
                         }
                         onClose={handleRemoveTag}
                         key={`${index}_${tag}`}
+                        data-testid={tag}
                       />
                     )
                   )}
@@ -857,6 +862,7 @@ const Select = ({
                         handleSelect(e as MouseEventHandlerSelect, searchQuery);
                       }}
                       data-value={searchQuery}
+                      data-testid={searchQuery}
                     >
                       {searchQuery}
                     </Option>
@@ -898,6 +904,7 @@ const Select = ({
                               );
                             }}
                             data-value={props.value}
+                            data-testid={props.value}
                           >
                             {children || props.label || props.value}
 

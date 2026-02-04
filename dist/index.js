@@ -3881,6 +3881,7 @@ const Option = ({
   return jsxRuntime.jsx("div", {
     tabIndex: 0,
     role: "button",
+    "data-testid": value || children,
     className: clsx([`${prefixCls}-option ${prefixClsV3}-option ${className} `, {
       selected: selected,
       disabled: disabled
@@ -4398,6 +4399,7 @@ const Select = ({
         children: [hasMode ? jsxRuntime.jsx(jsxRuntime.Fragment, {
           children: selectedTags.length ? jsxRuntime.jsxs(jsxRuntime.Fragment, {
             children: [tagsToDisplay.map((tag, index) => tagRender ? jsxRuntime.jsx("div", {
+              "data-testid": tag,
               className: `${prefixCls}-tag-render-container`,
               children: tagRender?.({
                 label: (() => {
@@ -4415,7 +4417,8 @@ const Select = ({
                 const option = extractedOptions.find(e => e.value === tag || e.label === tag || e.children === tag);
                 return option?.children || option?.label || option?.value || null;
               })() || tag || null,
-              onClose: handleRemoveTag
+              onClose: handleRemoveTag,
+              "data-testid": tag
             }, `${index}_${tag}`)), overflowCount > 0 && jsxRuntime.jsx(Tag, {
               label: `+${overflowCount}`,
               className: `${prefixCls}-tag-overflow ${prefixClsV3}-tag-overflow`
@@ -4543,6 +4546,7 @@ const Select = ({
                 handleSelect(e, searchQuery);
               },
               "data-value": searchQuery,
+              "data-testid": searchQuery,
               children: searchQuery
             }), filteredOptions.length ? filteredOptions.map(({
               children,
@@ -4569,6 +4573,7 @@ const Select = ({
                   });
                 },
                 "data-value": props.value,
+                "data-testid": props.value,
                 children: [children || props.label || props.value, menuItemSelectedIcon && hasMode && isSelected && jsxRuntime.jsx("span", {
                   className: `${prefixCls}-selected-icon ${prefixClsV3}-selected-icon`,
                   children: menuItemSelectedIcon === true ? jsxRuntime.jsx(CheckIcon, {}) : menuItemSelectedIcon
