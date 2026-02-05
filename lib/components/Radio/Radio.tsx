@@ -57,6 +57,8 @@ const Radio = ({
       <input
         name={name}
         type="radio"
+        tabIndex={0}
+        role="button"
         onClick={onClick}
         disabled={disabled}
         onChange={handleChange}

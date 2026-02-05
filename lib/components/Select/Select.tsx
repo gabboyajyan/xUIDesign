@@ -651,6 +651,8 @@ const Select = ({
       ])}
     >
       <div
+        tabIndex={0}
+        role="button"
         onClick={handleTriggerClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -747,7 +749,7 @@ const Select = ({
                   className={`${prefixCls}-tag-input`}
                 />
                 {!hasMode && !searchQuery.length ? (selected === ''
-                  ? placeholder
+                  ? <div style={{ display: 'contents' }}>{placeholder}</div>
                   : selectedOption) : null}
               </div>
             ) : !hasMode ? (
@@ -756,7 +758,7 @@ const Select = ({
                 style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
               >
                 {selected === ''
-                  ? placeholder
+                  ? <div style={{ display: 'contents' }}>{placeholder}</div>
                   : selectedOption}
               </div>
             ) : null}
@@ -768,7 +770,7 @@ const Select = ({
             style={{ opacity: isOpen || selected === '' ? '0.6' : '1' }}
           >
             {selected === ''
-              ? placeholder
+              ? <div style={{ display: 'contents' }}>{placeholder}</div>
               : selectedOption}
           </div>
         ) : null}

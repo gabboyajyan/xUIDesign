@@ -48,6 +48,8 @@ const Switch = ({
 
   return (
     <div
+      tabIndex={0}
+      role="button"
       className={`${prefixCls}-wrapper ${prefixClsV3}-wrapper ${className} ${disabled ? `${prefixCls}__disabled ${prefixClsV3}__disabled` : ''}`}
       style={style}
     >
