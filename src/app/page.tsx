@@ -14,7 +14,7 @@ export default function Home() {
 
     return (
         <div>
-            <Input ref={ref} />
+            <Input ref={ref} mask="___.___.___-__" />
         </div>
     )
 }

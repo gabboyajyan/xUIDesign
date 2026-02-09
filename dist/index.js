@@ -1,7 +1,7 @@
 'use strict';
 
 var jsxRuntime = require('react/jsx-runtime');
-var React = require('react');
+var react = require('react');
 var reactDom = require('react-dom');
 var ReactDOMServer = require('react-dom/server');
 
@@ -173,8 +173,8 @@ const ButtonComponent = ({
   child,
   ...restProps
 }) => {
-  const [innerLoading, setInnerLoading] = React.useState(false);
-  React.useEffect(() => {
+  const [innerLoading, setInnerLoading] = react.useState(false);
+  react.useEffect(() => {
     if (typeof loading === 'boolean') {
       setInnerLoading(loading);
     } else if (typeof loading === 'object' && loading.delay) {
@@ -184,7 +184,7 @@ const ButtonComponent = ({
       setInnerLoading(!!loading);
     }
   }, [loading]);
-  const classes = React.useMemo(() => {
+  const classes = react.useMemo(() => {
     return clsx([...new Set([prefixCls, prefixClsV3, rootClassName, `${prefixCls}-${type}`, `${prefixCls}-variant-${variant}`, `${prefixCls}-color-${color}`, `${prefixCls}-shape-${shape}`, `${prefixCls}-size-${size}`, `${prefixClsV3}-${type}`, `${prefixClsV3}-variant-${variant}`, `${prefixClsV3}-color-${color}`, `${prefixClsV3}-shape-${shape}`, `${prefixClsV3}-size-${size}`, {
       [`${prefixCls}-block`]: block,
       [`${prefixCls}-ghost`]: ghost,
@@ -264,8 +264,8 @@ const Checkbox = ({
   controlled = false
 }) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = React.useState(isChecked);
-  const checkboxRef = React.useRef(null);
+  const [internalChecked, setInternalChecked] = react.useState(isChecked);
+  const checkboxRef = react.useRef(null);
   const handleClick = e => {
     if (disabled) {
       e.stopPropagation();
@@ -284,7 +284,7 @@ const Checkbox = ({
     onClick?.(e);
     onChange?.(e);
   };
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
@@ -352,7 +352,7 @@ const Switch = ({
   controlled = false
 }) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
-  const [internalChecked, setInternalChecked] = React.useState(isChecked);
+  const [internalChecked, setInternalChecked] = react.useState(isChecked);
   const handleClick = e => {
     e.stopPropagation();
     if (disabled) {
@@ -367,7 +367,7 @@ const Switch = ({
     onClick?.(e.target.value);
     onChange?.(e.target.value);
   };
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (checked !== undefined) {
       setInternalChecked(checked);
     }
@@ -1248,8 +1248,8 @@ const Upload = ({
   noStyle,
   defaultFileList
 }) => {
-  const uploadRef = React.useRef(null);
-  const [fileList, setFileList] = React.useState(() => (controlledFileList || defaultFileList || []).map((file, idx) => ({
+  const uploadRef = react.useRef(null);
+  const [fileList, setFileList] = react.useState(() => (controlledFileList || defaultFileList || []).map((file, idx) => ({
     ...file,
     uid: file.uid || `${Date.now()}-${idx}`,
     status: file.status || 'done',
@@ -1454,10 +1454,10 @@ const usePopupPosition = ({
   useTargetWidth,
   listenPopoverPossitions
 }) => {
-  const [_placement, _setPlacement] = React.useState(placement ?? "bottomLeft");
-  const [popupPosition, setPopupPosition] = React.useState({});
-  const inBody = React.useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
-  const calculatePosition = React.useCallback(e => {
+  const [_placement, _setPlacement] = react.useState(placement ?? "bottomLeft");
+  const [popupPosition, setPopupPosition] = react.useState({});
+  const inBody = react.useMemo(() => popupContainer?.tagName === 'BODY', [popupContainer]);
+  const calculatePosition = react.useCallback(e => {
     const promisePopupPlacment = new Promise(resolve => {
       const container = targetRef.current?.getBoundingClientRect();
       if (!container) {
@@ -1612,7 +1612,7 @@ const usePopupPosition = ({
       _calculation();
     });
   }, [targetRef, popupContainer, popupRef, useTargetWidth, inBody, _placement, setOpen]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (!open) {
       return;
     }
@@ -1633,7 +1633,7 @@ const usePopupPosition = ({
       setPopupPosition({});
     };
   }, [open, targetRef, listenPopoverPossitions, calculatePosition]);
-  return React.useMemo(() => {
+  return react.useMemo(() => {
     const visible = Object.keys(popupPosition).length;
     return {
       _placement,
@@ -1688,15 +1688,15 @@ const DatePicker = ({
 }) => {
   const initialDate = value || defaultValue;
   const initialPickerDate = defaultPickerValue || initialDate;
-  const targetRef = React.useRef(null);
-  const popupRef = React.useRef(null);
+  const targetRef = react.useRef(null);
+  const popupRef = react.useRef(null);
   const DateNow = new Date();
-  const [selectedDate, setSelectedDate] = React.useState(initialDate);
-  const [selectedDatePlaceholder, setSelectedDatePlaceholder] = React.useState(initialDate ? formatDate(initialDate, format) : undefined);
-  const [isOpen, setIsOpen] = React.useState(defaultOpen);
-  const [currentYear, setCurrentYear] = React.useState(initialPickerDate ? new Date(initialPickerDate).getFullYear() : DateNow.getFullYear());
-  const [currentMonth, setCurrentMonth] = React.useState(initialPickerDate ? new Date(initialPickerDate).getMonth() : DateNow.getMonth());
-  const [viewMode, setViewMode] = React.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
+  const [selectedDate, setSelectedDate] = react.useState(initialDate);
+  const [selectedDatePlaceholder, setSelectedDatePlaceholder] = react.useState(initialDate ? formatDate(initialDate, format) : undefined);
+  const [isOpen, setIsOpen] = react.useState(defaultOpen);
+  const [currentYear, setCurrentYear] = react.useState(initialPickerDate ? new Date(initialPickerDate).getFullYear() : DateNow.getFullYear());
+  const [currentMonth, setCurrentMonth] = react.useState(initialPickerDate ? new Date(initialPickerDate).getMonth() : DateNow.getMonth());
+  const [viewMode, setViewMode] = react.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
   const localeMonths = locale?.shortMonths || Array.from({
     length: 12
   }, (_, i) => new Date(0, i).toLocaleString(locale?.locale || 'default', {
@@ -1714,12 +1714,12 @@ const DatePicker = ({
     setOpen: setIsOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
-  React.useEffect(() => {
+  react.useEffect(() => {
     const _date = value || defaultValue;
     setSelectedDate(_date);
     setSelectedDatePlaceholder(_date ? formatDate(_date, format) : undefined);
   }, [value]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     const handleClickOutside = event => {
       if (popupRef.current && !popupRef.current.contains(event.target) && targetRef.current && !targetRef.current.contains(event.target)) {
         setIsOpen(false);
@@ -2043,17 +2043,17 @@ const RangePicker = ({
   getPopupContainer,
   placement = "bottomLeft"
 }) => {
-  const [isOpen, setIsOpen] = React.useState(false);
-  const [selectedDates, setSelectedDates] = React.useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
-  React.useEffect(() => {
+  const [isOpen, setIsOpen] = react.useState(false);
+  const [selectedDates, setSelectedDates] = react.useState([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
+  react.useEffect(() => {
     setSelectedDates([value?.[0] || defaultValue?.[0] || null, value?.[1] || defaultValue?.[1] || null]);
   }, [value]);
-  const targetRef = React.useRef(null);
-  const popupRef = React.useRef(null);
-  const [hoveredDate, setHoveredDate] = React.useState(null);
-  const [currentMonth, setCurrentMonth] = React.useState(new Date().getMonth());
-  const [currentYear, setCurrentYear] = React.useState(new Date().getFullYear());
-  const [viewMode, setViewMode] = React.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
+  const targetRef = react.useRef(null);
+  const popupRef = react.useRef(null);
+  const [hoveredDate, setHoveredDate] = react.useState(null);
+  const [currentMonth, setCurrentMonth] = react.useState(new Date().getMonth());
+  const [currentYear, setCurrentYear] = react.useState(new Date().getFullYear());
+  const [viewMode, setViewMode] = react.useState(picker === 'month' ? 'month' : picker === 'year' ? 'year' : 'day');
   const {
     popupStyle,
     _placement
@@ -2071,7 +2071,7 @@ const RangePicker = ({
     month: 'short'
   }));
   const localeWeekdays = locale?.shortWeekDays || ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-  React.useEffect(() => {
+  react.useEffect(() => {
     const handleClickOutside = event => {
       if (popupRef.current && !popupRef.current.contains(event.target) && targetRef.current && !targetRef.current.contains(event.target)) {
         setIsOpen(false);
@@ -2390,15 +2390,15 @@ const TimePicker = ({
   getPopupContainer,
   placement = "bottomLeft"
 }) => {
-  const [open, setOpen] = React.useState(false);
-  const [innerValue, setInnerValue] = React.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
-  const [[showHour, showMinutes, showSeconds]] = React.useState(`${format}`.split(':'));
-  const [tempValue, setTempValue] = React.useState(null);
-  const targetRef = React.useRef(null);
-  const popupRef = React.useRef(null);
-  const hourRef = React.useRef(null);
-  const minuteRef = React.useRef(null);
-  const secondRef = React.useRef(null);
+  const [open, setOpen] = react.useState(false);
+  const [innerValue, setInnerValue] = react.useState(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
+  const [[showHour, showMinutes, showSeconds]] = react.useState(`${format}`.split(':'));
+  const [tempValue, setTempValue] = react.useState(null);
+  const targetRef = react.useRef(null);
+  const popupRef = react.useRef(null);
+  const hourRef = react.useRef(null);
+  const minuteRef = react.useRef(null);
+  const secondRef = react.useRef(null);
   const {
     popupStyle,
     _placement
@@ -2410,10 +2410,10 @@ const TimePicker = ({
     setOpen: setOpen,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
-  React.useEffect(() => {
+  react.useEffect(() => {
     setInnerValue(propValue || defaultValue ? new Date(propValue || defaultValue) : null);
   }, [propValue]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     const handleClickOutside = e => {
       if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setOpen(false);
@@ -2428,7 +2428,7 @@ const TimePicker = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [innerValue, onChange]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (open) {
       setTempValue(innerValue ? new Date(innerValue) : null);
       const {
@@ -2441,10 +2441,10 @@ const TimePicker = ({
       scrollToTop(secondRef, second || 0);
     }
   }, [open, innerValue]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     onSelect?.(tempValue);
   }, [tempValue, onSelect]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (open) {
       setTempValue(innerValue ? new Date(innerValue) : null);
     }
@@ -2719,31 +2719,31 @@ const TimePicker = ({
 };
 
 const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFirstError, onFinish, onFinishFailed) => {
-  const touchedFieldsRef = React.useRef(new Set());
-  const rulesRef = React.useRef({});
-  const warningsRef = React.useRef({});
-  const _scrollToFirstError = React.useRef(scrollToFirstError);
-  const stepRef = React.useRef(0);
-  const formHandlersRef = React.useRef({
+  const touchedFieldsRef = react.useRef(new Set());
+  const rulesRef = react.useRef({});
+  const warningsRef = react.useRef({});
+  const _scrollToFirstError = react.useRef(scrollToFirstError);
+  const stepRef = react.useRef(0);
+  const formHandlersRef = react.useRef({
     onFinish,
     onValuesChange,
     onFieldsChange,
     onFinishFailed
   });
-  const formRef = React.useRef({
+  const formRef = react.useRef({
     [stepRef.current]: {
       ...initialValues
     }
   });
-  const trashFormRef = React.useRef({
+  const trashFormRef = react.useRef({
     ...initialValues
   });
-  const fieldInstancesRef = React.useRef({});
-  const [isReseting, setIsReseting] = React.useState(false);
-  const errorsRef = React.useRef({});
-  const errorSubscribers = React.useRef({});
-  const fieldSubscribers = React.useRef({});
-  const formSubscribers = React.useRef([]);
+  const fieldInstancesRef = react.useRef({});
+  const [isReseting, setIsReseting] = react.useState(false);
+  const errorsRef = react.useRef({});
+  const errorSubscribers = react.useRef({});
+  const fieldSubscribers = react.useRef({});
+  const formSubscribers = react.useRef([]);
   function getFormFields() {
     return Object.assign({}, ...Object.values(formRef.current));
   }
@@ -3028,7 +3028,7 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
       formRef.current[stepRef.current] = {};
     }
   }
-  const formInstanceRef = React.useRef(null);
+  const formInstanceRef = react.useRef(null);
   const formInstance = {
     submit,
     setFields,
@@ -3072,9 +3072,9 @@ const useForm = (initialValues = {}, onFieldsChange, onValuesChange, scrollToFir
 
 function flattenChildren(children) {
   const result = [];
-  React.Children.forEach(children, child => {
-    if (! /*#__PURE__*/React.isValidElement(child)) return;
-    if (child.type === React.Fragment || child.type === React.Suspense) {
+  react.Children.forEach(children, child => {
+    if (! /*#__PURE__*/react.isValidElement(child)) return;
+    if (child.type === react.Fragment || child.type === react.Suspense) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-expect-error
       result.push(...flattenChildren(child.props.children));
@@ -3086,8 +3086,8 @@ function flattenChildren(children) {
 }
 
 function useWatchError(form, name) {
-  const [errors, setErrors] = React.useState(form.getFieldError(name));
-  React.useEffect(() => {
+  const [errors, setErrors] = react.useState(form.getFieldError(name));
+  react.useEffect(() => {
     // Subscribe directly to error changes
     const unsubscribe = form.subscribeToError?.(name, newErrors => {
       setErrors(newErrors);
@@ -3120,9 +3120,9 @@ const FormItem = ({
   removeErrorMessageHeight = false,
   ...props
 }) => {
-  const formContext = React.useContext(FormContext);
-  const errorRef = React.useRef(null);
-  const fieldRef = React.useRef(null);
+  const formContext = react.useContext(FormContext);
+  const errorRef = react.useRef(null);
+  const fieldRef = react.useRef(null);
   if (!formContext) {
     throw new Error('FormItem must be used within a Form');
   }
@@ -3137,22 +3137,22 @@ const FormItem = ({
     subscribeToFields,
     validateFields
   } = formContext;
-  const childrenList = React.useMemo(() => flattenChildren(children), [children]);
-  React.useEffect(() => {
+  const childrenList = react.useMemo(() => flattenChildren(children), [children]);
+  react.useEffect(() => {
     if (name && !getFieldInstance(name)) {
       registerField(name, rules);
     }
   }, [name, rules]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     setFieldInstance(name, fieldRef.current);
   }, [name, fieldRef.current]);
-  React.useEffect(() => () => registerField(name, undefined, true), [name]);
-  React.useEffect(() => {
+  react.useEffect(() => () => registerField(name, undefined, true), [name]);
+  react.useEffect(() => {
     if (initialValue && getFieldValue(name) === undefined) {
       setFieldValue(name, initialValue);
     }
   }, [name]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (name && dependencies.length > 0) {
       const unsubscribe = subscribeToFields(dependencies, () => {
         validateFields([name]);
@@ -3162,7 +3162,7 @@ const FormItem = ({
       };
     }
   }, [dependencies, name]);
-  const isRequired = React.useMemo(() => rules.some(rule => rule.required), [rules]);
+  const isRequired = react.useMemo(() => rules.some(rule => rule.required), [rules]);
   return jsxRuntime.jsxs("div", {
     style: style,
     "data-instance": name,
@@ -3178,8 +3178,8 @@ const FormItem = ({
         className: `${prefixCls}-required ${prefixClsV3}-required`,
         children: "*"
       })]
-    }), React.Children.map(childrenList, (child, key) => {
-      if (/*#__PURE__*/React.isValidElement(child)) {
+    }), react.Children.map(childrenList, (child, key) => {
+      if (/*#__PURE__*/react.isValidElement(child)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const {
@@ -3190,7 +3190,7 @@ const FormItem = ({
         const fieldValue = value ?? getFieldValue(name) ?? initialValue;
         return jsxRuntime.jsxs("div", {
           className: `${prefixCls}-content`,
-          children: [/*#__PURE__*/React.createElement(FormItemChildComponent, {
+          children: [/*#__PURE__*/react.createElement(FormItemChildComponent, {
             ...props,
             key: `${key}_${name}_${isReseting}`,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -3246,8 +3246,8 @@ const FormItemChildComponent = ({
   ref,
   ...props
 }) => {
-  const formContext = React.useContext(FormContext);
-  const [wasNormalize, setWasNormalize] = React.useState(false);
+  const formContext = react.useContext(FormContext);
+  const [wasNormalize, setWasNormalize] = react.useState(false);
   const {
     getFieldsValue
   } = formContext || {};
@@ -3270,7 +3270,7 @@ const FormItemChildComponent = ({
     setFieldValue(name, rawValue, undefined, undefined, true);
   };
   const injectPropsIntoFinalLeaf = child => {
-    if (! /*#__PURE__*/React.isValidElement(child)) {
+    if (! /*#__PURE__*/react.isValidElement(child)) {
       return child;
     }
     const childProps = child.props;
@@ -3278,17 +3278,17 @@ const FormItemChildComponent = ({
     if (isWrapper) {
       return jsxRuntime.jsx(child.type, {
         ...childProps,
-        children: React.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
+        children: react.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
       });
     }
-    const _onChange = React.useCallback((e, option) => {
+    const _onChange = react.useCallback((e, option) => {
       handleChange(e);
       childProps?.onChange?.(e, option);
     }, [handleChange, childProps?.onChange]);
     if (childProps?.__injected) {
       return child;
     }
-    return /*#__PURE__*/React.createElement(child.type, {
+    return /*#__PURE__*/react.createElement(child.type, {
       ...props,
       ref: ref,
       ...child.props,
@@ -3309,7 +3309,7 @@ const FormItemChildComponent = ({
 };
 FormItem.displayName = 'FormItem';
 
-const FormContext = /*#__PURE__*/React.createContext(null);
+const FormContext = /*#__PURE__*/react.createContext(null);
 const Form = ({
   children,
   form,
@@ -3332,8 +3332,8 @@ const Form = ({
     onValuesChange,
     onFinishFailed
   });
-  const formRef = React.useRef(null);
-  const formInstance = React.useMemo(() => {
+  const formRef = react.useRef(null);
+  const formInstance = react.useMemo(() => {
     const _form = form || internalForm;
     if (_form && Object.keys(initialValues).length) {
       Object.keys(initialValues).forEach(name => {
@@ -3344,13 +3344,13 @@ const Form = ({
     }
     return _form;
   }, [form, internalForm, initialValues]);
-  const childrenList = React.useMemo(() => flattenChildren(children), [children]);
-  const handleSubmit = React.useCallback(async e => {
+  const childrenList = react.useMemo(() => flattenChildren(children), [children]);
+  const handleSubmit = react.useCallback(async e => {
     e.preventDefault();
     e.stopPropagation();
     await formInstance.submit();
   }, []);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (onFinish) {
       formInstance.setOnFinish?.(onFinish);
     }
@@ -3367,8 +3367,8 @@ const Form = ({
       formInstance.setScrollToFirstError(scrollToFirstError);
     }
   }, [formInstance, onFieldsChange, onValuesChange, onFinishFailed, onFinish, scrollToFirstError]);
-  const injectPropsIntoFinalLeaf = React.useCallback(child => {
-    if (! /*#__PURE__*/React.isValidElement(child)) {
+  const injectPropsIntoFinalLeaf = react.useCallback(child => {
+    if (! /*#__PURE__*/react.isValidElement(child)) {
       return child;
     }
     const childProps = child.props;
@@ -3376,7 +3376,7 @@ const Form = ({
     if (isWrapper) {
       return jsxRuntime.jsx(child.type, {
         ...childProps,
-        children: React.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
+        children: react.Children.map(flattenChildren(childProps.children), injectPropsIntoFinalLeaf)
       });
     }
     if (childProps?.__injected) {
@@ -3399,7 +3399,7 @@ const Form = ({
       ref: formRef,
       onSubmit: handleSubmit,
       className: `${prefixCls} ${prefixClsV3} ${className}`,
-      children: React.Children.map(childrenList, injectPropsIntoFinalLeaf)
+      children: react.Children.map(childrenList, injectPropsIntoFinalLeaf)
     })
   });
 };
@@ -3428,9 +3428,9 @@ const Textarea = ({
   ref,
   ...props
 }) => {
-  const [inputValue, setInputValue] = React.useState(value?.toString() || '');
-  const textareaRef = React.useRef(null);
-  React.useEffect(() => {
+  const [inputValue, setInputValue] = react.useState(value?.toString() || '');
+  const textareaRef = react.useRef(null);
+  react.useEffect(() => {
     const textarea = ref?.current || textareaRef.current;
     if (textarea && autoSize) {
       textarea.style.height = 'auto';
@@ -3535,7 +3535,7 @@ function applyMask(raw, mask, maskChar = MASK_CHAR) {
 var css_248z$f = ".xUi-input-container{align-items:center;background-color:transparent;border:1px solid var(--xui-border-color);border-radius:var(--xui-border-radius-sm);display:flex;overflow:hidden}.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input):hover,.xUi-input-container:not(.xUi-input-error):not(.xUi-input-disabled):has(.xUi-input:focus){border:1px solid var(--xui-primary-color)}.xUi-input-container.xUi-input-error{border-color:var(--xui-error-color)}.xUi-input-container.xUi-input-error .error-svg-icon,.xUi-input-suffix .error-svg-icon{color:var(--xui-error-color)}.xUi-input-wrapper{align-items:center;display:flex;flex-grow:1;position:relative;transition:border .3s}.xUi-input,.xUi-input-wrapper{background-color:transparent;height:-webkit-fill-available}.xUi-input{border:none;color:var(--xui-text-color);flex:1;outline:none;padding:.1px 7px;width:100%}.xUi-input:placeholder-shown{text-overflow:ellipsis}.xUi-input::placeholder{color:var(--xui-text-color);opacity:.6}.xUi-input-prefix,.xUi-input-suffix{background-color:transparent;gap:4px}.xUi-input-addon,.xUi-input-prefix,.xUi-input-suffix{align-items:center;color:var(--xui-text-color);display:flex;height:-webkit-fill-available;padding:0 7px}.xUi-input-addon.xUi-input-after{border-left:1px solid var(--xui-border-color)}.xUi-input-addon.xUi-input-before{border-right:1px solid var(--xui-border-color)}.xUi-input-large .xUi-input-addon{padding:0 10px}.xUi-input-clear{align-items:center;cursor:pointer;display:flex;margin:0 5px;position:relative;width:16px}.xUi-input-clear svg{color:var(--xui-text-color)}.xUi-input-disabled,.xUi-input-disabled .xUi-input,.xUi-input-disabled .xUi-input-suffix{background-color:var(--xui-color-disabled);cursor:not-allowed}.xUi-input-small{height:22px}.xUi-input-large .xUi-input-clear,.xUi-input-small .xUi-input,.xUi-input-small .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-middle{border-radius:var(--xui-border-radius-md);height:30px}.xUi-input-large .xUi-input-clear,.xUi-input-middle .xUi-input,.xUi-input-middle .xUi-input::placeholder{font-size:var(--xui-font-size-md)}.xUi-input-large{border-radius:var(--xui-border-radius-lg);height:44px}.xUi-input-large .xUi-input,.xUi-input-large .xUi-input-clear,.xUi-input-large .xUi-input::placeholder{font-size:var(--xui-font-size-lg)}";
 styleInject(css_248z$f);
 
-const InputComponent = /*#__PURE__*/React.forwardRef(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -3563,15 +3563,17 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}, ref) => {
-  const inputRef = React.useRef(null);
-  const lastKeyPressed = React.useRef(null);
+}) => {
+  const inputRef = react.useRef(null);
+  const lastKeyPressed = react.useRef(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
-  const [maskValue, setMaskValue] = React.useState(internalValue);
-  const [iconRenderVisible, setIconRenderVisible] = React.useState(false);
-  const animationRef = React.useRef(null);
-  React.useImperativeHandle(ref, () => ({
+  const [maskValue, setMaskValue] = react.useState(internalValue);
+  const [iconRenderVisible, setIconRenderVisible] = react.useState(false);
+  const animationRef = react.useRef(null);
+  // @ts-ignore
+  react.useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current?.focus();
     },
@@ -3586,7 +3588,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
       }
     }
   }));
-  React.useEffect(() => {
+  react.useEffect(() => {
     setMaskValue(mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '');
   }, [value, mask, maskChar]);
   const handleChange = e => {
@@ -3686,7 +3688,7 @@ const InputComponent = /*#__PURE__*/React.forwardRef(({
       children: addonAfter
     }) : null]
   });
-});
+};
 InputComponent.displayName = 'Input';
 const Input = InputComponent;
 Input.TextArea = Textarea;
@@ -3719,7 +3721,7 @@ const Radio = ({
       onChange?.(parseValue(title ?? value));
     }
   };
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (defaultChecked ?? checked) {
       onChange?.(parseValue(value));
     }
@@ -3805,7 +3807,7 @@ const RadioGroup = ({
   children,
   ...props
 }) => {
-  const selectedValue = React.useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
+  const selectedValue = react.useMemo(() => value !== undefined ? value : defaultValue, [value, defaultValue]);
   const renderChildren = () => {
     if (options.length > 0) {
       return options.map((option, key) => {
@@ -3820,8 +3822,8 @@ const RadioGroup = ({
         }, `${key}_${optionValue}`);
       });
     }
-    return React.Children.map(children, child => {
-      if (/*#__PURE__*/React.isValidElement(child) && (child.type === Radio || child.type === RadioButton)) {
+    return react.Children.map(children, child => {
+      if (/*#__PURE__*/react.isValidElement(child) && (child.type === Radio || child.type === RadioButton)) {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const {
@@ -3944,7 +3946,7 @@ function getTextFromNode(node) {
   if (typeof node === 'string' || typeof node === 'number') {
     return node.toString();
   }
-  if (/*#__PURE__*/React.isValidElement(node)) {
+  if (/*#__PURE__*/react.isValidElement(node)) {
     const html = ReactDOMServer.renderToStaticMarkup(node);
     return html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
   }
@@ -4007,22 +4009,22 @@ const Select = ({
   const asTag = mode === 'tags';
   const asMultiple = mode === 'multiple';
   const hasMode = asTag || asMultiple;
-  const initialValue = React.useMemo(() => value ?? defaultValue ?? '', [value]);
-  const checkModeInitialValue = React.useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
-  const [isHover, setIsHover] = React.useState(false);
-  const selectRef = React.useRef(null);
-  const [searchInputWidth, setSearchInputWidth] = React.useState(0);
-  const [isOpen, setIsOpen] = React.useState(defaultOpen);
-  const [searchFocused, setSearchFocused] = React.useState(false);
-  const [isOpenChecker, setIsOpenChecker] = React.useState(isOpen);
-  const [searchQuery, setSearchQuery] = React.useState(searchValue || '');
-  const [dropdownPosition, setDropdownPosition] = React.useState({});
-  const [lastTagWidth, setLastTagWidth] = React.useState(0);
-  const tagtriggerRef = React.useRef(null);
-  const searchInputRef = React.useRef(null);
-  const [responsiveTagCount, setResponsiveTagCount] = React.useState(null);
-  const [selected, setSelected] = React.useState(hasMode ? checkModeInitialValue : initialValue);
-  React.useImperativeHandle(ref, () => ({
+  const initialValue = react.useMemo(() => value ?? defaultValue ?? '', [value]);
+  const checkModeInitialValue = react.useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
+  const [isHover, setIsHover] = react.useState(false);
+  const selectRef = react.useRef(null);
+  const [searchInputWidth, setSearchInputWidth] = react.useState(0);
+  const [isOpen, setIsOpen] = react.useState(defaultOpen);
+  const [searchFocused, setSearchFocused] = react.useState(false);
+  const [isOpenChecker, setIsOpenChecker] = react.useState(isOpen);
+  const [searchQuery, setSearchQuery] = react.useState(searchValue || '');
+  const [dropdownPosition, setDropdownPosition] = react.useState({});
+  const [lastTagWidth, setLastTagWidth] = react.useState(0);
+  const tagtriggerRef = react.useRef(null);
+  const searchInputRef = react.useRef(null);
+  const [responsiveTagCount, setResponsiveTagCount] = react.useState(null);
+  const [selected, setSelected] = react.useState(hasMode ? checkModeInitialValue : initialValue);
+  react.useImperativeHandle(ref, () => ({
     focus: () => selectRef.current?.focus(),
     blur: () => selectRef.current?.blur(),
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -4033,9 +4035,9 @@ const Select = ({
     selectRef.current?.scrollTo(...args),
     nativeElement: selectRef.current
   }), []);
-  const handleMouseEnter = React.useCallback(() => !disabled && selected?.length && setIsHover(true), [disabled, selected?.length]);
-  const handleMouseLeave = React.useCallback(() => !disabled && setIsHover(false), [disabled]);
-  const handleClearInputValue = React.useCallback(() => {
+  const handleMouseEnter = react.useCallback(() => !disabled && selected?.length && setIsHover(true), [disabled, selected?.length]);
+  const handleMouseLeave = react.useCallback(() => !disabled && setIsHover(false), [disabled]);
+  const handleClearInputValue = react.useCallback(() => {
     if (!autoClearSearchValue) {
       return;
     }
@@ -4051,10 +4053,10 @@ const Select = ({
       inputContainer.innerText = '';
     }
   }, [autoClearSearchValue, prefixCls, prefixClsV3]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     !controlled && setSelected(hasMode ? checkModeInitialValue : initialValue);
   }, [checkModeInitialValue, hasMode, initialValue]);
-  const handleClickOutside = React.useCallback(event => {
+  const handleClickOutside = react.useCallback(event => {
     if (!selectRef.current) return;
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
     const clickedInside = selectRef.current.contains(event?.target) || dropdown && dropdown.contains(event?.target);
@@ -4066,13 +4068,13 @@ const Select = ({
       onDropdownVisibleChange?.(false, selected);
     }
   }, [selectRef.current, prefixCls, prefixClsV3, selected]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
       return () => document.removeEventListener('mousedown', handleClickOutside);
     }
   }, [isOpen, handleClickOutside]);
-  const updateDropdownPosition = React.useCallback(searchQueryUpdated => {
+  const updateDropdownPosition = react.useCallback(searchQueryUpdated => {
     if (!selectRef.current) {
       return;
     }
@@ -4106,7 +4108,7 @@ const Select = ({
       setDropdownPosition(positionStyle);
     }
   }, [prefixCls, listHeight, getPopupContainer, isOpenChecker, isOpen]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     setIsOpenChecker(isOpen);
     if (!isOpen) {
       setDropdownPosition({});
@@ -4118,12 +4120,12 @@ const Select = ({
       }
     }
   }, [isOpen, showSearch]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (!open && isOpen && closeFromParent) {
       handleClickOutside();
     }
   }, [open, isOpen, closeFromParent]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (!isOpen) return;
     const _updateDropdownPosition = () => updateDropdownPosition();
     _updateDropdownPosition();
@@ -4146,10 +4148,10 @@ const Select = ({
       controller.abort();
     };
   }, [isOpen, getPopupContainer, updateDropdownPosition]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     updateDropdownPosition(true);
   }, [searchQuery.length]);
-  const getScrollParents = React.useCallback(element => {
+  const getScrollParents = react.useCallback(element => {
     const parents = [];
     let current = element.parentElement;
     while (current) {
@@ -4251,7 +4253,7 @@ const Select = ({
       clearTimeout(timeout);
     });
   };
-  const ArrowContainer = React.useMemo(() => {
+  const ArrowContainer = react.useMemo(() => {
     if (!showArrow) {
       return null;
     }
@@ -4265,14 +4267,14 @@ const Select = ({
       isOpen: isOpen
     });
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
-  const extractOptions = React.useCallback((children, options) => {
+  const extractOptions = react.useCallback((children, options) => {
     const result = [];
     const flatten = nodes => {
       try {
-        React.Children.forEach(nodes, child => {
+        react.Children.forEach(nodes, child => {
           if (!child) return;
-          if (/*#__PURE__*/React.isValidElement(child)) {
-            if (child.type === React.Fragment || child.type === React.Suspense) {
+          if (/*#__PURE__*/react.isValidElement(child)) {
+            if (child.type === react.Fragment || child.type === react.Suspense) {
               flatten(child.props.children);
             } else {
               result.push(child.props);
@@ -4290,13 +4292,13 @@ const Select = ({
     }
     return options || [];
   }, []);
-  const extractedOptions = React.useMemo(() => {
+  const extractedOptions = react.useMemo(() => {
     return children ? extractOptions(children) : Array.isArray(options) ? options : [];
   }, [children, options]);
-  const triggerNode = React.useMemo(() => {
+  const triggerNode = react.useMemo(() => {
     return selectRef.current?.querySelector(`.${prefixCls}-trigger`);
   }, [prefixCls]);
-  const filteredOptions = React.useMemo(() => {
+  const filteredOptions = react.useMemo(() => {
     return extractedOptions.filter(option => {
       if (typeof filterOption === 'function') {
         return filterOption(searchQuery, option);
@@ -4321,7 +4323,7 @@ const Select = ({
       setSearchInputWidth(searchContent.clientWidth - PADDING_TAG_INPUT);
     }
   };
-  const selectedOption = React.useMemo(() => {
+  const selectedOption = react.useMemo(() => {
     const option = extractedOptions.find(e => e.value === selected || e.label === selected || e.children === selected) || selected;
     return jsxRuntime.jsx("div", {
       style: {
@@ -4337,7 +4339,7 @@ const Select = ({
   const tagsToDisplay = hasMaxTagCount ? selectedTags.slice(0, displayTagCount || selectedTags.length) : selectedTags;
   const overflowCount = hasMaxTagCount ? selectedTags.length - (displayTagCount || selectedTags.length) : 0;
   const tags = Array.from(container?.querySelectorAll(`.${prefixCls}-tag:not(.contentEditable):not(.${prefixCls}-tag-overflow)`) || []);
-  React.useLayoutEffect(() => {
+  react.useLayoutEffect(() => {
     if (maxTagCount === 'responsive' && container) {
       const containerWidth = container?.clientWidth || 0;
       let currentWidth = 0;
@@ -4806,7 +4808,7 @@ const MenuItem = ({
   onClick,
   style
 }) => {
-  const menuContext = React.useContext(MenuContext);
+  const menuContext = react.useContext(MenuContext);
   if (!menuContext) {
     throw new Error('MenuItem must be used within a Menu');
   }
@@ -4858,7 +4860,7 @@ const SubMenu = ({
   level,
   prefixCls = prefixClsMenu
 }) => {
-  const menuContext = React.useContext(MenuContext);
+  const menuContext = react.useContext(MenuContext);
   if (!menuContext) {
     throw new Error('MenuItem must be used within a Menu');
   }
@@ -4868,12 +4870,12 @@ const SubMenu = ({
     triggerSubMenuAction
   } = menuContext;
   const isOpen = openKeys.includes(itemKey);
-  const handleClick = React.useCallback(() => {
+  const handleClick = react.useCallback(() => {
     if (triggerSubMenuAction === "click") {
       toggleOpen(itemKey, level);
     }
   }, [itemKey, level]);
-  const handleHover = React.useCallback(_ => {
+  const handleHover = react.useCallback(_ => {
     if (triggerSubMenuAction === "hover") {
       toggleOpen(itemKey, level);
     }
@@ -4909,7 +4911,7 @@ const SubMenu = ({
 var css_248z$3 = ".xUi-menu{box-shadow:0 0 4px rgba(0,0,0,.15);font-size:14px;user-select:none}.xUi-menu,.xUi-menu-sub-list{border-radius:4px;display:flex;flex-direction:column;gap:4px;list-style:none;margin:0;padding:4px}.xUi-menu-sub-list{background:var(--xui-background-color);height:max-content}.xUi-menu-item-group{padding:0 24px!important}.xUi-menu-vertical .xUi-menu-sub-list{background-color:#fff;box-shadow:0 0 4px rgba(0,0,0,.15);left:100%;position:absolute;right:-100%;top:0;width:-webkit-fill-available;z-index:1}.xUi-menu-horizontal{display:flex;flex-direction:row}.xUi-menu-item{align-items:center;border-radius:4px;color:var(--xui-text-color);cursor:pointer;display:flex;height:40px;min-height:40px;padding:0 12px;transition:background .3s}.xUi-menu-item-selected,.xUi-menu-item:hover{background:rgba(0,0,0,.04)}.xUi-menu-item-icon{margin-right:8px}.xUi-menu-sub{border-radius:6px;position:relative}.xUi-menu-sub-title{align-items:center;cursor:pointer;display:flex;height:40px;padding:0 12px;&:hover{background-color:var(--xui-color-hover);border-radius:6px}}.xUi-menu-sub-label{flex:1}.xUi-menu-sub-arrow{margin-left:8px;transition:transform .2s}.xUi-menu-vertical .xUi-menu-sub-arrow{transform:rotate(-90deg)}.xUi-menu-group{list-style:none;margin:0;padding:0}.xUi-menu-group-title{color:rgba(0,0,0,.45);font-size:12px;padding:8px 12px}.xUi-menu-group-list{list-style:none;margin:0;padding:0}.xUi-menu-divider{border-bottom:1px solid var(--xui-color-disabled);display:block;margin:0 auto;width:calc(100% - 16px)}.xUi-menu-item.xUi-menu-item-disabled{cursor:auto;opacity:.6;&:hover{background-color:unset}}.xUi-menu-inline .xUi-menu-sub-list{background-color:var(--xui-background-color)}.xUi-menu-inline .xUi-menu-item{padding:0 24px}.xUi-menu-inline .xUi-menu-sub-title{padding:0 20px}.xUi-menu-inline .xUi-menu-sub-list-sub .xUi-menu-item{padding:0 30px}";
 styleInject(css_248z$3);
 
-const MenuContext = /*#__PURE__*/React.createContext(null);
+const MenuContext = /*#__PURE__*/react.createContext(null);
 const Menu = ({
   prefixCls = prefixClsMenu,
   className = "",
@@ -4931,16 +4933,16 @@ const Menu = ({
   children,
   items
 }) => {
-  const hasInteracted = React.useRef(false);
-  const [openKeys, setOpenKeys] = React.useState(openKeysProp ?? defaultOpenKeys);
-  const [selectedKeys, setSelectedKeys] = React.useState(selectedKeysProp ?? defaultSelectedKeys);
-  const _triggerSubMenuActionClick = React.useMemo(() => {
+  const hasInteracted = react.useRef(false);
+  const [openKeys, setOpenKeys] = react.useState(openKeysProp ?? defaultOpenKeys);
+  const [selectedKeys, setSelectedKeys] = react.useState(selectedKeysProp ?? defaultSelectedKeys);
+  const _triggerSubMenuActionClick = react.useMemo(() => {
     if (mode === 'inline') {
       return "click";
     }
     return triggerSubMenuAction;
   }, [triggerSubMenuAction, mode]);
-  const toggleOpen = React.useCallback((key, level) => {
+  const toggleOpen = react.useCallback((key, level) => {
     setOpenKeys(_openKeys => {
       const isOpen = _openKeys?.includes(key);
       const openKeysData = level ? [...(_triggerSubMenuActionClick === 'click' ? level === "2" ? [..._openKeys] : [] : _openKeys), key] : [key];
@@ -4952,7 +4954,7 @@ const Menu = ({
       return _openKeys;
     });
   }, [openKeysProp, hasInteracted, _triggerSubMenuActionClick]);
-  const onItemClick = React.useCallback((key, domEvent) => {
+  const onItemClick = react.useCallback((key, domEvent) => {
     if (!selectable) {
       return;
     }
@@ -4983,7 +4985,7 @@ const Menu = ({
       });
     }
   }, [multiple, onClick, onSelect, onDeselect, selectedKeys, selectable, selectedKeysProp]);
-  const menuContext = React.useMemo(() => ({
+  const menuContext = react.useMemo(() => ({
     mode,
     inlineIndent,
     inlineCollapsed,
@@ -5102,11 +5104,11 @@ const Dropdown = ({
   overlay,
   prefixCls = prefixClsDropdown
 }) => {
-  const [open, setOpen] = React.useState(controlledOpen ?? defaultOpen);
+  const [open, setOpen] = react.useState(controlledOpen ?? defaultOpen);
   const isControlled = controlledOpen !== undefined;
-  const targetRef = React.useRef(null);
-  const popupRef = React.useRef(null);
-  const menuRef = React.useRef(null);
+  const targetRef = react.useRef(null);
+  const popupRef = react.useRef(null);
+  const menuRef = react.useRef(null);
   const {
     popupStyle,
     _placement
@@ -5119,13 +5121,13 @@ const Dropdown = ({
     useTargetWidth: true,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (isControlled) {
       setOpen(Boolean(controlledOpen));
       onVisibleChange?.(Boolean(controlledOpen));
     }
   }, [controlledOpen]);
-  React.useEffect(() => {
+  react.useEffect(() => {
     const handleClickOutside = e => {
       if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setOpenInternal(false);
@@ -5275,9 +5277,9 @@ const Popover = ({
   getPopupContainer,
   listenPopoverPossitions
 }) => {
-  const targetRef = React.useRef(null);
-  const popupRef = React.useRef(null);
-  const [innerOpen, setInnerOpen] = React.useState(false);
+  const targetRef = react.useRef(null);
+  const popupRef = react.useRef(null);
+  const [innerOpen, setInnerOpen] = react.useState(false);
   const isOpen = visible !== undefined ? visible : open !== undefined ? open : innerOpen;
   const {
     popupStyle,
@@ -5291,7 +5293,7 @@ const Popover = ({
     listenPopoverPossitions,
     popupContainer: getPopupContainer?.(targetRef.current)
   });
-  React.useEffect(() => {
+  react.useEffect(() => {
     const handleClickOutside = e => {
       if (popupRef.current && !popupRef.current.contains(e.target) && targetRef.current && !targetRef.current.contains(e.target)) {
         setInnerOpen(false);
@@ -5304,26 +5306,26 @@ const Popover = ({
     }
   }, [isOpen]);
   const triggers = Array.isArray(trigger) ? trigger : [trigger];
-  const handleOnClick = React.useCallback(e => {
+  const handleOnClick = react.useCallback(e => {
     const newState = !isOpen;
     if (triggers.includes('click')) {
       onVisibleChange?.(newState);
       setInnerOpen(newState);
     }
   }, [isOpen, triggers]);
-  const handleOnMouseEnter = React.useCallback(() => {
+  const handleOnMouseEnter = react.useCallback(() => {
     if (triggers.includes("hover")) {
       onVisibleChange?.(true);
       setInnerOpen(true);
     }
   }, [triggers]);
-  const handleOnMouseLeave = React.useCallback(() => {
+  const handleOnMouseLeave = react.useCallback(() => {
     if (triggers.includes("hover")) {
       onVisibleChange?.(false);
       setInnerOpen(false);
     }
   }, [triggers]);
-  const childProps = React.useMemo(() => ({
+  const childProps = react.useMemo(() => ({
     ...(triggers.includes("click") ? {
       onClick: handleOnClick
     } : {}),
@@ -5332,19 +5334,19 @@ const Popover = ({
       onMouseLeave: handleOnMouseLeave
     } : {})
   }), [triggers]);
-  const _children = React.useMemo(() => {
-    if (React.Children.count(children) > 1) {
+  const _children = react.useMemo(() => {
+    if (react.Children.count(children) > 1) {
       children = jsxRuntime.jsx("div", {
         children: children
       });
     }
-    return React.Children.map(children, (child, index) => {
-      if (! /*#__PURE__*/React.isValidElement(child)) {
+    return react.Children.map(children, (child, index) => {
+      if (! /*#__PURE__*/react.isValidElement(child)) {
         child = jsxRuntime.jsx("div", {
           children: child
         }, index ?? `popover-child-${index}`);
       }
-      return /*#__PURE__*/React.cloneElement(child, {
+      return /*#__PURE__*/react.cloneElement(child, {
         key: index ?? `popover-child-${index}`,
         ...{
           style,
@@ -5357,7 +5359,7 @@ const Popover = ({
       });
     });
   }, [children, style]);
-  const _content = React.useMemo(() => flattenChildren(content), [content]);
+  const _content = react.useMemo(() => flattenChildren(content), [content]);
   return jsxRuntime.jsxs(jsxRuntime.Fragment, {
     children: [_children, isOpen && jsxRuntime.jsx(ConditionalWrapper, {
       condition: !!getPopupContainer,
@@ -5377,7 +5379,7 @@ const Popover = ({
           children: title
         }), jsxRuntime.jsx("div", {
           className: `${prefixCls}-inner`,
-          children: React.Children.map(_content, (child, index) => jsxRuntime.jsx("div", {
+          children: react.Children.map(_content, (child, index) => jsxRuntime.jsx("div", {
             children: child
           }, index))
         }), jsxRuntime.jsx("div", {
@@ -5438,15 +5440,15 @@ const useWatch = ({
   defaultValue,
   form
 }) => {
-  const formContext = React.useContext(FormContext);
+  const formContext = react.useContext(FormContext);
   const formInstance = form || formContext;
   if (!formInstance) {
     throw new Error('useWatch must be used within a Form or with a form instance.');
   }
-  const [value, setValue] = React.useState(() => {
+  const [value, setValue] = react.useState(() => {
     return name ? formInstance.getFieldValue(name) ?? defaultValue : formInstance.getFieldsValue() ?? defaultValue;
   });
-  React.useEffect(() => {
+  react.useEffect(() => {
     if (!name) {
       const unsubscribe = formInstance.subscribeToForm(setValue);
       return () => unsubscribe();

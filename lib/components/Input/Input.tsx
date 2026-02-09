@@ -15,15 +15,7 @@ import { ErrorIcon } from '../Icons/Icons';
 import { applyMask, MASK_CHAR, MASK_REGEX, stripMask } from '../../helpers/mask';
 import './style.css';
 
-export interface InputHandle {
-  focus: () => void;
-  input: HTMLInputElement | null;
-  blur: () => void;
-  nativeElement: HTMLInputElement | null;
-  setSelectionRange: (start: number, end: number) => void;
-}
-
-const InputComponent = React.forwardRef<InputHandle, InputProps>(({
+const InputComponent = ({
   size = 'large',
   error,
   suffix,
@@ -51,8 +43,9 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
   defaultValue,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   child,
+  ref,
   ...props
-}, ref) => {
+}: InputProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const lastKeyPressed = useRef<string | null>(null);
   const internalValue = mask ? applyMask(stripMask(`${value ?? ''}`, mask, maskChar), mask, maskChar).masked : value ?? '';
@@ -60,6 +53,7 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
   const [iconRenderVisible, setIconRenderVisible] = useState(false);
   const animationRef = useRef<number | null>(null);
 
+  // @ts-ignore
   useImperativeHandle(ref, () => ({
     focus: () => {
       inputRef.current?.focus();
@@ -212,7 +206,7 @@ const InputComponent = React.forwardRef<InputHandle, InputProps>(({
       ) : null}
     </div>
   );
-});
+};
 
 InputComponent.displayName = 'Input';
 
