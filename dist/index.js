@@ -1700,9 +1700,7 @@ const FormItem$1 = ({
     }
   }, [name, rules]);
   React.useEffect(() => {
-    if (fieldRef.current && !Object.prototype.hasOwnProperty.call(fieldRef.current || {}, name)) {
-      setFieldInstance(name, fieldRef.current);
-    }
+    setFieldInstance(name, fieldRef.current);
   }, [name, fieldRef.current]);
   React.useEffect(() => () => registerField(name, undefined, true), [name]);
   React.useEffect(() => {

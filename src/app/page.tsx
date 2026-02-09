@@ -1,22 +1,28 @@
 'use client'
 
-import { Result } from "../../lib/components/Result";
-import { Button } from '../../lib/components/Button';
+import { Form } from "../../lib/components/Form";
+import { Input } from '../../lib/components/Input';
 import { Popover } from '../../lib/components/Popover';
 import { Select } from "../../lib/components/Select";
 import Option from "../../lib/components/Select/Option/Option";
-import Tag from "../../lib/components/Select/Tag/Tag";
+import { Button } from "../../lib/components/Button";
 
 export default function Home() {
     return (
-        <Select mode="tags"
-            tagRender={(tagProps) => {
-                return <Tag {...tagProps}>{tagProps.value}</Tag>
-            }}
-            options={[{ value: 'tag_1', label: 'Tag 1' }]}
-        />
-        // {/* <Option value={'tag_1'}>tag 1</Option> */}
-        // </Select>
+       <Form onFinish={(values) => console.log(values)} scrollToFirstError>
+        <Form.Item rules={[ { required: true } ]} name="select" label="Select">
+          <Select placeholder="Select an option">
+            <Option value="option1">Option 1</Option>
+            <Option value="option2">Option 2</Option>
+            <Option value="option3">Option 3</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item rules={[ { required: true } ]} name="select-multiple" label="Select Multiple">
+          <Input placeholder="Select multiple options" />
+        </Form.Item>
+
+        <Button htmlType="submit">Submit</Button>
+       </Form>
     )
 }
 
