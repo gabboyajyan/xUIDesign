@@ -2,10 +2,11 @@
 
 import { Form } from "../../lib/components/Form";
 import { Input } from '../../lib/components/Input';
-import { Popover } from '../../lib/components/Popover';
+import { Switch } from '../../lib/components/Switch';
 import { Select } from "../../lib/components/Select";
 import Option from "../../lib/components/Select/Option/Option";
 import { Button } from "../../lib/components/Button";
+import { ArrowIcon } from "../../lib/components/Icons/Icons";
 
 export default function Home() {
     return (
@@ -19,6 +20,12 @@ export default function Home() {
         </Form.Item>
         <Form.Item rules={[ { required: true } ]} name="select-multiple" label="Select Multiple">
           <Input placeholder="Select multiple options" />
+        </Form.Item>
+        <Form.Item rules={[ { required: true } ]} name="popover" label="Popover">
+          <Switch icons={{ 
+            checked: <ArrowIcon isOpen />, 
+            unchecked: <ArrowIcon isOpen={false} /> 
+          }} />
         </Form.Item>
 
         <Button htmlType="submit">Submit</Button>

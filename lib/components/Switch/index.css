@@ -48,3 +48,12 @@
 .xUi-switch__checked {
   background-color: var(--xui-primary-color);
 }
+
+.xUi-switch .xUi-switch__icon {
+  position: absolute;
+  transition: transform .3s ease;
+}
+
+.xUi-switch .xUi-switch__icon-unchecked {
+  transform: translateX(100%);
+}

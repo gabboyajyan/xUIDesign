@@ -15,7 +15,8 @@ const Switch = ({
   style = {},
   defaultChecked,
   value,
-  controlled = false
+  controlled = false,
+  icons,
 }: SwitchProps) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = useState(isChecked);
@@ -57,6 +58,9 @@ const Switch = ({
         className={`${prefixCls} ${prefixClsV3} ${internalChecked ? `${prefixCls}__checked ${prefixClsV3}__checked` : ''}`}
         onClick={handleClick}
       >
+        <div className={`${prefixCls}__icon ${prefixClsV3}__icon ${internalChecked ? `${prefixCls}__icon-checked ${prefixClsV3}__icon-checked` : `${prefixCls}__icon-unchecked ${prefixClsV3}__icon-unchecked`}`}>
+          {internalChecked ? icons.checked : icons.unchecked}
+        </div>
         <div className={`${prefixCls}__slider ${prefixClsV3}__slider`}></div>
       </div>
     </div>
