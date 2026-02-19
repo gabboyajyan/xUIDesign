@@ -42,7 +42,7 @@
 }
 
 .xUi-switch__checked .xUi-switch__slider {
-  transform: translateX(21px);
+  left: calc(100% - 20px);
 }
 
 .xUi-switch__checked {
@@ -50,10 +50,12 @@
 }
 
 .xUi-switch .xUi-switch__icon {
-  position: absolute;
-  transition: transform .3s ease;
+  display: block;
+  margin: 0 8px 0 25px;
+  font-size: 12px;
+  transition: margin .2s;
 }
 
-.xUi-switch .xUi-switch__icon-unchecked {
-  transform: translateX(100%);
+.xUi-switch .xUi-switch__icon-checked {
+  margin: 0 25px 0 8px;
 }
