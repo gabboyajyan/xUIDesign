@@ -110,9 +110,9 @@ type SwitchProps = DefaultProps & {
     defaultChecked?: boolean;
     checked?: boolean;
     controlled?: boolean;
-    icons: {
-        checked: ReactNode;
-        unchecked: ReactNode;
+    icons?: {
+        checked?: ReactNode;
+        unchecked?: ReactNode;
     };
 };
 

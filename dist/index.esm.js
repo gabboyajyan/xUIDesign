@@ -2306,9 +2306,9 @@ const Switch = ({
     onClick: handleClick
   }, /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}__slider ${prefixClsV3}__slider`
-  }), /*#__PURE__*/React.createElement("div", {
+  }), icons && /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}__icon ${prefixClsV3}__icon ${internalChecked ? `${prefixCls}__icon-checked ${prefixClsV3}__icon-checked` : `${prefixCls}__icon-unchecked ${prefixClsV3}__icon-unchecked`}`
-  }, internalChecked ? icons.checked : icons.unchecked)));
+  }, internalChecked ? icons?.checked : icons?.unchecked)));
 };
 Switch.displayName = 'Switch';
 

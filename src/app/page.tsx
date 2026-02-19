@@ -22,10 +22,12 @@ export default function Home() {
           <Input placeholder="Select multiple options" />
         </Form.Item>
         <Form.Item rules={[ { required: true } ]} name="popover" label="Popover">
-          <Switch icons={{ 
-            checked: <ArrowIcon isOpen />, 
-            unchecked: <ArrowIcon isOpen={false} /> 
-          }} />
+          <Switch 
+            icons={{ 
+              checked: <ArrowIcon isOpen />, 
+              unchecked: <ArrowIcon isOpen={false} /> 
+            }}
+          />
         </Form.Item>
 
         <Button htmlType="submit">Submit</Button>
