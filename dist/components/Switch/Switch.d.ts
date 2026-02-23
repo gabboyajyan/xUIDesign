@@ -1,7 +1,7 @@
 import { SwitchProps } from '../../types/switch';
 import './index.css';
 declare const Switch: {
-    ({ prefixCls, prefixClsV3, checked, onChange, onClick, disabled, className, style, defaultChecked, value, controlled }: SwitchProps): import("react/jsx-runtime").JSX.Element;
+    ({ prefixCls, prefixClsV3, checked, onChange, onClick, disabled, className, style, defaultChecked, value, controlled, icons, }: SwitchProps): import("react/jsx-runtime").JSX.Element;
     displayName: string;
 };
 export default Switch;

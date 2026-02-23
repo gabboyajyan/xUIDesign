@@ -335,7 +335,7 @@ const Checkbox = ({
 };
 Checkbox.displayName = 'Checkbox';
 
-var css_248z$n = ".xUi-switch{background-color:var(--xui-color-disabled);border:0;border-radius:100px;box-sizing:border-box;color:#000000d9;cursor:pointer;display:inline-block;font-size:14px;font-variant:tabular-nums;height:22px;list-style:none;margin:0;min-width:44px;padding:0;position:relative;transition:all .2s;user-select:none;vertical-align:middle}.xUi-switch-wrapper{&:has([tabindex=\"0\"]:focus-visible){border-color:var(--xui-primary-color)}}.xUi-switch.xUi-switch__disabled{opacity:.5;pointer-events:none}.xUi-switch .xUi-switch__slider{background-color:#fff;border-radius:50%;height:18px;left:2px;position:absolute;top:2px;transition:transform .3s;width:18px}.xUi-switch__checked .xUi-switch__slider{transform:translateX(21px)}.xUi-switch__checked{background-color:var(--xui-primary-color)}";
+var css_248z$n = ".xUi-switch{background-color:var(--xui-color-disabled);border:0;border-radius:100px;box-sizing:border-box;color:#000000d9;cursor:pointer;display:inline-block;font-size:14px;font-variant:tabular-nums;height:22px;list-style:none;margin:0;min-width:44px;padding:0;position:relative;transition:all .2s;user-select:none;vertical-align:middle}.xUi-switch-wrapper{&:has([tabindex=\"0\"]:focus-visible){border-color:var(--xui-primary-color)}}.xUi-switch.xUi-switch__disabled{opacity:.5;pointer-events:none}.xUi-switch .xUi-switch__slider{background-color:#fff;border-radius:50%;height:18px;left:2px;position:absolute;top:2px;transition:transform .3s;width:18px}.xUi-switch__checked .xUi-switch__slider{left:calc(100% - 20px)}.xUi-switch__checked{background-color:var(--xui-primary-color)}.xUi-switch .xUi-switch__icon{display:block;font-size:12px;margin:0 8px 0 25px;transition:margin .2s}.xUi-switch .xUi-switch__icon-checked{margin:0 25px 0 8px}";
 styleInject(css_248z$n);
 
 const Switch = ({
@@ -349,7 +349,8 @@ const Switch = ({
   style = {},
   defaultChecked,
   value,
-  controlled = false
+  controlled = false,
+  icons
 }) => {
   const isChecked = checked !== undefined ? checked : defaultChecked || value;
   const [internalChecked, setInternalChecked] = react.useState(isChecked);
@@ -375,14 +376,17 @@ const Switch = ({
   return jsxRuntime.jsx("div", {
     className: `${prefixCls}-wrapper ${prefixClsV3}-wrapper ${className} ${disabled ? `${prefixCls}__disabled ${prefixClsV3}__disabled` : ''}`,
     style: style,
-    children: jsxRuntime.jsx("div", {
+    children: jsxRuntime.jsxs("div", {
       tabIndex: 0,
       role: "button",
       className: `${prefixCls} ${prefixClsV3} ${internalChecked ? `${prefixCls}__checked ${prefixClsV3}__checked` : ''}`,
       onClick: handleClick,
-      children: jsxRuntime.jsx("div", {
+      children: [jsxRuntime.jsx("div", {
         className: `${prefixCls}__slider ${prefixClsV3}__slider`
-      })
+      }), icons && jsxRuntime.jsx("div", {
+        className: `${prefixCls}__icon ${prefixClsV3}__icon ${internalChecked ? `${prefixCls}__icon-checked ${prefixClsV3}__icon-checked` : `${prefixCls}__icon-unchecked ${prefixClsV3}__icon-unchecked`}`,
+        children: internalChecked ? icons?.checked : icons?.unchecked
+      })]
     })
   });
 };

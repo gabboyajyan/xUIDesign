@@ -44,3 +44,4 @@ packages/node_modules
 .rollup.cache
 
 .idea
+.next
