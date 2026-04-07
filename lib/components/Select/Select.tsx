@@ -1,3 +1,5 @@
+'use client';
+
 import React, {
   Children,
   CSSProperties,
@@ -127,6 +129,7 @@ const Select = ({
 
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const selectInputRef = useRef<HTMLInputElement>(null);
   const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -196,7 +199,7 @@ const Select = ({
     if (!selectRef.current) return;
 
     const dropdown = document.querySelector(`.${prefixCls}-dropdown`) || document.querySelector(`.${prefixClsV3}-dropdown`);
-
+    
     const clickedInside =
       selectRef.current.contains(event?.target as Node) ||
       (dropdown && dropdown.contains(event?.target as Node));
@@ -223,7 +226,7 @@ const Select = ({
       return;
     }
 
-    const triggerNode =
+    const triggerNode = 
       (selectRef.current?.querySelector(`.${prefixCls}-trigger`) || selectRef.current?.querySelector(`.${prefixClsV3}-trigger`)) as HTMLElement;
 
     const selectBox = triggerNode.getBoundingClientRect();
@@ -275,6 +278,11 @@ const Select = ({
     } else {
       if (showSearch) {
         setSearchFocused(true);
+        
+        if (selectInputRef.current) {
+          selectInputRef.current.focus();
+        }
+
         searchInputRef.current?.focus();
       }
     }
@@ -479,7 +487,7 @@ const Select = ({
       }
 
       clearTimeout(timeout);
-    });
+    }, 20);
   };
 
   const ArrowContainer = useMemo(() => {
@@ -488,10 +496,10 @@ const Select = ({
     }
 
     return (
-      showSearch && isOpen
-        ? (searchIcon || <SearchIcon />)
-        : suffixIcon
-          ? <span style={{ display: 'contents' }} onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span>
+      showSearch && isOpen 
+        ? (searchIcon || <SearchIcon />) 
+        : suffixIcon 
+          ? <span style={{ display: 'contents' }} onClick={() => iconClickClear ? handleClear() : iconClick?.()}>{suffixIcon}</span> 
           : (showArrow && <ArrowIcon isOpen={isOpen} />)
     )
   }, [showArrow, showSearch, isOpen, suffixIcon, searchIcon]);
@@ -583,7 +591,9 @@ const Select = ({
         (e) => e.value === selected || e.label === selected || e.children === selected
       ) || selected;
 
-    return <div style={{ display: 'contents' }}>{typeof option === 'string' ? option : option?.children || option?.label || option?.value || null}</div>;
+    const title = typeof option === 'string' ? option : option?.children || option?.label || option?.value || null
+
+    return <div style={{ display: 'contents' }}>{title}</div>;
   }, [extractedOptions, selected]) || selected || null;
 
   const hasMaxTagCount = hasMode && (typeof maxTagCount === 'number' || maxTagCount === 'responsive');
@@ -725,6 +735,7 @@ const Select = ({
 
             {isOpen ? (
               <div className={`${prefixCls}-tag ${prefixClsV3}-tag contentEditable`}>
+                <input ref={selectInputRef} style={{ display: 'none' }} />
                 <div
                   ref={searchInputRef}
                   onClick={e => {
