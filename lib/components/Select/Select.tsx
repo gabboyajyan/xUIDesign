@@ -6,7 +6,6 @@ import React, {
   Fragment,
   isValidElement,
   KeyboardEvent,
-  memo,
   ReactElement,
   ReactNode,
   Suspense,
@@ -130,6 +129,7 @@ const Select = ({
 
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
+  const selectInputRef = useRef<HTMLInputElement>(null);
   const [searchInputWidth, setSearchInputWidth] = useState<number>(0);
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -278,6 +278,11 @@ const Select = ({
     } else {
       if (showSearch) {
         setSearchFocused(true);
+        
+        if (selectInputRef.current) {
+          selectInputRef.current.focus();
+        }
+
         searchInputRef.current?.focus();
       }
     }
@@ -482,7 +487,7 @@ const Select = ({
       }
 
       clearTimeout(timeout);
-    });
+    }, 20);
   };
 
   const ArrowContainer = useMemo(() => {
@@ -725,6 +730,7 @@ const Select = ({
 
             {isOpen ? (
               <div className={`${prefixCls}-tag ${prefixClsV3}-tag contentEditable`}>
+                <input ref={selectInputRef} style={{ display: 'none' }} />
                 <div
                   ref={searchInputRef}
                   onClick={e => {

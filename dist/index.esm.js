@@ -4329,6 +4329,7 @@ const Select = ({
   const checkModeInitialValue = useMemo(() => (!Array.isArray(initialValue) ? [initialValue] : initialValue).filter(e => e !== undefined && e !== ''), [initialValue]);
   const [isHover, setIsHover] = useState(false);
   const selectRef = useRef(null);
+  const selectInputRef = useRef(null);
   const [searchInputWidth, setSearchInputWidth] = useState(0);
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [searchFocused, setSearchFocused] = useState(false);
@@ -4432,6 +4433,9 @@ const Select = ({
     } else {
       if (showSearch) {
         setSearchFocused(true);
+        if (selectInputRef.current) {
+          selectInputRef.current.focus();
+        }
         searchInputRef.current?.focus();
       }
     }
@@ -4567,7 +4571,7 @@ const Select = ({
         }
       }
       clearTimeout(timeout);
-    });
+    }, 20);
   };
   const ArrowContainer = useMemo(() => {
     if (!showArrow) {
@@ -4742,7 +4746,12 @@ const Select = ({
     }
   }, searchFocused ? '' : placeholder)) : null, isOpen ? /*#__PURE__*/React.createElement("div", {
     className: `${prefixCls}-tag ${prefixClsV3}-tag contentEditable`
-  }, /*#__PURE__*/React.createElement("div", _extends({
+  }, /*#__PURE__*/React.createElement("input", {
+    ref: selectInputRef,
+    style: {
+      display: 'none'
+    }
+  }), /*#__PURE__*/React.createElement("div", _extends({
     ref: searchInputRef,
     onClick: e => {
       if (disabled) {
