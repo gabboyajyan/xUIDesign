@@ -36,6 +36,7 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   onFieldsChange,
   layout = 'horizontal',
   scrollToFirstError = false,
+  formProps,
   ...rest
 }) => {
   const internalForm = useForm({ initialValues, onFieldsChange, onValuesChange, onFinishFailed });
@@ -114,11 +115,12 @@ const Form: FC<FormProps> & { Item: FC<FormItemProps> } = ({
   return (
     <FormContext.Provider value={formInstance}>
       <form
+        {...formProps}
         style={style}
         ref={formRef}
         onSubmit={handleSubmit}
         className={`${prefixCls} ${prefixClsV3} ${className}`}
-      >
+        >
         {Children.map(childrenList, injectPropsIntoFinalLeaf)}
       </form>
     </FormContext.Provider>

@@ -1877,6 +1877,7 @@ const Form$1 = ({
   onFieldsChange,
   layout = 'horizontal',
   scrollToFirstError = false,
+  formProps,
   ...rest
 }) => {
   const internalForm = useForm({
@@ -1940,12 +1941,12 @@ const Form$1 = ({
   }, [rest.size, layout]);
   return /*#__PURE__*/React.createElement(FormContext.Provider, {
     value: formInstance
-  }, /*#__PURE__*/React.createElement("form", {
+  }, /*#__PURE__*/React.createElement("form", _extends({}, formProps, {
     style: style,
     ref: formRef,
     onSubmit: handleSubmit,
     className: `${prefixCls} ${prefixClsV3} ${className}`
-  }, React.Children.map(childrenList, injectPropsIntoFinalLeaf)));
+  }), React.Children.map(childrenList, injectPropsIntoFinalLeaf)));
 };
 Form$1.Item = FormItem$1;
 

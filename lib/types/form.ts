@@ -1,4 +1,4 @@
-import { ComponentClass, FC, FormEvent, ReactElement, ReactNode } from 'react';
+import { ComponentClass, FC, FormEvent, type FormHTMLAttributes, ReactElement, ReactNode } from 'react';
 import {
   DefaultProps,
   RuleType,
@@ -69,6 +69,7 @@ export type FormProps = DefaultProps & {
     errorFields: Pick<FieldError, 'errors' | 'name'>[];
   }) => void;
   scrollToFirstError?: boolean;
+  formProps?: FormHTMLAttributes<HTMLFormElement>;
 };
 
 export type FormItemProps = DefaultProps & {
